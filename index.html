@@ -2,23 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, view-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <title>Pawan Retail - Premium Offers</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         :root {
             --primary: #6C63FF;
             --primary-dark: #5a52e0;
             --primary-light: #8a84ff;
-            --secondary: #FF6584;
-            --purple-light: #f0e6ff;
-            --purple-bg: #faf7ff;
             --success: #00C9A7;
             --danger: #FF6B6B;
             --warning: #FFB347;
@@ -26,49 +23,13 @@
             --gray: #8B8CA5;
             --light-gray: #f5f5fa;
             --white: #ffffff;
-            --shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
-            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --shadow: 0 2px 10px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         body {
             background: linear-gradient(135deg, #f5f3ff 0%, #ede8ff 100%);
             min-height: 100vh;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
         }
 
         /* Auth Screen */
@@ -78,35 +39,27 @@
             align-items: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #6C63FF 0%, #5a52e0 100%);
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .auth-container::before {
-            content: "✨";
-            position: absolute;
-            font-size: 200px;
-            opacity: 0.1;
-            bottom: -50px;
-            right: -50px;
+            padding: 16px;
         }
 
         .auth-card {
             background: var(--white);
-            border-radius: 48px;
-            padding: 48px 40px;
-            max-width: 520px;
+            border-radius: 32px;
+            padding: 32px 24px;
+            max-width: 450px;
             width: 100%;
             text-align: center;
             box-shadow: var(--shadow-lg);
-            animation: fadeInUp 0.5s ease;
-            position: relative;
-            z-index: 1;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .auth-card h2 {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
             background: linear-gradient(135deg, #6C63FF, #5a52e0);
             -webkit-background-clip: text;
@@ -116,18 +69,17 @@
 
         .auth-card .tagline {
             color: var(--gray);
-            font-size: 14px;
-            margin-bottom: 32px;
+            font-size: 13px;
+            margin-bottom: 28px;
         }
 
         .auth-card input {
             width: 100%;
-            padding: 16px 20px;
+            padding: 14px 16px;
             margin: 10px 0;
             border: 2px solid #eef2f6;
-            border-radius: 36px;
-            font-size: 16px;
-            transition: all 0.3s;
+            border-radius: 30px;
+            font-size: 15px;
             background: var(--light-gray);
         }
 
@@ -135,18 +87,17 @@
             outline: none;
             border-color: var(--primary);
             background: white;
-            box-shadow: 0 0 0 3px rgba(108,99,255,0.1);
         }
 
         .auth-card button {
             width: 100%;
-            padding: 16px;
-            margin: 12px 0;
+            padding: 14px;
+            margin: 10px 0;
             background: linear-gradient(135deg, #6C63FF, #5a52e0);
             color: white;
             font-weight: 700;
             border: none;
-            border-radius: 36px;
+            border-radius: 30px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s;
@@ -154,389 +105,366 @@
 
         .auth-card button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(108,99,255,0.3);
+            box-shadow: 0 5px 15px rgba(108,99,255,0.3);
         }
 
         .switch-link {
             color: var(--primary);
             cursor: pointer;
             font-weight: 600;
+            background: none;
+            border: none;
         }
 
         .row-2 { display: flex; gap: 12px; }
         .row-2 input, .row-2 select { flex: 1; }
 
-        /* OTP Section Animation */
-        .otp-section {
-            animation: fadeInUp 0.4s ease;
-        }
-
-        /* App Container */
+        /* App Container - Mobile First */
         .app-container {
             display: none;
             min-height: 100vh;
-            background: var(--white);
+            background: var(--light-gray);
         }
 
-        /* Sidebar Premium */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 280px;
-            height: 100%;
-            background: var(--white);
-            z-index: 1000;
-            transition: transform 0.3s ease;
-            overflow-y: auto;
-            border-right: 1px solid #f0f0f5;
-            box-shadow: 2px 0 20px rgba(0,0,0,0.02);
+        /* Mobile Layout */
+        .mobile-layout {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--light-gray);
+            min-height: 100vh;
+            position: relative;
         }
 
-        .sidebar-header {
-            padding: 35px 24px;
-            text-align: center;
+        /* Header */
+        .app-header {
             background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            margin-bottom: 20px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .user-avatar {
-            width: 85px;
-            height: 85px;
-            border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.3);
-            margin-bottom: 15px;
-            object-fit: cover;
-            transition: transform 0.3s;
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
         }
 
-        .user-avatar:hover {
-            transform: scale(1.05);
-        }
-
-        .user-name {
+        .logo {
             font-size: 20px;
             font-weight: 700;
             color: white;
         }
 
-        .user-level {
-            font-size: 12px;
-            opacity: 0.9;
+        .user-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Sidebar Menu */
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            transition: left 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-menu.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
             color: white;
+        }
+
+        .sidebar-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 35px;
+        }
+
+        .sidebar-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .sidebar-level {
+            font-size: 12px;
+            opacity: 0.8;
             margin-top: 5px;
         }
 
-        .points-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 13px;
-            margin-top: 12px;
-            display: inline-block;
-            color: white;
+        .sidebar-points {
+            font-size: 12px;
+            margin-top: 8px;
+            opacity: 0.9;
         }
 
-        .nav-menu { padding: 20px 0; }
-        .nav-item {
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .sidebar-item {
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 14px 24px;
-            margin: 4px 12px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             color: var(--gray);
             font-weight: 500;
-            border-radius: 20px;
         }
 
-        .nav-item:hover {
-            background: var(--purple-light);
+        .sidebar-item:hover {
+            background: var(--light-gray);
             color: var(--primary);
-            transform: translateX(5px);
         }
 
-        .nav-item.active {
-            background: linear-gradient(90deg, #f0e6ff, transparent);
+        .sidebar-item.active {
+            background: var(--light-gray);
             color: var(--primary);
-            font-weight: 600;
             border-left: 3px solid var(--primary);
+        }
+
+        .sidebar-logout {
+            margin-top: 30px;
+            border-top: 1px solid #eef2f6;
+            padding-top: 20px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
         }
 
         /* Main Content */
         .main-content {
-            margin-left: 280px;
-            min-height: 100vh;
-            padding: 24px 32px;
-            background: var(--light-gray);
+            padding: 20px;
         }
 
-        .mobile-header {
-            display: none;
-            padding: 16px 20px;
-            background: white;
-            border-bottom: 1px solid #eef2f6;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow);
-        }
-
-        .mobile-menu-btn {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--primary);
-        }
-
-        .page-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            animation: fadeInUp 0.4s ease;
-        }
-
-        /* Welcome Banner Premium */
-        .welcome-banner {
+        .welcome-card {
             background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            padding: 40px;
-            border-radius: 32px;
-            margin-bottom: 32px;
+            padding: 24px;
+            border-radius: 24px;
             color: white;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 24px;
         }
 
-        .welcome-banner::before {
-            content: "✨";
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-            font-size: 80px;
-            opacity: 0.1;
-        }
-
-        .welcome-banner h2 {
-            font-size: 32px;
+        .welcome-card h2 {
+            font-size: 22px;
             margin-bottom: 8px;
         }
 
-        /* Offer Cards Premium */
+        .welcome-card p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* Offer Cards */
         .offers-grid {
-            display: grid;
-            gap: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .offer-card {
-            background: var(--white);
-            border-radius: 28px;
-            padding: 28px;
-            transition: all 0.3s;
-            cursor: pointer;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
             box-shadow: var(--shadow);
-            border: 1px solid #f0f0f5;
+            transition: all 0.2s;
         }
 
-        .offer-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+        .offer-card:active {
+            transform: scale(0.98);
         }
 
         .offer-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            background: #dcfce7;
             color: #15803d;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 12px;
-            margin-bottom: 16px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 12px;
         }
 
         .offer-card h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 6px;
             color: var(--dark);
         }
 
         .offer-card p {
             color: var(--gray);
-            margin-bottom: 20px;
-            line-height: 1.5;
+            font-size: 13px;
+            margin-bottom: 12px;
         }
 
         .offer-code {
+            background: var(--light-gray);
+            padding: 10px 12px;
+            border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--light-gray);
-            padding: 14px 20px;
-            border-radius: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .offer-code span {
             font-family: monospace;
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--dark);
+            font-size: 13px;
         }
 
         .offer-code button {
             background: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
+            padding: 4px 12px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
+            font-size: 12px;
         }
 
-        .offer-code button:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .price-tag {
-            font-size: 28px;
-            font-weight: 800;
+        .price {
+            font-size: 22px;
+            font-weight: 700;
             color: var(--primary);
+            margin-bottom: 12px;
         }
 
         .order-btn {
             width: 100%;
-            padding: 16px;
+            padding: 12px;
             background: linear-gradient(135deg, #6C63FF, #5a52e0);
             color: white;
             border: none;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 16px;
+            border-radius: 25px;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s;
         }
 
-        .order-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108,99,255,0.3);
+        /* Ticket Page */
+        .ticket-page, .address-page {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
         }
 
-        /* Address & Ticket Pages */
-        .address-page, .ticket-page {
-            max-width: 550px;
-            margin: 0 auto;
-            background: var(--white);
-            border-radius: 32px;
-            padding: 32px;
-            box-shadow: var(--shadow-lg);
-            animation: fadeInUp 0.4s ease;
-        }
-
-        .address-page h2, .ticket-page h2 {
-            font-size: 28px;
+        .ticket-page h2, .address-page h2 {
+            font-size: 22px;
             margin-bottom: 20px;
             color: var(--dark);
         }
 
-        .address-page input, .address-page select,
-        .ticket-page input, .ticket-page select {
+        .ticket-page input, .ticket-page select,
+        .address-page input, .address-page select {
             width: 100%;
-            padding: 15px;
-            margin: 12px 0;
+            padding: 12px;
+            margin: 10px 0;
             border: 2px solid #eef2f6;
-            border-radius: 24px;
-            font-size: 15px;
-            background: var(--light-gray);
-            transition: all 0.3s;
+            border-radius: 20px;
+            font-size: 14px;
         }
 
-        .address-page input:focus, .address-page select:focus,
-        .ticket-page input:focus, .ticket-page select:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-        }
-
-        /* Payment Premium UI */
+        /* Payment Page */
         .payment-container {
-            max-width: 600px;
-            margin: 0 auto;
-            animation: fadeInUp 0.4s ease;
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
         }
 
-        .payment-header-new {
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            padding: 35px;
-            border-radius: 32px 32px 0 0;
+        .payment-header {
             text-align: center;
-            color: white;
+            margin-bottom: 20px;
         }
 
-        .payment-header-new h1 {
-            font-size: 32px;
-            margin-bottom: 5px;
-        }
-
-        .payment-card-new {
-            background: var(--white);
-            padding: 32px;
-            border-radius: 0 0 32px 32px;
-            box-shadow: var(--shadow-lg);
+        .payment-header h1 {
+            font-size: 24px;
+            color: var(--dark);
         }
 
         .order-summary {
             background: var(--light-gray);
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 25px;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
+            padding: 10px 0;
             border-bottom: 1px solid #eef2f6;
         }
 
         .summary-row.total {
             border-bottom: none;
-            padding-top: 15px;
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
+            padding-top: 12px;
+            font-weight: 700;
+            font-size: 18px;
         }
 
         .coupon-section {
             display: flex;
-            gap: 12px;
-            margin: 25px 0;
+            gap: 10px;
+            margin: 20px 0;
         }
 
         .coupon-section input {
             flex: 1;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #eef2f6;
-            border-radius: 28px;
-            font-size: 15px;
-            background: var(--light-gray);
+            border-radius: 25px;
         }
 
         .coupon-section button {
-            padding: 15px 25px;
+            padding: 12px 20px;
             background: linear-gradient(135deg, #6C63FF, #5a52e0);
             color: white;
             border: none;
-            border-radius: 28px;
-            font-weight: 600;
+            border-radius: 25px;
             cursor: pointer;
         }
 
-        .payment-methods-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .payment-methods {
             margin: 20px 0;
         }
 
@@ -544,51 +472,39 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 18px;
+            padding: 14px;
             border: 2px solid #eef2f6;
-            border-radius: 24px;
+            border-radius: 20px;
+            margin: 10px 0;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .payment-method:hover {
-            border-color: var(--primary);
-            background: var(--purple-light);
         }
 
         .payment-method.selected {
             border-color: var(--primary);
-            background: var(--purple-light);
-        }
-
-        .payment-method.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            background: var(--light-gray);
         }
 
         .qr-preview {
             text-align: center;
-            padding: 20px;
+            padding: 16px;
             background: var(--light-gray);
-            border-radius: 24px;
-            margin: 20px 0;
+            border-radius: 20px;
+            margin: 15px 0;
         }
 
         .action-buttons {
             display: flex;
             gap: 12px;
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
         .action-buttons button {
             flex: 1;
-            padding: 16px;
+            padding: 14px;
             border-radius: 30px;
             border: none;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s;
+            font-weight: 600;
         }
 
         .btn-primary {
@@ -601,233 +517,162 @@
             color: var(--dark);
         }
 
-        .btn-primary:hover, .btn-secondary:hover {
-            transform: translateY(-2px);
-        }
-
         /* Profile & Orders */
         .profile-card, .order-card {
-            background: var(--white);
-            border-radius: 28px;
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid #f0f0f5;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #eef2f6;
         }
 
-        .edit-btn {
-            background: var(--light-gray);
+        .edit-btn, .danger-btn, .logout-profile-btn {
+            padding: 10px;
+            border-radius: 25px;
             border: none;
-            padding: 8px 20px;
-            border-radius: 40px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .edit-btn:hover {
-            background: var(--purple-light);
-            color: var(--primary);
-        }
-
-        .danger-btn {
-            background: linear-gradient(135deg, #FF6B6B, #ee5a5a);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 30px;
-            cursor: pointer;
             font-weight: 600;
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .logout-profile-btn {
-            background: var(--light-gray);
-            color: var(--dark);
-            border: none;
-            padding: 14px;
-            border-radius: 30px;
             cursor: pointer;
-            font-weight: 600;
             width: 100%;
             margin-top: 10px;
         }
 
+        .edit-btn { background: var(--light-gray); color: var(--dark); }
+        .danger-btn { background: var(--danger); color: white; }
+        .logout-profile-btn { background: var(--light-gray); color: var(--dark); }
+
         /* Popups */
-        .center-popup {
+        .popup-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 5000;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
-            animation: fadeInUp 0.3s ease;
         }
 
-        .center-popup-card {
-            background: var(--white);
-            border-radius: 48px;
-            padding: 48px 40px;
+        .popup-card {
+            background: white;
+            border-radius: 28px;
+            padding: 28px;
             text-align: center;
-            max-width: 400px;
-            width: 90%;
-            animation: fadeInUp 0.3s ease;
+            max-width: 320px;
+            width: 85%;
         }
 
-        .center-popup-card .icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #00C9A7, #00b894);
+        .popup-card .icon {
+            width: 60px;
+            height: 60px;
+            background: #00C9A7;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 45px;
+            margin: 0 auto 15px;
+            font-size: 30px;
             color: white;
         }
 
-        .center-popup-card h3 {
-            font-size: 28px;
-            color: var(--dark);
+        .popup-card h3 {
+            font-size: 22px;
             margin-bottom: 10px;
         }
 
-        .center-popup-card button {
-            margin-top: 25px;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+        .popup-card button {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 30px;
-            font-size: 16px;
+            border-radius: 25px;
             cursor: pointer;
         }
 
-        /* Confirm Dialog */
         .confirm-dialog {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 6000;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
         }
 
-        .confirm-dialog-card {
-            background: var(--white);
-            border-radius: 40px;
-            padding: 32px;
+        .confirm-card {
+            background: white;
+            border-radius: 28px;
+            padding: 24px;
             text-align: center;
-            max-width: 350px;
-            width: 90%;
+            max-width: 300px;
+            width: 85%;
         }
 
-        .confirm-dialog-buttons {
+        .confirm-buttons {
             display: flex;
             gap: 12px;
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
-        .confirm-dialog-buttons button {
+        .confirm-buttons button {
             flex: 1;
-            padding: 12px;
-            border-radius: 30px;
+            padding: 10px;
+            border-radius: 25px;
             border: none;
             cursor: pointer;
             font-weight: 600;
         }
 
-        .toast-popup {
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+
+        .toast {
             position: fixed;
-            top: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--dark);
             color: white;
-            padding: 14px 28px;
+            padding: 10px 20px;
             border-radius: 50px;
-            font-size: 14px;
-            z-index: 4000;
-            animation: fadeInUp 0.3s ease;
+            font-size: 13px;
+            z-index: 2500;
+            animation: fadeIn 0.3s ease;
         }
 
-        .loading-spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--light-gray);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px;
-            color: var(--gray);
-        }
-
-        .status-approved {
-            background: #dcfce7;
-            color: #15803d;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 12px;
-            display: inline-block;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
+        @media (min-width: 768px) {
+            .mobile-layout {
+                max-width: 450px;
+                margin: 0 auto;
+                box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                min-height: 100vh;
             }
-            .sidebar.open {
-                transform: translateX(0);
-                animation: slideIn 0.3s ease;
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 16px;
-            }
-            .mobile-header {
+            body {
                 display: flex;
+                justify-content: center;
                 align-items: center;
-                gap: 16px;
-            }
-            .auth-card {
-                padding: 32px 24px;
-            }
-            .welcome-banner h2 {
-                font-size: 24px;
-            }
-            .payment-card-new {
-                padding: 24px;
+                min-height: 100vh;
             }
         }
     </style>
 </head>
 <body>
 
-<!-- AUTH SCREEN -->
 <div id="authScreen" class="auth-container">
     <div class="auth-card">
         <h2>🏪 Pawan Retail</h2>
@@ -837,7 +682,7 @@
             <input type="email" id="loginEmail" placeholder="Email Address">
             <input type="password" id="loginPassword" placeholder="Password">
             <button onclick="handleLogin()">Login</button>
-            <p style="margin-top: 20px;">New user? <span class="switch-link" onclick="showSignup()">Create Account</span></p>
+            <p style="margin-top: 16px;">New user? <span class="switch-link" onclick="showSignup()">Create Account</span></p>
         </div>
         
         <div id="signupForm" style="display:none">
@@ -857,43 +702,51 @@
                 <option>Tamil Nadu</option><option>Jharkhand</option>
             </select>
             <button onclick="sendOTP()">Send OTP</button>
-            <button class="switch-link" style="margin-top:12px; background:none" onclick="showLogin()">Back</button>
+            <button class="switch-link" style="margin-top:10px" onclick="showLogin()">Back</button>
         </div>
         
-        <div id="otpSection" style="display:none; margin-top:20px" class="otp-section">
+        <div id="otpSection" style="display:none; margin-top:16px">
             <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6">
-            <button onclick="verifyOTP()">Verify & Complete Registration</button>
-            <button class="switch-link" style="margin-top:12px; background:none" onclick="hideOTP()">Back</button>
+            <button onclick="verifyOTP()">Verify & Complete</button>
+            <button class="switch-link" style="margin-top:10px" onclick="hideOTP()">Back</button>
         </div>
     </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="appScreen" class="app-container">
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img id="userAvatar" class="user-avatar" src="">
-            <div class="user-name" id="userName">Loading...</div>
-            <div class="user-level" id="userLevel"></div>
-            <div class="points-badge" id="pointsDisplay">⭐ 0 points</div>
+    <div class="mobile-layout">
+        <div class="app-header">
+            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+            <div class="logo">Pawan Retail</div>
+            <div class="user-icon" onclick="showProfile()">👤</div>
         </div>
-        <div class="nav-menu">
-            <div class="nav-item active" id="navHome" onclick="showHome()">🏠 Home</div>
-            <div class="nav-item" id="navProfile" onclick="showProfile()">👤 Profile</div>
-            <div class="nav-item" id="navOrders" onclick="showOrders()">📦 Orders</div>
+        
+        <div class="sidebar-menu" id="sidebarMenu">
+            <div class="sidebar-header">
+                <div class="sidebar-avatar" id="sidebarAvatar">👤</div>
+                <div class="sidebar-name" id="sidebarName">Loading...</div>
+                <div class="sidebar-level" id="sidebarLevel"></div>
+                <div class="sidebar-points" id="sidebarPoints">⭐ 0 points</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="sidebar-item active" id="navHome" onclick="showHome()">🏠 Home</div>
+                <div class="sidebar-item" id="navProfile" onclick="showProfile()">👤 My Profile</div>
+                <div class="sidebar-item" id="navOrders" onclick="showOrders()">📦 My Orders</div>
+            </div>
+            <div class="sidebar-logout">
+                <div class="sidebar-item" onclick="confirmLogout()">🚪 Logout</div>
+            </div>
         </div>
-    </div>
-    <div class="main-content">
-        <div class="mobile-header">
-            <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-            <h3 style="color:var(--primary)">Pawan Retail</h3>
+        
+        <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+        
+        <div id="mainContent" class="main-content">
+            <div class="empty-state">Loading...</div>
         </div>
-        <div id="mainContent"><div class="page-container"><div class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div></div></div>
     </div>
 </div>
 
 <script type="module">
-    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyDzgIrjcWwnqS5e3lDplptyU6VDSngn7_o",
         authDomain: "pawan-8388d.firebaseapp.com",
@@ -903,7 +756,6 @@
         appId: "1:522473603051:web:519543c829c1eefd1523ae"
     };
     
-    // EmailJS Config
     const EMAILJS_PUBLIC_KEY = "3cUWXrfL9AhSkM5FA";
     const EMAILJS_SERVICE_ID = "Pawanretaillimited-5678";
     const EMAILJS_OTP_TEMPLATE = "template_45qu30j";
@@ -917,7 +769,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     
-    // EmailJS Load
     const emailScript = document.createElement('script');
     emailScript.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
     emailScript.onload = () => { emailjs.init(EMAILJS_PUBLIC_KEY); };
@@ -929,46 +780,41 @@
     let selectedMethod = null;
     let ticketDetails = null;
     let isMovieOffer = false;
-    
-    // OTP Variables
     let pendingEmail = null, pendingPassword = null, pendingOTP = null;
     let pendingProfile = null;
     
-    function generateOTP() { return Math.floor(100000 + Math.random() * 900000).toString(); }
-    
     function showToast(msg, isErr = false) {
         const toast = document.createElement('div');
-        toast.className = 'toast-popup';
-        toast.style.background = isErr ? '#FF6B6B' : '#2D3047';
+        toast.className = 'toast';
         toast.innerHTML = `${isErr ? '❌' : '✅'} ${msg}`;
         document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
+        setTimeout(() => toast.remove(), 2500);
     }
     
-    function showCenterPopup(title, message, onClose = null) {
+    function showPopup(title, message, onClose = null) {
         const popup = document.createElement('div');
-        popup.className = 'center-popup';
+        popup.className = 'popup-overlay';
         popup.innerHTML = `
-            <div class="center-popup-card">
+            <div class="popup-card">
                 <div class="icon">✓</div>
                 <h3>${title}</h3>
                 <p>${message}</p>
-                <button onclick="this.closest('.center-popup').remove(); ${onClose ? onClose : ''}">OK</button>
+                <button onclick="this.closest('.popup-overlay').remove(); ${onClose ? onClose : ''}">OK</button>
             </div>
         `;
         document.body.appendChild(popup);
     }
     
-    function showConfirmDialog(title, message, onConfirm) {
+    function showConfirm(title, message, onConfirm) {
         const dialog = document.createElement('div');
         dialog.className = 'confirm-dialog';
         dialog.innerHTML = `
-            <div class="confirm-dialog-card">
+            <div class="confirm-card">
                 <h3>${title}</h3>
-                <p style="margin:15px 0; color:var(--gray)">${message}</p>
-                <div class="confirm-dialog-buttons">
-                    <button id="confirmYes" style="background:var(--danger); color:white">Yes</button>
-                    <button id="confirmNo" style="background:var(--light-gray); color:var(--dark)">Cancel</button>
+                <p style="margin:15px 0">${message}</p>
+                <div class="confirm-buttons">
+                    <button id="confirmYes" style="background:#FF6B6B; color:white">Yes</button>
+                    <button id="confirmNo" style="background:#f5f5fa; color:#2D3047">Cancel</button>
                 </div>
             </div>
         `;
@@ -976,6 +822,8 @@
         document.getElementById('confirmYes').onclick = () => { dialog.remove(); onConfirm(); };
         document.getElementById('confirmNo').onclick = () => dialog.remove();
     }
+    
+    function generateOTP() { return Math.floor(100000 + Math.random() * 900000).toString(); }
     
     async function sendOTPEmail(email, otp) {
         try {
@@ -989,7 +837,7 @@
             await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ORDER_TEMPLATE, {
                 to_email: currentUser.email,
                 customer_name: currentUserData.name,
-                order_id: orderData.orderId.slice(0, 12),
+                order_id: orderData.orderId.slice(0, 10),
                 order_date: new Date().toLocaleString(),
                 offer_title: orderData.offerTitle,
                 offer_code: orderData.code,
@@ -1003,7 +851,6 @@
         } catch(e) { return false; }
     }
     
-    // OTP Functions
     window.hideOTP = () => {
         document.getElementById('otpSection').style.display = 'none';
         document.getElementById('signupForm').style.display = 'block';
@@ -1027,10 +874,7 @@
         
         pendingEmail = email;
         pendingPassword = pwd;
-        pendingProfile = {
-            name: name, mobile: mobile,
-            address: { flat, street, city, state, pincode }
-        };
+        pendingProfile = { name, mobile, address: { flat, street, city, state, pincode } };
         pendingOTP = generateOTP();
         
         if(await sendOTPEmail(email, pendingOTP)) {
@@ -1049,7 +893,7 @@
                 mobile: pendingProfile.mobile, address: pendingProfile.address,
                 accountLevel: "beginner", points: 0, createdAt: serverTimestamp()
             });
-            showCenterPopup("🎉 Account Created!", "Your account has been created successfully! Please login.", "showLogin()");
+            showPopup("🎉 Account Created!", "Your account has been created successfully! Please login.");
             showLogin();
         } catch(e) { showToast(e.message, true); }
     };
@@ -1086,14 +930,33 @@
         document.getElementById('appScreen').style.display = 'none';
     };
     
-    window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+    window.toggleSidebar = () => {
+        document.getElementById('sidebarMenu').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('show');
+    };
+    
+    window.closeSidebar = () => {
+        document.getElementById('sidebarMenu').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    };
+    
+    window.confirmLogout = () => {
+        showConfirm("Logout", "Are you sure you want to logout?", async () => {
+            await signOut(auth);
+            showToast("Logged out!");
+            document.getElementById('authScreen').style.display = 'flex';
+            document.getElementById('appScreen').style.display = 'none';
+            showLogin();
+        });
+        closeSidebar();
+    };
     
     async function updateSidebarUI() {
         if(!currentUserData) return;
-        document.getElementById('userName').innerText = currentUserData.name || currentUser.email.split('@')[0];
-        document.getElementById('userLevel').innerText = (currentUserData.accountLevel || 'beginner').toUpperCase();
-        document.getElementById('pointsDisplay').innerHTML = `⭐ ${currentUserData.points || 0} points`;
-        document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUserData.name || currentUser.email)}&background=6C63FF&color=fff&size=85`;
+        document.getElementById('sidebarName').innerText = currentUserData.name || currentUser.email.split('@')[0];
+        document.getElementById('sidebarLevel').innerText = (currentUserData.accountLevel || 'beginner').toUpperCase();
+        document.getElementById('sidebarPoints').innerHTML = `⭐ ${currentUserData.points || 0} points`;
+        document.getElementById('sidebarAvatar').innerHTML = currentUserData.name ? currentUserData.name.charAt(0).toUpperCase() : '👤';
     }
     
     async function loadUserData() {
@@ -1111,8 +974,8 @@
         const offersRef = collection(db, "offers");
         const existing = await getDocs(query(offersRef));
         if(existing.empty) {
-            await addDoc(offersRef, { title: "3 classic and 1 onion pizza", description: "Delicious combo meal", discount: "COMBO", code: "PIZZA141", price: 141, isMovieOffer: false, createdAt: serverTimestamp() });
-            await addDoc(offersRef, { title: "🎬 Movie Ticket - Pushpa 2", description: "Book your movie ticket now!", discount: "MOVIE OFFER", code: "MOVIE", price: 299, isMovieOffer: true, createdAt: serverTimestamp() });
+            await addDoc(offersRef, { title: "3 Classic Pizza + 1 Onion Pizza", description: "Delicious combo meal", discount: "COMBO", code: "PIZZA141", price: 141, isMovieOffer: false, createdAt: serverTimestamp() });
+            await addDoc(offersRef, { title: "🎬 Movie Ticket - Pushpa 2", description: "Bokaro PVR Cinema - Book your ticket now!", discount: "MOVIE OFFER", code: "MOVIE", price: 299, isMovieOffer: true, createdAt: serverTimestamp() });
             await addDoc(offersRef, { title: "50% OFF Electronics", description: "Get 50% discount", discount: "50% OFF", code: "SAVE50", price: 499, isMovieOffer: false, createdAt: serverTimestamp() });
         }
     }
@@ -1122,20 +985,18 @@
         const existing = await getDocs(query(couponsRef));
         if(existing.empty) {
             await addDoc(couponsRef, { code: "SAVE10", discount: 10, title: "10% OFF", isActive: true });
-            await addDoc(couponsRef, { code: "PRLNEW50", discount: 100, title: "100% OFF", isActive: true });
+            await addDoc(couponsRef, { code: "WELCOME20", discount: 20, title: "20% OFF", isActive: true });
         }
     }
     
     window.showHome = function() {
         setActive('navHome');
         document.getElementById('mainContent').innerHTML = `
-            <div class="page-container">
-                <div class="welcome-banner">
-                    <h2>🔥 Today's Hot Offers</h2>
-                    <p>Click "Order Now" to claim exclusive deals</p>
-                </div>
-                <div class="offers-grid" id="offersList"><div class="empty-state"><div class="loading-spinner"></div><p>Loading offers...</p></div></div>
+            <div class="welcome-card">
+                <h2>🔥 Today's Hot Offers</h2>
+                <p>Click "Order Now" to claim exclusive deals</p>
             </div>
+            <div class="offers-grid" id="offersList"><div class="empty-state">Loading offers...</div></div>
         `;
         const q = query(collection(db, "offers"), orderBy("createdAt", "desc"));
         onSnapshot(q, (snap) => {
@@ -1152,47 +1013,53 @@
                     <h3>${off.title}</h3>
                     <p>${off.description || ''}</p>
                     <div class="offer-code"><span>CODE: ${off.code}</span><button onclick="event.stopPropagation(); copyCode('${off.code}')">Copy</button></div>
-                    <div class="price-tag">₹${price}</div>
-                    <button class="order-btn" onclick="goToAddressPage('${d.id}', '${off.title}', '${off.code}', ${price}, ${off.isMovieOffer || false})">Order Now</button>
+                    <div class="price">₹${price}</div>
+                    <button class="order-btn" onclick="handleOrderClick('${d.id}', '${off.title}', '${off.code}', ${price}, ${off.isMovieOffer || false})">Order Now</button>
                 </div>`;
             });
             container.innerHTML = html;
         });
-        if(window.innerWidth<=768) closeSidebar();
+        closeSidebar();
     };
     
-    window.copyCode = (code) => { navigator.clipboard.writeText(code); showToast("📋 Code copied!"); };
+    window.copyCode = (code) => { navigator.clipboard.writeText(code); showToast("Code copied!"); };
     
-    window.goToAddressPage = (id, title, code, price, isMovie) => {
+    window.handleOrderClick = (id, title, code, price, isMovie) => {
         selectedOffer = { id, title, code, price };
         isMovieOffer = isMovie;
+        if (isMovieOffer) {
+            goToTicketPage();
+        } else {
+            goToAddressPage();
+        }
+    };
+    
+    function goToAddressPage() {
         const addr = currentUserData?.address || {};
         document.getElementById('mainContent').innerHTML = `
-            <div class="page-container">
-                <div class="address-page">
-                    <h2>📍 Delivery Address</h2>
-                    <input type="text" id="addrFlat" placeholder="Flat/House No" value="${addr.flat || ''}">
-                    <input type="text" id="addrStreet" placeholder="Street Name" value="${addr.street || ''}">
-                    <input type="text" id="addrCity" placeholder="City" value="${addr.city || ''}">
-                    <select id="addrState">
-                        <option value="">Select State</option>
-                        <option ${addr.state === 'Maharashtra' ? 'selected' : ''}>Maharashtra</option>
-                        <option ${addr.state === 'Delhi' ? 'selected' : ''}>Delhi</option>
-                        <option ${addr.state === 'Karnataka' ? 'selected' : ''}>Karnataka</option>
-                        <option ${addr.state === 'Jharkhand' ? 'selected' : ''}>Jharkhand</option>
-                    </select>
-                    <input type="text" id="addrPincode" placeholder="Pincode" value="${addr.pincode || ''}">
-                    <div style="display:flex; gap:12px; margin-top:20px">
-                        <button style="flex:1; padding:14px; background:linear-gradient(135deg, #6C63FF, #5a52e0); color:white; border:none; border-radius:28px; cursor:pointer" onclick="saveAddressAndContinue()">Save & Continue</button>
-                        <button style="flex:1; padding:14px; background:var(--light-gray); color:var(--dark); border:none; border-radius:28px; cursor:pointer" onclick="showHome()">Cancel</button>
-                    </div>
+            <div class="address-page">
+                <h2>📍 Delivery Address</h2>
+                <input type="text" id="addrFlat" placeholder="Flat/House No" value="${addr.flat || ''}">
+                <input type="text" id="addrStreet" placeholder="Street Name" value="${addr.street || ''}">
+                <input type="text" id="addrCity" placeholder="City" value="${addr.city || ''}">
+                <select id="addrState">
+                    <option value="">Select State</option>
+                    <option ${addr.state === 'Maharashtra' ? 'selected' : ''}>Maharashtra</option>
+                    <option ${addr.state === 'Delhi' ? 'selected' : ''}>Delhi</option>
+                    <option ${addr.state === 'Karnataka' ? 'selected' : ''}>Karnataka</option>
+                    <option ${addr.state === 'Jharkhand' ? 'selected' : ''}>Jharkhand</option>
+                </select>
+                <input type="text" id="addrPincode" placeholder="Pincode" value="${addr.pincode || ''}">
+                <div style="display:flex; gap:12px; margin-top:20px">
+                    <button style="flex:1; padding:12px; background:#6C63FF; color:white; border:none; border-radius:25px; cursor:pointer" onclick="saveAddressAndProceed()">Save & Continue</button>
+                    <button style="flex:1; padding:12px; background:#f5f5fa; border:none; border-radius:25px; cursor:pointer" onclick="showHome()">Cancel</button>
                 </div>
             </div>
         `;
-        if(window.innerWidth<=768) closeSidebar();
-    };
+        closeSidebar();
+    }
     
-    window.saveAddressAndContinue = async () => {
+    window.saveAddressAndProceed = async () => {
         const address = {
             flat: document.getElementById('addrFlat').value,
             street: document.getElementById('addrStreet').value,
@@ -1206,47 +1073,37 @@
         }
         await updateDoc(doc(db, "users", currentUser.uid), { address: address });
         currentUserData.address = address;
-        
-        if (isMovieOffer) {
-            goToTicketPage();
-        } else {
-            openPaymentScreen();
-        }
+        openPaymentScreen();
     };
     
     function goToTicketPage() {
         document.getElementById('mainContent').innerHTML = `
-            <div class="page-container">
-                <div class="ticket-page">
-                    <h2>🎬 Movie Ticket Details</h2>
-                    <p style="color:var(--gray); margin-bottom:20px">Please provide your contact details for ticket delivery</p>
-                    <input type="text" id="ticketName" placeholder="Full Name" value="${currentUserData?.name || ''}">
-                    <input type="tel" id="ticketMobile" placeholder="Mobile Number *" value="${currentUserData?.mobile || ''}">
-                    <input type="tel" id="ticketWhatsapp" placeholder="WhatsApp Number (optional)">
-                    <input type="email" id="ticketEmail" placeholder="Email Address" value="${currentUser?.email || ''}">
-                    <input type="text" id="ticketMovie" placeholder="Movie Name" value="Pushpa 2 - The Rule">
-                    <input type="text" id="ticketTheater" placeholder="Theater Name">
-                    <input type="date" id="ticketDate" placeholder="Show Date">
-                    <select id="ticketTime">
-                        <option value="">Select Show Time</option>
-                        <option>10:00 AM</option><option>1:00 PM</option><option>4:00 PM</option><option>7:00 PM</option><option>10:00 PM</option>
-                    </select>
-                    <input type="number" id="ticketSeats" placeholder="Number of Seats" min="1" max="10">
-                    <div style="display:flex; gap:12px; margin-top:20px">
-                        <button style="flex:1; padding:14px; background:linear-gradient(135deg, #6C63FF, #5a52e0); color:white; border:none; border-radius:28px; cursor:pointer" onclick="saveTicketAndGoToPayment()">Save & Proceed</button>
-                        <button style="flex:1; padding:14px; background:var(--light-gray); color:var(--dark); border:none; border-radius:28px; cursor:pointer" onclick="goToAddressPage(selectedOffer.id, selectedOffer.title, selectedOffer.code, selectedOffer.price, true)">Back</button>
-                    </div>
+            <div class="ticket-page">
+                <h2>🎬 Movie Ticket Details</h2>
+                <input type="text" id="ticketName" placeholder="Full Name" value="${currentUserData?.name || ''}">
+                <input type="tel" id="ticketMobile" placeholder="Mobile Number *" value="${currentUserData?.mobile || ''}">
+                <input type="tel" id="ticketWhatsapp" placeholder="WhatsApp Number">
+                <input type="email" id="ticketEmail" placeholder="Email" value="${currentUser?.email || ''}">
+                <input type="text" id="ticketMovie" placeholder="Movie Name" value="Pushpa 2 - The Rule">
+                <input type="text" id="ticketTheater" placeholder="Theater" value="Bokaro PVR Cinema">
+                <input type="date" id="ticketDate" placeholder="Show Date">
+                <select id="ticketTime">
+                    <option value="">Select Time</option>
+                    <option>10:00 AM</option><option>1:00 PM</option><option>4:00 PM</option><option>7:00 PM</option><option>10:00 PM</option>
+                </select>
+                <input type="number" id="ticketSeats" placeholder="Seats" min="1" max="10">
+                <div style="display:flex; gap:12px; margin-top:20px">
+                    <button style="flex:1; padding:12px; background:#6C63FF; color:white; border:none; border-radius:25px; cursor:pointer" onclick="saveTicketAndProceed()">Save & Proceed</button>
+                    <button style="flex:1; padding:12px; background:#f5f5fa; border:none; border-radius:25px; cursor:pointer" onclick="showHome()">Cancel</button>
                 </div>
             </div>
         `;
-        if(window.innerWidth<=768) closeSidebar();
+        closeSidebar();
     }
     
-    window.saveTicketAndGoToPayment = () => {
+    window.saveTicketAndProceed = () => {
         const mobile = document.getElementById('ticketMobile').value;
-        if(!mobile) { showToast("Mobile number is required", true); return; }
-        if(mobile.length < 10) { showToast("Enter valid mobile number", true); return; }
-        
+        if(!mobile || mobile.length < 10) { showToast("Valid mobile number required", true); return; }
         ticketDetails = {
             name: document.getElementById('ticketName').value,
             mobile: mobile,
@@ -1273,68 +1130,47 @@
         const upiId = "9142739651@upi";
         const qrUrl = `https://quickchart.io/qr?text=upi://pay?pa=${upiId}&pn=PawanRetail&cu=INR&am=${finalPrice.toFixed(0)}&size=200`;
         
-        let ticketHtml = '';
+        let extraHtml = '';
         if (isMovieOffer && ticketDetails) {
-            ticketHtml = `
-                <div class="order-summary">
-                    <div class="summary-row"><span>🎬 Movie</span><span>${ticketDetails.movie || 'N/A'}</span></div>
-                    <div class="summary-row"><span>🎭 Theater</span><span>${ticketDetails.theater || 'N/A'}</span></div>
-                    <div class="summary-row"><span>📅 Date</span><span>${ticketDetails.date || 'N/A'}</span></div>
-                    <div class="summary-row"><span>⏰ Time</span><span>${ticketDetails.time || 'N/A'}</span></div>
-                    <div class="summary-row"><span>💺 Seats</span><span>${ticketDetails.seats || '1'}</span></div>
-                    <div class="summary-row"><span>📞 Mobile</span><span>${ticketDetails.mobile}</span></div>
-                </div>
-            `;
+            extraHtml = `<div class="order-summary">
+                <div class="summary-row"><span>🎬 Movie</span><span>${ticketDetails.movie || 'N/A'}</span></div>
+                <div class="summary-row"><span>🎭 Theater</span><span>${ticketDetails.theater || 'Bokaro PVR'}</span></div>
+                <div class="summary-row"><span>📅 Date</span><span>${ticketDetails.date || 'N/A'}</span></div>
+                <div class="summary-row"><span>⏰ Time</span><span>${ticketDetails.time || 'N/A'}</span></div>
+                <div class="summary-row"><span>💺 Seats</span><span>${ticketDetails.seats || '1'}</span></div>
+            </div>`;
         }
         
         const html = `
             <div class="payment-container">
-                <div class="payment-header-new">
-                    <h1>💳 Payment</h1>
-                    <p>Complete your order securely</p>
+                <div class="payment-header"><h1>💳 Payment</h1></div>
+                ${extraHtml}
+                <div class="order-summary">
+                    <div class="summary-row"><span>${selectedOffer.title}</span><span>₹${selectedOffer.price}</span></div>
+                    ${appliedCoupon ? `<div class="summary-row"><span>🏷️ ${appliedCoupon.code} (${appliedCoupon.discount}% OFF)</span><span style="color:#00C9A7">-₹${discount.toFixed(0)}</span></div>` : ''}
+                    <div class="summary-row total"><span>Total</span><span>₹${finalPrice.toFixed(0)}</span></div>
                 </div>
-                <div class="payment-card-new">
-                    ${ticketHtml}
-                    <div class="order-summary">
-                        <div class="summary-row"><span>${selectedOffer.title}</span><span>₹${selectedOffer.price}</span></div>
-                        ${appliedCoupon ? `<div class="summary-row"><span>🏷️ Coupon (${appliedCoupon.code} - ${appliedCoupon.discount}% OFF)</span><span style="color:#00C9A7">-₹${discount.toFixed(0)}</span></div>` : ''}
-                        <div class="summary-row total"><span>Total Amount</span><span>₹${finalPrice.toFixed(0)}</span></div>
-                    </div>
-                    
-                    <div class="coupon-section">
-                        <input type="text" id="couponInput" placeholder="Enter coupon code" ${appliedCoupon ? 'disabled' : ''}>
-                        <button id="applyCouponBtn" ${appliedCoupon ? 'disabled' : ''}>Apply</button>
-                    </div>
-                    ${appliedCoupon ? `<div style="background:#dcfce7; color:#15803d; padding:12px; border-radius:20px; margin:15px 0; text-align:center">✅ Coupon applied! ${appliedCoupon.discount}% discount <button id="removeCouponBtn" style="margin-left:10px; background:none; border:none; color:#dc2626; cursor:pointer">Remove</button></div>` : '<div style="background:#fef3c7; color:#d97706; padding:12px; border-radius:20px; margin:15px 0; text-align:center">💡 Try "SAVE10" for 10% off</div>'}
-                    
-                    <div class="payment-methods-grid">
-                        <div class="payment-method disabled" data-method="cod">
-                            <span>💰 Cash on Delivery</span>
-                            <span style="color:red; font-size:12px">Not available</span>
-                        </div>
-                        <div class="payment-method" data-method="upi">
-                            <span>📱 UPI Payment</span>
-                            <span style="font-size:12px">${upiId}</span>
-                        </div>
-                        <div class="payment-method" data-method="qr">
-                            <span>📸 Scan to Pay (QR)</span>
-                        </div>
-                    </div>
-                    
-                    <div id="qrContainer" style="display:none">
-                        <div class="qr-preview"><img src="${qrUrl}" width="180"><p style="margin-top:10px">Amount: ₹${finalPrice.toFixed(0)}</p></div>
-                        <input type="text" id="transactionId" placeholder="Transaction ID / UTR" style="width:100%; padding:14px; border:2px solid #eef2f6; border-radius:24px; margin-top:15px">
-                    </div>
-                    
-                    <div class="action-buttons">
-                        <button id="confirmOrderBtn" class="btn-primary">Confirm Order</button>
-                        <button id="backBtn" class="btn-secondary">Back</button>
-                    </div>
+                <div class="coupon-section">
+                    <input type="text" id="couponInput" placeholder="Enter coupon code" ${appliedCoupon ? 'disabled' : ''}>
+                    <button id="applyCouponBtn" ${appliedCoupon ? 'disabled' : ''}>Apply</button>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-method disabled" data-method="cod"><span>💰 Cash on Delivery</span><span style="color:red">Not available</span></div>
+                    <div class="payment-method" data-method="upi"><span>📱 UPI Payment</span><span>${upiId}</span></div>
+                    <div class="payment-method" data-method="qr"><span>📸 Scan to Pay (QR)</span></div>
+                </div>
+                <div id="qrContainer" style="display:none">
+                    <div class="qr-preview"><img src="${qrUrl}" width="160"><p>Amount: ₹${finalPrice.toFixed(0)}</p></div>
+                    <input type="text" id="transactionId" placeholder="Transaction ID" style="width:100%; padding:12px; margin-top:12px; border-radius:20px; border:2px solid #eef2f6">
+                </div>
+                <div class="action-buttons">
+                    <button id="confirmOrderBtn" class="btn-primary">Confirm Order</button>
+                    <button id="backBtn" class="btn-secondary">Back</button>
                 </div>
             </div>
         `;
         
-        document.getElementById('mainContent').innerHTML = `<div class="page-container">${html}</div>`;
+        document.getElementById('mainContent').innerHTML = html;
         
         document.querySelectorAll('.payment-method:not(.disabled)').forEach(opt => {
             opt.onclick = () => {
@@ -1346,16 +1182,11 @@
         });
         
         document.getElementById('applyCouponBtn')?.addEventListener('click', applyCoupon);
-        document.getElementById('removeCouponBtn')?.addEventListener('click', removeCoupon);
         document.getElementById('confirmOrderBtn')?.addEventListener('click', confirmOrder);
         document.getElementById('backBtn')?.addEventListener('click', () => {
-            if (isMovieOffer) {
-                goToTicketPage();
-            } else {
-                goToAddressPage(selectedOffer.id, selectedOffer.title, selectedOffer.code, selectedOffer.price, false);
-            }
+            if (isMovieOffer) goToTicketPage();
+            else goToAddressPage();
         });
-        if(window.innerWidth<=768) closeSidebar();
     }
     
     async function applyCoupon() {
@@ -1365,13 +1196,7 @@
         if(qSnap.empty) { showToast("Invalid coupon", true); return; }
         const coupon = qSnap.docs[0].data();
         appliedCoupon = { code: coupon.code, discount: coupon.discount };
-        showCenterPopup("🎉 Coupon Applied!", `${coupon.code} - ${coupon.discount}% discount applied!`);
-        renderPaymentScreen();
-    }
-    
-    function removeCoupon() {
-        appliedCoupon = null;
-        showToast("Coupon removed");
+        showPopup("🎉 Coupon Applied!", `${coupon.code} - ${coupon.discount}% discount applied!`);
         renderPaymentScreen();
     }
     
@@ -1382,7 +1207,6 @@
         
         let discount = appliedCoupon ? (selectedOffer.price * appliedCoupon.discount / 100) : 0;
         let finalPrice = selectedOffer.price - discount;
-        
         const newPoints = (currentUserData.points || 0) + 10;
         let newLevel = currentUserData.accountLevel;
         if(newPoints >= 1000) newLevel = 'diamond';
@@ -1405,69 +1229,70 @@
             finalPrice: finalPrice, paymentMethod: selectedMethod, transactionId: tid
         });
         
-        showCenterPopup("🎉 Order Confirmed!", `Order #${orderRef.id.slice(0, 8)}<br>Amount: ₹${finalPrice}<br>+10 points added!<br>📧 Email sent`, "showOrders()");
+        showPopup("🎉 Order Confirmed!", `Order #${orderRef.id.slice(0, 8)}<br>Amount: ₹${finalPrice}<br>+10 points added!`, "showOrders()");
         await updateSidebarUI();
     }
     
     window.showOrders = function() {
         setActive('navOrders');
-        document.getElementById('mainContent').innerHTML = `<div class="page-container"><div class="profile-card"><h3>📦 My Orders</h3><div id="ordersList"><div class="loading-spinner"></div><p>Loading orders...</p></div></div></div>`;
+        document.getElementById('mainContent').innerHTML = `<div class="profile-card"><h3>📦 My Orders</h3><div id="ordersList"><div class="empty-state">Loading orders...</div></div></div>`;
         const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
         onSnapshot(q, (snap) => {
             const container = document.getElementById('ordersList');
             if(!container) return;
-            if(snap.empty) { container.innerHTML = '<div class="empty-state">📭 No orders yet.</div>'; return; }
+            if(snap.empty) { container.innerHTML = '<div class="empty-state">No orders yet.</div>'; return; }
             let html = '';
             snap.forEach(d => {
                 const o = d.data();
-                let ticketInfo = '';
-                if (o.isMovieOffer && o.ticketDetails) {
-                    ticketInfo = `<div style="color:#6C63FF; margin-top:8px">🎬 ${o.ticketDetails.movie || 'Movie'} | ${o.ticketDetails.date || ''}</div>`;
-                }
-                html += `<div class="order-card"><div style="display:flex; justify-content:space-between"><strong>🎁 ${o.offerTitle}</strong><span class="status-approved">✅ CONFIRMED</span></div>
-                    <div style="color:var(--gray); margin:8px 0">📋 ${o.code}</div>
-                    <div style="color:var(--gray)">💰 ₹${o.finalPrice} <span style="text-decoration:line-through">₹${o.originalPrice}</span></div>
-                    ${o.couponUsed ? `<div style="color:#00C9A7">🏷️ ${o.couponUsed} (${o.couponDiscount}% OFF)</div>` : ''}
-                    ${ticketInfo}
-                    <div style="color:var(--gray); font-size:12px; margin-top:8px">📅 ${o.createdAt?.toDate().toLocaleString() || 'Just now'}</div></div>`;
+                html += `<div class="order-card">
+                    <div style="display:flex; justify-content:space-between"><strong>🎁 ${o.offerTitle}</strong><span style="background:#dcfce7; padding:2px 10px; border-radius:20px; font-size:11px">CONFIRMED</span></div>
+                    <div style="color:gray; margin:8px 0">Code: ${o.code} | Payment: ${o.paymentMethod?.toUpperCase()}</div>
+                    <div>Amount: ₹${o.finalPrice} <span style="text-decoration:line-through">₹${o.originalPrice}</span></div>
+                    ${o.couponUsed ? `<div style="color:#00C9A7">Coupon: ${o.couponUsed} (${o.couponDiscount}% OFF)</div>` : ''}
+                    <div style="font-size:12px; color:gray; margin-top:8px">📅 ${o.createdAt?.toDate().toLocaleString() || 'Just now'}</div>
+                </div>`;
             });
             container.innerHTML = html;
         });
-        if(window.innerWidth<=768) closeSidebar();
+        closeSidebar();
     };
     
-    // Profile Page
     window.showProfile = async function() {
         setActive('navProfile');
         await loadUserData();
         const addr = currentUserData.address || {};
         document.getElementById('mainContent').innerHTML = `
-            <div class="page-container">
-                <div class="profile-card">
-                    <h3>👤 My Profile</h3>
-                    <div class="info-row"><span>Name</span><span>${currentUserData.name || 'Not set'}</span><button class="edit-btn" onclick="editField('name')">Edit</button></div>
-                    <div class="info-row"><span>Mobile</span><span>${currentUserData.mobile || 'Not set'}</span><button class="edit-btn" onclick="editField('mobile')">Edit</button></div>
-                    <div class="info-row"><span>Email</span><span>${currentUser.email}</span></div>
-                    <div class="info-row"><span>Level</span><span style="color:var(--primary); font-weight:700">${(currentUserData.accountLevel || 'beginner').toUpperCase()}</span></div>
-                    <div class="info-row"><span>Points</span><span>⭐ ${currentUserData.points || 0}</span></div>
-                </div>
-                <div class="profile-card">
-                    <h3>📍 Address</h3>
-                    <div>${addr.flat ? `${addr.flat}, ${addr.street}, ${addr.city}, ${addr.state} - ${addr.pincode}` : 'No address saved'}</div>
-                    <button class="edit-btn" style="margin-top:15px" onclick="editAddress()">Edit</button>
-                </div>
-                <div class="profile-card">
-                    <h3>🔐 Account Settings</h3>
-                    <button class="logout-profile-btn" onclick="showConfirmDialog('Logout', 'Are you sure you want to logout?', async () => { await signOut(auth); showToast('Logged out!'); showLogin(); })">🚪 Logout</button>
-                    <button class="danger-btn" onclick="showConfirmDialog('Delete Account', 'Are you sure you want to delete your account? This action cannot be undone.', async () => { 
-                        await deleteDoc(doc(db, "users", currentUser.uid));
-                        await deleteUser(auth.currentUser);
-                        showCenterPopup("Account Deleted", "Your account has been permanently deleted.", "window.location.reload()");
-                    })">🗑️ Delete Account</button>
-                </div>
+            <div class="profile-card">
+                <h3>👤 My Profile</h3>
+                <div class="info-row"><span>Name</span><span>${currentUserData.name || 'Not set'}</span><button class="edit-btn" onclick="editField('name')">Edit</button></div>
+                <div class="info-row"><span>Mobile</span><span>${currentUserData.mobile || 'Not set'}</span><button class="edit-btn" onclick="editField('mobile')">Edit</button></div>
+                <div class="info-row"><span>Email</span><span>${currentUser.email}</span></div>
+                <div class="info-row"><span>Level</span><span style="color:#6C63FF; font-weight:700">${(currentUserData.accountLevel || 'beginner').toUpperCase()}</span></div>
+                <div class="info-row"><span>Points</span><span>⭐ ${currentUserData.points || 0}</span></div>
+            </div>
+            <div class="profile-card">
+                <h3>📍 Address</h3>
+                <div>${addr.flat ? `${addr.flat}, ${addr.street}, ${addr.city}, ${addr.state} - ${addr.pincode}` : 'No address saved'}</div>
+                <button class="edit-btn" style="margin-top:12px" onclick="editAddress()">Edit Address</button>
+            </div>
+            <div class="profile-card">
+                <h3>🔐 Account Settings</h3>
+                <button class="logout-profile-btn" onclick="confirmLogout()">🚪 Logout</button>
+                <button class="danger-btn" onclick="confirmDeleteAccount()">🗑️ Delete Account</button>
             </div>
         `;
-        if(window.innerWidth<=768) closeSidebar();
+        closeSidebar();
+    };
+    
+    window.confirmDeleteAccount = () => {
+        showConfirm("Delete Account", "Are you sure? This cannot be undone!", async () => {
+            await deleteDoc(doc(db, "users", currentUser.uid));
+            const ordersSnap = await getDocs(query(collection(db, "orders"), where("userId", "==", currentUser.uid)));
+            ordersSnap.forEach(async (orderDoc) => { await deleteDoc(doc(db, "orders", orderDoc.id)); });
+            await deleteUser(auth.currentUser);
+            showPopup("Account Deleted", "Your account has been permanently deleted.", "window.location.reload()");
+        });
+        closeSidebar();
     };
     
     window.editField = async (f) => {
@@ -1478,11 +1303,13 @@
     window.editAddress = async () => {
         const a = currentUserData.address || {};
         const na = { flat: prompt("Flat", a.flat), street: prompt("Street", a.street), city: prompt("City", a.city), state: prompt("State", a.state), pincode: prompt("Pincode", a.pincode) };
-        if(na.flat) { await updateDAdded index.html file for oc(doc(db, "users", currentUser.uid), { address: na }); showProfile(); showToast("Address updated!"); }
+        if(na.flat) { await updateDoc(doc(db, "users", currentUser.uid), { address: na }); showProfile(); showToast("Address updated!"); }
     };
     
-    function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); }
-    function setActive(id) { document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+    function setActive(id) {
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
     
     onAuthStateChanged(auth, async (user) => {
         if(user) {
