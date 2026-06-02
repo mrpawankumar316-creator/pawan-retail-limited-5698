@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, view-fit=cover">
+    <title>Pawan Retail - Premium Offers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #5a52e0;
+            --primary-light: #8a84ff;
+            --secondary: #FF6584;
+            --purple-light: #f0e6ff;
+            --purple-bg: #faf7ff;
+            --success: #00C9A7;
+            --danger: #FF6B6B;
+            --warning: #FFB347;
+            --dark: #2D3047;
+            --gray: #8B8CA5;
+            --light-gray: #f5f5fa;
+            --white: #ffffff;
+            --shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede8ff 100%);
+            min-height: 100vh;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Auth Screen */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6C63FF 0%, #5a52e0 100%);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container::before {
+            content: "✨";
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.1;
+            bottom: -50px;
+            right: -50px;
+        }
+
+        .auth-card {
+            background: var(--white);
+            border-radius: 48px;
+            padding: 48px 40px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.5s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-card h2 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .auth-card .tagline {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 16px 20px;
+            margin: 10px 0;
+            border: 2px solid #eef2f6;
+            border-radius: 36px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: var(--light-gray);
+        }
+
+        .auth-card input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(108,99,255,0.1);
+        }
+
+        .auth-card button {
+            width: 100%;
+            padding: 16px;
+            margin: 12px 0;
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+            color: white;
+            font-weight: 700;
+            border: none;
+            border-radius: 36px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-card button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(108,99,255,0.3);
+        }
+
+        .switch-link {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .row-2 { display: flex; gap: 12px; }
+        .row-2 input, .row-2 select { flex: 1; }
+
+        /* OTP Section Animation */
+        .otp-section {
+            animation: fadeInUp 0.4s ease;
+        }
+
+        /* App Container */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+            background: var(--white);
+        }
+
+        /* Sidebar Premium */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: var(--white);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            border-right: 1px solid #f0f0f5;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.02);
+        }
+
+        .sidebar-header {
+            padding: 35px 24px;
+            text-align: center;
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+            margin-bottom: 15px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .user-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .user-level {
+            font-size: 12px;
+            opacity: 0.9;
+            color: white;
+            margin-top: 5px;
+        }
+
+        .points-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-top: 12px;
+            display: inline-block;
+            color: white;
+        }
+
+        .nav-menu { padding: 20px 0; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 24px;
+            margin: 4px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--gray);
+            font-weight: 500;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            background: var(--purple-light);
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, #f0e6ff, transparent);
+            color: var(--primary);
+            font-weight: 600;
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 24px 32px;
+            background: var(--light-gray);
+        }
+
+        .mobile-header {
+            display: none;
+            padding: 16px 20px;
+            background: white;
+            border-bottom: 1px solid #eef2f6;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        /* Welcome Banner Premium */
+        .welcome-banner {
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+            padding: 40px;
+            border-radius: 32px;
+            margin-bottom: 32px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-banner::before {
+            content: "✨";
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 80px;
+            opacity: 0.1;
+        }
+
+        .welcome-banner h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        /* Offer Cards Premium */
+        .offers-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .offer-card {
+            background: var(--white);
+            border-radius: 28px;
+            padding: 28px;
+            transition: all 0.3s;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            border: 1px solid #f0f0f5;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .offer-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            color: #15803d;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .offer-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .offer-card p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .offer-code {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light-gray);
+            padding: 14px 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .offer-code span {
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--dark);
+        }
+
+        .offer-code button {
+            background: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .offer-code button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .price-tag {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .order-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108,99,255,0.3);
+        }
+
+        /* Address & Ticket Pages */
+        .address-page, .ticket-page {
+            max-width: 550px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 32px;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .address-page h2, .ticket-page h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .address-page input, .address-page select,
+        .ticket-page input, .ticket-page select {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            border: 2px solid #eef2f6;
+            border-radius: 24px;
+            font-size: 15px;
+            background: var(--light-gray);
+            transition: all 0.3s;
+        }
+
+        .address-page input:focus, .address-page select:focus,
+        .ticket-page input:focus, .ticket-page select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+        }
+
+        /* Payment Premium UI */
+        .payment-container {
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .payment-header-new {
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+            padding: 35px;
+            border-radius: 32px 32px 0 0;
+            text-align: center;
+            color: white;
+        }
+
+        .payment-header-new h1 {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .payment-card-new {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 0 0 32px 32px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .order-summary {
+            background: var(--light-gray);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .summary-row.total {
+            border-bottom: none;
+            padding-top: 15px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .coupon-section {
+            display: flex;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .coupon-section input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #eef2f6;
+            border-radius: 28px;
+            font-size: 15px;
+            background: var(--light-gray);
+        }
+
+        .coupon-section button {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+            color: white;
+            border: none;
+            border-radius: 28px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .payment-methods-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px;
+            border: 2px solid #eef2f6;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            background: var(--purple-light);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background: var(--purple-light);
+        }
+
+        .payment-method.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .qr-preview {
+            text-align: center;
+            padding: 20px;
+            background: var(--light-gray);
+            border-radius: 24px;
+            margin: 20px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            padding: 16px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00C9A7, #00b894);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Profile & Orders */
+        .profile-card, .order-card {
+            background: var(--white);
+            border-radius: 28px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid #f0f0f5;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .edit-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .edit-btn:hover {
+            background: var(--purple-light);
+            color: var(--primary);
+        }
+
+        .danger-btn {
+            background: linear-gradient(135deg, #FF6B6B, #ee5a5a);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .logout-profile-btn {
+            background: var(--light-gray);
+            color: var(--dark);
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Popups */
+        .center-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .center-popup-card {
+            background: var(--white);
+            border-radius: 48px;
+            padding: 48px 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .center-popup-card .icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00C9A7, #00b894);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 45px;
+            color: white;
+        }
+
+        .center-popup-card h3 {
+            font-size: 28px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .center-popup-card button {
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6C63FF, #5a52e0);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Confirm Dialog */
+        .confirm-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 6000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .confirm-dialog-card {
+            background: var(--white);
+            border-radius: 40px;
+            padding: 32px;
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+        }
+
+        .confirm-dialog-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .confirm-dialog-buttons button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .toast-popup {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 14px;
+            z-index: 4000;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--light-gray);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: var(--gray);
+        }
+
+        .status-approved {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+                animation: slideIn 0.3s ease;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 16px;
+            }
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .auth-card {
+                padding: 32px 24px;
+            }
+            .welcome-banner h2 {
+                font-size: 24px;
+            }
+            .payment-card-new {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="authScreen" class="auth-container">
+    <div class="auth-card">
+        <h2>🏪 Pawan Retail</h2>
+        <div class="tagline">Premium Offers & Deals</div>
+        
+        <div id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email Address">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <button onclick="handleLogin()">Login</button>
+            <p style="margin-top: 20px;">New user? <span class="switch-link" onclick="showSignup()">Create Account</span></p>
+        </div>
+        
+        <div id="signupForm" style="display:none">
+            <input type="email" id="signupEmail" placeholder="Email Address">
+            <input type="password" id="signupPassword" placeholder="Password (min 6)">
+            <input type="text" id="signupName" placeholder="Full Name">
+            <input type="tel" id="signupMobile" placeholder="Mobile Number">
+            <input type="text" id="signupFlat" placeholder="Flat/House No">
+            <input type="text" id="signupStreet" placeholder="Street Name">
+            <div class="row-2">
+                <input type="text" id="signupCity" placeholder="City">
+                <input type="text" id="signupPincode" placeholder="Pincode">
+            </div>
+            <select id="signupState">
+                <option value="">Select State</option>
+                <option>Maharashtra</option><option>Delhi</option><option>Karnataka</option>
+                <option>Tamil Nadu</option><option>Jharkhand</option>
+            </select>
+            <button onclick="sendOTP()">Send OTP</button>
+            <button class="switch-link" style="margin-top:12px; background:none" onclick="showLogin()">Back</button>
+        </div>
+        
+        <div id="otpSection" style="display:none; margin-top:20px" class="otp-section">
+            <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6">
+            <button onclick="verifyOTP()">Verify & Complete Registration</button>
+            <button class="switch-link" style="margin-top:12px; background:none" onclick="hideOTP()">Back</button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="appScreen" class="app-container">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img id="userAvatar" class="user-avatar" src="">
+            <div class="user-name" id="userName">Loading...</div>
+            <div class="user-level" id="userLevel"></div>
+            <div class="points-badge" id="pointsDisplay">⭐ 0 points</div>
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item active" id="navHome" onclick="showHome()">🏠 Home</div>
+            <div class="nav-item" id="navProfile" onclick="showProfile()">👤 Profile</div>
+            <div class="nav-item" id="navOrders" onclick="showOrders()">📦 Orders</div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="mobile-header">
+            <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+            <h3 style="color:var(--primary)">Pawan Retail</h3>
+        </div>
+        <div id="mainContent"><div class="page-container"><div class="empty-state"><div class="loading-spinner"></div><p>Loading...</p></div></div></div>
+    </div>
+</div>
+
+<script type="module">
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyDzgIrjcWwnqS5e3lDplptyU6VDSngn7_o",
+        authDomain: "pawan-8388d.firebaseapp.com",
+        projectId: "pawan-8388d",
+        storageBucket: "pawan-8388d.firebasestorage.app",
+        messagingSenderId: "522473603051",
+        appId: "1:522473603051:web:519543c829c1eefd1523ae"
+    };
+    
+    // EmailJS Config
+    const EMAILJS_PUBLIC_KEY = "3cUWXrfL9AhSkM5FA";
+    const EMAILJS_SERVICE_ID = "Pawanretaillimited-5678";
+    const EMAILJS_OTP_TEMPLATE = "template_45qu30j";
+    const EMAILJS_ORDER_TEMPLATE = "template_7xvg7wj";
+    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, updateDoc, doc, getDoc, setDoc, serverTimestamp, where, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    
+    // EmailJS Load
+    const emailScript = document.createElement('script');
+    emailScript.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
+    emailScript.onload = () => { emailjs.init(EMAILJS_PUBLIC_KEY); };
+    document.head.appendChild(emailScript);
+    
+    let currentUser = null, currentUserData = null;
+    let selectedOffer = null;
+    let appliedCoupon = null;
+    let selectedMethod = null;
+    let ticketDetails = null;
+    let isMovieOffer = false;
+    
+    // OTP Variables
+    let pendingEmail = null, pendingPassword = null, pendingOTP = null;
+    let pendingProfile = null;
+    
+    function generateOTP() { return Math.floor(100000 + Math.random() * 900000).toString(); }
+    
+    function showToast(msg, isErr = false) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-popup';
+        toast.style.background = isErr ? '#FF6B6B' : '#2D3047';
+        toast.innerHTML = `${isErr ? '❌' : '✅'} ${msg}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+    
+    function showCenterPopup(title, message, onClose = null) {
+        const popup = document.createElement('div');
+        popup.className = 'center-popup';
+        popup.innerHTML = `
+            <div class="center-popup-card">
+                <div class="icon">✓</div>
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <button onclick="this.closest('.center-popup').remove(); ${onClose ? onClose : ''}">OK</button>
+            </div>
+        `;
+        document.body.appendChild(popup);
+    }
+    
+    function showConfirmDialog(title, message, onConfirm) {
+        const dialog = document.createElement('div');
+        dialog.className = 'confirm-dialog';
+        dialog.innerHTML = `
+            <div class="confirm-dialog-card">
+                <h3>${title}</h3>
+                <p style="margin:15px 0; color:var(--gray)">${message}</p>
+                <div class="confirm-dialog-buttons">
+                    <button id="confirmYes" style="background:var(--danger); color:white">Yes</button>
+                    <button id="confirmNo" style="background:var(--light-gray); color:var(--dark)">Cancel</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(dialog);
+        document.getElementById('confirmYes').onclick = () => { dialog.remove(); onConfirm(); };
+        document.getElementById('confirmNo').onclick = () => dialog.remove();
+    }
+    
+    async function sendOTPEmail(email, otp) {
+        try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_OTP_TEMPLATE, { to_email: email, otp: otp });
+            return true;
+        } catch(e) { return false; }
+    }
+    
+    async function sendOrderEmail(orderData) {
+        try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ORDER_TEMPLATE, {
+                to_email: currentUser.email,
+                customer_name: currentUserData.name,
+                order_id: orderData.orderId.slice(0, 12),
+                order_date: new Date().toLocaleString(),
+                offer_title: orderData.offerTitle,
+                offer_code: orderData.code,
+                original_price: orderData.originalPrice,
+                discount: orderData.couponDiscount || 0,
+                final_price: orderData.finalPrice,
+                payment_method: orderData.paymentMethod,
+                transaction_id: orderData.transactionId
+            });
+            return true;
+        } catch(e) { return false; }
+    }
+    
+    // OTP Functions
+    window.hideOTP = () => {
+        document.getElementById('otpSection').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'block';
+    };
+    
+    window.sendOTP = async () => {
+        const email = document.getElementById('signupEmail').value;
+        const pwd = document.getElementById('signupPassword').value;
+        const name = document.getElementById('signupName').value;
+        const mobile = document.getElementById('signupMobile').value;
+        const flat = document.getElementById('signupFlat').value;
+        const street = document.getElementById('signupStreet').value;
+        const city = document.getElementById('signupCity').value;
+        const state = document.getElementById('signupState').value;
+        const pincode = document.getElementById('signupPincode').value;
+        
+        if(!email || !pwd) { showToast("Email and password required", true); return; }
+        if(pwd.length < 6) { showToast("Password min 6 chars", true); return; }
+        if(!name || !mobile) { showToast("Name and mobile required", true); return; }
+        if(!flat || !street || !city || !state || !pincode) { showToast("Complete address required", true); return; }
+        
+        pendingEmail = email;
+        pendingPassword = pwd;
+        pendingProfile = {
+            name: name, mobile: mobile,
+            address: { flat, street, city, state, pincode }
+        };
+        pendingOTP = generateOTP();
+        
+        if(await sendOTPEmail(email, pendingOTP)) {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('otpSection').style.display = 'block';
+            showToast("📧 OTP sent to " + email);
+        } else showToast("Failed to send OTP", true);
+    };
+    
+    window.verifyOTP = async () => {
+        if(document.getElementById('otpInput').value !== pendingOTP) { showToast("Invalid OTP", true); return; }
+        try {
+            const cred = await createUserWithEmailAndPassword(auth, pendingEmail, pendingPassword);
+            await setDoc(doc(db, "users", cred.user.uid), {
+                uid: cred.user.uid, email: pendingEmail, name: pendingProfile.name,
+                mobile: pendingProfile.mobile, address: pendingProfile.address,
+                accountLevel: "beginner", points: 0, createdAt: serverTimestamp()
+            });
+            showCenterPopup("🎉 Account Created!", "Your account has been created successfully! Please login.", "showLogin()");
+            showLogin();
+        } catch(e) { showToast(e.message, true); }
+    };
+    
+    window.handleLogin = async () => {
+        const email = document.getElementById('loginEmail').value;
+        const pwd = document.getElementById('loginPassword').value;
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, pwd);
+            showToast("✅ Login successful!");
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+            currentUser = userCredential.user;
+            await loadUserData();
+            await addDemoOffers();
+            await addDemoCoupons();
+            showHome();
+        } catch(e) { showToast(e.message, true); }
+    };
+    
+    window.showLogin = () => {
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('signupForm').style.display = 'none';
+        document.getElementById('otpSection').style.display = 'none';
+        document.getElementById('authScreen').style.display = 'flex';
+        document.getElementById('appScreen').style.display = 'none';
+    };
+    
+    window.showSignup = () => {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'block';
+        document.getElementById('otpSection').style.display = 'none';
+        document.getElementById('authScreen').style.display = 'flex';
+        document.getElementById('appScreen').style.display = 'none';
+    };
+    
+    window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+    
+    async function updateSidebarUI() {
+        if(!currentUserData) return;
+        document.getElementById('userName').innerText = currentUserData.name || currentUser.email.split('@')[0];
+        document.getElementById('userLevel').innerText = (currentUserData.accountLevel || 'beginner').toUpperCase();
+        document.getElementById('pointsDisplay').innerHTML = `⭐ ${currentUserData.points || 0} points`;
+        document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUserData.name || currentUser.email)}&background=6C63FF&color=fff&size=85`;
+    }
+    
+    async function loadUserData() {
+        if(!currentUser) return;
+        const snap = await getDoc(doc(db, "users", currentUser.uid));
+        if(snap.exists()) currentUserData = snap.data();
+        else {
+            currentUserData = { name: currentUser.email.split('@')[0], mobile: "", address: null, accountLevel: "beginner", points: 0 };
+            await setDoc(doc(db, "users", currentUser.uid), currentUserData);
+        }
+        await updateSidebarUI();
+    }
+    
+    async function addDemoOffers() {
+        const offersRef = collection(db, "offers");
+        const existing = await getDocs(query(offersRef));
+        if(existing.empty) {
+            await addDoc(offersRef, { title: "3 classic and 1 onion pizza", description: "Delicious combo meal", discount: "COMBO", code: "PIZZA141", price: 141, isMovieOffer: false, createdAt: serverTimestamp() });
+            await addDoc(offersRef, { title: "🎬 Movie Ticket - Pushpa 2", description: "Book your movie ticket now!", discount: "MOVIE OFFER", code: "MOVIE", price: 299, isMovieOffer: true, createdAt: serverTimestamp() });
+            await addDoc(offersRef, { title: "50% OFF Electronics", description: "Get 50% discount", discount: "50% OFF", code: "SAVE50", price: 499, isMovieOffer: false, createdAt: serverTimestamp() });
+        }
+    }
+    
+    async function addDemoCoupons() {
+        const couponsRef = collection(db, "coupons");
+        const existing = await getDocs(query(couponsRef));
+        if(existing.empty) {
+            await addDoc(couponsRef, { code: "SAVE10", discount: 10, title: "10% OFF", isActive: true });
+            await addDoc(couponsRef, { code: "PRLNEW50", discount: 100, title: "100% OFF", isActive: true });
+        }
+    }
+    
+    window.showHome = function() {
+        setActive('navHome');
+        document.getElementById('mainContent').innerHTML = `
+            <div class="page-container">
+                <div class="welcome-banner">
+                    <h2>🔥 Today's Hot Offers</h2>
+                    <p>Click "Order Now" to claim exclusive deals</p>
+                </div>
+                <div class="offers-grid" id="offersList"><div class="empty-state"><div class="loading-spinner"></div><p>Loading offers...</p></div></div>
+            </div>
+        `;
+        const q = query(collection(db, "offers"), orderBy("createdAt", "desc"));
+        onSnapshot(q, (snap) => {
+            const container = document.getElementById('offersList');
+            if(!container) return;
+            if(snap.empty) { container.innerHTML = '<div class="empty-state">No offers available</div>'; return; }
+            let html = '';
+            snap.forEach(d => {
+                const off = d.data();
+                const price = off.price || 499;
+                const movieBadge = off.isMovieOffer ? '🎬 MOVIE OFFER' : (off.discount || 'Deal');
+                html += `<div class="offer-card">
+                    <div class="offer-badge">${movieBadge}</div>
+                    <h3>${off.title}</h3>
+                    <p>${off.description || ''}</p>
+                    <div class="offer-code"><span>CODE: ${off.code}</span><button onclick="event.stopPropagation(); copyCode('${off.code}')">Copy</button></div>
+                    <div class="price-tag">₹${price}</div>
+                    <button class="order-btn" onclick="goToAddressPage('${d.id}', '${off.title}', '${off.code}', ${price}, ${off.isMovieOffer || false})">Order Now</button>
+                </div>`;
+            });
+            container.innerHTML = html;
+        });
+        if(window.innerWidth<=768) closeSidebar();
+    };
+    
+    window.copyCode = (code) => { navigator.clipboard.writeText(code); showToast("📋 Code copied!"); };
+    
+    window.goToAddressPage = (id, title, code, price, isMovie) => {
+        selectedOffer = { id, title, code, price };
+        isMovieOffer = isMovie;
+        const addr = currentUserData?.address || {};
+        document.getElementById('mainContent').innerHTML = `
+            <div class="page-container">
+                <div class="address-page">
+                    <h2>📍 Delivery Address</h2>
+                    <input type="text" id="addrFlat" placeholder="Flat/House No" value="${addr.flat || ''}">
+                    <input type="text" id="addrStreet" placeholder="Street Name" value="${addr.street || ''}">
+                    <input type="text" id="addrCity" placeholder="City" value="${addr.city || ''}">
+                    <select id="addrState">
+                        <option value="">Select State</option>
+                        <option ${addr.state === 'Maharashtra' ? 'selected' : ''}>Maharashtra</option>
+                        <option ${addr.state === 'Delhi' ? 'selected' : ''}>Delhi</option>
+                        <option ${addr.state === 'Karnataka' ? 'selected' : ''}>Karnataka</option>
+                        <option ${addr.state === 'Jharkhand' ? 'selected' : ''}>Jharkhand</option>
+                    </select>
+                    <input type="text" id="addrPincode" placeholder="Pincode" value="${addr.pincode || ''}">
+                    <div style="display:flex; gap:12px; margin-top:20px">
+                        <button style="flex:1; padding:14px; background:linear-gradient(135deg, #6C63FF, #5a52e0); color:white; border:none; border-radius:28px; cursor:pointer" onclick="saveAddressAndContinue()">Save & Continue</button>
+                        <button style="flex:1; padding:14px; background:var(--light-gray); color:var(--dark); border:none; border-radius:28px; cursor:pointer" onclick="showHome()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        if(window.innerWidth<=768) closeSidebar();
+    };
+    
+    window.saveAddressAndContinue = async () => {
+        const address = {
+            flat: document.getElementById('addrFlat').value,
+            street: document.getElementById('addrStreet').value,
+            city: document.getElementById('addrCity').value,
+            state: document.getElementById('addrState').value,
+            pincode: document.getElementById('addrPincode').value
+        };
+        if(!address.flat || !address.street || !address.city || !address.state || !address.pincode) {
+            showToast("Please fill all address fields", true);
+            return;
+        }
+        await updateDoc(doc(db, "users", currentUser.uid), { address: address });
+        currentUserData.address = address;
+        
+        if (isMovieOffer) {
+            goToTicketPage();
+        } else {
+            openPaymentScreen();
+        }
+    };
+    
+    function goToTicketPage() {
+        document.getElementById('mainContent').innerHTML = `
+            <div class="page-container">
+                <div class="ticket-page">
+                    <h2>🎬 Movie Ticket Details</h2>
+                    <p style="color:var(--gray); margin-bottom:20px">Please provide your contact details for ticket delivery</p>
+                    <input type="text" id="ticketName" placeholder="Full Name" value="${currentUserData?.name || ''}">
+                    <input type="tel" id="ticketMobile" placeholder="Mobile Number *" value="${currentUserData?.mobile || ''}">
+                    <input type="tel" id="ticketWhatsapp" placeholder="WhatsApp Number (optional)">
+                    <input type="email" id="ticketEmail" placeholder="Email Address" value="${currentUser?.email || ''}">
+                    <input type="text" id="ticketMovie" placeholder="Movie Name" value="Pushpa 2 - The Rule">
+                    <input type="text" id="ticketTheater" placeholder="Theater Name">
+                    <input type="date" id="ticketDate" placeholder="Show Date">
+                    <select id="ticketTime">
+                        <option value="">Select Show Time</option>
+                        <option>10:00 AM</option><option>1:00 PM</option><option>4:00 PM</option><option>7:00 PM</option><option>10:00 PM</option>
+                    </select>
+                    <input type="number" id="ticketSeats" placeholder="Number of Seats" min="1" max="10">
+                    <div style="display:flex; gap:12px; margin-top:20px">
+                        <button style="flex:1; padding:14px; background:linear-gradient(135deg, #6C63FF, #5a52e0); color:white; border:none; border-radius:28px; cursor:pointer" onclick="saveTicketAndGoToPayment()">Save & Proceed</button>
+                        <button style="flex:1; padding:14px; background:var(--light-gray); color:var(--dark); border:none; border-radius:28px; cursor:pointer" onclick="goToAddressPage(selectedOffer.id, selectedOffer.title, selectedOffer.code, selectedOffer.price, true)">Back</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        if(window.innerWidth<=768) closeSidebar();
+    }
+    
+    window.saveTicketAndGoToPayment = () => {
+        const mobile = document.getElementById('ticketMobile').value;
+        if(!mobile) { showToast("Mobile number is required", true); return; }
+        if(mobile.length < 10) { showToast("Enter valid mobile number", true); return; }
+        
+        ticketDetails = {
+            name: document.getElementById('ticketName').value,
+            mobile: mobile,
+            whatsapp: document.getElementById('ticketWhatsapp').value || mobile,
+            email: document.getElementById('ticketEmail').value,
+            movie: document.getElementById('ticketMovie').value,
+            theater: document.getElementById('ticketTheater').value,
+            date: document.getElementById('ticketDate').value,
+            time: document.getElementById('ticketTime').value,
+            seats: document.getElementById('ticketSeats').value
+        };
+        openPaymentScreen();
+    };
+    
+    function openPaymentScreen() {
+        appliedCoupon = null;
+        selectedMethod = null;
+        renderPaymentScreen();
+    }
+    
+    function renderPaymentScreen() {
+        let discount = appliedCoupon ? (selectedOffer.price * appliedCoupon.discount / 100) : 0;
+        let finalPrice = selectedOffer.price - discount;
+        const upiId = "9142739651@upi";
+        const qrUrl = `https://quickchart.io/qr?text=upi://pay?pa=${upiId}&pn=PawanRetail&cu=INR&am=${finalPrice.toFixed(0)}&size=200`;
+        
+        let ticketHtml = '';
+        if (isMovieOffer && ticketDetails) {
+            ticketHtml = `
+                <div class="order-summary">
+                    <div class="summary-row"><span>🎬 Movie</span><span>${ticketDetails.movie || 'N/A'}</span></div>
+                    <div class="summary-row"><span>🎭 Theater</span><span>${ticketDetails.theater || 'N/A'}</span></div>
+                    <div class="summary-row"><span>📅 Date</span><span>${ticketDetails.date || 'N/A'}</span></div>
+                    <div class="summary-row"><span>⏰ Time</span><span>${ticketDetails.time || 'N/A'}</span></div>
+                    <div class="summary-row"><span>💺 Seats</span><span>${ticketDetails.seats || '1'}</span></div>
+                    <div class="summary-row"><span>📞 Mobile</span><span>${ticketDetails.mobile}</span></div>
+                </div>
+            `;
+        }
+        
+        const html = `
+            <div class="payment-container">
+                <div class="payment-header-new">
+                    <h1>💳 Payment</h1>
+                    <p>Complete your order securely</p>
+                </div>
+                <div class="payment-card-new">
+                    ${ticketHtml}
+                    <div class="order-summary">
+                        <div class="summary-row"><span>${selectedOffer.title}</span><span>₹${selectedOffer.price}</span></div>
+                        ${appliedCoupon ? `<div class="summary-row"><span>🏷️ Coupon (${appliedCoupon.code} - ${appliedCoupon.discount}% OFF)</span><span style="color:#00C9A7">-₹${discount.toFixed(0)}</span></div>` : ''}
+                        <div class="summary-row total"><span>Total Amount</span><span>₹${finalPrice.toFixed(0)}</span></div>
+                    </div>
+                    
+                    <div class="coupon-section">
+                        <input type="text" id="couponInput" placeholder="Enter coupon code" ${appliedCoupon ? 'disabled' : ''}>
+                        <button id="applyCouponBtn" ${appliedCoupon ? 'disabled' : ''}>Apply</button>
+                    </div>
+                    ${appliedCoupon ? `<div style="background:#dcfce7; color:#15803d; padding:12px; border-radius:20px; margin:15px 0; text-align:center">✅ Coupon applied! ${appliedCoupon.discount}% discount <button id="removeCouponBtn" style="margin-left:10px; background:none; border:none; color:#dc2626; cursor:pointer">Remove</button></div>` : '<div style="background:#fef3c7; color:#d97706; padding:12px; border-radius:20px; margin:15px 0; text-align:center">💡 Try "SAVE10" for 10% off</div>'}
+                    
+                    <div class="payment-methods-grid">
+                        <div class="payment-method disabled" data-method="cod">
+                            <span>💰 Cash on Delivery</span>
+                            <span style="color:red; font-size:12px">Not available</span>
+                        </div>
+                        <div class="payment-method" data-method="upi">
+                            <span>📱 UPI Payment</span>
+                            <span style="font-size:12px">${upiId}</span>
+                        </div>
+                        <div class="payment-method" data-method="qr">
+                            <span>📸 Scan to Pay (QR)</span>
+                        </div>
+                    </div>
+                    
+                    <div id="qrContainer" style="display:none">
+                        <div class="qr-preview"><img src="${qrUrl}" width="180"><p style="margin-top:10px">Amount: ₹${finalPrice.toFixed(0)}</p></div>
+                        <input type="text" id="transactionId" placeholder="Transaction ID / UTR" style="width:100%; padding:14px; border:2px solid #eef2f6; border-radius:24px; margin-top:15px">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="confirmOrderBtn" class="btn-primary">Confirm Order</button>
+                        <button id="backBtn" class="btn-secondary">Back</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('mainContent').innerHTML = `<div class="page-container">${html}</div>`;
+        
+        document.querySelectorAll('.payment-method:not(.disabled)').forEach(opt => {
+            opt.onclick = () => {
+                document.querySelectorAll('.payment-method').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                document.getElementById('qrContainer').style.display = opt.dataset.method === 'qr' ? 'block' : 'none';
+                selectedMethod = opt.dataset.method;
+            };
+        });
+        
+        document.getElementById('applyCouponBtn')?.addEventListener('click', applyCoupon);
+        document.getElementById('removeCouponBtn')?.addEventListener('click', removeCoupon);
+        document.getElementById('confirmOrderBtn')?.addEventListener('click', confirmOrder);
+        document.getElementById('backBtn')?.addEventListener('click', () => {
+            if (isMovieOffer) {
+                goToTicketPage();
+            } else {
+                goToAddressPage(selectedOffer.id, selectedOffer.title, selectedOffer.code, selectedOffer.price, false);
+            }
+        });
+        if(window.innerWidth<=768) closeSidebar();
+    }
+    
+    async function applyCoupon() {
+        const code = document.getElementById('couponInput')?.value.toUpperCase();
+        if(!code) { showToast("Enter coupon code", true); return; }
+        const qSnap = await getDocs(query(collection(db, "coupons"), where("code", "==", code), where("isActive", "==", true)));
+        if(qSnap.empty) { showToast("Invalid coupon", true); return; }
+        const coupon = qSnap.docs[0].data();
+        appliedCoupon = { code: coupon.code, discount: coupon.discount };
+        showCenterPopup("🎉 Coupon Applied!", `${coupon.code} - ${coupon.discount}% discount applied!`);
+        renderPaymentScreen();
+    }
+    
+    function removeCoupon() {
+        appliedCoupon = null;
+        showToast("Coupon removed");
+        renderPaymentScreen();
+    }
+    
+    async function confirmOrder() {
+        if(!selectedMethod) { showToast("Select payment method", true); return; }
+        let tid = selectedMethod === 'qr' ? document.getElementById('transactionId')?.value : "UPI-" + Date.now();
+        if(selectedMethod === 'qr' && !tid) { showToast("Enter Transaction ID", true); return; }
+        
+        let discount = appliedCoupon ? (selectedOffer.price * appliedCoupon.discount / 100) : 0;
+        let finalPrice = selectedOffer.price - discount;
+        
+        const newPoints = (currentUserData.points || 0) + 10;
+        let newLevel = currentUserData.accountLevel;
+        if(newPoints >= 1000) newLevel = 'diamond';
+        else if(newPoints >= 500) newLevel = 'gold';
+        else if(newPoints >= 100) newLevel = 'silver';
+        
+        await updateDoc(doc(db, "users", currentUser.uid), { points: newPoints, accountLevel: newLevel });
+        
+        const orderRef = await addDoc(collection(db, "orders"), {
+            userId: currentUser.uid, offerTitle: selectedOffer.title, code: selectedOffer.code,
+            originalPrice: selectedOffer.price, finalPrice: finalPrice, paymentMethod: selectedMethod,
+            transactionId: tid, couponUsed: appliedCoupon?.code || null, couponDiscount: appliedCoupon?.discount || null,
+            isMovieOffer: isMovieOffer, ticketDetails: isMovieOffer ? (ticketDetails || null) : null,
+            status: "confirmed", createdAt: serverTimestamp()
+        });
+        
+        await sendOrderEmail({
+            orderId: orderRef.id, offerTitle: selectedOffer.title, code: selectedOffer.code,
+            originalPrice: selectedOffer.price, couponDiscount: appliedCoupon?.discount || 0,
+            finalPrice: finalPrice, paymentMethod: selectedMethod, transactionId: tid
+        });
+        
+        showCenterPopup("🎉 Order Confirmed!", `Order #${orderRef.id.slice(0, 8)}<br>Amount: ₹${finalPrice}<br>+10 points added!<br>📧 Email sent`, "showOrders()");
+        await updateSidebarUI();
+    }
+    
+    window.showOrders = function() {
+        setActive('navOrders');
+        document.getElementById('mainContent').innerHTML = `<div class="page-container"><div class="profile-card"><h3>📦 My Orders</h3><div id="ordersList"><div class="loading-spinner"></div><p>Loading orders...</p></div></div></div>`;
+        const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
+        onSnapshot(q, (snap) => {
+            const container = document.getElementById('ordersList');
+            if(!container) return;
+            if(snap.empty) { container.innerHTML = '<div class="empty-state">📭 No orders yet.</div>'; return; }
+            let html = '';
+            snap.forEach(d => {
+                const o = d.data();
+                let ticketInfo = '';
+                if (o.isMovieOffer && o.ticketDetails) {
+                    ticketInfo = `<div style="color:#6C63FF; margin-top:8px">🎬 ${o.ticketDetails.movie || 'Movie'} | ${o.ticketDetails.date || ''}</div>`;
+                }
+                html += `<div class="order-card"><div style="display:flex; justify-content:space-between"><strong>🎁 ${o.offerTitle}</strong><span class="status-approved">✅ CONFIRMED</span></div>
+                    <div style="color:var(--gray); margin:8px 0">📋 ${o.code}</div>
+                    <div style="color:var(--gray)">💰 ₹${o.finalPrice} <span style="text-decoration:line-through">₹${o.originalPrice}</span></div>
+                    ${o.couponUsed ? `<div style="color:#00C9A7">🏷️ ${o.couponUsed} (${o.couponDiscount}% OFF)</div>` : ''}
+                    ${ticketInfo}
+                    <div style="color:var(--gray); font-size:12px; margin-top:8px">📅 ${o.createdAt?.toDate().toLocaleString() || 'Just now'}</div></div>`;
+            });
+            container.innerHTML = html;
+        });
+        if(window.innerWidth<=768) closeSidebar();
+    };
+    
+    // Profile Page
+    window.showProfile = async function() {
+        setActive('navProfile');
+        await loadUserData();
+        const addr = currentUserData.address || {};
+        document.getElementById('mainContent').innerHTML = `
+            <div class="page-container">
+                <div class="profile-card">
+                    <h3>👤 My Profile</h3>
+                    <div class="info-row"><span>Name</span><span>${currentUserData.name || 'Not set'}</span><button class="edit-btn" onclick="editField('name')">Edit</button></div>
+                    <div class="info-row"><span>Mobile</span><span>${currentUserData.mobile || 'Not set'}</span><button class="edit-btn" onclick="editField('mobile')">Edit</button></div>
+                    <div class="info-row"><span>Email</span><span>${currentUser.email}</span></div>
+                    <div class="info-row"><span>Level</span><span style="color:var(--primary); font-weight:700">${(currentUserData.accountLevel || 'beginner').toUpperCase()}</span></div>
+                    <div class="info-row"><span>Points</span><span>⭐ ${currentUserData.points || 0}</span></div>
+                </div>
+                <div class="profile-card">
+                    <h3>📍 Address</h3>
+                    <div>${addr.flat ? `${addr.flat}, ${addr.street}, ${addr.city}, ${addr.state} - ${addr.pincode}` : 'No address saved'}</div>
+                    <button class="edit-btn" style="margin-top:15px" onclick="editAddress()">Edit</button>
+                </div>
+                <div class="profile-card">
+                    <h3>🔐 Account Settings</h3>
+                    <button class="logout-profile-btn" onclick="showConfirmDialog('Logout', 'Are you sure you want to logout?', async () => { await signOut(auth); showToast('Logged out!'); showLogin(); })">🚪 Logout</button>
+                    <button class="danger-btn" onclick="showConfirmDialog('Delete Account', 'Are you sure you want to delete your account? This action cannot be undone.', async () => { 
+                        await deleteDoc(doc(db, "users", currentUser.uid));
+                        await deleteUser(auth.currentUser);
+                        showCenterPopup("Account Deleted", "Your account has been permanently deleted.", "window.location.reload()");
+                    })">🗑️ Delete Account</button>
+                </div>
+            </div>
+        `;
+        if(window.innerWidth<=768) closeSidebar();
+    };
+    
+    window.editField = async (f) => {
+        const v = prompt(`Enter ${f}`);
+        if(v) { await updateDoc(doc(db, "users", currentUser.uid), { [f]: v }); showProfile(); updateSidebarUI(); showToast("Updated!"); }
+    };
+    
+    window.editAddress = async () => {
+        const a = currentUserData.address || {};
+        const na = { flat: prompt("Flat", a.flat), street: prompt("Street", a.street), city: prompt("City", a.city), state: prompt("State", a.state), pincode: prompt("Pincode", a.pincode) };
+        if(na.flat) { await updateDAdded index.html file for oc(doc(db, "users", currentUser.uid), { address: na }); showProfile(); showToast("Address updated!"); }
+    };
+    
+    function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); }
+    function setActive(id) { document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+    
+    onAuthStateChanged(auth, async (user) => {
+        if(user) {
+            currentUser = user;
+            await loadUserData();
+            await addDemoOffers();
+            await addDemoCoupons();
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+            showHome();
+        }
+    });
+</script>
+</body>
+</html>
