@@ -1,752 +1,483 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Pawan Retail - Premium Offers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Pawan Retail Limited • Complete Store</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        :root {
-            --primary: #6C63FF;
-            --primary-dark: #5a52e0;
-            --primary-light: #8a84ff;
-            --success: #00C9A7;
-            --danger: #FF6B6B;
-            --warning: #FFB347;
-            --dark: #2D3047;
-            --gray: #8B8CA5;
-            --light-gray: #f5f5fa;
-            --white: #ffffff;
-            --shadow: 0 2px 10px rgba(0,0,0,0.05);
-            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #f5f3ff 0%, #ede8ff 100%);
+            background: linear-gradient(135deg, #e0f2e0 0%, #c8e6c9 100%);
             min-height: 100vh;
         }
 
-        /* Auth Screen */
-        .auth-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #ffffff;
             min-height: 100vh;
-            background: linear-gradient(135deg, #6C63FF 0%, #5a52e0 100%);
-            padding: 16px;
-        }
-
-        .auth-card {
-            background: var(--white);
-            border-radius: 32px;
-            padding: 32px 24px;
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-            animation: fadeIn 0.4s ease;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.1);
+            overflow-x: hidden;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .auth-card h2 {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        @keyframes bikeMove {
+            0% { transform: translateX(-20px); }
+            50% { transform: translateX(20px); }
+            100% { transform: translateX(-20px); }
         }
 
-        .auth-card .tagline {
-            color: var(--gray);
-            font-size: 13px;
-            margin-bottom: 28px;
-        }
+        .animate-fade { animation: fadeIn 0.5s ease forwards; }
+        .animate-slide-left { animation: slideInLeft 0.5s ease forwards; }
+        .animate-slide-right { animation: slideInRight 0.5s ease forwards; }
+        .animate-bounce { animation: bounceIn 0.5s ease forwards; }
+        .animate-pulse { animation: pulse 2s infinite; }
+        .animate-bike { animation: bikeMove 1.5s infinite; }
 
-        .auth-card input {
-            width: 100%;
-            padding: 14px 16px;
-            margin: 10px 0;
-            border: 2px solid #eef2f6;
-            border-radius: 30px;
-            font-size: 15px;
-            background: var(--light-gray);
-        }
-
-        .auth-card input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-        }
-
-        .auth-card button {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            color: white;
-            font-weight: 700;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .auth-card button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108,99,255,0.3);
-        }
-
-        .switch-link {
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: 600;
-            background: none;
-            border: none;
-        }
-
-        .row-2 { display: flex; gap: 12px; }
-        .row-2 input, .row-2 select { flex: 1; }
-
-        /* App Container - Mobile First */
-        .app-container {
-            display: none;
-            min-height: 100vh;
-            background: var(--light-gray);
-        }
-
-        /* Mobile Layout */
-        .mobile-layout {
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--light-gray);
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* Header */
-        .app-header {
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
+        .splash-screen {
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
         }
-
-        .menu-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
+        .splash-logo {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #D4AF37, #FFD700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: bounceIn 1s ease, shimmer 2s infinite;
+            background-size: 200% auto;
+        }
+        .splash-text {
             color: white;
-            cursor: pointer;
+            font-size: 18px;
+            letter-spacing: 3px;
+            margin-top: 20px;
         }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
-        }
-
-        .user-icon {
-            width: 36px;
-            height: 36px;
-            background: rgba(255,255,255,0.2);
+        .splash-loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(212,175,55,0.3);
+            border-top-color: #D4AF37;
             border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-top: 30px;
+        }
+
+        .premium-header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .premium-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #D4AF37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shimmer 2s infinite;
+            background-size: 200% auto;
+        }
+        .menu-icon {
+            background: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            cursor: pointer;
+            font-size: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .content-area {
+            padding: 16px;
+            background: #f8fafc;
+            min-height: 500px;
+        }
+
+        .premium-card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .premium-card:active { transform: scale(0.98); }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .badge-hot { background: linear-gradient(135deg, #FF6B6B, #EE5A24); color: white; }
+        .badge-cinema { background: linear-gradient(135deg, #8E44AD, #9B59B6); color: white; }
+        .badge-flash { background: linear-gradient(135deg, #3498DB, #2980B9); color: white; }
+
+        .offer-title { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+        .offer-price { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #1a1a2e, #D4AF37); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 8px 0; }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary { background: linear-gradient(135deg, #D4AF37, #B8860B); color: #1a1a2e; }
+        .btn-secondary { background: #f0f0f0; color: #1a1a2e; border: 1px solid #e0e0e0; }
+        .btn-cancel { background: #fee2e2; color: #dc2626; }
+        .btn-complaint { background: #ff9800; color: white; }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #f0f0f0;
+            border-radius: 40px;
+            font-size: 14px;
+            margin: 8px 0;
+            background: #fafafa;
+        }
+        .input-field:focus { outline: none; border-color: #D4AF37; }
+
+        .banner-container {
+            margin-bottom: 16px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .banner-slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .banner-item {
+            min-width: 100%;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: white;
+            text-align: center;
+        }
+        .banner-item h3 { font-size: 20px; margin-bottom: 8px; }
+        .banner-item p { font-size: 12px; opacity: 0.9; }
+        .banner-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.3);
+        }
+        .banner-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+        .banner-dot.active { background: white; width: 20px; border-radius: 10px; }
+
+        .order-card {
+            background: white;
+            border-radius: 20px;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-left: 4px solid #D4AF37;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             cursor: pointer;
         }
 
-        /* Sidebar Menu */
-        .sidebar-menu {
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-pending { background: #fff3e0; color: #ff9800; }
+        .status-cancelled { background: #ffebee; color: #e74c3c; }
+        .status-delivered { background: #e8f5e9; color: #4caf50; }
+
+        .complaint-item {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 3px solid #ff9800;
+        }
+
+        .menu-sidebar {
             position: fixed;
             top: 0;
             left: -280px;
             width: 280px;
             height: 100%;
             background: white;
-            z-index: 1000;
-            transition: left 0.3s ease;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1501;
+            transition: left 0.3s;
+            padding: 20px;
         }
-
-        .sidebar-menu.open {
-            left: 0;
-        }
-
-        .sidebar-header {
-            padding: 30px 20px;
-            text-align: center;
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            color: white;
-        }
-
-        .sidebar-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
-            font-size: 35px;
-        }
-
-        .sidebar-name {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .sidebar-level {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 5px;
-        }
-
-        .sidebar-points {
-            font-size: 12px;
-            margin-top: 8px;
-            opacity: 0.9;
-        }
-
-        .sidebar-nav {
-            padding: 20px 0;
-        }
-
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 24px;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        .sidebar-item:hover {
-            background: var(--light-gray);
-            color: var(--primary);
-        }
-
-        .sidebar-item.active {
-            background: var(--light-gray);
-            color: var(--primary);
-            border-left: 3px solid var(--primary);
-        }
-
-        .sidebar-logout {
-            margin-top: 30px;
-            border-top: 1px solid #eef2f6;
-            padding-top: 20px;
-        }
-
-        .overlay {
+        .menu-sidebar.open { left: 0; }
+        .menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.5);
-            z-index: 999;
+            z-index: 1500;
             display: none;
         }
-
-        .overlay.show {
-            display: block;
-        }
-
-        /* Main Content */
-        .main-content {
-            padding: 20px;
-        }
-
-        .welcome-card {
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            padding: 24px;
-            border-radius: 24px;
-            color: white;
-            margin-bottom: 24px;
-        }
-
-        .welcome-card h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
-
-        .welcome-card p {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-
-        /* Offer Cards */
-        .offers-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .offer-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: all 0.2s;
-        }
-
-        .offer-card:active {
-            transform: scale(0.98);
-        }
-
-        .offer-badge {
-            display: inline-block;
-            background: #dcfce7;
-            color: #15803d;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .offer-card h3 {
-            font-size: 18px;
-            margin-bottom: 6px;
-            color: var(--dark);
-        }
-
-        .offer-card p {
-            color: var(--gray);
-            font-size: 13px;
-            margin-bottom: 12px;
-        }
-
-        .offer-code {
-            background: var(--light-gray);
-            padding: 10px 12px;
+        .menu-overlay.show { display: block; }
+        .menu-item {
+            background: #fafafa;
             border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 12px;
             margin-bottom: 12px;
-        }
-
-        .offer-code span {
-            font-family: monospace;
-            font-size: 13px;
-        }
-
-        .offer-code button {
-            background: white;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 20px;
             cursor: pointer;
-            font-size: 12px;
-        }
-
-        .price {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .order-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Ticket Page */
-        .ticket-page, .address-page {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-
-        .ticket-page h2, .address-page h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: var(--dark);
-        }
-
-        .ticket-page input, .ticket-page select,
-        .address-page input, .address-page select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #eef2f6;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        /* Payment Page */
-        .payment-container {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-        }
-
-        .payment-header {
             text-align: center;
-            margin-bottom: 20px;
+            transition: all 0.3s;
         }
+        .menu-item:hover { background: rgba(212,175,55,0.1); }
+        .menu-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid #D4AF37; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; }
 
-        .payment-header h1 {
-            font-size: 24px;
-            color: var(--dark);
+        .price-breakdown { background: #f8f9fa; padding: 15px; border-radius: 20px; margin: 12px 0; }
+        .total-amount { font-size: 20px; font-weight: 800; color: #D4AF37; border-top: 2px dashed #e0e0e0; padding-top: 12px; margin-top: 8px; }
+
+        .center-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5000;
+            animation: bounceIn 0.5s ease;
         }
-
-        .order-summary {
-            background: var(--light-gray);
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eef2f6;
-        }
-
-        .summary-row.total {
-            border-bottom: none;
-            padding-top: 12px;
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .coupon-section {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .coupon-section input {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #eef2f6;
-            border-radius: 25px;
-        }
-
-        .coupon-section button {
-            padding: 12px 20px;
-            background: linear-gradient(135deg, #6C63FF, #5a52e0);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-        }
-
-        .payment-methods {
-            margin: 20px 0;
-        }
-
-        .payment-method {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px;
-            border: 2px solid #eef2f6;
-            border-radius: 20px;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-
-        .payment-method.selected {
-            border-color: var(--primary);
-            background: var(--light-gray);
-        }
-
-        .qr-preview {
+        .popup-content {
+            background: white;
+            border-radius: 28px;
+            padding: 24px 32px;
             text-align: center;
-            padding: 16px;
-            background: var(--light-gray);
+            min-width: 280px;
+            max-width: 350px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .popup-content h3 { font-size: 22px; margin-bottom: 12px; }
+        .popup-content p { margin-bottom: 20px; color: #666; }
+        .popup-content button {
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #1a1a2e;
+        }
+        .popup-success { border-top: 5px solid #4caf50; }
+        .popup-error { border-top: 5px solid #e74c3c; }
+
+        .delivery-animation {
+            background: linear-gradient(135deg, #e3f2fd, #bbdef5);
             border-radius: 20px;
+            padding: 20px;
+            text-align: center;
             margin: 15px 0;
         }
-
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .action-buttons button {
-            flex: 1;
-            padding: 14px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #00C9A7, #00b894);
+        .bike-icon { font-size: 48px; display: inline-block; }
+        
+        .prl-coins-card {
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
             color: white;
+            margin-bottom: 20px;
+        }
+        .prl-coins-value { font-size: 52px; font-weight: 800; margin: 10px 0; }
+        
+        .coin-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .coin-option {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .coin-option.selected {
+            background: #D4AF37;
+            color: white;
+            border-color: #D4AF37;
         }
 
-        .btn-secondary {
-            background: var(--light-gray);
-            color: var(--dark);
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 15px 0;
         }
-
-        /* Profile & Orders */
-        .profile-card, .order-card {
+        .payment-method-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+        }
+        .payment-method-card .logo-img {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 5px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .phonepe-logo { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/PhonePe_Logo.svg/1200px-PhonePe_Logo.svg.png'); background-size: contain; }
+        .paytm-logo { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Paytm_Logo.svg/1200px-Paytm_Logo.svg.png'); background-size: contain; }
+        .gpay-logo { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/1200px-Google_Pay_Logo.svg.png'); background-size: contain; }
+        .bhim-logo { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/BHIM_Logo.svg/1200px-BHIM_Logo.svg.png'); background-size: contain; }
+        
+        .qr-container {
+            text-align: center;
+            padding: 20px;
             background: white;
             border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 16px;
+            margin: 15px 0;
+            cursor: pointer;
+            border: 2px dashed #D4AF37;
         }
-
-        .info-row {
+        .upi-id-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eef2f6;
+            margin: 12px 0;
         }
-
-        .edit-btn, .danger-btn, .logout-profile-btn {
-            padding: 10px;
-            border-radius: 25px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .edit-btn { background: var(--light-gray); color: var(--dark); }
-        .danger-btn { background: var(--danger); color: white; }
-        .logout-profile-btn { background: var(--light-gray); color: var(--dark); }
-
-        /* Popups */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .popup-card {
-            background: white;
-            border-radius: 28px;
-            padding: 28px;
-            text-align: center;
-            max-width: 320px;
-            width: 85%;
-        }
-
-        .popup-card .icon {
-            width: 60px;
-            height: 60px;
-            background: #00C9A7;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 30px;
-            color: white;
-        }
-
-        .popup-card h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .popup-card button {
+        .copy-btn { background: none; border: none; font-size: 16px; cursor: pointer; }
+        
+        .contact-info-footer {
+            background: #1a1a2e;
+            padding: 16px;
+            border-radius: 20px;
             margin-top: 20px;
-            padding: 10px 25px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-        }
-
-        .confirm-dialog {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .confirm-card {
-            background: white;
-            border-radius: 28px;
-            padding: 24px;
             text-align: center;
-            max-width: 300px;
-            width: 85%;
-        }
-
-        .confirm-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .confirm-buttons button {
-            flex: 1;
-            padding: 10px;
-            border-radius: 25px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: var(--gray);
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--dark);
             color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 13px;
-            z-index: 2500;
-            animation: fadeIn 0.3s ease;
         }
-
-        @media (min-width: 768px) {
-            .mobile-layout {
-                max-width: 450px;
-                margin: 0 auto;
-                box-shadow: 0 0 20px rgba(0,0,0,0.1);
-                min-height: 100vh;
-            }
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-            }
-        }
+        .contact-info-footer p { margin: 5px 0; font-size: 12px; }
+        .contact-info-footer strong { color: #D4AF37; }
     </style>
 </head>
 <body>
 
-<div id="authScreen" class="auth-container">
-    <div class="auth-card">
-        <h2>🏪 Pawan Retail</h2>
-        <div class="tagline">Premium Offers & Deals</div>
-        
-        <div id="loginForm">
-            <input type="email" id="loginEmail" placeholder="Email Address">
-            <input type="password" id="loginPassword" placeholder="Password">
-            <button onclick="handleLogin()">Login</button>
-            <p style="margin-top: 16px;">New user? <span class="switch-link" onclick="showSignup()">Create Account</span></p>
-        </div>
-        
-        <div id="signupForm" style="display:none">
-            <input type="email" id="signupEmail" placeholder="Email Address">
-            <input type="password" id="signupPassword" placeholder="Password (min 6)">
-            <input type="text" id="signupName" placeholder="Full Name">
-            <input type="tel" id="signupMobile" placeholder="Mobile Number">
-            <input type="text" id="signupFlat" placeholder="Flat/House No">
-            <input type="text" id="signupStreet" placeholder="Street Name">
-            <div class="row-2">
-                <input type="text" id="signupCity" placeholder="City">
-                <input type="text" id="signupPincode" placeholder="Pincode">
-            </div>
-            <select id="signupState">
-                <option value="">Select State</option>
-                <option>Maharashtra</option><option>Delhi</option><option>Karnataka</option>
-                <option>Tamil Nadu</option><option>Jharkhand</option>
-            </select>
-            <button onclick="sendOTP()">Send OTP</button>
-            <button class="switch-link" style="margin-top:10px" onclick="showLogin()">Back</button>
-        </div>
-        
-        <div id="otpSection" style="display:none; margin-top:16px">
-            <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6">
-            <button onclick="verifyOTP()">Verify & Complete</button>
-            <button class="switch-link" style="margin-top:10px" onclick="hideOTP()">Back</button>
-        </div>
-    </div>
+<div class="app-container" id="app">
+    <div id="dynamicPage"></div>
 </div>
 
-<div id="appScreen" class="app-container">
-    <div class="mobile-layout">
-        <div class="app-header">
-            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-            <div class="logo">Pawan Retail</div>
-            <div class="user-icon" onclick="showProfile()">👤</div>
-        </div>
-        
-        <div class="sidebar-menu" id="sidebarMenu">
-            <div class="sidebar-header">
-                <div class="sidebar-avatar" id="sidebarAvatar">👤</div>
-                <div class="sidebar-name" id="sidebarName">Loading...</div>
-                <div class="sidebar-level" id="sidebarLevel"></div>
-                <div class="sidebar-points" id="sidebarPoints">⭐ 0 points</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="sidebar-item active" id="navHome" onclick="showHome()">🏠 Home</div>
-                <div class="sidebar-item" id="navProfile" onclick="showProfile()">👤 My Profile</div>
-                <div class="sidebar-item" id="navOrders" onclick="showOrders()">📦 My Orders</div>
-            </div>
-            <div class="sidebar-logout">
-                <div class="sidebar-item" onclick="confirmLogout()">🚪 Logout</div>
-            </div>
-        </div>
-        
-        <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-        
-        <div id="mainContent" class="main-content">
-            <div class="empty-state">Loading...</div>
-        </div>
+<div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
+<div id="menuSidebar" class="menu-sidebar">
+    <div class="menu-header">
+        <div style="font-size: 40px;">👤</div>
+        <div id="menuName" style="font-weight: 800;">User</div>
     </div>
+    <div class="menu-item" onclick="showHome(); closeMenu()">🏠 Home</div>
+    <div class="menu-item" onclick="showOrders(); closeMenu()">📦 My Orders</div>
+    <div class="menu-item" onclick="showPRLCoins(); closeMenu()">🪙 PRL Coins</div>
+    <div class="menu-item" onclick="showComplaints(); closeMenu()">📢 Complaints</div>
+    <div class="menu-item" onclick="showProfile(); closeMenu()">👤 Profile</div>
+    <div class="menu-item" onclick="showAboutUs(); closeMenu()">ℹ️ About Us</div>
+    <div class="menu-item" style="background: #fee2e2;" onclick="logout()">🚪 Logout</div>
 </div>
 
-<script type="module">
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
     const firebaseConfig = {
         apiKey: "AIzaSyDzgIrjcWwnqS5e3lDplptyU6VDSngn7_o",
         authDomain: "pawan-8388d.firebaseapp.com",
@@ -756,572 +487,72 @@
         appId: "1:522473603051:web:519543c829c1eefd1523ae"
     };
     
-    const EMAILJS_PUBLIC_KEY = "3cUWXrfL9AhSkM5FA";
-    const EMAILJS_SERVICE_ID = "Pawanretaillimited-5678";
-    const EMAILJS_OTP_TEMPLATE = "template_45qu30j";
-    const EMAILJS_ORDER_TEMPLATE = "template_7xvg7wj";
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    emailjs.init("3cUWXrfL9AhSkM5FA");
     
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, updateDoc, doc, getDoc, setDoc, serverTimestamp, where, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    let currentUser = null, userData = null, selectedOffer = null;
+    let appliedCoupon = null, appliedGiftCard = null;
+    let usePRLCoins = false;
+    let selectedCoinAmount = 0;
+    let selectedDateObj = null;
+    let currentBanner = 0;
     
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const banners = [
+        { title: "🎬 Movie Ticket Offer!", desc: "Book tickets at Bokaro PVR" },
+        { title: "🍕 Pizza Mania!", desc: "Get 3 pizzas at just ₹141" },
+        { title: "⚡ Flash Sale!", desc: "50% off on electronics" }
+    ];
     
-    const emailScript = document.createElement('script');
-    emailScript.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
-    emailScript.onload = () => { emailjs.init(EMAILJS_PUBLIC_KEY); };
-    document.head.appendChild(emailScript);
+    const theatreInfo = {
+        name: "🎬 PVR Cinemas - Bokaro",
+        address: "The Bokaro Mall, Sector 3C, Bokaro Steel City, Jharkhand - 827001"
+    };
     
-    let currentUser = null, currentUserData = null;
-    let selectedOffer = null;
-    let appliedCoupon = null;
-    let selectedMethod = null;
-    let ticketDetails = null;
-    let isMovieOffer = false;
-    let pendingEmail = null, pendingPassword = null, pendingOTP = null;
-    let pendingProfile = null;
+    const timeSlots = ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM", "10:00 PM"];
     
-    function showToast(msg, isErr = false) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.innerHTML = `${isErr ? '❌' : '✅'} ${msg}`;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2500);
-    }
-    
-    function showPopup(title, message, onClose = null) {
-        const popup = document.createElement('div');
-        popup.className = 'popup-overlay';
-        popup.innerHTML = `
-            <div class="popup-card">
-                <div class="icon">✓</div>
-                <h3>${title}</h3>
-                <p>${message}</p>
-                <button onclick="this.closest('.popup-overlay').remove(); ${onClose ? onClose : ''}">OK</button>
-            </div>
-        `;
+    function showCenterPopup(title, message, type = 'info') {
+        let existingPopup = document.querySelector('.center-popup');
+        if (existingPopup) existingPopup.remove();
+        let popup = document.createElement('div');
+        popup.className = 'center-popup';
+        let icon = type === 'success' ? '✅' : (type === 'error' ? '❌' : 'ℹ️');
+        popup.innerHTML = `<div class="popup-content popup-${type}"><h3>${icon} ${title}</h3><p>${message}</p><button onclick="this.parentElement.parentElement.remove()">OK</button></div>`;
         document.body.appendChild(popup);
-    }
-    
-    function showConfirm(title, message, onConfirm) {
-        const dialog = document.createElement('div');
-        dialog.className = 'confirm-dialog';
-        dialog.innerHTML = `
-            <div class="confirm-card">
-                <h3>${title}</h3>
-                <p style="margin:15px 0">${message}</p>
-                <div class="confirm-buttons">
-                    <button id="confirmYes" style="background:#FF6B6B; color:white">Yes</button>
-                    <button id="confirmNo" style="background:#f5f5fa; color:#2D3047">Cancel</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(dialog);
-        document.getElementById('confirmYes').onclick = () => { dialog.remove(); onConfirm(); };
-        document.getElementById('confirmNo').onclick = () => dialog.remove();
+        setTimeout(() => { if(popup) popup.remove(); }, 5000);
     }
     
     function generateOTP() { return Math.floor(100000 + Math.random() * 900000).toString(); }
     
-    async function sendOTPEmail(email, otp) {
+    async function sendOTPEmail(email, otp, type) {
         try {
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_OTP_TEMPLATE, { to_email: email, otp: otp });
+            await emailjs.send("Pawanretaillimited-5678", "template_45qu30j", { to_email: email, otp: otp, type: type });
             return true;
         } catch(e) { return false; }
-    }
-    
-    async function sendOrderEmail(orderData) {
-        try {
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ORDER_TEMPLATE, {
-                to_email: currentUser.email,
-                customer_name: currentUserData.name,
-                order_id: orderData.orderId.slice(0, 10),
-                order_date: new Date().toLocaleString(),
-                offer_title: orderData.offerTitle,
-                offer_code: orderData.code,
-                original_price: orderData.originalPrice,
-                discount: orderData.couponDiscount || 0,
-                final_price: orderData.finalPrice,
-                payment_method: orderData.paymentMethod,
-                transaction_id: orderData.transactionId
-            });
-            return true;
-        } catch(e) { return false; }
-    }
-    
-    window.hideOTP = () => {
-        document.getElementById('otpSection').style.display = 'none';
-        document.getElementById('signupForm').style.display = 'block';
-    };
-    
-    window.sendOTP = async () => {
-        const email = document.getElementById('signupEmail').value;
-        const pwd = document.getElementById('signupPassword').value;
-        const name = document.getElementById('signupName').value;
-        const mobile = document.getElementById('signupMobile').value;
-        const flat = document.getElementById('signupFlat').value;
-        const street = document.getElementById('signupStreet').value;
-        const city = document.getElementById('signupCity').value;
-        const state = document.getElementById('signupState').value;
-        const pincode = document.getElementById('signupPincode').value;
-        
-        if(!email || !pwd) { showToast("Email and password required", true); return; }
-        if(pwd.length < 6) { showToast("Password min 6 chars", true); return; }
-        if(!name || !mobile) { showToast("Name and mobile required", true); return; }
-        if(!flat || !street || !city || !state || !pincode) { showToast("Complete address required", true); return; }
-        
-        pendingEmail = email;
-        pendingPassword = pwd;
-        pendingProfile = { name, mobile, address: { flat, street, city, state, pincode } };
-        pendingOTP = generateOTP();
-        
-        if(await sendOTPEmail(email, pendingOTP)) {
-            document.getElementById('signupForm').style.display = 'none';
-            document.getElementById('otpSection').style.display = 'block';
-            showToast("📧 OTP sent to " + email);
-        } else showToast("Failed to send OTP", true);
-    };
-    
-    window.verifyOTP = async () => {
-        if(document.getElementById('otpInput').value !== pendingOTP) { showToast("Invalid OTP", true); return; }
-        try {
-            const cred = await createUserWithEmailAndPassword(auth, pendingEmail, pendingPassword);
-            await setDoc(doc(db, "users", cred.user.uid), {
-                uid: cred.user.uid, email: pendingEmail, name: pendingProfile.name,
-                mobile: pendingProfile.mobile, address: pendingProfile.address,
-                accountLevel: "beginner", points: 0, createdAt: serverTimestamp()
-            });
-            showPopup("🎉 Account Created!", "Your account has been created successfully! Please login.");
-            showLogin();
-        } catch(e) { showToast(e.message, true); }
-    };
-    
-    window.handleLogin = async () => {
-        const email = document.getElementById('loginEmail').value;
-        const pwd = document.getElementById('loginPassword').value;
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, pwd);
-            showToast("✅ Login successful!");
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('appScreen').style.display = 'block';
-            currentUser = userCredential.user;
-            await loadUserData();
-            await addDemoOffers();
-            await addDemoCoupons();
-            showHome();
-        } catch(e) { showToast(e.message, true); }
-    };
-    
-    window.showLogin = () => {
-        document.getElementById('loginForm').style.display = 'block';
-        document.getElementById('signupForm').style.display = 'none';
-        document.getElementById('otpSection').style.display = 'none';
-        document.getElementById('authScreen').style.display = 'flex';
-        document.getElementById('appScreen').style.display = 'none';
-    };
-    
-    window.showSignup = () => {
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('signupForm').style.display = 'block';
-        document.getElementById('otpSection').style.display = 'none';
-        document.getElementById('authScreen').style.display = 'flex';
-        document.getElementById('appScreen').style.display = 'none';
-    };
-    
-    window.toggleSidebar = () => {
-        document.getElementById('sidebarMenu').classList.toggle('open');
-        document.getElementById('overlay').classList.toggle('show');
-    };
-    
-    window.closeSidebar = () => {
-        document.getElementById('sidebarMenu').classList.remove('open');
-        document.getElementById('overlay').classList.remove('show');
-    };
-    
-    window.confirmLogout = () => {
-        showConfirm("Logout", "Are you sure you want to logout?", async () => {
-            await signOut(auth);
-            showToast("Logged out!");
-            document.getElementById('authScreen').style.display = 'flex';
-            document.getElementById('appScreen').style.display = 'none';
-            showLogin();
-        });
-        closeSidebar();
-    };
-    
-    async function updateSidebarUI() {
-        if(!currentUserData) return;
-        document.getElementById('sidebarName').innerText = currentUserData.name || currentUser.email.split('@')[0];
-        document.getElementById('sidebarLevel').innerText = (currentUserData.accountLevel || 'beginner').toUpperCase();
-        document.getElementById('sidebarPoints').innerHTML = `⭐ ${currentUserData.points || 0} points`;
-        document.getElementById('sidebarAvatar').innerHTML = currentUserData.name ? currentUserData.name.charAt(0).toUpperCase() : '👤';
     }
     
     async function loadUserData() {
-        if(!currentUser) return;
-        const snap = await getDoc(doc(db, "users", currentUser.uid));
-        if(snap.exists()) currentUserData = snap.data();
-        else {
-            currentUserData = { name: currentUser.email.split('@')[0], mobile: "", address: null, accountLevel: "beginner", points: 0 };
-            await setDoc(doc(db, "users", currentUser.uid), currentUserData);
-        }
-        await updateSidebarUI();
+        if (!currentUser) return true;
+        try {
+            let snap = await db.collection("users").doc(currentUser.uid).get();
+            if (snap.exists) {
+                userData = snap.data();
+                if (userData.isBlocked === true) {
+                    showCenterPopup("Account Blocked", "Contact: thepawanretaillimited@gmail.com", "error");
+                    await auth.signOut();
+                    showLoginPage();
+                    return false;
+                }
+            } else {
+                userData = { name: "User", email: currentUser.email, prlCoins: 500, address: {} };
+                await db.collection("users").doc(currentUser.uid).set(userData);
+            }
+            document.getElementById('menuName').innerHTML = userData.name || "User";
+            return true;
+        } catch(e) { return true; }
     }
     
-    async function addDemoOffers() {
-        const offersRef = collection(db, "offers");
-        const existing = await getDocs(query(offersRef));
-        if(existing.empty) {
-            await addDoc(offersRef, { title: "3 Classic Pizza + 1 Onion Pizza", description: "Delicious combo meal", discount: "COMBO", code: "PIZZA141", price: 141, isMovieOffer: false, createdAt: serverTimestamp() });
-            await addDoc(offersRef, { title: "🎬 Movie Ticket - Pushpa 2", description: "Bokaro PVR Cinema - Book your ticket now!", discount: "MOVIE OFFER", code: "MOVIE", price: 299, isMovieOffer: true, createdAt: serverTimestamp() });
-            await addDoc(offersRef, { title: "50% OFF Electronics", description: "Get 50% discount", discount: "50% OFF", code: "SAVE50", price: 499, isMovieOffer: false, createdAt: serverTimestamp() });
-        }
-    }
-    
-    async function addDemoCoupons() {
-        const couponsRef = collection(db, "coupons");
-        const existing = await getDocs(query(couponsRef));
-        if(existing.empty) {
-            await addDoc(couponsRef, { code: "SAVE10", discount: 10, title: "10% OFF", isActive: true });
-            await addDoc(couponsRef, { code: "WELCOME20", discount: 20, title: "20% OFF", isActive: true });
-        }
-    }
-    
-    window.showHome = function() {
-        setActive('navHome');
-        document.getElementById('mainContent').innerHTML = `
-            <div class="welcome-card">
-                <h2>🔥 Today's Hot Offers</h2>
-                <p>Click "Order Now" to claim exclusive deals</p>
-            </div>
-            <div class="offers-grid" id="offersList"><div class="empty-state">Loading offers...</div></div>
-        `;
-        const q = query(collection(db, "offers"), orderBy("createdAt", "desc"));
-        onSnapshot(q, (snap) => {
-            const container = document.getElementById('offersList');
-            if(!container) return;
-            if(snap.empty) { container.innerHTML = '<div class="empty-state">No offers available</div>'; return; }
-            let html = '';
-            snap.forEach(d => {
-                const off = d.data();
-                const price = off.price || 499;
-                const movieBadge = off.isMovieOffer ? '🎬 MOVIE OFFER' : (off.discount || 'Deal');
-                html += `<div class="offer-card">
-                    <div class="offer-badge">${movieBadge}</div>
-                    <h3>${off.title}</h3>
-                    <p>${off.description || ''}</p>
-                    <div class="offer-code"><span>CODE: ${off.code}</span><button onclick="event.stopPropagation(); copyCode('${off.code}')">Copy</button></div>
-                    <div class="price">₹${price}</div>
-                    <button class="order-btn" onclick="handleOrderClick('${d.id}', '${off.title}', '${off.code}', ${price}, ${off.isMovieOffer || false})">Order Now</button>
-                </div>`;
-            });
-            container.innerHTML = html;
-        });
-        closeSidebar();
-    };
-    
-    window.copyCode = (code) => { navigator.clipboard.writeText(code); showToast("Code copied!"); };
-    
-    window.handleOrderClick = (id, title, code, price, isMovie) => {
-        selectedOffer = { id, title, code, price };
-        isMovieOffer = isMovie;
-        if (isMovieOffer) {
-            goToTicketPage();
-        } else {
-            goToAddressPage();
-        }
-    };
-    
-    function goToAddressPage() {
-        const addr = currentUserData?.address || {};
-        document.getElementById('mainContent').innerHTML = `
-            <div class="address-page">
-                <h2>📍 Delivery Address</h2>
-                <input type="text" id="addrFlat" placeholder="Flat/House No" value="${addr.flat || ''}">
-                <input type="text" id="addrStreet" placeholder="Street Name" value="${addr.street || ''}">
-                <input type="text" id="addrCity" placeholder="City" value="${addr.city || ''}">
-                <select id="addrState">
-                    <option value="">Select State</option>
-                    <option ${addr.state === 'Maharashtra' ? 'selected' : ''}>Maharashtra</option>
-                    <option ${addr.state === 'Delhi' ? 'selected' : ''}>Delhi</option>
-                    <option ${addr.state === 'Karnataka' ? 'selected' : ''}>Karnataka</option>
-                    <option ${addr.state === 'Jharkhand' ? 'selected' : ''}>Jharkhand</option>
-                </select>
-                <input type="text" id="addrPincode" placeholder="Pincode" value="${addr.pincode || ''}">
-                <div style="display:flex; gap:12px; margin-top:20px">
-                    <button style="flex:1; padding:12px; background:#6C63FF; color:white; border:none; border-radius:25px; cursor:pointer" onclick="saveAddressAndProceed()">Save & Continue</button>
-                    <button style="flex:1; padding:12px; background:#f5f5fa; border:none; border-radius:25px; cursor:pointer" onclick="showHome()">Cancel</button>
-                </div>
-            </div>
-        `;
-        closeSidebar();
-    }
-    
-    window.saveAddressAndProceed = async () => {
-        const address = {
-            flat: document.getElementById('addrFlat').value,
-            street: document.getElementById('addrStreet').value,
-            city: document.getElementById('addrCity').value,
-            state: document.getElementById('addrState').value,
-            pincode: document.getElementById('addrPincode').value
-        };
-        if(!address.flat || !address.street || !address.city || !address.state || !address.pincode) {
-            showToast("Please fill all address fields", true);
-            return;
-        }
-        await updateDoc(doc(db, "users", currentUser.uid), { address: address });
-        currentUserData.address = address;
-        openPaymentScreen();
-    };
-    
-    function goToTicketPage() {
-        document.getElementById('mainContent').innerHTML = `
-            <div class="ticket-page">
-                <h2>🎬 Movie Ticket Details</h2>
-                <input type="text" id="ticketName" placeholder="Full Name" value="${currentUserData?.name || ''}">
-                <input type="tel" id="ticketMobile" placeholder="Mobile Number *" value="${currentUserData?.mobile || ''}">
-                <input type="tel" id="ticketWhatsapp" placeholder="WhatsApp Number">
-                <input type="email" id="ticketEmail" placeholder="Email" value="${currentUser?.email || ''}">
-                <input type="text" id="ticketMovie" placeholder="Movie Name" value="Pushpa 2 - The Rule">
-                <input type="text" id="ticketTheater" placeholder="Theater" value="Bokaro PVR Cinema">
-                <input type="date" id="ticketDate" placeholder="Show Date">
-                <select id="ticketTime">
-                    <option value="">Select Time</option>
-                    <option>10:00 AM</option><option>1:00 PM</option><option>4:00 PM</option><option>7:00 PM</option><option>10:00 PM</option>
-                </select>
-                <input type="number" id="ticketSeats" placeholder="Seats" min="1" max="10">
-                <div style="display:flex; gap:12px; margin-top:20px">
-                    <button style="flex:1; padding:12px; background:#6C63FF; color:white; border:none; border-radius:25px; cursor:pointer" onclick="saveTicketAndProceed()">Save & Proceed</button>
-                    <button style="flex:1; padding:12px; background:#f5f5fa; border:none; border-radius:25px; cursor:pointer" onclick="showHome()">Cancel</button>
-                </div>
-            </div>
-        `;
-        closeSidebar();
-    }
-    
-    window.saveTicketAndProceed = () => {
-        const mobile = document.getElementById('ticketMobile').value;
-        if(!mobile || mobile.length < 10) { showToast("Valid mobile number required", true); return; }
-        ticketDetails = {
-            name: document.getElementById('ticketName').value,
-            mobile: mobile,
-            whatsapp: document.getElementById('ticketWhatsapp').value || mobile,
-            email: document.getElementById('ticketEmail').value,
-            movie: document.getElementById('ticketMovie').value,
-            theater: document.getElementById('ticketTheater').value,
-            date: document.getElementById('ticketDate').value,
-            time: document.getElementById('ticketTime').value,
-            seats: document.getElementById('ticketSeats').value
-        };
-        openPaymentScreen();
-    };
-    
-    function openPaymentScreen() {
-        appliedCoupon = null;
-        selectedMethod = null;
-        renderPaymentScreen();
-    }
-    
-    function renderPaymentScreen() {
-        let discount = appliedCoupon ? (selectedOffer.price * appliedCoupon.discount / 100) : 0;
-        let finalPrice = selectedOffer.price - discount;
-        const upiId = "9142739651@upi";
-        const qrUrl = `https://quickchart.io/qr?text=upi://pay?pa=${upiId}&pn=PawanRetail&cu=INR&am=${finalPrice.toFixed(0)}&size=200`;
-        
-        let extraHtml = '';
-        if (isMovieOffer && ticketDetails) {
-            extraHtml = `<div class="order-summary">
-                <div class="summary-row"><span>🎬 Movie</span><span>${ticketDetails.movie || 'N/A'}</span></div>
-                <div class="summary-row"><span>🎭 Theater</span><span>${ticketDetails.theater || 'Bokaro PVR'}</span></div>
-                <div class="summary-row"><span>📅 Date</span><span>${ticketDetails.date || 'N/A'}</span></div>
-                <div class="summary-row"><span>⏰ Time</span><span>${ticketDetails.time || 'N/A'}</span></div>
-                <div class="summary-row"><span>💺 Seats</span><span>${ticketDetails.seats || '1'}</span></div>
-            </div>`;
-        }
-        
-        const html = `
-            <div class="payment-container">
-                <div class="payment-header"><h1>💳 Payment</h1></div>
-                ${extraHtml}
-                <div class="order-summary">
-                    <div class="summary-row"><span>${selectedOffer.title}</span><span>₹${selectedOffer.price}</span></div>
-                    ${appliedCoupon ? `<div class="summary-row"><span>🏷️ ${appliedCoupon.code} (${appliedCoupon.discount}% OFF)</span><span style="color:#00C9A7">-₹${discount.toFixed(0)}</span></div>` : ''}
-                    <div class="summary-row total"><span>Total</span><span>₹${finalPrice.toFixed(0)}</span></div>
-                </div>
-                <div class="coupon-section">
-                    <input type="text" id="couponInput" placeholder="Enter coupon code" ${appliedCoupon ? 'disabled' : ''}>
-                    <button id="applyCouponBtn" ${appliedCoupon ? 'disabled' : ''}>Apply</button>
-                </div>
-                <div class="payment-methods">
-                    <div class="payment-method disabled" data-method="cod"><span>💰 Cash on Delivery</span><span style="color:red">Not available</span></div>
-                    <div class="payment-method" data-method="upi"><span>📱 UPI Payment</span><span>${upiId}</span></div>
-                    <div class="payment-method" data-method="qr"><span>📸 Scan to Pay (QR)</span></div>
-                </div>
-                <div id="qrContainer" style="display:none">
-                    <div class="qr-preview"><img src="${qrUrl}" width="160"><p>Amount: ₹${finalPrice.toFixed(0)}</p></div>
-                    <input type="text" id="transactionId" placeholder="Transaction ID" style="width:100%; padding:12px; margin-top:12px; border-radius:20px; border:2px solid #eef2f6">
-                </div>
-                <div class="action-buttons">
-                    <button id="confirmOrderBtn" class="btn-primary">Confirm Order</button>
-                    <button id="backBtn" class="btn-secondary">Back</button>
-                </div>
-            </div>
-        `;
-        
-        document.getElementById('mainContent').innerHTML = html;
-        
-        document.querySelectorAll('.payment-method:not(.disabled)').forEach(opt => {
-            opt.onclick = () => {
-                document.querySelectorAll('.payment-method').forEach(o => o.classList.remove('selected'));
-                opt.classList.add('selected');
-                document.getElementById('qrContainer').style.display = opt.dataset.method === 'qr' ? 'block' : 'none';
-                selectedMethod = opt.dataset.method;
-            };
-        });
-        
-        document.getElementById('applyCouponBtn')?.addEventListener('click', applyCoupon);
-        document.getElementById('confirmOrderBtn')?.addEventListener('click', confirmOrder);
-        document.getElementById('backBtn')?.addEventListener('click', () => {
-            if (isMovieOffer) goToTicketPage();
-            else goToAddressPage();
-        });
-    }
-    
-    async function applyCoupon() {
-        const code = document.getElementById('couponInput')?.value.toUpperCase();
-        if(!code) { showToast("Enter coupon code", true); return; }
-        const qSnap = await getDocs(query(collection(db, "coupons"), where("code", "==", code), where("isActive", "==", true)));
-        if(qSnap.empty) { showToast("Invalid coupon", true); return; }
-        const coupon = qSnap.docs[0].data();
-        appliedCoupon = { code: coupon.code, discount: coupon.discount };
-        showPopup("🎉 Coupon Applied!", `${coupon.code} - ${coupon.discount}% discount applied!`);
-        renderPaymentScreen();
-    }
-    
-    async function confirmOrder() {
-        if(!selectedMethod) { showToast("Select payment method", true); return; }
-        let tid = selectedMethod === 'qr' ? document.getElementById('transactionId')?.value : "UPI-" + Date.now();
-        if(selectedMethod === 'qr' && !tid) { showToast("Enter Transaction ID", true); return; }
-        
-        let discount = appliedCoupon ? (selectedOffer.price * appliedCoupon.discount / 100) : 0;
-        let finalPrice = selectedOffer.price - discount;
-        const newPoints = (currentUserData.points || 0) + 10;
-        let newLevel = currentUserData.accountLevel;
-        if(newPoints >= 1000) newLevel = 'diamond';
-        else if(newPoints >= 500) newLevel = 'gold';
-        else if(newPoints >= 100) newLevel = 'silver';
-        
-        await updateDoc(doc(db, "users", currentUser.uid), { points: newPoints, accountLevel: newLevel });
-        
-        const orderRef = await addDoc(collection(db, "orders"), {
-            userId: currentUser.uid, offerTitle: selectedOffer.title, code: selectedOffer.code,
-            originalPrice: selectedOffer.price, finalPrice: finalPrice, paymentMethod: selectedMethod,
-            transactionId: tid, couponUsed: appliedCoupon?.code || null, couponDiscount: appliedCoupon?.discount || null,
-            isMovieOffer: isMovieOffer, ticketDetails: isMovieOffer ? (ticketDetails || null) : null,
-            status: "confirmed", createdAt: serverTimestamp()
-        });
-        
-        await sendOrderEmail({
-            orderId: orderRef.id, offerTitle: selectedOffer.title, code: selectedOffer.code,
-            originalPrice: selectedOffer.price, couponDiscount: appliedCoupon?.discount || 0,
-            finalPrice: finalPrice, paymentMethod: selectedMethod, transactionId: tid
-        });
-        
-        showPopup("🎉 Order Confirmed!", `Order #${orderRef.id.slice(0, 8)}<br>Amount: ₹${finalPrice}<br>+10 points added!`, "showOrders()");
-        await updateSidebarUI();
-    }
-    
-    window.showOrders = function() {
-        setActive('navOrders');
-        document.getElementById('mainContent').innerHTML = `<div class="profile-card"><h3>📦 My Orders</h3><div id="ordersList"><div class="empty-state">Loading orders...</div></div></div>`;
-        const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
-        onSnapshot(q, (snap) => {
-            const container = document.getElementById('ordersList');
-            if(!container) return;
-            if(snap.empty) { container.innerHTML = '<div class="empty-state">No orders yet.</div>'; return; }
-            let html = '';
-            snap.forEach(d => {
-                const o = d.data();
-                html += `<div class="order-card">
-                    <div style="display:flex; justify-content:space-between"><strong>🎁 ${o.offerTitle}</strong><span style="background:#dcfce7; padding:2px 10px; border-radius:20px; font-size:11px">CONFIRMED</span></div>
-                    <div style="color:gray; margin:8px 0">Code: ${o.code} | Payment: ${o.paymentMethod?.toUpperCase()}</div>
-                    <div>Amount: ₹${o.finalPrice} <span style="text-decoration:line-through">₹${o.originalPrice}</span></div>
-                    ${o.couponUsed ? `<div style="color:#00C9A7">Coupon: ${o.couponUsed} (${o.couponDiscount}% OFF)</div>` : ''}
-                    <div style="font-size:12px; color:gray; margin-top:8px">📅 ${o.createdAt?.toDate().toLocaleString() || 'Just now'}</div>
-                </div>`;
-            });
-            container.innerHTML = html;
-        });
-        closeSidebar();
-    };
-    
-    window.showProfile = async function() {
-        setActive('navProfile');
-        await loadUserData();
-        const addr = currentUserData.address || {};
-        document.getElementById('mainContent').innerHTML = `
-            <div class="profile-card">
-                <h3>👤 My Profile</h3>
-                <div class="info-row"><span>Name</span><span>${currentUserData.name || 'Not set'}</span><button class="edit-btn" onclick="editField('name')">Edit</button></div>
-                <div class="info-row"><span>Mobile</span><span>${currentUserData.mobile || 'Not set'}</span><button class="edit-btn" onclick="editField('mobile')">Edit</button></div>
-                <div class="info-row"><span>Email</span><span>${currentUser.email}</span></div>
-                <div class="info-row"><span>Level</span><span style="color:#6C63FF; font-weight:700">${(currentUserData.accountLevel || 'beginner').toUpperCase()}</span></div>
-                <div class="info-row"><span>Points</span><span>⭐ ${currentUserData.points || 0}</span></div>
-            </div>
-            <div class="profile-card">
-                <h3>📍 Address</h3>
-                <div>${addr.flat ? `${addr.flat}, ${addr.street}, ${addr.city}, ${addr.state} - ${addr.pincode}` : 'No address saved'}</div>
-                <button class="edit-btn" style="margin-top:12px" onclick="editAddress()">Edit Address</button>
-            </div>
-            <div class="profile-card">
-                <h3>🔐 Account Settings</h3>
-                <button class="logout-profile-btn" onclick="confirmLogout()">🚪 Logout</button>
-                <button class="danger-btn" onclick="confirmDeleteAccount()">🗑️ Delete Account</button>
-            </div>
-        `;
-        closeSidebar();
-    };
-    
-    window.confirmDeleteAccount = () => {
-        showConfirm("Delete Account", "Are you sure? This cannot be undone!", async () => {
-            await deleteDoc(doc(db, "users", currentUser.uid));
-            const ordersSnap = await getDocs(query(collection(db, "orders"), where("userId", "==", currentUser.uid)));
-            ordersSnap.forEach(async (orderDoc) => { await deleteDoc(doc(db, "orders", orderDoc.id)); });
-            await deleteUser(auth.currentUser);
-            showPopup("Account Deleted", "Your account has been permanently deleted.", "window.location.reload()");
-        });
-        closeSidebar();
-    };
-    
-    window.editField = async (f) => {
-        const v = prompt(`Enter ${f}`);
-        if(v) { await updateDoc(doc(db, "users", currentUser.uid), { [f]: v }); showProfile(); updateSidebarUI(); showToast("Updated!"); }
-    };
-    
-    window.editAddress = async () => {
-        const a = currentUserData.address || {};
-        const na = { flat: prompt("Flat", a.flat), street: prompt("Street", a.street), city: prompt("City", a.city), state: prompt("State", a.state), pincode: prompt("Pincode", a.pincode) };
-        if(na.flat) { await updateDoc(doc(db, "users", currentUser.uid), { address: na }); showProfile(); showToast("Address updated!"); }
-    };
-    
-    function setActive(id) {
-        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-    
-    onAuthStateChanged(auth, async (user) => {
-        if(user) {
-            currentUser = user;
-            await loadUserData();
-            await addDemoOffers();
-            await addDemoCoupons();
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('appScreen').style.display = 'block';
-            showHome();
-        }
-    });
-</script>
-</body>
-</html>
+    async function seedData() {
+        try {
+            let off = awai
