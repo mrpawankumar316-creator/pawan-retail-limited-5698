@@ -6,148 +6,169 @@
     <title>Pawan Retail • Customer Panel</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        body { background: #0a0a15; display: flex; justify-content: center; align-items: center; padding: 12px; min-height: 100vh; }
-        .mobile-frame { max-width: 450px; width: 100%; margin: 0 auto; background: #f0f2f6; min-height: 95vh; border-radius: 32px; overflow-y: auto; overflow-x: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); position: relative; }
+        body { background: #0a0a1a; display: flex; justify-content: center; align-items: center; padding: 12px; min-height: 100vh; }
+        .mobile-frame { max-width: 450px; width: 100%; margin: 0 auto; background: #f5f7fa; min-height: 95vh; border-radius: 32px; overflow-y: auto; overflow-x: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); position: relative; }
         
-        @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes slideInRight { from { opacity:0; transform:translateX(100%); } to { opacity:1; transform:translateX(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
         @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
-        @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.03); } }
+        @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
         @keyframes spin { 100% { transform:rotate(360deg); } }
+        @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
         @keyframes slideIn { from { transform:translateX(-100%); } to { transform:translateX(0); } }
-        @keyframes pop { 0% { transform:scale(0.7); opacity:0; } 70% { transform:scale(1.05); } 100% { transform:scale(1); opacity:1; } }
-        @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
-        @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
         
-        .animate-fadeInUp { animation: fadeInUp 0.5s ease forwards; }
+        .page-enter { animation: slideInRight 0.3s ease forwards; }
+        .animate-fadeIn { animation: fadeIn 0.3s ease forwards; }
         .animate-pulse { animation: pulse 2s infinite; }
-        .animate-pop { animation: pop 0.4s ease forwards; }
         .animate-float { animation: float 3s ease-in-out infinite; }
         
-        .premium-header { background: linear-gradient(135deg, #0a0a1a, #1a1a2e); padding: 12px 16px; position: sticky; top:0; z-index:100; border-bottom: 2px solid rgba(212,175,55,0.15); }
+        .premium-header { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 12px 16px; position: sticky; top:0; z-index:100; border-bottom: 2px solid rgba(99,102,241,0.2); }
         .header-top { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 17px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #D4AF37); -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 3s infinite; background-size:200% auto; }
+        .logo { font-size: 17px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #818cf8); -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 3s infinite; background-size:200% auto; }
         .logo span { font-size:9px; opacity:0.7; }
         .header-actions { display:flex; gap:10px; align-items:center; }
-        .refresh-btn { background:rgba(255,255,255,0.08); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; border:1px solid rgba(212,175,55,0.15); transition:all 0.3s; }
-        .refresh-btn:hover { transform:rotate(180deg); background:rgba(212,175,55,0.15); }
-        .menu-icon { background:rgba(255,255,255,0.08); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(212,175,55,0.15); transition:all 0.3s; }
+        .back-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; display:none; }
+        .back-btn:active { transform:scale(0.9); }
+        .menu-icon { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
         .menu-icon:active { transform:scale(0.9); }
         
-        .content-area { padding:12px 14px; background:#f0f2f6; min-height:450px; }
+        .content-area { padding:12px 14px; background:#f5f7fa; min-height:450px; }
         
-        .premium-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border:1px solid rgba(212,175,55,0.06); transition:all 0.3s; }
+        .premium-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; }
         .premium-card:hover { box-shadow:0 4px 25px rgba(0,0,0,0.08); transform:translateY(-2px); }
+        .premium-card.green { border-left-color: #34d399; }
+        .premium-card.pink { border-left-color: #f472b6; }
+        .premium-card.orange { border-left-color: #fb923c; }
+        .premium-card.purple { border-left-color: #a78bfa; }
+        .premium-card.teal { border-left-color: #2dd4bf; }
         
-        .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.3s; }
+        .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.2s; }
         .btn:active { transform:scale(0.96); }
-        .btn-primary { background:linear-gradient(135deg, #D4AF37, #B8860B); color:#1a1a2e; box-shadow:0 4px 15px rgba(212,175,55,0.3); }
-        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(212,175,55,0.4); }
+        .btn-primary { background:linear-gradient(135deg, #818cf8, #6366f1); color:white; box-shadow:0 4px 15px rgba(99,102,241,0.3); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(99,102,241,0.4); }
         .btn-secondary { background:#f0f2f5; color:#1a1a2e; border:1px solid #e0e0e0; }
-        .btn-danger { background:linear-gradient(135deg, #dc2626, #b91c1c); color:white; box-shadow:0 4px 15px rgba(220,38,38,0.3); }
-        .btn-success { background:linear-gradient(135deg, #22c55e, #16a34a); color:white; box-shadow:0 4px 15px rgba(34,197,94,0.3); }
-        .btn-warning { background:linear-gradient(135deg, #ff9800, #f57c00); color:white; box-shadow:0 4px 15px rgba(255,152,0,0.3); }
+        .btn-secondary:hover { background:#e5e7eb; }
+        .btn-danger { background:linear-gradient(135deg, #f87171, #ef4444); color:white; }
+        .btn-success { background:linear-gradient(135deg, #34d399, #10b981); color:white; }
+        .btn-warning { background:linear-gradient(135deg, #fb923c, #f59e0b); color:white; }
         .btn-sm { padding:4px 12px; font-size:10px; width:auto; margin-top:0; border-radius:20px; }
-        .btn-outline { background:transparent; border:2px solid #D4AF37; color:#D4AF37; }
-        .btn-outline:hover { background:#D4AF37; color:#1a1a2e; }
+        .btn-outline { background:transparent; border:2px solid #818cf8; color:#6366f1; }
+        .btn-outline:hover { background:#818cf8; color:white; }
         
         .input-field { width:100%; padding:10px 14px; border:2px solid #e8ecf0; border-radius:30px; font-size:13px; margin:4px 0; background:#fafbfc; transition:all 0.3s; }
-        .input-field:focus { outline:none; border-color:#D4AF37; box-shadow:0 0 0 4px rgba(212,175,55,0.1); }
+        .input-field:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); }
         
         .flex-between { display:flex; justify-content:space-between; align-items:center; margin:6px 0; }
         .flex { display:flex; gap:8px; flex-wrap:wrap; }
         .text-muted { color:#999; font-size:12px; }
         .text-center { text-align:center; }
-        .text-gold { color:#D4AF37; }
-        .text-danger { color:#dc2626; }
-        .text-success { color:#22c55e; }
+        .text-primary { color:#6366f1; }
+        .text-sm { font-size:12px; }
+        .font-bold { font-weight:700; }
         
         .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; }
-        .badge-hot { background:linear-gradient(135deg,#FF6B6B,#EE5A24); color:white; }
-        .badge-cinema { background:linear-gradient(135deg,#8E44AD,#9B59B6); color:white; }
-        .badge-flash { background:linear-gradient(135deg,#3498DB,#2980B9); color:white; }
+        .badge-hot { background:linear-gradient(135deg,#f87171,#ef4444); color:white; }
+        .badge-cinema { background:linear-gradient(135deg,#a78bfa,#8b5cf6); color:white; }
+        .badge-flash { background:linear-gradient(135deg,#60a5fa,#3b82f6); color:white; }
         
         .status-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:600; }
-        .status-pending { background:#fff3e0; color:#e65100; }
-        .status-confirmed { background:#e3f2fd; color:#0d47a1; }
-        .status-processing { background:#f3e5f5; color:#4a148c; }
-        .status-out_for_delivery { background:#fff8e1; color:#e65100; }
-        .status-delivered { background:#e8f5e9; color:#1b5e20; }
-        .status-cancelled { background:#fce4ec; color:#b71c1c; }
+        .status-pending { background:#fef3c7; color:#d97706; }
+        .status-confirmed { background:#dbeafe; color:#2563eb; }
+        .status-processing { background:#ede9fe; color:#7c3aed; }
+        .status-out_for_delivery { background:#fef3c7; color:#d97706; }
+        .status-delivered { background:#d1fae5; color:#059669; }
+        .status-cancelled { background:#fee2e2; color:#dc2626; }
         
-        .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:6000; display:none; justify-content:center; align-items:center; backdrop-filter:blur(8px); }
-        .modal-overlay.show { display:flex; }
-        .modal-box { background:white; border-radius:24px; padding:20px; max-width:400px; width:95%; max-height:80vh; overflow-y:auto; animation:pop 0.4s ease; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
-        .modal-close { float:right; background:none; border:none; font-size:20px; cursor:pointer; color:#999; transition:all 0.3s; }
-        .modal-close:hover { transform:rotate(90deg); }
+        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; background:white; border-radius:16px; padding:14px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); animation:fadeIn 0.3s ease; max-width:400px; width:90%; }
+        .toast .icon { font-size:24px; margin-right:10px; }
+        .toast .msg { font-size:14px; font-weight:600; }
+        .toast .sub { font-size:12px; color:#666; }
+        .toast.success { border-left:4px solid #10b981; }
+        .toast.error { border-left:4px solid #ef4444; }
+        .toast.info { border-left:4px solid #3b82f6; }
+        .toast.warning { border-left:4px solid #f59e0b; }
         
-        .center-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.8); z-index:5000; background:white; border-radius:20px; padding:20px; text-align:center; min-width:260px; animation:pop 0.4s ease forwards; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
-        .center-popup button { background:linear-gradient(135deg,#D4AF37,#B8860B); border:none; padding:10px 24px; border-radius:30px; margin-top:12px; cursor:pointer; color:#1a1a2e; font-weight:700; transition:all 0.3s; }
-        .center-popup button:hover { transform:scale(1.05); }
+        .loading-spinner { display:inline-block; width:30px; height:30px; border:3px solid #f3f3f3; border-top:3px solid #818cf8; border-radius:50%; animation:spin 0.8s linear infinite; }
         
-        .loading-spinner { display:inline-block; width:36px; height:36px; border:4px solid #f3f3f3; border-top:4px solid #D4AF37; border-radius:50%; animation:spin 0.8s linear infinite; }
-        
-        .offer-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border:1px solid rgba(212,175,55,0.06); transition:all 0.3s; cursor:pointer; }
-        .offer-card:hover { transform:translateY(-4px); box-shadow:0 6px 30px rgba(0,0,0,0.1); }
+        .offer-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; cursor:pointer; }
+        .offer-card:hover { transform:translateY(-3px); box-shadow:0 6px 25px rgba(0,0,0,0.1); }
         .offer-card:active { transform:scale(0.97); }
-        .offer-card .price { font-size:22px; font-weight:800; color:#D4AF37; }
+        .offer-card .price { font-size:22px; font-weight:800; color:#6366f1; }
         .offer-card .title { font-size:15px; font-weight:700; color:#1a1a2e; margin:4px 0; }
+        .offer-card.orange { border-left-color: #fb923c; }
+        .offer-card.pink { border-left-color: #f472b6; }
+        .offer-card.teal { border-left-color: #2dd4bf; }
         
-        .cod-banner { background:linear-gradient(135deg, #fee2e2, #fecaca); border:2px solid #dc2626; border-radius:12px; padding:12px; text-align:center; margin-bottom:12px; animation:pulse 2s infinite; }
-        .cod-banner .icon { font-size:24px; }
+        .cod-banner { background:linear-gradient(135deg, #fef2f2, #fee2e2); border:2px solid #ef4444; border-radius:12px; padding:12px; text-align:center; margin-bottom:12px; animation:pulse 2s infinite; }
         .cod-banner .msg { font-size:13px; font-weight:600; color:#dc2626; }
         .cod-banner .sub { font-size:11px; color:#7f1d1d; }
         
-        .timeline { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
-        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeInUp 0.3s ease; }
-        .timeline-dot { width:12px; height:12px; border-radius:50%; background:#e0e0e0; flex-shrink:0; transition:all 0.3s; }
-        .timeline-dot.active { background:#22c55e; box-shadow:0 0 20px rgba(34,197,94,0.3); }
-        
-        .menu-sidebar { position:fixed; top:0; left:-300px; width:280px; height:100%; background:white; z-index:1000; transition:left 0.4s cubic-bezier(0.4,0,0.2,1); padding:20px; border-radius:0 24px 24px 0; box-shadow:4px 0 30px rgba(0,0,0,0.3); overflow-y:auto; }
-        .menu-sidebar.open { left:0; animation:slideIn 0.4s ease; }
-        .menu-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; display:none; backdrop-filter:blur(4px); animation:fadeIn 0.3s ease; }
+        .menu-sidebar { position:fixed; top:0; left:-300px; width:280px; height:100%; background:white; z-index:1000; transition:left 0.3s cubic-bezier(0.4,0,0.2,1); padding:20px; border-radius:0 24px 24px 0; box-shadow:4px 0 30px rgba(0,0,0,0.3); overflow-y:auto; }
+        .menu-sidebar.open { left:0; animation:slideIn 0.3s ease; }
+        .menu-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; display:none; backdrop-filter:blur(4px); }
         .menu-overlay.show { display:block; }
-        .menu-item { background:#fafafa; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:12px; font-weight:500; border:1px solid transparent; font-size:14px; }
-        .menu-item:hover { background:#f0f0f0; border-color:#D4AF37; transform:translateX(6px); box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+        .menu-item { background:#fafafa; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:12px; font-weight:500; border:1px solid transparent; font-size:14px; }
+        .menu-item:hover { background:#f0f0f0; border-color:#818cf8; transform:translateX(5px); }
         .menu-item:active { transform:scale(0.97); }
         .menu-item .icon { font-size:18px; }
         .menu-item.logout-item { background:#fee2e2; color:#dc2626; border-color:#dc2626; }
         .menu-item.logout-item:hover { background:#fecaca; }
-        .menu-header { text-align:center; margin-bottom:16px; padding-bottom:16px; border-bottom:2px solid #D4AF37; }
-        .menu-header .avatar { width:60px; height:60px; border-radius:50%; border:3px solid #D4AF37; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px; background:#f8fafc; animation:pulse 2s infinite; }
+        .menu-header { text-align:center; margin-bottom:16px; padding-bottom:16px; border-bottom:2px solid #818cf8; }
+        .menu-header .avatar { width:60px; height:60px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px; background:#f8fafc; }
         .menu-header .avatar img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
         .menu-header .name { font-weight:700; font-size:15px; color:#1a1a2e; }
         .menu-header .email { font-size:11px; color:#666; margin-top:2px; }
-        .menu-header .points { font-size:12px; color:#D4AF37; font-weight:600; margin-top:4px; }
+        .menu-header .points { font-size:12px; color:#6366f1; font-weight:600; margin-top:4px; }
         .menu-close-btn { position:absolute; top:12px; right:12px; background:none; border:none; font-size:20px; cursor:pointer; color:#999; padding:4px 8px; border-radius:50%; transition:all 0.3s; }
-        .menu-close-btn:hover { background:#f0f0f0; transform:rotate(90deg) scale(1.2); }
+        .menu-close-btn:hover { background:#f0f0f0; transform:rotate(90deg); }
         
-        .blocked-banner { background:linear-gradient(135deg, #1a1a2e, #0a0a1a); border:2px solid #dc2626; border-radius:12px; padding:20px; text-align:center; margin:10px 0; }
+        .date-card { flex:1; text-align:center; padding:10px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; }
+        .date-card:hover { border-color:#818cf8; }
+        .date-card.selected { border-color:#818cf8; background:#eef2ff; }
+        
+        .time-slot { padding:8px 14px; border:2px solid #e8ecf0; border-radius:30px; cursor:pointer; transition:all 0.3s; font-size:12px; }
+        .time-slot:hover { border-color:#818cf8; }
+        .time-slot.selected { border-color:#818cf8; background:#eef2ff; }
+        
+        .payment-method { background:#f8f9fa; border-radius:12px; padding:10px; text-align:center; cursor:pointer; border:2px solid #e8ecf0; transition:all 0.3s; }
+        .payment-method:hover { border-color:#818cf8; }
+        .payment-method.selected { border-color:#818cf8; background:#eef2ff; }
+        
+        .qr-container { text-align:center; padding:12px; background:#f8f9fa; border-radius:12px; margin:10px 0; cursor:pointer; border:2px dashed #818cf8; transition:all 0.3s; }
+        .qr-container:hover { border-color:#6366f1; }
+        
+        .otp-box { width:44px; height:50px; text-align:center; font-size:20px; font-weight:700; border:2px solid #e8ecf0; border-radius:12px; background:white; transition:all 0.3s; }
+        .otp-box:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); }
+        
+        .banner-gradient { background:linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa); padding:20px; border-radius:16px; text-align:center; color:white; margin-bottom:12px; background-size:300% 300%; animation:gradientMove 4s ease infinite; }
+        @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        
+        .profile-pic { width:70px; height:70px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:block; object-fit:cover; }
+        
+        .complaint-item { background:#f8f9fa; border-radius:12px; padding:12px; margin-bottom:10px; border-left:3px solid #f59e0b; cursor:pointer; }
+        .complaint-item:active { transform:scale(0.97); }
+        .complaint-item.resolved { border-left-color: #10b981; }
+        
+        .blocked-banner { background:linear-gradient(135deg, #1e1b4b, #312e81); border:2px solid #ef4444; border-radius:12px; padding:20px; text-align:center; margin:10px 0; }
         .blocked-banner .icon { font-size:48px; animation:bounce 1.5s infinite; }
-        .blocked-banner .title { font-size:18px; font-weight:800; color:#dc2626; margin:8px 0; }
-        .blocked-banner .reason { font-size:13px; color:#999; }
+        @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+        .blocked-banner .title { font-size:18px; font-weight:800; color:#ef4444; margin:8px 0; }
+        .blocked-banner .reason { font-size:13px; color:#a5b4fc; }
+        
+        .complaint-option { padding:8px 12px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; text-align:center; font-size:12px; }
+        .complaint-option:hover { border-color:#818cf8; background:#eef2ff; }
+        .complaint-option.selected { border-color:#6366f1; background:#eef2ff; }
+        
+        .timeline { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
+        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; }
+        .timeline-dot { width:12px; height:12px; border-radius:50%; background:#e0e0e0; flex-shrink:0; }
+        .timeline-dot.active { background:#6366f1; box-shadow:0 0 20px rgba(99,102,241,0.3); }
+        .timeline-dot.completed { background:#34d399; }
+        .timeline-dot.cancelled { background:#ef4444; }
         
         ::-webkit-scrollbar { width:4px; }
         ::-webkit-scrollbar-track { background:#f0f0f0; }
-        ::-webkit-scrollbar-thumb { background:#D4AF37; border-radius:10px; }
-        
-        .date-card { flex:1; text-align:center; padding:10px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; }
-        .date-card:hover { border-color:#D4AF37; }
-        .date-card.selected { border-color:#D4AF37; background:#fffdf5; }
-        
-        .time-slot { padding:8px 14px; border:2px solid #e8ecf0; border-radius:30px; cursor:pointer; transition:all 0.3s; font-size:12px; }
-        .time-slot:hover { border-color:#D4AF37; }
-        .time-slot.selected { border-color:#D4AF37; background:#fffdf5; }
-        
-        .payment-method { background:#f8f9fa; border-radius:12px; padding:10px; text-align:center; cursor:pointer; border:2px solid #e8ecf0; transition:all 0.3s; }
-        .payment-method:hover { border-color:#D4AF37; }
-        .payment-method.selected { border-color:#D4AF37; background:#fffdf5; }
-        
-        .qr-container { text-align:center; padding:12px; background:#f8f9fa; border-radius:12px; margin:10px 0; cursor:pointer; border:2px dashed #D4AF37; transition:all 0.3s; }
-        .qr-container:hover { border-color:#B8860B; }
-        
-        .otp-box { width:44px; height:50px; text-align:center; font-size:20px; font-weight:700; border:2px solid #e8ecf0; border-radius:12px; background:white; transition:all 0.3s; }
-        .otp-box:focus { outline:none; border-color:#D4AF37; box-shadow:0 0 0 4px rgba(212,175,55,0.1); }
+        ::-webkit-scrollbar-thumb { background:#818cf8; border-radius:10px; }
     </style>
 </head>
 <body>
@@ -157,7 +178,7 @@
             <div class="header-top">
                 <div class="logo">PAWAN<span>RETAIL</span></div>
                 <div class="header-actions">
-                    <div class="refresh-btn" onclick="refreshPage()" title="Refresh">⟳</div>
+                    <div class="back-btn" onclick="goBack()" id="backBtn">←</div>
                     <div class="menu-icon" onclick="toggleMenu()">☰</div>
                 </div>
             </div>
@@ -165,7 +186,7 @@
         <div class="content-area" id="dynamicPage">
             <div style="text-align:center; padding:40px;">
                 <div class="loading-spinner"></div>
-                <p style="margin-top:12px; color:#666; animation:pulse 1.5s infinite;">Loading...</p>
+                <p style="margin-top:12px; color:#666;">Loading...</p>
             </div>
         </div>
     </div>
@@ -180,14 +201,14 @@
             <div id="menuEmail" class="email">user@email.com</div>
             <div id="menuPoints" class="points">⭐ 0 PRL Coins</div>
         </div>
-        <div class="menu-item" onclick="loadSection('home'); closeMenu();"><span class="icon">🏠</span> Home</div>
-        <div class="menu-item" onclick="loadSection('orders'); closeMenu();"><span class="icon">📦</span> My Orders</div>
-        <div class="menu-item" onclick="loadSection('prlcoins'); closeMenu();"><span class="icon">🪙</span> PRL Coins</div>
-        <div class="menu-item" onclick="loadSection('coupons'); closeMenu();"><span class="icon">🎫</span> Coupons</div>
-        <div class="menu-item" onclick="loadSection('complaints'); closeMenu();"><span class="icon">📢</span> Complaints</div>
-        <div class="menu-item" onclick="loadSection('profile'); closeMenu();"><span class="icon">👤</span> Profile</div>
-        <div class="menu-item" onclick="loadSection('about'); closeMenu();"><span class="icon">ℹ️</span> About Us</div>
-        <div class="menu-item logout-item" onclick="logout(); closeMenu();"><span class="icon">🚪</span> Logout</div>
+        <div class="menu-item" onclick="navigateTo('home')"><span class="icon">🏠</span> Home</div>
+        <div class="menu-item" onclick="navigateTo('orders')"><span class="icon">📦</span> My Orders</div>
+        <div class="menu-item" onclick="navigateTo('prlcoins')"><span class="icon">🪙</span> PRL Coins</div>
+        <div class="menu-item" onclick="navigateTo('coupons')"><span class="icon">🎫</span> Coupons</div>
+        <div class="menu-item" onclick="navigateTo('complaints')"><span class="icon">📢</span> Complaints</div>
+        <div class="menu-item" onclick="navigateTo('profile')"><span class="icon">👤</span> Profile</div>
+        <div class="menu-item" onclick="navigateTo('about')"><span class="icon">ℹ️</span> About Us</div>
+        <div class="menu-item logout-item" onclick="logoutUser()"><span class="icon">🚪</span> Logout</div>
     </div>
 </div>
 
@@ -215,19 +236,66 @@ try {
     auth = firebase.auth();
     db = firebase.firestore();
     console.log("✅ Firebase initialized");
-} catch(e) {
-    console.error("Firebase init error:", e);
-}
+} catch(e) { console.error("Firebase init error:", e); }
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+// ============================================================
+// EMAILJS - REAL OTP (App mein show nahi hoga)
+// ============================================================
 emailjs.init("3cUWXrfL9AhSkM5FA");
+
+async function sendRealOTP(email, otp) {
+    try {
+        const result = await emailjs.send(
+            "Pawanretaillimited-5678",  // Service ID
+            "template_45qu30j",          // Template ID
+            {
+                to_email: email,
+                otp: otp,
+                from_name: "Pawan Retail Limited",
+                subject: "Your OTP for Registration - Pawan Retail"
+            }
+        );
+        console.log("✅ OTP Email sent to:", email);
+        return true;
+    } catch(e) {
+        console.error("❌ OTP Email failed:", e);
+        return false;
+    }
+}
+
+// ============================================================
+// GOOGLE SIGN-IN
+// ============================================================
+async function googleSignIn() {
+    try {
+        await auth.signInWithRedirect(googleProvider);
+    } catch(e) {
+        try {
+            await auth.signInWithPopup(googleProvider);
+        } catch(err) {
+            showToast('Google Sign-In Failed', 'error', err.message);
+        }
+    }
+}
+
+auth.getRedirectResult().then((result) => {
+    if (result.user) {
+        console.log("✅ Google Sign-In Success:", result.user.email);
+        loadUserData();
+        showToast('Welcome!', 'success', `Hello ${result.user.displayName}`);
+    }
+}).catch((error) => {
+    console.error("Redirect sign-in error:", error);
+});
 
 // ============================================================
 // GLOBAL STATE
 // ============================================================
 let currentUser = null;
 let userData = null;
-let currentSection = 'home';
+let currentPage = 'home';
 let selectedOffer = null;
 let selectedDate = null;
 let selectedTime = null;
@@ -250,23 +318,40 @@ const statusFlow = [
     { status: "delivered", emoji: "🎉", label: "Delivered!", time: "40-45 min" }
 ];
 
+const complaintTypes = [
+    "🍽️ Damaged Food", "❄️ Cold Food", "⏰ Late Delivery", "🔄 Wrong Item",
+    "📦 Missing Items", "💰 Wrong Price", "👎 Poor Quality", "🧹 Dirty Packaging",
+    "📞 Bad Service", "🚚 Delivery Behavior", "🧊 Not Fresh", "🌶️ Wrong Spice",
+    "🥡 Leaking Package", "⌛ Cancelled by Restaurant", "📱 App Issue",
+    "💳 Payment Issue", "🔄 Not Delivered", "📦 Wrong Address",
+    "👨‍🍳 Not as Described", "⭐ Other Issue"
+];
+
+// ============================================================
+// TOAST NOTIFICATION
+// ============================================================
+function showToast(message, type = 'success', sub = '') {
+    let existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    let icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+    let toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <div style="display:flex; align-items:center;">
+            <span class="icon">${icons[type]}</span>
+            <div>
+                <div class="msg">${message}</div>
+                ${sub ? `<div class="sub">${sub}</div>` : ''}
+            </div>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => { if(toast) toast.remove(); }, 3000);
+}
+
 // ============================================================
 // HELPERS
 // ============================================================
-function showPopup(title, message, isError = false) {
-    let existing = document.querySelector('.center-popup');
-    if (existing) existing.remove();
-    let popup = document.createElement('div');
-    popup.className = 'center-popup';
-    popup.innerHTML = `
-        <h3 style="color:${isError?'#dc2626':'#D4AF37'};">${title}</h3>
-        <p style="margin:10px 0;">${message}</p>
-        <button onclick="this.parentElement.remove()">OK</button>
-    `;
-    document.body.appendChild(popup);
-    setTimeout(() => { if(popup) popup.remove(); }, 4000);
-}
-
 function renderPage(html) {
     document.getElementById('dynamicPage').innerHTML = html;
 }
@@ -287,58 +372,6 @@ function getTodayDate() {
     return new Date().toISOString().split('T')[0];
 }
 
-function generateOTP() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
-function showModal(html) {
-    let overlay = document.getElementById('modalOverlay');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.id = 'modalOverlay';
-        overlay.className = 'modal-overlay';
-        overlay.innerHTML = `<div class="modal-box"><span class="modal-close" onclick="closeModal()">✕</span><div id="modalContent" style="animation:fadeInUp 0.3s ease;"></div></div>`;
-        document.body.appendChild(overlay);
-    }
-    document.getElementById('modalContent').innerHTML = html;
-    overlay.classList.add('show');
-}
-
-function closeModal() {
-    const overlay = document.getElementById('modalOverlay');
-    if (overlay) overlay.classList.remove('show');
-}
-
-function toggleMenu() {
-    document.getElementById('menuSidebar').classList.toggle('open');
-    document.getElementById('menuOverlay').classList.toggle('show');
-}
-
-function closeMenu() {
-    document.getElementById('menuSidebar').classList.remove('open');
-    document.getElementById('menuOverlay').classList.remove('show');
-}
-
-function refreshPage() {
-    const btn = document.querySelector('.refresh-btn');
-    btn.classList.add('refresh-spin');
-    setTimeout(() => btn.classList.remove('refresh-spin'), 600);
-    loadSection(currentSection);
-    showPopup('🔄 Refreshed', 'Data updated successfully!');
-}
-
-async function loadBlockedUsers() {
-    try {
-        const snap = await db.collection('blockedUsers').get();
-        blockedUsersCache = {};
-        snap.forEach(doc => { blockedUsersCache[doc.id] = doc.data(); });
-    } catch(e) { blockedUsersCache = {}; }
-}
-
-function checkIfBlocked(email) {
-    return blockedUsersCache[email?.toLowerCase()] || null;
-}
-
 function getNextThreeDays() {
     let days = [];
     for (let i = 1; i <= 3; i++) {
@@ -350,66 +383,110 @@ function getNextThreeDays() {
 }
 
 // ============================================================
-// AUTH FUNCTIONS
+// NAVIGATION - FULLY WORKING
 // ============================================================
-async function googleSignIn() {
-    try {
-        const result = await auth.signInWithPopup(googleProvider);
-        await loadBlockedUsers();
-        const blocked = checkIfBlocked(result.user.email);
-        if (blocked) {
-            await auth.signOut();
-            showPopup("🚫 Account Blocked", "Reason: " + blocked.reason, true);
-            return;
+function navigateTo(page) {
+    closeMenu();
+    currentPage = page;
+    
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+        backBtn.style.display = page !== 'home' ? 'flex' : 'none';
+    }
+    
+    let html = '';
+    switch(page) {
+        case 'home': html = renderHome(); break;
+        case 'orders': html = renderOrders(); break;
+        case 'prlcoins': html = renderPRLCoins(); break;
+        case 'coupons': html = renderCoupons(); break;
+        case 'complaints': html = renderComplaints(); break;
+        case 'profile': html = renderProfile(); break;
+        case 'about': html = renderAbout(); break;
+        case 'payment': html = renderPayment(); break;
+        case 'giftCardRedeem': html = renderGiftCardRedeem(); break;
+        case 'complaintForm': html = renderComplaintForm(); break;
+        default: html = '<div class="premium-card"><p>Page not found</p></div>';
+    }
+    renderPage(`<div class="page-enter">${html}</div>`);
+    
+    setTimeout(() => {
+        switch(page) {
+            case 'home': loadOffers(); break;
+            case 'orders': loadOrders(); break;
+            case 'prlcoins': loadPRLCoinsData(); break;
+            case 'coupons': loadCoupons(); break;
+            case 'complaints': loadComplaints(); break;
         }
-        showPopup("Welcome!", `Hello ${result.user.displayName || 'User'}!`);
-    } catch(e) {
-        showPopup("Google Sign-In Failed", e.message, true);
+    }, 100);
+}
+
+function goBack() {
+    if (currentPage !== 'home') {
+        navigateTo('home');
     }
 }
 
+// ============================================================
+// AUTH FUNCTIONS
+// ============================================================
 async function emailLogin() {
     const email = document.getElementById('loginEmail').value.trim();
     const pwd = document.getElementById('loginPassword').value.trim();
-    if (!email || !pwd) return showPopup("Error", "Fill all fields", true);
+    if (!email || !pwd) { showToast('Error', 'error', 'Fill all fields'); return; }
     try {
         await auth.signInWithEmailAndPassword(email, pwd);
-        showPopup("Success", "Logged in!");
-    } catch(e) { showPopup("Login Failed", e.message, true); }
+        showToast('Success', 'success', 'Logged in!');
+    } catch(e) { showToast('Login Failed', 'error', e.message); }
 }
 
-async function logout() {
+async function logoutUser() {
     if (!confirm("Are you sure you want to logout?")) return;
     try {
         await auth.signOut();
-        showPopup("Logged Out", "See you soon!");
+        showToast('Logged Out', 'info', 'See you soon!');
         closeMenu();
-    } catch(e) { showPopup("Error", e.message, true); }
+    } catch(e) { showToast('Error', 'error', e.message); }
 }
 
+// ============================================================
+// REGISTER - OTP SIRF EMAIL PAR (APP MEIN SHOW NAHI HOGA)
+// ============================================================
 async function registerUser() {
     const name = document.getElementById('regName').value.trim();
     const email = document.getElementById('regEmail').value.trim();
     const mobile = document.getElementById('regMobile').value.trim();
     const pwd = document.getElementById('regPassword').value.trim();
     
-    if (!name || !email || !mobile || !pwd) { showPopup("Error", "Fill all fields", true); return; }
-    if (mobile.length !== 10) { showPopup("Error", "Enter 10 digit mobile", true); return; }
-    if (pwd.length < 6) { showPopup("Error", "Password min 6 chars", true); return; }
+    if (!name || !email || !mobile || !pwd) { showToast('Error', 'error', 'Fill all fields'); return; }
+    if (mobile.length !== 10) { showToast('Error', 'error', 'Enter 10 digit mobile'); return; }
+    if (pwd.length < 6) { showToast('Error', 'error', 'Password min 6 chars'); return; }
     
     try {
         const methods = await auth.fetchSignInMethodsForEmail(email);
-        if (methods.length > 0) { showPopup("Email Already Used", "This email is already registered.", true); return; }
+        if (methods.length > 0) { showToast('Email Used', 'error', 'Already registered'); return; }
     } catch(e) {}
     
     await loadBlockedUsers();
     const blocked = checkIfBlocked(email);
-    if (blocked) { showPopup("🚫 Cannot Register", "This email is blocked.", true); return; }
+    if (blocked) { showToast('Cannot Register', 'error', 'Email is blocked'); return; }
     
     pendingUserData = { name, email, mobile, password: pwd };
-    pendingOtp = generateOTP();
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    pendingOtp = otp;
     
-    showPopup("OTP Demo", "Use OTP: " + pendingOtp);
+    // OTP App mein nahi dikhega - sirf email par jaayega
+    showToast('📧 Sending OTP...', 'info', 'Please check your email');
+    
+    const sent = await sendRealOTP(email, otp);
+    
+    if (sent) {
+        showToast('✅ OTP Sent to Email', 'success', 'Check your inbox/spam folder');
+    } else {
+        showToast('❌ OTP Failed', 'error', 'Please try again');
+        return;
+    }
+    
     document.getElementById('otpSection').style.display = 'block';
     document.querySelectorAll('.otp-box').forEach(inp => inp.value = '');
 }
@@ -417,8 +494,8 @@ async function registerUser() {
 async function verifyOTP() {
     let entered = '';
     document.querySelectorAll('.otp-box').forEach(inp => entered += inp.value);
-    if (entered.length !== 6) { showPopup("Error", "Enter all 6 digits", true); return; }
-    if (entered !== pendingOtp) { showPopup("Error", "Invalid OTP", true); return; }
+    if (entered.length !== 6) { showToast('Error', 'error', 'Enter all 6 digits'); return; }
+    if (entered !== pendingOtp) { showToast('Error', 'error', 'Invalid OTP. Check your email.'); return; }
     
     try {
         const cred = await auth.createUserWithEmailAndPassword(pendingUserData.email, pendingUserData.password);
@@ -432,8 +509,10 @@ async function verifyOTP() {
             photoURL: '',
             isGoogleUser: false
         });
-        showPopup("🎉 Account Created!", "Welcome to Pawan Retail Limited!");
-    } catch(e) { showPopup("Registration Failed", e.message, true); }
+        showToast('🎉 Account Created!', 'success', 'Welcome to Pawan Retail!');
+        pendingOtp = null;
+        pendingUserData = null;
+    } catch(e) { showToast('Registration Failed', 'error', e.message); }
 }
 
 async function loadUserData() {
@@ -468,67 +547,105 @@ async function loadUserData() {
         
         if (isBlocked) {
             renderPage(`
-                <div class="blocked-banner animate-fadeInUp">
+                <div class="blocked-banner">
                     <div class="icon">🚫</div>
                     <div class="title">Account Blocked</div>
                     <div class="reason">${blocked.reason}</div>
-                    <div class="reason" style="font-size:11px; color:#666; margin-top:4px;">Blocked on: ${blocked.date}</div>
-                    <button class="btn btn-danger" onclick="logout()" style="margin-top:12px;">Logout</button>
+                    <div class="reason" style="font-size:11px; color:#818cf8; margin-top:4px;">Blocked on: ${blocked.date}</div>
+                    <button class="btn btn-danger" onclick="logoutUser()" style="margin-top:12px;">Logout</button>
                 </div>
             `);
         } else {
-            loadSection('home');
+            navigateTo('home');
         }
     } catch(e) { console.error("Load user error:", e); }
 }
 
-// ============================================================
-// LOAD SECTION
-// ============================================================
-function loadSection(section) {
-    if (isBlocked) {
-        showPopup("🚫 Blocked", "Your account is blocked. Contact support.", true);
-        return;
-    }
-    currentSection = section;
-    
-    let content = '';
-    switch(section) {
-        case 'home': content = renderHome(); break;
-        case 'orders': content = renderOrders(); break;
-        case 'prlcoins': content = renderPRLCoins(); break;
-        case 'coupons': content = renderCoupons(); break;
-        case 'complaints': content = renderComplaints(); break;
-        case 'profile': content = renderProfile(); break;
-        case 'about': content = renderAbout(); break;
-        default: content = '<div class="premium-card"><p class="text-muted">Select a section</p></div>';
-    }
-    
-    renderPage(`<div id="sectionContent" style="animation:fadeInUp 0.4s ease;">${content}</div>`);
-    
-    setTimeout(() => {
-        switch(section) {
-            case 'home': loadOffers(); break;
-            case 'orders': loadOrders(); break;
-            case 'prlcoins': loadPRLCoinsData(); break;
-            case 'coupons': loadCoupons(); break;
-            case 'complaints': loadComplaints(); break;
-            case 'profile': loadProfileData(); break;
-        }
-    }, 200);
+async function loadBlockedUsers() {
+    try {
+        const snap = await db.collection('blockedUsers').get();
+        blockedUsersCache = {};
+        snap.forEach(doc => { blockedUsersCache[doc.id] = doc.data(); });
+    } catch(e) { blockedUsersCache = {}; }
+}
+
+function checkIfBlocked(email) {
+    return blockedUsersCache[email?.toLowerCase()] || null;
 }
 
 // ============================================================
-// HOME PAGE
+// RENDER FUNCTIONS
 // ============================================================
+
+function renderLogin() {
+    return `
+        <div style="text-align:center; padding:40px 20px;">
+            <div style="font-size:56px; margin-bottom:16px; animation:float 3s ease-in-out infinite;">🏪</div>
+            <h2 style="color:#1a1a2e;">Welcome Back</h2>
+            <p style="color:#666; font-size:14px;">Sign in to continue shopping</p>
+            <button class="btn btn-outline" onclick="googleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px;">
+                <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                Sign in with Google
+            </button>
+            <div style="display:flex; align-items:center; margin:15px 0;">
+                <hr style="flex:1; border-color:#e0e0e0;">
+                <span style="padding:0 15px; color:#999; font-size:12px;">OR</span>
+                <hr style="flex:1; border-color:#e0e0e0;">
+            </div>
+            <input class="input-field" id="loginEmail" type="email" placeholder="Email">
+            <input class="input-field" id="loginPassword" type="password" placeholder="Password">
+            <button class="btn btn-primary" onclick="emailLogin()">Sign In</button>
+            <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
+                New? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="showRegister()">Create Account</span>
+            </p>
+        </div>
+    `;
+}
+
+function showRegister() {
+    renderPage(`
+        <div style="text-align:center; padding:20px 0;">
+            <div style="font-size:48px; animation:float 3s ease-in-out infinite;">📝</div>
+            <h2 style="color:#1a1a2e;">Create Account</h2>
+            <p class="text-muted">OTP will be sent to your email</p>
+        </div>
+        <button class="btn btn-outline" onclick="googleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px;">
+            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Sign up with Google
+        </button>
+        <div style="display:flex; align-items:center; margin:15px 0;">
+            <hr style="flex:1; border-color:#e0e0e0;"><span style="padding:0 15px; color:#999; font-size:12px;">OR</span><hr style="flex:1; border-color:#e0e0e0;">
+        </div>
+        <input class="input-field" id="regName" placeholder="Full Name">
+        <input class="input-field" id="regEmail" type="email" placeholder="Email">
+        <input class="input-field" id="regMobile" type="tel" placeholder="Mobile (10 digits)" maxlength="10">
+        <input class="input-field" id="regPassword" type="password" placeholder="Password (min 6 chars)">
+        <button class="btn btn-primary" onclick="registerUser()">Register & Send OTP</button>
+        <div id="otpSection" style="display:none; margin-top:12px;">
+            <p class="text-muted" style="color:#6366f1; font-weight:600;">📧 Enter 6-digit OTP sent to your email</p>
+            <div style="display:flex; gap:10px; justify-content:center; margin:10px 0;">
+                <input class="otp-box" maxlength="1">
+                <input class="otp-box" maxlength="1">
+                <input class="otp-box" maxlength="1">
+                <input class="otp-box" maxlength="1">
+                <input class="otp-box" maxlength="1">
+                <input class="otp-box" maxlength="1">
+            </div>
+            <button class="btn btn-success" onclick="verifyOTP()">Verify OTP</button>
+        </div>
+        <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
+            Already have an account? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="renderPage(renderLogin())">Sign In</span>
+        </p>
+    `);
+}
+
 function renderHome() {
     return `
-        <div class="cod-banner animate-fadeInUp">
-            <div class="icon">🚫</div>
-            <div class="msg">Cash on Delivery Not Available</div>
+        <div class="cod-banner">
+            <div class="msg">🚫 Cash on Delivery Not Available</div>
             <div class="sub">Only Online Payments Accepted</div>
         </div>
-        <div style="background:linear-gradient(135deg,#D4AF37,#B8860B); padding:20px; border-radius:16px; text-align:center; color:white; margin-bottom:12px; animation:gradientMove 3s ease infinite; background-size:200% 200%;">
+        <div class="banner-gradient">
             <h3 style="font-size:18px;">✨ Premium Collection</h3>
             <p style="font-size:12px; opacity:0.9;">Exclusive offers • Limited time</p>
         </div>
@@ -536,183 +653,111 @@ function renderHome() {
     `;
 }
 
-async function loadOffers() {
-    try {
-        const snap = await db.collection('offers').get();
-        let html = '';
-        if (snap.empty) {
-            html = '<div class="premium-card"><p class="text-muted text-center">No offers available</p></div>';
-        } else {
-            let i = 0;
-            snap.forEach(doc => {
-                const d = doc.data();
-                const isActive = d.startDate && d.endDate ? 
-                    (new Date() >= new Date(d.startDate) && new Date() <= new Date(d.endDate)) : true;
-                if (!isActive) return;
-                const badgeClass = d.badge === 'HOT' ? 'badge-hot' : d.badge === 'CINEMA' ? 'badge-cinema' : 'badge-flash';
-                html += `
-                    <div class="offer-card animate-fadeInUp delay-${(i%5)+1}" onclick="selectOffer('${doc.id}')">
-                        <span class="badge ${badgeClass}">${d.badge || 'OFFER'}</span>
-                        <div class="title">${d.title}</div>
-                        <div class="price">₹${d.price}</div>
-                        <button class="btn btn-primary btn-sm" style="width:auto; margin-top:8px; padding:6px 20px;">Order Now</button>
-                    </div>
-                `;
-                i++;
-            });
-        }
-        document.getElementById('offersList').innerHTML = html || '<div class="premium-card"><p class="text-muted text-center">No offers available</p></div>';
-    } catch(e) {
-        document.getElementById('offersList').innerHTML = `<div class="premium-card"><p style="color:#dc2626;">Error loading offers</p></div>`;
-    }
+function renderOrders() {
+    return `<div id="ordersList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading orders...</p></div></div>`;
 }
 
-async function selectOffer(offerId) {
-    try {
-        const doc = await db.collection('offers').doc(offerId).get();
-        if (!doc.exists) return showPopup("Error", "Offer not found", true);
-        selectedOffer = { id: offerId, ...doc.data() };
-        
-        const isActive = selectedOffer.startDate && selectedOffer.endDate ? 
-            (new Date() >= new Date(selectedOffer.startDate) && new Date() <= new Date(selectedOffer.endDate)) : true;
-        if (!isActive) return showPopup("⚠️ Offer Expired", "This offer is no longer active", true);
-        
-        if (selectedOffer.type === 'movie') {
-            showMovieBooking();
-        } else {
-            showFoodBooking();
-        }
-    } catch(e) { showPopup("Error", e.message, true); }
+function renderPRLCoins() {
+    return `
+        <div class="premium-card purple">
+            <div style="text-align:center; padding:10px 0;">
+                <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🪙</div>
+                <div style="font-size:32px; font-weight:800; color:#6366f1;" id="prlBalance">${userData?.prlCoins || 0}</div>
+                <div class="text-muted">PRL Coins (1 Coin = ₹1 Discount)</div>
+            </div>
+            <div style="margin:10px 0;">
+                <h4 style="font-size:14px;">How to Earn</h4>
+                <ul style="list-style:none; padding:0; margin-top:6px;">
+                    <li style="padding:6px 0; border-bottom:1px solid #f0f0f0;">✅ Sign up: <strong>500 coins</strong></li>
+                    <li style="padding:6px 0;">✅ Every order: <strong>5% back</strong></li>
+                </ul>
+            </div>
+            <div style="margin:10px 0;">
+                <h4 style="font-size:14px;">Redeem Gift Card</h4>
+                <button class="btn btn-primary" onclick="navigateTo('giftCardRedeem')">🎁 Redeem Gift Card</button>
+            </div>
+            <div style="margin:10px 0;">
+                <h4 style="font-size:14px;">Recent Transactions</h4>
+                <div id="coinTransactions"></div>
+            </div>
+        </div>
+    `;
 }
 
-function showMovieBooking() {
-    const days = getNextThreeDays();
-    let dateHtml = days.map((d, i) => `
-        <div class="date-card" onclick="selectDate(this, '${d.toISOString().split('T')[0]}')" 
-             style="animation:fadeInUp 0.3s ease ${i*0.1}s forwards;">
-            <div style="font-weight:700; font-size:12px;">${d.toLocaleDateString('en-IN', { weekday: 'short' })}</div>
-            <div style="font-size:11px; color:#666;">${getDateString(d)}</div>
-        </div>
-    `).join('');
-    
-    let timeHtml = timeSlots.map((t, i) => `
-        <div class="time-slot" onclick="selectTime(this, '${t}')" style="animation:fadeInUp 0.3s ease ${i*0.1}s forwards;">${t}</div>
-    `).join('');
-    
-    showModal(`
-        <h3 style="animation:fadeInDown 0.3s ease;">🎬 ${selectedOffer.title}</h3>
-        <div style="font-size:22px; font-weight:800; color:#D4AF37; margin:8px 0;">₹${selectedOffer.price}</div>
-        <div style="background:#f0f2f5; border-radius:12px; padding:12px; margin:12px 0; text-align:center;">
-            <div style="font-weight:700;">${theatreInfo.name}</div>
-            <div style="font-size:12px; color:#666;">${theatreInfo.address}</div>
-        </div>
-        <div style="margin:12px 0;">
-            <label style="font-weight:600; font-size:13px;">Select Date</label>
-            <div style="display:flex; gap:8px; margin-top:6px;">${dateHtml}</div>
-        </div>
-        <div style="margin:12px 0;">
-            <label style="font-weight:600; font-size:13px;">Select Time</label>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">${timeHtml}</div>
-        </div>
-        <div style="margin:12px 0;">
-            <label style="font-weight:600; font-size:13px;">Number of Tickets</label>
-            <input class="input-field" id="ticketCount" type="number" min="1" max="10" value="1">
-        </div>
-        <div style="margin:12px 0;">
-            <input class="input-field" id="movieEmail" type="email" placeholder="Email" value="${currentUser?.email || ''}">
-            <input class="input-field" id="movieMobile" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
-        </div>
-        <button class="btn btn-primary" onclick="proceedToPayment('movie')" style="animation:pulse 2s infinite;">Proceed to Pay</button>
-        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-    `);
+function renderCoupons() {
+    return `<div id="couponsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading coupons...</p></div></div>`;
 }
 
-function selectDate(el, date) {
-    document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedDate = date;
+function renderComplaints() {
+    return `<div id="complaintsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading complaints...</p></div></div>`;
 }
 
-function selectTime(el, time) {
-    document.querySelectorAll('.time-slot').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedTime = time;
-}
-
-function showFoodBooking() {
-    showModal(`
-        <h3 style="animation:fadeInDown 0.3s ease;">${selectedOffer.title}</h3>
-        <div style="font-size:22px; font-weight:800; color:#D4AF37; margin:8px 0;">₹${selectedOffer.price}</div>
-        <div style="margin:12px 0;">
-            <label style="font-weight:600; font-size:13px;">Delivery Address</label>
-            <input class="input-field" id="addrFlat" placeholder="Flat/House Number" value="${userData?.address?.flat || ''}">
-            <input class="input-field" id="addrStreet" placeholder="Street" value="${userData?.address?.street || ''}">
-            <input class="input-field" id="addrCity" placeholder="City" value="${userData?.address?.city || ''}">
-            <input class="input-field" id="addrPincode" placeholder="Pincode" maxlength="6" value="${userData?.address?.pincode || ''}">
+function renderProfile() {
+    return `
+        <div class="premium-card purple">
+            <div style="text-align:center;">
+                ${userData?.photoURL ? `<img src="${userData.photoURL}" class="profile-pic">` : `<div style="font-size:48px; text-align:center;">👤</div>`}
+                <div style="font-size:18px; font-weight:700; color:#1a1a2e;">${userData?.name || 'User'}</div>
+                <div class="text-muted">${userData?.email || ''}</div>
+                ${userData?.isGoogleUser ? '<span class="badge" style="background:#d1fae5; color:#059669; margin-top:4px;">✓ Google Account</span>' : ''}
+                <div style="margin-top:4px; color:#6366f1; font-weight:600;">⭐ ${userData?.prlCoins || 0} PRL Coins</div>
+            </div>
         </div>
-        <button class="btn btn-primary" onclick="proceedToPayment('food')" style="animation:pulse 2s infinite;">Proceed to Pay</button>
-        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-    `);
+        <div class="premium-card green">
+            <h4 style="font-size:14px;">✏️ Edit Profile</h4>
+            <input class="input-field" id="editName" value="${userData?.name || ''}" placeholder="Name">
+            <button class="btn btn-primary" onclick="updateName()">Save Name</button>
+        </div>
+        <div class="premium-card pink">
+            <h4 style="font-size:14px;">📍 Delivery Address</h4>
+            <input class="input-field" id="editFlat" value="${userData?.address?.flat || ''}" placeholder="Flat/House">
+            <input class="input-field" id="editStreet" value="${userData?.address?.street || ''}" placeholder="Street">
+            <input class="input-field" id="editCity" value="${userData?.address?.city || ''}" placeholder="City">
+            <input class="input-field" id="editPincode" value="${userData?.address?.pincode || ''}" placeholder="Pincode" maxlength="6">
+            <button class="btn btn-primary" onclick="updateAddress()">Save Address</button>
+        </div>
+    `;
 }
 
-// ============================================================
-// PAYMENT
-// ============================================================
-function proceedToPayment(type) {
-    closeModal();
-    
-    if (type === 'movie') {
-        const email = document.getElementById('movieEmail').value.trim();
-        const mobile = document.getElementById('movieMobile').value.trim();
-        const tickets = parseInt(document.getElementById('ticketCount').value) || 1;
-        
-        if (!selectedDate) { showPopup("Error", "Please select a date", true); return; }
-        if (!selectedTime) { showPopup("Error", "Please select a time", true); return; }
-        if (!email) { showPopup("Error", "Please enter email", true); return; }
-        if (mobile.length !== 10) { showPopup("Error", "Enter a valid 10-digit mobile number", true); return; }
-        if (tickets < 1 || tickets > 10) { showPopup("Error", "Tickets must be between 1-10", true); return; }
-        
-        movieDetails = { date: selectedDate, time: selectedTime, tickets, email, mobile };
-    } else {
-        const flat = document.getElementById('addrFlat').value.trim();
-        const street = document.getElementById('addrStreet').value.trim();
-        const city = document.getElementById('addrCity').value.trim();
-        const pincode = document.getElementById('addrPincode').value.trim();
-        
-        if (!flat || !street || !city || !pincode) {
-            showPopup("Error", "Please fill all address fields", true);
-            return;
-        }
-        if (pincode.length !== 6) {
-            showPopup("Error", "Enter a valid 6-digit pincode", true);
-            return;
-        }
-        movieDetails = null;
-    }
-    
-    // Show payment page
-    renderPage(renderPaymentPage());
-    updatePaymentSummary();
+function renderAbout() {
+    return `
+        <div class="premium-card purple">
+            <div style="text-align:center; padding:10px 0;">
+                <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🏪</div>
+                <h2 style="color:#1a1a2e;">Pawan Retail Limited</h2>
+                <p class="text-muted">Premium Quality Since 2020</p>
+            </div>
+            <p style="line-height:1.6; color:#444; margin:10px 0;">
+                Pawan Retail Limited is a premier e-commerce platform offering a curated selection of 
+                high-quality products. Our mission is to provide exceptional value and service.
+            </p>
+        </div>
+        <div class="premium-card pink">
+            <h4 style="font-size:14px;">📧 Contact Us</h4>
+            <p style="margin:4px 0;">Email: <strong>thepawanretaillimited@gmail.com</strong></p>
+            <p style="margin:4px 0;">Phone: <strong>9142739651</strong></p>
+            <button class="btn btn-primary" onclick="copyContact()">📋 Copy Contact</button>
+        </div>
+    `;
 }
 
-function renderPaymentPage() {
+function renderPayment() {
     const originalPrice = selectedOffer?.price || 0;
     return `
-        <div class="premium-card animate-fadeInUp">
+        <div class="premium-card purple">
             <h3 style="color:#1a1a2e;">💳 Payment</h3>
             <div class="cod-banner" style="margin:8px 0;">
-                <div class="icon">🚫</div>
-                <div class="msg">Cash on Delivery Not Available</div>
+                <div class="msg">🚫 Cash on Delivery Not Available</div>
                 <div class="sub">Only Online Payments Accepted</div>
             </div>
             <div style="margin:10px 0;">
-                <div class="flex-between"><span>${selectedOffer?.title}</span><span>₹${originalPrice}</span></div>
+                <div class="flex-between"><span>${selectedOffer?.title}</span><span style="font-weight:700;">₹${originalPrice}</span></div>
             </div>
-            <div class="price-breakdown" style="background:#f8f9fa; border-radius:12px; padding:12px;">
+            <div style="background:#f8f9fa; border-radius:12px; padding:12px;">
                 <div class="flex-between"><span>Original Price</span><span>₹${originalPrice}</span></div>
                 <div class="flex-between" id="couponDiscountRow" style="display:none;">
                     <span>Coupon Discount</span>
-                    <span style="color:#22c55e;">-₹<span id="couponDiscountAmount">0</span></span>
+                    <span style="color:#10b981;">-₹<span id="couponDiscountAmount">0</span></span>
                 </div>
                 <div class="flex-between">
                     <span>PRL Coins (1 coin = ₹1)</span>
@@ -732,7 +777,7 @@ function renderPaymentPage() {
                 <div style="border-top:2px dashed #e0e0e0; padding-top:10px; margin-top:8px;">
                     <div class="flex-between">
                         <span style="font-weight:700;">Total</span>
-                        <span style="font-size:20px; font-weight:800; color:#D4AF37;" id="finalAmount">₹${originalPrice}</span>
+                        <span style="font-size:20px; font-weight:800; color:#6366f1;" id="finalAmount">₹${originalPrice}</span>
                     </div>
                 </div>
             </div>
@@ -747,9 +792,7 @@ function renderPaymentPage() {
                 <label style="font-weight:600; font-size:13px;">UPI Payment</label>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px;">
                     ${['PhonePe', 'Paytm', 'Google Pay', 'BHIM'].map(m => `
-                        <div class="payment-method" onclick="selectPaymentMethod(this, '${m}')" style="animation:fadeInUp 0.3s ease;">
-                            ${m}
-                        </div>
+                        <div class="payment-method" onclick="selectPaymentMethod(this, '${m}')">${m}</div>
                     `).join('')}
                 </div>
             </div>
@@ -757,7 +800,7 @@ function renderPaymentPage() {
                 <div style="font-size:28px;">📱</div>
                 <div style="font-weight:600; font-size:13px;">Tap to generate QR</div>
                 <div id="qrDisplay" style="display:none; margin-top:8px;">
-                    <div style="background:#1a1a2e; padding:16px; border-radius:12px; color:white;">
+                    <div style="background:#1e1b4b; padding:16px; border-radius:12px; color:white;">
                         <div style="font-size:11px;">UPI ID: mr.pawankumar318@okicici</div>
                         <div style="font-size:36px; margin:8px 0;">⊞⊞⊞⊞</div>
                         <button class="btn btn-sm btn-primary" style="width:auto; padding:4px 16px; margin:0;" onclick="event.stopPropagation(); copyUPI()">📋 Copy UPI</button>
@@ -767,61 +810,425 @@ function renderPaymentPage() {
             <div style="margin:10px 0;">
                 <input class="input-field" id="transactionId" placeholder="Transaction ID (12 digits)" maxlength="12">
             </div>
-            <button class="btn btn-success" onclick="confirmOrder()" style="animation:pulse 2s infinite;">✅ Confirm Order</button>
-            <button class="btn btn-secondary" onclick="loadSection('home')">Cancel</button>
+            <button class="btn btn-success" onclick="confirmOrder()">✅ Confirm Order</button>
+            <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
         </div>
     `;
 }
 
-function selectPaymentMethod(el, method) {
-    document.querySelectorAll('.payment-method').forEach(c => {
-        c.classList.remove('selected');
-        c.style.borderColor = '#e8ecf0';
-    });
+function renderGiftCardRedeem() {
+    return `
+        <div class="premium-card purple">
+            <div style="text-align:center; padding:10px 0;">
+                <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🎁</div>
+                <h3 style="color:#1a1a2e;">Redeem Gift Card</h3>
+                <p class="text-muted">Enter gift card code</p>
+            </div>
+            <input class="input-field" id="giftCodeInput" placeholder="Gift Card Code">
+            <button class="btn btn-primary" onclick="redeemGiftCard()">Redeem</button>
+            <button class="btn btn-secondary" onclick="navigateTo('prlcoins')">← Back</button>
+        </div>
+    `;
+}
+
+function renderComplaintForm() {
+    let optionsHtml = complaintTypes.map((type, i) => `
+        <div class="complaint-option" onclick="selectComplaintType(this, '${type}')" style="animation:fadeIn 0.2s ease ${i*0.02}s forwards;">
+            ${type}
+        </div>
+    `).join('');
+    
+    return `
+        <div class="premium-card purple">
+            <h3>📢 File Complaint</h3>
+            <div style="margin:8px 0;">
+                <label style="font-weight:600; font-size:13px;">Select Issue Type</label>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px; max-height:200px; overflow-y:auto; padding:4px;">
+                    ${optionsHtml}
+                </div>
+                <input class="input-field" id="complaintType" placeholder="Or type custom issue..." style="margin-top:6px;">
+            </div>
+            <div style="margin:8px 0;">
+                <label style="font-weight:600; font-size:13px;">Description</label>
+                <textarea class="input-field" id="complaintDesc" placeholder="Describe your issue..." rows="3" style="border-radius:16px; height:80px; resize:vertical;"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="submitComplaint()">Submit Complaint</button>
+            <button class="btn btn-secondary" onclick="navigateTo('orders')">Cancel</button>
+        </div>
+    `;
+}
+
+// ============================================================
+// DATA LOADING FUNCTIONS
+// ============================================================
+
+async function loadOffers() {
+    try {
+        const snap = await db.collection('offers').get();
+        let html = '';
+        if (snap.empty) {
+            html = '<div class="premium-card"><p class="text-muted text-center">No offers available</p></div>';
+        } else {
+            let i = 0;
+            snap.forEach(doc => {
+                const d = doc.data();
+                const isActive = d.startDate && d.endDate ? 
+                    (new Date() >= new Date(d.startDate) && new Date() <= new Date(d.endDate)) : true;
+                if (!isActive) return;
+                const badgeClass = d.badge === 'HOT' ? 'badge-hot' : d.badge === 'CINEMA' ? 'badge-cinema' : 'badge-flash';
+                const colorClass = i % 3 === 0 ? 'orange' : i % 3 === 1 ? 'pink' : 'teal';
+                html += `
+                    <div class="offer-card ${colorClass}" onclick="selectOffer('${doc.id}')">
+                        <span class="badge ${badgeClass}">${d.badge || 'OFFER'}</span>
+                        <div class="title">${d.title}</div>
+                        <div class="price">₹${d.price}</div>
+                        <button class="btn btn-primary btn-sm" style="width:auto; margin-top:8px; padding:6px 20px;">Order Now</button>
+                    </div>
+                `;
+                i++;
+            });
+        }
+        document.getElementById('offersList').innerHTML = html;
+    } catch(e) {
+        document.getElementById('offersList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading offers</p></div>`;
+    }
+}
+
+async function loadOrders() {
+    try {
+        const snap = await db.collection('users').doc(currentUser.uid).collection('orders').orderBy('orderDate','desc').get();
+        let html = '';
+        if (snap.empty) {
+            html = '<div class="premium-card"><p class="text-muted text-center">No orders yet. Start shopping!</p></div>';
+        } else {
+            let i = 0;
+            snap.forEach(doc => {
+                const d = doc.data();
+                const colorClass = i % 3 === 0 ? 'green' : i % 3 === 1 ? 'pink' : 'orange';
+                html += `
+                    <div class="premium-card ${colorClass} clickable" onclick="viewOrder('${doc.id}')">
+                        <div class="flex-between">
+                            <span style="font-weight:700;">${d.offerTitle}</span>
+                            <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
+                        </div>
+                        <div class="flex-between text-muted text-sm">
+                            <span>₹${d.finalAmount}</span>
+                            <span>${getDateString(d.orderDate)}</span>
+                        </div>
+                    </div>
+                `;
+                i++;
+            });
+        }
+        document.getElementById('ordersList').innerHTML = html;
+    } catch(e) {
+        document.getElementById('ordersList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading orders</p></div>`;
+    }
+}
+
+async function loadPRLCoinsData() {
+    document.getElementById('prlBalance').textContent = userData?.prlCoins || 0;
+    loadCoinTransactions();
+}
+
+async function loadCoinTransactions() {
+    try {
+        const snap = await db.collection('coinTransactions').where('uid','==',currentUser.uid).orderBy('timestamp','desc').limit(10).get();
+        let html = '';
+        if (snap.empty) {
+            html = '<p class="text-muted">No transactions</p>';
+        } else {
+            snap.forEach(doc => {
+                const d = doc.data();
+                const isCredit = d.action === 'credit';
+                html += `
+                    <div style="padding:6px 0; border-bottom:1px solid #f0f0f0; font-size:12px;">
+                        <div class="flex-between">
+                            <span>${isCredit ? '➕' : '➖'} ${d.amount} coins</span>
+                            <span style="color:${isCredit ? '#10b981' : '#ef4444'};">${isCredit ? '+'+d.amount : '-'+d.amount}</span>
+                        </div>
+                        <div class="text-muted" style="font-size:10px;">${d.reason} ${d.remarks ? ' - '+d.remarks : ''}</div>
+                        <div class="text-muted" style="font-size:9px;">${getDateTime(d.timestamp)}</div>
+                    </div>
+                `;
+            });
+        }
+        document.getElementById('coinTransactions').innerHTML = html;
+    } catch(e) {
+        document.getElementById('coinTransactions').innerHTML = '<p class="text-muted">Error loading transactions</p>';
+    }
+}
+
+async function loadCoupons() {
+    try {
+        const snap = await db.collection('coupons').get();
+        let html = '';
+        if (snap.empty) {
+            html = '<div class="premium-card"><p class="text-muted text-center">No coupons available</p></div>';
+        } else {
+            let i = 0;
+            snap.forEach(doc => {
+                const d = doc.data();
+                const used = d.usedBy && d.usedBy.includes(currentUser.uid);
+                const expired = d.expiry && new Date(d.expiry) < new Date();
+                const colorClass = i % 3 === 0 ? 'green' : i % 3 === 1 ? 'pink' : 'orange';
+                html += `
+                    <div class="premium-card ${colorClass} clickable" onclick="viewCouponDetail('${doc.id}')" style="${used || expired ? 'opacity:0.6;' : ''}">
+                        <div class="flex-between">
+                            <div>
+                                <div style="font-weight:700; font-size:16px;">${d.code}</div>
+                                <div class="text-muted">${d.discount}% off • Min ₹${d.minOrder || 0}</div>
+                                ${expired ? '<div class="text-muted" style="color:#ef4444;">⛔ Expired</div>' : ''}
+                                ${used ? '<div class="text-muted">✓ Used</div>' : ''}
+                            </div>
+                            <span style="font-size:20px;">👉</span>
+                        </div>
+                    </div>
+                `;
+                i++;
+            });
+        }
+        document.getElementById('couponsList').innerHTML = html;
+    } catch(e) {
+        document.getElementById('couponsList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading coupons</p></div>`;
+    }
+}
+
+async function viewCouponDetail(couponId) {
+    try {
+        const doc = await db.collection('coupons').doc(couponId).get();
+        if (!doc.exists) { showToast('Error', 'error', 'Coupon not found'); return; }
+        const d = doc.data();
+        showToast(`${d.code}: ${d.discount}% off`, 'info', `Min order ₹${d.minOrder || 0}`);
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+async function loadComplaints() {
+    try {
+        const snap = await db.collection('users').doc(currentUser.uid).collection('complaints').orderBy('createdAt','desc').get();
+        let html = '';
+        if (snap.empty) {
+            html = '<div class="premium-card"><p class="text-muted text-center">No complaints filed</p></div>';
+        } else {
+            let i = 0;
+            snap.forEach(doc => {
+                const d = doc.data();
+                const isResolved = d.status === 'resolved';
+                html += `
+                    <div class="complaint-item ${isResolved ? 'resolved' : ''}" onclick="viewComplaintDetail('${doc.id}')">
+                        <div style="font-weight:700;">${d.type}</div>
+                        <div class="text-muted text-sm">${d.description}</div>
+                        <div class="flex-between text-sm" style="margin-top:6px;">
+                            <span>Status: <span style="font-weight:600; color:${isResolved ? '#10b981' : '#f59e0b'};">${d.status}</span></span>
+                            <span class="text-muted">${getDateString(d.createdAt)}</span>
+                        </div>
+                    </div>
+                `;
+                i++;
+            });
+        }
+        document.getElementById('complaintsList').innerHTML = html;
+    } catch(e) {
+        document.getElementById('complaintsList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading complaints</p></div>`;
+    }
+}
+
+async function viewComplaintDetail(complaintId) {
+    try {
+        const doc = await db.collection('users').doc(currentUser.uid).collection('complaints').doc(complaintId).get();
+        if (!doc.exists) { showToast('Error', 'error', 'Complaint not found'); return; }
+        const d = doc.data();
+        showToast(`📢 ${d.type}`, 'info', `Status: ${d.status}\n${d.description}`);
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+// ============================================================
+// OFFER SELECTION
+// ============================================================
+async function selectOffer(offerId) {
+    try {
+        const doc = await db.collection('offers').doc(offerId).get();
+        if (!doc.exists) { showToast('Error', 'error', 'Offer not found'); return; }
+        selectedOffer = { id: offerId, ...doc.data() };
+        
+        const isActive = selectedOffer.startDate && selectedOffer.endDate ? 
+            (new Date() >= new Date(selectedOffer.startDate) && new Date() <= new Date(selectedOffer.endDate)) : true;
+        if (!isActive) { showToast('Offer Expired', 'warning', 'This offer is no longer active'); return; }
+        
+        if (selectedOffer.type === 'movie') {
+            showMovieBooking();
+        } else {
+            showFoodBooking();
+        }
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+function showMovieBooking() {
+    const days = getNextThreeDays();
+    let dateHtml = days.map((d, i) => `
+        <div class="date-card" onclick="selectDate(this, '${d.toISOString().split('T')[0]}')">
+            <div style="font-weight:700; font-size:12px;">${d.toLocaleDateString('en-IN', { weekday: 'short' })}</div>
+            <div style="font-size:11px; color:#666;">${getDateString(d)}</div>
+        </div>
+    `).join('');
+    
+    let timeHtml = timeSlots.map((t, i) => `
+        <div class="time-slot" onclick="selectTime(this, '${t}')">${t}</div>
+    `).join('');
+    
+    renderPage(`
+        <div class="page-enter">
+            <div class="premium-card purple">
+                <h3>🎬 ${selectedOffer.title}</h3>
+                <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
+                <div style="background:#eef2ff; border-radius:12px; padding:12px; margin:12px 0; text-align:center;">
+                    <div style="font-weight:700;">${theatreInfo.name}</div>
+                    <div style="font-size:12px; color:#666;">${theatreInfo.address}</div>
+                </div>
+                <div style="margin:12px 0;">
+                    <label style="font-weight:600; font-size:13px;">Select Date</label>
+                    <div style="display:flex; gap:8px; margin-top:6px;">${dateHtml}</div>
+                </div>
+                <div style="margin:12px 0;">
+                    <label style="font-weight:600; font-size:13px;">Select Time</label>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">${timeHtml}</div>
+                </div>
+                <div style="margin:12px 0;">
+                    <label style="font-weight:600; font-size:13px;">Number of Tickets</label>
+                    <input class="input-field" id="ticketCount" type="number" min="1" max="10" value="1">
+                </div>
+                <div style="margin:12px 0;">
+                    <input class="input-field" id="movieEmail" type="email" placeholder="Email" value="${currentUser?.email || ''}">
+                    <input class="input-field" id="movieMobile" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
+                </div>
+                <button class="btn btn-primary" onclick="proceedToPayment('movie')">Proceed to Pay</button>
+                <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+            </div>
+        </div>
+    `);
+}
+
+function selectDate(el, date) {
+    document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
-    el.style.borderColor = '#D4AF37';
+    selectedDate = date;
+}
+
+function selectTime(el, time) {
+    document.querySelectorAll('.time-slot').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedTime = time;
+}
+
+function showFoodBooking() {
+    renderPage(`
+        <div class="page-enter">
+            <div class="premium-card purple">
+                <h3>${selectedOffer.title}</h3>
+                <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
+                <div style="margin:12px 0;">
+                    <label style="font-weight:600; font-size:13px;">Delivery Address</label>
+                    <input class="input-field" id="addrFlat" placeholder="Flat/House Number" value="${userData?.address?.flat || ''}">
+                    <input class="input-field" id="addrStreet" placeholder="Street" value="${userData?.address?.street || ''}">
+                    <input class="input-field" id="addrCity" placeholder="City" value="${userData?.address?.city || ''}">
+                    <input class="input-field" id="addrPincode" placeholder="Pincode" maxlength="6" value="${userData?.address?.pincode || ''}">
+                </div>
+                <button class="btn btn-primary" onclick="proceedToPayment('food')">Proceed to Pay</button>
+                <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+            </div>
+        </div>
+    `);
+}
+
+// ============================================================
+// PAYMENT FUNCTIONS
+// ============================================================
+function proceedToPayment(type) {
+    if (type === 'movie') {
+        const email = document.getElementById('movieEmail')?.value?.trim() || '';
+        const mobile = document.getElementById('movieMobile')?.value?.trim() || '';
+        const tickets = parseInt(document.getElementById('ticketCount')?.value) || 1;
+        
+        if (!selectedDate) { showToast('Error', 'error', 'Please select a date'); return; }
+        if (!selectedTime) { showToast('Error', 'error', 'Please select a time'); return; }
+        if (!email) { showToast('Error', 'error', 'Please enter email'); return; }
+        if (mobile.length !== 10) { showToast('Error', 'error', 'Enter a valid 10-digit mobile number'); return; }
+        if (tickets < 1 || tickets > 10) { showToast('Error', 'error', 'Tickets must be between 1-10'); return; }
+        
+        movieDetails = { date: selectedDate, time: selectedTime, tickets, email, mobile };
+    } else {
+        const flat = document.getElementById('addrFlat')?.value?.trim() || '';
+        const street = document.getElementById('addrStreet')?.value?.trim() || '';
+        const city = document.getElementById('addrCity')?.value?.trim() || '';
+        const pincode = document.getElementById('addrPincode')?.value?.trim() || '';
+        
+        if (!flat || !street || !city || !pincode) {
+            showToast('Error', 'error', 'Please fill all address fields');
+            return;
+        }
+        if (pincode.length !== 6) {
+            showToast('Error', 'error', 'Enter a valid 6-digit pincode');
+            return;
+        }
+        movieDetails = null;
+    }
+    
+    navigateTo('payment');
+}
+
+function selectPaymentMethod(el, method) {
+    document.querySelectorAll('.payment-method').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
     selectedPaymentMethod = method;
 }
 
 function toggleQR() {
     qrShown = !qrShown;
-    document.getElementById('qrDisplay').style.display = qrShown ? 'block' : 'none';
+    const el = document.getElementById('qrDisplay');
+    if (el) el.style.display = qrShown ? 'block' : 'none';
 }
 
 function copyUPI() {
     navigator.clipboard.writeText('mr.pawankumar318@okicici').then(() => {
-        showPopup("Copied!", "UPI ID copied to clipboard");
+        showToast('Copied!', 'success', 'UPI ID copied');
     }).catch(() => {
-        showPopup("Error", "Failed to copy", true);
+        showToast('Error', 'error', 'Failed to copy');
     });
 }
 
 function updatePaymentSummary() {
     const originalPrice = selectedOffer?.price || 0;
-    const coinPercent = parseInt(document.getElementById('prlCoinSelect').value) || 0;
+    const coinPercent = parseInt(document.getElementById('prlCoinSelect')?.value) || 0;
     const couponDisc = appliedCoupon ? (appliedCoupon.discount / 100) * originalPrice : 0;
     const coinDisc = (coinPercent / 100) * originalPrice;
     
     const coinsUsed = Math.round(coinDisc);
-    document.getElementById('prlCoinsUsed').textContent = coinsUsed;
-    document.getElementById('couponDiscountAmount').textContent = Math.round(couponDisc);
+    const prlCoinsUsedEl = document.getElementById('prlCoinsUsed');
+    const couponDiscountAmountEl = document.getElementById('couponDiscountAmount');
+    const finalAmountEl = document.getElementById('finalAmount');
+    const couponDiscountRowEl = document.getElementById('couponDiscountRow');
     
-    if (couponDisc > 0) {
-        document.getElementById('couponDiscountRow').style.display = 'flex';
+    if (prlCoinsUsedEl) prlCoinsUsedEl.textContent = coinsUsed;
+    if (couponDiscountAmountEl) couponDiscountAmountEl.textContent = Math.round(couponDisc);
+    
+    if (couponDisc > 0 && couponDiscountRowEl) {
+        couponDiscountRowEl.style.display = 'flex';
     }
     
     const finalPrice = originalPrice - couponDisc - coinDisc;
-    document.getElementById('finalAmount').textContent = `₹${Math.round(finalPrice)}`;
+    if (finalAmountEl) finalAmountEl.textContent = `₹${Math.round(finalPrice)}`;
 }
 
 async function applyCoupon() {
-    const code = document.getElementById('couponInput').value.trim().toUpperCase();
-    if (!code) { showPopup("Error", "Please enter a coupon code", true); return; }
+    const code = document.getElementById('couponInput')?.value?.trim()?.toUpperCase() || '';
+    if (!code) { showToast('Error', 'error', 'Please enter a coupon code'); return; }
     
     try {
         const snapshot = await db.collection('coupons').where('code', '==', code).get();
+        const couponMessageEl = document.getElementById('couponMessage');
+        
         if (snapshot.empty) {
-            document.getElementById('couponMessage').innerHTML = '<span style="color:#dc2626;">❌ Invalid coupon code</span>';
+            if (couponMessageEl) couponMessageEl.innerHTML = '<span style="color:#ef4444;">❌ Invalid coupon code</span>';
             return;
         }
         
@@ -829,50 +1236,66 @@ async function applyCoupon() {
         const data = doc.data();
         
         if (data.expiry && new Date(data.expiry) < new Date()) {
-            document.getElementById('couponMessage').innerHTML = '<span style="color:#dc2626;">❌ Coupon expired</span>';
+            if (couponMessageEl) couponMessageEl.innerHTML = '<span style="color:#ef4444;">❌ Coupon expired</span>';
+            return;
+        }
+        
+        if (data.minOrder && selectedOffer.price < data.minOrder) {
+            if (couponMessageEl) couponMessageEl.innerHTML = `<span style="color:#ef4444;">❌ Min order ₹${data.minOrder} required</span>`;
             return;
         }
         
         if (data.usedBy && data.usedBy.includes(currentUser.uid)) {
-            document.getElementById('couponMessage').innerHTML = '<span style="color:#dc2626;">❌ Coupon already used</span>';
+            if (couponMessageEl) couponMessageEl.innerHTML = '<span style="color:#ef4444;">❌ Coupon already used</span>';
             return;
         }
         
         appliedCoupon = { id: doc.id, ...data };
-        document.getElementById('couponMessage').innerHTML = `<span style="color:#22c55e;">✅ Coupon applied! ${data.discount}% off</span>`;
+        if (couponMessageEl) couponMessageEl.innerHTML = `<span style="color:#10b981;">✅ Coupon applied! ${data.discount}% off</span>`;
         updatePaymentSummary();
-        showPopup("Coupon Applied", `${data.discount}% discount`);
+        showToast('Coupon Applied', 'success', `${data.discount}% discount`);
     } catch(e) {
-        document.getElementById('couponMessage').innerHTML = '<span style="color:#dc2626;">❌ Error applying coupon</span>';
+        const couponMessageEl = document.getElementById('couponMessage');
+        if (couponMessageEl) couponMessageEl.innerHTML = '<span style="color:#ef4444;">❌ Error applying coupon</span>';
     }
 }
 
 async function confirmOrder() {
-    const txnId = document.getElementById('transactionId').value.trim();
+    const txnId = document.getElementById('transactionId')?.value?.trim() || '';
     if (txnId.length !== 12) {
-        showPopup("Error", "Please enter a valid 12-digit Transaction ID", true);
+        showToast('Error', 'error', 'Please enter a valid 12-digit Transaction ID');
         return;
     }
     
     if (!selectedPaymentMethod) {
-        showPopup("Error", "Please select a payment method", true);
+        showToast('Error', 'error', 'Please select a payment method');
         return;
     }
     
     const originalPrice = selectedOffer.price;
-    const coinPercent = parseInt(document.getElementById('prlCoinSelect').value) || 0;
+    const coinPercent = parseInt(document.getElementById('prlCoinSelect')?.value) || 0;
     const couponDisc = appliedCoupon ? (appliedCoupon.discount / 100) * originalPrice : 0;
     const coinDisc = (coinPercent / 100) * originalPrice;
     const finalAmount = Math.round(originalPrice - couponDisc - coinDisc);
     const coinsUsed = Math.round(coinDisc);
     
     if (coinsUsed > (userData.prlCoins || 0)) {
-        showPopup("Error", "You don't have enough PRL Coins", true);
+        showToast('Error', 'error', "You don't have enough PRL Coins");
         return;
     }
     
     try {
         const orderId = 'ORD' + Date.now().toString().slice(-8);
+        
+        let address = null;
+        if (!movieDetails) {
+            const addrFlat = document.getElementById('addrFlat')?.value?.trim() || '';
+            const addrStreet = document.getElementById('addrStreet')?.value?.trim() || '';
+            const addrCity = document.getElementById('addrCity')?.value?.trim() || '';
+            const addrPincode = document.getElementById('addrPincode')?.value?.trim() || '';
+            address = { flat: addrFlat, street: addrStreet, city: addrCity, pincode: addrPincode };
+        }
+        
         const orderData = {
             orderId: orderId,
             offerTitle: selectedOffer.title,
@@ -887,12 +1310,7 @@ async function confirmOrder() {
             orderDate: new Date().toISOString(),
             type: selectedOffer.type || 'food',
             movieDetails: movieDetails,
-            address: movieDetails ? null : {
-                flat: document.getElementById('addrFlat').value.trim(),
-                street: document.getElementById('addrStreet').value.trim(),
-                city: document.getElementById('addrCity').value.trim(),
-                pincode: document.getElementById('addrPincode').value.trim()
-            },
+            address: address,
             complaintFiled: false
         };
         
@@ -919,69 +1337,35 @@ async function confirmOrder() {
             userData.prlCoins += earnedCoins;
         }
         
-        showPopup("🎉 Order Placed!", `Order ID: ${orderId}\nEarned ${earnedCoins} PRL Coins!`);
+        showToast('🎉 Order Placed!', 'success', `Order ID: ${orderId}\nEarned ${earnedCoins} PRL Coins!`);
         selectedOffer = null;
         appliedCoupon = null;
         movieDetails = null;
         selectedPaymentMethod = null;
-        loadSection('orders');
+        navigateTo('orders');
     } catch(e) {
-        showPopup("Error", "Failed to place order: " + e.message, true);
+        showToast('Error', 'error', 'Failed to place order: ' + e.message);
     }
 }
 
 // ============================================================
-// ORDERS
+// ORDER DETAIL
 // ============================================================
-function renderOrders() {
-    return `<div id="ordersList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading orders...</p></div></div>`;
-}
-
-async function loadOrders() {
-    try {
-        const snap = await db.collection('users').doc(currentUser.uid).collection('orders').orderBy('orderDate','desc').get();
-        let html = '';
-        if (snap.empty) {
-            html = '<div class="premium-card"><p class="text-muted text-center">No orders yet. Start shopping!</p></div>';
-        } else {
-            let i = 0;
-            snap.forEach(doc => {
-                const d = doc.data();
-                html += `
-                    <div class="premium-card clickable animate-fadeInUp delay-${(i%5)+1}" onclick="viewOrder('${doc.id}')">
-                        <div class="flex-between">
-                            <span style="font-weight:700;">${d.offerTitle}</span>
-                            <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
-                        </div>
-                        <div class="flex-between text-muted text-sm">
-                            <span>₹${d.finalAmount}</span>
-                            <span>${getDateString(d.orderDate)}</span>
-                        </div>
-                    </div>
-                `;
-                i++;
-            });
-        }
-        document.getElementById('ordersList').innerHTML = html;
-    } catch(e) {
-        document.getElementById('ordersList').innerHTML = `<div class="premium-card"><p style="color:#dc2626;">Error loading orders</p></div>`;
-    }
-}
-
 async function viewOrder(orderId) {
     try {
         const doc = await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).get();
-        if (!doc.exists) return showPopup("Error", "Order not found", true);
+        if (!doc.exists) { showToast('Error', 'error', 'Order not found'); return; }
         const d = doc.data();
         
         const statusIndex = statusFlow.findIndex(s => s.status === d.status);
         let timelineHtml = statusFlow.map((step, idx) => {
             const isActive = idx <= statusIndex;
+            const dotClass = d.status === 'cancelled' ? 'cancelled' : isActive ? 'active' : '';
             return `
-                <div class="timeline-item" style="animation:fadeInUp 0.3s ease ${idx*0.1}s forwards;">
-                    <div class="timeline-dot ${isActive ? 'active' : ''}"></div>
+                <div class="timeline-item">
+                    <div class="timeline-dot ${dotClass}"></div>
                     <div>
-                        <div style="font-weight:600; font-size:13px; ${isActive ? 'color:#1a1a2e;' : 'color:#999;'}">${step.emoji} ${step.label}</div>
+                        <div style="font-weight:600; font-size:13px; ${isActive && d.status !== 'cancelled' ? 'color:#1a1a2e;' : 'color:#999;'}">${step.emoji} ${step.label}</div>
                         <div style="font-size:10px; color:#999;">${step.time}</div>
                     </div>
                 </div>
@@ -991,7 +1375,7 @@ async function viewOrder(orderId) {
         let detailsHtml = '';
         if (d.type === 'movie' && d.movieDetails) {
             detailsHtml = `
-                <div class="premium-card" style="margin-top:8px;">
+                <div class="premium-card pink" style="margin-top:8px;">
                     <h4 style="font-size:14px;">🎬 Ticket Details</h4>
                     <div class="text-muted text-sm">
                         <div>📅 ${d.movieDetails.date}</div>
@@ -1004,7 +1388,7 @@ async function viewOrder(orderId) {
             `;
         } else if (d.address) {
             detailsHtml = `
-                <div class="premium-card" style="margin-top:8px;">
+                <div class="premium-card teal" style="margin-top:8px;">
                     <h4 style="font-size:14px;">📍 Delivery Address</h4>
                     <div class="text-muted text-sm">
                         <div>${d.address.flat}</div>
@@ -1016,96 +1400,111 @@ async function viewOrder(orderId) {
             `;
         }
         
-        showModal(`
-            <h3 style="animation:fadeInDown 0.3s ease;">📦 Order Details</h3>
-            <div style="animation:fadeInUp 0.3s ease;">
-                <div class="flex-between">
-                    <span style="font-weight:700;">${d.offerTitle}</span>
-                    <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
-                </div>
-                <div class="text-muted text-sm">
-                    <div>Order ID: ${d.orderId}</div>
-                    <div>Date: ${getDateTime(d.orderDate)}</div>
-                    <div>Amount: ₹${d.finalAmount}</div>
-                    ${d.couponUsed ? `<div>Coupon: ${d.couponUsed} (${d.couponDiscount}% off)</div>` : ''}
-                    ${d.prlCoinsUsed > 0 ? `<div>PRL Coins used: ${d.prlCoinsUsed}</div>` : ''}
-                </div>
-                ${d.status !== 'cancelled' ? `
-                    <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0;">
-                        <div class="timeline">${timelineHtml}</div>
+        let complaintBtn = '';
+        if (d.status === 'delivered' && !d.complaintFiled) {
+            complaintBtn = `
+                <button class="btn btn-warning" onclick="navigateTo('complaintForm')">📢 File Complaint</button>
+            `;
+        }
+        
+        renderPage(`
+            <div class="page-enter">
+                <div class="premium-card purple">
+                    <div class="flex-between">
+                        <span style="font-weight:700;">${d.offerTitle}</span>
+                        <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
                     </div>
-                ` : `
-                    <div style="background:#fce4ec; border-radius:12px; padding:12px; margin:8px 0; text-align:center;">
-                        <span style="color:#dc2626; font-weight:700;">❌ Order Cancelled</span>
+                    <div class="text-muted text-sm">
+                        <div>Order ID: ${d.orderId}</div>
+                        <div>Date: ${getDateTime(d.orderDate)}</div>
+                        <div>Amount: ₹${d.finalAmount}</div>
+                        ${d.couponUsed ? `<div>Coupon: ${d.couponUsed} (${d.couponDiscount}% off)</div>` : ''}
+                        ${d.prlCoinsUsed > 0 ? `<div>PRL Coins used: ${d.prlCoinsUsed}</div>` : ''}
                     </div>
-                `}
-                ${detailsHtml}
-                ${d.status === 'pending' ? `
-                    <button class="btn btn-danger" onclick="cancelOrder('${orderId}')">Cancel Order</button>
-                ` : ''}
-                ${d.status === 'delivered' && !d.complaintFiled ? `
-                    <button class="btn btn-warning" onclick="showComplaintForm('${orderId}')">📢 File Complaint</button>
-                ` : ''}
-                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                    ${d.status !== 'cancelled' ? `
+                        <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0;">
+                            <div class="timeline">${timelineHtml}</div>
+                        </div>
+                    ` : `
+                        <div style="background:#fee2e2; border-radius:12px; padding:12px; margin:8px 0; text-align:center;">
+                            <span style="color:#dc2626; font-weight:700;">❌ Order Cancelled</span>
+                        </div>
+                    `}
+                    ${detailsHtml}
+                    ${d.status === 'pending' ? `
+                        <button class="btn btn-danger" onclick="cancelOrder('${orderId}')">Cancel Order</button>
+                    ` : ''}
+                    ${complaintBtn}
+                    <button class="btn btn-secondary" onclick="navigateTo('orders')">← Back</button>
+                </div>
             </div>
         `);
-    } catch(e) { showPopup("Error", e.message, true); }
+    } catch(e) { showToast('Error', 'error', e.message); }
 }
 
 async function cancelOrder(orderId) {
-    if (!confirm("Are you sure you want to cancel this order?")) return;
+    const reason = prompt("Enter reason for cancelling this order:");
+    if (!reason) return;
     try {
-        await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).update({ status: 'cancelled' });
-        showPopup("Cancelled", "Order has been cancelled");
-        closeModal();
-        loadSection('orders');
-    } catch(e) { showPopup("Error", "Failed to cancel order", true); }
+        await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).update({ 
+            status: 'cancelled',
+            cancelReason: reason,
+            cancelledAt: new Date().toISOString()
+        });
+        showToast('Cancelled', 'warning', 'Order has been cancelled');
+        navigateTo('orders');
+    } catch(e) { showToast('Error', 'error', 'Failed to cancel order'); }
 }
 
 // ============================================================
-// PRL COINS
+// COMPLAINT FUNCTIONS
 // ============================================================
-function renderPRLCoins() {
-    return `
-        <div class="premium-card animate-fadeInUp">
-            <div style="text-align:center; padding:10px 0;">
-                <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🪙</div>
-                <div style="font-size:32px; font-weight:800; color:#D4AF37;" id="prlBalance">${userData?.prlCoins || 0}</div>
-                <div class="text-muted">PRL Coins (1 Coin = ₹1 Discount)</div>
-            </div>
-            <div style="margin:10px 0;">
-                <h4 style="font-size:14px;">How to Earn</h4>
-                <ul style="list-style:none; padding:0; margin-top:6px;">
-                    <li style="padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeInUp 0.3s ease;">✅ Sign up: <strong>500 coins</strong></li>
-                    <li style="padding:6px 0; animation:fadeInUp 0.4s ease;">✅ Every order: <strong>5% back</strong></li>
-                </ul>
-            </div>
-            <div style="margin:10px 0;">
-                <h4 style="font-size:14px;">Redeem Gift Card</h4>
-                <input class="input-field" id="giftCardInput" placeholder="Enter gift card code">
-                <button class="btn btn-primary" onclick="redeemGiftCard()" style="animation:pulse 2s infinite;">Redeem</button>
-            </div>
-        </div>
-    `;
+function selectComplaintType(el, type) {
+    document.querySelectorAll('.complaint-option').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('complaintType').value = type;
 }
 
-function loadPRLCoinsData() {
-    document.getElementById('prlBalance').textContent = userData?.prlCoins || 0;
+async function submitComplaint() {
+    let type = document.getElementById('complaintType')?.value?.trim() || '';
+    const desc = document.getElementById('complaintDesc')?.value?.trim() || '';
+    
+    if (!type) {
+        const selected = document.querySelector('.complaint-option.selected');
+        if (selected) type = selected.textContent.trim();
+    }
+    
+    if (!type || !desc) { showToast('Error', 'error', 'Please select issue type and describe'); return; }
+    
+    try {
+        await db.collection('users').doc(currentUser.uid).collection('complaints').add({
+            orderId: 'N/A',
+            type: type,
+            description: desc,
+            status: 'pending',
+            createdAt: new Date().toISOString()
+        });
+        showToast('✅ Complaint Filed', 'success', 'We\'ll look into it shortly');
+        navigateTo('complaints');
+    } catch(e) { showToast('Error', 'error', e.message); }
 }
 
+// ============================================================
+// GIFT CARD REDEEM
+// ============================================================
 async function redeemGiftCard() {
-    const code = document.getElementById('giftCardInput').value.trim().toUpperCase();
-    if (!code) { showPopup("Error", "Please enter a gift card code", true); return; }
+    const code = document.getElementById('giftCodeInput')?.value?.trim()?.toUpperCase() || '';
+    if (!code) { showToast('Error', 'error', 'Please enter gift card code'); return; }
     
     try {
         const snapshot = await db.collection('giftCards').where('code', '==', code).get();
-        if (snapshot.empty) { showPopup("Error", "Invalid gift card code", true); return; }
+        if (snapshot.empty) { showToast('Error', 'error', 'Invalid gift card code'); return; }
         
         const doc = snapshot.docs[0];
         const data = doc.data();
         
         if (data.usedBy && data.usedBy.includes(currentUser.uid)) {
-            showPopup("Error", "Gift card already redeemed", true);
+            showToast('Error', 'error', 'Gift card already redeemed');
             return;
         }
         
@@ -1118,227 +1517,69 @@ async function redeemGiftCard() {
         });
         userData.prlCoins += (data.points || 100);
         
-        showPopup("🎉 Redeemed!", `You earned ${data.points || 100} PRL Coins!`);
-        loadSection('prlcoins');
-    } catch(e) { showPopup("Error", "Failed to redeem gift card", true); }
+        showToast('🎉 Redeemed!', 'success', `You earned ${data.points || 100} PRL Coins!`);
+        navigateTo('prlcoins');
+    } catch(e) { showToast('Error', 'error', e.message); }
 }
 
 // ============================================================
-// COUPONS
+// PROFILE FUNCTIONS
 // ============================================================
-function renderCoupons() {
-    return `<div id="couponsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading coupons...</p></div></div>`;
-}
-
-async function loadCoupons() {
-    try {
-        const snap = await db.collection('coupons').get();
-        let html = '';
-        if (snap.empty) {
-            html = '<div class="premium-card"><p class="text-muted text-center">No coupons available</p></div>';
-        } else {
-            let i = 0;
-            snap.forEach(doc => {
-                const d = doc.data();
-                const used = d.usedBy && d.usedBy.includes(currentUser.uid);
-                const expired = d.expiry && new Date(d.expiry) < new Date();
-                html += `
-                    <div class="premium-card animate-fadeInUp delay-${(i%5)+1}" style="${used || expired ? 'opacity:0.5;' : ''}">
-                        <div class="flex-between">
-                            <div>
-                                <div style="font-weight:700; font-size:16px;">${d.code}</div>
-                                <div class="text-muted">${d.discount}% off</div>
-                                ${expired ? '<div class="text-muted" style="color:#dc2626;">⛔ Expired</div>' : ''}
-                                ${used ? '<div class="text-muted">✓ Used</div>' : ''}
-                            </div>
-                            <button class="btn btn-sm btn-primary" onclick="copyCoupon('${d.code}')" style="width:auto; padding:4px 16px; margin:0;">📋 Copy</button>
-                        </div>
-                    </div>
-                `;
-                i++;
-            });
-        }
-        document.getElementById('couponsList').innerHTML = html;
-    } catch(e) {
-        document.getElementById('couponsList').innerHTML = `<div class="premium-card"><p style="color:#dc2626;">Error loading coupons</p></div>`;
-    }
-}
-
-function copyCoupon(code) {
-    navigator.clipboard.writeText(code).then(() => {
-        showPopup("Copied!", `Coupon code: ${code}`);
-    }).catch(() => {
-        showPopup("Error", "Failed to copy", true);
-    });
-}
-
-// ============================================================
-// COMPLAINTS
-// ============================================================
-function renderComplaints() {
-    return `<div id="complaintsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading complaints...</p></div></div>`;
-}
-
-async function loadComplaints() {
-    try {
-        const snap = await db.collection('users').doc(currentUser.uid).collection('complaints').orderBy('createdAt','desc').get();
-        let html = '';
-        if (snap.empty) {
-            html = '<div class="premium-card"><p class="text-muted text-center">No complaints filed</p></div>';
-        } else {
-            let i = 0;
-            snap.forEach(doc => {
-                const d = doc.data();
-                html += `
-                    <div class="premium-card animate-fadeInUp delay-${(i%5)+1}">
-                        <div style="font-weight:700;">${d.type}</div>
-                        <div class="text-muted text-sm">${d.description}</div>
-                        <div class="flex-between text-sm" style="margin-top:6px;">
-                            <span>Status: <span style="color:#ff9800; font-weight:600;">${d.status}</span></span>
-                            <span class="text-muted">${getDateString(d.createdAt)}</span>
-                        </div>
-                    </div>
-                `;
-                i++;
-            });
-        }
-        document.getElementById('complaintsList').innerHTML = html;
-    } catch(e) {
-        document.getElementById('complaintsList').innerHTML = `<div class="premium-card"><p style="color:#dc2626;">Error loading complaints</p></div>`;
-    }
-}
-
-function showComplaintForm(orderId) {
-    closeModal();
-    showModal(`
-        <h3 style="animation:fadeInDown 0.3s ease;">📢 File Complaint</h3>
-        <div style="animation:fadeInUp 0.3s ease;">
-            <p class="text-muted text-sm">Order ID: ${orderId}</p>
-            <input class="input-field" id="complaintType" placeholder="Issue Type (e.g. Late Delivery)">
-            <textarea class="input-field" id="complaintDesc" placeholder="Describe your issue..." rows="3" style="border-radius:16px; height:80px; resize:vertical;"></textarea>
-            <button class="btn btn-primary" onclick="submitComplaint('${orderId}')" style="animation:pulse 2s infinite;">Submit Complaint</button>
-            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-        </div>
-    `);
-}
-
-async function submitComplaint(orderId) {
-    const type = document.getElementById('complaintType').value.trim();
-    const desc = document.getElementById('complaintDesc').value.trim();
-    if (!type || !desc) { showPopup("Error", "Please fill all fields", true); return; }
-    
-    try {
-        await db.collection('users').doc(currentUser.uid).collection('complaints').add({
-            orderId: orderId,
-            type: type,
-            description: desc,
-            status: 'pending',
-            createdAt: new Date().toISOString()
-        });
-        
-        await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).update({ complaintFiled: true });
-        showPopup("✅ Complaint Filed", "We'll look into it shortly");
-        closeModal();
-        loadSection('complaints');
-    } catch(e) { showPopup("Error", "Failed to submit complaint", true); }
-}
-
-// ============================================================
-// PROFILE
-// ============================================================
-function renderProfile() {
-    return `
-        <div class="premium-card animate-fadeInUp">
-            <div style="text-align:center;">
-                ${userData?.photoURL ? `<img src="${userData.photoURL}" style="width:70px; height:70px; border-radius:50%; border:3px solid #D4AF37; margin:0 auto 10px; display:block;">` : `<div style="font-size:48px; text-align:center;">👤</div>`}
-                <div style="font-size:18px; font-weight:700; color:#1a1a2e;">${userData?.name || 'User'}</div>
-                <div class="text-muted">${userData?.email || ''}</div>
-                ${userData?.isGoogleUser ? '<span class="badge" style="background:#e8f5e9; color:#2e7d32; margin-top:4px;">✓ Google Account</span>' : ''}
-                <div style="margin-top:4px; color:#D4AF37; font-weight:600;">⭐ ${userData?.prlCoins || 0} PRL Coins</div>
-            </div>
-        </div>
-        <div class="premium-card animate-fadeInUp delay-1">
-            <h4 style="font-size:14px;">✏️ Edit Profile</h4>
-            <input class="input-field" id="editName" value="${userData?.name || ''}" placeholder="Name">
-            <button class="btn btn-primary" onclick="updateName()" style="animation:pulse 2s infinite;">Save Name</button>
-        </div>
-        <div class="premium-card animate-fadeInUp delay-2">
-            <h4 style="font-size:14px;">📍 Delivery Address</h4>
-            <input class="input-field" id="editFlat" value="${userData?.address?.flat || ''}" placeholder="Flat/House">
-            <input class="input-field" id="editStreet" value="${userData?.address?.street || ''}" placeholder="Street">
-            <input class="input-field" id="editCity" value="${userData?.address?.city || ''}" placeholder="City">
-            <input class="input-field" id="editPincode" value="${userData?.address?.pincode || ''}" placeholder="Pincode" maxlength="6">
-            <button class="btn btn-primary" onclick="updateAddress()" style="animation:pulse 2s infinite;">Save Address</button>
-        </div>
-    `;
-}
-
-function loadProfileData() {
-    // Already loaded
-}
-
 async function updateName() {
-    const name = document.getElementById('editName').value.trim();
-    if (!name) { showPopup("Error", "Name cannot be empty", true); return; }
+    const name = document.getElementById('editName')?.value?.trim() || '';
+    if (!name) { showToast('Error', 'error', 'Name cannot be empty'); return; }
     try {
         await db.collection('users').doc(currentUser.uid).update({ name });
         userData.name = name;
         document.getElementById('menuName').textContent = name;
-        showPopup("✅ Updated", "Name updated successfully");
-        loadSection('profile');
-    } catch(e) { showPopup("Error", e.message, true); }
+        showToast('✅ Updated', 'success', 'Name updated successfully');
+        navigateTo('profile');
+    } catch(e) { showToast('Error', 'error', e.message); }
 }
 
 async function updateAddress() {
-    const address = {
-        flat: document.getElementById('editFlat').value.trim(),
-        street: document.getElementById('editStreet').value.trim(),
-        city: document.getElementById('editCity').value.trim(),
-        pincode: document.getElementById('editPincode').value.trim()
-    };
-    if (!address.flat || !address.street || !address.city || !address.pincode) {
-        showPopup("Error", "Please fill all address fields", true);
+    const flat = document.getElementById('editFlat')?.value?.trim() || '';
+    const street = document.getElementById('editStreet')?.value?.trim() || '';
+    const city = document.getElementById('editCity')?.value?.trim() || '';
+    const pincode = document.getElementById('editPincode')?.value?.trim() || '';
+    
+    if (!flat || !street || !city || !pincode) {
+        showToast('Error', 'error', 'Please fill all address fields');
         return;
     }
     try {
-        await db.collection('users').doc(currentUser.uid).update({ address });
-        userData.address = address;
-        showPopup("✅ Updated", "Address updated successfully");
-        loadSection('profile');
-    } catch(e) { showPopup("Error", e.message, true); }
+        await db.collection('users').doc(currentUser.uid).update({ address: { flat, street, city, pincode } });
+        userData.address = { flat, street, city, pincode };
+        showToast('✅ Updated', 'success', 'Address updated successfully');
+        navigateTo('profile');
+    } catch(e) { showToast('Error', 'error', e.message); }
 }
 
 // ============================================================
-// ABOUT
+// OTHER FUNCTIONS
 // ============================================================
-function renderAbout() {
-    return `
-        <div class="premium-card animate-fadeInUp">
-            <div style="text-align:center; padding:10px 0;">
-                <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🏪</div>
-                <h2 style="color:#1a1a2e;">Pawan Retail Limited</h2>
-                <p class="text-muted">Premium Quality Since 2020</p>
-            </div>
-            <p style="line-height:1.6; color:#444; margin:10px 0;">
-                Pawan Retail Limited is a premier e-commerce platform offering a curated selection of 
-                high-quality products. Our mission is to provide exceptional value and service to our 
-                customers across India.
-            </p>
-        </div>
-        <div class="premium-card animate-fadeInUp delay-1">
-            <h4 style="font-size:14px;">📧 Contact Us</h4>
-            <p style="margin:4px 0;">Email: <strong>thepawanretaillimited@gmail.com</strong></p>
-            <p style="margin:4px 0;">Phone: <strong>9142739651</strong></p>
-            <button class="btn btn-primary" onclick="copyContact()" style="animation:pulse 2s infinite;">📋 Copy Contact</button>
-        </div>
-    `;
-}
-
 function copyContact() {
     const contact = "thepawanretaillimited@gmail.com\n9142739651";
     navigator.clipboard.writeText(contact).then(() => {
-        showPopup("Copied!", "Contact details copied to clipboard");
+        showToast('Copied!', 'success', 'Contact details copied');
     });
+}
+
+// ============================================================
+// TOGGLE MENU
+// ============================================================
+function toggleMenu() {
+    const sidebar = document.getElementById('menuSidebar');
+    const overlay = document.getElementById('menuOverlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
+function closeMenu() {
+    const sidebar = document.getElementById('menuSidebar');
+    const overlay = document.getElementById('menuOverlay');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
 }
 
 // ============================================================
@@ -1348,47 +1589,20 @@ async function seedData() {
     try {
         const offers = await db.collection('offers').get();
         if (offers.empty) {
-            await db.collection('offers').add({ 
-                title: "🍕 3 Classic Pizzas", price: 141, badge: "HOT", type: "food",
-                startDate: getTodayDate(),
-                endDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
-                createdAt: new Date().toISOString()
-            });
-            await db.collection('offers').add({ 
-                title: "🎬 Pushpa 2 - Movie Ticket", price: 299, badge: "CINEMA", type: "movie",
-                startDate: getTodayDate(),
-                endDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
-                createdAt: new Date().toISOString()
-            });
-            await db.collection('offers').add({ 
-                title: "⚡ 50% OFF Electronics", price: 499, badge: "FLASH", type: "electronics",
-                startDate: getTodayDate(),
-                endDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
-                createdAt: new Date().toISOString()
-            });
-            console.log("✅ Offers seeded");
+            await db.collection('offers').add({ title: "🍕 3 Classic Pizzas", price: 141, badge: "HOT", type: "food", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
+            await db.collection('offers').add({ title: "🎬 Pushpa 2 - Movie Ticket", price: 299, badge: "CINEMA", type: "movie", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
+            await db.collection('offers').add({ title: "⚡ 50% OFF Electronics", price: 499, badge: "FLASH", type: "electronics", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
         }
-        
         const coupons = await db.collection('coupons').get();
         if (coupons.empty) {
-            await db.collection('coupons').add({ 
-                code: "SAVE50", discount: 50,
-                expiry: new Date(Date.now() + 180*24*60*60*1000).toISOString().split('T')[0],
-                usedBy: [], createdAt: new Date().toISOString()
-            });
-            await db.collection('coupons').add({ 
-                code: "WELCOME100", discount: 100,
-                expiry: new Date(Date.now() + 180*24*60*60*1000).toISOString().split('T')[0],
-                usedBy: [], createdAt: new Date().toISOString()
-            });
-            console.log("✅ Coupons seeded");
+            await db.collection('coupons').add({ code: "SAVE50", discount: 50, minOrder: 200, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], createdAt: new Date().toISOString() });
+            await db.collection('coupons').add({ code: "WELCOME100", discount: 100, minOrder: 500, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], createdAt: new Date().toISOString() });
+            await db.collection('coupons').add({ code: "PRL20", discount: 20, minOrder: 100, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], createdAt: new Date().toISOString() });
         }
-        
         const giftCards = await db.collection('giftCards').get();
         if (giftCards.empty) {
             await db.collection('giftCards').add({ code: "GIFT100", points: 100, usedBy: [], createdAt: new Date().toISOString() });
             await db.collection('giftCards').add({ code: "GIFT500", points: 500, usedBy: [], createdAt: new Date().toISOString() });
-            console.log("✅ Gift cards seeded");
         }
     } catch(e) { console.error("Seed error:", e); }
 }
@@ -1406,90 +1620,17 @@ auth.onAuthStateChanged(async (user) => {
         currentUser = null;
         userData = null;
         isBlocked = false;
-        renderPage(`
-            <div style="text-align:center; padding:40px 20px; animation:fadeInUp 0.5s ease;">
-                <div style="font-size:56px; margin-bottom:16px; animation:float 3s ease-in-out infinite;">🏪</div>
-                <h2 style="color:#1a1a2e;">Welcome Back</h2>
-                <p style="color:#666; font-size:14px;">Sign in to continue shopping</p>
-                <button class="btn btn-outline" onclick="googleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px;">
-                    <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-                    Sign in with Google
-                </button>
-                <div style="display:flex; align-items:center; margin:15px 0;">
-                    <hr style="flex:1; border-color:#e0e0e0;">
-                    <span style="padding:0 15px; color:#999; font-size:12px;">OR</span>
-                    <hr style="flex:1; border-color:#e0e0e0;">
-                </div>
-                <input class="input-field" id="loginEmail" type="email" placeholder="Email" style="animation:fadeInUp 0.6s ease;">
-                <input class="input-field" id="loginPassword" type="password" placeholder="Password" style="animation:fadeInUp 0.7s ease;">
-                <button class="btn btn-primary" onclick="emailLogin()" style="animation:pulse 2s infinite;">Sign In</button>
-                <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
-                    New? <span style="color:#D4AF37; font-weight:700; cursor:pointer;" onclick="showRegister()">Create Account</span>
-                </p>
-            </div>
-        `);
+        renderPage(renderLogin());
     }
 });
-
-// ============================================================
-// REGISTER PAGE
-// ============================================================
-function showRegister() {
-    renderPage(`
-        <div style="text-align:center; padding:20px 0; animation:fadeInUp 0.5s ease;">
-            <div style="font-size:48px; animation:float 3s ease-in-out infinite;">📝</div>
-            <h2 style="color:#1a1a2e;">Create Account</h2>
-        </div>
-        <button class="btn btn-outline" onclick="googleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px;">
-            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-            Sign up with Google
-        </button>
-        <div style="display:flex; align-items:center; margin:15px 0;">
-            <hr style="flex:1; border-color:#e0e0e0;"><span style="padding:0 15px; color:#999; font-size:12px;">OR</span><hr style="flex:1; border-color:#e0e0e0;">
-        </div>
-        <input class="input-field" id="regName" placeholder="Full Name" style="animation:fadeInUp 0.5s ease;">
-        <input class="input-field" id="regEmail" type="email" placeholder="Email" style="animation:fadeInUp 0.6s ease;">
-        <input class="input-field" id="regMobile" type="tel" placeholder="Mobile (10 digits)" maxlength="10" style="animation:fadeInUp 0.7s ease;">
-        <input class="input-field" id="regPassword" type="password" placeholder="Password (min 6 chars)" style="animation:fadeInUp 0.8s ease;">
-        <button class="btn btn-primary" onclick="registerUser()" style="animation:pulse 2s infinite;">Register & Send OTP</button>
-        <div id="otpSection" style="display:none; margin-top:12px; animation:fadeInUp 0.5s ease;">
-            <p class="text-muted">Enter 6-digit OTP sent to your email</p>
-            <div style="display:flex; gap:10px; justify-content:center; margin:10px 0;">
-                <input class="otp-box" maxlength="1">
-                <input class="otp-box" maxlength="1">
-                <input class="otp-box" maxlength="1">
-                <input class="otp-box" maxlength="1">
-                <input class="otp-box" maxlength="1">
-                <input class="otp-box" maxlength="1">
-            </div>
-            <button class="btn btn-success" onclick="verifyOTP()" style="animation:pulse 2s infinite;">Verify OTP</button>
-        </div>
-        <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
-            Already have an account? <span style="color:#D4AF37; font-weight:700; cursor:pointer;" onclick="location.reload()">Sign In</span>
-        </p>
-    `);
-    
-    document.querySelectorAll('.otp-box').forEach((input, idx) => {
-        input.addEventListener('input', function() {
-            if (this.value.length === 1 && idx < 5) {
-                document.querySelectorAll('.otp-box')[idx + 1].focus();
-            }
-        });
-        input.addEventListener('keydown', function(e) {
-            if (e.key === 'Backspace' && !this.value && idx > 0) {
-                document.querySelectorAll('.otp-box')[idx - 1].focus();
-            }
-        });
-    });
-}
 
 // ============================================================
 // INIT
 // ============================================================
 console.log("🚀 Pawan Retail Customer Panel");
-console.log("💳 Cash on Delivery: Not Available");
-console.log("📱 Features: Home, Orders, PRL Coins, Coupons, Complaints, Profile, About");
-console.log("🔄 Menu fully working with all sections");
+console.log("📧 REAL OTP via EmailJS - OTP only on email, NOT in app");
+console.log("🔑 Google Sign-In with Redirect");
+console.log("📱 Menu Fully Working");
 </script>
 </body>
 </html>
