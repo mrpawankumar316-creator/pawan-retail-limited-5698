@@ -1,1067 +1,161 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Pawan Retail Limited • Premium Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Pawan Retail • Customer Panel</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 12px;
-        }
-
-        .mobile-frame {
-            max-width: 450px;
-            width: 100%;
-            margin: 0 auto;
-            background: #f8fafc;
-            min-height: 95vh;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            border-radius: 32px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-15px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .animate-fade { animation: fadeInUp 0.3s ease forwards; }
-        .animate-slide { animation: slideIn 0.3s ease forwards; }
-
-        /* Login Screen */
-        .login-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            border-radius: 32px;
-            transition: opacity 0.3s ease;
-        }
-        .login-screen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-
-        .login-card {
-            background: white;
-            border-radius: 32px;
-            padding: 28px 24px;
-            width: 85%;
-            max-width: 340px;
-            text-align: center;
-            animation: fadeInUp 0.4s ease;
-        }
-        .login-card h2 {
-            font-size: 26px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #D4AF37, #B8860B);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .login-card input {
-            width: 100%;
-            padding: 14px 16px;
-            margin: 10px 0;
-            border: 2px solid #f0f0f0;
-            border-radius: 30px;
-            font-size: 14px;
-            background: #fafafa;
-        }
-        .login-card input:focus { outline: none; border-color: #D4AF37; }
-        .login-card button {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            background: linear-gradient(135deg, #D4AF37, #B8860B);
-            color: #1a1a2e;
-            font-weight: 700;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-        }
-        .switch-link { color: #D4AF37; cursor: pointer; font-weight: 600; margin-top: 8px; display: inline-block; }
-
-        /* OTP Boxes */
-        .otp-boxes { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
-        .otp-box {
-            width: 48px; height: 54px; text-align: center; font-size: 22px; font-weight: 700;
-            border: 2px solid #e0e0e0; border-radius: 12px; background: white;
-        }
-        .otp-box:focus { outline: none; border-color: #D4AF37; }
-
-        /* App Container */
-        .app-container { background: #f8fafc; min-height: 95vh; position: relative; display: none; }
-        .app-container.show { display: block; }
-
-        /* Header */
-        .premium-header {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            padding: 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { background: #0a0a1a; display: flex; justify-content: center; align-items: center; padding: 12px; min-height: 100vh; }
+        .mobile-frame { max-width: 450px; width: 100%; margin: 0 auto; background: #f5f7fa; min-height: 95vh; border-radius: 32px; overflow-y: auto; overflow-x: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); position: relative; }
+        
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeInLeft { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes fadeInRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+        @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
+        @keyframes spin { 100% { transform:rotate(360deg); } }
+        @keyframes slideIn { from { transform:translateX(-100%); } to { transform:translateX(0); } }
+        @keyframes pop { 0% { transform:scale(0.7) rotate(-5deg); opacity:0; } 70% { transform:scale(1.05) rotate(1deg); } 100% { transform:scale(1) rotate(0); opacity:1; } }
+        @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+        @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
+        @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        
+        .animate-fadeInUp { animation: fadeInUp 0.5s ease forwards; }
+        .animate-fadeInDown { animation: fadeInDown 0.5s ease forwards; }
+        .animate-pulse { animation: pulse 2s infinite; }
+        .animate-pop { animation: pop 0.4s ease forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        
+        .premium-header { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 12px 16px; position: sticky; top:0; z-index:100; border-bottom: 2px solid rgba(99,102,241,0.2); }
         .header-top { display: flex; justify-content: space-between; align-items: center; }
-        .logo {
-            font-size: 18px; font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #D4AF37);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            animation: shimmer 2s infinite;
-        }
-        .menu-icon {
-            background: rgba(255,255,255,0.1); width: 40px; height: 40px; border-radius: 30px;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            font-size: 20px; border: 1px solid rgba(212, 175, 55, 0.3);
-        }
-
-        .content-area { padding: 16px; background: #f8fafc; min-height: 450px; }
-
-        .premium-card {
-            background: white; border-radius: 20px; padding: 16px; margin-bottom: 14px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(212, 175, 55, 0.15);
-            transition: all 0.2s; cursor: pointer;
-        }
-        .premium-card:active { transform: scale(0.98); }
-
-        .badge {
-            display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 700;
-            margin-bottom: 10px;
-        }
-        .badge-hot { background: linear-gradient(135deg, #FF6B6B, #EE5A24); color: white; }
-        .badge-cinema { background: linear-gradient(135deg, #8E44AD, #9B59B6); color: white; }
-
-        .offer-title { font-size: 16px; font-weight: 700; color: #1a1a2e; }
-        .offer-price { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #1a1a2e, #D4AF37); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 8px 0; }
-        .offer-timer {
-            font-size: 12px; color: #e74c3c; background: #fff3e0; display: inline-block;
-            padding: 4px 12px; border-radius: 20px; margin-top: 8px;
-        }
-
-        .btn {
-            width: 100%; padding: 12px; border: none; border-radius: 40px; font-size: 14px;
-            font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.2s;
-        }
-        .btn:active { transform: scale(0.97); }
-        .btn-primary { background: linear-gradient(135deg, #D4AF37, #B8860B); color: #1a1a2e; }
-        .btn-secondary { background: #f0f0f0; color: #1a1a2e; border: 1px solid #e0e0e0; }
-        .btn-cancel { background: #fee2e2; color: #dc2626; }
-
-        .input-field {
-            width: 100%; padding: 12px 16px; border: 2px solid #f0f0f0; border-radius: 40px;
-            font-size: 14px; margin: 8px 0; background: #fafafa;
-        }
-        .input-field:focus { outline: none; border-color: #D4AF37; }
-
-        .banner-container { margin-bottom: 16px; border-radius: 20px; overflow: hidden; }
-        .banner-item {
-            background: linear-gradient(135deg, #D4AF37, #B8860B);
-            padding: 25px 20px; text-align: center; color: white;
-        }
-
-        .order-card {
-            background: white; border-radius: 20px; padding: 14px; margin-bottom: 12px;
-            border-left: 4px solid #D4AF37; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            cursor: pointer; transition: all 0.2s;
-        }
-        .order-card:active { transform: scale(0.98); }
-
-        .status-badge {
-            display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
-        }
-        .status-pending { background: #fff3e0; color: #ff9800; }
-        .status-confirmed { background: #e3f2fd; color: #2196f3; }
-        .status-processing { background: #f3e5f5; color: #9c27b0; }
-        .status-out { background: #fff8e1; color: #ffc107; }
-        .status-delivered { background: #e8f5e9; color: #4caf50; }
-
-        /* Order Timeline */
-        .order-timeline {
-            display: flex; flex-direction: column; margin: 20px 0; position: relative;
-        }
-        .timeline-step {
-            display: flex; align-items: center; margin-bottom: 20px; position: relative;
-        }
-        .timeline-step:not(:last-child)::before {
-            content: ''; position: absolute; left: 20px; top: 40px; width: 2px; height: 30px;
-            background: #e0e0e0; transition: all 0.5s;
-        }
-        .timeline-step.completed:not(:last-child)::before { background: #4caf50; }
-        .timeline-step.active .step-dot { background: #4caf50; color: white; animation: pulse 1s infinite; }
-        .step-dot {
-            width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid #e0e0e0;
-            display: flex; align-items: center; justify-content: center; margin-right: 16px;
-            font-weight: bold; z-index: 2; transition: all 0.3s;
-        }
-        .step-content { flex: 1; }
-        .step-title { font-weight: 700; font-size: 14px; }
-        .step-time { font-size: 10px; color: #7f8c8d; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
-        /* Menu Sidebar */
-        .menu-sidebar {
-            position: absolute; top: 0; left: -280px; width: 280px; height: 100%;
-            background: white; z-index: 200; transition: left 0.3s ease;
-            padding: 20px; border-radius: 0 20px 20px 0;
-        }
-        .menu-sidebar.open { left: 0; }
-        .menu-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5); z-index: 150; display: none; border-radius: 32px;
-        }
-        .menu-overlay.show { display: block; }
-        .menu-item {
-            background: #fafafa; border-radius: 16px; padding: 12px; margin-bottom: 12px;
-            cursor: pointer; text-align: center;
-        }
-        .menu-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid #D4AF37; }
-
-        .flex-between { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; }
-        .price-breakdown { background: #f8f9fa; padding: 15px; border-radius: 20px; margin: 12px 0; }
-        .total-amount { font-size: 20px; font-weight: 800; color: #D4AF37; border-top: 2px dashed #e0e0e0; padding-top: 12px; margin-top: 8px; }
-
-        .center-popup {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 5000; background: white; border-radius: 24px; padding: 20px;
-            text-align: center; min-width: 260px; animation: fadeInUp 0.3s ease;
-        }
-        .center-popup button {
-            background: linear-gradient(135deg, #D4AF37, #B8860B);
-            border: none; padding: 8px 20px; border-radius: 30px; margin-top: 12px; cursor: pointer;
-        }
-
-        .payment-methods-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 15px 0;
-        }
-        .payment-method-card {
-            background: #f8f9fa; border-radius: 16px; padding: 12px; text-align: center;
-            cursor: pointer; border: 1px solid #e0e0e0;
-        }
-        .qr-container {
-            text-align: center; padding: 15px; background: white; border-radius: 20px;
-            margin: 12px 0; cursor: pointer; border: 2px dashed #D4AF37;
-        }
-
-        .movie-ticket-page { background: white; border-radius: 20px; padding: 20px; }
-        .movie-ticket-page h2 { color: #D4AF37; margin-bottom: 16px; }
-        .theatre-info { background: #f0f0f0; border-radius: 16px; padding: 12px; margin: 12px 0; text-align: center; }
-        .time-slots { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
-        .time-slot { padding: 8px 14px; border: 1px solid #e0e0e0; border-radius: 30px; cursor: pointer; font-size: 12px; }
-        .time-slot.selected { background: #D4AF37; color: white; }
-        .date-card { flex: 1; text-align: center; padding: 10px; border: 1px solid #e0e0e0; border-radius: 12px; cursor: pointer; }
-        .date-card.selected { background: #D4AF37; color: white; }
-
-        .complaint-item {
-            background: #f8f9fa; border-radius: 16px; padding: 12px; margin-bottom: 10px;
-            border-left: 3px solid #ff9800;
-        }
-    </style>
-</head>
-<body>
-
-<div class="mobile-frame">
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-screen">
-        <div class="login-card">
-            <h2>🏪 PAWAN RETAIL</h2>
-            <div id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Email Address">
-                <input type="password" id="loginPassword" placeholder="Password">
-                <button onclick="handleLogin()">Login</button>
-                <div class="switch-link" onclick="showSignup()">New user? Create Account</div>
-            </div>
-            <div id="signupForm" style="display:none">
-                <input type="text" id="signupName" placeholder="Full Name">
-                <input type="email" id="signupEmail" placeholder="Email Address">
-                <input type="tel" id="signupMobile" placeholder="Mobile Number (10 digits)">
-                <button onclick="sendSignupOTP()">Send OTP</button>
-                <div id="signupOtpDiv" style="display:none; margin-top:15px;">
-                    <div class="otp-boxes">
-                        <input type="text" class="otp-box" id="otp0" maxlength="1" inputmode="numeric" oninput="moveNext(0, event)" onkeydown="movePrev(0, event)">
-                        <input type="text" class="otp-box" id="otp1" maxlength="1" inputmode="numeric" oninput="moveNext(1, event)" onkeydown="movePrev(1, event)">
-                        <input type="text" class="otp-box" id="otp2" maxlength="1" inputmode="numeric" oninput="moveNext(2, event)" onkeydown="movePrev(2, event)">
-                        <input type="text" class="otp-box" id="otp3" maxlength="1" inputmode="numeric" oninput="moveNext(3, event)" onkeydown="movePrev(3, event)">
-                        <input type="text" class="otp-box" id="otp4" maxlength="1" inputmode="numeric" oninput="moveNext(4, event)" onkeydown="movePrev(4, event)">
-                        <input type="text" class="otp-box" id="otp5" maxlength="1" inputmode="numeric" oninput="moveNext(5, event)" onkeydown="movePrev(5, event)">
-                    </div>
-                    <button class="btn btn-primary" style="margin-top:15px;" onclick="verifySignupOTP()">Verify & Register</button>
-                </div>
-                <div class="switch-link" onclick="showLogin()" style="margin-top:10px;">Back to Login</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- App Container -->
-    <div id="appContainer" class="app-container">
-        <div id="dynamicPage">
-            <div style="text-align:center; padding:40px;">Loading...</div>
-        </div>
-    </div>
-
-    <!-- Menu Sidebar -->
-    <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
-    <div id="menuSidebar" class="menu-sidebar">
-        <div class="menu-header">
-            <div style="font-size: 40px;">👤</div>
-            <div id="menuName" style="font-weight: 800;">User</div>
-            <div id="menuPoints" style="font-size: 12px; color: #D4AF37;">⭐ 0 pts</div>
-        </div>
-        <div class="menu-item" onclick="showHome(); closeMenu()">🏠 Home</div>
-        <div class="menu-item" onclick="showOrders(); closeMenu()">📦 My Orders</div>
-        <div class="menu-item" onclick="showPRLCoins(); closeMenu()">🪙 PRL Coins</div>
-        <div class="menu-item" onclick="showComplaints(); closeMenu()">📢 Complaints</div>
-        <div class="menu-item" onclick="showProfile(); closeMenu()">👤 Profile</div>
-        <div class="menu-item" onclick="showAboutUs(); closeMenu()">ℹ️ About Us</div>
-        <div class="menu-item" style="background: #fee2e2;" onclick="logout()">🚪 Logout</div>
-    </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDzgIrjcWwnqS5e3lDplptyU6VDSngn7_o",
-        authDomain: "pawan-8388d.firebaseapp.com",
-        projectId: "pawan-8388d",
-        storageBucket: "pawan-8388d.firebasestorage.app",
-        messagingSenderId: "522473603051",
-        appId: "1:522473603051:web:519543c829c1eefd1523ae"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    emailjs.init("3cUWXrfL9AhSkM5FA");
-    
-    let currentUser = null, userData = null, selectedOffer = null;
-    let appliedCoupon = null;
-    let usePRLCoins = false;
-    let selectedCoinPercent = 0;
-    let movieDetails = null;
-    let pendingSignup = null, pendingOtp = null;
-    
-    const timeSlots = ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM"];
-    const theatreInfo = { name: "🎬 PVR Cinemas - Bokaro", address: "The Bokaro Mall, Sector 3C" };
-    
-    const statusFlow = [
-        { name: "pending", display: "🟡 Order Placed", time: "Just now" },
-        { name: "confirmed", display: "✅ Order Confirmed", time: "10-20 min" },
-        { name: "processing", display: "🍳 Preparing Your Food", time: "20-30 min" },
-        { name: "out_for_delivery", display: "🚚 Out for Delivery", time: "30-40 min" },
-        { name: "delivered", display: "🎉 Delivered! 🎉", time: "40-45 min" }
-    ];
-    
-    function showPopup(title, message) {
-        let existing = document.querySelector('.center-popup');
-        if (existing) existing.remove();
-        let popup = document.createElement('div');
-        popup.className = 'center-popup';
-        popup.innerHTML = `<h3 style="color:#D4AF37;">${title}</h3><p>${message}</p><button onclick="this.parentElement.remove()">OK</button>`;
-        document.body.appendChild(popup);
-        setTimeout(() => { if(popup) popup.remove(); }, 3000);
-    }
-    
-    function generateOTP() { return Math.floor(100000 + Math.random() * 900000).toString(); }
-    
-    async function sendOTPEmail(email, otp) {
-        try {
-            await emailjs.send("Pawanretaillimited-5678", "template_45qu30j", { to_email: email, otp: otp });
-            return true;
-        } catch(e) { return false; }
-    }
-    
-    async function loadUserData() {
-        if (!currentUser) return;
-        try {
-            let docSnap = await db.collection("users").doc(currentUser.uid).get();
-            if (docSnap.exists) {
-                userData = docSnap.data();
-            } else {
-                userData = { name: "User", email: currentUser.email, prlCoins: 500, address: {} };
-                await db.collection("users").doc(currentUser.uid).set(userData);
-            }
-            document.getElementById('menuName').innerHTML = userData.name || "User";
-            document.getElementById('menuPoints').innerHTML = `⭐ ${userData.prlCoins || 0} pts`;
-        } catch(e) { console.error("Load user error:", e); }
-    }
-    
-    async function seedData() {
-        try {
-            let off = await db.collection("offers").get();
-            if (off.empty) {
-                let expiryTime = new Date();
-                expiryTime.setHours(expiryTime.getHours() + 24);
-                await db.collection("offers").add({ title: "🍕 3 Classic Pizzas", price: 141, badge: "HOT", type: "food", expiryTime: expiryTime });
-                await db.collection("offers").add({ title: "🎬 Pushpa 2 - Movie Ticket", price: 299, badge: "CINEMA", type: "movie", expiryTime: expiryTime });
-                console.log("✅ Offers added");
-            }
-            let cp = await db.collection("coupons").get();
-            if (cp.empty) {
-                await db.collection("coupons").add({ code: "SAVE50", discount: 50, usedBy: [] });
-                console.log("✅ Coupons added");
-            }
-            let gc = await db.collection("giftCards").get();
-            if (gc.empty) {
-                await db.collection("giftCards").add({ code: "PRL100", points: 100, usedBy: [] });
-                console.log("✅ Gift cards added");
-            }
-        } catch(e) { console.error("Seed error:", e); }
-    }
-    
-    function toggleMenu() {
-        document.getElementById('menuSidebar').classList.add('open');
-        document.getElementById('menuOverlay').classList.add('show');
-    }
-    function closeMenu() {
-        document.getElementById('menuSidebar').classList.remove('open');
-        document.getElementById('menuOverlay').classList.remove('show');
-    }
-    
-    function getTimeLeft(expiryTime) {
-        if (!expiryTime) return "Limited offer!";
-        let now = new Date();
-        let expiry = expiryTime.toDate ? expiryTime.toDate() : new Date(expiryTime);
-        let diff = expiry - now;
-        if (diff <= 0) return "Expired";
-        let hours = Math.floor(diff / (1000 * 60 * 60));
-        let minutes = Math.floor((diff % (3600000)) / (1000 * 60));
-        let seconds = Math.floor((diff % (60000)) / 1000);
-        return `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-    }
-    
-    function startTimerForOffers() {
-        setInterval(async () => {
-            let offersSnap = await db.collection("offers").get();
-            offersSnap.forEach(doc => {
-                let data = doc.data();
-                if (data.expiryTime) {
-                    let timerElem = document.getElementById(`timer_${doc.id}`);
-                    if (timerElem) {
-                        timerElem.innerText = getTimeLeft(data.expiryTime);
-                    }
-                }
-            });
-        }, 1000);
-    }
-    
-    function getNextThreeDays() {
-        let days = [];
-        let today = new Date();
-        for (let i = 0; i < 3; i++) {
-            let date = new Date();
-            date.setDate(today.getDate() + i);
-            days.push({ dateStr: date.toISOString().split('T')[0], dayName: date.toLocaleDateString('en-IN', { weekday: 'short' }), dateNum: date.getDate() });
-        }
-        return days;
-    }
-    
-    function calculateFinalAmount() {
-        let base = selectedOffer ? selectedOffer.price : 0;
-        let discount = appliedCoupon ? appliedCoupon.discount : 0;
-        let maxCoinDiscount = Math.floor(base * 0.15);
-        let coinDiscount = usePRLCoins ? Math.min(Math.floor(base * selectedCoinPercent / 100), maxCoinDiscount, userData?.prlCoins || 0) : 0;
-        return Math.max(0, base - discount - coinDiscount);
-    }
-    
-    // ========== HOME PAGE ==========
-    async function showHome() {
-        await loadUserData();
-        let offersSnap = await db.collection("offers").get();
-        let offersList = [];
-        offersSnap.forEach(doc => offersList.push({ id: doc.id, ...doc.data() }));
+        .logo { font-size: 17px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #818cf8); -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 3s infinite; background-size:200% auto; }
+        .logo span { font-size:9px; opacity:0.7; }
+        .header-actions { display:flex; gap:10px; align-items:center; }
+        .refresh-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
+        .refresh-btn:hover { transform:rotate(180deg); background:rgba(99,102,241,0.2); }
+        .menu-icon { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
+        .menu-icon:active { transform:scale(0.9); }
+        .back-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
+        .back-btn:active { transform:scale(0.9); }
         
-        let html = `
-            <div class="premium-header">
-                <div class="header-top">
-                    <div class="logo">PAWAN<span>RETAIL LIMITED</span></div>
-                    <div class="menu-icon" onclick="toggleMenu()">☰</div>
-                </div>
-            </div>
-            <div class="content-area">
-                <div class="banner-container"><div class="banner-item"><h3>🔥 Special Offers!</h3><p>Limited time deals</p></div></div>
-                <h3 style="color:#D4AF37; margin-bottom:12px;">✨ Hot Offers</h3>
-        `;
-        for (let o of offersList) {
-            let badgeClass = o.badge === 'HOT' ? 'badge-hot' : 'badge-cinema';
-            let timeLeft = getTimeLeft(o.expiryTime);
-            html += `
-                <div class="premium-card animate-slide" onclick="selectOffer('${o.id}', '${o.title}', ${o.price}, '${o.type}')">
-                    <span class="badge ${badgeClass}">${o.badge}</span>
-                    <div class="offer-title">${o.title}</div>
-                    <div class="offer-price">₹${o.price}</div>
-                    <div class="offer-timer" id="timer_${o.id}">⏱️ ${timeLeft}</div>
-                    <button class="btn btn-primary" onclick="event.stopPropagation(); selectOffer('${o.id}', '${o.title}', ${o.price}, '${o.type}')">Order Now →</button>
-                </div>
-            `;
-        }
-        html += `</div>`;
-        document.getElementById('dynamicPage').innerHTML = html;
-        startTimerForOffers();
-    }
-    
-    window.selectOffer = function(id, title, price, type) {
-        selectedOffer = { id, title, price, type };
-        appliedCoupon = null;
-        usePRLCoins = false;
-        selectedCoinPercent = 0;
-        movieDetails = null;
-        if (type === 'movie') renderMoviePage();
-        else renderAddressPage();
-    };
-    
-    function renderMoviePage() {
-        let dates = getNextThreeDays();
-        let html = `
-            <div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div>
-            <div class="content-area">
-                <div class="movie-ticket-page">
-                    <h2>🎬 Movie Ticket</h2>
-                    <div class="offer-title">${selectedOffer.title}</div>
-                    <div class="offer-price">₹${selectedOffer.price}</div>
-                    <div class="theatre-info"><strong>${theatreInfo.name}</strong><br>${theatreInfo.address}</div>
-                    <div style="display:flex; gap:10px; margin:10px 0;">
-                        ${dates.map((d, idx) => `<div class="date-card ${idx===0?'selected':''}" onclick="selectDate('${d.dateStr}', this)"><div>${d.dayName}</div><div style="font-size:18px; font-weight:800;">${d.dateNum}</div></div>`).join('')}
-                    </div>
-                    <input type="hidden" id="selectedDate" value="${dates[0].dateStr}">
-                    <div class="time-slots">${timeSlots.map(slot => `<span class="time-slot" onclick="selectTimeSlot('${slot}', this)">${slot}</span>`).join('')}</div>
-                    <input type="hidden" id="selectedTimeSlot">
-                    <input type="number" id="ticketCount" class="input-field" placeholder="Tickets" min="1" max="10" value="1">
-                    <input type="email" id="ticketEmail" class="input-field" placeholder="Email" value="${currentUser?.email || ''}">
-                    <input type="tel" id="ticketMobile" class="input-field" placeholder="Mobile (10 digits)" maxlength="10">
-                    <button class="btn btn-primary" onclick="saveMovieAndProceed()">Proceed →</button>
-                    <button class="btn btn-secondary" onclick="showHome()">Back</button>
-                </div>
-            </div>
-        `;
-        document.getElementById('dynamicPage').innerHTML = html;
-    }
-    
-    window.selectDate = function(dateStr, element) {
-        document.getElementById('selectedDate').value = dateStr;
-        document.querySelectorAll('.date-card').forEach(el => {
-            el.classList.remove('selected'); el.style.background = "white"; el.style.color = "#1a1a2e";
-        });
-        element.classList.add('selected'); element.style.background = "#D4AF37"; element.style.color = "white";
-    };
-    
-    window.selectTimeSlot = function(slot, element) {
-        document.getElementById('selectedTimeSlot').value = slot;
-        document.querySelectorAll('.time-slot').forEach(el => {
-            el.classList.remove('selected'); el.style.background = "white";
-        });
-        element.classList.add('selected'); element.style.background = "#D4AF37"; element.style.color = "white";
-    };
-    
-    window.saveMovieAndProceed = function() {
-        let date = document.getElementById('selectedDate').value;
-        let time = document.getElementById('selectedTimeSlot').value;
-        let tickets = document.getElementById('ticketCount').value;
-        let email = document.getElementById('ticketEmail').value.trim();
-        let mobile = document.getElementById('ticketMobile').value.trim();
-        if (!date || !time || !tickets || !email || mobile.length !== 10) {
-            showPopup("Error", "Please fill all details"); return;
-        }
-        movieDetails = { date, time, tickets, email, mobile };
-        renderPaymentPage();
-    };
-    
-    function renderAddressPage() {
-        let addr = userData?.address || {};
-        document.getElementById('dynamicPage').innerHTML = `
-            <div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div>
-            <div class="content-area">
-                <div class="premium-card">
-                    <h3 style="color:#D4AF37;">📍 Delivery Address</h3>
-                    <input class="input-field" id="flat" placeholder="Flat/House No" value="${addr.flat || ''}">
-                    <input class="input-field" id="street" placeholder="Street" value="${addr.street || ''}">
-                    <input class="input-field" id="city" placeholder="City" value="${addr.city || ''}">
-                    <input class="input-field" id="pincode" placeholder="Pincode" value="${addr.pincode || ''}">
-                    <button class="btn btn-primary" onclick="saveAddressAndProceed()">Proceed →</button>
-                    <button class="btn btn-secondary" onclick="showHome()">Back</button>
-                </div>
-            </div>
-        `;
-    }
-    
-    window.saveAddressAndProceed = async function() {
-        let flat = document.getElementById('flat').value.trim();
-        let street = document.getElementById('street').value.trim();
-        let city = document.getElementById('city').value.trim();
-        let pincode = document.getElementById('pincode').value.trim();
-        if (!flat || !street || !city || !pincode) {
-            showPopup("Error", "Fill all address fields"); return;
-        }
-        await db.collection("users").doc(currentUser.uid).update({ address: { flat, street, city, pincode } });
-        userData.address = { flat, street, city, pincode };
-        renderPaymentPage();
-    };
-    
-    function renderPaymentPage() {
-        if (!selectedOffer) { showPopup("Error", "No offer selected"); showHome(); return; }
-        let finalAmount = calculateFinalAmount();
-        let isFree = finalAmount <= 0;
-        let upiId = "mr.pawankumar318@okicici";
-        let coinOptions = [0, 5, 10, 15];
+        .content-area { padding:12px 14px; background:#f5f7fa; min-height:450px; }
         
-        let html = `
-            <div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div>
-            <div class="content-area">
-                <div class="premium-card">
-                    <h3 style="color:#D4AF37;">💰 Payment</h3>
-                    <div class="price-breakdown">
-                        <div class="flex-between"><span>Order Amount</span><span>₹${selectedOffer.price}</span></div>
-                        ${appliedCoupon ? `<div class="flex-between"><span>🎉 Coupon (${appliedCoupon.code})</span><span>-₹${appliedCoupon.discount}</span></div>` : ''}
-                        ${usePRLCoins && selectedCoinPercent > 0 ? `<div class="flex-between"><span>🪙 PRL Coins (${selectedCoinPercent}%)</span><span>-₹${Math.min(Math.floor(selectedOffer.price * selectedCoinPercent / 100), userData?.prlCoins || 0)}</span></div>` : ''}
-                        <div class="total-amount flex-between"><span>Total</span><span>₹${finalAmount}</span></div>
-                    </div>
-                    <div style="margin:10px 0;"><strong>🪙 Pay with PRL Coins (Up to 15% off)</strong></div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
-                        ${coinOptions.map(pct => `
-                            <div class="coin-option" style="padding:8px 16px; border:1px solid #e0e0e0; border-radius:30px; cursor:pointer; ${usePRLCoins && selectedCoinPercent===pct?'background:#D4AF37;color:white;':''}" onclick="selectCoinPercent(${pct})">
-                                ${pct === 0 ? '❌ None' : `${pct}% OFF`}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <button class="btn btn-secondary" onclick="showCouponPopup()">🎫 Apply Coupon</button>
-                    <div class="payment-methods-grid">
-                        <div class="payment-method-card" onclick="openUpiApp('phonepe', ${finalAmount})">📱 PhonePe</div>
-                        <div class="payment-method-card" onclick="openUpiApp('paytm', ${finalAmount})">🎯 Paytm</div>
-                        <div class="payment-method-card" onclick="openUpiApp('googlepay', ${finalAmount})">💳 Google Pay</div>
-                        <div class="payment-method-card" onclick="openUpiApp('bhim', ${finalAmount})">🏦 BHIM</div>
-                    </div>
-                    <div class="qr-container" onclick="showQRCode()"><div id="qrDisplay">🔳 Tap to generate QR</div></div>
-                    ${!isFree ? `<input class="input-field" id="transactionId" placeholder="Transaction ID (12 digits)" maxlength="12">` : `<div style="background:#e8f5e9; padding:12px; text-align:center;">🎉 Total ₹0! No payment needed.</div>`}
-                    <button class="btn btn-primary" onclick="placeOrder(${finalAmount}, ${isFree})">Confirm Order</button>
-                    <button class="btn btn-secondary" onclick="showHome()">Cancel</button>
-                </div>
-            </div>
-        `;
-        document.getElementById('dynamicPage').innerHTML = html;
-    }
-    
-    window.selectCoinPercent = function(percent) {
-        if (percent === 0) {
-            usePRLCoins = false;
-            selectedCoinPercent = 0;
-        } else {
-            usePRLCoins = true;
-            selectedCoinPercent = percent;
-        }
-        renderPaymentPage();
-    };
-    
-    window.showQRCode = function() {
-        let amount = calculateFinalAmount();
-        let qrUrl = `https://quickchart.io/qr?text=upi://pay?pa=mr.pawankumar318@okicici&pn=Pawan%20Retail&am=${amount}&cu=INR&size=200`;
-        document.getElementById('qrDisplay').innerHTML = `<img src="${qrUrl}" width="140"><div style="margin-top:8px;">Amount: ₹${amount}</div>`;
-    };
-    
-    function openUpiApp(appType, amount) {
-        if (amount <= 0) { showPopup("Free Order", "Order is free!"); return; }
-        let upiId = "mr.pawankumar318@okicici";
-        let urls = {
-            phonepe: `phonepe://pay?pa=${upiId}&pn=Pawan%20Retail&am=${amount}&cu=INR`,
-            paytm: `paytmmp://pay?pa=${upiId}&pn=Pawan%20Retail&am=${amount}&cu=INR`,
-            googlepay: `tez://pay?pa=${upiId}&pn=Pawan%20Retail&am=${amount}&cu=INR`,
-            bhim: `bhim://pay?pa=${upiId}&pn=Pawan%20Retail&am=${amount}&cu=INR`
-        };
-        window.location.href = urls[appType] || `upi://pay?pa=${upiId}&pn=Pawan%20Retail&am=${amount}&cu=INR`;
-        showPopup("Payment", `Opening ${appType} with ₹${amount}`);
-    }
-    
-    async function showCouponPopup() {
-        let snap = await db.collection("coupons").get();
-        let html = '<div style="max-height:300px; overflow-y:auto;">';
-        snap.forEach(doc => {
-            let c = doc.data();
-            if (!(c.usedBy || []).includes(currentUser.uid)) {
-                html += `<div style="background:#e8f5e9; border-radius:16px; padding:12px; margin-bottom:10px; display:flex; justify-content:space-between;">
-                            <div><strong>${c.code}</strong><br>₹${c.discount} OFF</div>
-                            <button class="btn btn-primary" style="width:auto; padding:6px 12px;" onclick="applyCoupon('${c.code}', ${c.discount}, '${doc.id}')">Apply</button>
-                        </div>`;
-            }
-        });
-        html += '</div>';
-        document.getElementById('dynamicPage').innerHTML = `
-            <div class="modal-overlay" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); z-index:3000; display:flex; align-items:center; justify-content:center;">
-                <div style="background:white; width:90%; max-width:380px; border-radius:28px; padding:20px;">
-                    <h3 style="color:#D4AF37;">🎫 Apply Coupon</h3>
-                    ${html}
-                    <input class="input-field" id="manualCode" placeholder="Enter code">
-                    <button class="btn btn-primary" onclick="applyManualCoupon()">Apply</button>
-                    <button class="btn btn-secondary" onclick="renderPaymentPage()">Cancel</button>
-                </div>
-            </div>
-        `;
-    }
-    
-    window.applyCoupon = function(code, discount, docId) {
-        appliedCoupon = { code, discount, docId };
-        showPopup("Success", `Coupon ${code} applied! ₹${discount} off`);
-        renderPaymentPage();
-    };
-    
-    window.applyManualCoupon = async function() {
-        let code = document.getElementById('manualCode').value.trim().toUpperCase();
-        let snap = await db.collection("coupons").where("code", "==", code).get();
-        if (snap.empty) { showPopup("Error", "Invalid coupon"); return; }
-        let doc = snap.docs[0];
-        let data = doc.data();
-        if ((data.usedBy || []).includes(currentUser.uid)) { showPopup("Error", "Already used"); return; }
-        appliedCoupon = { code: data.code, discount: data.discount, docId: doc.id };
-        showPopup("Success", `Coupon applied! ₹${data.discount} off`);
-        renderPaymentPage();
-    };
-    
-    window.placeOrder = async function(finalAmount, isFree) {
-        if (!isFree) {
-            let txnId = document.getElementById('transactionId').value.trim();
-            if (!txnId || !/^\d{12}$/.test(txnId)) {
-                showPopup("Error", "Valid 12-digit Transaction ID required");
-                return;
-            }
-        }
-        try {
-            if (appliedCoupon) {
-                await db.collection("coupons").doc(appliedCoupon.docId).update({ usedBy: firebase.firestore.FieldValue.arrayUnion(currentUser.uid) });
-            }
-            let coinUsed = 0;
-            if (usePRLCoins && selectedCoinPercent > 0) {
-                let maxDiscount = Math.floor(selectedOffer.price * selectedCoinPercent / 100);
-                let discountCap = Math.min(maxDiscount, userData?.prlCoins || 0, Math.floor(selectedOffer.price * 0.15));
-                coinUsed = discountCap;
-                await db.collection("users").doc(currentUser.uid).update({ prlCoins: (userData?.prlCoins || 0) - coinUsed });
-                userData.prlCoins -= coinUsed;
-            }
-            let orderId = "ORD" + Date.now();
-            await db.collection("users").doc(currentUser.uid).collection("orders").add({
-                orderId, offerTitle: selectedOffer.title, finalAmount,
-                couponUsed: appliedCoupon?.code || null, prlCoinsUsed: coinUsed,
-                transactionId: isFree ? "FREE" : document.getElementById('transactionId').value,
-                status: "pending", orderDate: new Date(),
-                type: selectedOffer.type,
-                movieDetails: selectedOffer.type === 'movie' ? movieDetails : null,
-                address: selectedOffer.type === 'movie' ? null : userData.address
-            });
-            let pointsEarned = Math.floor(finalAmount * 0.05);
-            if (pointsEarned > 0) {
-                await db.collection("users").doc(currentUser.uid).update({ prlCoins: (userData?.prlCoins || 0) + pointsEarned });
-            }
-            showPopup("Order Placed!", `✅ Order ID: ${orderId.slice(0,12)}`);
-            appliedCoupon = null; usePRLCoins = false; selectedCoinPercent = 0;
-            showOrders();
-        } catch(e) { showPopup("Error", e.message); }
-    };
-    
-    // ========== ORDERS PAGE ==========
-    async function showOrders() {
-        await loadUserData();
-        try {
-            let snap = await db.collection("users").doc(currentUser.uid).collection("orders").orderBy("orderDate", "desc").get();
-            if (snap.empty) {
-                document.getElementById('dynamicPage').innerHTML = `<div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div><div class="content-area"><div class="premium-card">📭 No orders yet</div></div>`;
-                return;
-            }
-            let html = `<div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div><div class="content-area"><h3 style="color:#D4AF37;">📦 My Orders</h3>`;
-            for (let doc of snap.docs) {
-                let o = doc.data();
-                let statusClass = o.status === 'pending' ? 'status-pending' : (o.status === 'confirmed' ? 'status-confirmed' : (o.status === 'processing' ? 'status-processing' : (o.status === 'out_for_delivery' ? 'status-out' : 'status-delivered')));
-                let statusDisplay = o.status === 'pending' ? '🟡 Placed' : (o.status === 'confirmed' ? '✅ Confirmed' : (o.status === 'processing' ? '🍳 Preparing' : (o.status === 'out_for_delivery' ? '🚚 Out for Delivery' : '🎉 Delivered')));
-                html += `
-                    <div class="order-card" onclick="showOrderDetails('${doc.id}')">
-                        <div class="flex-between"><span>#${o.orderId.slice(0,8)}</span><span class="status-badge ${statusClass}">${statusDisplay}</span></div>
-                        <div><strong>${o.offerTitle}</strong></div>
-                        <div class="flex-between"><span>₹${o.finalAmount}</span><span>${new Date(o.orderDate.toDate()).toLocaleDateString()}</span></div>
-                        ${o.couponUsed ? `<div>🎫 ${o.couponUsed}</div>` : ''}
-                    </div>
-                `;
-            }
-            html += `</div>`;
-            document.getElementById('dynamicPage').innerHTML = html;
-        } catch(e) { console.error(e); }
-    }
-    
-    // ========== ORDER DETAILS WITH TIMELINE ==========
-    window.showOrderDetails = async function(orderId) {
-        let doc = await db.collection("users").doc(currentUser.uid).collection("orders").doc(orderId).get();
-        let o = doc.data();
+        .premium-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; }
+        .premium-card:hover { box-shadow:0 4px 25px rgba(0,0,0,0.08); transform:translateY(-2px); }
+        .premium-card.green { border-left-color: #34d399; }
+        .premium-card.pink { border-left-color: #f472b6; }
+        .premium-card.orange { border-left-color: #fb923c; }
+        .premium-card.purple { border-left-color: #a78bfa; }
+        .premium-card.teal { border-left-color: #2dd4bf; }
         
-        let currentStatus = o.status;
-        let currentIdx = statusFlow.findIndex(s => s.name === currentStatus);
-        if (currentIdx === -1) currentIdx = 0;
+        .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.3s; }
+        .btn:active { transform:scale(0.96); }
+        .btn-primary { background:linear-gradient(135deg, #818cf8, #6366f1); color:white; box-shadow:0 4px 15px rgba(99,102,241,0.3); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(99,102,241,0.4); }
+        .btn-secondary { background:#f0f2f5; color:#1a1a2e; border:1px solid #e0e0e0; }
+        .btn-secondary:hover { background:#e5e7eb; }
+        .btn-danger { background:linear-gradient(135deg, #f87171, #ef4444); color:white; box-shadow:0 4px 15px rgba(239,68,68,0.3); }
+        .btn-danger:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(239,68,68,0.4); }
+        .btn-success { background:linear-gradient(135deg, #34d399, #10b981); color:white; box-shadow:0 4px 15px rgba(16,185,129,0.3); }
+        .btn-success:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(16,185,129,0.4); }
+        .btn-warning { background:linear-gradient(135deg, #fb923c, #f59e0b); color:white; box-shadow:0 4px 15px rgba(245,158,11,0.3); }
+        .btn-warning:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(245,158,11,0.4); }
+        .btn-sm { padding:4px 12px; font-size:10px; width:auto; margin-top:0; border-radius:20px; }
+        .btn-outline { background:transparent; border:2px solid #818cf8; color:#6366f1; }
+        .btn-outline:hover { background:#818cf8; color:white; }
         
-        let timelineHtml = `<div class="order-timeline">`;
-        statusFlow.forEach((s, idx) => {
-            let isCompleted = idx <= currentIdx;
-            let isActive = s.name === currentStatus;
-            timelineHtml += `
-                <div class="timeline-step ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}">
-                    <div class="step-dot">${isCompleted ? '✓' : idx+1}</div>
-                    <div class="step-content">
-                        <div class="step-title">${s.display}</div>
-                        <div class="step-time">${s.time}</div>
-                    </div>
-                </div>
-            `;
-        });
-        timelineHtml += `</div>`;
+        .input-field { width:100%; padding:10px 14px; border:2px solid #e8ecf0; border-radius:30px; font-size:13px; margin:4px 0; background:#fafbfc; transition:all 0.3s; }
+        .input-field:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); }
+        .input-field::placeholder { color:#aaa; }
         
-        let detailsHtml = `
-            <div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div>
-            <div class="content-area">
-                <div class="premium-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                        <h3 style="color:#D4AF37;">📋 Order Details</h3>
-                        <button class="btn btn-secondary" style="width:auto; padding:6px 16px; margin:0;" onclick="showOrders()">Back</button>
-                    </div>
-                    <div class="flex-between"><span>Order ID:</span><span>#${o.orderId}</span></div>
-                    <div class="flex-between"><span>Item:</span><span>${o.offerTitle}</span></div>
-                    <div class="flex-between"><span>Amount:</span><span>₹${o.finalAmount}</span></div>
-                    <div class="flex-between"><span>Order Date:</span><span>${new Date(o.orderDate.toDate()).toLocaleString()}</span></div>
-                    ${o.couponUsed ? `<div class="flex-between"><span>Coupon:</span><span>${o.couponUsed}</span></div>` : ''}
-                    ${o.prlCoinsUsed > 0 ? `<div class="flex-between"><span>PRL Coins Used:</span><span>${o.prlCoinsUsed}</span></div>` : ''}
-                    ${timelineHtml}
-                    ${o.type === 'movie' && o.movieDetails ? `
-                        <div style="background:#f0f0f0; border-radius:16px; padding:12px; margin-top:15px;">
-                            <strong>🎬 Ticket Details</strong><br>
-                            Date: ${o.movieDetails.date}<br>
-                            Time: ${o.movieDetails.time}<br>
-                            Tickets: ${o.movieDetails.tickets}<br>
-                            Email: ${o.movieDetails.email}<br>
-                            Mobile: ${o.movieDetails.mobile}
-                        </div>
-                    ` : `
-                        <div style="background:#f0f0f0; border-radius:16px; padding:12px; margin-top:15px;">
-                            <strong>📍 Delivery Address</strong><br>
-                            ${o.address?.flat}, ${o.address?.street}<br>
-                            ${o.address?.city}, ${o.address?.pincode}
-                        </div>
-                    `}
-                </div>
-            </div>
-        `;
-        document.getElementById('dynamicPage').innerHTML = detailsHtml;
-    };
-    
-    async function showPRLCoins() {
-        await loadUserData();
-        document.getElementById('dynamicPage').innerHTML = `
-            <div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div>
-            <div class="content-area">
-                <div style="background:linear-gradient(135deg,#D4AF37,#B8860B); border-radius:24px; padding:30px; text-align:center; color:white;">
-                    <div>🪙 PRL Coins Balance</div>
-                    <div style="font-size:48px; font-weight:800;">${userData?.prlCoins || 0}</div>
-                    <div style="font-size:12px;">1 Coin = ₹1 Discount (Up to 15%)</div>
-                </div>
-                <div class="premium-card"><h3>💡 How to Earn</h3><div>• Signup: 500 Coins</div><div>• Every Order: 5% back</div></div>
-                <div class="premium-card"><h3>🎁 Redeem Gift Card</h3><input class="input-field" id="redeemCode" placeholder="Enter Gift Card Code"><button class="btn btn-primary" onclick="redeemGiftCard()">Redeem</button></div>
-            </div>
-        `;
-    }
-    
-    window.redeemGiftCard = async function() {
-        let code = document.getElementById('redeemCode').value.trim().toUpperCase();
-        if (!code) { showPopup("Error", "Enter code"); return; }
-        let snap = await db.collection("giftCards").where("code", "==", code).get();
-        if (snap.empty) { showPopup("Error", "Invalid code"); return; }
-        let doc = snap.docs[0], data = doc.data();
-        if ((data.usedBy || []).includes(currentUser.uid)) { showPopup("Error", "Already used"); return; }
-        let newCoins = (userData?.prlCoins || 0) + data.points;
-        await db.collection("users").doc(currentUser.uid).update({ prlCoins: newCoins });
-        await db.collection("giftCards").doc(doc.id).update({ usedBy: firebase.firestore.FieldValue.arrayUnion(currentUser.uid) });
-        userData.prlCoins = newCoins;
-        showPopup("Success", `${data.points} Coins added!`);
-        showPRLCoins();
-    };
-    
-    async function showComplaints() {
-        await loadUserData();
-        try {
-            let snap = await db.collection("users").doc(currentUser.uid).collection("complaints").orderBy("createdAt", "desc").get();
-            if (snap.empty) {
-                document.getElementById('dynamicPage').innerHTML = `<div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div><div class="content-area"><div class="premium-card">📭 No complaints yet</div></div>`;
-                return;
-            }
-            let html = `<div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div><div class="content-area"><h3 style="color:#D4AF37;">📢 My Complaints</h3>`;
-            for (let doc of snap.docs) {
-                let c = doc.data();
-                html += `<div class="complaint-item"><div class="flex-between"><strong>${c.type}</strong><span style="background:#ff9800; padding:2px 12px; border-radius:20px;">${c.status}</span></div><div>${c.description}</div><div style="font-size:10px;">${new Date(c.createdAt.toDate()).toLocaleString()}</div></div>`;
-            }
-            html += `</div>`;
-            document.getElementById('dynamicPage').innerHTML = html;
-        } catch(e) { console.error(e); }
-    }
-    
-    window.showComplaintForm = function(orderId, offerTitle) {
-        document.getElementById('dynamicPage').innerHTML = `
-            <div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div>
-            <div class="content-area">
-                <div class="premium-card">
-                    <h3 style="color:#D4AF37;">📢 File Complaint</h3>
-                    <div><strong>Order:</strong> ${offerTitle}</div>
-                    <select id="complaintType" class="input-field">
-                        <option>Select Issue</option><option>Order not delivered</option><option>Bad taste</option>
-                        <option>Wrong item</option><option>Late delivery</option><option>Other</option>
-                    </select>
-                    <textarea id="complaintDesc" class="input-field" placeholder="Describe issue..." rows="3"></textarea>
-                    <button class="btn btn-primary" onclick="submitComplaint('${orderId}')">Submit</button>
-                    <button class="btn btn-secondary" onclick="showOrders()">Cancel</button>
-                </div>
-            </div>
-        `;
-    };
-    
-    window.submitComplaint = async function(orderId) {
-        let type = document.getElementById('complaintType').value;
-        let desc = document.getElementById('complaintDesc').value.trim();
-        if (!type || !desc) { showPopup("Error", "Fill all fields"); return; }
-        await db.collection("users").doc(currentUser.uid).collection("complaints").add({ orderId, type, description: desc, status: "pending", createdAt: new Date() });
-        await db.collection("users").doc(currentUser.uid).collection("orders").doc(orderId).update({ complaintFiled: true });
-        showPopup("Submitted", "Complaint submitted successfully!");
-        showOrders();
-    };
-    
-    async function showProfile() {
-        await loadUserData();
-        let addr = userData?.address || {};
-        document.getElementById('dynamicPage').innerHTML = `
-            <div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div>
-            <div class="content-area">
-                <div class="premium-card"><h3 style="color:#D4AF37;">👤 Profile</h3><input class="input-field" id="profileName" placeholder="Name" value="${userData?.name || ''}"><div><strong>Email:</strong> ${currentUser?.email}</div><button class="btn btn-primary" onclick="updateProfileName()">Save</button></div>
-                <div class="premium-card"><h3>📍 Address</h3><input class="input-field" id="aFlat" placeholder="Flat" value="${addr.flat || ''}"><input class="input-field" id="aStreet" placeholder="Street" value="${addr.street || ''}"><input class="input-field" id="aCity" placeholder="City" value="${addr.city || ''}"><input class="input-field" id="aPincode" placeholder="Pincode" value="${addr.pincode || ''}"><button class="btn btn-primary" onclick="updateProfileAddress()">Save</button></div>
-                <button class="btn btn-secondary" onclick="logout()">Logout</button>
-            </div>
-        `;
-    }
-    
-    window.updateProfileName = async function() {
-        let name = document.getElementById('profileName').value.trim();
-        if (name) { await db.collection("users").doc(currentUser.uid).update({ name }); showPopup("Success", "Profile updated!"); showProfile(); }
-    };
-    
-    window.updateProfileAddress = async function() {
-        let flat = document.getElementById('aFlat').value.trim(), street = document.getElementById('aStreet').value.trim(), city = document.getElementById('aCity').value.trim(), pincode = document.getElementById('aPincode').value.trim();
-        if (!flat || !street || !city || !pincode) { showPopup("Error", "All fields required"); return; }
-        await db.collection("users").doc(currentUser.uid).update({ address: { flat, street, city, pincode } });
-        showPopup("Success", "Address saved!"); showProfile();
-    };
-    
-    function showAboutUs() {
-        document.getElementById('dynamicPage').innerHTML = `
-            <div class="premium-header"><div class="header-top"><div class="logo">PAWAN<span>RETAIL LIMITED</span></div><div class="menu-icon" onclick="toggleMenu()">☰</div></div></div>
-            <div class="content-area">
-                <div class="premium-card"><h3 style="color:#D4AF37;">🌟 About Us</h3><p><strong>Pawan Retail Limited</strong> is your trusted partner for best deals on food & movies.</p></div>
-                <div class="premium-card"><h3 style="color:#D4AF37;">📞 Contact Us</h3><p>📧 thepawanretaillimited@gmail.com</p><p>📞 9142739651</p><button class="btn btn-primary" onclick="copyContact()">Copy Contact</button></div>
-            </div>
-        `;
-    }
-    
-    function copyContact() {
-        navigator.clipboard.writeText("thepawanretaillimited@gmail.com\n9142739651");
-        showPopup("Copied!", "Contact info copied");
-    }
-    
-    async function logout() { 
-        await auth.signOut(); 
-        document.getElementById('loginScreen').classList.remove('hide');
-        document.getElementById('appContainer').classList.remove('show');
-        showLogin();
-    }
-    
-    // ========== AUTH FUNCTIONS ==========
-    function showLogin() { document.getElementById('loginForm').style.display = 'block'; document.getElementById('signupForm').style.display = 'none'; document.getElementById('signupOtpDiv').style.display = 'none'; }
-    function showSignup() { document.getElementById('loginForm').style.display = 'none'; document.getElementById('signupForm').style.display = 'block'; document.getElementById('signupOtpDiv').style.display = 'none'; }
-    
-    function getOtpFromBoxes() { let otp = ''; for (let i = 0; i < 6; i++) otp += document.getElementById(`otp${i}`).value; return otp; }
-    window.moveNext = function(idx, event) {
-        let box = document.getElementById(`otp${idx}`);
-        if (box.value && !/^\d$/.test(box.value)) box.value = '';
-        if (box.value && idx < 5) document.getElementById(`otp${idx+1}`).focus();
-    };
-    window.movePrev = function(idx, event) {
-        if (event.key === 'Backspace' && !document.getElementById(`otp${idx}`).value && idx > 0) {
-            document.getElementById(`otp${idx-1}`).focus();
-        }
-    };
-    
-    window.sendSignupOTP = async function() {
-        let name = document.getElementById('signupName').value.trim(), email = document.getElementById('signupEmail').value.trim(), mobile = document.getElementById('signupMobile').value.trim();
-        if (!name || !email || mobile.length !== 10) { showPopup("Error", "All fields required"); return; }
-        pendingSignup = { name, email, mobile: '+91' + mobile };
-        pendingOtp = generateOTP();
-        let sent = await sendOTPEmail(email, pendingOtp);
-        if (sent) {
-            showPopup("OTP Sent", `OTP sent to ${email}`);
-            document.getElementById('signupOtpDiv').style.display = 'block';
-            document.getElementById('otp0').focus();
-        } else { showPopup("Error", "Failed to send OTP"); }
-    };
-    
-    window.verifySignupOTP = async function() {
-        if (getOtpFromBoxes() !== pendingOtp) { showPopup("Error", "Invalid OTP"); return; }
-        let pwd = "User@" + Math.floor(Math.random() * 10000);
-        try {
-            let cred = await auth.createUserWithEmailAndPassword(pendingSignup.email, pwd);
-            await db.collection("users").doc(cred.user.uid).set({
-                uid: cred.user.uid, email: pendingSignup.email, name: pendingSignup.name,
-                mobile: pendingSignup.mobile, prlCoins: 500, address: {}
-            });
-            showPopup("Success", "Registration Successful! 500 PRL Coins added.");
-            showLogin();
-        } catch(e) { showPopup("Error", e.message); }
-    };
-    
-    window.handleLogin = async function() {
-        let email = document.getElementById('loginEmail').value.trim(), pwd = document.getElementById('loginPassword').value;
-        try {
-            await auth.signInWithEmailAndPassword(email, pwd);
-            document.getElementById('loginScreen').classList.add('hide');
-            document.getElementById('appContainer').classList.add('show');
-            await loadUserData(); await seedData(); showHome();
-        } catch(e) { showPopup("Error", e.message); }
-    };
-    
-    auth.onAuthStateChanged(async (user) => {
-        if (user) {
-            currentUser = user;
-            await loadUserData(); await seedData();
-            document.getElementById('loginScreen').classList.add('hide');
-            document.getElementById('appContainer').classList.add('show');
-            showHome();
-        } else {
-            document.getElementById('loginScreen').classList.remove('hide');
-            document.getElementById('appContainer').classList.remove('show');
-            showLogin();
-        }
-    });
-</script>
-</body>
-</html>
+        .flex-between { display:flex; justify-content:space-between; align-items:center; margin:6px 0; }
+        .flex { display:flex; gap:8px; flex-wrap:wrap; }
+        .flex-center { display:flex; justify-content:center; align-items:center; }
+        .text-muted { color:#999; font-size:12px; }
+        .text-center { text-align:center; }
+        .text-primary { color:#6366f1; }
+        .text-pink { color:#ec4899; }
+        .text-green { color:#10b981; }
+        .text-orange { color:#f59e0b; }
+        .text-danger { color:#ef4444; }
+        .text-sm { font-size:12px; }
+        .font-bold { font-weight:700; }
+        .mt-2 { margin-top:12px; }
+        .mb-2 { margin-bottom:12px; }
+        
+        .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; }
+        .badge-hot { background:linear-gradient(135deg,#f87171,#ef4444); color:white; }
+        .badge-cinema { background:linear-gradient(135deg,#a78bfa,#8b5cf6); color:white; }
+        .badge-flash { background:linear-gradient(135deg,#60a5fa,#3b82f6); color:white; }
+        
+        .status-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:600; }
+        .status-pending { background:#fef3c7; color:#d97706; }
+        .status-confirmed { background:#dbeafe; color:#2563eb; }
+        .status-processing { background:#ede9fe; color:#7c3aed; }
+        .status-out_for_delivery { background:#fef3c7; color:#d97706; }
+        .status-delivered { background:#d1fae5; color:#059669; }
+        .status-cancelled { background:#fee2e2; color:#dc2626; }
+        
+        .nav-bar { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:12px; background:white; border-radius:16px; padding:6px; box-shadow:0 2px 10px rgba(0,0,0,0.04); }
+        .nav-item { padding:6px 12px; border-radius:20px; cursor:pointer; font-size:10px; font-weight:600; transition:all 0.3s; background:#f0f2f5; color:#666; border:1px solid transparent; white-space:nowrap; }
+        .nav-item:hover { background:#e5e7eb; transform:translateY(-2px); }
+        .nav-item:active { transform:scale(0.95); }
+        .nav-item.active { background:linear-gradient(135deg,#818cf8,#6366f1); color:white; border-color:#818cf8; box-shadow:0 2px 15px rgba(99,102,241,0.25); }
+        
+        .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:6000; display:none; justify-content:center; align-items:center; backdrop-filter:blur(8px); }
+        .modal-overlay.show { display:flex; }
+        .modal-box { background:white; border-radius:24px; padding:20px; max-width:400px; width:95%; max-height:80vh; overflow-y:auto; animation:pop 0.4s ease; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+        .modal-box h3 { margin-bottom:12px; color:#1a1a2e; font-size:18px; }
+        .modal-close { float:right; background:none; border:none; font-size:20px; cursor:pointer; color:#999; transition:all 0.3s; padding:4px; }
+        .modal-close:hover { transform:rotate(90deg) scale(1.2); color:#333; }
+        
+        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; background:white; border-radius:16px; padding:14px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); animation:fadeInDown 0.4s ease; max-width:400px; width:90%; }
+        .toast .icon { font-size:24px; margin-right:10px; }
+        .toast .msg { font-size:14px; font-weight:600; }
+        .toast .sub { font-size:12px; color:#666; }
+        .toast.success { border-left:4px solid #10b981; }
+        .toast.error { border-left:4px solid #ef4444; }
+        .toast.info { border-left:4px solid #3b82f6; }
+        .toast.warning { border-left:4px solid #f59e0b; }
+        
+        .loading-spinner { display:inline-block; width:36px; height:36px; border:4px solid #f3f3f3; border-top:4px solid #818cf8; border-radius:50%; animation:spin 0.8s linear infinite; }
+        
+        .offer-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; cursor:pointer; }
+        .offer-card:hover { transform:translateY(-4px); box-shadow:0 6px 30px rgba(0,0,0,0.1); }
+        .offer-card:active { transform:scale(0.97); }
+        .offer-card .price { font-size:22px; font-weight:800; color:#6366f1; }
+        .offer-card .title { font-size:15px; font-weight:700; color:#1a1a2e; margin:4px 0; }
+        .offer-card.orange { border-left-color: #fb923c; }
+        .offer-card.pink { border-left-color: #f472b6; }
+        .offer-card.teal { border-left-color: #2dd4bf; }
+        
+        .cod-banner { background:linear-gradient(135deg, #fef2f2, #fee2e2); border:2px solid #ef4444; border-radius:12px; padding:12px; text-align:center; margin-bottom:12px; animation:pulse 2s infinite; }
+        .cod-banner .msg { font-size:13px; font-weight:600; color:#dc2626; }
+        .cod-banner .sub { font-size:11px; color:#7f1d1d; }
+        
+        .timeline { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
+        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeInLeft 0.3s ease; }
+        .timeline-dot { width:12px; height:12px; border-radius:50%; background:#e0e0e0; flex-shrink:0; transition:all 0.3s; }
+        .timeline-dot.active { background:#6366f1; box-shadow:0 0 20px rgba(99,102,241,0.3); }
+        .timeline-dot.completed { background:#34d399; }
+        
+        .menu-sidebar { position:fixed; top:0; left:-300px; width:280px; height:100%; background:white; z-index:1000; transition:left 0.4s cubic-bezier(0.4,0,0.2,1); padding:20px; border-radius:0 24px 24px 0; box-shadow:4px 0 30px rgba(0,0,0,0.3); overflow-y:auto; }
+        .menu-sidebar.open { left:0; animation:slideIn 0.4s ease; }
+        .menu-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; display:none; backdrop-filter:blur(4px); }
+        .menu-overlay.show { display:block; }
+        .menu-item { background:#fafafa; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:12px; font-weight:500; border:1px solid transparent; font-size:14px; }
+        .menu-item:hover { background:#f0f0f0; border-color:#818cf8; transform:translateX(6px); }
+        .menu-item:active { transform:scale(0.97); }
+        .menu-item .icon { font-size:18px; }
+        .menu-item.logout-item { background:#fee2e2; color:#dc2626; border-color:#dc2626; }
+        .menu-item.logout-item:hover { background:#fecaca; }
+        .menu-header { text-align:center; margin-bottom:16px; padding-bottom:16px; border-bottom:2px solid #818cf8; }
+        .menu-header .avatar { width:60px; height:60px; border-radius:50%; border:
