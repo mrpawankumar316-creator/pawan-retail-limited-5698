@@ -15,10 +15,10 @@
         @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
         @keyframes spin { 100% { transform:rotate(360deg); } }
         @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
-        @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        @keyframes slideIn { from { transform:translateX(-100%); } to { transform:translateX(0); } }
         
-        .page-enter { animation: slideInRight 0.4s ease forwards; }
-        .animate-fadeIn { animation: fadeIn 0.4s ease forwards; }
+        .page-enter { animation: slideInRight 0.3s ease forwards; }
+        .animate-fadeIn { animation: fadeIn 0.3s ease forwards; }
         .animate-pulse { animation: pulse 2s infinite; }
         .animate-float { animation: float 3s ease-in-out infinite; }
         
@@ -27,7 +27,7 @@
         .logo { font-size: 17px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #818cf8); -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 3s infinite; background-size:200% auto; }
         .logo span { font-size:9px; opacity:0.7; }
         .header-actions { display:flex; gap:10px; align-items:center; }
-        .back-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
+        .back-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; display:none; }
         .back-btn:active { transform:scale(0.9); }
         .menu-icon { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
         .menu-icon:active { transform:scale(0.9); }
@@ -42,18 +42,15 @@
         .premium-card.purple { border-left-color: #a78bfa; }
         .premium-card.teal { border-left-color: #2dd4bf; }
         
-        .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.3s; }
+        .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.2s; }
         .btn:active { transform:scale(0.96); }
         .btn-primary { background:linear-gradient(135deg, #818cf8, #6366f1); color:white; box-shadow:0 4px 15px rgba(99,102,241,0.3); }
         .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(99,102,241,0.4); }
         .btn-secondary { background:#f0f2f5; color:#1a1a2e; border:1px solid #e0e0e0; }
         .btn-secondary:hover { background:#e5e7eb; }
         .btn-danger { background:linear-gradient(135deg, #f87171, #ef4444); color:white; box-shadow:0 4px 15px rgba(239,68,68,0.3); }
-        .btn-danger:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(239,68,68,0.4); }
         .btn-success { background:linear-gradient(135deg, #34d399, #10b981); color:white; box-shadow:0 4px 15px rgba(16,185,129,0.3); }
-        .btn-success:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(16,185,129,0.4); }
         .btn-warning { background:linear-gradient(135deg, #fb923c, #f59e0b); color:white; box-shadow:0 4px 15px rgba(245,158,11,0.3); }
-        .btn-warning:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(245,158,11,0.4); }
         .btn-sm { padding:4px 12px; font-size:10px; width:auto; margin-top:0; border-radius:20px; }
         .btn-outline { background:transparent; border:2px solid #818cf8; color:#6366f1; }
         .btn-outline:hover { background:#818cf8; color:white; }
@@ -67,10 +64,6 @@
         .text-muted { color:#999; font-size:12px; }
         .text-center { text-align:center; }
         .text-primary { color:#6366f1; }
-        .text-pink { color:#ec4899; }
-        .text-green { color:#10b981; }
-        .text-orange { color:#f59e0b; }
-        .text-danger { color:#ef4444; }
         .text-sm { font-size:12px; }
         .font-bold { font-weight:700; }
         .mt-2 { margin-top:12px; }
@@ -89,17 +82,7 @@
         .status-delivered { background:#d1fae5; color:#059669; }
         .status-cancelled { background:#fee2e2; color:#dc2626; }
         
-        .refund-box { background:#d1fae5; border:2px solid #10b981; border-radius:12px; padding:12px; margin:8px 0; }
-        .refund-box .label { font-size:12px; color:#065f46; font-weight:600; }
-        .refund-box .value { font-size:16px; font-weight:700; color:#065f46; }
-        .refund-box.pending { background:#fef3c7; border-color:#f59e0b; }
-        .refund-box.pending .label { color:#92400e; }
-        .refund-box.pending .value { color:#92400e; }
-        .refund-box.cancelled { background:#fee2e2; border-color:#ef4444; }
-        .refund-box.cancelled .label { color:#7f1d1d; }
-        .refund-box.cancelled .value { color:#dc2626; }
-        
-        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; background:white; border-radius:16px; padding:14px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); animation:fadeIn 0.4s ease; max-width:400px; width:90%; }
+        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; background:white; border-radius:16px; padding:14px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); animation:fadeIn 0.3s ease; max-width:400px; width:90%; }
         .toast .icon { font-size:24px; margin-right:10px; }
         .toast .msg { font-size:14px; font-weight:600; }
         .toast .sub { font-size:12px; color:#666; }
@@ -108,10 +91,10 @@
         .toast.info { border-left:4px solid #3b82f6; }
         .toast.warning { border-left:4px solid #f59e0b; }
         
-        .loading-spinner { display:inline-block; width:36px; height:36px; border:4px solid #f3f3f3; border-top:4px solid #818cf8; border-radius:50%; animation:spin 0.8s linear infinite; }
+        .loading-spinner { display:inline-block; width:30px; height:30px; border:3px solid #f3f3f3; border-top:3px solid #818cf8; border-radius:50%; animation:spin 0.8s linear infinite; }
         
         .offer-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; cursor:pointer; }
-        .offer-card:hover { transform:translateY(-4px); box-shadow:0 6px 30px rgba(0,0,0,0.1); }
+        .offer-card:hover { transform:translateY(-3px); box-shadow:0 6px 25px rgba(0,0,0,0.1); }
         .offer-card:active { transform:scale(0.97); }
         .offer-card .price { font-size:22px; font-weight:800; color:#6366f1; }
         .offer-card .title { font-size:15px; font-weight:700; color:#1a1a2e; margin:4px 0; }
@@ -123,31 +106,24 @@
         .cod-banner .msg { font-size:13px; font-weight:600; color:#dc2626; }
         .cod-banner .sub { font-size:11px; color:#7f1d1d; }
         
-        .timeline { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
-        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeIn 0.3s ease; }
-        .timeline-dot { width:12px; height:12px; border-radius:50%; background:#e0e0e0; flex-shrink:0; transition:all 0.3s; }
-        .timeline-dot.active { background:#6366f1; box-shadow:0 0 20px rgba(99,102,241,0.3); }
-        .timeline-dot.completed { background:#34d399; }
-        .timeline-dot.cancelled { background:#ef4444; }
-        
-        .menu-sidebar { position:fixed; top:0; left:-300px; width:280px; height:100%; background:white; z-index:1000; transition:left 0.4s cubic-bezier(0.4,0,0.2,1); padding:20px; border-radius:0 24px 24px 0; box-shadow:4px 0 30px rgba(0,0,0,0.3); overflow-y:auto; }
-        .menu-sidebar.open { left:0; animation:slideIn 0.4s ease; }
+        .menu-sidebar { position:fixed; top:0; left:-300px; width:280px; height:100%; background:white; z-index:1000; transition:left 0.3s cubic-bezier(0.4,0,0.2,1); padding:20px; border-radius:0 24px 24px 0; box-shadow:4px 0 30px rgba(0,0,0,0.3); overflow-y:auto; }
+        .menu-sidebar.open { left:0; animation:slideIn 0.3s ease; }
         .menu-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; display:none; backdrop-filter:blur(4px); }
         .menu-overlay.show { display:block; }
-        .menu-item { background:#fafafa; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:12px; font-weight:500; border:1px solid transparent; font-size:14px; }
-        .menu-item:hover { background:#f0f0f0; border-color:#818cf8; transform:translateX(6px); }
+        .menu-item { background:#fafafa; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:12px; font-weight:500; border:1px solid transparent; font-size:14px; }
+        .menu-item:hover { background:#f0f0f0; border-color:#818cf8; transform:translateX(5px); }
         .menu-item:active { transform:scale(0.97); }
         .menu-item .icon { font-size:18px; }
         .menu-item.logout-item { background:#fee2e2; color:#dc2626; border-color:#dc2626; }
         .menu-item.logout-item:hover { background:#fecaca; }
         .menu-header { text-align:center; margin-bottom:16px; padding-bottom:16px; border-bottom:2px solid #818cf8; }
-        .menu-header .avatar { width:60px; height:60px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px; background:#f8fafc; animation:pulse 2s infinite; }
+        .menu-header .avatar { width:60px; height:60px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px; background:#f8fafc; }
         .menu-header .avatar img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
         .menu-header .name { font-weight:700; font-size:15px; color:#1a1a2e; }
         .menu-header .email { font-size:11px; color:#666; margin-top:2px; }
         .menu-header .points { font-size:12px; color:#6366f1; font-weight:600; margin-top:4px; }
         .menu-close-btn { position:absolute; top:12px; right:12px; background:none; border:none; font-size:20px; cursor:pointer; color:#999; padding:4px 8px; border-radius:50%; transition:all 0.3s; }
-        .menu-close-btn:hover { background:#f0f0f0; transform:rotate(90deg) scale(1.2); }
+        .menu-close-btn:hover { background:#f0f0f0; transform:rotate(90deg); }
         
         .date-card { flex:1; text-align:center; padding:10px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; }
         .date-card:hover { border-color:#818cf8; }
@@ -167,38 +143,46 @@
         .otp-box { width:44px; height:50px; text-align:center; font-size:20px; font-weight:700; border:2px solid #e8ecf0; border-radius:12px; background:white; transition:all 0.3s; }
         .otp-box:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); }
         
-        .banner-gradient { background:linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa, #ec4899); padding:20px; border-radius:16px; text-align:center; color:white; margin-bottom:12px; background-size:300% 300%; animation:gradientMove 4s ease infinite; }
+        .banner-gradient { background:linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa); padding:20px; border-radius:16px; text-align:center; color:white; margin-bottom:12px; background-size:300% 300%; animation:gradientMove 4s ease infinite; }
+        @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
         
         .profile-pic { width:70px; height:70px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:block; object-fit:cover; }
         
-        .complaint-item { background:#f8f9fa; border-radius:12px; padding:12px; margin-bottom:10px; border-left:3px solid #f59e0b; animation:fadeIn 0.3s ease; cursor:pointer; }
+        .complaint-item { background:#f8f9fa; border-radius:12px; padding:12px; margin-bottom:10px; border-left:3px solid #f59e0b; cursor:pointer; }
         .complaint-item:active { transform:scale(0.97); }
         .complaint-item.resolved { border-left-color: #10b981; }
-        .complaint-item.cancelled { border-left-color: #ef4444; }
         
         .blocked-banner { background:linear-gradient(135deg, #1e1b4b, #312e81); border:2px solid #ef4444; border-radius:12px; padding:20px; text-align:center; margin:10px 0; }
         .blocked-banner .icon { font-size:48px; animation:bounce 1.5s infinite; }
+        @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
         .blocked-banner .title { font-size:18px; font-weight:800; color:#ef4444; margin:8px 0; }
         .blocked-banner .reason { font-size:13px; color:#a5b4fc; }
-        
-        ::-webkit-scrollbar { width:4px; }
-        ::-webkit-scrollbar-track { background:#f0f0f0; }
-        ::-webkit-scrollbar-thumb { background:#818cf8; border-radius:10px; }
-        ::-webkit-scrollbar-thumb:hover { background:#6366f1; }
         
         .complaint-option { padding:8px 12px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; text-align:center; font-size:12px; }
         .complaint-option:hover { border-color:#818cf8; background:#eef2ff; }
         .complaint-option.selected { border-color:#6366f1; background:#eef2ff; }
         
-        .refund-status { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; }
-        .refund-status.pending { background:#fef3c7; color:#d97706; }
-        .refund-status.approved { background:#d1fae5; color:#059669; }
-        .refund-status.cancelled { background:#fee2e2; color:#dc2626; }
-        .refund-status.processing { background:#dbeafe; color:#2563eb; }
+        .timeline { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
+        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; }
+        .timeline-dot { width:12px; height:12px; border-radius:50%; background:#e0e0e0; flex-shrink:0; transition:all 0.3s; }
+        .timeline-dot.active { background:#6366f1; box-shadow:0 0 20px rgba(99,102,241,0.3); }
+        .timeline-dot.completed { background:#34d399; }
+        .timeline-dot.cancelled { background:#ef4444; }
         
         .cancel-reason-box { background:#fee2e2; border:2px solid #ef4444; border-radius:12px; padding:12px; margin:8px 0; }
         .cancel-reason-box .label { font-size:12px; color:#7f1d1d; font-weight:600; }
         .cancel-reason-box .value { font-size:14px; color:#dc2626; }
+        
+        .refund-box { background:#d1fae5; border:2px solid #10b981; border-radius:12px; padding:12px; margin:8px 0; }
+        .refund-box .label { font-size:12px; color:#065f46; font-weight:600; }
+        .refund-box .value { font-size:16px; font-weight:700; color:#065f46; }
+        .refund-box.pending { background:#fef3c7; border-color:#f59e0b; }
+        .refund-box.pending .label { color:#92400e; }
+        .refund-box.pending .value { color:#92400e; }
+        
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:#f0f0f0; }
+        ::-webkit-scrollbar-thumb { background:#818cf8; border-radius:10px; }
     </style>
 </head>
 <body>
@@ -208,7 +192,7 @@
             <div class="header-top">
                 <div class="logo">PAWAN<span>RETAIL</span></div>
                 <div class="header-actions">
-                    <div class="back-btn" onclick="goBack()" id="backBtn" style="display:none;">←</div>
+                    <div class="back-btn" onclick="goBack()" id="backBtn">←</div>
                     <div class="menu-icon" onclick="toggleMenu()">☰</div>
                 </div>
             </div>
@@ -216,7 +200,7 @@
         <div class="content-area" id="dynamicPage">
             <div style="text-align:center; padding:40px;">
                 <div class="loading-spinner"></div>
-                <p style="margin-top:12px; color:#666; animation:pulse 1.5s infinite;">Loading...</p>
+                <p style="margin-top:12px; color:#666;">Loading...</p>
             </div>
         </div>
     </div>
@@ -231,14 +215,14 @@
             <div id="menuEmail" class="email">user@email.com</div>
             <div id="menuPoints" class="points">⭐ 0 PRL Coins</div>
         </div>
-        <div class="menu-item" onclick="navigateTo('home'); closeMenu();"><span class="icon">🏠</span> Home</div>
-        <div class="menu-item" onclick="navigateTo('orders'); closeMenu();"><span class="icon">📦</span> My Orders</div>
-        <div class="menu-item" onclick="navigateTo('prlcoins'); closeMenu();"><span class="icon">🪙</span> PRL Coins</div>
-        <div class="menu-item" onclick="navigateTo('coupons'); closeMenu();"><span class="icon">🎫</span> Coupons</div>
-        <div class="menu-item" onclick="navigateTo('complaints'); closeMenu();"><span class="icon">📢</span> Complaints</div>
-        <div class="menu-item" onclick="navigateTo('profile'); closeMenu();"><span class="icon">👤</span> Profile</div>
-        <div class="menu-item" onclick="navigateTo('about'); closeMenu();"><span class="icon">ℹ️</span> About Us</div>
-        <div class="menu-item logout-item" onclick="logout(); closeMenu();"><span class="icon">🚪</span> Logout</div>
+        <div class="menu-item" onclick="goToPage('home')"><span class="icon">🏠</span> Home</div>
+        <div class="menu-item" onclick="goToPage('orders')"><span class="icon">📦</span> My Orders</div>
+        <div class="menu-item" onclick="goToPage('prlcoins')"><span class="icon">🪙</span> PRL Coins</div>
+        <div class="menu-item" onclick="goToPage('coupons')"><span class="icon">🎫</span> Coupons</div>
+        <div class="menu-item" onclick="goToPage('complaints')"><span class="icon">📢</span> Complaints</div>
+        <div class="menu-item" onclick="goToPage('profile')"><span class="icon">👤</span> Profile</div>
+        <div class="menu-item" onclick="goToPage('about')"><span class="icon">ℹ️</span> About Us</div>
+        <div class="menu-item logout-item" onclick="logoutUser()"><span class="icon">🚪</span> Logout</div>
     </div>
 </div>
 
@@ -269,39 +253,7 @@ try {
 } catch(e) { console.error("Firebase init error:", e); }
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
-// Initialize EmailJS - REAL OTP
 emailjs.init("3cUWXrfL9AhSkM5FA");
-
-// ============================================================
-// GOOGLE SIGN-IN - VERCEL COMPATIBLE
-// ============================================================
-async function googleSignIn() {
-    try {
-        // Use redirect - Works on Vercel
-        await auth.signInWithRedirect(googleProvider);
-    } catch(e) {
-        console.error("Redirect error:", e);
-        try {
-            await auth.signInWithPopup(googleProvider);
-        } catch(err) {
-            showToast('Google Sign-In Failed', 'error', err.message);
-        }
-    }
-}
-
-// Handle redirect result
-auth.getRedirectResult().then((result) => {
-    if (result.user) {
-        console.log("✅ Google Sign-In Success:", result.user.email);
-        loadUserData();
-        showToast('Welcome!', 'success', `Hello ${result.user.displayName}`);
-    }
-}).catch((error) => {
-    console.error("Redirect sign-in error:", error);
-    if (error.code === 'auth/operation-not-supported-in-this-environment') {
-        auth.signInWithPopup(googleProvider).catch(err => console.error("Popup error:", err));
-    }
-});
 
 // ============================================================
 // GLOBAL STATE
@@ -318,7 +270,8 @@ let selectedPaymentMethod = null;
 let qrShown = false;
 let blockedUsersCache = {};
 let isBlocked = false;
-let historyStack = ['home'];
+let pendingOtp = null;
+let pendingUserData = null;
 
 const theatreInfo = { name: "🎬 PVR Cinemas - Bokaro", address: "The Bokaro Mall, Sector 3C" };
 const timeSlots = ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM"];
@@ -360,7 +313,7 @@ function showToast(message, type = 'success', sub = '') {
         </div>
     `;
     document.body.appendChild(toast);
-    setTimeout(() => { if(toast) toast.remove(); }, 4000);
+    setTimeout(() => { if(toast) toast.remove(); }, 3000);
 }
 
 // ============================================================
@@ -397,86 +350,77 @@ function getNextThreeDays() {
 }
 
 // ============================================================
-// REAL OTP FUNCTION - EmailJS
+// REAL OTP FUNCTION
 // ============================================================
 async function sendRealOTP(email, otp) {
     try {
-        const templateParams = {
+        await emailjs.send("Pawanretaillimited-5678", "template_45qu30j", {
             to_email: email,
             otp: otp,
-            from_name: "Pawan Retail Limited",
-            subject: "Your OTP for Registration"
-        };
-        
-        const result = await emailjs.send(
-            "Pawanretaillimited-5678",  // Service ID
-            "template_45qu30j",          // Template ID
-            templateParams
-        );
-        console.log("✅ OTP Email sent:", result);
+            from_name: "Pawan Retail Limited"
+        });
         return true;
     } catch(e) {
-        console.error("❌ OTP Email failed:", e);
+        console.error("OTP Email failed:", e);
         return false;
     }
 }
 
 // ============================================================
-// NAVIGATION
+// GOOGLE SIGN-IN
 // ============================================================
-function navigateTo(page, data = null) {
-    if (isBlocked && page !== 'home') {
-        showToast('Account Blocked', 'error', 'Contact support');
-        return;
+async function googleSignIn() {
+    try {
+        await auth.signInWithRedirect(googleProvider);
+    } catch(e) {
+        try {
+            await auth.signInWithPopup(googleProvider);
+        } catch(err) {
+            showToast('Google Sign-In Failed', 'error', err.message);
+        }
     }
+}
+
+auth.getRedirectResult().then((result) => {
+    if (result.user) {
+        console.log("✅ Google Sign-In Success:", result.user.email);
+        loadUserData();
+        showToast('Welcome!', 'success', `Hello ${result.user.displayName}`);
+    }
+}).catch((error) => {
+    console.error("Redirect sign-in error:", error);
+});
+
+// ============================================================
+// NAVIGATION - FIXED
+// ============================================================
+function goToPage(page) {
+    closeMenu();
     currentPage = page;
-    if (historyStack[historyStack.length - 1] !== page) {
-        historyStack.push(page);
-    }
+    
+    // Show back button
     const backBtn = document.getElementById('backBtn');
     if (backBtn) {
-        backBtn.style.display = historyStack.length > 1 ? 'flex' : 'none';
+        backBtn.style.display = page !== 'home' ? 'flex' : 'none';
     }
-    renderPageContent(page, data);
-}
-
-function goBack() {
-    if (historyStack.length > 1) {
-        historyStack.pop();
-        const prev = historyStack[historyStack.length - 1];
-        currentPage = prev;
-        const backBtn = document.getElementById('backBtn');
-        if (backBtn) {
-            backBtn.style.display = historyStack.length > 1 ? 'flex' : 'none';
-        }
-        renderPageContent(prev);
-    }
-}
-
-function renderPageContent(page, data = null) {
+    
     let html = '';
     switch(page) {
-        case 'login': html = renderLogin(); break;
-        case 'register': html = renderRegister(); break;
         case 'home': html = renderHome(); break;
         case 'orders': html = renderOrders(); break;
         case 'prlcoins': html = renderPRLCoins(); break;
         case 'coupons': html = renderCoupons(); break;
-        case 'couponDetail': html = renderCouponDetail(data); break;
         case 'complaints': html = renderComplaints(); break;
         case 'profile': html = renderProfile(); break;
         case 'about': html = renderAbout(); break;
         case 'payment': html = renderPayment(); break;
-        case 'orderDetail': html = renderOrderDetail(data); break;
-        case 'complaintForm': html = renderComplaintForm(data); break;
         case 'giftCardRedeem': html = renderGiftCardRedeem(); break;
-        case 'refundDetails': html = renderRefundDetails(data); break;
-        case 'complaintDetail': html = renderComplaintDetail(data); break;
-        case 'refundStatus': html = renderRefundStatus(data); break;
+        case 'complaintForm': html = renderComplaintFormPage(); break;
         default: html = '<div class="premium-card"><p>Page not found</p></div>';
     }
     renderPage(`<div class="page-enter">${html}</div>`);
     
+    // Load data after render
     setTimeout(() => {
         switch(page) {
             case 'home': loadOffers(); break;
@@ -484,8 +428,15 @@ function renderPageContent(page, data = null) {
             case 'prlcoins': loadPRLCoinsData(); break;
             case 'coupons': loadCoupons(); break;
             case 'complaints': loadComplaints(); break;
+            case 'profile': loadProfileData(); break;
         }
-    }, 200);
+    }, 100);
+}
+
+function goBack() {
+    if (currentPage !== 'home') {
+        goToPage('home');
+    }
 }
 
 // ============================================================
@@ -501,7 +452,7 @@ async function emailLogin() {
     } catch(e) { showToast('Login Failed', 'error', e.message); }
 }
 
-async function logout() {
+async function logoutUser() {
     if (!confirm("Are you sure you want to logout?")) return;
     try {
         await auth.signOut();
@@ -509,12 +460,6 @@ async function logout() {
         closeMenu();
     } catch(e) { showToast('Error', 'error', e.message); }
 }
-
-// ============================================================
-// REGISTER WITH REAL OTP
-// ============================================================
-let pendingOtp = null;
-let pendingUserData = null;
 
 async function registerUser() {
     const name = document.getElementById('regName').value.trim();
@@ -536,19 +481,14 @@ async function registerUser() {
     if (blocked) { showToast('Cannot Register', 'error', 'Email is blocked'); return; }
     
     pendingUserData = { name, email, mobile, password: pwd };
-    
-    // Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     pendingOtp = otp;
     
-    // Send REAL OTP via EmailJS
-    showToast('Sending OTP...', 'info', 'Please wait');
     const sent = await sendRealOTP(email, otp);
-    
     if (sent) {
         showToast('OTP Sent', 'success', 'Check your email');
     } else {
-        showToast('OTP Failed', 'warning', 'Using demo OTP: ' + otp);
+        showToast('OTP Demo', 'warning', 'Use OTP: ' + otp);
     }
     
     document.getElementById('otpSection').style.display = 'block';
@@ -611,16 +551,16 @@ async function loadUserData() {
         
         if (isBlocked) {
             renderPage(`
-                <div class="blocked-banner animate-fadeIn">
+                <div class="blocked-banner">
                     <div class="icon">🚫</div>
                     <div class="title">Account Blocked</div>
                     <div class="reason">${blocked.reason}</div>
                     <div class="reason" style="font-size:11px; color:#818cf8; margin-top:4px;">Blocked on: ${blocked.date}</div>
-                    <button class="btn btn-danger" onclick="logout()" style="margin-top:12px;">Logout</button>
+                    <button class="btn btn-danger" onclick="logoutUser()" style="margin-top:12px;">Logout</button>
                 </div>
             `);
         } else {
-            navigateTo('home');
+            goToPage('home');
         }
     } catch(e) { console.error("Load user error:", e); }
 }
@@ -643,7 +583,7 @@ function checkIfBlocked(email) {
 
 function renderLogin() {
     return `
-        <div style="text-align:center; padding:40px 20px; animation:fadeIn 0.5s ease;">
+        <div style="text-align:center; padding:40px 20px;">
             <div style="font-size:56px; margin-bottom:16px; animation:float 3s ease-in-out infinite;">🏪</div>
             <h2 style="color:#1a1a2e;">Welcome Back</h2>
             <p style="color:#666; font-size:14px;">Sign in to continue shopping</p>
@@ -656,19 +596,19 @@ function renderLogin() {
                 <span style="padding:0 15px; color:#999; font-size:12px;">OR</span>
                 <hr style="flex:1; border-color:#e0e0e0;">
             </div>
-            <input class="input-field" id="loginEmail" type="email" placeholder="Email" style="animation:fadeIn 0.6s ease;">
-            <input class="input-field" id="loginPassword" type="password" placeholder="Password" style="animation:fadeIn 0.7s ease;">
-            <button class="btn btn-primary" onclick="emailLogin()" style="animation:pulse 2s infinite;">Sign In</button>
+            <input class="input-field" id="loginEmail" type="email" placeholder="Email">
+            <input class="input-field" id="loginPassword" type="password" placeholder="Password">
+            <button class="btn btn-primary" onclick="emailLogin()">Sign In</button>
             <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
-                New? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="navigateTo('register')">Create Account</span>
+                New? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="showRegisterPage()">Create Account</span>
             </p>
         </div>
     `;
 }
 
-function renderRegister() {
-    return `
-        <div style="text-align:center; padding:20px 0; animation:fadeIn 0.5s ease;">
+function showRegisterPage() {
+    renderPage(`
+        <div style="text-align:center; padding:20px 0;">
             <div style="font-size:48px; animation:float 3s ease-in-out infinite;">📝</div>
             <h2 style="color:#1a1a2e;">Create Account</h2>
             <p class="text-muted">OTP will be sent to your email</p>
@@ -680,12 +620,12 @@ function renderRegister() {
         <div style="display:flex; align-items:center; margin:15px 0;">
             <hr style="flex:1; border-color:#e0e0e0;"><span style="padding:0 15px; color:#999; font-size:12px;">OR</span><hr style="flex:1; border-color:#e0e0e0;">
         </div>
-        <input class="input-field" id="regName" placeholder="Full Name" style="animation:fadeIn 0.5s ease;">
-        <input class="input-field" id="regEmail" type="email" placeholder="Email" style="animation:fadeIn 0.6s ease;">
-        <input class="input-field" id="regMobile" type="tel" placeholder="Mobile (10 digits)" maxlength="10" style="animation:fadeIn 0.7s ease;">
-        <input class="input-field" id="regPassword" type="password" placeholder="Password (min 6 chars)" style="animation:fadeIn 0.8s ease;">
-        <button class="btn btn-primary" onclick="registerUser()" style="animation:pulse 2s infinite;">Register & Send OTP</button>
-        <div id="otpSection" style="display:none; margin-top:12px; animation:fadeIn 0.5s ease;">
+        <input class="input-field" id="regName" placeholder="Full Name">
+        <input class="input-field" id="regEmail" type="email" placeholder="Email">
+        <input class="input-field" id="regMobile" type="tel" placeholder="Mobile (10 digits)" maxlength="10">
+        <input class="input-field" id="regPassword" type="password" placeholder="Password (min 6 chars)">
+        <button class="btn btn-primary" onclick="registerUser()">Register & Send OTP</button>
+        <div id="otpSection" style="display:none; margin-top:12px;">
             <p class="text-muted">Enter 6-digit OTP sent to your email</p>
             <div style="display:flex; gap:10px; justify-content:center; margin:10px 0;">
                 <input class="otp-box" maxlength="1">
@@ -695,21 +635,21 @@ function renderRegister() {
                 <input class="otp-box" maxlength="1">
                 <input class="otp-box" maxlength="1">
             </div>
-            <button class="btn btn-success" onclick="verifyOTP()" style="animation:pulse 2s infinite;">Verify OTP</button>
+            <button class="btn btn-success" onclick="verifyOTP()">Verify OTP</button>
         </div>
         <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
-            Already have an account? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="navigateTo('login')">Sign In</span>
+            Already have an account? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="renderPage(renderLogin())">Sign In</span>
         </p>
-    `;
+    `);
 }
 
 function renderHome() {
     return `
-        <div class="cod-banner animate-fadeIn">
+        <div class="cod-banner">
             <div class="msg">🚫 Cash on Delivery Not Available</div>
             <div class="sub">Only Online Payments Accepted</div>
         </div>
-        <div class="banner-gradient animate-fadeIn">
+        <div class="banner-gradient">
             <h3 style="font-size:18px;">✨ Premium Collection</h3>
             <p style="font-size:12px; opacity:0.9;">Exclusive offers • Limited time</p>
         </div>
@@ -723,7 +663,7 @@ function renderOrders() {
 
 function renderPRLCoins() {
     return `
-        <div class="premium-card purple animate-fadeIn">
+        <div class="premium-card purple">
             <div style="text-align:center; padding:10px 0;">
                 <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🪙</div>
                 <div style="font-size:32px; font-weight:800; color:#6366f1;" id="prlBalance">${userData?.prlCoins || 0}</div>
@@ -732,13 +672,13 @@ function renderPRLCoins() {
             <div style="margin:10px 0;">
                 <h4 style="font-size:14px;">How to Earn</h4>
                 <ul style="list-style:none; padding:0; margin-top:6px;">
-                    <li style="padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeIn 0.3s ease;">✅ Sign up: <strong>500 coins</strong></li>
-                    <li style="padding:6px 0; animation:fadeIn 0.4s ease;">✅ Every order: <strong>5% back</strong></li>
+                    <li style="padding:6px 0; border-bottom:1px solid #f0f0f0;">✅ Sign up: <strong>500 coins</strong></li>
+                    <li style="padding:6px 0;">✅ Every order: <strong>5% back</strong></li>
                 </ul>
             </div>
             <div style="margin:10px 0;">
                 <h4 style="font-size:14px;">Redeem Gift Card</h4>
-                <button class="btn btn-primary" onclick="navigateTo('giftCardRedeem')" style="animation:pulse 2s infinite;">🎁 Redeem Gift Card</button>
+                <button class="btn btn-primary" onclick="goToPage('giftCardRedeem')">🎁 Redeem Gift Card</button>
             </div>
             <div style="margin:10px 0;">
                 <h4 style="font-size:14px;">Recent Transactions</h4>
@@ -752,34 +692,13 @@ function renderCoupons() {
     return `<div id="couponsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading coupons...</p></div></div>`;
 }
 
-function renderCouponDetail(data) {
-    const d = data;
-    const isExpired = d.expiry ? new Date(d.expiry) < new Date() : false;
-    const used = d.usedBy ? d.usedBy.includes(currentUser.uid) : false;
-    return `
-        <div class="premium-card purple animate-fadeIn">
-            <div style="background:#eef2ff; border-radius:12px; padding:12px; margin:8px 0;">
-                <div style="font-size:20px; font-weight:800; color:#6366f1;">${d.code}</div>
-                <div style="font-size:28px; font-weight:800; color:#6366f1;">${d.discount}% OFF</div>
-                <div class="text-muted">Min Order: ₹${d.minOrder || 0}</div>
-                ${d.expiry ? `<div class="text-muted">Expires: ${getDateString(d.expiry)} ${isExpired ? '⛔' : ''}</div>` : ''}
-                ${used ? '<div class="text-muted">✓ Already Used</div>' : ''}
-                ${isExpired ? '<div class="text-muted" style="color:#ef4444;">⛔ Coupon Expired</div>' : ''}
-                <div class="text-muted">Used by ${d.usedBy ? d.usedBy.length : 0} people</div>
-                <button class="btn btn-sm btn-outline" onclick="copyCoupon('${d.code}')" style="margin-top:10px;">📋 Copy Code</button>
-            </div>
-            <button class="btn btn-secondary" onclick="navigateTo('coupons')">← Back to Coupons</button>
-        </div>
-    `;
-}
-
 function renderComplaints() {
     return `<div id="complaintsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading complaints...</p></div></div>`;
 }
 
 function renderProfile() {
     return `
-        <div class="premium-card purple animate-fadeIn">
+        <div class="premium-card purple">
             <div style="text-align:center;">
                 ${userData?.photoURL ? `<img src="${userData.photoURL}" class="profile-pic">` : `<div style="font-size:48px; text-align:center;">👤</div>`}
                 <div style="font-size:18px; font-weight:700; color:#1a1a2e;">${userData?.name || 'User'}</div>
@@ -788,25 +707,25 @@ function renderProfile() {
                 <div style="margin-top:4px; color:#6366f1; font-weight:600;">⭐ ${userData?.prlCoins || 0} PRL Coins</div>
             </div>
         </div>
-        <div class="premium-card green animate-fadeIn delay-1">
+        <div class="premium-card green">
             <h4 style="font-size:14px;">✏️ Edit Profile</h4>
             <input class="input-field" id="editName" value="${userData?.name || ''}" placeholder="Name">
-            <button class="btn btn-primary" onclick="updateName()" style="animation:pulse 2s infinite;">Save Name</button>
+            <button class="btn btn-primary" onclick="updateName()">Save Name</button>
         </div>
-        <div class="premium-card pink animate-fadeIn delay-2">
+        <div class="premium-card pink">
             <h4 style="font-size:14px;">📍 Delivery Address</h4>
             <input class="input-field" id="editFlat" value="${userData?.address?.flat || ''}" placeholder="Flat/House">
             <input class="input-field" id="editStreet" value="${userData?.address?.street || ''}" placeholder="Street">
             <input class="input-field" id="editCity" value="${userData?.address?.city || ''}" placeholder="City">
             <input class="input-field" id="editPincode" value="${userData?.address?.pincode || ''}" placeholder="Pincode" maxlength="6">
-            <button class="btn btn-primary" onclick="updateAddress()" style="animation:pulse 2s infinite;">Save Address</button>
+            <button class="btn btn-primary" onclick="updateAddress()">Save Address</button>
         </div>
     `;
 }
 
 function renderAbout() {
     return `
-        <div class="premium-card purple animate-fadeIn">
+        <div class="premium-card purple">
             <div style="text-align:center; padding:10px 0;">
                 <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🏪</div>
                 <h2 style="color:#1a1a2e;">Pawan Retail Limited</h2>
@@ -817,11 +736,11 @@ function renderAbout() {
                 high-quality products. Our mission is to provide exceptional value and service.
             </p>
         </div>
-        <div class="premium-card pink animate-fadeIn delay-1">
+        <div class="premium-card pink">
             <h4 style="font-size:14px;">📧 Contact Us</h4>
             <p style="margin:4px 0;">Email: <strong>thepawanretaillimited@gmail.com</strong></p>
             <p style="margin:4px 0;">Phone: <strong>9142739651</strong></p>
-            <button class="btn btn-primary" onclick="copyContact()" style="animation:pulse 2s infinite;">📋 Copy Contact</button>
+            <button class="btn btn-primary" onclick="copyContact()">📋 Copy Contact</button>
         </div>
     `;
 }
@@ -829,7 +748,7 @@ function renderAbout() {
 function renderPayment() {
     const originalPrice = selectedOffer?.price || 0;
     return `
-        <div class="premium-card purple animate-fadeIn">
+        <div class="premium-card purple">
             <h3 style="color:#1a1a2e;">💳 Payment</h3>
             <div class="cod-banner" style="margin:8px 0;">
                 <div class="msg">🚫 Cash on Delivery Not Available</div>
@@ -877,9 +796,7 @@ function renderPayment() {
                 <label style="font-weight:600; font-size:13px;">UPI Payment</label>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px;">
                     ${['PhonePe', 'Paytm', 'Google Pay', 'BHIM'].map(m => `
-                        <div class="payment-method" onclick="selectPaymentMethod(this, '${m}')" style="animation:fadeIn 0.3s ease;">
-                            ${m}
-                        </div>
+                        <div class="payment-method" onclick="selectPaymentMethod(this, '${m}')">${m}</div>
                     `).join('')}
                 </div>
             </div>
@@ -897,27 +814,38 @@ function renderPayment() {
             <div style="margin:10px 0;">
                 <input class="input-field" id="transactionId" placeholder="Transaction ID (12 digits)" maxlength="12">
             </div>
-            <button class="btn btn-success" onclick="confirmOrder()" style="animation:pulse 2s infinite;">✅ Confirm Order</button>
-            <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+            <button class="btn btn-success" onclick="confirmOrder()">✅ Confirm Order</button>
+            <button class="btn btn-secondary" onclick="goToPage('home')">Cancel</button>
         </div>
     `;
 }
 
-function renderOrderDetail(orderId) {
-    return `<div id="orderDetailContent"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div></div></div>`;
+function renderGiftCardRedeem() {
+    return `
+        <div class="premium-card purple">
+            <div style="text-align:center; padding:10px 0;">
+                <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🎁</div>
+                <h3 style="color:#1a1a2e;">Redeem Gift Card</h3>
+                <p class="text-muted">Enter gift card code and password</p>
+            </div>
+            <input class="input-field" id="giftCodeInput" placeholder="Gift Card Code">
+            <input class="input-field" id="giftPasswordInput" type="password" placeholder="Gift Card Password">
+            <button class="btn btn-primary" onclick="redeemGiftCardWithPassword()">Redeem</button>
+            <button class="btn btn-secondary" onclick="goToPage('prlcoins')">← Back</button>
+        </div>
+    `;
 }
 
-function renderComplaintForm(orderId) {
+function renderComplaintFormPage() {
     let optionsHtml = complaintTypes.map((type, i) => `
-        <div class="complaint-option" onclick="selectComplaintType(this, '${type}')" style="animation:fadeIn 0.3s ease ${i*0.03}s forwards;">
+        <div class="complaint-option" onclick="selectComplaintType(this, '${type}')" style="animation:fadeIn 0.2s ease ${i*0.02}s forwards;">
             ${type}
         </div>
     `).join('');
     
     return `
-        <div class="premium-card purple animate-fadeIn">
-            <h3 style="animation:fadeIn 0.3s ease;">📢 File Complaint</h3>
-            <p class="text-muted text-sm">Order ID: ${orderId}</p>
+        <div class="premium-card purple">
+            <h3>📢 File Complaint</h3>
             <div style="margin:8px 0;">
                 <label style="font-weight:600; font-size:13px;">Select Issue Type</label>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px; max-height:200px; overflow-y:auto; padding:4px;">
@@ -927,190 +855,10 @@ function renderComplaintForm(orderId) {
             </div>
             <div style="margin:8px 0;">
                 <label style="font-weight:600; font-size:13px;">Description</label>
-                <textarea class="input-field" id="complaintDesc" placeholder="Describe your issue in detail..." rows="3" style="border-radius:16px; height:80px; resize:vertical;"></textarea>
+                <textarea class="input-field" id="complaintDesc" placeholder="Describe your issue..." rows="3" style="border-radius:16px; height:80px; resize:vertical;"></textarea>
             </div>
-            <button class="btn btn-primary" onclick="submitComplaint('${orderId}')" style="animation:pulse 2s infinite;">Submit Complaint</button>
-            <button class="btn btn-secondary" onclick="navigateTo('orders')">Cancel</button>
-        </div>
-    `;
-}
-
-function renderGiftCardRedeem() {
-    return `
-        <div class="premium-card purple animate-fadeIn">
-            <div style="text-align:center; padding:10px 0;">
-                <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🎁</div>
-                <h3 style="color:#1a1a2e;">Redeem Gift Card</h3>
-                <p class="text-muted">Enter gift card code and password</p>
-            </div>
-            <input class="input-field" id="giftCodeInput" placeholder="Gift Card Code">
-            <input class="input-field" id="giftPasswordInput" type="password" placeholder="Gift Card Password">
-            <button class="btn btn-primary" onclick="redeemGiftCardWithPassword()" style="animation:pulse 2s infinite;">Redeem</button>
-            <button class="btn btn-secondary" onclick="navigateTo('prlcoins')">← Back</button>
-        </div>
-    `;
-}
-
-function renderRefundStatus(data) {
-    const d = data;
-    const statusClass = d.status === 'approved' ? 'approved' : d.status === 'cancelled' ? 'cancelled' : d.status === 'processing' ? 'processing' : 'pending';
-    const statusText = d.status === 'approved' ? '✅ Approved' : d.status === 'cancelled' ? '❌ Cancelled' : d.status === 'processing' ? '⏳ Processing' : '⏳ Pending';
-    
-    let timelineHtml = `
-        <div class="timeline-item" style="animation:fadeIn 0.3s ease;">
-            <div class="timeline-dot ${d.status === 'pending' || d.status === 'processing' || d.status === 'approved' ? 'active' : ''}"></div>
-            <div>
-                <div style="font-weight:600; font-size:13px;">📝 Refund Requested</div>
-                <div style="font-size:10px; color:#999;">${getDateTime(d.createdAt)}</div>
-            </div>
-        </div>
-    `;
-    
-    if (d.status === 'processing' || d.status === 'approved' || d.status === 'cancelled') {
-        timelineHtml += `
-            <div class="timeline-item" style="animation:fadeIn 0.3s ease 0.1s forwards;">
-                <div class="timeline-dot ${d.status === 'processing' || d.status === 'approved' ? 'active' : ''}"></div>
-                <div>
-                    <div style="font-weight:600; font-size:13px;">🔄 Admin Processing</div>
-                    <div style="font-size:10px; color:#999;">${d.processedAt ? getDateTime(d.processedAt) : 'Processing...'}</div>
-                </div>
-            </div>
-        `;
-    }
-    
-    if (d.status === 'approved') {
-        timelineHtml += `
-            <div class="timeline-item" style="animation:fadeIn 0.3s ease 0.2s forwards;">
-                <div class="timeline-dot completed"></div>
-                <div>
-                    <div style="font-weight:600; font-size:13px; color:#10b981;">✅ Refund Approved</div>
-                    <div style="font-size:10px; color:#999;">${getDateTime(d.approvedAt)}</div>
-                    ${d.utrNumber ? `<div style="font-size:11px; color:#6366f1;">UTR: ${d.utrNumber}</div>` : ''}
-                </div>
-            </div>
-        `;
-    }
-    
-    if (d.status === 'cancelled') {
-        timelineHtml += `
-            <div class="timeline-item" style="animation:fadeIn 0.3s ease 0.2s forwards;">
-                <div class="timeline-dot cancelled"></div>
-                <div>
-                    <div style="font-weight:600; font-size:13px; color:#ef4444;">❌ Refund Cancelled</div>
-                    <div style="font-size:10px; color:#999;">${getDateTime(d.cancelledAt)}</div>
-                    ${d.cancelReason ? `<div style="font-size:11px; color:#dc2626;">Reason: ${d.cancelReason}</div>` : ''}
-                </div>
-            </div>
-        `;
-    }
-    
-    return `
-        <div class="premium-card purple animate-fadeIn">
-            <h3 style="animation:fadeIn 0.3s ease;">💰 Refund Status</h3>
-            <div style="margin-top:8px;">
-                <div class="refund-box ${d.status === 'cancelled' ? 'cancelled' : d.status === 'pending' ? 'pending' : ''}">
-                    <div class="label">Refund Amount</div>
-                    <div class="value">₹${d.amount}</div>
-                </div>
-                <div style="margin:8px 0;">
-                    <span class="refund-status ${statusClass}">${statusText}</span>
-                </div>
-                ${d.upi ? `<div><strong>UPI:</strong> ${d.upi}</div>` : ''}
-                ${d.bankName ? `<div><strong>Bank:</strong> ${d.bankName}</div>` : ''}
-                ${d.accountNumber ? `<div><strong>Account:</strong> ${d.accountNumber}</div>` : ''}
-                ${d.ifsc ? `<div><strong>IFSC:</strong> ${d.ifsc}</div>` : ''}
-            </div>
-            <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0;">
-                <div class="timeline">${timelineHtml}</div>
-            </div>
-            <button class="btn btn-secondary" onclick="navigateTo('complaints')">← Back to Complaints</button>
-        </div>
-    `;
-}
-
-function renderComplaintDetail(data) {
-    const d = data;
-    const isResolved = d.status === 'resolved';
-    const isCancelled = d.status === 'cancelled';
-    const isPending = d.status === 'pending';
-    const statusColor = isResolved ? '#10b981' : isCancelled ? '#ef4444' : '#f59e0b';
-    
-    let refundHtml = '';
-    if (isResolved && d.refundAmount) {
-        refundHtml = `
-            <div class="refund-box">
-                <div class="label">Refund Processed</div>
-                <div class="value">₹${d.refundAmount}</div>
-                ${d.utrNumber ? `<div class="text-muted">UTR: ${d.utrNumber}</div>` : ''}
-                ${d.refundUPI ? `<div class="text-muted">UPI: ${d.refundUPI}</div>` : ''}
-                ${d.refundName ? `<div class="text-muted">Account: ${d.refundName}</div>` : ''}
-                ${d.refundApprovedAt ? `<div class="text-muted">Approved: ${getDateTime(d.refundApprovedAt)}</div>` : ''}
-            </div>
-            <button class="btn btn-sm btn-primary" onclick="navigateTo('refundStatus', {
-                status: 'approved',
-                amount: '${d.refundAmount}',
-                upi: '${d.refundUPI || ''}',
-                bankName: '${d.refundBank || ''}',
-                accountNumber: '${d.refundAccount || ''}',
-                ifsc: '${d.refundIFSC || ''}',
-                utrNumber: '${d.utrNumber || ''}',
-                createdAt: '${d.createdAt}',
-                approvedAt: '${d.refundApprovedAt || ''}'
-            })" style="margin-top:8px;">📊 View Refund Status</button>
-        `;
-    } else if (isCancelled && d.cancelReason) {
-        refundHtml = `
-            <div class="refund-box cancelled">
-                <div class="label">❌ Refund Cancelled</div>
-                <div class="value">Reason: ${d.cancelReason}</div>
-                ${d.cancelledAt ? `<div class="text-muted">Cancelled: ${getDateTime(d.cancelledAt)}</div>` : ''}
-            </div>
-        `;
-    } else if (d.status === 'pending' && d.refundAmount) {
-        refundHtml = `
-            <div class="refund-box pending">
-                <div class="label">⏳ Refund Pending</div>
-                <div class="value">₹${d.refundAmount}</div>
-                <div class="text-muted">Waiting for admin approval</div>
-            </div>
-            <button class="btn btn-sm btn-warning" onclick="navigateTo('refundStatus', {
-                status: 'pending',
-                amount: '${d.refundAmount}',
-                upi: '${d.refundUPI || ''}',
-                bankName: '${d.refundBank || ''}',
-                accountNumber: '${d.refundAccount || ''}',
-                ifsc: '${d.refundIFSC || ''}',
-                createdAt: '${d.createdAt}'
-            })" style="margin-top:8px;">📊 View Refund Status</button>
-        `;
-    }
-    
-    return `
-        <div class="premium-card purple animate-fadeIn">
-            <h3 style="animation:fadeIn 0.3s ease;">📢 Complaint Details</h3>
-            <div style="margin-top:8px;">
-                <div><strong>Type:</strong> ${d.type}</div>
-                <div><strong>Description:</strong> ${d.description}</div>
-                <div><strong>Status:</strong> <span style="color:${statusColor}; font-weight:600;">${d.status}</span></div>
-                <div><strong>Date:</strong> ${getDateTime(d.createdAt)}</div>
-                <div><strong>Order ID:</strong> ${d.orderId || 'N/A'}</div>
-                ${d.resolvedAt ? `<div><strong>Resolved:</strong> ${getDateTime(d.resolvedAt)}</div>` : ''}
-                ${d.cancelledAt ? `<div><strong>Cancelled:</strong> ${getDateTime(d.cancelledAt)}</div>` : ''}
-                ${d.cancelReason ? `<div><strong>Cancel Reason:</strong> ${d.cancelReason}</div>` : ''}
-            </div>
-            ${refundHtml}
-            ${d.status === 'pending' && !d.refundAmount ? `
-                <div style="margin-top:12px;">
-                    <h4 style="font-size:14px;">💳 Add Refund Details</h4>
-                    <input class="input-field" id="refundUPI" placeholder="UPI ID (e.g., user@upi)">
-                    <input class="input-field" id="refundName" placeholder="Account Holder Name">
-                    <input class="input-field" id="refundBank" placeholder="Bank Name">
-                    <input class="input-field" id="refundAccount" placeholder="Account Number">
-                    <input class="input-field" id="refundIfsc" placeholder="IFSC Code">
-                    <button class="btn btn-success" onclick="addRefundDetails('${d.complaintId}','${d.uid}')" style="animation:pulse 2s infinite;">Submit Refund Details</button>
-                </div>
-            ` : ''}
-            <button class="btn btn-secondary" onclick="navigateTo('complaints')">← Back to Complaints</button>
+            <button class="btn btn-primary" onclick="submitComplaint()">Submit Complaint</button>
+            <button class="btn btn-secondary" onclick="goToPage('orders')">Cancel</button>
         </div>
     `;
 }
@@ -1135,7 +883,7 @@ async function loadOffers() {
                 const badgeClass = d.badge === 'HOT' ? 'badge-hot' : d.badge === 'CINEMA' ? 'badge-cinema' : 'badge-flash';
                 const colorClass = i % 3 === 0 ? 'orange' : i % 3 === 1 ? 'pink' : 'teal';
                 html += `
-                    <div class="offer-card ${colorClass} animate-fadeIn delay-${(i%5)+1}" onclick="selectOffer('${doc.id}')">
+                    <div class="offer-card ${colorClass}" onclick="selectOffer('${doc.id}')">
                         <span class="badge ${badgeClass}">${d.badge || 'OFFER'}</span>
                         <div class="title">${d.title}</div>
                         <div class="price">₹${d.price}</div>
@@ -1145,7 +893,7 @@ async function loadOffers() {
                 i++;
             });
         }
-        document.getElementById('offersList').innerHTML = html || '<div class="premium-card"><p class="text-muted text-center">No offers available</p></div>';
+        document.getElementById('offersList').innerHTML = html;
     } catch(e) {
         document.getElementById('offersList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading offers</p></div>`;
     }
@@ -1163,7 +911,7 @@ async function loadOrders() {
                 const d = doc.data();
                 const colorClass = i % 3 === 0 ? 'green' : i % 3 === 1 ? 'pink' : 'orange';
                 html += `
-                    <div class="premium-card ${colorClass} clickable animate-fadeIn delay-${(i%5)+1}" onclick="viewOrder('${doc.id}')">
+                    <div class="premium-card ${colorClass} clickable" onclick="viewOrder('${doc.id}')">
                         <div class="flex-between">
                             <span style="font-weight:700;">${d.offerTitle}</span>
                             <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
@@ -1172,12 +920,6 @@ async function loadOrders() {
                             <span>₹${d.finalAmount}</span>
                             <span>${getDateString(d.orderDate)}</span>
                         </div>
-                        ${d.cancelReason ? `
-                            <div class="cancel-reason-box" style="margin-top:4px;">
-                                <div class="label">Cancellation Reason</div>
-                                <div class="value">${d.cancelReason}</div>
-                            </div>
-                        ` : ''}
                     </div>
                 `;
                 i++;
@@ -1205,7 +947,7 @@ async function loadCoinTransactions() {
                 const d = doc.data();
                 const isCredit = d.action === 'credit';
                 html += `
-                    <div style="padding:6px 0; border-bottom:1px solid #f0f0f0; font-size:12px; animation:fadeIn 0.3s ease;">
+                    <div style="padding:6px 0; border-bottom:1px solid #f0f0f0; font-size:12px;">
                         <div class="flex-between">
                             <span>${isCredit ? '➕' : '➖'} ${d.amount} coins</span>
                             <span style="color:${isCredit ? '#10b981' : '#ef4444'};">${isCredit ? '+'+d.amount : '-'+d.amount}</span>
@@ -1236,7 +978,7 @@ async function loadCoupons() {
                 const expired = d.expiry && new Date(d.expiry) < new Date();
                 const colorClass = i % 3 === 0 ? 'green' : i % 3 === 1 ? 'pink' : 'orange';
                 html += `
-                    <div class="premium-card ${colorClass} clickable animate-fadeIn delay-${(i%5)+1}" onclick="viewCouponDetail('${doc.id}')" style="${used || expired ? 'opacity:0.6;' : ''}">
+                    <div class="premium-card ${colorClass} clickable" onclick="viewCouponDetail('${doc.id}')" style="${used || expired ? 'opacity:0.6;' : ''}">
                         <div class="flex-between">
                             <div>
                                 <div style="font-weight:700; font-size:16px;">${d.code}</div>
@@ -1262,7 +1004,7 @@ async function viewCouponDetail(couponId) {
         const doc = await db.collection('coupons').doc(couponId).get();
         if (!doc.exists) { showToast('Error', 'error', 'Coupon not found'); return; }
         const d = doc.data();
-        navigateTo('couponDetail', d);
+        showToast(`${d.code}: ${d.discount}% off`, 'info', `Min order ₹${d.minOrder || 0}`);
     } catch(e) { showToast('Error', 'error', e.message); }
 }
 
@@ -1276,37 +1018,15 @@ async function loadComplaints() {
             let i = 0;
             snap.forEach(doc => {
                 const d = doc.data();
-                const statusClass = d.status === 'resolved' ? 'resolved' : d.status === 'cancelled' ? 'cancelled' : '';
                 const isResolved = d.status === 'resolved';
-                const isCancelled = d.status === 'cancelled';
                 html += `
-                    <div class="complaint-item ${statusClass} animate-fadeIn delay-${(i%5)+1}" onclick="viewComplaintDetail('${doc.id}')">
+                    <div class="complaint-item ${isResolved ? 'resolved' : ''}" onclick="viewComplaintDetail('${doc.id}')">
                         <div style="font-weight:700;">${d.type}</div>
                         <div class="text-muted text-sm">${d.description}</div>
                         <div class="flex-between text-sm" style="margin-top:6px;">
-                            <span>Status: <span style="font-weight:600; color:${isResolved ? '#10b981' : isCancelled ? '#ef4444' : '#f59e0b'};">${d.status}</span></span>
+                            <span>Status: <span style="font-weight:600; color:${isResolved ? '#10b981' : '#f59e0b'};">${d.status}</span></span>
                             <span class="text-muted">${getDateString(d.createdAt)}</span>
                         </div>
-                        ${isResolved && d.refundAmount ? `
-                            <div class="refund-box" style="margin-top:6px;">
-                                <div class="label">Refund Amount</div>
-                                <div class="value">₹${d.refundAmount}</div>
-                                ${d.utrNumber ? `<div class="text-muted">UTR: ${d.utrNumber}</div>` : ''}
-                            </div>
-                        ` : ''}
-                        ${isCancelled && d.cancelReason ? `
-                            <div class="refund-box cancelled" style="margin-top:6px;">
-                                <div class="label">Cancelled</div>
-                                <div class="value">${d.cancelReason}</div>
-                            </div>
-                        ` : ''}
-                        ${d.status === 'pending' && d.refundDetailsSubmitted ? `
-                            <div class="refund-box pending" style="margin-top:6px;">
-                                <div class="label">⏳ Refund Pending</div>
-                                <div class="value">₹${d.refundAmount || 0}</div>
-                                <div class="text-muted">UPI submitted: ${d.refundUPI || 'N/A'}</div>
-                            </div>
-                        ` : ''}
                     </div>
                 `;
                 i++;
@@ -1318,54 +1038,21 @@ async function loadComplaints() {
     }
 }
 
-// ============================================================
-// COMPLAINT DETAIL VIEW
-// ============================================================
 async function viewComplaintDetail(complaintId) {
     try {
         const doc = await db.collection('users').doc(currentUser.uid).collection('complaints').doc(complaintId).get();
         if (!doc.exists) { showToast('Error', 'error', 'Complaint not found'); return; }
         const d = doc.data();
-        d.complaintId = complaintId;
-        d.uid = currentUser.uid;
-        navigateTo('complaintDetail', d);
+        showToast(`📢 ${d.type}`, 'info', `Status: ${d.status}\n${d.description}`);
     } catch(e) { showToast('Error', 'error', e.message); }
 }
 
-// ============================================================
-// ADD REFUND DETAILS FROM CUSTOMER
-// ============================================================
-async function addRefundDetails(complaintId, uid) {
-    const upi = document.getElementById('refundUPI')?.value?.trim() || '';
-    const name = document.getElementById('refundName')?.value?.trim() || '';
-    const bank = document.getElementById('refundBank')?.value?.trim() || '';
-    const account = document.getElementById('refundAccount')?.value?.trim() || '';
-    const ifsc = document.getElementById('refundIfsc')?.value?.trim() || '';
-    
-    if (!upi || !name || !bank || !account || !ifsc) {
-        showToast('Error', 'error', 'Please fill all refund details');
-        return;
-    }
-    
-    try {
-        await db.collection('users').doc(uid).collection('complaints').doc(complaintId).update({
-            refundUPI: upi,
-            refundName: name,
-            refundBank: bank,
-            refundAccount: account,
-            refundIFSC: ifsc,
-            refundDetailsSubmitted: true,
-            refundSubmittedAt: new Date().toISOString(),
-            refundStatus: 'pending',
-            refundAmount: 0
-        });
-        showToast('✅ Refund Details Submitted', 'success', 'Admin will process your refund');
-        navigateTo('complaints');
-    } catch(e) { showToast('Error', 'error', e.message); }
+function loadProfileData() {
+    // Profile data already loaded
 }
 
 // ============================================================
-// OFFER SELECTION & ORDER
+// OFFER SELECTION
 // ============================================================
 async function selectOffer(offerId) {
     try {
@@ -1388,21 +1075,20 @@ async function selectOffer(offerId) {
 function showMovieBooking() {
     const days = getNextThreeDays();
     let dateHtml = days.map((d, i) => `
-        <div class="date-card" onclick="selectDate(this, '${d.toISOString().split('T')[0]}')" 
-             style="animation:fadeIn 0.3s ease ${i*0.1}s forwards;">
+        <div class="date-card" onclick="selectDate(this, '${d.toISOString().split('T')[0]}')">
             <div style="font-weight:700; font-size:12px;">${d.toLocaleDateString('en-IN', { weekday: 'short' })}</div>
             <div style="font-size:11px; color:#666;">${getDateString(d)}</div>
         </div>
     `).join('');
     
     let timeHtml = timeSlots.map((t, i) => `
-        <div class="time-slot" onclick="selectTime(this, '${t}')" style="animation:fadeIn 0.3s ease ${i*0.1}s forwards;">${t}</div>
+        <div class="time-slot" onclick="selectTime(this, '${t}')">${t}</div>
     `).join('');
     
     renderPage(`
         <div class="page-enter">
             <div class="premium-card purple">
-                <h3 style="animation:fadeIn 0.3s ease;">🎬 ${selectedOffer.title}</h3>
+                <h3>🎬 ${selectedOffer.title}</h3>
                 <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
                 <div style="background:#eef2ff; border-radius:12px; padding:12px; margin:12px 0; text-align:center;">
                     <div style="font-weight:700;">${theatreInfo.name}</div>
@@ -1424,8 +1110,8 @@ function showMovieBooking() {
                     <input class="input-field" id="movieEmail" type="email" placeholder="Email" value="${currentUser?.email || ''}">
                     <input class="input-field" id="movieMobile" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
                 </div>
-                <button class="btn btn-primary" onclick="proceedToPayment('movie')" style="animation:pulse 2s infinite;">Proceed to Pay</button>
-                <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+                <button class="btn btn-primary" onclick="proceedToPayment('movie')">Proceed to Pay</button>
+                <button class="btn btn-secondary" onclick="goToPage('home')">Cancel</button>
             </div>
         </div>
     `);
@@ -1447,7 +1133,7 @@ function showFoodBooking() {
     renderPage(`
         <div class="page-enter">
             <div class="premium-card purple">
-                <h3 style="animation:fadeIn 0.3s ease;">${selectedOffer.title}</h3>
+                <h3>${selectedOffer.title}</h3>
                 <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
                 <div style="margin:12px 0;">
                     <label style="font-weight:600; font-size:13px;">Delivery Address</label>
@@ -1456,8 +1142,8 @@ function showFoodBooking() {
                     <input class="input-field" id="addrCity" placeholder="City" value="${userData?.address?.city || ''}">
                     <input class="input-field" id="addrPincode" placeholder="Pincode" maxlength="6" value="${userData?.address?.pincode || ''}">
                 </div>
-                <button class="btn btn-primary" onclick="proceedToPayment('food')" style="animation:pulse 2s infinite;">Proceed to Pay</button>
-                <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+                <button class="btn btn-primary" onclick="proceedToPayment('food')">Proceed to Pay</button>
+                <button class="btn btn-secondary" onclick="goToPage('home')">Cancel</button>
             </div>
         </div>
     `);
@@ -1496,7 +1182,7 @@ function proceedToPayment(type) {
         movieDetails = null;
     }
     
-    navigateTo('payment');
+    goToPage('payment');
 }
 
 function selectPaymentMethod(el, method) {
@@ -1560,6 +1246,411 @@ async function applyCoupon() {
         
         if (data.expiry && new Date(data.expiry) < new Date()) {
             if (couponMessageEl) couponMessageEl.innerHTML = '<span style="color:#ef4444;">❌ Coupon expired</span>';
+            return;
+        }
+        
+        if (data.minOrder && selectedOffer.price < data.minOrder) {
+            if (couponMessageEl) couponMessageEl.innerHTML = `<span style="color:#ef4444;">❌ Min order ₹${data.minOrder} required</span>`;
+            return;
+        }
+        
+        if (data.usedBy && data.usedBy.includes(currentUser.uid)) {
+            if (couponMessageEl) couponMessageEl.innerHTML = '<span style="color:#ef4444;">❌ Coupon already used</span>';
+            return;
+        }
+        
+        appliedCoupon = { id: doc.id, ...data };
+        if (couponMessageEl) couponMessageEl.innerHTML = `<span style="color:#10b981;">✅ Coupon applied! ${data.discount}% off</span>`;
+        updatePaymentSummary();
+        showToast('Coupon Applied', 'success', `${data.discount}% discount`);
+    } catch(e) {
+        const couponMessageEl = document.getElementById('couponMessage');
+        if (couponMessageEl) couponMessageEl.innerHTML = '<span style="color:#ef4444;">❌ Error applying coupon</span>';
+    }
+}
+
+async function confirmOrder() {
+    const txnId = document.getElementById('transactionId')?.value?.trim() || '';
+    if (txnId.length !== 12) {
+        showToast('Error', 'error', 'Please enter a valid 12-digit Transaction ID');
+        return;
+    }
+    
+    if (!selectedPaymentMethod) {
+        showToast('Error', 'error', 'Please select a payment method');
+        return;
+    }
+    
+    const originalPrice = selectedOffer.price;
+    const coinPercent = parseInt(document.getElementById('prlCoinSelect')?.value) || 0;
+    const couponDisc = appliedCoupon ? (appliedCoupon.discount / 100) * originalPrice : 0;
+    const coinDisc = (coinPercent / 100) * originalPrice;
+    const finalAmount = Math.round(originalPrice - couponDisc - coinDisc);
+    const coinsUsed = Math.round(coinDisc);
+    
+    if (coinsUsed > (userData.prlCoins || 0)) {
+        showToast('Error', 'error', "You don't have enough PRL Coins");
+        return;
+    }
+    
+    try {
+        const orderId = 'ORD' + Date.now().toString().slice(-8);
+        
+        let address = null;
+        if (!movieDetails) {
+            const addrFlat = document.getElementById('addrFlat')?.value?.trim() || '';
+            const addrStreet = document.getElementById('addrStreet')?.value?.trim() || '';
+            const addrCity = document.getElementById('addrCity')?.value?.trim() || '';
+            const addrPincode = document.getElementById('addrPincode')?.value?.trim() || '';
+            address = { flat: addrFlat, street: addrStreet, city: addrCity, pincode: addrPincode };
+        }
+        
+        const orderData = {
+            orderId: orderId,
+            offerTitle: selectedOffer.title,
+            originalPrice: originalPrice,
+            finalAmount: finalAmount,
+            couponUsed: appliedCoupon ? appliedCoupon.code : null,
+            couponDiscount: appliedCoupon ? appliedCoupon.discount : 0,
+            prlCoinsUsed: coinsUsed,
+            transactionId: txnId,
+            paymentMethod: selectedPaymentMethod,
+            status: 'pending',
+            orderDate: new Date().toISOString(),
+            type: selectedOffer.type || 'food',
+            movieDetails: movieDetails,
+            address: address,
+            complaintFiled: false
+        };
+        
+        await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).set(orderData);
+        
+        if (coinsUsed > 0) {
+            await db.collection('users').doc(currentUser.uid).update({
+                prlCoins: firebase.firestore.FieldValue.increment(-coinsUsed)
+            });
+            userData.prlCoins -= coinsUsed;
+        }
+        
+        if (appliedCoupon) {
+            await db.collection('coupons').doc(appliedCoupon.id).update({
+                usedBy: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+            });
+        }
+        
+        const earnedCoins = Math.round(finalAmount * 0.05);
+        if (earnedCoins > 0) {
+            await db.collection('users').doc(currentUser.uid).update({
+                prlCoins: firebase.firestore.FieldValue.increment(earnedCoins)
+            });
+            userData.prlCoins += earnedCoins;
+        }
+        
+        showToast('🎉 Order Placed!', 'success', `Order ID: ${orderId}\nEarned ${earnedCoins} PRL Coins!`);
+        selectedOffer = null;
+        appliedCoupon = null;
+        movieDetails = null;
+        selectedPaymentMethod = null;
+        goToPage('orders');
+    } catch(e) {
+        showToast('Error', 'error', 'Failed to place order: ' + e.message);
+    }
+}
+
+// ============================================================
+// ORDER DETAIL
+// ============================================================
+async function viewOrder(orderId) {
+    try {
+        const doc = await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).get();
+        if (!doc.exists) { showToast('Error', 'error', 'Order not found'); return; }
+        const d = doc.data();
+        
+        const statusIndex = statusFlow.findIndex(s => s.status === d.status);
+        let timelineHtml = statusFlow.map((step, idx) => {
+            const isActive = idx <= statusIndex;
+            const dotClass = d.status === 'cancelled' ? 'cancelled' : isActive ? 'active' : '';
+            return `
+                <div class="timeline-item">
+                    <div class="timeline-dot ${dotClass}"></div>
+                    <div>
+                        <div style="font-weight:600; font-size:13px; ${isActive && d.status !== 'cancelled' ? 'color:#1a1a2e;' : 'color:#999;'}">${step.emoji} ${step.label}</div>
+                        <div style="font-size:10px; color:#999;">${step.time}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        let detailsHtml = '';
+        if (d.type === 'movie' && d.movieDetails) {
+            detailsHtml = `
+                <div class="premium-card pink" style="margin-top:8px;">
+                    <h4 style="font-size:14px;">🎬 Ticket Details</h4>
+                    <div class="text-muted text-sm">
+                        <div>📅 ${d.movieDetails.date}</div>
+                        <div>⏰ ${d.movieDetails.time}</div>
+                        <div>🎫 ${d.movieDetails.tickets} tickets</div>
+                        <div>📧 ${d.movieDetails.email}</div>
+                        <div>📱 ${d.movieDetails.mobile}</div>
+                    </div>
+                </div>
+            `;
+        } else if (d.address) {
+            detailsHtml = `
+                <div class="premium-card teal" style="margin-top:8px;">
+                    <h4 style="font-size:14px;">📍 Delivery Address</h4>
+                    <div class="text-muted text-sm">
+                        <div>${d.address.flat}</div>
+                        <div>${d.address.street}</div>
+                        <div>${d.address.city}</div>
+                        <div>${d.address.pincode}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        let complaintBtn = '';
+        if (d.status === 'delivered' && !d.complaintFiled) {
+            complaintBtn = `
+                <button class="btn btn-warning" onclick="goToPage('complaintForm')">📢 File Complaint</button>
+            `;
+        }
+        
+        renderPage(`
+            <div class="page-enter">
+                <div class="premium-card purple">
+                    <div class="flex-between">
+                        <span style="font-weight:700;">${d.offerTitle}</span>
+                        <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
+                    </div>
+                    <div class="text-muted text-sm">
+                        <div>Order ID: ${d.orderId}</div>
+                        <div>Date: ${getDateTime(d.orderDate)}</div>
+                        <div>Amount: ₹${d.finalAmount}</div>
+                        ${d.couponUsed ? `<div>Coupon: ${d.couponUsed} (${d.couponDiscount}% off)</div>` : ''}
+                        ${d.prlCoinsUsed > 0 ? `<div>PRL Coins used: ${d.prlCoinsUsed}</div>` : ''}
+                    </div>
+                    ${d.status !== 'cancelled' ? `
+                        <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0;">
+                            <div class="timeline">${timelineHtml}</div>
+                        </div>
+                    ` : `
+                        <div style="background:#fee2e2; border-radius:12px; padding:12px; margin:8px 0; text-align:center;">
+                            <span style="color:#dc2626; font-weight:700;">❌ Order Cancelled</span>
+                        </div>
+                    `}
+                    ${detailsHtml}
+                    ${d.status === 'pending' ? `
+                        <button class="btn btn-danger" onclick="cancelOrder('${orderId}')">Cancel Order</button>
+                    ` : ''}
+                    ${complaintBtn}
+                    <button class="btn btn-secondary" onclick="goToPage('orders')">← Back</button>
+                </div>
+            </div>
+        `);
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+async function cancelOrder(orderId) {
+    const reason = prompt("Enter reason for cancelling this order:");
+    if (!reason) return;
+    try {
+        await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).update({ 
+            status: 'cancelled',
+            cancelReason: reason,
+            cancelledAt: new Date().toISOString()
+        });
+        showToast('Cancelled', 'warning', 'Order has been cancelled');
+        goToPage('orders');
+    } catch(e) { showToast('Error', 'error', 'Failed to cancel order'); }
+}
+
+// ============================================================
+// COMPLAINT FUNCTIONS
+// ============================================================
+function selectComplaintType(el, type) {
+    document.querySelectorAll('.complaint-option').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('complaintType').value = type;
+}
+
+async function submitComplaint() {
+    let type = document.getElementById('complaintType')?.value?.trim() || '';
+    const desc = document.getElementById('complaintDesc')?.value?.trim() || '';
+    
+    if (!type) {
+        const selected = document.querySelector('.complaint-option.selected');
+        if (selected) type = selected.textContent.trim();
+    }
+    
+    if (!type || !desc) { showToast('Error', 'error', 'Please select issue type and describe'); return; }
+    
+    try {
+        await db.collection('users').doc(currentUser.uid).collection('complaints').add({
+            orderId: 'N/A',
+            type: type,
+            description: desc,
+            status: 'pending',
+            createdAt: new Date().toISOString()
+        });
+        showToast('✅ Complaint Filed', 'success', 'We\'ll look into it shortly');
+        goToPage('complaints');
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+// ============================================================
+// GIFT CARD REDEEM
+// ============================================================
+async function redeemGiftCardWithPassword() {
+    const code = document.getElementById('giftCodeInput')?.value?.trim()?.toUpperCase() || '';
+    const password = document.getElementById('giftPasswordInput')?.value?.trim() || '';
+    
+    if (!code) { showToast('Error', 'error', 'Please enter gift card code'); return; }
+    if (!password) { showToast('Error', 'error', 'Please enter gift card password'); return; }
+    
+    if (password !== giftCardPassword) {
+        showToast('Error', 'error', 'Invalid gift card password');
+        return;
+    }
+    
+    try {
+        const snapshot = await db.collection('giftCards').where('code', '==', code).get();
+        if (snapshot.empty) { showToast('Error', 'error', 'Invalid gift card code'); return; }
+        
+        const doc = snapshot.docs[0];
+        const data = doc.data();
+        
+        if (data.usedBy && data.usedBy.includes(currentUser.uid)) {
+            showToast('Error', 'error', 'Gift card already redeemed');
+            return;
+        }
+        
+        await db.collection('giftCards').doc(doc.id).update({
+            usedBy: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+        });
+        
+        await db.collection('users').doc(currentUser.uid).update({
+            prlCoins: firebase.firestore.FieldValue.increment(data.points || 100)
+        });
+        userData.prlCoins += (data.points || 100);
+        
+        showToast('🎉 Redeemed!', 'success', `You earned ${data.points || 100} PRL Coins!`);
+        goToPage('prlcoins');
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+// ============================================================
+// PROFILE FUNCTIONS
+// ============================================================
+async function updateName() {
+    const name = document.getElementById('editName')?.value?.trim() || '';
+    if (!name) { showToast('Error', 'error', 'Name cannot be empty'); return; }
+    try {
+        await db.collection('users').doc(currentUser.uid).update({ name });
+        userData.name = name;
+        document.getElementById('menuName').textContent = name;
+        showToast('✅ Updated', 'success', 'Name updated successfully');
+        goToPage('profile');
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+async function updateAddress() {
+    const flat = document.getElementById('editFlat')?.value?.trim() || '';
+    const street = document.getElementById('editStreet')?.value?.trim() || '';
+    const city = document.getElementById('editCity')?.value?.trim() || '';
+    const pincode = document.getElementById('editPincode')?.value?.trim() || '';
+    
+    if (!flat || !street || !city || !pincode) {
+        showToast('Error', 'error', 'Please fill all address fields');
+        return;
+    }
+    try {
+        await db.collection('users').doc(currentUser.uid).update({ address: { flat, street, city, pincode } });
+        userData.address = { flat, street, city, pincode };
+        showToast('✅ Updated', 'success', 'Address updated successfully');
+        goToPage('profile');
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+// ============================================================
+// OTHER FUNCTIONS
+// ============================================================
+function copyContact() {
+    const contact = "thepawanretaillimited@gmail.com\n9142739651";
+    navigator.clipboard.writeText(contact).then(() => {
+        showToast('Copied!', 'success', 'Contact details copied');
+    });
+}
+
+// ============================================================
+// SEED DATA
+// ============================================================
+async function seedData() {
+    try {
+        const offers = await db.collection('offers').get();
+        if (offers.empty) {
+            await db.collection('offers').add({ title: "🍕 3 Classic Pizzas", price: 141, badge: "HOT", type: "food", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
+            await db.collection('offers').add({ title: "🎬 Pushpa 2 - Movie Ticket", price: 299, badge: "CINEMA", type: "movie", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
+            await db.collection('offers').add({ title: "⚡ 50% OFF Electronics", price: 499, badge: "FLASH", type: "electronics", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
+        }
+        const coupons = await db.collection('coupons').get();
+        if (coupons.empty) {
+            await db.collection('coupons').add({ code: "SAVE50", discount: 50, minOrder: 200, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], createdAt: new Date().toISOString() });
+            await db.collection('coupons').add({ code: "WELCOME100", discount: 100, minOrder: 500, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], createdAt: new Date().toISOString() });
+            await db.collection('coupons').add({ code: "PRL20", discount: 20, minOrder: 100, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], createdAt: new Date().toISOString() });
+        }
+        const giftCards = await db.collection('giftCards').get();
+        if (giftCards.empty) {
+            await db.collection('giftCards').add({ code: "GIFT100", points: 100, usedBy: [], createdAt: new Date().toISOString() });
+            await db.collection('giftCards').add({ code: "GIFT500", points: 500, usedBy: [], createdAt: new Date().toISOString() });
+        }
+    } catch(e) { console.error("Seed error:", e); }
+}
+
+// ============================================================
+// TOGGLE MENU
+// ============================================================
+function toggleMenu() {
+    const sidebar = document.getElementById('menuSidebar');
+    const overlay = document.getElementById('menuOverlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+}
+
+function closeMenu() {
+    const sidebar = document.getElementById('menuSidebar');
+    const overlay = document.getElementById('menuOverlay');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+}
+
+// ============================================================
+// AUTH STATE LISTENER
+// ============================================================
+auth.onAuthStateChanged(async (user) => {
+    if (user) {
+        currentUser = user;
+        await loadUserData();
+        await seedData();
+        await loadBlockedUsers();
+    } else {
+        currentUser = null;
+        userData = null;
+        isBlocked = false;
+        renderPage(renderLogin());
+    }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+console.log("🚀 Pawan Retail Customer Panel");
+console.log("📱 Menu Fully Working - Click ☰ to open");
+console.log("📧 REAL OTP via EmailJS");
+console.log("🔑 Google Sign-In with Redirect");
+</script>
+</body>
+</html><span style="color:#ef4444;">❌ Coupon expired</span>';
             return;
         }
         
