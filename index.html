@@ -9,38 +9,28 @@
         body { background: #0a0a1a; display: flex; justify-content: center; align-items: center; padding: 12px; min-height: 100vh; }
         .mobile-frame { max-width: 450px; width: 100%; margin: 0 auto; background: #f5f7fa; min-height: 95vh; border-radius: 32px; overflow-y: auto; overflow-x: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); position: relative; }
         
-        @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes fadeInLeft { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }
-        @keyframes fadeInRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes slideInRight { from { opacity:0; transform:translateX(100%); } to { opacity:1; transform:translateX(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
         @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
         @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
         @keyframes spin { 100% { transform:rotate(360deg); } }
-        @keyframes slideIn { from { transform:translateX(-100%); } to { transform:translateX(0); } }
-        @keyframes pop { 0% { transform:scale(0.7); opacity:0; } 70% { transform:scale(1.05); } 100% { transform:scale(1); opacity:1; } }
-        @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
         @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
         @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        @keyframes statusPulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
         
-        .animate-fadeInUp { animation: fadeInUp 0.5s ease forwards; }
-        .animate-fadeInDown { animation: fadeInDown 0.5s ease forwards; }
+        .page-enter { animation: slideInRight 0.4s ease forwards; }
+        .animate-fadeIn { animation: fadeIn 0.4s ease forwards; }
         .animate-pulse { animation: pulse 2s infinite; }
-        .animate-pop { animation: pop 0.4s ease forwards; }
         .animate-float { animation: float 3s ease-in-out infinite; }
-        
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
+        .animate-status { animation: statusPulse 2s infinite; }
         
         .premium-header { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 12px 16px; position: sticky; top:0; z-index:100; border-bottom: 2px solid rgba(99,102,241,0.2); }
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 17px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #818cf8); -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 3s infinite; background-size:200% auto; }
         .logo span { font-size:9px; opacity:0.7; }
         .header-actions { display:flex; gap:10px; align-items:center; }
-        .refresh-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
-        .refresh-btn:hover { transform:rotate(180deg); background:rgba(99,102,241,0.2); }
+        .back-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
+        .back-btn:active { transform:scale(0.9); }
         .menu-icon { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
         .menu-icon:active { transform:scale(0.9); }
         
@@ -53,6 +43,7 @@
         .premium-card.orange { border-left-color: #fb923c; }
         .premium-card.purple { border-left-color: #a78bfa; }
         .premium-card.teal { border-left-color: #2dd4bf; }
+        .premium-card.rose { border-left-color: #f43f5e; }
         
         .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.3s; }
         .btn:active { transform:scale(0.96); }
@@ -76,7 +67,6 @@
         
         .flex-between { display:flex; justify-content:space-between; align-items:center; margin:6px 0; }
         .flex { display:flex; gap:8px; flex-wrap:wrap; }
-        .flex-center { display:flex; justify-content:center; align-items:center; }
         .text-muted { color:#999; font-size:12px; }
         .text-center { text-align:center; }
         .text-primary { color:#6366f1; }
@@ -88,7 +78,6 @@
         .font-bold { font-weight:700; }
         .mt-2 { margin-top:12px; }
         .mb-2 { margin-bottom:12px; }
-        .gap-2 { gap:8px; }
         
         .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; }
         .badge-hot { background:linear-gradient(135deg,#f87171,#ef4444); color:white; }
@@ -103,14 +92,17 @@
         .status-delivered { background:#d1fae5; color:#059669; }
         .status-cancelled { background:#fee2e2; color:#dc2626; }
         
-        .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:6000; display:none; justify-content:center; align-items:center; backdrop-filter:blur(8px); }
-        .modal-overlay.show { display:flex; }
-        .modal-box { background:white; border-radius:24px; padding:20px; max-width:400px; width:95%; max-height:80vh; overflow-y:auto; animation:pop 0.4s ease; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
-        .modal-box h3 { margin-bottom:12px; color:#1a1a2e; font-size:18px; }
-        .modal-close { float:right; background:none; border:none; font-size:20px; cursor:pointer; color:#999; transition:all 0.3s; padding:4px; }
-        .modal-close:hover { transform:rotate(90deg) scale(1.2); color:#333; }
+        .refund-box { background:#d1fae5; border:2px solid #10b981; border-radius:12px; padding:12px; margin:8px 0; }
+        .refund-box .label { font-size:12px; color:#065f46; font-weight:600; }
+        .refund-box .value { font-size:16px; font-weight:700; color:#065f46; }
+        .refund-box.pending { background:#fef3c7; border-color:#f59e0b; }
+        .refund-box.pending .label { color:#92400e; }
+        .refund-box.pending .value { color:#92400e; }
+        .refund-box.cancelled { background:#fee2e2; border-color:#ef4444; }
+        .refund-box.cancelled .label { color:#7f1d1d; }
+        .refund-box.cancelled .value { color:#dc2626; }
         
-        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; background:white; border-radius:16px; padding:14px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); animation:fadeInDown 0.4s ease; max-width:400px; width:90%; }
+        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; background:white; border-radius:16px; padding:14px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); animation:fadeIn 0.4s ease; max-width:400px; width:90%; }
         .toast .icon { font-size:24px; margin-right:10px; }
         .toast .msg { font-size:14px; font-weight:600; }
         .toast .sub { font-size:12px; color:#666; }
@@ -135,10 +127,11 @@
         .cod-banner .sub { font-size:11px; color:#7f1d1d; }
         
         .timeline { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
-        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeInLeft 0.3s ease; }
+        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeIn 0.3s ease; }
         .timeline-dot { width:12px; height:12px; border-radius:50%; background:#e0e0e0; flex-shrink:0; transition:all 0.3s; }
         .timeline-dot.active { background:#6366f1; box-shadow:0 0 20px rgba(99,102,241,0.3); }
         .timeline-dot.completed { background:#34d399; }
+        .timeline-dot.cancelled { background:#ef4444; }
         
         .menu-sidebar { position:fixed; top:0; left:-300px; width:280px; height:100%; background:white; z-index:1000; transition:left 0.4s cubic-bezier(0.4,0,0.2,1); padding:20px; border-radius:0 24px 24px 0; box-shadow:4px 0 30px rgba(0,0,0,0.3); overflow-y:auto; }
         .menu-sidebar.open { left:0; animation:slideIn 0.4s ease; }
@@ -181,8 +174,10 @@
         
         .profile-pic { width:70px; height:70px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:block; object-fit:cover; }
         
-        .complaint-item { background:#f8f9fa; border-radius:12px; padding:12px; margin-bottom:10px; border-left:3px solid #f59e0b; animation:fadeInUp 0.3s ease; }
+        .complaint-item { background:#f8f9fa; border-radius:12px; padding:12px; margin-bottom:10px; border-left:3px solid #f59e0b; animation:fadeIn 0.3s ease; cursor:pointer; }
+        .complaint-item:active { transform:scale(0.97); }
         .complaint-item.resolved { border-left-color: #10b981; }
+        .complaint-item.cancelled { border-left-color: #ef4444; }
         
         .blocked-banner { background:linear-gradient(135deg, #1e1b4b, #312e81); border:2px solid #ef4444; border-radius:12px; padding:20px; text-align:center; margin:10px 0; }
         .blocked-banner .icon { font-size:48px; animation:bounce 1.5s infinite; }
@@ -198,13 +193,15 @@
         .complaint-option:hover { border-color:#818cf8; background:#eef2ff; }
         .complaint-option.selected { border-color:#6366f1; background:#eef2ff; }
         
-        .refund-box { background:#d1fae5; border:2px solid #10b981; border-radius:12px; padding:12px; margin:8px 0; }
-        .refund-box .label { font-size:12px; color:#065f46; font-weight:600; }
-        .refund-box .value { font-size:16px; font-weight:700; color:#065f46; }
+        .refund-status { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; }
+        .refund-status.pending { background:#fef3c7; color:#d97706; }
+        .refund-status.approved { background:#d1fae5; color:#059669; }
+        .refund-status.cancelled { background:#fee2e2; color:#dc2626; }
+        .refund-status.processing { background:#dbeafe; color:#2563eb; }
         
-        .coupon-detail-box { background:#eef2ff; border:2px solid #818cf8; border-radius:12px; padding:12px; margin:8px 0; }
-        .coupon-detail-box .code { font-size:20px; font-weight:800; color:#6366f1; }
-        .coupon-detail-box .discount { font-size:28px; font-weight:800; color:#6366f1; }
+        .cancel-reason-box { background:#fee2e2; border:2px solid #ef4444; border-radius:12px; padding:12px; margin:8px 0; }
+        .cancel-reason-box .label { font-size:12px; color:#7f1d1d; font-weight:600; }
+        .cancel-reason-box .value { font-size:14px; color:#dc2626; }
     </style>
 </head>
 <body>
@@ -214,7 +211,7 @@
             <div class="header-top">
                 <div class="logo">PAWAN<span>RETAIL</span></div>
                 <div class="header-actions">
-                    <div class="refresh-btn" onclick="refreshPage()" title="Refresh">⟳</div>
+                    <div class="back-btn" onclick="goBack()" id="backBtn" style="display:none;">←</div>
                     <div class="menu-icon" onclick="toggleMenu()">☰</div>
                 </div>
             </div>
@@ -278,6 +275,38 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 emailjs.init("3cUWXrfL9AhSkM5FA");
 
 // ============================================================
+// FIX: Google Sign-In for Vercel
+// ============================================================
+// Vercel par Google Sign-In kaam karne ke liye
+// Firebase Console mein Authorized Domains mein Vercel URL add karein
+// Aur yeh code use karein:
+
+// Method 1: Redirect instead of Popup (Works better on Vercel)
+async function googleSignIn() {
+    try {
+        // Use redirect instead of popup for Vercel
+        await auth.signInWithRedirect(googleProvider);
+    } catch(e) {
+        // Fallback to popup if redirect fails
+        try {
+            await auth.signInWithPopup(googleProvider);
+        } catch(err) {
+            showToast('Google Sign-In Failed', 'error', err.message);
+        }
+    }
+}
+
+// Handle redirect result
+auth.getRedirectResult().then((result) => {
+    if (result.user) {
+        // User signed in successfully
+        loadUserData();
+    }
+}).catch((error) => {
+    console.error("Redirect sign-in error:", error);
+});
+
+// ============================================================
 // GLOBAL STATE
 // ============================================================
 let currentUser = null;
@@ -294,6 +323,7 @@ let blockedUsersCache = {};
 let isBlocked = false;
 let pendingOtp = null;
 let pendingUserData = null;
+let historyStack = ['home'];
 
 const theatreInfo = { name: "🎬 PVR Cinemas - Bokaro", address: "The Bokaro Mall, Sector 3C" };
 const timeSlots = ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM"];
@@ -322,7 +352,6 @@ let giftCardPassword = "admin123";
 function showToast(message, type = 'success', sub = '') {
     let existing = document.querySelector('.toast');
     if (existing) existing.remove();
-    
     let icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
     let toast = document.createElement('div');
     toast.className = `toast ${type}`;
@@ -366,42 +395,6 @@ function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-function showModal(html) {
-    let overlay = document.getElementById('modalOverlay');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.id = 'modalOverlay';
-        overlay.className = 'modal-overlay';
-        overlay.innerHTML = `<div class="modal-box"><span class="modal-close" onclick="closeModal()">✕</span><div id="modalContent" style="animation:fadeInUp 0.3s ease;"></div></div>`;
-        document.body.appendChild(overlay);
-    }
-    document.getElementById('modalContent').innerHTML = html;
-    overlay.classList.add('show');
-}
-
-function closeModal() {
-    const overlay = document.getElementById('modalOverlay');
-    if (overlay) overlay.classList.remove('show');
-}
-
-function toggleMenu() {
-    document.getElementById('menuSidebar').classList.toggle('open');
-    document.getElementById('menuOverlay').classList.toggle('show');
-}
-
-function closeMenu() {
-    document.getElementById('menuSidebar').classList.remove('open');
-    document.getElementById('menuOverlay').classList.remove('show');
-}
-
-function refreshPage() {
-    const btn = document.querySelector('.refresh-btn');
-    btn.classList.add('refresh-spin');
-    setTimeout(() => btn.classList.remove('refresh-spin'), 600);
-    navigateTo(currentPage);
-    showToast('🔄 Refreshed', 'success', 'Data updated!');
-}
-
 function getNextThreeDays() {
     let days = [];
     for (let i = 1; i <= 3; i++) {
@@ -415,8 +408,6 @@ function getNextThreeDays() {
 // ============================================================
 // NAVIGATION
 // ============================================================
-let historyStack = ['home'];
-
 function navigateTo(page, data = null) {
     if (isBlocked && page !== 'home') {
         showToast('Account Blocked', 'error', 'Contact support');
@@ -426,6 +417,10 @@ function navigateTo(page, data = null) {
     if (historyStack[historyStack.length - 1] !== page) {
         historyStack.push(page);
     }
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+        backBtn.style.display = historyStack.length > 1 ? 'flex' : 'none';
+    }
     renderPageContent(page, data);
 }
 
@@ -434,6 +429,10 @@ function goBack() {
         historyStack.pop();
         const prev = historyStack[historyStack.length - 1];
         currentPage = prev;
+        const backBtn = document.getElementById('backBtn');
+        if (backBtn) {
+            backBtn.style.display = historyStack.length > 1 ? 'flex' : 'none';
+        }
         renderPageContent(prev);
     }
 }
@@ -456,9 +455,11 @@ function renderPageContent(page, data = null) {
         case 'complaintForm': html = renderComplaintForm(data); break;
         case 'giftCardRedeem': html = renderGiftCardRedeem(); break;
         case 'refundDetails': html = renderRefundDetails(data); break;
+        case 'complaintDetail': html = renderComplaintDetail(data); break;
+        case 'refundStatus': html = renderRefundStatus(data); break;
         default: html = '<div class="premium-card"><p>Page not found</p></div>';
     }
-    renderPage(`<div class="animate-fadeInUp">${html}</div>`);
+    renderPage(`<div class="page-enter">${html}</div>`);
     
     setTimeout(() => {
         switch(page) {
@@ -474,22 +475,6 @@ function renderPageContent(page, data = null) {
 // ============================================================
 // AUTH FUNCTIONS
 // ============================================================
-async function googleSignIn() {
-    try {
-        const result = await auth.signInWithPopup(googleProvider);
-        await loadBlockedUsers();
-        const blocked = checkIfBlocked(result.user.email);
-        if (blocked) {
-            await auth.signOut();
-            showToast('Account Blocked', 'error', blocked.reason);
-            return;
-        }
-        showToast('Welcome!', 'success', `Hello ${result.user.displayName}`);
-    } catch(e) {
-        showToast('Google Sign-In Failed', 'error', e.message);
-    }
-}
-
 async function emailLogin() {
     const email = document.getElementById('loginEmail').value.trim();
     const pwd = document.getElementById('loginPassword').value.trim();
@@ -590,7 +575,7 @@ async function loadUserData() {
         
         if (isBlocked) {
             renderPage(`
-                <div class="blocked-banner animate-fadeInUp">
+                <div class="blocked-banner animate-fadeIn">
                     <div class="icon">🚫</div>
                     <div class="title">Account Blocked</div>
                     <div class="reason">${blocked.reason}</div>
@@ -622,7 +607,7 @@ function checkIfBlocked(email) {
 
 function renderLogin() {
     return `
-        <div style="text-align:center; padding:40px 20px; animation:fadeInUp 0.5s ease;">
+        <div style="text-align:center; padding:40px 20px; animation:fadeIn 0.5s ease;">
             <div style="font-size:56px; margin-bottom:16px; animation:float 3s ease-in-out infinite;">🏪</div>
             <h2 style="color:#1a1a2e;">Welcome Back</h2>
             <p style="color:#666; font-size:14px;">Sign in to continue shopping</p>
@@ -635,8 +620,8 @@ function renderLogin() {
                 <span style="padding:0 15px; color:#999; font-size:12px;">OR</span>
                 <hr style="flex:1; border-color:#e0e0e0;">
             </div>
-            <input class="input-field" id="loginEmail" type="email" placeholder="Email" style="animation:fadeInUp 0.6s ease;">
-            <input class="input-field" id="loginPassword" type="password" placeholder="Password" style="animation:fadeInUp 0.7s ease;">
+            <input class="input-field" id="loginEmail" type="email" placeholder="Email" style="animation:fadeIn 0.6s ease;">
+            <input class="input-field" id="loginPassword" type="password" placeholder="Password" style="animation:fadeIn 0.7s ease;">
             <button class="btn btn-primary" onclick="emailLogin()" style="animation:pulse 2s infinite;">Sign In</button>
             <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
                 New? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="navigateTo('register')">Create Account</span>
@@ -647,7 +632,7 @@ function renderLogin() {
 
 function renderRegister() {
     return `
-        <div style="text-align:center; padding:20px 0; animation:fadeInUp 0.5s ease;">
+        <div style="text-align:center; padding:20px 0; animation:fadeIn 0.5s ease;">
             <div style="font-size:48px; animation:float 3s ease-in-out infinite;">📝</div>
             <h2 style="color:#1a1a2e;">Create Account</h2>
         </div>
@@ -658,12 +643,12 @@ function renderRegister() {
         <div style="display:flex; align-items:center; margin:15px 0;">
             <hr style="flex:1; border-color:#e0e0e0;"><span style="padding:0 15px; color:#999; font-size:12px;">OR</span><hr style="flex:1; border-color:#e0e0e0;">
         </div>
-        <input class="input-field" id="regName" placeholder="Full Name" style="animation:fadeInUp 0.5s ease;">
-        <input class="input-field" id="regEmail" type="email" placeholder="Email" style="animation:fadeInUp 0.6s ease;">
-        <input class="input-field" id="regMobile" type="tel" placeholder="Mobile (10 digits)" maxlength="10" style="animation:fadeInUp 0.7s ease;">
-        <input class="input-field" id="regPassword" type="password" placeholder="Password (min 6 chars)" style="animation:fadeInUp 0.8s ease;">
+        <input class="input-field" id="regName" placeholder="Full Name" style="animation:fadeIn 0.5s ease;">
+        <input class="input-field" id="regEmail" type="email" placeholder="Email" style="animation:fadeIn 0.6s ease;">
+        <input class="input-field" id="regMobile" type="tel" placeholder="Mobile (10 digits)" maxlength="10" style="animation:fadeIn 0.7s ease;">
+        <input class="input-field" id="regPassword" type="password" placeholder="Password (min 6 chars)" style="animation:fadeIn 0.8s ease;">
         <button class="btn btn-primary" onclick="registerUser()" style="animation:pulse 2s infinite;">Register & Send OTP</button>
-        <div id="otpSection" style="display:none; margin-top:12px; animation:fadeInUp 0.5s ease;">
+        <div id="otpSection" style="display:none; margin-top:12px; animation:fadeIn 0.5s ease;">
             <p class="text-muted">Enter 6-digit OTP sent to your email</p>
             <div style="display:flex; gap:10px; justify-content:center; margin:10px 0;">
                 <input class="otp-box" maxlength="1">
@@ -683,11 +668,11 @@ function renderRegister() {
 
 function renderHome() {
     return `
-        <div class="cod-banner animate-fadeInUp">
+        <div class="cod-banner animate-fadeIn">
             <div class="msg">🚫 Cash on Delivery Not Available</div>
             <div class="sub">Only Online Payments Accepted</div>
         </div>
-        <div class="banner-gradient animate-fadeInUp">
+        <div class="banner-gradient animate-fadeIn">
             <h3 style="font-size:18px;">✨ Premium Collection</h3>
             <p style="font-size:12px; opacity:0.9;">Exclusive offers • Limited time</p>
         </div>
@@ -701,7 +686,7 @@ function renderOrders() {
 
 function renderPRLCoins() {
     return `
-        <div class="premium-card purple animate-fadeInUp">
+        <div class="premium-card purple animate-fadeIn">
             <div style="text-align:center; padding:10px 0;">
                 <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🪙</div>
                 <div style="font-size:32px; font-weight:800; color:#6366f1;" id="prlBalance">${userData?.prlCoins || 0}</div>
@@ -710,8 +695,8 @@ function renderPRLCoins() {
             <div style="margin:10px 0;">
                 <h4 style="font-size:14px;">How to Earn</h4>
                 <ul style="list-style:none; padding:0; margin-top:6px;">
-                    <li style="padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeInUp 0.3s ease;">✅ Sign up: <strong>500 coins</strong></li>
-                    <li style="padding:6px 0; animation:fadeInUp 0.4s ease;">✅ Every order: <strong>5% back</strong></li>
+                    <li style="padding:6px 0; border-bottom:1px solid #f0f0f0; animation:fadeIn 0.3s ease;">✅ Sign up: <strong>500 coins</strong></li>
+                    <li style="padding:6px 0; animation:fadeIn 0.4s ease;">✅ Every order: <strong>5% back</strong></li>
                 </ul>
             </div>
             <div style="margin:10px 0;">
@@ -735,10 +720,10 @@ function renderCouponDetail(data) {
     const isExpired = d.expiry ? new Date(d.expiry) < new Date() : false;
     const used = d.usedBy ? d.usedBy.includes(currentUser.uid) : false;
     return `
-        <div class="premium-card purple animate-fadeInUp">
-            <div class="coupon-detail-box">
-                <div class="code">${d.code}</div>
-                <div class="discount">${d.discount}% OFF</div>
+        <div class="premium-card purple animate-fadeIn">
+            <div style="background:#eef2ff; border-radius:12px; padding:12px; margin:8px 0;">
+                <div style="font-size:20px; font-weight:800; color:#6366f1;">${d.code}</div>
+                <div style="font-size:28px; font-weight:800; color:#6366f1;">${d.discount}% OFF</div>
                 <div class="text-muted">Min Order: ₹${d.minOrder || 0}</div>
                 ${d.expiry ? `<div class="text-muted">Expires: ${getDateString(d.expiry)} ${isExpired ? '⛔' : ''}</div>` : ''}
                 ${used ? '<div class="text-muted">✓ Already Used</div>' : ''}
@@ -757,7 +742,7 @@ function renderComplaints() {
 
 function renderProfile() {
     return `
-        <div class="premium-card purple animate-fadeInUp">
+        <div class="premium-card purple animate-fadeIn">
             <div style="text-align:center;">
                 ${userData?.photoURL ? `<img src="${userData.photoURL}" class="profile-pic">` : `<div style="font-size:48px; text-align:center;">👤</div>`}
                 <div style="font-size:18px; font-weight:700; color:#1a1a2e;">${userData?.name || 'User'}</div>
@@ -766,12 +751,12 @@ function renderProfile() {
                 <div style="margin-top:4px; color:#6366f1; font-weight:600;">⭐ ${userData?.prlCoins || 0} PRL Coins</div>
             </div>
         </div>
-        <div class="premium-card green animate-fadeInUp delay-1">
+        <div class="premium-card green animate-fadeIn delay-1">
             <h4 style="font-size:14px;">✏️ Edit Profile</h4>
             <input class="input-field" id="editName" value="${userData?.name || ''}" placeholder="Name">
             <button class="btn btn-primary" onclick="updateName()" style="animation:pulse 2s infinite;">Save Name</button>
         </div>
-        <div class="premium-card pink animate-fadeInUp delay-2">
+        <div class="premium-card pink animate-fadeIn delay-2">
             <h4 style="font-size:14px;">📍 Delivery Address</h4>
             <input class="input-field" id="editFlat" value="${userData?.address?.flat || ''}" placeholder="Flat/House">
             <input class="input-field" id="editStreet" value="${userData?.address?.street || ''}" placeholder="Street">
@@ -784,7 +769,7 @@ function renderProfile() {
 
 function renderAbout() {
     return `
-        <div class="premium-card purple animate-fadeInUp">
+        <div class="premium-card purple animate-fadeIn">
             <div style="text-align:center; padding:10px 0;">
                 <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🏪</div>
                 <h2 style="color:#1a1a2e;">Pawan Retail Limited</h2>
@@ -795,7 +780,7 @@ function renderAbout() {
                 high-quality products. Our mission is to provide exceptional value and service.
             </p>
         </div>
-        <div class="premium-card pink animate-fadeInUp delay-1">
+        <div class="premium-card pink animate-fadeIn delay-1">
             <h4 style="font-size:14px;">📧 Contact Us</h4>
             <p style="margin:4px 0;">Email: <strong>thepawanretaillimited@gmail.com</strong></p>
             <p style="margin:4px 0;">Phone: <strong>9142739651</strong></p>
@@ -807,7 +792,7 @@ function renderAbout() {
 function renderPayment() {
     const originalPrice = selectedOffer?.price || 0;
     return `
-        <div class="premium-card purple animate-fadeInUp">
+        <div class="premium-card purple animate-fadeIn">
             <h3 style="color:#1a1a2e;">💳 Payment</h3>
             <div class="cod-banner" style="margin:8px 0;">
                 <div class="msg">🚫 Cash on Delivery Not Available</div>
@@ -855,7 +840,7 @@ function renderPayment() {
                 <label style="font-weight:600; font-size:13px;">UPI Payment</label>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px;">
                     ${['PhonePe', 'Paytm', 'Google Pay', 'BHIM'].map(m => `
-                        <div class="payment-method" onclick="selectPaymentMethod(this, '${m}')" style="animation:fadeInUp 0.3s ease;">
+                        <div class="payment-method" onclick="selectPaymentMethod(this, '${m}')" style="animation:fadeIn 0.3s ease;">
                             ${m}
                         </div>
                     `).join('')}
@@ -887,14 +872,14 @@ function renderOrderDetail(orderId) {
 
 function renderComplaintForm(orderId) {
     let optionsHtml = complaintTypes.map((type, i) => `
-        <div class="complaint-option" onclick="selectComplaintType(this, '${type}')" style="animation:fadeInUp 0.3s ease ${i*0.03}s forwards;">
+        <div class="complaint-option" onclick="selectComplaintType(this, '${type}')" style="animation:fadeIn 0.3s ease ${i*0.03}s forwards;">
             ${type}
         </div>
     `).join('');
     
     return `
-        <div class="premium-card purple animate-fadeInUp">
-            <h3 style="animation:fadeInDown 0.3s ease;">📢 File Complaint</h3>
+        <div class="premium-card purple animate-fadeIn">
+            <h3 style="animation:fadeIn 0.3s ease;">📢 File Complaint</h3>
             <p class="text-muted text-sm">Order ID: ${orderId}</p>
             <div style="margin:8px 0;">
                 <label style="font-weight:600; font-size:13px;">Select Issue Type</label>
@@ -915,7 +900,7 @@ function renderComplaintForm(orderId) {
 
 function renderGiftCardRedeem() {
     return `
-        <div class="premium-card purple animate-fadeInUp">
+        <div class="premium-card purple animate-fadeIn">
             <div style="text-align:center; padding:10px 0;">
                 <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🎁</div>
                 <h3 style="color:#1a1a2e;">Redeem Gift Card</h3>
@@ -929,25 +914,172 @@ function renderGiftCardRedeem() {
     `;
 }
 
-function renderRefundDetails(data) {
+// ============================================================
+// REFUND STATUS PAGE
+// ============================================================
+function renderRefundStatus(data) {
+    const d = data;
+    const statusClass = d.status === 'approved' ? 'approved' : d.status === 'cancelled' ? 'cancelled' : d.status === 'processing' ? 'processing' : 'pending';
+    const statusText = d.status === 'approved' ? '✅ Approved' : d.status === 'cancelled' ? '❌ Cancelled' : d.status === 'processing' ? '⏳ Processing' : '⏳ Pending';
+    
+    let timelineHtml = `
+        <div class="timeline-item" style="animation:fadeIn 0.3s ease;">
+            <div class="timeline-dot ${d.status === 'pending' || d.status === 'processing' || d.status === 'approved' ? 'active' : ''}"></div>
+            <div>
+                <div style="font-weight:600; font-size:13px;">📝 Refund Requested</div>
+                <div style="font-size:10px; color:#999;">${getDateTime(d.createdAt)}</div>
+            </div>
+        </div>
+    `;
+    
+    if (d.status === 'processing' || d.status === 'approved' || d.status === 'cancelled') {
+        timelineHtml += `
+            <div class="timeline-item" style="animation:fadeIn 0.3s ease 0.1s forwards;">
+                <div class="timeline-dot ${d.status === 'processing' || d.status === 'approved' ? 'active' : ''}"></div>
+                <div>
+                    <div style="font-weight:600; font-size:13px;">🔄 Admin Processing</div>
+                    <div style="font-size:10px; color:#999;">${d.processedAt ? getDateTime(d.processedAt) : 'Processing...'}</div>
+                </div>
+            </div>
+        `;
+    }
+    
+    if (d.status === 'approved') {
+        timelineHtml += `
+            <div class="timeline-item" style="animation:fadeIn 0.3s ease 0.2s forwards;">
+                <div class="timeline-dot completed"></div>
+                <div>
+                    <div style="font-weight:600; font-size:13px; color:#10b981;">✅ Refund Approved</div>
+                    <div style="font-size:10px; color:#999;">${getDateTime(d.approvedAt)}</div>
+                    ${d.utrNumber ? `<div style="font-size:11px; color:#6366f1;">UTR: ${d.utrNumber}</div>` : ''}
+                </div>
+            </div>
+        `;
+    }
+    
+    if (d.status === 'cancelled') {
+        timelineHtml += `
+            <div class="timeline-item" style="animation:fadeIn 0.3s ease 0.2s forwards;">
+                <div class="timeline-dot cancelled"></div>
+                <div>
+                    <div style="font-weight:600; font-size:13px; color:#ef4444;">❌ Refund Cancelled</div>
+                    <div style="font-size:10px; color:#999;">${getDateTime(d.cancelledAt)}</div>
+                    ${d.cancelReason ? `<div style="font-size:11px; color:#dc2626;">Reason: ${d.cancelReason}</div>` : ''}
+                </div>
+            </div>
+        `;
+    }
+    
     return `
-        <div class="premium-card green animate-fadeInUp">
-            <div style="text-align:center; padding:10px 0;">
-                <div style="font-size:48px; animation:bounce 1.5s infinite;">💰</div>
-                <h3 style="color:#1a1a2e;">Refund Details</h3>
-                <p class="text-muted">Order ID: ${data.orderId}</p>
+        <div class="premium-card purple animate-fadeIn">
+            <h3 style="animation:fadeIn 0.3s ease;">💰 Refund Status</h3>
+            <div style="margin-top:8px;">
+                <div class="refund-box ${d.status === 'cancelled' ? 'cancelled' : d.status === 'pending' ? 'pending' : ''}">
+                    <div class="label">Refund Amount</div>
+                    <div class="value">₹${d.amount}</div>
+                </div>
+                <div style="margin:8px 0;">
+                    <span class="refund-status ${statusClass}">${statusText}</span>
+                </div>
+                ${d.upi ? `<div><strong>UPI:</strong> ${d.upi}</div>` : ''}
+                ${d.bankName ? `<div><strong>Bank:</strong> ${d.bankName}</div>` : ''}
+                ${d.accountNumber ? `<div><strong>Account:</strong> ${d.accountNumber}</div>` : ''}
+                ${d.ifsc ? `<div><strong>IFSC:</strong> ${d.ifsc}</div>` : ''}
             </div>
+            <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0;">
+                <div class="timeline">${timelineHtml}</div>
+            </div>
+            <button class="btn btn-secondary" onclick="navigateTo('complaints')">← Back to Complaints</button>
+        </div>
+    `;
+}
+
+// ============================================================
+// COMPLAINT DETAIL - Full Page with Refund Status
+// ============================================================
+function renderComplaintDetail(data) {
+    const d = data;
+    const isResolved = d.status === 'resolved';
+    const isCancelled = d.status === 'cancelled';
+    const isPending = d.status === 'pending';
+    const statusColor = isResolved ? '#10b981' : isCancelled ? '#ef4444' : '#f59e0b';
+    
+    let refundHtml = '';
+    if (isResolved && d.refundAmount) {
+        refundHtml = `
             <div class="refund-box">
-                <div class="label">Refund Amount</div>
-                <div class="value">₹${data.amount}</div>
+                <div class="label">Refund Processed</div>
+                <div class="value">₹${d.refundAmount}</div>
+                ${d.utrNumber ? `<div class="text-muted">UTR: ${d.utrNumber}</div>` : ''}
+                ${d.refundUPI ? `<div class="text-muted">UPI: ${d.refundUPI}</div>` : ''}
+                ${d.refundName ? `<div class="text-muted">Account: ${d.refundName}</div>` : ''}
+                ${d.refundApprovedAt ? `<div class="text-muted">Approved: ${getDateTime(d.refundApprovedAt)}</div>` : ''}
             </div>
-            <div style="margin:12px 0;">
-                <label style="font-weight:600; font-size:13px;">UPI ID for Refund</label>
-                <input class="input-field" id="refundUPI" placeholder="Enter UPI ID (e.g., user@upi)">
-                <input class="input-field" id="refundName" placeholder="Account Holder Name">
+            <button class="btn btn-sm btn-primary" onclick="navigateTo('refundStatus', {
+                status: 'approved',
+                amount: '${d.refundAmount}',
+                upi: '${d.refundUPI || ''}',
+                bankName: '${d.refundBank || ''}',
+                accountNumber: '${d.refundAccount || ''}',
+                ifsc: '${d.refundIFSC || ''}',
+                utrNumber: '${d.utrNumber || ''}',
+                createdAt: '${d.createdAt}',
+                approvedAt: '${d.refundApprovedAt || ''}'
+            })" style="margin-top:8px;">📊 View Refund Status</button>
+        `;
+    } else if (isCancelled && d.cancelReason) {
+        refundHtml = `
+            <div class="refund-box cancelled">
+                <div class="label">❌ Refund Cancelled</div>
+                <div class="value">Reason: ${d.cancelReason}</div>
+                ${d.cancelledAt ? `<div class="text-muted">Cancelled: ${getDateTime(d.cancelledAt)}</div>` : ''}
             </div>
-            <button class="btn btn-success" onclick="submitRefundDetails('${data.orderId}')" style="animation:pulse 2s infinite;">Submit Refund Details</button>
-            <button class="btn btn-secondary" onclick="navigateTo('orders')">← Back</button>
+        `;
+    } else if (d.status === 'pending' && d.refundAmount) {
+        refundHtml = `
+            <div class="refund-box pending">
+                <div class="label">⏳ Refund Pending</div>
+                <div class="value">₹${d.refundAmount}</div>
+                <div class="text-muted">Waiting for admin approval</div>
+            </div>
+            <button class="btn btn-sm btn-warning" onclick="navigateTo('refundStatus', {
+                status: 'pending',
+                amount: '${d.refundAmount}',
+                upi: '${d.refundUPI || ''}',
+                bankName: '${d.refundBank || ''}',
+                accountNumber: '${d.refundAccount || ''}',
+                ifsc: '${d.refundIFSC || ''}',
+                createdAt: '${d.createdAt}'
+            })" style="margin-top:8px;">📊 View Refund Status</button>
+        `;
+    }
+    
+    return `
+        <div class="premium-card purple animate-fadeIn">
+            <h3 style="animation:fadeIn 0.3s ease;">📢 Complaint Details</h3>
+            <div style="margin-top:8px;">
+                <div><strong>Type:</strong> ${d.type}</div>
+                <div><strong>Description:</strong> ${d.description}</div>
+                <div><strong>Status:</strong> <span style="color:${statusColor}; font-weight:600;">${d.status}</span></div>
+                <div><strong>Date:</strong> ${getDateTime(d.createdAt)}</div>
+                <div><strong>Order ID:</strong> ${d.orderId || 'N/A'}</div>
+                ${d.resolvedAt ? `<div><strong>Resolved:</strong> ${getDateTime(d.resolvedAt)}</div>` : ''}
+                ${d.cancelledAt ? `<div><strong>Cancelled:</strong> ${getDateTime(d.cancelledAt)}</div>` : ''}
+                ${d.cancelReason ? `<div><strong>Cancel Reason:</strong> ${d.cancelReason}</div>` : ''}
+            </div>
+            ${refundHtml}
+            ${d.status === 'pending' && !d.refundAmount ? `
+                <div style="margin-top:12px;">
+                    <h4 style="font-size:14px;">💳 Add Refund Details</h4>
+                    <input class="input-field" id="refundUPI" placeholder="UPI ID (e.g., user@upi)">
+                    <input class="input-field" id="refundName" placeholder="Account Holder Name">
+                    <input class="input-field" id="refundBank" placeholder="Bank Name">
+                    <input class="input-field" id="refundAccount" placeholder="Account Number">
+                    <input class="input-field" id="refundIfsc" placeholder="IFSC Code">
+                    <button class="btn btn-success" onclick="addRefundDetails('${d.complaintId}','${d.uid}')" style="animation:pulse 2s infinite;">Submit Refund Details</button>
+                </div>
+            ` : ''}
+            <button class="btn btn-secondary" onclick="navigateTo('complaints')">← Back to Complaints</button>
         </div>
     `;
 }
@@ -972,7 +1104,7 @@ async function loadOffers() {
                 const badgeClass = d.badge === 'HOT' ? 'badge-hot' : d.badge === 'CINEMA' ? 'badge-cinema' : 'badge-flash';
                 const colorClass = i % 3 === 0 ? 'orange' : i % 3 === 1 ? 'pink' : 'teal';
                 html += `
-                    <div class="offer-card ${colorClass} animate-fadeInUp delay-${(i%5)+1}" onclick="selectOffer('${doc.id}')">
+                    <div class="offer-card ${colorClass} animate-fadeIn delay-${(i%5)+1}" onclick="selectOffer('${doc.id}')">
                         <span class="badge ${badgeClass}">${d.badge || 'OFFER'}</span>
                         <div class="title">${d.title}</div>
                         <div class="price">₹${d.price}</div>
@@ -1000,7 +1132,7 @@ async function loadOrders() {
                 const d = doc.data();
                 const colorClass = i % 3 === 0 ? 'green' : i % 3 === 1 ? 'pink' : 'orange';
                 html += `
-                    <div class="premium-card ${colorClass} clickable animate-fadeInUp delay-${(i%5)+1}" onclick="viewOrder('${doc.id}')">
+                    <div class="premium-card ${colorClass} clickable animate-fadeIn delay-${(i%5)+1}" onclick="viewOrder('${doc.id}')">
                         <div class="flex-between">
                             <span style="font-weight:700;">${d.offerTitle}</span>
                             <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
@@ -1009,6 +1141,12 @@ async function loadOrders() {
                             <span>₹${d.finalAmount}</span>
                             <span>${getDateString(d.orderDate)}</span>
                         </div>
+                        ${d.cancelReason ? `
+                            <div class="cancel-reason-box" style="margin-top:4px;">
+                                <div class="label">Cancellation Reason</div>
+                                <div class="value">${d.cancelReason}</div>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
                 i++;
@@ -1036,7 +1174,7 @@ async function loadCoinTransactions() {
                 const d = doc.data();
                 const isCredit = d.action === 'credit';
                 html += `
-                    <div style="padding:6px 0; border-bottom:1px solid #f0f0f0; font-size:12px; animation:fadeInUp 0.3s ease;">
+                    <div style="padding:6px 0; border-bottom:1px solid #f0f0f0; font-size:12px; animation:fadeIn 0.3s ease;">
                         <div class="flex-between">
                             <span>${isCredit ? '➕' : '➖'} ${d.amount} coins</span>
                             <span style="color:${isCredit ? '#10b981' : '#ef4444'};">${isCredit ? '+'+d.amount : '-'+d.amount}</span>
@@ -1067,7 +1205,7 @@ async function loadCoupons() {
                 const expired = d.expiry && new Date(d.expiry) < new Date();
                 const colorClass = i % 3 === 0 ? 'green' : i % 3 === 1 ? 'pink' : 'orange';
                 html += `
-                    <div class="premium-card ${colorClass} clickable animate-fadeInUp delay-${(i%5)+1}" onclick="viewCouponDetail('${doc.id}')" style="${used || expired ? 'opacity:0.6;' : ''}">
+                    <div class="premium-card ${colorClass} clickable animate-fadeIn delay-${(i%5)+1}" onclick="viewCouponDetail('${doc.id}')" style="${used || expired ? 'opacity:0.6;' : ''}">
                         <div class="flex-between">
                             <div>
                                 <div style="font-weight:700; font-size:16px;">${d.code}</div>
@@ -1107,20 +1245,35 @@ async function loadComplaints() {
             let i = 0;
             snap.forEach(doc => {
                 const d = doc.data();
-                const statusClass = d.status === 'resolved' ? 'resolved' : '';
+                const statusClass = d.status === 'resolved' ? 'resolved' : d.status === 'cancelled' ? 'cancelled' : '';
                 const isResolved = d.status === 'resolved';
+                const isCancelled = d.status === 'cancelled';
                 html += `
-                    <div class="complaint-item ${statusClass} animate-fadeInUp delay-${(i%5)+1}">
+                    <div class="complaint-item ${statusClass} animate-fadeIn delay-${(i%5)+1}" onclick="viewComplaintDetail('${doc.id}')">
                         <div style="font-weight:700;">${d.type}</div>
                         <div class="text-muted text-sm">${d.description}</div>
                         <div class="flex-between text-sm" style="margin-top:6px;">
-                            <span>Status: <span style="font-weight:600; color:${isResolved ? '#10b981' : '#f59e0b'};">${d.status}</span></span>
+                            <span>Status: <span style="font-weight:600; color:${isResolved ? '#10b981' : isCancelled ? '#ef4444' : '#f59e0b'};">${d.status}</span></span>
                             <span class="text-muted">${getDateString(d.createdAt)}</span>
                         </div>
                         ${isResolved && d.refundAmount ? `
                             <div class="refund-box" style="margin-top:6px;">
                                 <div class="label">Refund Amount</div>
                                 <div class="value">₹${d.refundAmount}</div>
+                                ${d.utrNumber ? `<div class="text-muted">UTR: ${d.utrNumber}</div>` : ''}
+                            </div>
+                        ` : ''}
+                        ${isCancelled && d.cancelReason ? `
+                            <div class="refund-box cancelled" style="margin-top:6px;">
+                                <div class="label">Cancelled</div>
+                                <div class="value">${d.cancelReason}</div>
+                            </div>
+                        ` : ''}
+                        ${d.status === 'pending' && d.refundDetailsSubmitted ? `
+                            <div class="refund-box pending" style="margin-top:6px;">
+                                <div class="label">⏳ Refund Pending</div>
+                                <div class="value">₹${d.refundAmount || 0}</div>
+                                <div class="text-muted">UPI submitted: ${d.refundUPI || 'N/A'}</div>
                             </div>
                         ` : ''}
                     </div>
@@ -1132,6 +1285,52 @@ async function loadComplaints() {
     } catch(e) {
         document.getElementById('complaintsList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading complaints</p></div>`;
     }
+}
+
+// ============================================================
+// COMPLAINT DETAIL VIEW
+// ============================================================
+async function viewComplaintDetail(complaintId) {
+    try {
+        const doc = await db.collection('users').doc(currentUser.uid).collection('complaints').doc(complaintId).get();
+        if (!doc.exists) { showToast('Error', 'error', 'Complaint not found'); return; }
+        const d = doc.data();
+        d.complaintId = complaintId;
+        d.uid = currentUser.uid;
+        navigateTo('complaintDetail', d);
+    } catch(e) { showToast('Error', 'error', e.message); }
+}
+
+// ============================================================
+// ADD REFUND DETAILS FROM CUSTOMER
+// ============================================================
+async function addRefundDetails(complaintId, uid) {
+    const upi = document.getElementById('refundUPI')?.value?.trim() || '';
+    const name = document.getElementById('refundName')?.value?.trim() || '';
+    const bank = document.getElementById('refundBank')?.value?.trim() || '';
+    const account = document.getElementById('refundAccount')?.value?.trim() || '';
+    const ifsc = document.getElementById('refundIfsc')?.value?.trim() || '';
+    
+    if (!upi || !name || !bank || !account || !ifsc) {
+        showToast('Error', 'error', 'Please fill all refund details');
+        return;
+    }
+    
+    try {
+        await db.collection('users').doc(uid).collection('complaints').doc(complaintId).update({
+            refundUPI: upi,
+            refundName: name,
+            refundBank: bank,
+            refundAccount: account,
+            refundIFSC: ifsc,
+            refundDetailsSubmitted: true,
+            refundSubmittedAt: new Date().toISOString(),
+            refundStatus: 'pending',
+            refundAmount: 0 // Admin will set this
+        });
+        showToast('✅ Refund Details Submitted', 'success', 'Admin will process your refund');
+        navigateTo('complaints');
+    } catch(e) { showToast('Error', 'error', e.message); }
 }
 
 // ============================================================
@@ -1159,47 +1358,46 @@ function showMovieBooking() {
     const days = getNextThreeDays();
     let dateHtml = days.map((d, i) => `
         <div class="date-card" onclick="selectDate(this, '${d.toISOString().split('T')[0]}')" 
-             style="animation:fadeInUp 0.3s ease ${i*0.1}s forwards;">
+             style="animation:fadeIn 0.3s ease ${i*0.1}s forwards;">
             <div style="font-weight:700; font-size:12px;">${d.toLocaleDateString('en-IN', { weekday: 'short' })}</div>
             <div style="font-size:11px; color:#666;">${getDateString(d)}</div>
         </div>
     `).join('');
     
     let timeHtml = timeSlots.map((t, i) => `
-        <div class="time-slot" onclick="selectTime(this, '${t}')" style="animation:fadeInUp 0.3s ease ${i*0.1}s forwards;">${t}</div>
+        <div class="time-slot" onclick="selectTime(this, '${t}')" style="animation:fadeIn 0.3s ease ${i*0.1}s forwards;">${t}</div>
     `).join('');
     
-    // Close any open modal first
-    closeModal();
-    
-    // Create modal content
-    const modalHtml = `
-        <h3 style="animation:fadeInDown 0.3s ease;">🎬 ${selectedOffer.title}</h3>
-        <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
-        <div style="background:#eef2ff; border-radius:12px; padding:12px; margin:12px 0; text-align:center;">
-            <div style="font-weight:700;">${theatreInfo.name}</div>
-            <div style="font-size:12px; color:#666;">${theatreInfo.address}</div>
+    renderPage(`
+        <div class="page-enter">
+            <div class="premium-card purple">
+                <h3 style="animation:fadeIn 0.3s ease;">🎬 ${selectedOffer.title}</h3>
+                <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
+                <div style="background:#eef2ff; border-radius:12px; padding:12px; margin:12px 0; text-align:center;">
+                    <div style="font-weight:700;">${theatreInfo.name}</div>
+                    <div style="font-size:12px; color:#666;">${theatreInfo.address}</div>
+                </div>
+                <div style="margin:12px 0;">
+                    <label style="font-weight:600; font-size:13px;">Select Date</label>
+                    <div style="display:flex; gap:8px; margin-top:6px;">${dateHtml}</div>
+                </div>
+                <div style="margin:12px 0;">
+                    <label style="font-weight:600; font-size:13px;">Select Time</label>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">${timeHtml}</div>
+                </div>
+                <div style="margin:12px 0;">
+                    <label style="font-weight:600; font-size:13px;">Number of Tickets</label>
+                    <input class="input-field" id="ticketCount" type="number" min="1" max="10" value="1">
+                </div>
+                <div style="margin:12px 0;">
+                    <input class="input-field" id="movieEmail" type="email" placeholder="Email" value="${currentUser?.email || ''}">
+                    <input class="input-field" id="movieMobile" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
+                </div>
+                <button class="btn btn-primary" onclick="proceedToPayment('movie')" style="animation:pulse 2s infinite;">Proceed to Pay</button>
+                <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+            </div>
         </div>
-        <div style="margin:12px 0;">
-            <label style="font-weight:600; font-size:13px;">Select Date</label>
-            <div style="display:flex; gap:8px; margin-top:6px;">${dateHtml}</div>
-        </div>
-        <div style="margin:12px 0;">
-            <label style="font-weight:600; font-size:13px;">Select Time</label>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">${timeHtml}</div>
-        </div>
-        <div style="margin:12px 0;">
-            <label style="font-weight:600; font-size:13px;">Number of Tickets</label>
-            <input class="input-field" id="ticketCount" type="number" min="1" max="10" value="1">
-        </div>
-        <div style="margin:12px 0;">
-            <input class="input-field" id="movieEmail" type="email" placeholder="Email" value="${currentUser?.email || ''}">
-            <input class="input-field" id="movieMobile" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
-        </div>
-        <button class="btn btn-primary" onclick="proceedToPayment('movie')" style="animation:pulse 2s infinite;">Proceed to Pay</button>
-        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-    `;
-    showModal(modalHtml);
+    `);
 }
 
 function selectDate(el, date) {
@@ -1215,29 +1413,29 @@ function selectTime(el, time) {
 }
 
 function showFoodBooking() {
-    closeModal();
-    const modalHtml = `
-        <h3 style="animation:fadeInDown 0.3s ease;">${selectedOffer.title}</h3>
-        <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
-        <div style="margin:12px 0;">
-            <label style="font-weight:600; font-size:13px;">Delivery Address</label>
-            <input class="input-field" id="addrFlat" placeholder="Flat/House Number" value="${userData?.address?.flat || ''}">
-            <input class="input-field" id="addrStreet" placeholder="Street" value="${userData?.address?.street || ''}">
-            <input class="input-field" id="addrCity" placeholder="City" value="${userData?.address?.city || ''}">
-            <input class="input-field" id="addrPincode" placeholder="Pincode" maxlength="6" value="${userData?.address?.pincode || ''}">
+    renderPage(`
+        <div class="page-enter">
+            <div class="premium-card purple">
+                <h3 style="animation:fadeIn 0.3s ease;">${selectedOffer.title}</h3>
+                <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
+                <div style="margin:12px 0;">
+                    <label style="font-weight:600; font-size:13px;">Delivery Address</label>
+                    <input class="input-field" id="addrFlat" placeholder="Flat/House Number" value="${userData?.address?.flat || ''}">
+                    <input class="input-field" id="addrStreet" placeholder="Street" value="${userData?.address?.street || ''}">
+                    <input class="input-field" id="addrCity" placeholder="City" value="${userData?.address?.city || ''}">
+                    <input class="input-field" id="addrPincode" placeholder="Pincode" maxlength="6" value="${userData?.address?.pincode || ''}">
+                </div>
+                <button class="btn btn-primary" onclick="proceedToPayment('food')" style="animation:pulse 2s infinite;">Proceed to Pay</button>
+                <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+            </div>
         </div>
-        <button class="btn btn-primary" onclick="proceedToPayment('food')" style="animation:pulse 2s infinite;">Proceed to Pay</button>
-        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-    `;
-    showModal(modalHtml);
+    `);
 }
 
 // ============================================================
 // PAYMENT FUNCTIONS
 // ============================================================
 function proceedToPayment(type) {
-    closeModal();
-    
     if (type === 'movie') {
         const email = document.getElementById('movieEmail')?.value?.trim() || '';
         const mobile = document.getElementById('movieMobile')?.value?.trim() || '';
@@ -1381,7 +1579,6 @@ async function confirmOrder() {
     try {
         const orderId = 'ORD' + Date.now().toString().slice(-8);
         
-        // Get address values safely
         let address = null;
         if (!movieDetails) {
             const addrFlat = document.getElementById('addrFlat')?.value?.trim() || '';
@@ -1408,7 +1605,8 @@ async function confirmOrder() {
             address: address,
             complaintFiled: false,
             complaintResolved: false,
-            refundAmount: 0
+            refundAmount: 0,
+            cancelReason: null
         };
         
         await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).set(orderData);
@@ -1481,11 +1679,12 @@ async function viewOrder(orderId) {
         const statusIndex = statusFlow.findIndex(s => s.status === d.status);
         let timelineHtml = statusFlow.map((step, idx) => {
             const isActive = idx <= statusIndex;
+            const dotClass = d.status === 'cancelled' ? 'cancelled' : isActive ? 'active' : '';
             return `
-                <div class="timeline-item" style="animation:fadeInUp 0.3s ease ${idx*0.1}s forwards;">
-                    <div class="timeline-dot ${isActive ? 'active' : ''}"></div>
+                <div class="timeline-item" style="animation:fadeIn 0.3s ease ${idx*0.1}s forwards;">
+                    <div class="timeline-dot ${dotClass}"></div>
                     <div>
-                        <div style="font-weight:600; font-size:13px; ${isActive ? 'color:#1a1a2e;' : 'color:#999;'}">${step.emoji} ${step.label}</div>
+                        <div style="font-weight:600; font-size:13px; ${isActive && d.status !== 'cancelled' ? 'color:#1a1a2e;' : 'color:#999;'}">${step.emoji} ${step.label}</div>
                         <div style="font-size:10px; color:#999;">${step.time}</div>
                     </div>
                 </div>
@@ -1532,60 +1731,76 @@ async function viewOrder(orderId) {
         let refundInfo = '';
         if (d.complaintResolved && d.refundAmount) {
             refundInfo = `
-                <div class="refund-box" style="margin-top:8px;">
+                <div class="refund-box">
                     <div class="label">Refund Processed</div>
                     <div class="value">₹${d.refundAmount}</div>
+                    ${d.utrNumber ? `<div class="text-muted">UTR: ${d.utrNumber}</div>` : ''}
                 </div>
             `;
         }
         
-        closeModal();
-        showModal(`
-            <h3 style="animation:fadeInDown 0.3s ease;">📦 Order Details</h3>
-            <div style="animation:fadeInUp 0.3s ease;">
-                <div class="flex-between">
-                    <span style="font-weight:700;">${d.offerTitle}</span>
-                    <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
+        let cancelReasonHtml = '';
+        if (d.cancelReason) {
+            cancelReasonHtml = `
+                <div class="cancel-reason-box">
+                    <div class="label">❌ Cancellation Reason</div>
+                    <div class="value">${d.cancelReason}</div>
                 </div>
-                <div class="text-muted text-sm">
-                    <div>Order ID: ${d.orderId}</div>
-                    <div>Date: ${getDateTime(d.orderDate)}</div>
-                    <div>Amount: ₹${d.finalAmount}</div>
-                    ${d.couponUsed ? `<div>Coupon: ${d.couponUsed} (${d.couponDiscount}% off)</div>` : ''}
-                    ${d.prlCoinsUsed > 0 ? `<div>PRL Coins used: ${d.prlCoinsUsed}</div>` : ''}
+            `;
+        }
+        
+        renderPage(`
+            <div class="page-enter">
+                <div class="premium-card purple">
+                    <div class="flex-between">
+                        <span style="font-weight:700;">${d.offerTitle}</span>
+                        <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
+                    </div>
+                    <div class="text-muted text-sm">
+                        <div>Order ID: ${d.orderId}</div>
+                        <div>Date: ${getDateTime(d.orderDate)}</div>
+                        <div>Amount: ₹${d.finalAmount}</div>
+                        ${d.couponUsed ? `<div>Coupon: ${d.couponUsed} (${d.couponDiscount}% off)</div>` : ''}
+                        ${d.prlCoinsUsed > 0 ? `<div>PRL Coins used: ${d.prlCoinsUsed}</div>` : ''}
+                    </div>
+                    ${cancelReasonHtml}
+                    ${d.status !== 'cancelled' ? `
+                        <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0;">
+                            <div class="timeline">${timelineHtml}</div>
+                        </div>
+                    ` : `
+                        <div style="background:#fee2e2; border-radius:12px; padding:12px; margin:8px 0; text-align:center;">
+                            <span style="color:#dc2626; font-weight:700;">❌ Order Cancelled</span>
+                        </div>
+                    `}
+                    ${detailsHtml}
+                    ${refundInfo}
+                    ${d.status === 'pending' ? `
+                        <button class="btn btn-danger" onclick="cancelOrder('${orderId}')">Cancel Order</button>
+                    ` : ''}
+                    ${complaintBtn}
+                    ${d.complaintResolved ? `
+                        <button class="btn btn-success" onclick="navigateTo('refundDetails', {orderId:'${orderId}', amount:'${d.refundAmount}'})">
+                            💰 View Refund
+                        </button>
+                    ` : ''}
+                    <button class="btn btn-secondary" onclick="navigateTo('orders')">← Back</button>
                 </div>
-                ${d.status !== 'cancelled' ? `
-                    <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0;">
-                        <div class="timeline">${timelineHtml}</div>
-                    </div>
-                ` : `
-                    <div style="background:#fee2e2; border-radius:12px; padding:12px; margin:8px 0; text-align:center;">
-                        <span style="color:#dc2626; font-weight:700;">❌ Order Cancelled</span>
-                    </div>
-                `}
-                ${detailsHtml}
-                ${refundInfo}
-                ${d.status === 'pending' ? `
-                    <button class="btn btn-danger" onclick="cancelOrder('${orderId}')">Cancel Order</button>
-                ` : ''}
-                ${complaintBtn}
-                ${d.complaintResolved ? `
-                    <button class="btn btn-success" onclick="navigateTo('refundDetails', {orderId:'${orderId}', amount:'${d.refundAmount}'})">
-                        💰 View Refund
-                    </button>
-                ` : ''}
-                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
             </div>
         `);
     } catch(e) { showToast('Error', 'error', e.message); }
 }
 
 async function cancelOrder(orderId) {
-    if (!confirm("Are you sure you want to cancel this order?")) return;
+    const reason = prompt("Enter reason for cancelling this order:");
+    if (!reason) return;
     try {
-        await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).update({ status: 'cancelled' });
+        await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).update({ 
+            status: 'cancelled',
+            cancelReason: reason,
+            cancelledAt: new Date().toISOString()
+        });
         showToast('Cancelled', 'warning', 'Order has been cancelled');
-        closeModal();
         navigateTo('orders');
     } catch(e) { showToast('Error', 'error', 'Failed to cancel order'); }
 }
@@ -1621,7 +1836,6 @@ async function submitComplaint(orderId) {
         
         await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).update({ complaintFiled: true });
         showToast('✅ Complaint Filed', 'success', 'We\'ll look into it shortly');
-        closeModal();
         navigateTo('complaints');
     } catch(e) { showToast('Error', 'error', e.message); }
 }
@@ -1693,7 +1907,8 @@ async function submitRefundDetails(orderId) {
         await db.collection('users').doc(currentUser.uid).collection('orders').doc(orderId).update({
             refundUPI: upi,
             refundName: name,
-            refundSubmitted: true
+            refundSubmitted: true,
+            refundSubmittedAt: new Date().toISOString()
         });
         showToast('✅ Refund Details Submitted', 'success', 'We will process your refund shortly');
         navigateTo('orders');
@@ -1798,11 +2013,10 @@ auth.onAuthStateChanged(async (user) => {
 // ============================================================
 console.log("🚀 Pawan Retail Customer Panel");
 console.log("💳 Cash on Delivery: Not Available");
-console.log("🎨 New UI with Purple/Pink/Green/Orange colors");
-console.log("📢 Complaint Types: 20+ options");
-console.log("💰 Refund system integrated");
-console.log("🎁 Gift Card with Password protection");
-console.log("✅ Menu fully working with all sections");
+console.log("📢 Complaint with Refund System");
+console.log("💰 UPI/Bank Details for Refund");
+console.log("📊 Refund Status Tracking");
+console.log("✅ Google Sign-In with Redirect for Vercel");
 </script>
 </body>
 </html>
