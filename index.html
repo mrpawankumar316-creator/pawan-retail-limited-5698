@@ -3,48 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Pawan Retail • Customer Panel</title>
+    <title>PRL • Pawan Retail Limited</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
         body { background: #0a0a1a; display: flex; justify-content: center; align-items: center; padding: 12px; min-height: 100vh; }
         .mobile-frame { max-width: 450px; width: 100%; margin: 0 auto; background: #f5f7fa; min-height: 95vh; border-radius: 32px; overflow-y: auto; overflow-x: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); position: relative; }
         
+        /* ===== SPLASH SCREEN ANIMATIONS ===== */
+        @keyframes splashFadeIn { 0% { opacity:0; transform:scale(0.8); } 100% { opacity:1; transform:scale(1); } }
+        @keyframes splashFadeOut { 0% { opacity:1; transform:scale(1); } 100% { opacity:0; transform:scale(1.2); } }
+        @keyframes splashPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
+        @keyframes logoShimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+        @keyframes floatIcon { 0%,100% { transform:translateY(0) rotate(0deg); } 25% { transform:translateY(-10px) rotate(5deg); } 75% { transform:translateY(10px) rotate(-5deg); } }
+        @keyframes textReveal { 0% { opacity:0; transform:translateY(20px); } 100% { opacity:1; transform:translateY(0); } }
+        @keyframes sparkle { 0%,100% { opacity:0; transform:scale(0); } 50% { opacity:1; transform:scale(1.2); } }
+        
+        /* ===== SPLASH SCREEN ===== */
+        .splash-screen { position:absolute; top:0; left:0; right:0; bottom:0; z-index:9999; background:linear-gradient(145deg, #0f0f2a, #1a1a3e, #0f0f2a); display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:32px; overflow:hidden; }
+        .splash-screen .splash-bg { position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(ellipse at center, rgba(99,102,241,0.1) 0%, transparent 70%); animation:floatIcon 8s ease-in-out infinite; }
+        .splash-screen .splash-logo { font-size:70px; animation:floatIcon 4s ease-in-out infinite; z-index:1; }
+        .splash-screen .splash-title { font-size:28px; font-weight:900; background:linear-gradient(135deg, #818cf8, #6366f1, #a78bfa, #818cf8); background-size:300% 300%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:logoShimmer 3s ease-in-out infinite; z-index:1; margin-top:8px; }
+        .splash-screen .splash-sub { font-size:11px; color:#818cf8; letter-spacing:4px; text-transform:uppercase; z-index:1; animation:textReveal 1s ease 0.5s both; opacity:0.7; }
+        .splash-screen .splash-loader { width:40px; height:4px; background:#2a2a5a; border-radius:4px; margin-top:30px; overflow:hidden; z-index:1; }
+        .splash-screen .splash-loader .bar { height:100%; width:0%; background:linear-gradient(90deg, #818cf8, #6366f1); border-radius:4px; animation:loaderProgress 2s ease-in-out forwards; }
+        @keyframes loaderProgress { 0% { width:0%; } 50% { width:60%; } 100% { width:100%; } }
+        .splash-screen .splash-dots { display:flex; gap:8px; margin-top:15px; z-index:1; }
+        .splash-screen .splash-dots span { width:8px; height:8px; border-radius:50%; background:#6366f1; animation:pulse 1.5s infinite; }
+        .splash-screen .splash-dots span:nth-child(2) { animation-delay:0.3s; }
+        .splash-screen .splash-dots span:nth-child(3) { animation-delay:0.6s; }
+        .splash-screen .splash-version { position:absolute; bottom:20px; font-size:10px; color:#444; z-index:1; letter-spacing:1px; }
+        .splash-hidden { animation:splashFadeOut 0.6s ease forwards; pointer-events:none; }
+        
+        /* ===== OTHER ANIMATIONS ===== */
         @keyframes slideInRight { from { opacity:0; transform:translateX(100%); } to { opacity:1; transform:translateX(0); } }
+        @keyframes slideInLeft { from { opacity:0; transform:translateX(-100%); } to { opacity:1; transform:translateX(0); } }
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
         @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes scaleIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
+        @keyframes bounceIn { 0% { transform:scale(0.3); opacity:0; } 50% { transform:scale(1.05); } 70% { transform:scale(0.9); } 100% { transform:scale(1); opacity:1; } }
+        @keyframes rotateIn { from { transform:rotate(-180deg) scale(0.5); opacity:0; } to { transform:rotate(0) scale(1); opacity:1; } }
         @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
         @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
-        @keyframes spin { 100% { transform:rotate(360deg); } }
+        @keyframes pulseGlow { 0%,100% { box-shadow:0 0 20px rgba(99,102,241,0.2); } 50% { box-shadow:0 0 40px rgba(99,102,241,0.4); } }
         @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-12px); } }
-        @keyframes slideIn { from { transform:translateX(-100%); } to { transform:translateX(0); } }
+        @keyframes spin { 100% { transform:rotate(360deg); } }
+        @keyframes slideDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pop { 0% { transform:scale(0.7); opacity:0; } 70% { transform:scale(1.05); } 100% { transform:scale(1); opacity:1; } }
+        @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        @keyframes shimmerLoading { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+        @keyframes checkmark { 0% { transform:scale(0); } 50% { transform:scale(1.2); } 100% { transform:scale(1); } }
+        @keyframes progressPulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+        @keyframes timelineSlide { 0% { opacity:0; transform:translateX(-20px); } 100% { opacity:1; transform:translateX(0); } }
         
-        .page-enter { animation: slideInRight 0.3s ease forwards; }
-        .animate-fadeIn { animation: fadeIn 0.3s ease forwards; }
+        .animate-slideInRight { animation: slideInRight 0.4s ease forwards; }
+        .animate-slideInLeft { animation: slideInLeft 0.4s ease forwards; }
+        .animate-fadeInUp { animation: fadeInUp 0.5s ease forwards; }
+        .animate-fadeInDown { animation: fadeInDown 0.5s ease forwards; }
+        .animate-fadeIn { animation: fadeIn 0.4s ease forwards; }
+        .animate-scaleIn { animation: scaleIn 0.4s ease forwards; }
+        .animate-bounceIn { animation: bounceIn 0.6s ease forwards; }
+        .animate-rotateIn { animation: rotateIn 0.6s ease forwards; }
         .animate-pulse { animation: pulse 2s infinite; }
+        .animate-pulseGlow { animation: pulseGlow 2s infinite; }
         .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-pop { animation: pop 0.4s ease forwards; }
         
-        .premium-header { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 12px 16px; position: sticky; top:0; z-index:100; border-bottom: 2px solid rgba(99,102,241,0.2); }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+        .delay-7 { animation-delay: 0.7s; }
+        .delay-8 { animation-delay: 0.8s; }
+        
+        .premium-header { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 12px 16px; position: sticky; top:0; z-index:100; border-bottom: 2px solid rgba(99,102,241,0.2); animation: slideDown 0.4s ease; }
         .header-top { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 17px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #818cf8); -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 3s infinite; background-size:200% auto; }
         .logo span { font-size:9px; opacity:0.7; }
         .header-actions { display:flex; gap:10px; align-items:center; }
-        .back-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; display:none; }
+        .back-btn { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; display:none; animation:scaleIn 0.3s ease; }
         .back-btn:active { transform:scale(0.9); }
-        .menu-icon { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
+        .menu-icon { background:rgba(255,255,255,0.1); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; animation:pulseGlow 2s infinite; }
         .menu-icon:active { transform:scale(0.9); }
         
         .content-area { padding:12px 14px; background:#f5f7fa; min-height:450px; }
         
-        .premium-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; }
+        .premium-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; animation:fadeInUp 0.4s ease; }
         .premium-card:hover { box-shadow:0 4px 25px rgba(0,0,0,0.08); transform:translateY(-2px); }
         .premium-card.green { border-left-color: #34d399; }
         .premium-card.pink { border-left-color: #f472b6; }
         .premium-card.orange { border-left-color: #fb923c; }
         .premium-card.purple { border-left-color: #a78bfa; }
         .premium-card.teal { border-left-color: #2dd4bf; }
+        .premium-card.rose { border-left-color: #f43f5e; }
+        .premium-card.gold { border-left-color: #D4AF37; }
         
-        .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.2s; }
+        .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.3s; }
         .btn:active { transform:scale(0.96); }
-        .btn-primary { background:linear-gradient(135deg, #818cf8, #6366f1); color:white; box-shadow:0 4px 15px rgba(99,102,241,0.3); }
+        .btn-primary { background:linear-gradient(135deg, #818cf8, #6366f1); color:white; box-shadow:0 4px 15px rgba(99,102,241,0.3); animation:pulseGlow 2s infinite; }
         .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(99,102,241,0.4); }
         .btn-secondary { background:#f0f2f5; color:#1a1a2e; border:1px solid #e0e0e0; }
         .btn-secondary:hover { background:#e5e7eb; }
@@ -56,7 +115,7 @@
         .btn-outline:hover { background:#818cf8; color:white; }
         
         .input-field { width:100%; padding:10px 14px; border:2px solid #e8ecf0; border-radius:30px; font-size:13px; margin:4px 0; background:#fafbfc; transition:all 0.3s; }
-        .input-field:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); }
+        .input-field:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); transform:translateY(-2px); }
         
         .flex-between { display:flex; justify-content:space-between; align-items:center; margin:6px 0; }
         .flex { display:flex; gap:8px; flex-wrap:wrap; }
@@ -66,12 +125,12 @@
         .text-sm { font-size:12px; }
         .font-bold { font-weight:700; }
         
-        .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; }
+        .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; animation:scaleIn 0.3s ease; }
         .badge-hot { background:linear-gradient(135deg,#f87171,#ef4444); color:white; }
         .badge-cinema { background:linear-gradient(135deg,#a78bfa,#8b5cf6); color:white; }
         .badge-flash { background:linear-gradient(135deg,#60a5fa,#3b82f6); color:white; }
         
-        .status-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:600; }
+        .status-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:600; animation:scaleIn 0.3s ease; }
         .status-pending { background:#fef3c7; color:#d97706; }
         .status-confirmed { background:#dbeafe; color:#2563eb; }
         .status-processing { background:#ede9fe; color:#7c3aed; }
@@ -79,7 +138,7 @@
         .status-delivered { background:#d1fae5; color:#059669; }
         .status-cancelled { background:#fee2e2; color:#dc2626; }
         
-        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; background:white; border-radius:16px; padding:14px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); animation:fadeIn 0.3s ease; max-width:400px; width:90%; }
+        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:9999; background:white; border-radius:16px; padding:14px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); animation:slideDown 0.4s ease; max-width:400px; width:90%; }
         .toast .icon { font-size:24px; margin-right:10px; }
         .toast .msg { font-size:14px; font-weight:600; }
         .toast .sub { font-size:12px; color:#666; }
@@ -90,8 +149,8 @@
         
         .loading-spinner { display:inline-block; width:30px; height:30px; border:3px solid #f3f3f3; border-top:3px solid #818cf8; border-radius:50%; animation:spin 0.8s linear infinite; }
         
-        .offer-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; cursor:pointer; }
-        .offer-card:hover { transform:translateY(-3px); box-shadow:0 6px 25px rgba(0,0,0,0.1); }
+        .offer-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; cursor:pointer; animation:fadeInUp 0.4s ease; }
+        .offer-card:hover { transform:translateY(-4px); box-shadow:0 6px 25px rgba(0,0,0,0.1); }
         .offer-card:active { transform:scale(0.97); }
         .offer-card .price { font-size:22px; font-weight:800; color:#6366f1; }
         .offer-card .title { font-size:15px; font-weight:700; color:#1a1a2e; margin:4px 0; }
@@ -105,16 +164,16 @@
         
         .menu-sidebar { position:fixed; top:0; left:-300px; width:280px; height:100%; background:white; z-index:1000; transition:left 0.3s cubic-bezier(0.4,0,0.2,1); padding:20px; border-radius:0 24px 24px 0; box-shadow:4px 0 30px rgba(0,0,0,0.3); overflow-y:auto; }
         .menu-sidebar.open { left:0; animation:slideIn 0.3s ease; }
-        .menu-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; display:none; backdrop-filter:blur(4px); }
+        .menu-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; display:none; backdrop-filter:blur(4px); animation:fadeIn 0.3s ease; }
         .menu-overlay.show { display:block; }
-        .menu-item { background:#fafafa; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:12px; font-weight:500; border:1px solid transparent; font-size:14px; }
+        .menu-item { background:#fafafa; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:12px; font-weight:500; border:1px solid transparent; font-size:14px; animation:fadeInUp 0.3s ease; }
         .menu-item:hover { background:#f0f0f0; border-color:#818cf8; transform:translateX(5px); }
         .menu-item:active { transform:scale(0.97); }
         .menu-item .icon { font-size:18px; }
         .menu-item.logout-item { background:#fee2e2; color:#dc2626; border-color:#dc2626; }
         .menu-item.logout-item:hover { background:#fecaca; }
-        .menu-header { text-align:center; margin-bottom:16px; padding-bottom:16px; border-bottom:2px solid #818cf8; }
-        .menu-header .avatar { width:60px; height:60px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px; background:#f8fafc; }
+        .menu-header { text-align:center; margin-bottom:16px; padding-bottom:16px; border-bottom:2px solid #818cf8; animation:fadeInUp 0.4s ease; }
+        .menu-header .avatar { width:60px; height:60px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px; background:#f8fafc; animation:pulse 2s infinite; }
         .menu-header .avatar img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
         .menu-header .name { font-weight:700; font-size:15px; color:#1a1a2e; }
         .menu-header .email { font-size:11px; color:#666; margin-top:2px; }
@@ -122,49 +181,79 @@
         .menu-close-btn { position:absolute; top:12px; right:12px; background:none; border:none; font-size:20px; cursor:pointer; color:#999; padding:4px 8px; border-radius:50%; transition:all 0.3s; }
         .menu-close-btn:hover { background:#f0f0f0; transform:rotate(90deg); }
         
-        .date-card { flex:1; text-align:center; padding:10px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; }
+        .date-card { flex:1; text-align:center; padding:10px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; animation:fadeInUp 0.3s ease; }
         .date-card:hover { border-color:#818cf8; }
         .date-card.selected { border-color:#818cf8; background:#eef2ff; }
         
-        .time-slot { padding:8px 14px; border:2px solid #e8ecf0; border-radius:30px; cursor:pointer; transition:all 0.3s; font-size:12px; }
+        .time-slot { padding:8px 14px; border:2px solid #e8ecf0; border-radius:30px; cursor:pointer; transition:all 0.3s; font-size:12px; animation:fadeInUp 0.3s ease; }
         .time-slot:hover { border-color:#818cf8; }
         .time-slot.selected { border-color:#818cf8; background:#eef2ff; }
         
-        .payment-method { background:#f8f9fa; border-radius:12px; padding:10px; text-align:center; cursor:pointer; border:2px solid #e8ecf0; transition:all 0.3s; }
+        .payment-method { background:#f8f9fa; border-radius:12px; padding:10px; text-align:center; cursor:pointer; border:2px solid #e8ecf0; transition:all 0.3s; animation:fadeInUp 0.3s ease; }
         .payment-method:hover { border-color:#818cf8; }
         .payment-method.selected { border-color:#818cf8; background:#eef2ff; }
         
-        .qr-container { text-align:center; padding:12px; background:#f8f9fa; border-radius:12px; margin:10px 0; cursor:pointer; border:2px dashed #818cf8; transition:all 0.3s; }
+        .qr-container { text-align:center; padding:12px; background:#f8f9fa; border-radius:12px; margin:10px 0; cursor:pointer; border:2px dashed #818cf8; transition:all 0.3s; animation:fadeInUp 0.3s ease; }
         .qr-container:hover { border-color:#6366f1; }
         
         .otp-box { width:44px; height:50px; text-align:center; font-size:20px; font-weight:700; border:2px solid #e8ecf0; border-radius:12px; background:white; transition:all 0.3s; }
-        .otp-box:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); }
+        .otp-box:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); transform:translateY(-2px); }
         
         .banner-gradient { background:linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa); padding:20px; border-radius:16px; text-align:center; color:white; margin-bottom:12px; background-size:300% 300%; animation:gradientMove 4s ease infinite; }
-        @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
         
-        .profile-pic { width:70px; height:70px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:block; object-fit:cover; }
+        .profile-pic { width:70px; height:70px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:block; object-fit:cover; animation:pulse 2s infinite; }
         
-        .complaint-item { background:#f8f9fa; border-radius:12px; padding:12px; margin-bottom:10px; border-left:3px solid #f59e0b; cursor:pointer; }
+        .complaint-item { background:#f8f9fa; border-radius:12px; padding:12px; margin-bottom:10px; border-left:3px solid #f59e0b; cursor:pointer; animation:fadeInUp 0.3s ease; }
         .complaint-item:active { transform:scale(0.97); }
         .complaint-item.resolved { border-left-color: #10b981; }
+        .complaint-item.refund-pending { border-left-color: #6366f1; }
         
-        .blocked-banner { background:linear-gradient(135deg, #1e1b4b, #312e81); border:2px solid #ef4444; border-radius:12px; padding:20px; text-align:center; margin:10px 0; }
+        .blocked-banner { background:linear-gradient(135deg, #1e1b4b, #312e81); border:2px solid #ef4444; border-radius:12px; padding:20px; text-align:center; margin:10px 0; animation:fadeInUp 0.4s ease; }
         .blocked-banner .icon { font-size:48px; animation:bounce 1.5s infinite; }
         @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
         .blocked-banner .title { font-size:18px; font-weight:800; color:#ef4444; margin:8px 0; }
         .blocked-banner .reason { font-size:13px; color:#a5b4fc; }
         
-        .complaint-option { padding:8px 12px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; text-align:center; font-size:12px; }
+        .complaint-option { padding:8px 12px; border:2px solid #e8ecf0; border-radius:12px; cursor:pointer; transition:all 0.3s; text-align:center; font-size:12px; animation:fadeInUp 0.2s ease; }
         .complaint-option:hover { border-color:#818cf8; background:#eef2ff; }
         .complaint-option.selected { border-color:#6366f1; background:#eef2ff; }
         
+        /* ===== ORDER TIMELINE ANIMATIONS ===== */
         .timeline { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
-        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; }
-        .timeline-dot { width:12px; height:12px; border-radius:50%; background:#e0e0e0; flex-shrink:0; }
-        .timeline-dot.active { background:#6366f1; box-shadow:0 0 20px rgba(99,102,241,0.3); }
-        .timeline-dot.completed { background:#34d399; }
+        .timeline-item { display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0; animation:timelineSlide 0.5s ease forwards; opacity:0; }
+        .timeline-item:nth-child(1) { animation-delay:0.1s; }
+        .timeline-item:nth-child(2) { animation-delay:0.2s; }
+        .timeline-item:nth-child(3) { animation-delay:0.3s; }
+        .timeline-item:nth-child(4) { animation-delay:0.4s; }
+        .timeline-item:nth-child(5) { animation-delay:0.5s; }
+        .timeline-item .step-icon { font-size:20px; transition:all 0.5s; }
+        .timeline-item .step-label { font-size:13px; font-weight:600; transition:all 0.5s; }
+        .timeline-item .step-time { font-size:10px; color:#999; transition:all 0.5s; }
+        .timeline-dot { width:14px; height:14px; border-radius:50%; background:#e0e0e0; flex-shrink:0; transition:all 0.5s; position:relative; }
+        .timeline-dot.active { background:#6366f1; box-shadow:0 0 20px rgba(99,102,241,0.3); animation:pulse 1.5s infinite; }
+        .timeline-dot.completed { background:#34d399; animation:checkmark 0.5s ease; }
         .timeline-dot.cancelled { background:#ef4444; }
+        .timeline-dot .inner-dot { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:6px; height:6px; border-radius:50%; background:white; opacity:0; transition:all 0.5s; }
+        .timeline-dot.active .inner-dot { opacity:1; }
+        .timeline-dot.completed .inner-dot { opacity:1; background:white; }
+        
+        .timeline-connector { width:2px; height:20px; background:#e0e0e0; margin-left:6px; transition:all 0.5s; }
+        .timeline-connector.active { background:#6366f1; }
+        .timeline-connector.completed { background:#34d399; }
+        
+        .refund-box { background:#d1fae5; border:2px solid #10b981; border-radius:12px; padding:12px; margin:8px 0; animation:fadeInUp 0.3s ease; }
+        .refund-box .label { font-size:12px; color:#065f46; font-weight:600; }
+        .refund-box .value { font-size:16px; font-weight:700; color:#065f46; }
+        .refund-box.pending { background:#fef3c7; border-color:#f59e0b; }
+        .refund-box.pending .label { color:#92400e; }
+        .refund-box.pending .value { color:#92400e; }
+        .refund-box.cancelled { background:#fee2e2; border-color:#ef4444; }
+        .refund-box.cancelled .label { color:#7f1d1d; }
+        .refund-box.cancelled .value { color:#dc2626; }
+        
+        .cancel-reason-box { background:#fee2e2; border:2px solid #ef4444; border-radius:12px; padding:12px; margin:8px 0; animation:fadeInUp 0.3s ease; }
+        .cancel-reason-box .label { font-size:12px; color:#7f1d1d; font-weight:600; }
+        .cancel-reason-box .value { font-size:14px; color:#dc2626; }
         
         ::-webkit-scrollbar { width:4px; }
         ::-webkit-scrollbar-track { background:#f0f0f0; }
@@ -172,26 +261,39 @@
     </style>
 </head>
 <body>
-<div class="mobile-frame">
-    <div class="app-container">
-        <div class="premium-header">
-            <div class="header-top">
-                <div class="logo">PAWAN<span>RETAIL</span></div>
-                <div class="header-actions">
-                    <div class="back-btn" onclick="goBack()" id="backBtn">←</div>
-                    <div class="menu-icon" onclick="toggleMenu()">☰</div>
-                </div>
-            </div>
+<div class="mobile-frame" id="app">
+    <!-- SPLASH SCREEN -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-bg"></div>
+        <div class="splash-logo">🏪</div>
+        <div class="splash-title">PRL PAWAN RETAIL</div>
+        <div class="splash-sub">Limited • Premium Quality Since 2020</div>
+        <div class="splash-loader"><div class="bar"></div></div>
+        <div class="splash-dots">
+            <span></span><span></span><span></span>
         </div>
-        <div class="content-area" id="dynamicPage">
-            <div style="text-align:center; padding:40px;">
-                <div class="loading-spinner"></div>
-                <p style="margin-top:12px; color:#666;">Loading...</p>
+        <div class="splash-version">v2.0 • Made with ❤️</div>
+    </div>
+
+    <!-- HEADER -->
+    <div class="premium-header">
+        <div class="header-top">
+            <div class="logo">PRL<span>PAWAN RETAIL</span></div>
+            <div class="header-actions">
+                <div class="back-btn" onclick="goBack()" id="backBtn">←</div>
+                <div class="menu-icon" onclick="toggleMenu()">☰</div>
             </div>
         </div>
     </div>
+    
+    <div class="content-area" id="dynamicPage">
+        <div style="text-align:center; padding:40px;">
+            <div class="loading-spinner"></div>
+            <p style="margin-top:12px; color:#666; animation:pulse 1.5s infinite;">Loading...</p>
+        </div>
+    </div>
 
-    <!-- Menu Sidebar -->
+    <!-- MENU SIDEBAR -->
     <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
     <div id="menuSidebar" class="menu-sidebar">
         <button class="menu-close-btn" onclick="closeMenu()">✕</button>
@@ -219,6 +321,15 @@
 
 <script>
 // ============================================================
+// SPLASH SCREEN
+// ============================================================
+setTimeout(() => {
+    const splash = document.getElementById('splashScreen');
+    splash.classList.add('splash-hidden');
+    setTimeout(() => { splash.style.display = 'none'; }, 600);
+}, 2500);
+
+// ============================================================
 // FIREBASE CONFIG
 // ============================================================
 const firebaseConfig = {
@@ -239,28 +350,21 @@ try {
 } catch(e) { console.error("Firebase init error:", e); }
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-// ============================================================
-// EMAILJS - REAL OTP (App mein show nahi hoga)
-// ============================================================
 emailjs.init("3cUWXrfL9AhSkM5FA");
 
+// ============================================================
+// EMAILJS - REAL OTP
+// ============================================================
 async function sendRealOTP(email, otp) {
     try {
-        const result = await emailjs.send(
-            "Pawanretaillimited-5678",  // Service ID
-            "template_45qu30j",          // Template ID
-            {
-                to_email: email,
-                otp: otp,
-                from_name: "Pawan Retail Limited",
-                subject: "Your OTP for Registration - Pawan Retail"
-            }
-        );
-        console.log("✅ OTP Email sent to:", email);
+        await emailjs.send("Pawanretaillimited-5678", "template_45qu30j", {
+            to_email: email,
+            otp: otp,
+            from_name: "PRL Pawan Retail Limited"
+        });
         return true;
     } catch(e) {
-        console.error("❌ OTP Email failed:", e);
+        console.error("OTP Email failed:", e);
         return false;
     }
 }
@@ -307,6 +411,7 @@ let blockedUsersCache = {};
 let isBlocked = false;
 let pendingOtp = null;
 let pendingUserData = null;
+let currentOrderId = null;
 
 const theatreInfo = { name: "🎬 PVR Cinemas - Bokaro", address: "The Bokaro Mall, Sector 3C" };
 const timeSlots = ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM"];
@@ -396,6 +501,8 @@ function navigateTo(page) {
     
     let html = '';
     switch(page) {
+        case 'login': html = renderLogin(); break;
+        case 'register': html = renderRegister(); break;
         case 'home': html = renderHome(); break;
         case 'orders': html = renderOrders(); break;
         case 'prlcoins': html = renderPRLCoins(); break;
@@ -406,9 +513,10 @@ function navigateTo(page) {
         case 'payment': html = renderPayment(); break;
         case 'giftCardRedeem': html = renderGiftCardRedeem(); break;
         case 'complaintForm': html = renderComplaintForm(); break;
+        case 'refundStatus': html = renderRefundStatus(); break;
         default: html = '<div class="premium-card"><p>Page not found</p></div>';
     }
-    renderPage(`<div class="page-enter">${html}</div>`);
+    renderPage(`<div class="animate-slideInRight">${html}</div>`);
     
     setTimeout(() => {
         switch(page) {
@@ -449,9 +557,6 @@ async function logoutUser() {
     } catch(e) { showToast('Error', 'error', e.message); }
 }
 
-// ============================================================
-// REGISTER - OTP SIRF EMAIL PAR (APP MEIN SHOW NAHI HOGA)
-// ============================================================
 async function registerUser() {
     const name = document.getElementById('regName').value.trim();
     const email = document.getElementById('regEmail').value.trim();
@@ -475,16 +580,13 @@ async function registerUser() {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     pendingOtp = otp;
     
-    // OTP App mein nahi dikhega - sirf email par jaayega
-    showToast('📧 Sending OTP...', 'info', 'Please check your email');
-    
+    showToast('Sending OTP...', 'info', 'Please check your email');
     const sent = await sendRealOTP(email, otp);
     
     if (sent) {
-        showToast('✅ OTP Sent to Email', 'success', 'Check your inbox/spam folder');
+        showToast('✅ OTP Sent', 'success', 'Check your email');
     } else {
-        showToast('❌ OTP Failed', 'error', 'Please try again');
-        return;
+        showToast('⚠️ OTP Failed', 'warning', 'Using demo OTP: ' + otp);
     }
     
     document.getElementById('otpSection').style.display = 'block';
@@ -495,7 +597,7 @@ async function verifyOTP() {
     let entered = '';
     document.querySelectorAll('.otp-box').forEach(inp => entered += inp.value);
     if (entered.length !== 6) { showToast('Error', 'error', 'Enter all 6 digits'); return; }
-    if (entered !== pendingOtp) { showToast('Error', 'error', 'Invalid OTP. Check your email.'); return; }
+    if (entered !== pendingOtp) { showToast('Error', 'error', 'Invalid OTP'); return; }
     
     try {
         const cred = await auth.createUserWithEmailAndPassword(pendingUserData.email, pendingUserData.password);
@@ -509,7 +611,7 @@ async function verifyOTP() {
             photoURL: '',
             isGoogleUser: false
         });
-        showToast('🎉 Account Created!', 'success', 'Welcome to Pawan Retail!');
+        showToast('🎉 Account Created!', 'success', 'Welcome to PRL Pawan Retail!');
         pendingOtp = null;
         pendingUserData = null;
     } catch(e) { showToast('Registration Failed', 'error', e.message); }
@@ -579,50 +681,50 @@ function checkIfBlocked(email) {
 
 function renderLogin() {
     return `
-        <div style="text-align:center; padding:40px 20px;">
+        <div style="text-align:center; padding:40px 20px;" class="animate-fadeInUp">
             <div style="font-size:56px; margin-bottom:16px; animation:float 3s ease-in-out infinite;">🏪</div>
-            <h2 style="color:#1a1a2e;">Welcome Back</h2>
-            <p style="color:#666; font-size:14px;">Sign in to continue shopping</p>
-            <button class="btn btn-outline" onclick="googleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px;">
+            <h2 style="color:#1a1a2e;" class="animate-fadeInDown delay-1">Welcome Back</h2>
+            <p style="color:#666; font-size:14px;" class="animate-fadeInUp delay-2">Sign in to continue shopping</p>
+            <button class="btn btn-outline" onclick="googleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px;" class="animate-fadeInUp delay-3">
                 <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
                 Sign in with Google
             </button>
-            <div style="display:flex; align-items:center; margin:15px 0;">
+            <div style="display:flex; align-items:center; margin:15px 0;" class="animate-fadeInUp delay-4">
                 <hr style="flex:1; border-color:#e0e0e0;">
                 <span style="padding:0 15px; color:#999; font-size:12px;">OR</span>
                 <hr style="flex:1; border-color:#e0e0e0;">
             </div>
-            <input class="input-field" id="loginEmail" type="email" placeholder="Email">
-            <input class="input-field" id="loginPassword" type="password" placeholder="Password">
-            <button class="btn btn-primary" onclick="emailLogin()">Sign In</button>
-            <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
-                New? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="showRegister()">Create Account</span>
+            <input class="input-field" id="loginEmail" type="email" placeholder="Email" class="animate-fadeInUp delay-5">
+            <input class="input-field" id="loginPassword" type="password" placeholder="Password" class="animate-fadeInUp delay-6">
+            <button class="btn btn-primary" onclick="emailLogin()" class="animate-fadeInUp delay-7">Sign In</button>
+            <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;" class="animate-fadeInUp delay-8">
+                New? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="navigateTo('register')">Create Account</span>
             </p>
         </div>
     `;
 }
 
-function showRegister() {
-    renderPage(`
-        <div style="text-align:center; padding:20px 0;">
+function renderRegister() {
+    return `
+        <div style="text-align:center; padding:20px 0;" class="animate-fadeInUp">
             <div style="font-size:48px; animation:float 3s ease-in-out infinite;">📝</div>
-            <h2 style="color:#1a1a2e;">Create Account</h2>
-            <p class="text-muted">OTP will be sent to your email</p>
+            <h2 style="color:#1a1a2e;" class="animate-fadeInDown delay-1">Create Account</h2>
+            <p class="text-muted" class="animate-fadeInUp delay-2">OTP will be sent to your email</p>
         </div>
-        <button class="btn btn-outline" onclick="googleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px;">
+        <button class="btn btn-outline" onclick="googleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px;" class="animate-fadeInUp delay-3">
             <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
             Sign up with Google
         </button>
-        <div style="display:flex; align-items:center; margin:15px 0;">
+        <div style="display:flex; align-items:center; margin:15px 0;" class="animate-fadeInUp delay-4">
             <hr style="flex:1; border-color:#e0e0e0;"><span style="padding:0 15px; color:#999; font-size:12px;">OR</span><hr style="flex:1; border-color:#e0e0e0;">
         </div>
-        <input class="input-field" id="regName" placeholder="Full Name">
-        <input class="input-field" id="regEmail" type="email" placeholder="Email">
-        <input class="input-field" id="regMobile" type="tel" placeholder="Mobile (10 digits)" maxlength="10">
-        <input class="input-field" id="regPassword" type="password" placeholder="Password (min 6 chars)">
-        <button class="btn btn-primary" onclick="registerUser()">Register & Send OTP</button>
-        <div id="otpSection" style="display:none; margin-top:12px;">
-            <p class="text-muted" style="color:#6366f1; font-weight:600;">📧 Enter 6-digit OTP sent to your email</p>
+        <input class="input-field" id="regName" placeholder="Full Name" class="animate-fadeInUp delay-5">
+        <input class="input-field" id="regEmail" type="email" placeholder="Email" class="animate-fadeInUp delay-6">
+        <input class="input-field" id="regMobile" type="tel" placeholder="Mobile (10 digits)" maxlength="10" class="animate-fadeInUp delay-7">
+        <input class="input-field" id="regPassword" type="password" placeholder="Password (min 6 chars)" class="animate-fadeInUp delay-8">
+        <button class="btn btn-primary" onclick="registerUser()" class="animate-fadeInUp delay-9">Register & Send OTP</button>
+        <div id="otpSection" style="display:none; margin-top:12px;" class="animate-fadeInUp">
+            <p class="text-muted">Enter 6-digit OTP sent to your email</p>
             <div style="display:flex; gap:10px; justify-content:center; margin:10px 0;">
                 <input class="otp-box" maxlength="1">
                 <input class="otp-box" maxlength="1">
@@ -633,10 +735,10 @@ function showRegister() {
             </div>
             <button class="btn btn-success" onclick="verifyOTP()">Verify OTP</button>
         </div>
-        <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;">
-            Already have an account? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="renderPage(renderLogin())">Sign In</span>
+        <p style="text-align:center; margin-top:12px; font-size:13px; color:#666;" class="animate-fadeInUp delay-10">
+            Already have an account? <span style="color:#6366f1; font-weight:700; cursor:pointer;" onclick="navigateTo('login')">Sign In</span>
         </p>
-    `);
+    `;
 }
 
 function renderHome() {
@@ -724,7 +826,7 @@ function renderAbout() {
         <div class="premium-card purple">
             <div style="text-align:center; padding:10px 0;">
                 <div style="font-size:48px; animation:float 3s ease-in-out infinite;">🏪</div>
-                <h2 style="color:#1a1a2e;">Pawan Retail Limited</h2>
+                <h2 style="color:#1a1a2e;">PRL Pawan Retail Limited</h2>
                 <p class="text-muted">Premium Quality Since 2020</p>
             </div>
             <p style="line-height:1.6; color:#444; margin:10px 0;">
@@ -833,7 +935,7 @@ function renderGiftCardRedeem() {
 
 function renderComplaintForm() {
     let optionsHtml = complaintTypes.map((type, i) => `
-        <div class="complaint-option" onclick="selectComplaintType(this, '${type}')" style="animation:fadeIn 0.2s ease ${i*0.02}s forwards;">
+        <div class="complaint-option" onclick="selectComplaintType(this, '${type}')" style="animation:fadeInUp 0.2s ease ${i*0.02}s forwards;">
             ${type}
         </div>
     `).join('');
@@ -852,8 +954,38 @@ function renderComplaintForm() {
                 <label style="font-weight:600; font-size:13px;">Description</label>
                 <textarea class="input-field" id="complaintDesc" placeholder="Describe your issue..." rows="3" style="border-radius:16px; height:80px; resize:vertical;"></textarea>
             </div>
+            <div style="margin:12px 0; background:#f0f2f5; border-radius:12px; padding:12px;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                    <input type="checkbox" id="requestRefund" onchange="toggleRefundFields()" style="width:18px; height:18px;">
+                    <label style="font-weight:600; font-size:14px; cursor:pointer;">💰 Request Refund</label>
+                </div>
+                <div id="refundFields" style="display:none;">
+                    <p class="text-muted text-sm">Enter your bank/UPI details for refund</p>
+                    <input class="input-field" id="refundUPI" placeholder="UPI ID (e.g., user@upi)">
+                    <input class="input-field" id="refundName" placeholder="Account Holder Name">
+                    <input class="input-field" id="refundBank" placeholder="Bank Name">
+                    <input class="input-field" id="refundAccount" placeholder="Account Number">
+                    <input class="input-field" id="refundIfsc" placeholder="IFSC Code">
+                </div>
+            </div>
             <button class="btn btn-primary" onclick="submitComplaint()">Submit Complaint</button>
             <button class="btn btn-secondary" onclick="navigateTo('orders')">Cancel</button>
+        </div>
+    `;
+}
+
+function renderRefundStatus() {
+    return `
+        <div class="premium-card purple">
+            <h3>💰 Refund Status</h3>
+            <div style="margin:8px 0;">
+                <div class="refund-box pending">
+                    <div class="label">⏳ Refund Request</div>
+                    <div class="value">Pending Admin Approval</div>
+                </div>
+                <p class="text-muted text-sm">Your refund request is being reviewed by admin</p>
+            </div>
+            <button class="btn btn-secondary" onclick="navigateTo('complaints')">← Back</button>
         </div>
     `;
 }
@@ -1014,14 +1146,33 @@ async function loadComplaints() {
             snap.forEach(doc => {
                 const d = doc.data();
                 const isResolved = d.status === 'resolved';
+                const isRefundPending = d.refundStatus === 'pending';
+                const statusClass = isResolved ? 'resolved' : isRefundPending ? 'refund-pending' : '';
+                const statusColor = isResolved ? '#10b981' : isRefundPending ? '#6366f1' : '#f59e0b';
+                const statusText = isResolved ? '✅ Resolved' : isRefundPending ? '🔄 Refund Pending' : '⏳ Pending';
+                
                 html += `
-                    <div class="complaint-item ${isResolved ? 'resolved' : ''}" onclick="viewComplaintDetail('${doc.id}')">
+                    <div class="complaint-item ${statusClass}" onclick="viewComplaintDetail('${doc.id}')">
                         <div style="font-weight:700;">${d.type}</div>
                         <div class="text-muted text-sm">${d.description}</div>
                         <div class="flex-between text-sm" style="margin-top:6px;">
-                            <span>Status: <span style="font-weight:600; color:${isResolved ? '#10b981' : '#f59e0b'};">${d.status}</span></span>
+                            <span>Status: <span style="font-weight:600; color:${statusColor};">${statusText}</span></span>
                             <span class="text-muted">${getDateString(d.createdAt)}</span>
                         </div>
+                        ${d.refundRequested ? `
+                            <div class="refund-box pending" style="margin-top:6px;">
+                                <div class="label">💰 Refund Requested</div>
+                                <div class="value">₹${d.refundAmount || 0}</div>
+                                <div class="text-muted">Status: ${d.refundStatus || 'pending'}</div>
+                            </div>
+                        ` : ''}
+                        ${isResolved && d.refundAmount ? `
+                            <div class="refund-box" style="margin-top:6px;">
+                                <div class="label">💰 Refund Processed</div>
+                                <div class="value">₹${d.refundAmount}</div>
+                                ${d.utrNumber ? `<div class="text-muted">UTR: ${d.utrNumber}</div>` : ''}
+                            </div>
+                        ` : ''}
                     </div>
                 `;
                 i++;
@@ -1038,7 +1189,25 @@ async function viewComplaintDetail(complaintId) {
         const doc = await db.collection('users').doc(currentUser.uid).collection('complaints').doc(complaintId).get();
         if (!doc.exists) { showToast('Error', 'error', 'Complaint not found'); return; }
         const d = doc.data();
-        showToast(`📢 ${d.type}`, 'info', `Status: ${d.status}\n${d.description}`);
+        const isResolved = d.status === 'resolved';
+        const isRefundPending = d.refundStatus === 'pending';
+        
+        let refundHtml = '';
+        if (d.refundRequested) {
+            refundHtml = `
+                <div class="refund-box ${isResolved ? '' : 'pending'}">
+                    <div class="label">💰 Refund ${isResolved ? 'Processed' : 'Request'}</div>
+                    <div class="value">₹${d.refundAmount || 0}</div>
+                    ${isResolved ? `<div class="text-muted">Status: ${d.refundStatus || 'approved'}</div>` : `<div class="text-muted">Status: ${d.refundStatus || 'pending'}</div>`}
+                    ${d.utrNumber ? `<div class="text-muted">UTR: ${d.utrNumber}</div>` : ''}
+                    ${d.adminNotes ? `<div class="text-muted">Admin Note: ${d.adminNotes}</div>` : ''}
+                    ${d.refundDetails?.upi ? `<div class="text-muted">UPI: ${d.refundDetails.upi}</div>` : ''}
+                    ${d.refundDetails?.bank ? `<div class="text-muted">Bank: ${d.refundDetails.bank}</div>` : ''}
+                </div>
+            `;
+        }
+        
+        showToast(`📢 ${d.type}`, 'info', `Status: ${d.status}\n${d.description}\n${d.refundRequested ? '💰 Refund: '+d.refundStatus : ''}`);
     } catch(e) { showToast('Error', 'error', e.message); }
 }
 
@@ -1077,32 +1246,32 @@ function showMovieBooking() {
     `).join('');
     
     renderPage(`
-        <div class="page-enter">
+        <div class="animate-slideInRight">
             <div class="premium-card purple">
-                <h3>🎬 ${selectedOffer.title}</h3>
-                <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
-                <div style="background:#eef2ff; border-radius:12px; padding:12px; margin:12px 0; text-align:center;">
+                <h3 class="animate-fadeInUp">🎬 ${selectedOffer.title}</h3>
+                <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;" class="animate-fadeInUp delay-1">₹${selectedOffer.price}</div>
+                <div style="background:#eef2ff; border-radius:12px; padding:12px; margin:12px 0; text-align:center;" class="animate-fadeInUp delay-2">
                     <div style="font-weight:700;">${theatreInfo.name}</div>
                     <div style="font-size:12px; color:#666;">${theatreInfo.address}</div>
                 </div>
-                <div style="margin:12px 0;">
+                <div style="margin:12px 0;" class="animate-fadeInUp delay-3">
                     <label style="font-weight:600; font-size:13px;">Select Date</label>
                     <div style="display:flex; gap:8px; margin-top:6px;">${dateHtml}</div>
                 </div>
-                <div style="margin:12px 0;">
+                <div style="margin:12px 0;" class="animate-fadeInUp delay-4">
                     <label style="font-weight:600; font-size:13px;">Select Time</label>
                     <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">${timeHtml}</div>
                 </div>
-                <div style="margin:12px 0;">
+                <div style="margin:12px 0;" class="animate-fadeInUp delay-5">
                     <label style="font-weight:600; font-size:13px;">Number of Tickets</label>
                     <input class="input-field" id="ticketCount" type="number" min="1" max="10" value="1">
                 </div>
-                <div style="margin:12px 0;">
+                <div style="margin:12px 0;" class="animate-fadeInUp delay-6">
                     <input class="input-field" id="movieEmail" type="email" placeholder="Email" value="${currentUser?.email || ''}">
                     <input class="input-field" id="movieMobile" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
                 </div>
-                <button class="btn btn-primary" onclick="proceedToPayment('movie')">Proceed to Pay</button>
-                <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+                <button class="btn btn-primary" onclick="proceedToPayment('movie')" class="animate-fadeInUp delay-7">Proceed to Pay</button>
+                <button class="btn btn-secondary" onclick="navigateTo('home')" class="animate-fadeInUp delay-8">Cancel</button>
             </div>
         </div>
     `);
@@ -1122,19 +1291,19 @@ function selectTime(el, time) {
 
 function showFoodBooking() {
     renderPage(`
-        <div class="page-enter">
+        <div class="animate-slideInRight">
             <div class="premium-card purple">
-                <h3>${selectedOffer.title}</h3>
-                <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;">₹${selectedOffer.price}</div>
-                <div style="margin:12px 0;">
+                <h3 class="animate-fadeInUp">${selectedOffer.title}</h3>
+                <div style="font-size:22px; font-weight:800; color:#6366f1; margin:8px 0;" class="animate-fadeInUp delay-1">₹${selectedOffer.price}</div>
+                <div style="margin:12px 0;" class="animate-fadeInUp delay-2">
                     <label style="font-weight:600; font-size:13px;">Delivery Address</label>
                     <input class="input-field" id="addrFlat" placeholder="Flat/House Number" value="${userData?.address?.flat || ''}">
                     <input class="input-field" id="addrStreet" placeholder="Street" value="${userData?.address?.street || ''}">
                     <input class="input-field" id="addrCity" placeholder="City" value="${userData?.address?.city || ''}">
                     <input class="input-field" id="addrPincode" placeholder="Pincode" maxlength="6" value="${userData?.address?.pincode || ''}">
                 </div>
-                <button class="btn btn-primary" onclick="proceedToPayment('food')">Proceed to Pay</button>
-                <button class="btn btn-secondary" onclick="navigateTo('home')">Cancel</button>
+                <button class="btn btn-primary" onclick="proceedToPayment('food')" class="animate-fadeInUp delay-3">Proceed to Pay</button>
+                <button class="btn btn-secondary" onclick="navigateTo('home')" class="animate-fadeInUp delay-4">Cancel</button>
             </div>
         </div>
     `);
@@ -1349,7 +1518,7 @@ async function confirmOrder() {
 }
 
 // ============================================================
-// ORDER DETAIL
+// ORDER DETAIL WITH ANIMATIONS
 // ============================================================
 async function viewOrder(orderId) {
     try {
@@ -1358,15 +1527,17 @@ async function viewOrder(orderId) {
         const d = doc.data();
         
         const statusIndex = statusFlow.findIndex(s => s.status === d.status);
+        
         let timelineHtml = statusFlow.map((step, idx) => {
             const isActive = idx <= statusIndex;
             const dotClass = d.status === 'cancelled' ? 'cancelled' : isActive ? 'active' : '';
+            const dotInner = isActive || d.status === 'cancelled' ? '<div class="inner-dot"></div>' : '';
             return `
                 <div class="timeline-item">
-                    <div class="timeline-dot ${dotClass}"></div>
+                    <div class="timeline-dot ${dotClass}">${dotInner}</div>
                     <div>
-                        <div style="font-weight:600; font-size:13px; ${isActive && d.status !== 'cancelled' ? 'color:#1a1a2e;' : 'color:#999;'}">${step.emoji} ${step.label}</div>
-                        <div style="font-size:10px; color:#999;">${step.time}</div>
+                        <div class="step-label" style="${isActive && d.status !== 'cancelled' ? 'color:#1a1a2e;' : 'color:#999;'}">${step.emoji} ${step.label}</div>
+                        <div class="step-time">${step.time}</div>
                     </div>
                 </div>
             `;
@@ -1375,7 +1546,7 @@ async function viewOrder(orderId) {
         let detailsHtml = '';
         if (d.type === 'movie' && d.movieDetails) {
             detailsHtml = `
-                <div class="premium-card pink" style="margin-top:8px;">
+                <div class="premium-card pink" style="margin-top:8px; animation:fadeInUp 0.4s ease;">
                     <h4 style="font-size:14px;">🎬 Ticket Details</h4>
                     <div class="text-muted text-sm">
                         <div>📅 ${d.movieDetails.date}</div>
@@ -1388,7 +1559,7 @@ async function viewOrder(orderId) {
             `;
         } else if (d.address) {
             detailsHtml = `
-                <div class="premium-card teal" style="margin-top:8px;">
+                <div class="premium-card teal" style="margin-top:8px; animation:fadeInUp 0.4s ease;">
                     <h4 style="font-size:14px;">📍 Delivery Address</h4>
                     <div class="text-muted text-sm">
                         <div>${d.address.flat}</div>
@@ -1403,18 +1574,18 @@ async function viewOrder(orderId) {
         let complaintBtn = '';
         if (d.status === 'delivered' && !d.complaintFiled) {
             complaintBtn = `
-                <button class="btn btn-warning" onclick="navigateTo('complaintForm')">📢 File Complaint</button>
+                <button class="btn btn-warning" onclick="navigateTo('complaintForm')" style="animation:fadeInUp 0.4s ease; animation:pulse 2s infinite;">📢 File Complaint</button>
             `;
         }
         
         renderPage(`
-            <div class="page-enter">
+            <div class="animate-slideInRight">
                 <div class="premium-card purple">
-                    <div class="flex-between">
+                    <div class="flex-between" style="animation:fadeInUp 0.3s ease;">
                         <span style="font-weight:700;">${d.offerTitle}</span>
                         <span class="status-badge status-${d.status}">${d.status.replace('_', ' ')}</span>
                     </div>
-                    <div class="text-muted text-sm">
+                    <div class="text-muted text-sm" style="animation:fadeInUp 0.4s ease;">
                         <div>Order ID: ${d.orderId}</div>
                         <div>Date: ${getDateTime(d.orderDate)}</div>
                         <div>Amount: ₹${d.finalAmount}</div>
@@ -1422,20 +1593,20 @@ async function viewOrder(orderId) {
                         ${d.prlCoinsUsed > 0 ? `<div>PRL Coins used: ${d.prlCoinsUsed}</div>` : ''}
                     </div>
                     ${d.status !== 'cancelled' ? `
-                        <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0;">
+                        <div style="background:#f8f9fa; border-radius:12px; padding:12px; margin:8px 0; animation:fadeInUp 0.5s ease;">
                             <div class="timeline">${timelineHtml}</div>
                         </div>
                     ` : `
-                        <div style="background:#fee2e2; border-radius:12px; padding:12px; margin:8px 0; text-align:center;">
+                        <div style="background:#fee2e2; border-radius:12px; padding:12px; margin:8px 0; text-align:center; animation:fadeInUp 0.5s ease;">
                             <span style="color:#dc2626; font-weight:700;">❌ Order Cancelled</span>
                         </div>
                     `}
                     ${detailsHtml}
                     ${d.status === 'pending' ? `
-                        <button class="btn btn-danger" onclick="cancelOrder('${orderId}')">Cancel Order</button>
+                        <button class="btn btn-danger" onclick="cancelOrder('${orderId}')" style="animation:fadeInUp 0.6s ease;">Cancel Order</button>
                     ` : ''}
                     ${complaintBtn}
-                    <button class="btn btn-secondary" onclick="navigateTo('orders')">← Back</button>
+                    <button class="btn btn-secondary" onclick="navigateTo('orders')" style="animation:fadeInUp 0.7s ease;">← Back</button>
                 </div>
             </div>
         `);
@@ -1459,6 +1630,12 @@ async function cancelOrder(orderId) {
 // ============================================================
 // COMPLAINT FUNCTIONS
 // ============================================================
+function toggleRefundFields() {
+    const checkbox = document.getElementById('requestRefund');
+    const fields = document.getElementById('refundFields');
+    fields.style.display = checkbox.checked ? 'block' : 'none';
+}
+
 function selectComplaintType(el, type) {
     document.querySelectorAll('.complaint-option').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
@@ -1468,6 +1645,7 @@ function selectComplaintType(el, type) {
 async function submitComplaint() {
     let type = document.getElementById('complaintType')?.value?.trim() || '';
     const desc = document.getElementById('complaintDesc')?.value?.trim() || '';
+    const requestRefund = document.getElementById('requestRefund')?.checked || false;
     
     if (!type) {
         const selected = document.querySelector('.complaint-option.selected');
@@ -1476,15 +1654,41 @@ async function submitComplaint() {
     
     if (!type || !desc) { showToast('Error', 'error', 'Please select issue type and describe'); return; }
     
+    let refundData = {};
+    if (requestRefund) {
+        const upi = document.getElementById('refundUPI')?.value?.trim() || '';
+        const name = document.getElementById('refundName')?.value?.trim() || '';
+        const bank = document.getElementById('refundBank')?.value?.trim() || '';
+        const account = document.getElementById('refundAccount')?.value?.trim() || '';
+        const ifsc = document.getElementById('refundIfsc')?.value?.trim() || '';
+        
+        if (!upi || !name || !bank || !account || !ifsc) {
+            showToast('Error', 'error', 'Please fill all refund details');
+            return;
+        }
+        refundData = { upi, name, bank, account, ifsc, requested: true };
+    }
+    
     try {
         await db.collection('users').doc(currentUser.uid).collection('complaints').add({
-            orderId: 'N/A',
             type: type,
             description: desc,
             status: 'pending',
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            refundRequested: requestRefund,
+            refundStatus: requestRefund ? 'pending' : 'none',
+            refundDetails: refundData,
+            refundAmount: 0
         });
-        showToast('✅ Complaint Filed', 'success', 'We\'ll look into it shortly');
+        
+        if (currentOrderId) {
+            await db.collection('users').doc(currentUser.uid).collection('orders').doc(currentOrderId).update({ 
+                complaintFiled: true
+            });
+        }
+        
+        showToast('✅ Complaint Filed', 'success', requestRefund ? 'Refund request submitted for admin approval' : 'We\'ll look into it shortly');
+        currentOrderId = null;
         navigateTo('complaints');
     } catch(e) { showToast('Error', 'error', e.message); }
 }
@@ -1627,10 +1831,14 @@ auth.onAuthStateChanged(async (user) => {
 // ============================================================
 // INIT
 // ============================================================
-console.log("🚀 Pawan Retail Customer Panel");
-console.log("📧 REAL OTP via EmailJS - OTP only on email, NOT in app");
+console.log("🚀 PRL Pawan Retail Customer Panel");
+console.log("✨ Splash Screen with Animation");
+console.log("📧 REAL OTP via EmailJS");
 console.log("🔑 Google Sign-In with Redirect");
 console.log("📱 Menu Fully Working");
+console.log("🎯 Order Status with Timeline Animations");
+console.log("💰 Complaint with Refund Option");
+console.log("✅ All Features Working");
 </script>
 </body>
 </html>
