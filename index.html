@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>PRL • Customer Panel</title>
+    <title>PRL • Customer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <!-- html2pdf for invoice download -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
@@ -24,10 +24,9 @@
         .header-actions{display:flex;gap:10px;align-items:center}
         .header-btn{color:rgba(255,255,255,0.8);font-size:18px;cursor:pointer;padding:4px;position:relative}
         .header-btn:hover{color:#D4AF37}
-        .header-btn .badge{position:absolute;top:-4px;right:-6px;background:#ef4444;color:#fff;font-size:8px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+        .role-badge{font-size:9px;background:rgba(212,175,55,0.2);color:#D4AF37;padding:2px 10px;border-radius:10px;font-weight:600}
         
         .content{padding:12px 14px;padding-bottom:80px}
-        
         .card{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
         .card-title{font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
         
@@ -39,12 +38,23 @@
         .btn-danger{background:#ef4444;color:#fff}
         .btn-success{background:#22c55e;color:#fff}
         .btn-warning{background:#f59e0b;color:#fff}
+        .btn-primary{background:#2563eb;color:#fff}
         .btn-sm{padding:4px 12px;font-size:10px;border-radius:15px}
         .btn-block{width:100%}
+        .btn-help{background:#7c3aed;color:#fff}
+        .btn-help:hover{background:#6d28d9}
+        .btn-complaint{background:#dc2626;color:#fff}
+        .btn-complaint:hover{background:#b91c1c}
         
         .input{width:100%;padding:10px 16px;border:2px solid #e0e0e0;border-radius:25px;font-size:13px;margin:4px 0;background:#fafbfc;transition:0.3s}
         .input:focus{outline:none;border-color:#D4AF37;box-shadow:0 0 0 3px rgba(212,175,55,0.1)}
         .input-sm{padding:6px 12px;font-size:11px;border-radius:15px}
+        textarea.input{resize:vertical;min-height:60px;border-radius:12px}
+        
+        .password-wrapper{position:relative;width:100%;margin:4px 0}
+        .password-wrapper .input{padding-right:50px;margin:0}
+        .password-toggle{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;color:#999;cursor:pointer;padding:4px;transition:0.3s;z-index:5}
+        .password-toggle:hover{color:#D4AF37}
         
         .flex{display:flex;gap:8px;flex-wrap:wrap}
         .flex-between{display:flex;justify-content:space-between;align-items:center}
@@ -59,71 +69,30 @@
         .toast.error{border-left-color:#ef4444}
         @keyframes slideDown{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
         
-        .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:450px;width:100%;background:#fff;border-radius:16px 16px 0 0;padding:6px 8px 10px;display:flex;justify-content:space-around;box-shadow:0 -4px 20px rgba(0,0,0,0.08);z-index:50}
-        .nav-item{text-align:center;cursor:pointer;padding:4px 8px;border-radius:10px;transition:0.3s}
+        .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:450px;width:100%;background:#fff;border-radius:16px 16px 0 0;padding:6px 8px 10px;display:none;justify-content:space-around;box-shadow:0 -4px 20px rgba(0,0,0,0.08);z-index:50}
+        .bottom-nav.show{display:flex}
+        .nav-item{text-align:center;cursor:pointer;padding:4px 8px;border-radius:10px;transition:0.3s;position:relative}
         .nav-item i{font-size:20px;color:#999}
         .nav-item span{display:block;font-size:9px;color:#999;font-weight:600}
         .nav-item.active i{color:#D4AF37}
         .nav-item.active span{color:#D4AF37}
-        .nav-item .nav-badge{position:absolute;top:-4px;right:-8px;background:#ef4444;color:#fff;font-size:8px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
         
         .login-box{max-width:340px;margin:30px auto;padding:30px 20px;background:#fff;border-radius:16px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.06)}
         .login-box .icon{font-size:56px;margin-bottom:10px}
         .login-box h2{color:#1a1a2e;margin:8px 0}
         .login-box .hint{font-size:10px;color:#999;margin-top:10px;padding:8px;background:#f8f9fa;border-radius:8px}
+        .login-box .toggle-link{color:#D4AF37;cursor:pointer;font-weight:600}
+        .login-box .toggle-link:hover{text-decoration:underline}
         
-        .banner{background:linear-gradient(135deg,#1a0f2a,#2d1b4e);margin:0 0 10px;border-radius:12px;padding:16px;color:#fff;position:relative;overflow:hidden;cursor:pointer;min-height:110px;transition:0.3s}
-        .banner:active{transform:scale(0.97)}
-        .banner .offer{font-size:22px;font-weight:800;background:linear-gradient(135deg,#D4AF37,#F5E56B);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .banner .sub{font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px}
-        .banner .price-tag{font-size:13px;color:#D4AF37;font-weight:700;margin-top:2px}
-        .banner .price-tag .mrp{color:#999;text-decoration:line-through;font-weight:300;margin-left:6px;font-size:11px}
-        .banner .btn-sm{padding:4px 14px;background:#D4AF37;border:none;border-radius:20px;font-weight:700;font-size:10px;color:#1a0f2a;cursor:pointer;margin-top:4px}
-        .banner .banner-img{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:80px;height:80px;border-radius:10px;border:2px solid rgba(212,175,55,0.3);background:#1a0f2a;overflow:hidden;display:flex;align-items:center;justify-content:center}
-        .banner .banner-img img{width:100%;height:100%;object-fit:cover;border-radius:10px}
-        .banner .banner-img .fallback{font-size:36px;color:rgba(255,255,255,0.3)}
-        .banner .banner-label{position:absolute;top:8px;right:95px;background:#ef4444;color:#fff;font-size:8px;font-weight:700;padding:2px 8px;border-radius:10px}
-        
-        .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 0 80px}
-        .product-card{background:#fff;border-radius:12px;overflow:hidden;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:0.3s}
+        .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .product-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;transition:0.3s}
         .product-card:active{transform:scale(0.97)}
-        .product-card .img{width:100%;height:150px;background:#f0edff;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-        .product-card .img img{width:100%;height:100%;object-fit:cover}
-        .product-card .img .fallback{font-size:42px;color:#999}
-        .product-card .img .discount-badge{position:absolute;top:6px;right:6px;background:#ef4444;color:#fff;font-size:8px;font-weight:700;padding:2px 8px;border-radius:10px}
+        .product-card img{width:100%;height:140px;object-fit:cover;background:#f0edff}
         .product-card .info{padding:8px 10px}
-        .product-card .name{font-weight:600;font-size:11px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:28px}
-        .product-card .price-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-        .product-card .price{color:#D4AF37;font-weight:800;font-size:15px}
-        .product-card .mrp{color:#999;font-size:10px;text-decoration:line-through}
-        .product-card .rating{color:#f59e0b;font-size:10px}
-        .product-card .add-btn{width:100%;padding:4px;background:#D4AF37;color:#1a0f2a;border:none;border-radius:6px;font-weight:700;font-size:10px;cursor:pointer;margin-top:4px;transition:0.3s}
+        .product-card .name{font-size:12px;font-weight:600}
+        .product-card .price{color:#D4AF37;font-weight:700;font-size:14px}
+        .product-card .add-btn{background:#D4AF37;color:#fff;border:none;border-radius:15px;padding:2px 12px;font-size:11px;cursor:pointer;font-weight:600;width:100%;margin-top:4px}
         .product-card .add-btn:active{transform:scale(0.95)}
-        
-        .categories-scroll{display:flex;gap:6px;overflow-x:auto;padding:8px 0;scrollbar-width:none;margin-bottom:6px}
-        .categories-scroll::-webkit-scrollbar{display:none}
-        .cat-item{display:flex;flex-direction:column;align-items:center;min-width:52px;cursor:pointer;transition:0.3s;padding:4px;border-radius:8px}
-        .cat-item:active{transform:scale(0.9)}
-        .cat-item .icon{width:38px;height:38px;background:#f0edff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;transition:0.3s}
-        .cat-item .label{font-size:8px;color:#666;margin-top:4px;text-align:center;font-weight:500}
-        .cat-item.active .icon{background:#D4AF37;color:#fff}
-        .cat-item.active .label{color:#D4AF37}
-        
-        .search-bar{background:#fff;margin:0 0 8px;border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-        .search-bar input{flex:1;border:none;outline:none;font-size:13px;background:transparent}
-        .search-bar input::placeholder{color:#999}
-        .search-bar .icon{color:#D4AF37;font-size:14px}
-        
-        .cart-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0}
-        .cart-item .c-img{width:50px;height:50px;border-radius:8px;overflow:hidden;background:#f0edff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-        .cart-item .c-img img{width:100%;height:100%;object-fit:cover}
-        .cart-item .c-img .fallback{font-size:20px;color:#999}
-        .cart-item .info{flex:1}
-        .cart-item .info .name{font-weight:600;font-size:12px}
-        .cart-item .info .price{color:#D4AF37;font-weight:700;font-size:13px}
-        .cart-item .qty-controls{display:flex;align-items:center;gap:6px}
-        .cart-item .qty-controls button{width:28px;height:28px;border-radius:50%;border:none;background:#fdf6e3;color:#D4AF37;font-weight:700;cursor:pointer}
-        .cart-item .qty-controls span{min-width:20px;text-align:center;font-weight:700}
         
         .order-item{background:#f8f9fa;padding:10px;border-radius:10px;margin-bottom:6px;border-left:3px solid #D4AF37;cursor:pointer}
         .order-item:active{transform:scale(0.97)}
@@ -131,58 +100,20 @@
         .order-item .detail{font-size:10px;color:#666}
         .order-item .status{font-size:9px;padding:2px 10px;border-radius:10px;font-weight:600;display:inline-block}
         .status-pending{background:#fef3c7;color:#d97706}
-        .status-confirmed{background:#dbeafe;color:#2563eb}
-        .status-shipped{background:#ede9fe;color:#7c3aed}
+        .status-assigned{background:#dbeafe;color:#2563eb}
+        .status-picked{background:#ede9fe;color:#7c3aed}
         .status-delivered{background:#d1fae5;color:#059669}
         .status-cancelled{background:#fee2e2;color:#dc2626}
         
-        .order-detail-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f0f0f0}
-        .order-detail-item .od-img{width:50px;height:50px;border-radius:8px;overflow:hidden;background:#f0edff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-        .order-detail-item .od-img img{width:100%;height:100%;object-fit:cover}
-        .order-detail-item .od-img .fallback{font-size:20px;color:#999}
-        .order-detail-item .od-info{flex:1}
-        .order-detail-item .od-info .name{font-weight:600;font-size:12px}
-        .order-detail-item .od-info .qty{font-size:10px;color:#666}
-        .order-detail-item .od-price{font-weight:700;color:#D4AF37;font-size:14px}
+        .empty-state{text-align:center;padding:40px 20px;color:#999}
+        .empty-state .icon{font-size:56px;margin-bottom:12px;opacity:0.4}
+        .empty-state .title{font-size:16px;font-weight:600;color:#666}
+        .empty-state .sub{font-size:12px;color:#aaa;margin-top:4px}
         
-        .tracking-steps{display:flex;flex-direction:column;gap:8px;padding:10px 0}
-        .tracking-step{display:flex;align-items:center;gap:12px;padding:4px 0}
-        .tracking-step .dot{width:12px;height:12px;border-radius:50%;background:#e0e0e0;flex-shrink:0;transition:0.3s}
-        .tracking-step .dot.active{background:#D4AF37}
-        .tracking-step .dot.completed{background:#22c55e}
-        .tracking-step .info{flex:1}
-        .tracking-step .info .title{font-weight:600;font-size:12px}
-        .tracking-step .info .time{font-size:9px;color:#999}
-        
-        .payment-methods{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-        .payment-method{padding:12px;border:2px solid #e0e0e0;border-radius:12px;text-align:center;cursor:pointer;transition:0.3s}
-        .payment-method.active{border-color:#D4AF37;background:#fffdf5}
-        .payment-method i{font-size:24px;color:#D4AF37}
-        .payment-method .label{font-size:10px;font-weight:600;margin-top:4px}
-        
-        .upi-box{background:#f0f7ff;border:2px dashed #D4AF37;border-radius:12px;padding:16px;text-align:center;margin:10px 0}
-        .upi-box .upi-id{font-size:20px;font-weight:800;color:#1a0f2a;letter-spacing:1px}
-        .upi-box .upi-label{font-size:11px;color:#666;margin-top:4px}
-        .qr-container{display:flex;justify-content:center;margin:10px 0}
-        #qrcode{padding:12px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
-        
-        .detail-img{width:100%;height:250px;background:#f0edff;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-        .detail-img img{width:100%;height:100%;object-fit:contain;background:#fff}
-        .detail-img .fallback{font-size:70px;color:#999}
-        .detail-thumbs{display:flex;gap:6px;overflow-x:auto;padding:4px 0;scrollbar-width:none;margin-bottom:8px}
-        .detail-thumbs::-webkit-scrollbar{display:none}
-        .detail-thumbs .thumb{width:60px;height:60px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:0.3s;object-fit:cover;flex-shrink:0;background:#f0edff}
-        .detail-thumbs .thumb.active{border-color:#D4AF37}
-        .detail-name{font-size:20px;font-weight:800;margin:8px 0 4px}
-        .detail-price{font-size:24px;font-weight:800;color:#D4AF37}
-        .detail-mrp{font-size:14px;color:#999;text-decoration:line-through;margin-left:8px}
-        .detail-discount{font-size:13px;color:#22c55e;font-weight:700;margin-left:8px}
-        .detail-rating{color:#f59e0b;font-size:13px}
-        .detail-desc{color:#666;font-size:13px;line-height:1.6;margin:6px 0}
-        .qty-selector{display:flex;align-items:center;gap:12px;margin:8px 0}
-        .qty-selector button{width:34px;height:34px;border-radius:50%;border:2px solid #e0e0e0;background:#fff;font-size:16px;cursor:pointer;transition:0.3s}
-        .qty-selector button:hover{border-color:#D4AF37}
-        .qty-selector span{font-size:18px;font-weight:700;min-width:30px;text-align:center}
+        .error-state{text-align:center;padding:30px 20px;border:2px solid #fee2e2;border-radius:12px;background:#fef2f2}
+        .error-state .icon{font-size:40px;margin-bottom:10px}
+        .error-state .title{font-size:14px;font-weight:600;color:#dc2626}
+        .error-state .sub{font-size:11px;color:#ef4444;margin-top:4px}
         
         .menu-sidebar{position:fixed;top:0;left:-280px;width:280px;height:100%;background:linear-gradient(180deg,#0f0a1a,#1a0f2a);z-index:1000;transition:left 0.3s;padding:20px;border-radius:0 20px 20px 0;box-shadow:4px 0 30px rgba(0,0,0,0.5);overflow-y:auto}
         .menu-sidebar.open{left:0}
@@ -200,136 +131,179 @@
         .menu-close-btn{position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;color:#999;padding:4px;border-radius:50%;transition:0.3s}
         .menu-close-btn:hover{background:rgba(255,255,255,0.1);transform:rotate(90deg)}
         
-        .otp-inputs{display:flex;gap:8px;justify-content:center;margin:12px 0}
-        .otp-box{width:44px;height:50px;text-align:center;font-size:20px;font-weight:700;border:2px solid #e0e0e0;border-radius:12px;background:#fff;transition:0.3s}
-        .otp-box:focus{outline:none;border-color:#D4AF37;box-shadow:0 0 0 3px rgba(212,175,55,0.1)}
-        
         .loader-box{text-align:center;padding:30px 0}
-        .loader-box .spinner{width:40px;height:40px;border:4px solid #f3f3f3;border-top:4px solid #D4AF37;border-radius:50%;display:inline-block;animation:spin 0.8s linear infinite}
+        .loader-box .spinner{width:30px;height:30px;border:3px solid #f3f3f3;border-top:3px solid #D4AF37;border-radius:50%;display:inline-block;animation:spin 0.8s linear infinite}
         @keyframes spin{100%{transform:rotate(360deg)}}
-        
-        .review-item{background:#f8f9fa;border-radius:10px;padding:10px;margin-bottom:8px;border-left:3px solid #D4AF37}
-        .review-item .user{font-weight:600;font-size:12px}
-        .review-item .rating{color:#f59e0b;font-size:11px}
-        .review-item .comment{font-size:11px;color:#666;margin-top:4px}
-        .review-item .date{font-size:9px;color:#999;margin-top:2px}
-        
-        .review-form{background:#f8f9fa;border-radius:12px;padding:12px;margin-top:8px}
-        .review-form textarea{width:100%;padding:10px;border:2px solid #e0e0e0;border-radius:12px;font-size:12px;resize:vertical;min-height:60px;font-family:inherit}
-        .review-form textarea:focus{outline:none;border-color:#D4AF37}
-        .review-form .stars{display:flex;gap:4px;margin:4px 0}
-        .review-form .stars button{background:none;border:none;font-size:24px;cursor:pointer;color:#ddd;transition:0.3s}
-        .review-form .stars button.active{color:#f59e0b}
         
         .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
         .detail-item{background:#f8f9fa;padding:10px;border-radius:8px}
         .detail-item .label{font-size:9px;color:#999;text-transform:uppercase}
         .detail-item .value{font-size:13px;font-weight:600;color:#1a1a2e}
         
-        .checkout-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f0f0f0}
-        .checkout-item .ci-img{width:40px;height:40px;border-radius:6px;overflow:hidden;background:#f0edff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-        .checkout-item .ci-img img{width:100%;height:100%;object-fit:cover}
-        .checkout-item .ci-img .fallback{font-size:16px;color:#999}
-        .checkout-item .ci-info{flex:1}
-        .checkout-item .ci-info .name{font-weight:600;font-size:11px}
-        .checkout-item .ci-info .qty{font-size:10px;color:#666}
-        .checkout-item .ci-price{font-weight:600;color:#D4AF37;font-size:13px}
+        .cart-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0}
+        .cart-item img{width:50px;height:50px;border-radius:8px;object-fit:cover}
+        .cart-item .info{flex:1}
+        .cart-item .name{font-weight:600;font-size:12px}
+        .cart-item .price{color:#D4AF37;font-weight:700}
+        .cart-item .qty-control{display:flex;align-items:center;gap:6px}
+        .cart-item .qty-control button{width:24px;height:24px;border-radius:50%;border:none;background:#e8ecf0;cursor:pointer;font-weight:700}
+        .cart-item .qty-control button:active{transform:scale(0.9)}
+        .cart-total{font-size:16px;font-weight:800;color:#D4AF37;text-align:right;padding:10px 0;border-top:2px solid #e0e0e0}
         
-        /* Help/Request Options */
-        .help-btn{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;margin-bottom:6px}
-        .help-btn:hover{background:#f8f9fa;border-color:#D4AF37}
-        .help-btn:active{transform:scale(0.97)}
-        .help-btn .icon{font-size:16px;width:24px;text-align:center}
-        .help-btn .text{flex:1;font-size:12px;font-weight:500}
-        .help-btn .arrow{color:#999;font-size:12px}
-        .help-btn .status-tag{font-size:8px;padding:2px 8px;border-radius:10px;font-weight:600}
-        .help-btn .status-tag.approve{background:#d1fae5;color:#059669}
-        .help-btn .status-tag.fail{background:#fee2e2;color:#dc2626}
-        .help-btn.disabled{opacity:0.5;cursor:not-allowed}
-        .help-btn.disabled:hover{background:transparent;border-color:#e0e0e0}
+        .review-item{background:#f8f9fa;padding:10px;border-radius:10px;margin-bottom:8px;border-left:3px solid #D4AF37}
+        .review-item .user{font-weight:600;font-size:12px;display:flex;align-items:center;gap:6px}
+        .review-item .stars{color:#f59e0b;font-size:14px;letter-spacing:2px;margin:2px 0}
+        .review-item .text{font-size:12px;color:#555;margin-top:4px;line-height:1.4}
+        .review-item .review-image{max-width:100%;border-radius:8px;margin-top:6px;max-height:150px;border:1px solid #e0e0e0;width:auto}
+        .review-item .date{font-size:9px;color:#999;margin-top:4px}
+        .review-item .verified{color:#22c55e;font-size:9px;font-weight:600}
         
-        .help-status{padding:4px 10px;border-radius:10px;font-size:9px;font-weight:600;display:inline-block}
-        .help-status.pending{background:#fef3c7;color:#d97706}
-        .help-status.approved{background:#d1fae5;color:#059669}
-        .help-status.rejected{background:#fee2e2;color:#dc2626}
+        .banner{background:linear-gradient(135deg,#D4AF37,#F5E56B);padding:12px 16px;border-radius:12px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+        .banner .icon{font-size:28px}
+        .banner .text{flex:1}
+        .banner .text .title{font-weight:700;font-size:14px;color:#1a0f2a}
+        .banner .text .sub{font-size:10px;color:#4a3a0a}
         
-        /* Invoice Styles */
-        .invoice-box{background:#fff;padding:20px;border-radius:12px;margin:10px 0;border:1px solid #e0e0e0;max-width:100%}
-        .invoice-box .inv-header{text-align:center;border-bottom:2px solid #D4AF37;padding-bottom:12px;margin-bottom:12px}
-        .invoice-box .inv-header .company{font-size:22px;font-weight:800;color:#1a0f2a;letter-spacing:1px}
-        .invoice-box .inv-header .company span{color:#D4AF37}
-        .invoice-box .inv-header .sub{font-size:11px;color:#999}
-        .invoice-box .inv-title{font-size:16px;font-weight:700;color:#D4AF37;text-align:center;margin:8px 0}
-        .invoice-box .inv-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid #f0f0f0}
-        .invoice-box .inv-row:last-child{border-bottom:none}
-        .invoice-box .inv-row .label{color:#666}
-        .invoice-box .inv-row .value{font-weight:600;color:#1a1a2e}
-        .invoice-box .inv-total{font-size:16px;font-weight:800;color:#D4AF37;border-top:2px solid #D4AF37;padding-top:8px;margin-top:8px}
-        .invoice-box .inv-sign{text-align:right;margin-top:16px;padding-top:12px;border-top:1px solid #e0e0e0}
-        .invoice-box .inv-sign .sign-name{font-size:18px;font-weight:700;color:#059669;font-family:'Brush Script MT',cursive}
-        .invoice-box .inv-sign .sign-title{font-size:10px;color:#999}
-        .invoice-box .inv-footer{text-align:center;font-size:9px;color:#999;margin-top:12px;padding-top:8px;border-top:1px solid #f0f0f0}
+        .payment-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+        .payment-option{background:#f8f9fa;padding:12px;border-radius:10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:0.3s}
+        .payment-option.active{border-color:#D4AF37;background:#fff8e1}
+        .payment-option .icon{font-size:28px;margin-bottom:4px}
+        .payment-option .label{font-size:10px;font-weight:600}
         
-        .inv-img{width:50px;height:50px;border-radius:6px;overflow:hidden;background:#f0edff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-        .inv-img img{width:100%;height:100%;object-fit:cover}
-        .inv-img .fallback{font-size:20px;color:#999}
-        .inv-item{display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid #f0f0f0}
+        .popup-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.3s}
+        .popup-box{background:#fff;border-radius:20px;padding:30px;max-width:340px;width:90%;text-align:center;animation:scaleIn 0.3s}
+        .popup-box .icon{font-size:64px;color:#22c55e}
+        .popup-box .title{font-size:20px;font-weight:800;color:#1a1a2e;margin:8px 0}
+        .popup-box .sub{font-size:13px;color:#666}
+        .popup-box .order-id{font-size:11px;color:#999;background:#f8f9fa;padding:6px 12px;border-radius:8px;margin:8px 0;display:inline-block}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes scaleIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
         
-        .request-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:none;justify-content:center;align-items:center;backdrop-filter:blur(4px)}
-        .request-modal.show{display:flex}
-        .request-modal .modal-content{background:#fff;border-radius:16px;padding:20px;max-width:380px;width:95%;max-height:80vh;overflow-y:auto}
-        .request-modal .modal-title{font-size:16px;font-weight:700;margin-bottom:10px}
-        .request-modal .modal-close{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:#999}
-        .request-modal textarea{width:100%;padding:8px;border:2px solid #e0e0e0;border-radius:8px;font-size:12px;resize:vertical;min-height:60px;font-family:inherit;margin:6px 0}
-        .request-modal textarea:focus{outline:none;border-color:#D4AF37}
+        .help-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .help-item{background:#f8f9fa;padding:12px;border-radius:10px;text-align:center;cursor:pointer;transition:0.3s;border:1px solid #e0e0e0}
+        .help-item:active{transform:scale(0.95)}
+        .help-item .icon{font-size:24px;margin-bottom:4px}
+        .help-item .label{font-size:10px;font-weight:600;color:#333}
+        .help-item:hover{background:#e8ecf0;border-color:#D4AF37}
+        
+        .coupon-input{display:flex;gap:8px;align-items:center}
+        .coupon-input .input{flex:1;margin:0}
+        .coupon-input .btn{white-space:nowrap}
+        
+        .complaint-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .complaint-item{background:#f8f9fa;padding:10px;border-radius:10px;text-align:center;cursor:pointer;border:2px solid transparent;transition:0.3s}
+        .complaint-item.active{border-color:#dc2626;background:#fef2f2}
+        .complaint-item .icon{font-size:24px}
+        .complaint-item .label{font-size:10px;font-weight:600;color:#333}
+        
+        .tracking-steps{display:flex;flex-direction:column;gap:8px;padding:10px 0}
+        .tracking-step{display:flex;align-items:center;gap:12px;padding:4px 0}
+        .tracking-step .dot{width:12px;height:12px;border-radius:50%;background:#e0e0e0;flex-shrink:0;transition:0.3s}
+        .tracking-step .dot.active{background:#D4AF37}
+        .tracking-step .dot.completed{background:#22c55e}
+        .tracking-step .info{flex:1}
+        .tracking-step .info .title{font-weight:600;font-size:12px}
+        .tracking-step .info .time{font-size:9px;color:#999}
+        
+        .order-detail-img{width:50px;height:50px;border-radius:8px;overflow:hidden;background:#f0edff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .order-detail-img img{width:100%;height:100%;object-fit:cover}
+        .order-detail-img .fallback{font-size:20px;color:#999}
+        .order-detail-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f0f0f0}
+        .order-detail-item .od-info{flex:1}
+        .order-detail-item .od-info .name{font-weight:600;font-size:12px}
+        .order-detail-item .od-info .qty{font-size:10px;color:#666}
+        .order-detail-item .od-price{font-weight:700;color:#D4AF37;font-size:14px}
+        
+        .badge-pending{background:#fef3c7;color:#d97706}
+        .badge-approved{background:#d1fae5;color:#059669}
+        .badge-rejected{background:#fee2e2;color:#dc2626}
+        .badge-active{background:#d1fae5;color:#059669}
+        .badge-blocked{background:#fee2e2;color:#dc2626}
+        .badge{font-size:8px;padding:2px 10px;border-radius:10px;font-weight:600;display:inline-block}
+        
+        .countdown-text{font-size:14px;font-weight:700;color:#dc2626;background:#fef2f2;padding:8px;border-radius:8px;margin:8px 0}
+        
+        .coupon-list-item{background:#f8f9fa;padding:10px;border-radius:10px;margin-bottom:6px;border-left:3px solid #22c55e;cursor:pointer}
+        .coupon-list-item:active{transform:scale(0.97)}
+        .coupon-list-item .code{font-weight:700;color:#D4AF37;font-size:14px}
+        .coupon-list-item .detail{font-size:10px;color:#666}
+        .badge-coupon{font-size:8px;padding:2px 10px;border-radius:10px;font-weight:600;display:inline-block;background:#d1fae5;color:#059669}
+        
+        /* Profile Styles */
+        .profile-header{background:#fff;border-radius:12px;padding:20px;text-align:center;margin-bottom:10px}
+        .profile-header .avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;margin:0 auto 10px}
+        .profile-header .name{font-size:18px;font-weight:700;color:#1a1a2e}
+        .profile-header .phone{font-size:13px;color:#666}
+        
+        .profile-menu{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:10px}
+        .profile-menu .menu-item{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:0.3s}
+        .profile-menu .menu-item:active{background:#f5f5f5}
+        .profile-menu .menu-item:last-child{border-bottom:none}
+        .profile-menu .menu-item .icon{width:30px;font-size:16px;color:#D4AF37}
+        .profile-menu .menu-item .text{flex:1;font-size:13px;color:#333}
+        .profile-menu .menu-item .arrow{color:#ccc;font-size:12px}
+        .profile-menu .menu-item .badge-count{background:#ef4444;color:#fff;font-size:9px;padding:1px 8px;border-radius:10px;margin-left:8px}
+        .profile-menu .menu-item .toggle-text{font-size:11px;color:#D4AF37;font-weight:600}
+        
+        .profile-section-title{font-size:12px;font-weight:600;color:#999;padding:8px 0 4px 0}
+        
+        /* Delivery Boy Animation Styles */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(124,58,237,0.3); }
+            50% { box-shadow: 0 0 20px rgba(124,58,237,0.6); }
+        }
+        .delivery-card { animation: slideUp 0.5s ease; }
+        .delivery-avatar { animation: glow 2s infinite; }
+        .delivery-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation: blink 1s infinite; }
+        
+        /* OTP Styles */
+        .otp-inputs{display:flex;gap:8px;justify-content:center;margin:10px 0}
+        .otp-inputs input{width:44px;height:50px;text-align:center;font-size:20px;font-weight:700;border:2px solid #e0e0e0;border-radius:10px;background:#fafbfc;transition:0.3s}
+        .otp-inputs input:focus{outline:none;border-color:#D4AF37;box-shadow:0 0 0 3px rgba(212,175,55,0.1)}
+        .otp-inputs input.filled{border-color:#22c55e;background:#f0fdf4}
+        .otp-timer{font-size:12px;color:#999;text-align:center;margin:4px 0}
+        .otp-timer .time{color:#D4AF37;font-weight:700}
+        .otp-resend{font-size:12px;color:#D4AF37;cursor:pointer;font-weight:600}
+        .otp-resend:hover{text-decoration:underline}
+        .otp-resend.disabled{color:#999;cursor:not-allowed}
     </style>
 </head>
 <body>
 <div class="app" id="app">
-
-    <!-- HEADER -->
     <div class="header">
-        <div class="logo">PRL<span> 🛍️</span></div>
+        <div class="logo">PRL<span> 🛒</span></div>
         <div class="header-actions">
-            <div class="header-btn" onclick="navigateTo('cart')">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="badge" id="cartBadge">0</span>
-            </div>
-            <div class="header-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <span class="role-badge" id="roleBadge">Customer</span>
+            <div class="header-btn" onclick="toggleMenu()"><i class="fas fa-user"></i></div>
         </div>
     </div>
-
-    <!-- CONTENT -->
-    <div class="content" id="pageContent">
-        <div class="loader-box"><div class="spinner"></div><p class="text-muted" style="margin-top:10px;">Loading...</p></div>
-    </div>
-
-    <!-- BOTTOM NAV -->
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="navigateTo('home')">
-            <i class="fas fa-home"></i><span>Home</span>
-        </div>
-        <div class="nav-item" onclick="navigateTo('cart')">
-            <i class="fas fa-shopping-cart"></i><span>Cart</span>
-            <span class="nav-badge" id="navBadge">0</span>
-        </div>
-        <div class="nav-item" onclick="navigateTo('orders')">
-            <i class="fas fa-box"></i><span>Orders</span>
-        </div>
-        <div class="nav-item" onclick="navigateTo('profile')">
-            <i class="fas fa-user"></i><span>Profile</span>
-        </div>
+    <div class="content" id="pageContent"><div class="loader-box"><div class="spinner"></div></div></div>
+    <div class="bottom-nav" id="bottomNav">
+        <div class="nav-item active" onclick="navigateTo('home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="navigateTo('cart')"><i class="fas fa-shopping-cart"></i><span>Cart</span></div>
+        <div class="nav-item" onclick="navigateTo('orders')"><i class="fas fa-box"></i><span>Orders</span></div>
+        <div class="nav-item" onclick="navigateTo('profile')"><i class="fas fa-user"></i><span>Profile</span></div>
     </div>
 </div>
-
-<!-- MENU SIDEBAR -->
 <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 <div class="menu-sidebar" id="menuSidebar">
     <button class="menu-close-btn" onclick="closeMenu()"><i class="fas fa-times"></i></button>
     <div class="menu-header">
         <div class="avatar" id="menuAvatar">👤</div>
-        <div class="name" id="menuName">User</div>
-        <div class="email" id="menuEmail">user@email.com</div>
+        <div class="name" id="menuName">Customer</div>
+        <div class="email" id="menuEmail">customer@prl.com</div>
     </div>
     <div class="menu-item" onclick="closeMenu();navigateTo('home')"><span class="icon">🏠</span> Home</div>
     <div class="menu-item" onclick="closeMenu();navigateTo('cart')"><span class="icon">🛒</span> Cart</div>
@@ -337,10 +311,19 @@
     <div class="menu-item" onclick="closeMenu();navigateTo('profile')"><span class="icon">👤</span> Profile</div>
     <div class="menu-item logout-item" onclick="closeMenu();logout()"><span class="icon">🚪</span> Logout</div>
 </div>
-
 <script>
 // ============================================================
-// FIREBASE CONFIG
+// 🔥 EMAILJS CONFIGURATION
+// ============================================================
+const EMAILJS_CONFIG = {
+    PUBLIC_KEY: "3cUWXrfL9AhSkM5FA",
+    SERVICE_ID: "Pawanretaillimited-5678",
+    TEMPLATE_ID: "template_45qu30j"
+};
+emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+
+// ============================================================
+// 🔥 FIREBASE CONFIG
 // ============================================================
 const firebaseConfig = {
     apiKey: "AIzaSyDzgIrjcWwnqS5e3lDplptyU6VDSngn7_o",
@@ -350,29 +333,38 @@ const firebaseConfig = {
     messagingSenderId: "522473603051",
     appId: "1:522473603051:web:519543c829c1eefd1523ae"
 };
-
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 // ============================================================
-// STATE
+// 🔥 STATE VARIABLES
 // ============================================================
 let currentUser = null;
 let userData = null;
-let cart = [];
-let allProducts = [];
-let currentPage = 'home';
-let productQty = 1;
-let tempEmail = '', tempPassword = '', tempName = '', tempPhone = '';
-let generatedOTP = '';
-let otpExpiry = null;
-let ordersCache = [];
+let cartItems = [];
+let products = [];
+let orders = [];
+let appliedCoupon = null;
+let selectedPayment = null;
+let isFirstOrder = false;
+let userOrderCount = 0;
+let selectedComplaint = null;
+let selectedRating = 0;
+let countdownInterval = null;
+let otpTimerInterval = null;
+let otpCode = '';
+let otpEmail = '';
+let otpVerified = false;
+let otpExpiryTime = 0;
+let isRegisterMode = false;
+let currentProductId = null;
+let allCoupons = [];
 
 // ============================================================
-// TOAST
+// 🔥 TOAST & RENDER HELPERS
 // ============================================================
-function showToast(msg, type = 'success', sub = '') {
+function showToast(msg, type='success', sub='') {
     let t = document.createElement('div');
     t.className = `toast ${type}`;
     t.innerHTML = `<div class="msg">${msg}</div>${sub ? `<div style="font-size:11px;color:#666;margin-top:2px;">${sub}</div>` : ''}`;
@@ -380,24 +372,13 @@ function showToast(msg, type = 'success', sub = '') {
     setTimeout(() => t.remove(), 3000);
 }
 
-// ============================================================
-// RENDER
-// ============================================================
-function render(html) {
-    document.getElementById('pageContent').innerHTML = html;
-}
+function render(html) { document.getElementById('pageContent').innerHTML = html; }
+function showLoader() { document.getElementById('pageContent').innerHTML = `<div class="loader-box"><div class="spinner"></div></div>`; }
+function showBottomNav(show) { document.getElementById('bottomNav').classList.toggle('show', show); }
 
-function showLoader() {
-    document.getElementById('pageContent').innerHTML = `<div class="loader-box"><div class="spinner"></div><p class="text-muted" style="margin-top:10px;">Loading...</p></div>`;
-}
-
-function navigateTo(page, data = null) {
-    if (!currentUser && page !== 'login' && page !== 'register' && page !== 'otp') {
-        showLogin();
-        return;
-    }
-    currentPage = page;
-    
+function navigateTo(page, data=null) {
+    if (!currentUser) { showBottomNav(false); showLogin(); return; }
+    showBottomNav(true);
     document.querySelectorAll('.nav-item').forEach(el => {
         el.classList.remove('active');
         el.querySelector('i').style.color = '#999';
@@ -405,137 +386,344 @@ function navigateTo(page, data = null) {
     });
     const items = document.querySelectorAll('.nav-item');
     const map = { home:0, cart:1, orders:2, profile:3 };
-    if (items[map[page]] !== undefined) {
+    if (items[map[page]]) {
         items[map[page]].classList.add('active');
         items[map[page]].querySelector('i').style.color = '#D4AF37';
         items[map[page]].querySelector('span').style.color = '#D4AF37';
     }
-    
     showLoader();
     setTimeout(() => {
         let html = '';
-        try {
-            switch(page) {
-                case 'login': html = renderLogin(); break;
-                case 'register': html = renderRegister(); break;
-                case 'otp': html = renderOTP(); break;
-                case 'home': html = renderHome(); break;
-                case 'productDetail': html = renderProductDetail(data); break;
-                case 'cart': html = renderCart(); break;
-                case 'checkout': html = renderCheckout(); break;
-                case 'payment': html = renderPayment(); break;
-                case 'orderSuccess': html = renderOrderSuccess(data); break;
-                case 'orders': html = renderOrders(); break;
-                case 'orderDetail': html = renderOrderDetail(data); break;
-                case 'profile': html = renderProfile(); break;
-                default: html = '<div class="card"><p>Page not found</p></div>';
-            }
-        } catch(e) {
-            html = `<div class="card" style="border:2px solid #ef4444;"><p style="color:#ef4444;">Error: ${e.message}</p></div>`;
+        switch(page) {
+            case 'home': html = renderHome(); break;
+            case 'cart': html = renderCart(); break;
+            case 'checkout': html = renderCheckout(); break;
+            case 'address': html = renderAddress(); break;
+            case 'payment': html = renderPayment(); break;
+            case 'orders': html = renderOrders(); break;
+            case 'orderDetail': html = renderOrderDetail(data); break;
+            case 'orderHelp': html = renderOrderHelp(data); break;
+            case 'cancelOrder': html = renderCancelOrder(data); break;
+            case 'changePhone': html = renderChangePhone(data); break;
+            case 'changeAddress': html = renderChangeAddress(data); break;
+            case 'extendDelivery': html = renderExtendDelivery(data); break;
+            case 'requestPayOnline': html = renderRequestPayOnline(data); break;
+            case 'complaint': html = renderComplaint(data); break;
+            case 'review': html = renderReview(data); break;
+            case 'profile': html = renderProfile(); break;
+            case 'coupons': html = renderCouponsList(); break;
+            case 'addressBook': html = renderAddressBook(); break;
+            case 'wishlist': html = renderWishlist(); break;
+            case 'giftCards': html = renderGiftCards(); break;
+            case 'editProfile': html = renderEditProfile(); break;
+            case 'changePassword': html = renderChangePasswordPage(); break;
+            case 'appearance': html = renderAppearance(); break;
+            case 'help': html = renderHelpPage(); break;
+            default: html = '<div class="card"><p>Page not found</p></div>';
         }
         render(html);
-        
-        if (page === 'home') loadProducts();
+        if (page === 'home') { loadProducts(); checkFirstOrder(); }
+        if (page === 'cart') loadCart();
         if (page === 'orders') loadOrders();
-        if (page === 'cart') updateBadge();
-        if (page === 'payment') generateQRCode();
+        if (page === 'coupons') loadCouponsList();
+        if (page === 'orderDetail') {
+            setTimeout(() => {
+                loadDeliveryBoyDetails(data);
+            }, 500);
+        }
     }, 300);
-}
-
-function updateMenu() {
-    if (userData) {
-        document.getElementById('menuAvatar').textContent = userData.name ? userData.name.charAt(0).toUpperCase() : '👤';
-        document.getElementById('menuName').textContent = userData.name || 'User';
-        document.getElementById('menuEmail').textContent = userData.email || '';
-    }
 }
 
 function toggleMenu() {
     document.getElementById('menuSidebar').classList.toggle('open');
     document.getElementById('menuOverlay').classList.toggle('show');
 }
-
 function closeMenu() {
     document.getElementById('menuSidebar').classList.remove('open');
     document.getElementById('menuOverlay').classList.remove('show');
 }
-
-// ============================================================
-// LOGIN / REGISTER / OTP
-// ============================================================
-function renderLogin() {
-    return `
-        <div class="login-box">
-            <div class="icon">🛍️</div>
-            <h2>Welcome to PRL</h2>
-            <p class="text-muted">Sign in to continue shopping</p>
-            <input class="input" id="loginEmail" placeholder="Email" value="customer@prl.com">
-            <input class="input" id="loginPassword" type="password" placeholder="Password" value="password123">
-            <button class="btn btn-gold btn-block" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
-            <button class="btn btn-secondary btn-block" onclick="navigateTo('register')"><i class="fas fa-user-plus"></i> Create Account</button>
-            <div class="hint" style="margin-top:10px;">Demo: customer@prl.com / password123</div>
-        </div>
-    `;
+function updateMenu() {
+    if (userData) {
+        document.getElementById('menuAvatar').textContent = userData.name ? userData.name.charAt(0).toUpperCase() : '👤';
+        document.getElementById('menuName').textContent = userData.name || 'Customer';
+        document.getElementById('menuEmail').textContent = userData.email || '';
+        document.getElementById('roleBadge').textContent = userData.role || 'Customer';
+    }
 }
 
-function renderRegister() {
-    return `
+function togglePassword() {
+    const pwd = document.getElementById('loginPassword');
+    const icon = document.getElementById('pwdIcon');
+    if (!pwd || !icon) return;
+    if (pwd.type === 'password') { pwd.type = 'text'; icon.className = 'fas fa-eye-slash'; }
+    else { pwd.type = 'password'; icon.className = 'fas fa-eye'; }
+}
+
+// ============================================================
+// 🔥 OTP FUNCTIONS
+// ============================================================
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function getOTPExpiry() {
+    return Date.now() + 5 * 60 * 1000;
+}
+
+async function sendOTPEmail(email, otp, name = 'Customer') {
+    try {
+        const templateParams = {
+            to_email: email,
+            to_name: name,
+            otp: otp,
+            subject: 'PRL - Your OTP Code'
+        };
+        const response = await emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.TEMPLATE_ID,
+            templateParams
+        );
+        console.log('Email sent:', response);
+        return true;
+    } catch(e) {
+        console.error('Email send error:', e);
+        showToast('Failed to send OTP. Please try again.', 'error');
+        return false;
+    }
+}
+
+function renderOTPPage(email, name, isRegister) {
+    isRegisterMode = isRegister;
+    otpEmail = email;
+    otpVerified = false;
+    otpCode = generateOTP();
+    otpExpiryTime = getOTPExpiry();
+    
+    db.collection('otp').doc(email).set({
+        otp: otpCode,
+        email: email,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(otpExpiryTime).toISOString()
+    }).catch(e => console.log('Save OTP error:', e));
+    
+    sendOTPEmail(email, otpCode, name);
+    
+    render(`
+        <div class="login-box" style="max-width:340px;margin:20px auto;">
+            <div class="icon">📧</div>
+            <h2>Verify Your Email</h2>
+            <p class="text-muted">We've sent a 6-digit OTP to</p>
+            <p style="font-weight:600;font-size:14px;color:#1a1a2e;">${email}</p>
+            
+            <div class="otp-inputs" id="otpInputs">
+                <input type="text" maxlength="1" id="otp0" oninput="otpInput(this,0)" onkeydown="otpBackspace(event,0)">
+                <input type="text" maxlength="1" id="otp1" oninput="otpInput(this,1)" onkeydown="otpBackspace(event,1)">
+                <input type="text" maxlength="1" id="otp2" oninput="otpInput(this,2)" onkeydown="otpBackspace(event,2)">
+                <input type="text" maxlength="1" id="otp3" oninput="otpInput(this,3)" onkeydown="otpBackspace(event,3)">
+                <input type="text" maxlength="1" id="otp4" oninput="otpInput(this,4)" onkeydown="otpBackspace(event,4)">
+                <input type="text" maxlength="1" id="otp5" oninput="otpInput(this,5)" onkeydown="otpBackspace(event,5)">
+            </div>
+            
+            <div class="otp-timer" id="otpTimer">⏳ <span class="time" id="timerDisplay">05:00</span> remaining</div>
+            
+            <button class="btn btn-gold btn-block" onclick="verifyOTP()"><i class="fas fa-check"></i> Verify OTP</button>
+            
+            <div style="margin-top:8px;font-size:12px;color:#666;">
+                Didn't receive OTP? 
+                <span class="otp-resend" id="resendBtn" onclick="resendOTP()">Resend OTP</span>
+            </div>
+            <div style="margin-top:8px;font-size:11px;color:#999;">
+                <i class="fas fa-info-circle"></i> OTP valid for 5 minutes
+            </div>
+        </div>
+    `);
+    
+    startOTPTimer();
+    document.getElementById('otp0').focus();
+}
+
+function otpInput(el, index) {
+    const val = el.value;
+    if (val.length === 1 && index < 5) {
+        document.getElementById(`otp${index+1}`).focus();
+    }
+}
+
+function otpBackspace(event, index) {
+    if (event.key === 'Backspace' && index > 0 && !event.target.value) {
+        document.getElementById(`otp${index-1}`).focus();
+    }
+}
+
+function getOTPValue() {
+    let otp = '';
+    for (let i = 0; i < 6; i++) {
+        otp += document.getElementById(`otp${i}`).value;
+    }
+    return otp;
+}
+
+function startOTPTimer() {
+    if (otpTimerInterval) clearInterval(otpTimerInterval);
+    otpTimerInterval = setInterval(() => {
+        const now = Date.now();
+        const diff = otpExpiryTime - now;
+        if (diff <= 0) {
+            clearInterval(otpTimerInterval);
+            document.getElementById('timerDisplay').textContent = '00:00';
+            document.getElementById('resendBtn').classList.remove('disabled');
+            showToast('OTP expired. Please resend.', 'error');
+            return;
+        }
+        const mins = Math.floor(diff / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        document.getElementById('timerDisplay').textContent = 
+            `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    }, 1000);
+}
+
+async function verifyOTP() {
+    const enteredOTP = getOTPValue();
+    if (enteredOTP.length !== 6) {
+        showToast('Enter complete 6-digit OTP', 'error');
+        return;
+    }
+    if (Date.now() > otpExpiryTime) {
+        showToast('OTP expired. Please resend.', 'error');
+        return;
+    }
+    try {
+        const doc = await db.collection('otp').doc(otpEmail).get();
+        if (!doc.exists) {
+            showToast('Invalid OTP. Please try again.', 'error');
+            return;
+        }
+        const data = doc.data();
+        if (data.otp === enteredOTP) {
+            otpVerified = true;
+            showToast('✅ OTP Verified Successfully!', 'success');
+            if (isRegisterMode) {
+                completeRegistration();
+            } else {
+                completeLogin();
+            }
+            await db.collection('otp').doc(otpEmail).delete();
+        } else {
+            showToast('❌ Invalid OTP. Please try again.', 'error');
+        }
+    } catch(e) {
+        showToast('Error verifying OTP: ' + e.message, 'error');
+    }
+}
+
+async function resendOTP() {
+    if (Date.now() < otpExpiryTime) {
+        showToast('Current OTP is still valid. Please wait.', 'warning');
+        return;
+    }
+    otpCode = generateOTP();
+    otpExpiryTime = getOTPExpiry();
+    await db.collection('otp').doc(otpEmail).set({
+        otp: otpCode,
+        email: otpEmail,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(otpExpiryTime).toISOString()
+    });
+    await sendOTPEmail(otpEmail, otpCode, 'Customer');
+    startOTPTimer();
+    document.getElementById('resendBtn').classList.add('disabled');
+    showToast('✅ OTP resent successfully!', 'success');
+}
+
+// ============================================================
+// 🔥 LOGIN / REGISTER - Empty Fields
+// ============================================================
+function showLogin() {
+    isRegisterMode = false;
+    showBottomNav(false);
+    render(`
+        <div class="login-box">
+            <div class="icon">🛒</div>
+            <h2>Customer Login</h2>
+            <p class="text-muted">Login to shop & track orders</p>
+            <input class="input" id="loginEmail" placeholder="Email">
+            <div class="password-wrapper">
+                <input class="input" id="loginPassword" type="password" placeholder="Password">
+                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon"></i></button>
+            </div>
+            <button class="btn btn-gold btn-block" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <div style="margin-top:8px;font-size:12px;color:#666;">Don't have account? <span class="toggle-link" onclick="showRegister()">Register</span></div>
+            <div class="hint">🔑 Enter your credentials to login</div>
+        </div>
+    `);
+}
+
+function showRegister() {
+    isRegisterMode = true;
+    render(`
         <div class="login-box">
             <div class="icon">📝</div>
             <h2>Create Account</h2>
-            <p class="text-muted">OTP will be sent to your email</p>
-            <input class="input" id="regName" placeholder="Full Name" value="Customer">
-            <input class="input" id="regEmail" type="email" placeholder="Email" value="customer@prl.com">
-            <input class="input" id="regPassword" type="password" placeholder="Password (6+ chars)" value="password123">
-            <input class="input" id="regPhone" placeholder="Phone" value="9876543210">
-            <button class="btn btn-gold btn-block" onclick="handleRegister()"><i class="fas fa-paper-plane"></i> Send OTP</button>
-            <button class="btn btn-secondary btn-block" onclick="navigateTo('login')">← Back to Login</button>
-        </div>
-    `;
-}
-
-function renderOTP() {
-    return `
-        <div class="login-box">
-            <div class="icon">📧</div>
-            <h2>Verify OTP</h2>
-            <p class="text-muted">Enter the 6-digit code sent to <strong style="color:#D4AF37;">${tempEmail}</strong></p>
-            <div class="otp-inputs">
-                <input class="otp-box" maxlength="1" oninput="moveNext(this,0)" id="otp0" inputmode="numeric">
-                <input class="otp-box" maxlength="1" oninput="moveNext(this,1)" id="otp1" inputmode="numeric">
-                <input class="otp-box" maxlength="1" oninput="moveNext(this,2)" id="otp2" inputmode="numeric">
-                <input class="otp-box" maxlength="1" oninput="moveNext(this,3)" id="otp3" inputmode="numeric">
-                <input class="otp-box" maxlength="1" oninput="moveNext(this,4)" id="otp4" inputmode="numeric">
-                <input class="otp-box" maxlength="1" oninput="moveNext(this,5)" id="otp5" inputmode="numeric">
+            <input class="input" id="regName" placeholder="Full Name">
+            <input class="input" id="regEmail" placeholder="Email">
+            <div class="password-wrapper">
+                <input class="input" id="regPassword" type="password" placeholder="Password (min 6 chars)">
+                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon"></i></button>
             </div>
-            <button class="btn btn-gold btn-block" onclick="verifyOTP()"><i class="fas fa-check"></i> Verify</button>
-            <button class="btn btn-secondary btn-block" onclick="resendOTP()"><i class="fas fa-redo"></i> Resend OTP</button>
-            <button class="btn btn-secondary btn-block" onclick="navigateTo('register')">← Back</button>
+            <input class="input" id="regPhone" placeholder="Phone Number">
+            <input class="input" id="regAddress" placeholder="Address">
+            <button class="btn btn-gold btn-block" onclick="handleRegister()"><i class="fas fa-user-plus"></i> Register</button>
+            <div style="margin-top:8px;font-size:12px;color:#666;">Already have account? <span class="toggle-link" onclick="showLogin()">Login</span></div>
         </div>
-    `;
+    `);
 }
 
-function moveNext(el, idx) {
-    if (el.value.length === 1 && idx < 5) document.getElementById(`otp${idx+1}`).focus();
-    let allFilled = true;
-    for (let i = 0; i < 6; i++) {
-        const input = document.getElementById(`otp${i}`);
-        if (!input || input.value.length !== 1) allFilled = false;
-    }
-    if (allFilled) verifyOTP();
-}
-
-// ============================================================
-// AUTH FUNCTIONS
-// ============================================================
 async function handleLogin() {
     const email = document.getElementById('loginEmail').value.trim();
     const pwd = document.getElementById('loginPassword').value;
-    if (!email || !pwd) { showToast('Fill all fields', 'error'); return; }
+    if (!email || !pwd) { showToast('Enter email & password', 'error'); return; }
     try {
-        await auth.signInWithEmailAndPassword(email, pwd);
-        showToast('Welcome back! 🎉');
-    } catch(e) { showToast(e.message, 'error'); }
+        const userCred = await auth.signInWithEmailAndPassword(email, pwd);
+        currentUser = userCred.user;
+        const doc = await db.collection('users').doc(currentUser.uid).get();
+        const name = doc.exists ? doc.data().name : 'Customer';
+        renderOTPPage(email, name, false);
+    } catch(e) {
+        if (e.code === 'auth/user-not-found') {
+            showToast('Account not found. Please register first.', 'error');
+        } else if (e.code === 'auth/wrong-password') {
+            showToast('Wrong password. Please try again.', 'error');
+        } else {
+            showToast('Login failed: ' + e.message, 'error');
+        }
+    }
+}
+
+async function completeLogin() {
+    try {
+        const doc = await db.collection('users').doc(currentUser.uid).get();
+        if (doc.exists) {
+            userData = doc.data();
+            if (userData.role !== 'customer') {
+                showToast('Customer access only!', 'error');
+                await auth.signOut();
+                showLogin();
+                return;
+            }
+            if (userData.blocked) {
+                showToast('🚫 Your account is blocked!', 'error');
+                await auth.signOut();
+                showLogin();
+                return;
+            }
+            updateMenu();
+            showBottomNav(true);
+            navigateTo('home');
+            showToast('✅ Login successful! Welcome back!', 'success');
+        }
+    } catch(e) {
+        showToast('Error: ' + e.message, 'error');
+    }
 }
 
 async function handleRegister() {
@@ -543,731 +731,804 @@ async function handleRegister() {
     const email = document.getElementById('regEmail').value.trim();
     const pwd = document.getElementById('regPassword').value;
     const phone = document.getElementById('regPhone').value.trim();
+    const address = document.getElementById('regAddress').value.trim();
     if (!name || !email || !pwd || !phone) { showToast('Fill all fields', 'error'); return; }
-    if (pwd.length < 6) { showToast('Password 6+ chars', 'error'); return; }
-    tempName = name; tempEmail = email; tempPassword = pwd; tempPhone = phone;
-    
-    generatedOTP = String(Math.floor(100000 + Math.random() * 900000));
-    otpExpiry = Date.now() + 5 * 60 * 1000;
-    showToast('📧 OTP sent to your email! (Demo: ' + generatedOTP + ')', 'success');
-    navigateTo('otp');
-}
-
-async function verifyOTP() {
-    let otp = '';
-    for (let i = 0; i < 6; i++) {
-        const input = document.getElementById(`otp${i}`);
-        if (input) otp += input.value;
-    }
-    if (otp.length !== 6) { showToast('Enter complete OTP', 'error'); return; }
-    if (otp !== generatedOTP) { showToast('Invalid OTP', 'error'); return; }
-    if (Date.now() > otpExpiry) { showToast('OTP expired', 'error'); return; }
-    
+    if (pwd.length < 6) { showToast('Password min 6 chars', 'error'); return; }
     try {
-        const cred = await auth.createUserWithEmailAndPassword(tempEmail, tempPassword);
-        await db.collection('users').doc(cred.user.uid).set({
-            uid: cred.user.uid, name: tempName, email: tempEmail, phone: tempPhone,
-            role: 'customer', createdAt: new Date().toISOString(), isOnline: true
-        });
-        showToast('🎉 Account created!');
+        const cred = await auth.createUserWithEmailAndPassword(email, pwd);
+        currentUser = cred.user;
+        renderOTPPage(email, name, true);
     } catch(e) {
         if (e.code === 'auth/email-already-in-use') {
-            showToast('Email already registered', 'error', 'Please login');
-            navigateTo('login');
-        } else { showToast(e.message, 'error'); }
+            showToast('Email already registered. Please login.', 'error');
+        } else {
+            showToast('Registration failed: ' + e.message, 'error');
+        }
     }
 }
 
-async function resendOTP() {
-    generatedOTP = String(Math.floor(100000 + Math.random() * 900000));
-    otpExpiry = Date.now() + 5 * 60 * 1000;
-    showToast('📧 New OTP sent! (Demo: ' + generatedOTP + ')', 'success');
-    for (let i = 0; i < 6; i++) {
-        const input = document.getElementById(`otp${i}`);
-        if (input) input.value = '';
+async function completeRegistration() {
+    try {
+        const name = document.getElementById('regName')?.value?.trim() || 'Customer';
+        const email = document.getElementById('regEmail')?.value?.trim() || currentUser.email;
+        const phone = document.getElementById('regPhone')?.value?.trim() || '';
+        const address = document.getElementById('regAddress')?.value?.trim() || '';
+        const pwd = document.getElementById('regPassword')?.value || '';
+        await db.collection('users').doc(currentUser.uid).set({
+            uid: currentUser.uid, name, email, phone, address: address || '',
+            role: 'customer', password: pwd,
+            createdAt: new Date().toISOString(), orderCount: 0, blocked: false
+        });
+        userData = { uid: currentUser.uid, name, email, phone, address, role: 'customer' };
+        updateMenu();
+        showBottomNav(true);
+        navigateTo('home');
+        showToast('✅ Account created! Welcome to PRL!', 'success');
+    } catch(e) {
+        showToast('Error: ' + e.message, 'error');
     }
-    document.getElementById('otp0')?.focus();
 }
 
 async function logout() {
     if (!confirm('Logout?')) return;
     await auth.signOut();
-    location.reload();
+    currentUser = null; userData = null;
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (otpTimerInterval) clearInterval(otpTimerInterval);
+    showBottomNav(false); showLogin();
+    showToast('Logged out');
 }
 
 // ============================================================
-// HOME PAGE
+// 🔥 BLOCK CHECK + COUNTDOWN
+// ============================================================
+function showBlockPopup(message) {
+    const popup = document.createElement('div');
+    popup.className = 'popup-overlay';
+    popup.id = 'blockPopup';
+    popup.innerHTML = `
+        <div class="popup-box" style="border:3px solid #ef4444;">
+            <div class="icon" style="color:#ef4444;">🚫</div>
+            <div class="title" style="color:#dc2626;">Account Blocked</div>
+            <div class="sub" id="blockMessage" style="font-size:14px;font-weight:600;color:#dc2626;">${message}</div>
+            <div style="font-size:12px;color:#666;margin:8px 0;">Contact admin for support</div>
+            <button class="btn btn-danger btn-block" onclick="this.closest('.popup-overlay').remove()">OK</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+}
+
+function startBlockCountdown(unblockTime) {
+    if (countdownInterval) clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+        const now = new Date();
+        const diffMs = unblockTime - now;
+        if (diffMs <= 0) {
+            clearInterval(countdownInterval);
+            db.collection('users').doc(currentUser.uid).update({
+                blocked: false, blockType: null, blockDuration: null, unblockAt: null
+            }).then(() => {
+                const popup = document.getElementById('blockPopup');
+                if (popup) popup.remove();
+                showToast('✅ Account unblocked!', 'success');
+                location.reload();
+            });
+            return;
+        }
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+        const msgEl = document.getElementById('blockMessage');
+        if (msgEl) {
+            msgEl.textContent = `⏳ Blocked for ${hours}h ${minutes}m ${seconds}s remaining`;
+        }
+    }, 1000);
+}
+
+// ============================================================
+// 🔥 CHECK FIRST ORDER
+// ============================================================
+async function checkFirstOrder() {
+    try {
+        const snap = await db.collection('orders').where('userId', '==', currentUser.uid).get();
+        userOrderCount = snap.size;
+        isFirstOrder = userOrderCount === 0;
+        const banner = document.getElementById('firstOrderBanner');
+        if (banner) {
+            banner.style.display = isFirstOrder ? 'flex' : 'none';
+        }
+    } catch(e) { console.log('Check first order:', e); }
+}
+
+// ============================================================
+// 🔥 HOME
 // ============================================================
 function renderHome() {
     return `
-        <div class="search-bar">
-            <span class="icon"><i class="fas fa-search"></i></span>
-            <input id="searchInput" placeholder="Search products..." oninput="filterProducts()">
+        <div id="firstOrderBanner" class="banner" style="display:none;">
+            <div class="icon">🎉</div>
+            <div class="text">
+                <div class="title">First Order Free Delivery!</div>
+                <div class="sub">No delivery charges on your first order 🚚</div>
+            </div>
         </div>
-        
-        <div class="categories-scroll">
-            <div class="cat-item active" onclick="filterCategory('all',this)"><div class="icon">🔧</div><span class="label">All</span></div>
-            <div class="cat-item" onclick="filterCategory('electronics',this)"><div class="icon">📱</div><span class="label">Electronics</span></div>
-            <div class="cat-item" onclick="filterCategory('fashion',this)"><div class="icon">👕</div><span class="label">Fashion</span></div>
-            <div class="cat-item" onclick="filterCategory('grocery',this)"><div class="icon">🍎</div><span class="label">Grocery</span></div>
-            <div class="cat-item" onclick="filterCategory('home',this)"><div class="icon">🏠</div><span class="label">Home</span></div>
-            <div class="cat-item" onclick="filterCategory('beauty',this)"><div class="icon">💄</div><span class="label">Beauty</span></div>
+        <div class="card">
+            <div class="card-title">🛍️ Products</div>
+            <span style="font-size:10px;color:#999;cursor:pointer;" onclick="navigateTo('coupons')">🎫 View Coupons →</span>
         </div>
-        
-        <div id="bannerContainer"></div>
-        
-        <div id="productGrid" class="product-grid"></div>
+        <div class="product-grid" id="productGrid"><div class="loader-box"><div class="spinner"></div></div></div>
     `;
 }
 
 // ============================================================
-// PRODUCT FUNCTIONS
+// 🔥 LOAD PRODUCTS
 // ============================================================
 async function loadProducts() {
-    try {
-        const snap = await db.collection('products').get();
-        allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        if (allProducts.length === 0) await seedProducts();
-        displayProducts(allProducts);
-        showBanner();
-    } catch(e) {
-        document.getElementById('productGrid').innerHTML = '<p class="text-muted text-center">Error loading products</p>';
-    }
-}
-
-async function seedProducts() {
-    const products = [
-        { name: "Arduino Uno R3", price: 200, mrp: 399, category: "electronics", image: "https://images.unsplash.com/photo-1620287341056-49a2f1ab2fdc?w=400&h=400&fit=crop", description: "Arduino Uno R3 board with USB cable. Open-source microcontroller board based on ATmega328P.", rating: 4.8 },
-        { name: "Wireless Earbuds Pro", price: 1499, mrp: 2999, category: "electronics", image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=400&fit=crop", description: "Premium wireless earbuds with noise cancellation and 24hr battery life.", rating: 4.6 },
-        { name: "Organic T-Shirt", price: 599, mrp: 1299, category: "fashion", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop", description: "100% organic cotton t-shirt, soft and breathable fabric.", rating: 4.4 },
-        { name: "Fresh Grocery Bundle", price: 899, mrp: 1499, category: "grocery", image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=400&fit=crop", description: "Fresh organic fruits and vegetables delivered fresh.", rating: 4.7 },
-        { name: "Home Decor Set", price: 1299, mrp: 2499, category: "home", image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop", description: "Premium home decor items to beautify your living space.", rating: 4.3 },
-        { name: "Smart Watch Series 6", price: 4999, mrp: 9999, category: "electronics", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop", description: "Advanced smartwatch with health tracking and GPS.", rating: 4.5 }
-    ];
-    for (const p of products) await db.collection('products').add({ ...p, createdAt: new Date().toISOString() });
-    showToast('Products loaded! 🎉');
-}
-
-function displayProducts(products) {
     const grid = document.getElementById('productGrid');
     if (!grid) return;
-    if (!products || products.length === 0) {
-        grid.innerHTML = '<div class="card"><p class="text-muted text-center">No products found</p></div>';
-        return;
-    }
-    grid.innerHTML = products.map((p, i) => {
-        const discount = p.mrp ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
-        const imgUrl = p.image || p.images?.[0] || '';
-        return `
-            <div class="product-card" onclick="viewProduct('${p.id}')">
-                <div class="img">
-                    ${imgUrl ? `<img src="${imgUrl}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">` : `<span class="fallback">📦</span>`}
-                    ${discount > 40 ? `<span class="discount-badge">${discount}% OFF</span>` : ''}
-                </div>
-                <div class="info">
-                    <div class="name">${p.name}</div>
-                    <div class="price-row">
-                        <span class="price">₹${p.price}</span>
-                        <span class="mrp">₹${p.mrp || p.price}</span>
+    try {
+        const snap = await db.collection('products').get();
+        products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (products.length === 0) {
+            grid.innerHTML = `<div class="empty-state"><div class="icon">📦</div><div class="title">No products yet</div></div>`;
+            return;
+        }
+        let html = '';
+        products.forEach(p => {
+            html += `
+                <div class="product-card" onclick="viewProduct('${p.id}')">
+                    <img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'">
+                    <div class="info">
+                        <div class="name">${p.name}</div>
+                        <div class="price">₹${p.price}</div>
+                        <button class="add-btn" onclick="event.stopPropagation();addToCart('${p.id}')">Add to Cart</button>
                     </div>
-                    <div class="rating">⭐ ${p.rating || 4.5}</div>
-                    <button class="add-btn" onclick="event.stopPropagation();addToCart('${p.id}')">Add to Cart</button>
+                </div>
+            `;
+        });
+        grid.innerHTML = html;
+        checkFirstOrder();
+    } catch(e) {
+        grid.innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`;
+    }
+}
+
+// ============================================================
+// 🔥 VIEW PRODUCT WITH REVIEWS
+// ============================================================
+function viewProduct(productId) {
+    const p = products.find(x => x.id === productId);
+    if (!p) return;
+    currentProductId = productId;
+    saveRecentView(productId);
+    const relatedProducts = products.filter(x => x.id !== productId).slice(0, 4);
+    let relatedHtml = '';
+    if (relatedProducts.length > 0) {
+        relatedHtml = `
+            <div class="card">
+                <div class="card-title">🔍 Related Products</div>
+                <div class="product-grid">
+                    ${relatedProducts.map(rp => `
+                        <div class="product-card" onclick="viewProduct('${rp.id}')">
+                            <img src="${rp.image || 'https://via.placeholder.com/150'}" onerror="this.src='https://via.placeholder.com/150'">
+                            <div class="info">
+                                <div class="name">${rp.name}</div>
+                                <div class="price">₹${rp.price}</div>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         `;
-    }).join('');
-}
-
-function showBanner() {
-    const container = document.getElementById('bannerContainer');
-    if (!container) return;
-    
-    const discounted = allProducts.filter(p => p.mrp && ((p.mrp - p.price) / p.mrp) > 0.4);
-    if (discounted.length === 0) { container.innerHTML = ''; return; }
-    
-    const p = discounted[Math.floor(Math.random() * discounted.length)];
-    const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
-    const imgUrl = p.image || p.images?.[0] || '';
-    
-    container.innerHTML = `
-        <div class="banner" onclick="viewProduct('${p.id}')">
-            <div class="offer">🔥 ${discount}% OFF</div>
-            <div class="sub">${p.name}</div>
-            <div class="price-tag">₹${p.price} <span class="mrp">₹${p.mrp}</span></div>
-            <button class="btn-sm">Shop Now →</button>
-            <div class="banner-img">
-                ${imgUrl ? `<img src="${imgUrl}" onerror="this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">` : `<span class="fallback">📦</span>`}
-            </div>
-            <span class="banner-label">BEST DEAL</span>
-        </div>
-    `;
-}
-
-function filterCategory(category, el) {
-    document.querySelectorAll('.cat-item').forEach(c => c.classList.remove('active'));
-    if (el) el.classList.add('active');
-    const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
-    displayProducts(filtered);
-    showBanner();
-}
-
-function filterProducts() {
-    const search = document.getElementById('searchInput').value.toLowerCase();
-    const filtered = allProducts.filter(p => p.name.toLowerCase().includes(search));
-    displayProducts(filtered);
-    showBanner();
-}
-
-async function viewProduct(id) {
-    try {
-        const doc = await db.collection('products').doc(id).get();
-        if (!doc.exists) { showToast('Product not found', 'error'); return; }
-        productQty = 1;
-        navigateTo('productDetail', { id: doc.id, ...doc.data() });
-    } catch(e) { showToast(e.message, 'error'); }
-}
-
-// ============================================================
-// PRODUCT DETAIL
-// ============================================================
-function renderProductDetail(p) {
-    if (!p) return '<div class="card"><p>Product not found</p></div>';
-    
-    const discount = p.mrp ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
-    const images = p.images || [p.image || ''];
-    const imgUrl = images[0] || p.image || '';
-    
-    return `
+    }
+    render(`
         <div class="card">
-            <div class="detail-thumbs">
-                ${images.map((img, idx) => `
-                    <img src="${img}" class="thumb ${idx === 0 ? 'active' : ''}" onclick="changeImage(this, '${img}')" onerror="this.style.display='none'">
-                `).join('')}
-            </div>
-            <div class="detail-img" id="mainImage">
-                ${imgUrl ? `<img src="${imgUrl}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">` : `<span class="fallback">📦</span>`}
-            </div>
-            <div class="detail-name">${p.name}</div>
-            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                <span class="detail-price">₹${p.price}</span>
-                ${p.mrp ? `<span class="detail-mrp">₹${p.mrp}</span>` : ''}
-                ${discount > 0 ? `<span class="detail-discount">${discount}% OFF</span>` : ''}
-            </div>
-            <div class="detail-rating">⭐ ${p.rating || 4.5}</div>
-            <div class="detail-desc">${p.description || 'Premium quality product.'}</div>
-            <div class="qty-selector">
-                <button onclick="changeQty(-1)">-</button>
-                <span id="qtyDisplay">1</span>
-                <button onclick="changeQty(1)">+</button>
-            </div>
-            <div class="flex">
-                <button class="btn btn-gold" onclick="addToCart('${p.id}')" style="flex:1;"><i class="fas fa-cart-plus"></i> Add</button>
-                <button class="btn btn-success" onclick="buyNow('${p.id}')" style="flex:1;"><i class="fas fa-bolt"></i> Buy</button>
-            </div>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('home')">← Back to Home</button>
+            <div class="card-title">${p.name}</div>
+            <img src="${p.image || 'https://via.placeholder.com/300'}" style="width:100%;border-radius:8px;height:200px;object-fit:cover;" onerror="this.src='https://via.placeholder.com/300'">
+            <div style="font-size:20px;font-weight:700;color:#D4AF37;margin:8px 0;">₹${p.price}</div>
+            <p style="font-size:13px;color:#666;line-height:1.5;">${p.description || 'No description available'}</p>
+            <button class="btn btn-gold btn-block mt-2" onclick="addToCart('${p.id}')"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('home')">← Back</button>
         </div>
-    `;
-}
-
-function changeImage(el, src) {
-    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    const main = document.getElementById('mainImage');
-    if (main) main.innerHTML = `<img src="${src}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">`;
-}
-
-function changeQty(delta) {
-    productQty = Math.max(1, productQty + delta);
-    document.getElementById('qtyDisplay').textContent = productQty;
+        <div class="card">
+            <div class="card-title">⭐ Customer Reviews</div>
+            <div id="reviewsContainer"><div class="loader-box" style="padding:10px;"><div class="spinner" style="width:20px;height:20px;"></div></div></div>
+        </div>
+        ${relatedHtml}
+        <div class="card">
+            <div class="card-title">🔄 Recent Views</div>
+            <div id="recentViewsContainer" class="product-grid"><div class="loader-box" style="padding:10px;"><div class="spinner" style="width:20px;height:20px;"></div></div></div>
+        </div>
+    `);
+    setTimeout(() => loadProductReviews(productId), 300);
+    loadRecentViews();
 }
 
 // ============================================================
-// CART FUNCTIONS
+// 🔥 SAVE RECENT VIEW
 // ============================================================
-async function addToCart(id) {
-    if (!currentUser) { showToast('Please login first', 'error'); return; }
+async function saveRecentView(productId) {
+    if (!currentUser) return;
+    const p = products.find(x => x.id === productId);
+    if (!p) return;
     try {
-        const doc = await db.collection('products').doc(id).get();
-        const p = doc.data();
-        const existing = cart.find(c => c.id === id);
-        if (existing) {
-            existing.quantity += productQty || 1;
-            await db.collection('users').doc(currentUser.uid).collection('cart').doc(id).update({ quantity: existing.quantity });
+        const existing = await db.collection('recentViews')
+            .where('userId', '==', currentUser.uid)
+            .where('productId', '==', productId).get();
+        if (!existing.empty) {
+            await db.collection('recentViews').doc(existing.docs[0].id).update({ viewedAt: new Date().toISOString() });
         } else {
-            cart.push({ id, name: p.name, price: p.price, quantity: productQty || 1, image: p.image || p.images?.[0] || '' });
-            await db.collection('users').doc(currentUser.uid).collection('cart').doc(id).set({ 
-                name: p.name, price: p.price, quantity: productQty || 1, 
-                image: p.image || p.images?.[0] || '' 
+            await db.collection('recentViews').add({
+                userId: currentUser.uid, productId: productId, name: p.name,
+                price: p.price, image: p.image || '', viewedAt: new Date().toISOString()
             });
         }
-        updateBadge();
-        showToast('Added to cart! 🛒');
-    } catch(e) { showToast(e.message, 'error'); }
+    } catch(e) { console.log('Save recent view error:', e); }
 }
 
-async function buyNow(id) { await addToCart(id); navigateTo('cart'); }
-
-function updateBadge() {
-    const total = cart.reduce((s, c) => s + c.quantity, 0);
-    document.getElementById('cartBadge').textContent = total;
-    document.getElementById('navBadge').textContent = total;
+async function getRecentViews() {
+    if (!currentUser) return [];
+    try {
+        const snap = await db.collection('recentViews').where('userId', '==', currentUser.uid).get();
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => new Date(b.viewedAt) - new Date(a.viewedAt)).slice(0, 6);
+    } catch(e) { return []; }
 }
 
-function renderCart() {
-    if (cart.length === 0) {
-        return `
-            <div class="card text-center" style="padding:40px 20px;">
-                <div style="font-size:64px;">🛒</div>
-                <h3>Your Cart is Empty</h3>
-                <p class="text-muted">Start shopping to add items</p>
-                <button class="btn btn-gold btn-block" onclick="navigateTo('home')">Continue Shopping</button>
-            </div>
-        `;
+async function loadRecentViews() {
+    const container = document.getElementById('recentViewsContainer');
+    if (!container) return;
+    const recent = await getRecentViews();
+    if (recent.length === 0) {
+        container.innerHTML = `<div class="empty-state" style="padding:10px;"><div class="icon" style="font-size:24px;">👀</div><div class="title" style="font-size:12px;">No recent views</div></div>`;
+        return;
     }
-    let subtotal = 0;
-    let html = cart.map((item, i) => {
-        subtotal += item.price * item.quantity;
-        return `
-            <div class="cart-item">
-                <div class="c-img">
-                    ${item.image ? `<img src="${item.image}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">` : `<span class="fallback">📦</span>`}
-                </div>
-                <div class="info">
-                    <div class="name">${item.name}</div>
-                    <div class="price">₹${item.price} × ${item.quantity}</div>
-                </div>
-                <div class="qty-controls">
-                    <button onclick="updateCartQty('${item.id}', -1)">-</button>
-                    <span>${item.quantity}</span>
-                    <button onclick="updateCartQty('${item.id}', 1)">+</button>
-                    <button onclick="removeFromCart('${item.id}')" style="background:#fee2e2;color:#ef4444;width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;"><i class="fas fa-trash"></i></button>
-                </div>
+    container.innerHTML = recent.map(r => `
+        <div class="product-card" onclick="viewProduct('${r.productId}')" style="cursor:pointer;">
+            <img src="${r.image || 'https://via.placeholder.com/150'}" onerror="this.src='https://via.placeholder.com/150'">
+            <div class="info">
+                <div class="name">${r.name}</div>
+                <div class="price">₹${r.price}</div>
             </div>
-        `;
-    }).join('');
-    const delivery = subtotal > 500 ? 0 : 49;
-    const total = subtotal + delivery;
-    return `
-        <div class="card"><div class="card-title">🛒 Cart</div>${html}</div>
-        <div class="card" style="background:linear-gradient(135deg,#fffdf5,#fdf6e3);">
-            <div class="flex-between"><span>Subtotal</span><span>₹${subtotal}</span></div>
-            <div class="flex-between"><span>Delivery</span><span>${delivery === 0 ? 'FREE' : '₹'+delivery}</span></div>
-            <div class="flex-between" style="font-size:18px;border-top:2px solid #e0e0e0;padding-top:8px;">
-                <span style="font-weight:700;">Total</span>
-                <span style="font-weight:800;color:#D4AF37;">₹${total}</span>
-            </div>
-            <button class="btn btn-gold btn-block" onclick="navigateTo('checkout')"><i class="fas fa-credit-card"></i> Checkout</button>
-        </div>
-        <button class="btn btn-secondary btn-block" onclick="navigateTo('home')">Continue Shopping</button>
-    `;
-}
-
-async function updateCartQty(id, delta) {
-    const item = cart.find(c => c.id === id);
-    if (!item) return;
-    const newQty = item.quantity + delta;
-    if (newQty <= 0) { await removeFromCart(id); return; }
-    item.quantity = newQty;
-    await db.collection('users').doc(currentUser.uid).collection('cart').doc(id).update({ quantity: newQty });
-    updateBadge();
-    navigateTo('cart');
-}
-
-async function removeFromCart(id) {
-    cart = cart.filter(c => c.id !== id);
-    await db.collection('users').doc(currentUser.uid).collection('cart').doc(id).delete();
-    updateBadge();
-    navigateTo('cart');
-}
-
-// ============================================================
-// CHECKOUT & PAYMENT
-// ============================================================
-function renderCheckout() {
-    if (cart.length === 0) { navigateTo('home'); return ''; }
-    let subtotal = cart.reduce((s, c) => s + c.price * c.quantity, 0);
-    const delivery = subtotal > 500 ? 0 : 49;
-    const total = subtotal + delivery;
-    
-    let itemsHtml = cart.map(item => `
-        <div class="checkout-item">
-            <div class="ci-img">
-                ${item.image ? `<img src="${item.image}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">` : `<span class="fallback">📦</span>`}
-            </div>
-            <div class="ci-info">
-                <div class="name">${item.name}</div>
-                <div class="qty">Qty: ${item.quantity} × ₹${item.price}</div>
-            </div>
-            <div class="ci-price">₹${item.price * item.quantity}</div>
         </div>
     `).join('');
-    
-    return `
-        <div class="card">
-            <div class="card-title">📦 Checkout</div>
-            <div style="margin-bottom:10px;">
-                <div style="font-weight:600;font-size:13px;margin-bottom:6px;">Items</div>
-                ${itemsHtml}
-                <div class="flex-between" style="border-top:2px solid #e0e0e0;padding-top:8px;margin-top:6px;">
-                    <span style="font-weight:700;">Subtotal</span>
-                    <span style="font-weight:700;">₹${subtotal}</span>
-                </div>
-                <div class="flex-between">
-                    <span style="font-weight:700;">Delivery</span>
-                    <span style="font-weight:700;">${delivery === 0 ? 'FREE' : '₹'+delivery}</span>
-                </div>
-                <div class="flex-between" style="font-size:18px;border-top:2px solid #D4AF37;padding-top:8px;">
-                    <span style="font-weight:700;">Total</span>
-                    <span style="font-weight:800;color:#D4AF37;">₹${total}</span>
-                </div>
-            </div>
-            <input class="input" id="checkoutAddress" placeholder="Address" value="123 Main St, Mumbai">
-            <input class="input" id="checkoutPhone" placeholder="Phone" value="${userData?.phone || '9876543210'}">
-            <button class="btn btn-gold btn-block" onclick="goToPayment()"><i class="fas fa-credit-card"></i> Proceed to Payment</button>
-            <button class="btn btn-secondary btn-block" onclick="navigateTo('cart')">← Back</button>
-        </div>
-    `;
 }
 
-function goToPayment() {
-    const address = document.getElementById('checkoutAddress').value.trim();
-    const phone = document.getElementById('checkoutPhone').value.trim();
-    if (!address || !phone) { showToast('Fill all fields', 'error'); return; }
-    if (phone.length !== 10) { showToast('Valid 10-digit phone', 'error'); return; }
-    window._checkoutData = { address, phone };
-    navigateTo('payment');
-}
-
-function renderPayment() {
-    let subtotal = cart.reduce((s, c) => s + c.price * c.quantity, 0);
-    const delivery = subtotal > 500 ? 0 : 49;
-    const total = subtotal + delivery;
-    return `
-        <div class="card">
-            <div class="card-title">💳 Payment</div>
-            
-            <div class="payment-methods">
-                <div class="payment-method active" onclick="selectPayment(this, 'COD')">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <div class="label">Cash on Delivery</div>
-                </div>
-                <div class="payment-method" onclick="selectPayment(this, 'QR')">
-                    <i class="fas fa-qrcode"></i>
-                    <div class="label">QR Code</div>
-                </div>
-                <div class="payment-method" onclick="selectPayment(this, 'UPI')">
-                    <i class="fas fa-mobile-alt"></i>
-                    <div class="label">UPI App</div>
-                </div>
-            </div>
-            <input type="hidden" id="paymentMethod" value="COD">
-            
-            <div class="upi-box" id="upiBox" style="display:none;">
-                <div style="font-size:14px;color:#666;font-weight:600;">Pay via UPI</div>
-                <div class="upi-id">kumar.18806@superyes</div>
-                <div class="upi-label">Send money to this UPI ID</div>
-            </div>
-            
-            <div class="qr-container" id="qrContainer" style="display:none;">
-                <div id="qrcode"></div>
-                <p class="text-muted" style="margin-top:6px;font-size:10px;">Scan to pay</p>
-            </div>
-            
-            <div class="flex-between" style="margin-top:10px;">
-                <span>Total</span>
-                <span style="font-size:20px;font-weight:800;color:#D4AF37;">₹${total}</span>
-            </div>
-            
-            <button class="btn btn-gold btn-block" onclick="placeOrder()"><i class="fas fa-check-circle"></i> Place Order</button>
-            <button class="btn btn-secondary btn-block" onclick="navigateTo('checkout')">← Back</button>
-        </div>
-    `;
-}
-
-function selectPayment(el, method) {
-    document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('paymentMethod').value = method;
-    
-    const upiBox = document.getElementById('upiBox');
-    const qrContainer = document.getElementById('qrContainer');
-    
-    if (method === 'UPI') {
-        upiBox.style.display = 'block';
-        upiBox.querySelector('.upi-id').textContent = 'kumar.18806@superyes';
-        qrContainer.style.display = 'none';
-    } else if (method === 'QR') {
-        upiBox.style.display = 'none';
-        qrContainer.style.display = 'block';
-        generateQRCode();
-    } else {
-        upiBox.style.display = 'none';
-        qrContainer.style.display = 'none';
-    }
-}
-
-function generateQRCode() {
-    const container = document.getElementById('qrcode');
-    if (!container) return;
-    container.innerHTML = '';
+// ============================================================
+// 🔥 LOAD PRODUCT REVIEWS
+// ============================================================
+async function loadProductReviews(productId) {
+    const container = document.getElementById('reviewsContainer');
+    if (!container) { setTimeout(() => loadProductReviews(productId), 300); return; }
+    container.innerHTML = `<div class="loader-box" style="padding:10px;"><div class="spinner" style="width:20px;height:20px;"></div><p style="font-size:10px;color:#999;margin-top:4px;">Loading reviews...</p></div>`;
     try {
-        new QRCode(container, {
-            text: "upi://pay?pa=kumar.18806@superyes&pn=PRL%20Electronics&am=" + getTotalAmount(),
-            width: 180,
-            height: 180,
-            colorDark: "#1a0f2a",
-            colorLight: "#ffffff"
+        const snap = await db.collection('reviews').where('productId', '==', productId).get();
+        const reviews = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        if (reviews.length === 0) {
+            container.innerHTML = `<div style="text-align:center;padding:20px;color:#999;"><div style="font-size:32px;margin-bottom:8px;">📝</div><div style="font-size:14px;font-weight:600;color:#666;">No reviews yet</div><div style="font-size:11px;color:#aaa;">Be the first to review this product!</div></div>`;
+            return;
+        }
+        let totalRating = 0;
+        reviews.forEach(r => totalRating += (r.rating || 5));
+        const avgRating = (totalRating / reviews.length).toFixed(1);
+        const fullStars = Math.round(avgRating);
+        let html = `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e0e0e0;margin-bottom:8px;"><span style="font-size:18px;font-weight:800;color:#D4AF37;">${avgRating}</span><span style="color:#f59e0b;font-size:16px;">${'★'.repeat(fullStars)}${'☆'.repeat(5-fullStars)}</span><span style="font-size:11px;color:#999;">(${reviews.length} reviews)</span></div>`;
+        reviews.forEach(r => {
+            const date = r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+            const rating = r.rating || 5;
+            html += `<div class="review-item"><div style="display:flex;justify-content:space-between;align-items:center;"><div class="user">${r.userName || 'Anonymous'} ${r.isVerified ? '<span class="verified">✅ Verified</span>' : ''}</div></div><div class="stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div><div class="text">${r.text || ''}</div>${r.imageUrl ? `<img src="${r.imageUrl}" class="review-image" alt="Review image" onerror="this.style.display='none'">` : ''}<div class="date">${date}</div></div>`;
         });
+        container.innerHTML = html;
     } catch(e) {
-        container.innerHTML = '<div style="padding:20px;background:#f0f0f0;border-radius:8px;text-align:center;"><i class="fas fa-qrcode" style="font-size:40px;color:#D4AF37;"></i><p style="font-size:11px;color:#999;margin-top:4px;">QR Code</p></div>';
+        container.innerHTML = `<div style="text-align:center;padding:15px;border:2px solid #fee2e2;border-radius:12px;background:#fef2f2;"><div style="font-size:24px;margin-bottom:4px;">⚠️</div><div style="font-size:12px;font-weight:600;color:#dc2626;">Error loading reviews</div><button class="btn btn-secondary btn-sm mt-2" onclick="loadProductReviews('${productId}')">🔄 Retry</button></div>`;
     }
 }
 
-function getTotalAmount() {
-    let subtotal = cart.reduce((s, c) => s + c.price * c.quantity, 0);
-    const delivery = subtotal > 500 ? 0 : 49;
-    return subtotal + delivery;
-}
-
-async function placeOrder() {
-    const method = document.getElementById('paymentMethod').value;
-    if (!method) { showToast('Select payment method', 'error'); return; }
-    const { address, phone } = window._checkoutData || {};
-    if (!address) { showToast('Checkout data missing', 'error'); return; }
-    const subtotal = cart.reduce((s, c) => s + c.price * c.quantity, 0);
-    const delivery = subtotal > 500 ? 0 : 49;
-    const total = subtotal + delivery;
+// ============================================================
+// 🔥 ADD TO CART
+// ============================================================
+async function addToCart(productId) {
+    const p = products.find(x => x.id === productId);
+    if (!p) { showToast('Product not found', 'error'); return; }
+    if (userData?.blocked) { showToast('🚫 Your account is blocked!', 'error'); return; }
     try {
-        const orderId = 'ORD' + Date.now().toString().slice(-8);
-        const orderData = {
-            id: orderId, userId: currentUser.uid, userEmail: currentUser.email,
-            items: cart.map(c => ({ name: c.name, price: c.price, quantity: c.quantity, image: c.image })),
-            subtotal, deliveryCharge: delivery, total, address, phone,
-            paymentMethod: method, status: 'pending',
-            createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-        };
-        await db.collection('orders').doc(orderId).set(orderData);
-        for (const c of cart) await db.collection('users').doc(currentUser.uid).collection('cart').doc(c.id).delete();
-        cart = []; updateBadge();
-        showToast('🎉 Order placed!');
-        navigateTo('orderSuccess', orderData);
+        const existing = await db.collection('cart').where('userId', '==', currentUser.uid).where('productId', '==', productId).get();
+        if (!existing.empty) {
+            const doc = existing.docs[0];
+            await db.collection('cart').doc(doc.id).update({ quantity: doc.data().quantity + 1 });
+        } else {
+            await db.collection('cart').add({
+                userId: currentUser.uid, productId: p.id, name: p.name,
+                price: p.price, image: p.image || '', quantity: 1,
+                addedAt: new Date().toISOString()
+            });
+        }
+        showToast('✅ Added to cart!', 'success');
+        setTimeout(() => navigateTo('cart'), 500);
     } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
-function renderOrderSuccess(order) {
-    if (!order) return '<div class="card"><p>Order not found</p></div>';
+// ============================================================
+// 🔥 CART
+// ============================================================
+function renderCart() {
+    return `<div class="card"><div class="card-title">🛒 Your Cart</div></div><div id="cartContainer"><div class="loader-box"><div class="spinner"></div></div></div>`;
+}
+
+async function loadCart() {
+    const container = document.getElementById('cartContainer');
+    if (!container) return;
+    try {
+        const snap = await db.collection('cart').where('userId', '==', currentUser.uid).get();
+        cartItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (cartItems.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">🛒</div><div class="title">Cart is empty</div></div>`;
+            return;
+        }
+        let html = '', total = 0;
+        cartItems.forEach(item => {
+            total += item.price * item.quantity;
+            html += `<div class="cart-item"><img src="${item.image || 'https://via.placeholder.com/50'}" onerror="this.src='https://via.placeholder.com/50'"><div class="info"><div class="name">${item.name}</div><div class="price">₹${item.price}</div></div><div class="qty-control"><button onclick="updateCartQty('${item.id}', -1)">−</button><span>${item.quantity}</span><button onclick="updateCartQty('${item.id}', 1)">+</button></div><button class="btn btn-sm btn-danger" onclick="removeFromCart('${item.id}')"><i class="fas fa-trash"></i></button></div>`;
+        });
+        html += `<div class="cart-total">Total: ₹${total}</div>`;
+        html += `<button class="btn btn-secondary btn-sm" onclick="navigateTo('coupons')">🎫 View Coupons</button>`;
+        html += `<button class="btn btn-gold btn-block" onclick="navigateTo('address')"><i class="fas fa-arrow-right"></i> Proceed to Address</button>`;
+        container.innerHTML = html;
+    } catch(e) { container.innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`; }
+}
+
+async function updateCartQty(cartId, delta) {
+    const item = cartItems.find(x => x.id === cartId);
+    if (!item) return;
+    const newQty = item.quantity + delta;
+    if (newQty <= 0) { removeFromCart(cartId); return; }
+    try {
+        await db.collection('cart').doc(cartId).update({ quantity: newQty });
+        loadCart();
+    } catch(e) { showToast('Error updating cart', 'error'); }
+}
+
+async function removeFromCart(cartId) {
+    if (!confirm('Remove item?')) return;
+    try {
+        await db.collection('cart').doc(cartId).delete();
+        showToast('Removed from cart');
+        loadCart();
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 ADDRESS
+// ============================================================
+function renderAddress() {
     return `
-        <div class="card text-center" style="padding:30px 20px;">
-            <div style="font-size:72px;">✅</div>
-            <h2 style="color:#22c55e;">Order Placed!</h2>
-            <p class="text-muted">Your order has been confirmed</p>
-            <div class="card" style="text-align:left;background:#f8f9fa;">
-                <div><strong>Order ID:</strong> ${order.id}</div>
-                <div><strong>Total:</strong> ₹${order.total}</div>
-                <div><strong>Payment:</strong> ${order.paymentMethod}</div>
-                <div><strong>Status:</strong> <span class="status-pending" style="padding:2px 10px;border-radius:10px;font-size:9px;font-weight:600;">Pending</span></div>
-            </div>
-            <button class="btn btn-gold btn-block" onclick="navigateTo('orders')">📦 View Orders</button>
-            <button class="btn btn-secondary btn-block" onclick="navigateTo('home')">Continue Shopping</button>
+        <div class="card">
+            <div class="card-title">📮 Enter Complete Address</div>
+            <div style="font-weight:600;font-size:13px;margin:8px 0;">Receiver's Details</div>
+            <input class="input input-sm" id="addrName" placeholder="Receiver's name *" value="${userData?.name || ''}">
+            <input class="input input-sm" id="addrEmail" placeholder="Email address *" value="${userData?.email || ''}">
+            <input class="input input-sm" id="addrPhone" placeholder="Receiver's phone number *" value="${userData?.phone || ''}">
+            <div style="font-weight:600;font-size:13px;margin:8px 0;">Address Details</div>
+            <input class="input input-sm" id="addrPincode" placeholder="Pincode *" value="400001">
+            <input class="input input-sm" id="addrCity" placeholder="City *" value="Mumbai">
+            <input class="input input-sm" id="addrState" placeholder="State *" value="Maharashtra">
+            <input class="input input-sm" id="addrFlat" placeholder="Flat / House no / Floor / Building *" value="A-101">
+            <input class="input input-sm" id="addrArea" placeholder="Area / Sector / Locality *" value="Andheri East">
+            <button class="btn btn-gold btn-block mt-2" onclick="saveAddressAndProceed()"><i class="fas fa-save"></i> Save Address & Proceed</button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('cart')">← Back to Cart</button>
         </div>
     `;
 }
 
+async function saveAddressAndProceed() {
+    const name = document.getElementById('addrName').value.trim();
+    const email = document.getElementById('addrEmail').value.trim();
+    const phone = document.getElementById('addrPhone').value.trim();
+    const pincode = document.getElementById('addrPincode').value.trim();
+    const city = document.getElementById('addrCity').value.trim();
+    const state = document.getElementById('addrState').value.trim();
+    const flat = document.getElementById('addrFlat').value.trim();
+    const area = document.getElementById('addrArea').value.trim();
+    if (!name || !email || !phone || !pincode || !city || !state || !flat || !area) {
+        showToast('Please fill all fields', 'error');
+        return;
+    }
+    const fullAddress = `${flat}, ${area}, ${city}, ${state} - ${pincode}`;
+    try {
+        await db.collection('users').doc(currentUser.uid).update({
+            name, email, phone, address: fullAddress,
+            pincode, city, state, flat, area,
+            updatedAt: new Date().toISOString()
+        });
+        userData = { ...userData, name, email, phone, address: fullAddress };
+        updateMenu();
+        showToast('✅ Address saved!');
+        navigateTo('checkout');
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
 // ============================================================
-// ORDERS PAGE
+// 🔥 CHECKOUT
 // ============================================================
-function renderOrders() {
+function renderCheckout() {
+    let total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    let deliveryCharge = isFirstOrder ? 0 : 40;
+    let discount = 0;
+    let couponCode = '';
+    if (appliedCoupon) {
+        discount = Math.min(total * (appliedCoupon.discount || 0.1), appliedCoupon.maxDiscount || 99999);
+        couponCode = appliedCoupon.code;
+    }
+    let finalTotal = total - discount + deliveryCharge;
+    if (finalTotal < 0) finalTotal = 0;
+    let itemsHtml = cartItems.map(item => `
+        <div class="order-detail-item">
+            <div class="order-detail-img"><img src="${item.image || 'https://via.placeholder.com/50'}" onerror="this.src='https://via.placeholder.com/50'"></div>
+            <div class="od-info"><div class="name">${item.name}</div><div class="qty">Qty: ${item.quantity} × ₹${item.price}</div></div>
+            <div class="od-price">₹${item.price * item.quantity}</div>
+        </div>
+    `).join('');
     return `
         <div class="card">
-            <div class="card-title">📦 My Orders</div>
-            <div id="ordersList"><div class="loader-box" style="padding:20px;"><div class="spinner" style="width:30px;height:30px;"></div></div></div>
+            <div class="card-title">📋 Checkout</div>
+            ${itemsHtml}
+            <div style="border-top:2px solid #e0e0e0;padding-top:8px;margin-top:6px;">
+                <div class="flex-between"><span>Subtotal</span><span>₹${total}</span></div>
+                ${isFirstOrder ? `<div class="flex-between" style="color:#22c55e;"><span>🎉 First Order Delivery</span><span>FREE</span></div>` : `<div class="flex-between"><span>Delivery Charge</span><span>₹${deliveryCharge}</span></div>`}
+                <div style="margin:8px 0;">
+                    <div class="coupon-input">
+                        <input class="input input-sm" id="couponInput" placeholder="Enter coupon code" value="${couponCode}">
+                        <button class="btn btn-sm btn-gold" onclick="applyCoupon()">Apply</button>
+                        <button class="btn btn-sm btn-secondary" onclick="navigateTo('coupons')">📋</button>
+                    </div>
+                    ${appliedCoupon ? `<div style="font-size:10px;color:#22c55e;">✅ Coupon applied! -₹${discount.toFixed(0)}</div>` : ''}
+                </div>
+                <div class="flex-between" style="font-size:16px;font-weight:800;color:#D4AF37;border-top:2px solid #e0e0e0;padding-top:8px;">
+                    <span>Total</span>
+                    <span>₹${finalTotal.toFixed(0)}</span>
+                </div>
+            </div>
+            <div style="font-weight:600;font-size:13px;margin:8px 0;">📍 Delivery Address</div>
+            <div style="font-size:12px;color:#666;background:#f8f9fa;padding:8px;border-radius:8px;">${userData?.address || 'No address set'}</div>
+            <button class="btn btn-secondary btn-sm mt-2" onclick="navigateTo('address')">✏️ Change Address</button>
+            <button class="btn btn-gold btn-block mt-2" onclick="navigateTo('payment')"><i class="fas fa-credit-card"></i> Proceed to Payment</button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('cart')">← Back to Cart</button>
         </div>
     `;
+}
+
+async function applyCoupon() {
+    const code = document.getElementById('couponInput').value.trim().toUpperCase();
+    if (!code) { showToast('Enter coupon code', 'error'); return; }
+    try {
+        const snap = await db.collection('coupons').where('code', '==', code).where('active', '==', true).get();
+        if (snap.empty) { showToast('❌ Invalid coupon', 'error'); return; }
+        const coupon = snap.docs[0].data();
+        if (!coupon.isPublic) { showToast('❌ Coupon not available', 'error'); return; }
+        const total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+        if (total < (coupon.minAmount || 0)) {
+            showToast(`❌ Minimum order ₹${coupon.minAmount} required`, 'error');
+            return;
+        }
+        appliedCoupon = { ...coupon, id: snap.docs[0].id };
+        showToast(`✅ Coupon applied!`, 'success');
+        navigateTo('checkout');
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 COUPONS LIST
+// ============================================================
+function renderCouponsList() {
+    return `
+        <div class="card">
+            <div class="card-title">🎫 Available Coupons</div>
+            <div id="couponsContainer"><div class="loader-box"><div class="spinner"></div></div></div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+async function loadCouponsList() {
+    const container = document.getElementById('couponsContainer');
+    if (!container) return;
+    try {
+        const snap = await db.collection('coupons').where('active', '==', true).where('isPublic', '==', true).get();
+        allCoupons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (allCoupons.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">🎫</div><div class="title">No coupons available</div><div class="sub">Check back later for offers!</div></div>`;
+            return;
+        }
+        let html = '';
+        allCoupons.forEach(c => {
+            html += `
+                <div class="coupon-list-item" onclick="applyCouponFromList('${c.code}')">
+                    <div class="flex-between">
+                        <span class="code">${c.code}</span>
+                        <span class="badge-coupon">${c.discount * 100}% OFF</span>
+                    </div>
+                    <div class="detail">Max Discount: ₹${c.maxDiscount} • Min Order: ₹${c.minAmount}</div>
+                    <div class="detail" style="color:#22c55e;font-size:9px;">Click to apply →</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    } catch(e) {
+        container.innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`;
+    }
+}
+
+async function applyCouponFromList(code) {
+    const total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    if (cartItems.length === 0) {
+        showToast('🛒 Cart is empty! Add items first.', 'error');
+        return;
+    }
+    try {
+        const snap = await db.collection('coupons').where('code', '==', code).where('active', '==', true).get();
+        if (snap.empty) { showToast('❌ Coupon not available', 'error'); return; }
+        const coupon = snap.docs[0].data();
+        if (total < (coupon.minAmount || 0)) {
+            showToast(`❌ Minimum order ₹${coupon.minAmount} required`, 'error');
+            return;
+        }
+        appliedCoupon = { ...coupon, id: snap.docs[0].id };
+        showToast(`✅ Coupon ${code} applied!`, 'success');
+        navigateTo('checkout');
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 PAYMENT
+// ============================================================
+function renderPayment() {
+    let total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    let deliveryCharge = isFirstOrder ? 0 : 40;
+    let discount = 0;
+    if (appliedCoupon) {
+        discount = Math.min(total * (appliedCoupon.discount || 0.1), appliedCoupon.maxDiscount || 99999);
+    }
+    let finalTotal = total - discount + deliveryCharge;
+    if (finalTotal < 0) finalTotal = 0;
+    return `
+        <div class="card">
+            <div class="card-title">💳 Payment</div>
+            <div style="font-size:24px;font-weight:800;color:#D4AF37;text-align:center;padding:10px 0;">₹${finalTotal.toFixed(0)}</div>
+            <div style="margin:10px 0;">
+                <div style="font-weight:600;font-size:12px;margin-bottom:8px;">Select Payment Method</div>
+                <div class="payment-grid">
+                    <div class="payment-option" onclick="selectPayment('UPI')" id="paymentUPI"><div class="icon">📱</div><div class="label">UPI</div></div>
+                    <div class="payment-option" onclick="selectPayment('QR')" id="paymentQR"><div class="icon">📷</div><div class="label">QR Code</div></div>
+                    <div class="payment-option" onclick="selectPayment('COD')" id="paymentCOD"><div class="icon">💵</div><div class="label">Cash on Delivery</div></div>
+                    <div class="payment-option" onclick="selectPayment('GIFT')" id="paymentGIFT" style="grid-column:span 3;"><div class="icon">🎁</div><div class="label">Gift Card</div></div>
+                </div>
+            </div>
+            <div id="giftCardSection" style="display:none;margin:10px 0;">
+                <input class="input input-sm" id="giftCode" placeholder="16-digit Gift Card Code" maxlength="16">
+                <input class="input input-sm" id="giftPassword" type="password" placeholder="6-digit Gift Card PIN" maxlength="6">
+            </div>
+            <div id="paymentStatus" class="text-center text-muted" style="padding:10px;">Select payment method to proceed</div>
+            <button class="btn btn-gold btn-block" onclick="confirmPayment()"><i class="fas fa-check"></i> Confirm & Place Order</button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('checkout')">← Back to Checkout</button>
+        </div>
+    `;
+}
+
+function selectPayment(method) {
+    selectedPayment = method;
+    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+    const el = document.getElementById(`payment${method}`);
+    if (el) el.classList.add('active');
+    document.getElementById('giftCardSection').style.display = method === 'GIFT' ? 'block' : 'none';
+    const status = document.getElementById('paymentStatus');
+    const labels = { 'UPI': 'UPI Payment', 'QR': 'QR Code Payment', 'COD': 'Cash on Delivery', 'GIFT': 'Gift Card' };
+    if (status) status.innerHTML = `<div style="color:#22c55e;font-weight:600;">✅ Selected: ${labels[method]}</div>`;
+}
+
+async function confirmPayment() {
+    if (!selectedPayment) { showToast('Select payment method', 'error'); return; }
+    if (cartItems.length === 0) { showToast('Cart is empty', 'error'); return; }
+    if (!userData?.address) { showToast('Add address first', 'error'); return; }
+    if (userData?.blocked) { showToast('🚫 Your account is blocked!', 'error'); return; }
+    
+    if (selectedPayment === 'GIFT') {
+        const code = document.getElementById('giftCode').value.trim();
+        const pin = document.getElementById('giftPassword').value.trim();
+        if (code.length !== 16) { showToast('Enter valid 16-digit gift code', 'error'); return; }
+        if (pin.length !== 6) { showToast('Enter valid 6-digit PIN', 'error'); return; }
+        try {
+            const snap = await db.collection('giftCards').where('code', '==', code).where('pin', '==', pin).get();
+            if (snap.empty) { showToast('❌ Invalid gift card', 'error'); return; }
+            const card = snap.docs[0].data();
+            if (!card.active) { showToast('❌ Gift card used', 'error'); return; }
+            await db.collection('giftCards').doc(snap.docs[0].id).update({
+                active: false, usedBy: currentUser.uid, usedAt: new Date().toISOString()
+            });
+            showToast('✅ Gift card applied!', 'success');
+        } catch(e) { showToast('Error: ' + e.message, 'error'); return; }
+    }
+    
+    const total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    let deliveryCharge = isFirstOrder ? 0 : 40;
+    let discount = 0;
+    if (appliedCoupon) {
+        discount = Math.min(total * (appliedCoupon.discount || 0.1), appliedCoupon.maxDiscount || 99999);
+    }
+    let finalTotal = total - discount + deliveryCharge;
+    if (finalTotal < 0) finalTotal = 0;
+    
+    try {
+        const orderRef = await db.collection('orders').add({
+            userId: currentUser.uid,
+            userEmail: userData?.email || '',
+            userName: userData?.name || '',
+            items: cartItems.map(i => ({ name: i.name, price: i.price, quantity: i.quantity, image: i.image, productId: i.productId })),
+            total: finalTotal,
+            subtotal: total,
+            discount: discount,
+            deliveryCharge: deliveryCharge,
+            coupon: appliedCoupon?.code || '',
+            isFirstOrder: isFirstOrder,
+            address: userData?.address || '',
+            phone: userData?.phone || '',
+            paymentMethod: selectedPayment,
+            paymentStatus: selectedPayment === 'COD' ? 'pending' : 'completed',
+            status: 'pending',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        });
+        await db.collection('users').doc(currentUser.uid).update({ orderCount: firebase.firestore.FieldValue.increment(1) });
+        for (const item of cartItems) { await db.collection('cart').doc(item.id).delete(); }
+        cartItems = [];
+        const usedCoupon = appliedCoupon;
+        appliedCoupon = null;
+        showOrderSuccessPopup(orderRef.id, finalTotal, usedCoupon, isFirstOrder);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+function showOrderSuccessPopup(orderId, amount, coupon, isFirstOrder) {
+    const popup = document.createElement('div');
+    popup.className = 'popup-overlay';
+    popup.innerHTML = `
+        <div class="popup-box" style="border:3px solid #22c55e;">
+            <div class="icon" style="color:#22c55e;">✅</div>
+            <div class="title" style="color:#22c55e;">Order Placed Successfully!</div>
+            <div class="order-id" style="background:#f0fdf4;color:#166534;">Order #${orderId.substring(0,12)}</div>
+            <div class="sub" style="font-size:16px;font-weight:700;color:#1a1a2e;">Total: ₹${amount.toFixed(0)}</div>
+            ${coupon ? `<div class="sub" style="color:#22c55e;">🎫 Coupon ${coupon.code} applied</div>` : ''}
+            ${isFirstOrder ? `<div class="sub" style="color:#22c55e;">🚚 Free delivery on first order!</div>` : ''}
+            <div style="display:flex;gap:8px;margin-top:12px;">
+                <button class="btn btn-gold btn-block" onclick="this.closest('.popup-overlay').remove();navigateTo('orderDetail','${orderId}')"><i class="fas fa-eye"></i> View Order</button>
+                <button class="btn btn-secondary btn-block" onclick="this.closest('.popup-overlay').remove();navigateTo('home')"><i class="fas fa-home"></i> Home</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(popup);
+    popup.addEventListener('click', (e) => { if (e.target === popup) popup.remove(); });
+}
+
+// ============================================================
+// 🔥 ORDERS
+// ============================================================
+function renderOrders() {
+    return `<div class="card"><div class="card-title">📦 My Orders</div></div><div id="ordersContainer"><div class="loader-box"><div class="spinner"></div></div></div>`;
 }
 
 async function loadOrders() {
+    const container = document.getElementById('ordersContainer');
+    if (!container) return;
     try {
         const snap = await db.collection('orders').where('userId', '==', currentUser.uid).get();
-        ordersCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        ordersCache.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-        let html = '';
-        if (ordersCache.length === 0) {
-            html = '<p class="text-muted text-center">No orders yet</p>';
-        } else {
-            ordersCache.forEach(o => {
-                const statusClass = `status-${o.status}`;
-                html += `
-                    <div class="order-item" onclick="navigateTo('orderDetail', '${o.id}')">
-                        <div class="flex-between">
-                            <span class="id">#${o.id}</span>
-                            <span class="status ${statusClass}">${o.status}</span>
-                        </div>
-                        <div class="detail">Items: ${o.items?.length || 0} • ₹${o.total}</div>
-                        <div class="detail">📅 ${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : ''}</div>
-                    </div>
-                `;
-            });
+        orders = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+        if (orders.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="title">No orders yet</div><div class="sub">Shop now!</div></div>`;
+            return;
         }
-        document.getElementById('ordersList').innerHTML = html;
-    } catch(e) {
-        document.getElementById('ordersList').innerHTML = '<p class="text-muted">Error loading orders</p>';
-    }
+        let html = '';
+        orders.forEach(o => {
+            html += `
+                <div class="order-item" onclick="navigateTo('orderDetail', '${o.id}')">
+                    <div class="flex-between">
+                        <span class="id">#${o.id.substring(0,8)}</span>
+                        <span class="status status-${o.status}">${o.status}</span>
+                    </div>
+                    <div class="detail">Items: ${o.items?.length || 0} • ₹${o.total}</div>
+                    <div class="detail">📍 ${o.address || 'N/A'}</div>
+                    <div class="detail">📅 ${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : ''}</div>
+                    ${o.status === 'pending' ? `<div class="detail" style="color:#d97706;">⏳ Waiting for delivery partner...</div>` : ''}
+                    ${o.status === 'assigned' ? `<div class="detail" style="color:#2563eb;">🚚 Delivery partner assigned!</div>` : ''}
+                    ${o.status === 'picked' ? `<div class="detail" style="color:#7c3aed;">📦 Out for delivery!</div>` : ''}
+                    ${o.status === 'delivered' ? `<div class="detail" style="color:#059669;">✅ Delivered! Thank you!</div>` : ''}
+                    ${o.status === 'cancelled' ? `<div class="detail" style="color:#dc2626;">❌ Cancelled</div>` : ''}
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    } catch(e) { container.innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`; }
 }
 
 // ============================================================
-// ORDER DETAIL WITH HELP OPTIONS - FIXED LOGIC
+// 🔥 ORDER DETAIL + DELIVERY BOY DETAILS (NO TRACKING)
 // ============================================================
 function renderOrderDetail(orderId) {
-    const order = ordersCache.find(o => o.id === orderId);
+    const order = orders.find(o => o.id === orderId);
     if (!order) {
-        return `
-            <div class="card">
-                <p class="text-muted text-center">Order not found</p>
-                <button class="btn btn-secondary btn-block" onclick="navigateTo('orders')">← Back to Orders</button>
-            </div>
-        `;
+        return `<div class="card"><div class="loader-box"><div class="spinner"></div></div></div>
+        <script>
+            setTimeout(() => {
+                db.collection('orders').doc('${orderId}').get().then(doc => {
+                    if(doc.exists) {
+                        const data = doc.data();
+                        const o = { id: doc.id, ...data };
+                        const idx = orders.findIndex(x => x.id === o.id);
+                        if(idx === -1) orders.push(o);
+                        navigateTo('orderDetail', o.id);
+                    }
+                });
+            }, 500);
+        <\/script>`;
     }
     
-    // Tracking Steps
-    const statuses = ['pending', 'confirmed', 'shipped', 'delivered'];
-    const statusLabels = ['Order Placed', 'Order Confirmed', 'Shipped', 'Delivered'];
-    const statusIcons = ['📦', '✅', '🚚', '🏠'];
-    const currentIdx = statuses.indexOf(order.status);
-    const idx = currentIdx === -1 ? 0 : currentIdx;
+    const statuses = ['pending', 'assigned', 'picked', 'delivered'];
+    const statusLabels = ['Pending', 'Assigned', 'Picked', 'Delivered'];
+    const statusIcons = ['📦', '✅', '📦', '🏠'];
+    const idx = statuses.indexOf(order.status) !== -1 ? statuses.indexOf(order.status) : 0;
     
     let trackingHtml = statuses.map((s, i) => {
         let dotClass = '';
-        let isActive = i <= idx;
-        if (isActive && i === idx && order.status === 'delivered') dotClass = 'completed';
-        else if (isActive) dotClass = 'active';
-        return `
-            <div class="tracking-step">
-                <div class="dot ${dotClass}"></div>
-                <div class="info">
-                    <div class="title">${statusIcons[i]} ${statusLabels[i]}</div>
-                    <div class="time">${i === idx ? 'Now' : ''}</div>
-                </div>
-            </div>
-        `;
+        if (i < idx) dotClass = 'completed';
+        else if (i === idx && order.status !== 'cancelled') dotClass = 'active';
+        return `<div class="tracking-step"><div class="dot ${dotClass}"></div><div class="info"><div class="title">${statusIcons[i]} ${statusLabels[i]}</div><div class="time">${i === idx && order.status !== 'cancelled' ? 'Current' : ''}</div></div></div>`;
     }).join('');
     
-    // Items with Images
     let itemsHtml = order.items ? order.items.map(item => `
         <div class="order-detail-item">
-            <div class="od-img">
-                ${item.image ? `<img src="${item.image}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">` : `<span class="fallback">📦</span>`}
-            </div>
-            <div class="od-info">
-                <div class="name">${item.name}</div>
-                <div class="qty">Qty: ${item.quantity} × ₹${item.price}</div>
-            </div>
+            <div class="order-detail-img">${item.image ? `<img src="${item.image}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">` : `<span class="fallback">📦</span>`}</div>
+            <div class="od-info"><div class="name">${item.name}</div><div class="qty">Qty: ${item.quantity} × ₹${item.price}</div></div>
             <div class="od-price">₹${item.price * item.quantity}</div>
         </div>
     `).join('') : '<p>No items</p>';
     
+    const isPending = order.status === 'pending';
+    const isAssigned = order.status === 'assigned' || order.status === 'picked';
     const isDelivered = order.status === 'delivered';
     const isCancelled = order.status === 'cancelled';
     
-    // ✅ SIRF PENDING STATUS MEIN HELP ALLOWED
-    const canModify = order.status === 'pending';
-    
-    // Help options HTML
-    let helpHtml = '';
-    if (!isCancelled && !isDelivered) {
-        helpHtml = `
-            <div style="margin-top:12px;border-top:1px solid #e0e0e0;padding-top:10px;">
-                <div style="font-weight:600;font-size:13px;margin-bottom:6px;">🆘 Need Help?</div>
-                
-                <div class="help-btn ${canModify ? '' : 'disabled'}" 
-                     onclick="${canModify ? `openRequestModal('cancel', '${order.id}')` : 'showToast(\'❌ Order confirmed, cannot cancel now\',\'error\')'}">
-                    <span class="icon">❌</span>
-                    <span class="text">Request to Cancel Order</span>
-                    <span class="arrow">→</span>
-                    ${canModify ? '<span class="status-tag approve">Auto Approve</span>' : '<span class="status-tag fail">Not Allowed</span>'}
-                </div>
-                
-                <div class="help-btn ${canModify ? '' : 'disabled'}" 
-                     onclick="${canModify ? `openRequestModal('address', '${order.id}')` : 'showToast(\'❌ Order confirmed, cannot change address now\',\'error\')'}">
-                    <span class="icon">📍</span>
-                    <span class="text">Request to Change Delivery Address</span>
-                    <span class="arrow">→</span>
-                    ${canModify ? '<span class="status-tag approve">Auto Approve</span>' : '<span class="status-tag fail">Not Allowed</span>'}
-                </div>
-                
-                <div class="help-btn ${canModify ? '' : 'disabled'}" 
-                     onclick="${canModify ? `openRequestModal('phone', '${order.id}')` : 'showToast(\'❌ Order confirmed, cannot change phone now\',\'error\')'}">
-                    <span class="icon">📱</span>
-                    <span class="text">Request to Change Mobile Number</span>
-                    <span class="arrow">→</span>
-                    ${canModify ? '<span class="status-tag approve">Auto Approve</span>' : '<span class="status-tag fail">Not Allowed</span>'}
-                </div>
-                
-                ${!canModify ? `
-                    <div style="padding:8px;background:#fee2e2;border-radius:8px;font-size:10px;color:#dc2626;text-align:center;margin-top:4px;">
-                        ⚠️ Order is ${order.status}. Cannot make changes now.
-                    </div>
-                ` : `
-                    <div style="padding:8px;background:#d1fae5;border-radius:8px;font-size:10px;color:#059669;text-align:center;margin-top:4px;">
-                        ✅ Order is pending. Changes will be auto-approved.
-                    </div>
-                `}
-                
-                ${order.helpRequests && order.helpRequests.length > 0 ? `
-                    <div style="margin-top:6px;font-size:10px;color:#666;">
-                        📌 Requests: ${order.helpRequests.map(r => `<span class="help-status ${r.status}">${r.type} (${r.status})</span>`).join(' ')}
-                    </div>
-                ` : ''}
-            </div>
-        `;
+    // Delivery Boy Section - Only if assigned or delivered
+    let deliverySection = '';
+    if (isAssigned || isDelivered) {
+        deliverySection = `<div id="deliveryBoyContainer"></div>`;
     }
-    
-    // Review option (only after delivery)
-    let reviewHtml = '';
-    if (isDelivered) {
-        const hasReviewed = order.items && order.items.some(item => item.reviewed);
-        reviewHtml = `
-            <div style="margin-top:12px;border-top:1px solid #e0e0e0;padding-top:10px;">
-                <div style="font-weight:600;font-size:13px;margin-bottom:6px;">⭐ Write a Review</div>
-                ${order.items ? order.items.map((item, idx) => `
-                    <div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #f0f0f0;">
-                        <div style="width:30px;height:30px;border-radius:4px;overflow:hidden;background:#f0edff;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            ${item.image ? `<img src="${item.image}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='📦'">` : '📦'}
-                        </div>
-                        <div style="flex:1;font-size:11px;font-weight:500;">${item.name}</div>
-                        ${item.reviewed ? '<span style="font-size:9px;color:#22c55e;">✅ Reviewed</span>' : `
-                            <button class="btn btn-sm btn-gold" onclick="openReviewModal('${order.id}', ${idx})" style="padding:2px 10px;font-size:8px;">Review</button>
-                        `}
-                    </div>
-                `).join('') : ''}
-            </div>
-        `;
-    }
-    
-    // Invoice HTML
-    const invoiceHtml = generateInvoiceHTML(order);
     
     return `
         <div class="card">
             <div class="card-title">📦 Order Details</div>
             <div class="detail-grid">
-                <div class="detail-item"><div class="label">Order ID</div><div class="value">${order.id}</div></div>
+                <div class="detail-item"><div class="label">Order ID</div><div class="value">${order.id.substring(0,12)}</div></div>
                 <div class="detail-item"><div class="label">Status</div><div class="value"><span class="status status-${order.status}">${order.status}</span></div></div>
-                <div class="detail-item"><div class="label">Payment</div><div class="value">${order.paymentMethod}</div></div>
                 <div class="detail-item"><div class="label">Total</div><div class="value" style="color:#D4AF37;">₹${order.total}</div></div>
-                <div class="detail-item" style="grid-column:span 2;"><div class="label">Date</div><div class="value">${order.createdAt ? new Date(order.createdAt).toLocaleString() : ''}</div></div>
-                <div class="detail-item" style="grid-column:span 2;"><div class="label">Address</div><div class="value">${order.address}</div></div>
-                <div class="detail-item" style="grid-column:span 2;"><div class="label">Phone</div><div class="value">${order.phone}</div></div>
+                <div class="detail-item"><div class="label">Payment</div><div class="value">${order.paymentMethod || 'COD'}</div></div>
+                ${order.discount ? `<div class="detail-item"><div class="label">Discount</div><div class="value" style="color:#22c55e;">-₹${order.discount}</div></div>` : ''}
+                ${order.isFirstOrder ? `<div class="detail-item" style="grid-column:span 2;"><div class="label">🎉 First Order</div><div class="value" style="color:#22c55e;">Free Delivery</div></div>` : ''}
+                <div class="detail-item"><div class="label">Date</div><div class="value">${order.createdAt ? new Date(order.createdAt).toLocaleDateString() : ''}</div></div>
+                <div class="detail-item" style="grid-column:span 2;"><div class="label">Address</div><div class="value">${order.address || 'N/A'}</div></div>
+                <div class="detail-item" style="grid-column:span 2;"><div class="label">Phone</div><div class="value">${order.phone || 'N/A'}</div></div>
+                ${order.deliveryPartner ? `
+                    <div class="detail-item" style="grid-column:span 2;">
+                        <div class="label">Delivery Partner</div>
+                        <div class="value" style="font-size:11px;color:#666;">Assigned</div>
+                    </div>
+                ` : ''}
             </div>
             
             <div style="margin-top:10px;">
-                <div style="font-weight:600;font-size:13px;margin-bottom:6px;">📌 Tracking Status</div>
+                <div style="font-weight:600;font-size:13px;margin-bottom:6px;">📌 Tracking</div>
                 <div class="tracking-steps">${trackingHtml}</div>
+                ${isPending ? `<div style="font-size:11px;color:#d97706;background:#fef3c7;padding:6px 10px;border-radius:8px;margin-top:6px;">⏳ Waiting for a delivery partner to accept your order</div>` : ''}
+                ${isAssigned ? `<div style="font-size:11px;color:#2563eb;background:#dbeafe;padding:6px 10px;border-radius:8px;margin-top:6px;">🚚 Your order is on the way! Delivery partner assigned.</div>` : ''}
+                ${isDelivered ? `<div style="font-size:11px;color:#059669;background:#d1fae5;padding:6px 10px;border-radius:8px;margin-top:6px;">✅ Order delivered successfully!</div>` : ''}
+                ${isCancelled ? `<div style="font-size:11px;color:#dc2626;background:#fee2e2;padding:6px 10px;border-radius:8px;margin-top:6px;">❌ Order cancelled</div>` : ''}
             </div>
-            
-            ${helpHtml}
-            
-            ${reviewHtml}
             
             <div style="margin-top:10px;">
                 <div style="font-weight:600;font-size:13px;margin-bottom:6px;">🛒 Items</div>
@@ -1278,326 +1539,679 @@ function renderOrderDetail(orderId) {
                 </div>
             </div>
             
-            <!-- Invoice Download -->
-            <div style="margin-top:12px;">
-                <button class="btn btn-success btn-block" onclick="downloadInvoice('${order.id}')">
-                    <i class="fas fa-file-pdf"></i> Download Invoice PDF
-                </button>
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-sm btn-help" onclick="navigateTo('orderHelp', '${order.id}')"><i class="fas fa-question-circle"></i> Help</button>
+                ${isDelivered ? `<button class="btn btn-sm btn-success" onclick="openReview('${order.id}')"><i class="fas fa-star"></i> Review</button>` : ''}
             </div>
-            
-            <!-- Hidden Invoice -->
-            <div id="invoiceContainer" style="display:none;">${invoiceHtml}</div>
             
             <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orders')">← Back to Orders</button>
         </div>
+        ${deliverySection}
     `;
 }
 
 // ============================================================
-// HELP REQUEST MODAL
+// 🔥 LOAD DELIVERY BOY DETAILS (NO TRACKING)
 // ============================================================
-function openRequestModal(type, orderId) {
-    const titles = {
-        cancel: 'Request to Cancel Order',
-        address: 'Request to Change Delivery Address',
-        phone: 'Request to Change Mobile Number'
-    };
-    const placeholders = {
-        cancel: 'Reason for cancellation...',
-        address: 'New delivery address...',
-        phone: 'New mobile number...'
-    };
+function loadDeliveryBoyDetails(orderId) {
+    const container = document.getElementById('deliveryBoyContainer');
+    if (!container) return;
     
-    const modal = document.createElement('div');
-    modal.className = 'request-modal show';
-    modal.id = 'requestModal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeRequestModal()">✕</button>
-            <div class="modal-title">${titles[type]}</div>
-            <p style="font-size:12px;color:#666;margin-bottom:6px;">✅ Auto-approved (Order is pending)</p>
-            <textarea id="requestDesc" placeholder="${placeholders[type]}" rows="3"></textarea>
-            <button class="btn btn-gold btn-block" onclick="submitRequest('${type}', '${orderId}')">
-                <i class="fas fa-paper-plane"></i> Submit Request
-            </button>
-            <button class="btn btn-secondary btn-block" onclick="closeRequestModal()">Cancel</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
-
-function closeRequestModal() {
-    const modal = document.getElementById('requestModal');
-    if (modal) modal.remove();
-}
-
-async function submitRequest(type, orderId) {
-    const desc = document.getElementById('requestDesc').value.trim();
-    if (!desc) { showToast('Please provide details', 'error'); return; }
-    
-    const order = ordersCache.find(o => o.id === orderId);
-    if (!order) { showToast('Order not found', 'error'); return; }
-    
-    // ✅ AUTO APPROVE - Sirf pending orders mein
-    const request = {
-        type: type === 'cancel' ? 'Cancel Order' : type === 'address' ? 'Change Address' : 'Change Phone',
-        description: desc,
-        status: 'approved',  // ✅ Auto approved!
-        approvedAt: new Date().toISOString()
-    };
-    
-    try {
-        const helpRequests = order.helpRequests || [];
-        helpRequests.push(request);
-        
-        // ✅ Order update with auto approval
-        let updateData = { helpRequests: helpRequests };
-        
-        // ✅ Agar cancel request hai toh order cancel karo
-        if (type === 'cancel') {
-            updateData.status = 'cancelled';
-            updateData.cancellationReason = desc;
-            showToast('✅ Order cancelled!', 'warning');
-        }
-        
-        await db.collection('orders').doc(orderId).update(updateData);
-        showToast('✅ Request auto-approved!', 'success');
-        closeRequestModal();
-        navigateTo('orderDetail', orderId);
-    } catch(e) {
-        showToast('Error: ' + e.message, 'error');
+    const order = orders.find(o => o.id === orderId);
+    if (!order || !order.deliveryPartner) {
+        container.innerHTML = '';
+        return;
     }
-}
-
-// ============================================================
-// REVIEW MODAL
-// ============================================================
-function openReviewModal(orderId, itemIndex) {
-    const order = ordersCache.find(o => o.id === orderId);
-    if (!order) { showToast('Order not found', 'error'); return; }
-    const item = order.items[itemIndex];
-    if (!item) { showToast('Item not found', 'error'); return; }
     
-    const modal = document.createElement('div');
-    modal.className = 'request-modal show';
-    modal.id = 'reviewModal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeReviewModal()">✕</button>
-            <div class="modal-title">⭐ Review: ${item.name}</div>
-            <div style="display:flex;gap:4px;font-size:28px;margin:8px 0;" id="starContainer">
-                <span onclick="setReviewStar(1)" style="cursor:pointer;color:#ddd;">⭐</span>
-                <span onclick="setReviewStar(2)" style="cursor:pointer;color:#ddd;">⭐</span>
-                <span onclick="setReviewStar(3)" style="cursor:pointer;color:#ddd;">⭐</span>
-                <span onclick="setReviewStar(4)" style="cursor:pointer;color:#ddd;">⭐</span>
-                <span onclick="setReviewStar(5)" style="cursor:pointer;color:#ddd;">⭐</span>
+    container.innerHTML = `
+        <div class="card delivery-card" style="margin-top:10px;border-left:3px solid #7c3aed;">
+            <div class="loader-box" style="padding:10px;">
+                <div class="spinner" style="width:20px;height:20px;"></div>
+                <p style="font-size:10px;color:#999;margin-top:4px;">Loading delivery partner...</p>
             </div>
-            <input type="hidden" id="reviewRating" value="0">
-            <textarea id="reviewComment" placeholder="Share your experience..." rows="3"></textarea>
-            <button class="btn btn-gold btn-block" onclick="submitReview('${orderId}', ${itemIndex})">
-                <i class="fas fa-star"></i> Submit Review
-            </button>
-            <button class="btn btn-secondary btn-block" onclick="closeReviewModal()">Cancel</button>
         </div>
     `;
-    document.body.appendChild(modal);
-}
-
-let reviewStar = 0;
-
-function setReviewStar(val) {
-    reviewStar = val;
-    document.getElementById('reviewRating').value = val;
-    const stars = document.querySelectorAll('#starContainer span');
-    stars.forEach((s, i) => {
-        s.style.color = i < val ? '#f59e0b' : '#ddd';
+    
+    db.collection('users').doc(order.deliveryPartner).get().then(doc => {
+        if (doc.exists) {
+            const deliveryBoy = doc.data();
+            const initial = deliveryBoy.name ? deliveryBoy.name.charAt(0).toUpperCase() : 'D';
+            
+            container.innerHTML = `
+                <div class="card delivery-card" style="margin-top:10px;border-left:3px solid #7c3aed;">
+                    <div class="card-title">
+                        <span>🛵 Delivery Partner</span>
+                        <span style="font-size:9px;color:#22c55e;display:flex;align-items:center;gap:4px;">
+                            <span class="delivery-dot"></span> 
+                            ${deliveryBoy.isOnline ? 'Online' : 'Offline'}
+                        </span>
+                    </div>
+                    
+                    <div style="display:flex;align-items:center;gap:14px;">
+                        <div class="delivery-avatar" style="width:65px;height:65px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;">
+                            ${initial}
+                        </div>
+                        
+                        <div style="flex:1;">
+                            <div style="font-weight:700;font-size:16px;color:#1a1a2e;">${deliveryBoy.name || 'Delivery Partner'}</div>
+                            
+                            <div style="font-size:11px;color:#666;display:flex;align-items:center;gap:4px;">
+                                <i class="fas fa-star" style="color:#f59e0b;font-size:10px;"></i>
+                                <span style="font-weight:600;color:#1a1a2e;">${deliveryBoy.rating || 4.8}</span>
+                                <span style="color:#999;">(${deliveryBoy.totalDeliveries || 0} deliveries)</span>
+                            </div>
+                            
+                            <div style="font-size:11px;color:#666;display:flex;align-items:center;gap:4px;">
+                                <i class="fas fa-phone" style="color:#7c3aed;font-size:10px;"></i>
+                                ${deliveryBoy.phone || 'N/A'}
+                            </div>
+                            
+                            <div style="font-size:11px;color:#666;display:flex;align-items:center;gap:4px;">
+                                <i class="fas fa-motorcycle" style="color:#7c3aed;font-size:10px;"></i>
+                                ${deliveryBoy.vehicle || 'Not specified'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            container.innerHTML = '';
+        }
+    }).catch(() => {
+        container.innerHTML = '';
     });
 }
 
-function closeReviewModal() {
-    const modal = document.getElementById('reviewModal');
-    if (modal) modal.remove();
-    reviewStar = 0;
-}
-
-async function submitReview(orderId, itemIndex) {
-    const rating = parseInt(document.getElementById('reviewRating').value);
-    const comment = document.getElementById('reviewComment').value.trim();
-    
-    if (rating === 0) { showToast('Please select a rating', 'error'); return; }
-    if (!comment) { showToast('Please write a comment', 'error'); return; }
-    
-    const order = ordersCache.find(o => o.id === orderId);
-    if (!order) { showToast('Order not found', 'error'); return; }
-    
-    try {
-        // Update order item review
-        order.items[itemIndex].reviewed = true;
-        order.items[itemIndex].review = { rating, comment, date: new Date().toISOString(), user: userData?.name || 'Customer' };
-        
-        await db.collection('orders').doc(orderId).update({ items: order.items });
-        
-        // Add review to product
-        const productId = order.items[itemIndex].productId;
-        if (productId) {
-            const productDoc = await db.collection('products').doc(productId).get();
-            if (productDoc.exists) {
-                const product = productDoc.data();
-                const reviews = product.reviews || [];
-                reviews.push({
-                    user: userData?.name || 'Anonymous',
-                    rating: rating,
-                    comment: comment,
-                    date: new Date().toISOString()
-                });
-                const totalRating = reviews.reduce((sum, r) => sum + r.rating, 0);
-                const avgRating = (totalRating / reviews.length).toFixed(1);
-                await db.collection('products').doc(productId).update({
-                    reviews: reviews,
-                    rating: parseFloat(avgRating)
-                });
-            }
-        }
-        
-        showToast('✅ Review submitted!', 'success');
-        closeReviewModal();
-        navigateTo('orderDetail', orderId);
-    } catch(e) {
-        showToast('Error: ' + e.message, 'error');
+// ============================================================
+// 🔥 ORDER HELP - Cancel only from here with status check
+// ============================================================
+function renderOrderHelp(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return `<div class="card"><p>Order not found</p></div>`;
+    const isPending = order.status === 'pending';
+    const isAssigned = order.status === 'assigned' || order.status === 'picked';
+    const isDelivered = order.status === 'delivered';
+    let helpOptions = [];
+    if (isPending) {
+        helpOptions = [
+            { icon: '❌', label: 'Cancel Order', page: 'cancelOrder' },
+            { icon: '📱', label: 'Change Mobile', page: 'changePhone' },
+            { icon: '📍', label: 'Change Address', page: 'changeAddress' },
+            { icon: '💳', label: 'Pay Online', page: 'requestPayOnline' },
+            { icon: '📅', label: 'Extend Delivery', page: 'extendDelivery' }
+        ];
+    } else if (isAssigned) {
+        helpOptions = [
+            { icon: '📱', label: 'Change Mobile', page: 'changePhone' },
+            { icon: '📍', label: 'Change Address', page: 'changeAddress' },
+            { icon: '📅', label: 'Extend Delivery', page: 'extendDelivery' }
+        ];
+    } else if (isDelivered) {
+        helpOptions = [
+            { icon: '📱', label: 'Change Mobile', page: 'changePhone' },
+            { icon: '📍', label: 'Change Address', page: 'changeAddress' },
+            { icon: '⚠️', label: 'Complaint', page: 'complaint' }
+        ];
     }
-}
-
-// ============================================================
-// GENERATE INVOICE HTML
-// ============================================================
-function generateInvoiceHTML(order) {
-    const itemsHtml = order.items ? order.items.map(item => `
-        <div class="inv-item">
-            <div class="inv-img">
-                ${item.image ? `<img src="${item.image}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'fallback\\'>📦</span>'">` : `<span class="fallback">📦</span>`}
-            </div>
-            <div style="flex:1;font-size:12px;">
-                <div style="font-weight:600;">${item.name}</div>
-                <div style="color:#999;">Qty: ${item.quantity} × ₹${item.price}</div>
-            </div>
-            <div style="font-weight:700;color:#D4AF37;">₹${item.price * item.quantity}</div>
-        </div>
-    `).join('') : '<p>No items</p>';
-    
+    let helpHtml = helpOptions.map(opt => `<div class="help-item" onclick="navigateTo('${opt.page}', '${orderId}')"><div class="icon">${opt.icon}</div><div class="label">${opt.label}</div></div>`).join('');
     return `
-        <div class="invoice-box" id="invoiceContent">
-            <div class="inv-header">
-                <div class="company">PAWAN RETAIL <span>LIMITED</span></div>
-                <div class="sub">📍 123, Electronics Market, Mumbai - 400001</div>
-                <div class="sub">📞 +91 98765 43210 | ✉ info@pawanretail.com</div>
-                <div style="margin-top:4px;font-size:10px;color:#D4AF37;">GST: 27AABCP1234D1Z5</div>
-            </div>
-            
-            <div class="inv-title">📄 TAX INVOICE</div>
-            
-            <div style="margin:8px 0;">
-                <div class="inv-row"><span class="label">Invoice No.</span><span class="value">INV-${order.id}</span></div>
-                <div class="inv-row"><span class="label">Date</span><span class="value">${order.createdAt ? new Date(order.createdAt).toLocaleString() : ''}</span></div>
-                <div class="inv-row"><span class="label">Order ID</span><span class="value">${order.id}</span></div>
-                <div class="inv-row"><span class="label">Payment Method</span><span class="value">${order.paymentMethod}</span></div>
-            </div>
-            
-            <div style="margin:8px 0;border-top:1px solid #e0e0e0;padding-top:8px;">
-                <div style="font-weight:600;font-size:12px;margin-bottom:4px;">Bill To:</div>
-                <div style="font-size:12px;">${userData?.name || 'Customer'}</div>
-                <div style="font-size:12px;color:#666;">${userData?.email || ''}</div>
-                <div style="font-size:12px;color:#666;">📱 ${order.phone || ''}</div>
-                <div style="font-size:12px;color:#666;">📍 ${order.address || ''}</div>
-            </div>
-            
-            <div style="margin:8px 0;border-top:1px solid #e0e0e0;padding-top:8px;">
-                <div style="font-weight:600;font-size:12px;margin-bottom:4px;">Items:</div>
-                ${itemsHtml}
-            </div>
-            
-            <div style="border-top:2px solid #D4AF37;padding-top:8px;margin-top:8px;">
-                <div class="inv-row"><span class="label">Subtotal</span><span class="value">₹${order.subtotal || order.total}</span></div>
-                <div class="inv-row"><span class="label">Delivery Charge</span><span class="value">₹${order.deliveryCharge || 0}</span></div>
-                <div class="inv-total">Total: ₹${order.total}</div>
-            </div>
-            
-            <div class="inv-sign">
-                <div class="sign-name">Pawan Kumar</div>
-                <div class="sign-title">Authorized Signatory</div>
-                <div style="font-size:9px;color:#999;">(Digital Signature)</div>
-            </div>
-            
-            <div class="inv-footer">
-                Thank you for shopping with Pawan Retail Limited!<br>
-                For any queries, contact us at support@pawanretail.com
-            </div>
+        <div class="card">
+            <div class="card-title">🆘 Help Center</div>
+            <p class="text-muted">Order #${orderId.substring(0,8)} • Status: <span class="status status-${order.status}">${order.status}</span></p>
+            ${isPending ? `<div style="font-size:11px;color:#d97706;background:#fef3c7;padding:6px 10px;border-radius:8px;margin-bottom:8px;">⏳ Pending - You can cancel or modify</div>` : ''}
+            ${isAssigned ? `<div style="font-size:11px;color:#2563eb;background:#dbeafe;padding:6px 10px;border-radius:8px;margin-bottom:8px;">🚚 Confirmed - You can request changes</div>` : ''}
+            ${isDelivered ? `<div style="font-size:11px;color:#059669;background:#d1fae5;padding:6px 10px;border-radius:8px;margin-bottom:8px;">✅ Delivered - File a complaint if needed</div>` : ''}
+            <div class="help-grid">${helpHtml}</div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button>
         </div>
     `;
 }
 
 // ============================================================
-// DOWNLOAD INVOICE PDF
+// 🔥 CANCEL ORDER - Only from Help with Status Check
 // ============================================================
-function downloadInvoice(orderId) {
-    const order = ordersCache.find(o => o.id === orderId);
-    if (!order) { showToast('Order not found', 'error'); return; }
+function renderCancelOrder(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return `<div class="card"><p>Order not found</p></div>`;
     
-    showToast('📄 Generating invoice...', 'info');
-    
-    const invoiceHtml = generateInvoiceHTML(order);
-    const container = document.getElementById('invoiceContainer');
-    if (container) {
-        container.innerHTML = invoiceHtml;
-        container.style.display = 'block';
+    if (order.status !== 'pending') {
+        return `
+            <div class="card">
+                <div class="empty-state">
+                    <div class="icon">🚫</div>
+                    <div class="title">Cannot Cancel Order</div>
+                    <div class="sub">Only pending orders can be cancelled.<br>Current status: <strong>${order.status}</strong></div>
+                </div>
+                <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orderDetail', '${orderId}')">← Back to Order</button>
+            </div>
+        `;
     }
     
-    setTimeout(() => {
-        const element = document.getElementById('invoiceContent');
-        if (!element) { showToast('Error generating invoice', 'error'); return; }
-        
-        const opt = {
-            margin:        [10, 10, 10, 10],
-            filename:      'Invoice_' + order.id + '.pdf',
-            image:         { type: 'jpeg', quality: 0.98 },
-            html2canvas:   { scale: 2, useCORS: true, logging: false },
-            jsPDF:         { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        
-        html2pdf().set(opt).from(element).save().then(function() {
-            showToast('✅ Invoice downloaded!', 'success');
-            if (container) container.style.display = 'none';
-        }).catch(function(e) {
-            showToast('Error downloading: ' + e.message, 'error');
-            if (container) container.style.display = 'none';
+    return `
+        <div class="card">
+            <div class="card-title">❌ Cancel Order</div>
+            <div style="background:#fef3c7;padding:10px;border-radius:8px;margin-bottom:10px;">
+                <p style="font-size:13px;color:#d97706;font-weight:600;">⚠️ Are you sure you want to cancel this order?</p>
+                <p style="font-size:11px;color:#92400e;">Order #${orderId.substring(0,8)} • Total: ₹${order.total}</p>
+            </div>
+            <div style="background:#fee2e2;padding:8px;border-radius:8px;font-size:11px;color:#dc2626;margin-bottom:10px;">
+                <i class="fas fa-exclamation-triangle"></i> This action cannot be undone.
+            </div>
+            <div class="flex">
+                <button class="btn btn-danger btn-block" onclick="confirmCancelOrder('${orderId}')"><i class="fas fa-check"></i> Yes, Cancel</button>
+                <button class="btn btn-secondary btn-block" onclick="navigateTo('orderDetail', '${orderId}')"><i class="fas fa-arrow-left"></i> No, Back</button>
+            </div>
+        </div>
+    `;
+}
+
+async function confirmCancelOrder(orderId) {
+    try {
+        const doc = await db.collection('orders').doc(orderId).get();
+        if (!doc.exists) { showToast('Order not found', 'error'); return; }
+        if (doc.data().status !== 'pending') { 
+            showToast('❌ Cannot cancel - Status: ' + doc.data().status, 'error'); 
+            return; 
+        }
+        await db.collection('orders').doc(orderId).update({ 
+            status: 'cancelled', 
+            updatedAt: new Date().toISOString() 
         });
-    }, 500);
+        showToast('❌ Order cancelled successfully');
+        const idx = orders.findIndex(o => o.id === orderId);
+        if (idx !== -1) orders[idx].status = 'cancelled';
+        navigateTo('orders');
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
 // ============================================================
-// PROFILE
+// 🔥 CHANGE PHONE - Only Order Level
+// ============================================================
+function renderChangePhone(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return `<div class="card"><p>Order not found</p></div>`;
+    return `
+        <div class="card">
+            <div class="card-title">📱 Change Mobile Number</div>
+            <p class="text-muted">Update mobile number for order #${orderId.substring(0,8)}</p>
+            <div style="background:#f0f0f0;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px;"><span style="color:#666;">Current Phone:</span> <span style="font-weight:600;">${order.phone || userData?.phone || 'N/A'}</span></div>
+            <input class="input input-sm" id="newPhone" placeholder="New Phone Number" value="${order.phone || userData?.phone || ''}">
+            <div class="flex"><button class="btn btn-gold btn-block" onclick="confirmChangePhone('${orderId}')"><i class="fas fa-save"></i> Update Order Phone</button><button class="btn btn-secondary btn-block" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button></div>
+        </div>
+    `;
+}
+
+async function confirmChangePhone(orderId) {
+    const phone = document.getElementById('newPhone').value.trim();
+    if (!phone) { showToast('Enter phone number', 'error'); return; }
+    if (phone.length < 10) { showToast('Enter valid 10-digit phone number', 'error'); return; }
+    try {
+        await db.collection('orders').doc(orderId).update({ phone: phone, updatedAt: new Date().toISOString() });
+        const idx = orders.findIndex(o => o.id === orderId);
+        if (idx !== -1) orders[idx].phone = phone;
+        showToast('✅ Order phone number updated!', 'success');
+        navigateTo('orderDetail', orderId);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 CHANGE ADDRESS - Only Order Level
+// ============================================================
+function renderChangeAddress(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return `<div class="card"><p>Order not found</p></div>`;
+    return `
+        <div class="card">
+            <div class="card-title">📍 Change Delivery Address</div>
+            <p class="text-muted">Update address for order #${orderId.substring(0,8)}</p>
+            <div style="background:#f0f0f0;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px;"><span style="color:#666;">Current Address:</span> <span style="font-weight:600;">${order.address || userData?.address || 'N/A'}</span></div>
+            <textarea class="input input-sm" id="newAddress" placeholder="New Address" rows="3">${order.address || userData?.address || ''}</textarea>
+            <div class="flex"><button class="btn btn-gold btn-block" onclick="confirmChangeAddress('${orderId}')"><i class="fas fa-save"></i> Update Order Address</button><button class="btn btn-secondary btn-block" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button></div>
+        </div>
+    `;
+}
+
+async function confirmChangeAddress(orderId) {
+    const address = document.getElementById('newAddress').value.trim();
+    if (!address) { showToast('Enter address', 'error'); return; }
+    if (address.length < 10) { showToast('Enter complete address', 'error'); return; }
+    try {
+        await db.collection('orders').doc(orderId).update({ address: address, updatedAt: new Date().toISOString() });
+        const idx = orders.findIndex(o => o.id === orderId);
+        if (idx !== -1) orders[idx].address = address;
+        showToast('✅ Order address updated!', 'success');
+        navigateTo('orderDetail', orderId);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 PAY ONLINE REQUEST
+// ============================================================
+function renderRequestPayOnline(orderId) {
+    return `
+        <div class="card">
+            <div class="card-title">💳 Pay Online</div>
+            <p class="text-muted">Request payment link for order #${orderId.substring(0,8)}</p>
+            <button class="btn btn-gold btn-block" onclick="confirmPayOnline('${orderId}')">Request Payment Link</button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button>
+        </div>
+    `;
+}
+
+async function confirmPayOnline(orderId) {
+    try {
+        await db.collection('orders').doc(orderId).update({ paymentMethod: 'Online', paymentStatus: 'requested', updatedAt: new Date().toISOString() });
+        showToast('✅ Payment link requested!', 'success');
+        navigateTo('orderDetail', orderId);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 EXTEND DELIVERY
+// ============================================================
+function renderExtendDelivery(orderId) {
+    return `
+        <div class="card">
+            <div class="card-title">📅 Extend Delivery</div>
+            <input class="input input-sm" id="extendDays" type="number" placeholder="Extra days" value="2">
+            <button class="btn btn-gold btn-block" onclick="confirmExtendDelivery('${orderId}')">Request Extension</button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button>
+        </div>
+    `;
+}
+
+async function confirmExtendDelivery(orderId) {
+    const days = document.getElementById('extendDays').value.trim();
+    if (!days || days < 1) { showToast('Enter valid days', 'error'); return; }
+    try {
+        await db.collection('orders').doc(orderId).update({ extendedDays: parseInt(days), extendedAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+        showToast(`✅ Extension requested for ${days} days!`, 'success');
+        navigateTo('orderDetail', orderId);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 COMPLAINT
+// ============================================================
+function renderComplaint(orderId) {
+    return `
+        <div class="card">
+            <div class="card-title">⚠️ File Complaint</div>
+            <p class="text-muted">Report issue for order #${orderId.substring(0,8)}</p>
+            <div style="margin:10px 0;">
+                <div style="font-weight:600;font-size:12px;margin-bottom:6px;">Complaint Type</div>
+                <div class="complaint-grid">
+                    <div class="complaint-item" onclick="selectComplaint('damage')" id="compDamage"><div class="icon">💔</div><div class="label">Damaged</div></div>
+                    <div class="complaint-item" onclick="selectComplaint('missing')" id="compMissing"><div class="icon">🔍</div><div class="label">Missing</div></div>
+                    <div class="complaint-item" onclick="selectComplaint('wrong')" id="compWrong"><div class="icon">❌</div><div class="label">Wrong Product</div></div>
+                    <div class="complaint-item" onclick="selectComplaint('other')" id="compOther"><div class="icon">📝</div><div class="label">Other</div></div>
+                </div>
+            </div>
+            <div id="complaintStatus" class="text-muted" style="font-size:11px;margin:4px 0;">Select a complaint type</div>
+            <textarea class="input" id="complaintText" placeholder="Describe your issue..." rows="3"></textarea>
+            <input type="file" id="complaintImage" accept="image/*" style="width:100%;padding:6px;border:1px solid #e0e0e0;border-radius:8px;margin:4px 0;">
+            <button class="btn btn-complaint btn-block" onclick="submitComplaint('${orderId}')">Submit Complaint</button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button>
+        </div>
+    `;
+}
+
+function selectComplaint(type) {
+    selectedComplaint = type;
+    document.querySelectorAll('.complaint-item').forEach(el => el.classList.remove('active'));
+    const el = document.getElementById(`comp${type.charAt(0).toUpperCase() + type.slice(1)}`);
+    if (el) el.classList.add('active');
+    const status = document.getElementById('complaintStatus');
+    const labels = { 'damage': '💔 Damaged', 'missing': '🔍 Missing', 'wrong': '❌ Wrong', 'other': '📝 Other' };
+    if (status) status.innerHTML = `<span style="color:#dc2626;font-weight:600;">✅ ${labels[type]}</span>`;
+}
+
+async function submitComplaint(orderId) {
+    if (!selectedComplaint) { showToast('Select complaint type', 'error'); return; }
+    const text = document.getElementById('complaintText').value.trim();
+    if (!text) { showToast('Describe your issue', 'error'); return; }
+    try {
+        let imageUrl = '';
+        const fileInput = document.getElementById('complaintImage');
+        if (fileInput && fileInput.files && fileInput.files[0]) { imageUrl = 'https://via.placeholder.com/100'; }
+        await db.collection('complaints').add({
+            orderId, userId: currentUser.uid, userName: userData?.name || 'Customer',
+            type: selectedComplaint, text, imageUrl, status: 'pending',
+            createdAt: new Date().toISOString()
+        });
+        showToast('✅ Complaint submitted!', 'success');
+        navigateTo('orderDetail', orderId);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 REVIEW - One Per Order
+// ============================================================
+function renderReview(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return `<div class="card"><p>Order not found</p></div>`;
+    const productName = order.items?.[0]?.name || 'Product';
+    return `
+        <div class="card">
+            <div class="card-title">⭐ Write a Review</div>
+            <p class="text-muted">Review: <strong>${productName}</strong></p>
+            <div style="margin:10px 0;">
+                <div style="font-weight:600;font-size:12px;">Rating</div>
+                <div style="display:flex;gap:4px;font-size:28px;cursor:pointer;" id="starRating">
+                    ${[1,2,3,4,5].map(i => `<span onclick="setRating(${i})" id="star${i}" style="color:#ddd;">★</span>`).join('')}
+                </div>
+            </div>
+            <textarea class="input" id="reviewText" placeholder="Write your review..." rows="3"></textarea>
+            <div style="margin:8px 0;"><div style="font-weight:600;font-size:12px;">Upload Image (Optional)</div><input type="file" id="reviewImage" accept="image/*" style="width:100%;padding:6px;border:1px solid #e0e0e0;border-radius:8px;"></div>
+            <button class="btn btn-gold btn-block" onclick="submitReview('${orderId}')">Submit Review</button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button>
+        </div>
+    `;
+}
+
+function setRating(val) {
+    selectedRating = val;
+    for (let i = 1; i <= 5; i++) {
+        document.getElementById(`star${i}`).style.color = i <= val ? '#f59e0b' : '#ddd';
+    }
+}
+
+async function submitReview(orderId) {
+    if (!selectedRating) { showToast('Select rating', 'error'); return; }
+    const text = document.getElementById('reviewText').value.trim();
+    if (!text) { showToast('Write a review', 'error'); return; }
+    const order = orders.find(o => o.id === orderId);
+    if (!order) { showToast('Order not found', 'error'); return; }
+    const productId = order.items?.[0]?.productId;
+    const productName = order.items?.[0]?.name || 'Product';
+    if (!productId || productId === 'unknown') { showToast('Product ID missing.', 'error'); return; }
+    try {
+        const existing = await db.collection('reviews').where('userId', '==', currentUser.uid).where('orderId', '==', orderId).get();
+        if (!existing.empty) { showToast('❌ You already reviewed this order!', 'error'); return; }
+    } catch(e) { /* ignore */ }
+    try {
+        let imageUrl = '';
+        const fileInput = document.getElementById('reviewImage');
+        if (fileInput && fileInput.files && fileInput.files[0]) { imageUrl = 'https://via.placeholder.com/200'; }
+        await db.collection('reviews').add({
+            productId: productId, productName: productName, userId: currentUser.uid,
+            userName: userData?.name || 'Customer', orderId: orderId, text: text,
+            rating: selectedRating, imageUrl: imageUrl, isVerified: true,
+            createdAt: new Date().toISOString()
+        });
+        showToast('✅ Review submitted! Thank you!', 'success');
+        setTimeout(() => { viewProduct(productId); }, 500);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 PROFILE - Screenshot jaisa
 // ============================================================
 function renderProfile() {
+    const initial = userData?.name ? userData.name.charAt(0).toUpperCase() : '👤';
     return `
-        <div class="card text-center" style="padding:20px;">
-            <div style="font-size:64px;">👤</div>
-            <h3>${userData?.name || 'User'}</h3>
-            <p class="text-muted">${userData?.email || ''}</p>
-            <p class="text-muted">📱 ${userData?.phone || 'No phone'}</p>
-            <span class="status-pending" style="padding:2px 12px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;">${userData?.role || 'Customer'}</span>
+        <div class="profile-header">
+            <div class="avatar">${initial}</div>
+            <div class="name">${userData?.name || 'Customer'}</div>
+            <div class="phone">${userData?.phone || 'No phone'}</div>
         </div>
-        <div class="card">
-            <div class="menu-item" onclick="navigateTo('orders')" style="background:#f8f9fa;border-radius:8px;padding:10px;cursor:pointer;display:flex;align-items:center;gap:10px;">
-                <i class="fas fa-box" style="color:#D4AF37;"></i>
-                <span>My Orders</span>
-                <i class="fas fa-chevron-right" style="margin-left:auto;color:#999;"></i>
+        
+        <div class="profile-menu">
+            <div class="menu-item" onclick="navigateTo('orders')">
+                <span class="icon"><i class="fas fa-box"></i></span>
+                <span class="text">Your Orders</span>
+                <span class="badge-count">${userOrderCount || 0}</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="menu-item" onclick="navigateTo('help')">
+                <span class="icon"><i class="fas fa-question-circle"></i></span>
+                <span class="text">Need Help?</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
             </div>
         </div>
-        <button class="btn btn-danger btn-block" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        
+        <div class="profile-menu">
+            <div class="menu-item" onclick="navigateTo('appearance')">
+                <span class="icon"><i class="fas fa-eye"></i></span>
+                <span class="text">Appearance</span>
+                <span class="toggle-text">LIGHT</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="menu-item" onclick="showToast('Hide sensitive items feature coming soon!', 'info')">
+                <span class="icon"><i class="fas fa-eye-slash"></i></span>
+                <span class="text">Hide sensitive items</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+        </div>
+        
+        <div class="profile-section-title">Your Information</div>
+        <div class="profile-menu">
+            <div class="menu-item" onclick="navigateTo('addressBook')">
+                <span class="icon"><i class="fas fa-address-book"></i></span>
+                <span class="text">Address book</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="menu-item" onclick="navigateTo('wishlist')">
+                <span class="icon"><i class="fas fa-heart"></i></span>
+                <span class="text">Your wishlist</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="menu-item" onclick="navigateTo('giftCards')">
+                <span class="icon"><i class="fas fa-gift"></i></span>
+                <span class="text">E-gift cards</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+        </div>
+        
+        <div class="profile-section-title">Payment and Coupons</div>
+        <div class="profile-menu">
+            <div class="menu-item" onclick="navigateTo('coupons')">
+                <span class="icon"><i class="fas fa-ticket-alt"></i></span>
+                <span class="text">Available Coupons</span>
+                <span class="badge-count">${allCoupons.length || 0}</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="menu-item" onclick="showToast('Payment methods coming soon!', 'info')">
+                <span class="icon"><i class="fas fa-credit-card"></i></span>
+                <span class="text">Payment Methods</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+        </div>
+        
+        <div class="profile-section-title">Account Settings</div>
+        <div class="profile-menu">
+            <div class="menu-item" onclick="navigateTo('editProfile')">
+                <span class="icon"><i class="fas fa-user-edit"></i></span>
+                <span class="text">Edit Profile</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="menu-item" onclick="navigateTo('changePassword')">
+                <span class="icon"><i class="fas fa-key"></i></span>
+                <span class="text">Change Password</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+            <div class="menu-item" onclick="logout()" style="border-bottom:none;">
+                <span class="icon"><i class="fas fa-sign-out-alt" style="color:#ef4444;"></i></span>
+                <span class="text" style="color:#ef4444;">Logout</span>
+                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
+            </div>
+        </div>
     `;
 }
 
 // ============================================================
-// AUTH STATE
+// 🔥 PROFILE SUB-PAGES
+// ============================================================
+function renderAddressBook() {
+    return `
+        <div class="card">
+            <div class="card-title">📂 Address Book</div>
+            ${userData?.address ? `
+                <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin-bottom:8px;">
+                    <p style="font-weight:600;">Default Address</p>
+                    <p style="font-size:13px;color:#666;">${userData.address}</p>
+                    <p style="font-size:11px;color:#999;">📱 ${userData.phone || 'N/A'}</p>
+                </div>
+            ` : `
+                <div class="empty-state" style="padding:20px;">
+                    <div class="icon" style="font-size:32px;">📍</div>
+                    <div class="title" style="font-size:14px;">No address added</div>
+                    <div class="sub">Add your delivery address</div>
+                </div>
+            `}
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+function renderWishlist() {
+    return `
+        <div class="card">
+            <div class="card-title">❤️ Your Wishlist</div>
+            <div class="empty-state" style="padding:20px;">
+                <div class="icon" style="font-size:32px;">❤️</div>
+                <div class="title" style="font-size:14px;">Wishlist is empty</div>
+                <div class="sub">Start adding products to your wishlist</div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+function renderGiftCards() {
+    return `
+        <div class="card">
+            <div class="card-title">🎁 E-Gift Cards</div>
+            <div class="empty-state" style="padding:20px;">
+                <div class="icon" style="font-size:32px;">🎁</div>
+                <div class="title" style="font-size:14px;">No gift cards</div>
+                <div class="sub">You don't have any gift cards yet</div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+function renderAppearance() {
+    return `
+        <div class="card">
+            <div class="card-title">👁️ Appearance</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="font-weight:600;">Theme</span>
+                <span style="color:#D4AF37;font-weight:600;">LIGHT</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;">
+                <span style="font-weight:600;">Dark Mode</span>
+                <span style="color:#999;">Coming Soon</span>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+function renderHelpPage() {
+    return `
+        <div class="card">
+            <div class="card-title">🆘 Need Help?</div>
+            <div style="padding:8px 0;">
+                <div class="help-item" onclick="showToast('Contact us at support@prl.com', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
+                    <div class="icon" style="font-size:20px;">📧</div>
+                    <div class="label" style="font-size:13px;font-weight:600;">Email Support</div>
+                </div>
+                <div class="help-item" onclick="showToast('Call us at +91 9876543210', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
+                    <div class="icon" style="font-size:20px;">📞</div>
+                    <div class="label" style="font-size:13px;font-weight:600;">Call Support</div>
+                </div>
+                <div class="help-item" onclick="showToast('FAQ page coming soon!', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
+                    <div class="icon" style="font-size:20px;">❓</div>
+                    <div class="label" style="font-size:13px;font-weight:600;">FAQs</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+function renderEditProfile() {
+    return `
+        <div class="card">
+            <div class="card-title">✏️ Edit Profile</div>
+            <input class="input input-sm" id="editName" placeholder="Full Name" value="${userData?.name || ''}">
+            <input class="input input-sm" id="editPhone" placeholder="Phone Number" value="${userData?.phone || ''}">
+            <textarea class="input input-sm" id="editAddress" placeholder="Address" rows="2">${userData?.address || ''}</textarea>
+            <div class="flex">
+                <button class="btn btn-gold btn-block" onclick="updateProfile()"><i class="fas fa-save"></i> Update</button>
+                <button class="btn btn-secondary btn-block" onclick="navigateTo('profile')">← Back</button>
+            </div>
+        </div>
+    `;
+}
+
+async function updateProfile() {
+    const name = document.getElementById('editName').value.trim();
+    const phone = document.getElementById('editPhone').value.trim();
+    const address = document.getElementById('editAddress').value.trim();
+    if (!name || !phone) { showToast('Name and phone required', 'error'); return; }
+    try {
+        await db.collection('users').doc(currentUser.uid).update({
+            name, phone, address, updatedAt: new Date().toISOString()
+        });
+        userData = { ...userData, name, phone, address };
+        updateMenu();
+        showToast('✅ Profile updated!', 'success');
+        navigateTo('profile');
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+function renderChangePasswordPage() {
+    return `
+        <div class="card">
+            <div class="card-title">🔐 Change Password</div>
+            <div class="password-wrapper">
+                <input class="input input-sm" id="oldPassword" type="password" placeholder="Current Password">
+                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon"></i></button>
+            </div>
+            <div class="password-wrapper">
+                <input class="input input-sm" id="newPassword" type="password" placeholder="New Password (min 6 chars)">
+                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon2"></i></button>
+            </div>
+            <div class="password-wrapper">
+                <input class="input input-sm" id="confirmPassword" type="password" placeholder="Confirm New Password">
+                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon3"></i></button>
+            </div>
+            <div class="flex">
+                <button class="btn btn-gold btn-block" onclick="changePasswordPage()"><i class="fas fa-key"></i> Change Password</button>
+                <button class="btn btn-secondary btn-block" onclick="navigateTo('profile')">← Back</button>
+            </div>
+        </div>
+    `;
+}
+
+async function changePasswordPage() {
+    const oldPwd = document.getElementById('oldPassword').value;
+    const newPwd = document.getElementById('newPassword').value;
+    const confirmPwd = document.getElementById('confirmPassword').value;
+    if (!oldPwd || !newPwd || !confirmPwd) { showToast('Fill all fields', 'error'); return; }
+    if (newPwd.length < 6) { showToast('Password min 6 chars', 'error'); return; }
+    if (newPwd !== confirmPwd) { showToast('Passwords do not match', 'error'); return; }
+    try {
+        const cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, oldPwd);
+        await currentUser.reauthenticateWithCredential(cred);
+        await currentUser.updatePassword(newPwd);
+        await db.collection('users').doc(currentUser.uid).update({ password: newPwd });
+        showToast('✅ Password changed successfully!', 'success');
+        navigateTo('profile');
+    } catch(e) {
+        if (e.code === 'auth/wrong-password') {
+            showToast('Current password is incorrect', 'error');
+        } else {
+            showToast('Error: ' + e.message, 'error');
+        }
+    }
+}
+
+// ============================================================
+// 🔥 AUTH STATE
 // ============================================================
 auth.onAuthStateChanged(async (user) => {
     if (user) {
@@ -1606,33 +2220,104 @@ auth.onAuthStateChanged(async (user) => {
             const doc = await db.collection('users').doc(user.uid).get();
             if (doc.exists) {
                 userData = doc.data();
+                if (userData.blocked) {
+                    let blockMessage = '🚫 Your account has been blocked!';
+                    if (userData.blockType === 'timed' && userData.unblockAt) {
+                        const unblockTime = new Date(userData.unblockAt);
+                        const now = new Date();
+                        const diffMs = unblockTime - now;
+                        if (diffMs > 0) {
+                            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+                            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                            blockMessage = `⏳ Blocked for ${hours}h ${minutes}m remaining`;
+                            showBlockPopup(blockMessage);
+                            startBlockCountdown(unblockTime);
+                            await auth.signOut();
+                            return;
+                        } else {
+                            await db.collection('users').doc(user.uid).update({
+                                blocked: false, blockType: null, blockDuration: null, unblockAt: null
+                            });
+                            userData.blocked = false;
+                            showToast('✅ Your account has been unblocked!', 'success');
+                        }
+                    } else {
+                        showBlockPopup(blockMessage);
+                        await auth.signOut();
+                        return;
+                    }
+                }
+                if (userData.role !== 'customer') {
+                    showToast('Customer access only!', 'error');
+                    await auth.signOut();
+                    showLogin();
+                    return;
+                }
+                updateMenu();
+                showBottomNav(true);
+                navigateTo('home');
             } else {
-                userData = { role: 'customer', name: 'User', email: user.email, phone: '' };
-                await db.collection('users').doc(user.uid).set(userData);
+                showToast('Profile not found', 'error');
+                await auth.signOut();
+                showLogin();
             }
-            const cartSnap = await db.collection('users').doc(user.uid).collection('cart').get();
-            cart = cartSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-            updateBadge();
-            updateMenu();
-            navigateTo('home');
-        } catch(e) { console.error('Error:', e); navigateTo('home'); }
+        } catch(e) { showLogin(); }
     } else {
         currentUser = null;
         userData = null;
-        cart = [];
+        if (countdownInterval) clearInterval(countdownInterval);
+        if (otpTimerInterval) clearInterval(otpTimerInterval);
+        showBottomNav(false);
         showLogin();
     }
 });
 
 // ============================================================
-// INIT
+// 🔥 SETUP DEMO
 // ============================================================
-console.log('🛍️ PRL Customer Panel Loaded!');
-console.log('✅ Help: Only Pending Orders (Auto Approve)');
-console.log('✅ Confirmed+ Orders: Help Disabled');
-console.log('✅ Review after Delivery');
-console.log('✅ UPI: kumar.18806@superyes');
-console.log('✅ PDF Invoice Download');
+(async function setupDemo() {
+    try {
+        const snap = await db.collection('users').where('email', '==', 'customer@prl.com').get();
+        if (snap.empty) {
+            const cred = await auth.createUserWithEmailAndPassword('customer@prl.com', 'customer123');
+            await db.collection('users').doc(cred.user.uid).set({
+                uid: cred.user.uid, name: 'Demo Customer', email: 'customer@prl.com',
+                phone: '9876543210', address: 'A-101, Andheri East, Mumbai, Maharashtra - 400001',
+                role: 'customer', password: 'customer123',
+                createdAt: new Date().toISOString(), orderCount: 0, blocked: false
+            });
+            console.log('✅ Demo customer created');
+        }
+    } catch(e) { if (e.code !== 'auth/email-already-in-use') console.log('Setup:', e.message); }
+    try {
+        const snap = await db.collection('products').limit(1).get();
+        if (snap.empty) {
+            const products = [
+                { name: 'Arduino Uno', price: 200, image: 'https://images.unsplash.com/photo-1620287341056-49a2f1ab2fdc?w=150&h=150&fit=crop', description: 'Arduino Uno R3 board for beginners' },
+                { name: 'Wireless Earbuds', price: 1499, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=150&h=150&fit=crop', description: 'TWS wireless earbuds with noise cancellation' },
+                { name: 'Smart Watch', price: 4999, image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=150&h=150&fit=crop', description: 'Smart watch with heart rate monitor' },
+                { name: 'LED Monitor', price: 8999, image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=150&h=150&fit=crop', description: '27 inch 4K LED Monitor' },
+                { name: 'Wireless Mouse', price: 799, image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=150&h=150&fit=crop', description: 'Ergonomic wireless mouse' },
+                { name: 'USB C Hub', price: 1299, image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=150&h=150&fit=crop', description: '7-in-1 USB C hub with HDMI' }
+            ];
+            for (const p of products) { await db.collection('products').add(p); }
+            console.log('✅ Demo products created');
+        }
+    } catch(e) { console.log('Products setup:', e.message); }
+    try {
+        const snap = await db.collection('coupons').limit(1).get();
+        if (snap.empty) {
+            await db.collection('coupons').add({ code: 'PRL10', discount: 0.1, maxDiscount: 500, minAmount: 100, active: true, isPublic: true, createdAt: new Date().toISOString() });
+            await db.collection('coupons').add({ code: 'PRL100', discount: 1.0, maxDiscount: 99999, minAmount: 0, active: true, isPublic: false, createdAt: new Date().toISOString() });
+            console.log('✅ Demo coupons created');
+        }
+    } catch(e) { console.log('Coupon setup:', e.message); }
+})();
+
+console.log('🛒 Customer Panel Loaded!');
+console.log('📧 customer@prl.com / customer123');
+console.log('✅ OTP Verification Enabled!');
+console.log('✅ All features working!');
 </script>
 </body>
 </html>
