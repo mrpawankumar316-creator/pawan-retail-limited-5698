@@ -43,8 +43,6 @@
         .btn-block{width:100%}
         .btn-help{background:#7c3aed;color:#fff}
         .btn-help:hover{background:#6d28d9}
-        .btn-complaint{background:#dc2626;color:#fff}
-        .btn-complaint:hover{background:#b91c1c}
         
         .input{width:100%;padding:10px 16px;border:2px solid #e0e0e0;border-radius:25px;font-size:13px;margin:4px 0;background:#fafbfc;transition:0.3s}
         .input:focus{outline:none;border-color:#D4AF37;box-shadow:0 0 0 3px rgba(212,175,55,0.1)}
@@ -62,6 +60,7 @@
         .text-muted{color:#999;font-size:12px}
         .mt-2{margin-top:10px}
         .mb-2{margin-bottom:10px}
+        .gap-2{gap:12px}
         
         .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;background:#fff;border-radius:12px;padding:12px 20px;box-shadow:0 10px 40px rgba(0,0,0,0.15);border-left:4px solid #D4AF37;max-width:90%;animation:slideDown 0.3s ease}
         .toast .msg{font-weight:600;font-size:13px}
@@ -83,6 +82,8 @@
         .login-box .hint{font-size:10px;color:#999;margin-top:10px;padding:8px;background:#f8f9fa;border-radius:8px}
         .login-box .toggle-link{color:#D4AF37;cursor:pointer;font-weight:600}
         .login-box .toggle-link:hover{text-decoration:underline}
+        .login-box .remember-me{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;margin:8px 0}
+        .login-box .remember-me input{width:16px;height:16px;accent-color:#D4AF37}
         
         .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
         .product-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;transition:0.3s}
@@ -93,6 +94,9 @@
         .product-card .price{color:#D4AF37;font-weight:700;font-size:14px}
         .product-card .add-btn{background:#D4AF37;color:#fff;border:none;border-radius:15px;padding:2px 12px;font-size:11px;cursor:pointer;font-weight:600;width:100%;margin-top:4px}
         .product-card .add-btn:active{transform:scale(0.95)}
+        .product-card .delivery-tag{font-size:7px;padding:1px 6px;border-radius:8px;display:inline-block;font-weight:600}
+        .product-card .delivery-tag.turant{background:#dbeafe;color:#2563eb}
+        .product-card .delivery-tag.schedule{background:#ede9fe;color:#7c3aed}
         
         .order-item{background:#f8f9fa;padding:10px;border-radius:10px;margin-bottom:6px;border-left:3px solid #D4AF37;cursor:pointer}
         .order-item:active{transform:scale(0.97)}
@@ -104,6 +108,7 @@
         .status-picked{background:#ede9fe;color:#7c3aed}
         .status-delivered{background:#d1fae5;color:#059669}
         .status-cancelled{background:#fee2e2;color:#dc2626}
+        .status-scheduled{background:#ede9fe;color:#7c3aed}
         
         .empty-state{text-align:center;padding:40px 20px;color:#999}
         .empty-state .icon{font-size:56px;margin-bottom:12px;opacity:0.4}
@@ -223,6 +228,19 @@
         
         .countdown-text{font-size:14px;font-weight:700;color:#dc2626;background:#fef2f2;padding:8px;border-radius:8px;margin:8px 0}
         
+        /* OTP Styles */
+        .otp-inputs{display:flex;gap:8px;justify-content:center;margin:10px 0}
+        .otp-inputs input{width:44px;height:50px;text-align:center;font-size:20px;font-weight:700;border:2px solid #e0e0e0;border-radius:10px;background:#fafbfc;transition:0.3s}
+        .otp-inputs input:focus{outline:none;border-color:#D4AF37;box-shadow:0 0 0 3px rgba(212,175,55,0.1)}
+        .otp-inputs input.filled{border-color:#22c55e;background:#f0fdf4}
+        .otp-timer{font-size:12px;color:#999;text-align:center;margin:4px 0}
+        .otp-timer .time{color:#D4AF37;font-weight:700}
+        .otp-resend{font-size:12px;color:#D4AF37;cursor:pointer;font-weight:600}
+        .otp-resend:hover{text-decoration:underline}
+        .otp-resend.disabled{color:#999;cursor:not-allowed}
+        .otp-limit-warning{background:#fef3c7;padding:8px 12px;border-radius:8px;font-size:11px;color:#92400e;text-align:center;margin:6px 0;display:none}
+        .otp-limit-warning.show{display:block}
+        
         .coupon-list-item{background:#f8f9fa;padding:10px;border-radius:10px;margin-bottom:6px;border-left:3px solid #22c55e;cursor:pointer}
         .coupon-list-item:active{transform:scale(0.97)}
         .coupon-list-item .code{font-weight:700;color:#D4AF37;font-size:14px}
@@ -247,37 +265,55 @@
         
         .profile-section-title{font-size:12px;font-weight:600;color:#999;padding:8px 0 4px 0}
         
-        /* Delivery Boy Animation Styles */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 5px rgba(124,58,237,0.3); }
-            50% { box-shadow: 0 0 20px rgba(124,58,237,0.6); }
-        }
-        .delivery-card { animation: slideUp 0.5s ease; }
-        .delivery-avatar { animation: glow 2s infinite; }
-        .delivery-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation: blink 1s infinite; }
+        /* Delivery Boy Card */
+        .delivery-card{animation:slideUp 0.5s ease;border-left:3px solid #22c55e}
+        .delivery-avatar{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;background:linear-gradient(135deg,#22c55e,#16a34a)}
+        .delivery-dot{display:inline-block;width:8px;height:8px;border-radius:50%;animation:blink 1s infinite}
+        .delivery-dot.online{background:#22c55e}
+        .delivery-dot.offline{background:#ef4444}
         
-        /* OTP Styles */
-        .otp-inputs{display:flex;gap:8px;justify-content:center;margin:10px 0}
-        .otp-inputs input{width:44px;height:50px;text-align:center;font-size:20px;font-weight:700;border:2px solid #e0e0e0;border-radius:10px;background:#fafbfc;transition:0.3s}
-        .otp-inputs input:focus{outline:none;border-color:#D4AF37;box-shadow:0 0 0 3px rgba(212,175,55,0.1)}
-        .otp-inputs input.filled{border-color:#22c55e;background:#f0fdf4}
-        .otp-timer{font-size:12px;color:#999;text-align:center;margin:4px 0}
-        .otp-timer .time{color:#D4AF37;font-weight:700}
-        .otp-resend{font-size:12px;color:#D4AF37;cursor:pointer;font-weight:600}
-        .otp-resend:hover{text-decoration:underline}
-        .otp-resend.disabled{color:#999;cursor:not-allowed}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        
+        .delivery-options{display:flex;gap:10px;margin:10px 0}
+        .schedule-datetime{display:none;margin:10px 0}
+        .schedule-datetime.show{display:block}
+        
+        .remember-me{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;margin:8px 0}
+        .remember-me input{width:16px;height:16px;accent-color:#D4AF37}
+        
+        /* Address Book Styles */
+        .address-item{background:#f8f9fa;padding:12px;border-radius:10px;margin-bottom:8px;border-left:3px solid #D4AF37}
+        .address-item .name{font-weight:600;font-size:13px}
+        .address-item .phone{font-size:11px;color:#666}
+        .address-item .address{font-size:12px;color:#555;margin-top:2px}
+        .address-item .default-badge{background:#22c55e;color:#fff;font-size:8px;padding:1px 8px;border-radius:10px}
+        
+        /* Gift Card Styles */
+        .gift-card-item{background:linear-gradient(135deg,#f5f3ff,#ede9fe);padding:14px;border-radius:12px;margin-bottom:8px;border:1px solid #D4AF37}
+        .gift-card-item .code{font-weight:700;font-size:14px;color:#1a1a2e;letter-spacing:2px}
+        .gift-card-item .amount{color:#D4AF37;font-weight:700;font-size:16px}
+        .gift-card-item .expiry{font-size:10px;color:#999}
+        .gift-card-item .status-badge{font-size:8px;padding:2px 8px;border-radius:10px;font-weight:600}
+        .gift-card-item .status-badge.active{background:#d1fae5;color:#059669}
+        .gift-card-item .status-badge.used{background:#fee2e2;color:#dc2626}
+        
+        /* Wishlist Styles */
+        .wishlist-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0}
+        .wishlist-item img{width:50px;height:50px;border-radius:8px;object-fit:cover}
+        .wishlist-item .info{flex:1}
+        .wishlist-item .name{font-weight:600;font-size:12px}
+        .wishlist-item .price{color:#D4AF37;font-weight:700}
+        .wishlist-item .remove-btn{color:#ef4444;cursor:pointer;font-size:14px}
+        
+        /* Payment Methods */
+        .payment-method-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0}
+        .payment-method-item .icon{font-size:24px;width:40px;color:#D4AF37}
+        .payment-method-item .info{flex:1}
+        .payment-method-item .name{font-weight:600;font-size:13px}
+        .payment-method-item .sub{font-size:10px;color:#999}
+        .payment-method-item .default-badge{background:#22c55e;color:#fff;font-size:8px;padding:1px 8px;border-radius:10px}
     </style>
 </head>
 <body>
@@ -344,13 +380,19 @@ let currentUser = null;
 let userData = null;
 let cartItems = [];
 let products = [];
+let turantProducts = [];
+let scheduleProducts = [];
 let orders = [];
+let giftCards = [];
+let wishlistItems = [];
 let appliedCoupon = null;
 let selectedPayment = null;
 let isFirstOrder = false;
 let userOrderCount = 0;
 let selectedComplaint = null;
 let selectedRating = 0;
+let selectedDeliveryRating = 0;
+let selectedRecommend = null;
 let countdownInterval = null;
 let otpTimerInterval = null;
 let otpCode = '';
@@ -360,6 +402,12 @@ let otpExpiryTime = 0;
 let isRegisterMode = false;
 let currentProductId = null;
 let allCoupons = [];
+let selectedDeliveryType = 'turant';
+let rememberMe = false;
+let otpAttempts = 0;
+let otpFirstAttemptTime = null;
+const MAX_OTP_ATTEMPTS = 5;
+const OTP_WINDOW_HOURS = 2;
 
 // ============================================================
 // 🔥 TOAST & RENDER HELPERS
@@ -379,6 +427,8 @@ function showBottomNav(show) { document.getElementById('bottomNav').classList.to
 function navigateTo(page, data=null) {
     if (!currentUser) { showBottomNav(false); showLogin(); return; }
     showBottomNav(true);
+    
+    // Update nav active
     document.querySelectorAll('.nav-item').forEach(el => {
         el.classList.remove('active');
         el.querySelector('i').style.color = '#999';
@@ -391,6 +441,7 @@ function navigateTo(page, data=null) {
         items[map[page]].querySelector('i').style.color = '#D4AF37';
         items[map[page]].querySelector('span').style.color = '#D4AF37';
     }
+    
     showLoader();
     setTimeout(() => {
         let html = '';
@@ -410,6 +461,7 @@ function navigateTo(page, data=null) {
             case 'requestPayOnline': html = renderRequestPayOnline(data); break;
             case 'complaint': html = renderComplaint(data); break;
             case 'review': html = renderReview(data); break;
+            case 'deliveryReview': html = renderDeliveryReview(data); break;
             case 'profile': html = renderProfile(); break;
             case 'coupons': html = renderCouponsList(); break;
             case 'addressBook': html = renderAddressBook(); break;
@@ -419,17 +471,20 @@ function navigateTo(page, data=null) {
             case 'changePassword': html = renderChangePasswordPage(); break;
             case 'appearance': html = renderAppearance(); break;
             case 'help': html = renderHelpPage(); break;
+            case 'paymentMethods': html = renderPaymentMethods(); break;
             default: html = '<div class="card"><p>Page not found</p></div>';
         }
         render(html);
+        
+        // Load data after render
         if (page === 'home') { loadProducts(); checkFirstOrder(); }
         if (page === 'cart') loadCart();
         if (page === 'orders') loadOrders();
         if (page === 'coupons') loadCouponsList();
+        if (page === 'giftCards') loadGiftCards();
+        if (page === 'wishlist') loadWishlist();
         if (page === 'orderDetail') {
-            setTimeout(() => {
-                loadDeliveryBoyDetails(data);
-            }, 500);
+            setTimeout(() => { loadDeliveryBoyDetails(data); }, 500);
         }
     }, 300);
 }
@@ -460,8 +515,49 @@ function togglePassword() {
 }
 
 // ============================================================
-// 🔥 OTP FUNCTIONS
+// 🔥 OTP FUNCTIONS (Complete with Limit)
 // ============================================================
+function getOTPAttempts() {
+    try {
+        const data = JSON.parse(localStorage.getItem('prl_otp_attempts') || 'null');
+        if (!data) return { count: 0, firstAttempt: null };
+        if (data.firstAttempt) {
+            const elapsed = (Date.now() - data.firstAttempt) / (1000 * 60 * 60);
+            if (elapsed > OTP_WINDOW_HOURS) {
+                localStorage.removeItem('prl_otp_attempts');
+                return { count: 0, firstAttempt: null };
+            }
+        }
+        return data;
+    } catch(e) {
+        return { count: 0, firstAttempt: null };
+    }
+}
+
+function saveOTPAttempt() {
+    let data = getOTPAttempts();
+    if (!data.firstAttempt) data.firstAttempt = Date.now();
+    data.count = (data.count || 0) + 1;
+    localStorage.setItem('prl_otp_attempts', JSON.stringify(data));
+    return data;
+}
+
+function canRequestOTP() {
+    const data = getOTPAttempts();
+    return data.count < MAX_OTP_ATTEMPTS;
+}
+
+function getOTPRemainingAttempts() {
+    const data = getOTPAttempts();
+    return MAX_OTP_ATTEMPTS - data.count;
+}
+
+function getOTPResetTime() {
+    const data = getOTPAttempts();
+    if (!data.firstAttempt) return null;
+    return new Date(data.firstAttempt + OTP_WINDOW_HOURS * 60 * 60 * 1000);
+}
+
 function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
@@ -496,6 +592,25 @@ function renderOTPPage(email, name, isRegister) {
     isRegisterMode = isRegister;
     otpEmail = email;
     otpVerified = false;
+    
+    if (!canRequestOTP()) {
+        const resetTime = getOTPResetTime();
+        showToast(`❌ OTP limit reached! Max ${MAX_OTP_ATTEMPTS} per 2 hours.`, 'error');
+        render(`
+            <div class="login-box" style="max-width:340px;margin:20px auto;">
+                <div class="icon">🚫</div>
+                <h2>OTP Limit Reached</h2>
+                <p class="text-muted">You have requested too many OTPs in a short time.</p>
+                <div style="background:#fee2e2;padding:10px;border-radius:8px;margin:10px 0;">
+                    <p style="font-size:13px;color:#dc2626;font-weight:600;">⚠️ Maximum ${MAX_OTP_ATTEMPTS} OTPs per 2 hours</p>
+                    <p style="font-size:11px;color:#666;">Try after ${resetTime ? new Date(resetTime).toLocaleString() : '2 hours'}</p>
+                </div>
+                <button class="btn btn-secondary btn-block" onclick="showLogin()">← Back to Login</button>
+            </div>
+        `);
+        return;
+    }
+    
     otpCode = generateOTP();
     otpExpiryTime = getOTPExpiry();
     
@@ -505,6 +620,9 @@ function renderOTPPage(email, name, isRegister) {
         createdAt: new Date().toISOString(),
         expiresAt: new Date(otpExpiryTime).toISOString()
     }).catch(e => console.log('Save OTP error:', e));
+    
+    const attemptData = saveOTPAttempt();
+    const remaining = MAX_OTP_ATTEMPTS - attemptData.count;
     
     sendOTPEmail(email, otpCode, name);
     
@@ -516,15 +634,16 @@ function renderOTPPage(email, name, isRegister) {
             <p style="font-weight:600;font-size:14px;color:#1a1a2e;">${email}</p>
             
             <div class="otp-inputs" id="otpInputs">
-                <input type="text" maxlength="1" id="otp0" oninput="otpInput(this,0)" onkeydown="otpBackspace(event,0)">
-                <input type="text" maxlength="1" id="otp1" oninput="otpInput(this,1)" onkeydown="otpBackspace(event,1)">
-                <input type="text" maxlength="1" id="otp2" oninput="otpInput(this,2)" onkeydown="otpBackspace(event,2)">
-                <input type="text" maxlength="1" id="otp3" oninput="otpInput(this,3)" onkeydown="otpBackspace(event,3)">
-                <input type="text" maxlength="1" id="otp4" oninput="otpInput(this,4)" onkeydown="otpBackspace(event,4)">
-                <input type="text" maxlength="1" id="otp5" oninput="otpInput(this,5)" onkeydown="otpBackspace(event,5)">
+                ${[0,1,2,3,4,5].map(i => `
+                    <input type="text" maxlength="1" id="otp${i}" oninput="otpInput(this,${i})" onkeydown="otpBackspace(event,${i})">
+                `).join('')}
             </div>
             
-            <div class="otp-timer" id="otpTimer">⏳ <span class="time" id="timerDisplay">05:00</span> remaining</div>
+            <div class="otp-timer">⏳ <span class="time" id="timerDisplay">05:00</span> remaining</div>
+            
+            <div id="otpLimitWarning" class="otp-limit-warning ${remaining <= 2 ? 'show' : ''}">
+                ⚠️ ${remaining} OTP ${remaining === 1 ? 'request' : 'requests'} remaining (${MAX_OTP_ATTEMPTS} per 2 hours)
+            </div>
             
             <button class="btn btn-gold btn-block" onclick="verifyOTP()"><i class="fas fa-check"></i> Verify OTP</button>
             
@@ -533,7 +652,7 @@ function renderOTPPage(email, name, isRegister) {
                 <span class="otp-resend" id="resendBtn" onclick="resendOTP()">Resend OTP</span>
             </div>
             <div style="margin-top:8px;font-size:11px;color:#999;">
-                <i class="fas fa-info-circle"></i> OTP valid for 5 minutes
+                <i class="fas fa-info-circle"></i> OTP valid for 5 minutes • Max ${MAX_OTP_ATTEMPTS} per 2 hours
             </div>
         </div>
     `);
@@ -543,8 +662,7 @@ function renderOTPPage(email, name, isRegister) {
 }
 
 function otpInput(el, index) {
-    const val = el.value;
-    if (val.length === 1 && index < 5) {
+    if (el.value.length === 1 && index < 5) {
         document.getElementById(`otp${index+1}`).focus();
     }
 }
@@ -608,6 +726,7 @@ async function verifyOTP() {
                 completeLogin();
             }
             await db.collection('otp').doc(otpEmail).delete();
+            localStorage.removeItem('prl_otp_attempts');
         } else {
             showToast('❌ Invalid OTP. Please try again.', 'error');
         }
@@ -617,39 +736,92 @@ async function verifyOTP() {
 }
 
 async function resendOTP() {
+    if (!canRequestOTP()) {
+        const resetTime = getOTPResetTime();
+        showToast(`❌ OTP limit reached! Try after ${resetTime ? new Date(resetTime).toLocaleTimeString() : '2 hours'}`, 'error');
+        return;
+    }
     if (Date.now() < otpExpiryTime) {
         showToast('Current OTP is still valid. Please wait.', 'warning');
         return;
     }
     otpCode = generateOTP();
     otpExpiryTime = getOTPExpiry();
+    
     await db.collection('otp').doc(otpEmail).set({
         otp: otpCode,
         email: otpEmail,
         createdAt: new Date().toISOString(),
         expiresAt: new Date(otpExpiryTime).toISOString()
     });
+    
     await sendOTPEmail(otpEmail, otpCode, 'Customer');
+    const attemptData = saveOTPAttempt();
+    const remaining = MAX_OTP_ATTEMPTS - attemptData.count;
+    
     startOTPTimer();
     document.getElementById('resendBtn').classList.add('disabled');
-    showToast('✅ OTP resent successfully!', 'success');
+    
+    const warningEl = document.getElementById('otpLimitWarning');
+    if (warningEl) {
+        warningEl.textContent = `⚠️ ${remaining} OTP ${remaining === 1 ? 'request' : 'requests'} remaining (${MAX_OTP_ATTEMPTS} per 2 hours)`;
+        warningEl.classList.toggle('show', remaining <= 2);
+    }
+    
+    showToast(`✅ OTP resent! (${remaining} attempts remaining)`, 'success');
 }
 
 // ============================================================
-// 🔥 LOGIN / REGISTER - Empty Fields
+// 🔥 REMEMBER ME FUNCTIONS
+// ============================================================
+function saveRememberMe(email, password) {
+    try {
+        localStorage.setItem('prl_remember_email', email);
+        localStorage.setItem('prl_remember_password', password);
+        localStorage.setItem('prl_remember', 'true');
+    } catch(e) {}
+}
+
+function loadRememberMe() {
+    try {
+        const email = localStorage.getItem('prl_remember_email') || '';
+        const password = localStorage.getItem('prl_remember_password') || '';
+        const remember = localStorage.getItem('prl_remember') === 'true';
+        return { email, password, remember };
+    } catch(e) { return { email: '', password: '', remember: false }; }
+}
+
+function clearRememberMe() {
+    try {
+        localStorage.removeItem('prl_remember_email');
+        localStorage.removeItem('prl_remember_password');
+        localStorage.removeItem('prl_remember');
+    } catch(e) {}
+}
+
+// ============================================================
+// 🔥 LOGIN / REGISTER
 // ============================================================
 function showLogin() {
     isRegisterMode = false;
     showBottomNav(false);
+    const saved = loadRememberMe();
+    const email = saved.remember ? saved.email : '';
+    const password = saved.remember ? saved.password : '';
+    
     render(`
         <div class="login-box">
             <div class="icon">🛒</div>
             <h2>Customer Login</h2>
             <p class="text-muted">Login to shop & track orders</p>
-            <input class="input" id="loginEmail" placeholder="Email">
+            <input class="input" id="loginEmail" placeholder="Email" value="${email}">
             <div class="password-wrapper">
-                <input class="input" id="loginPassword" type="password" placeholder="Password">
+                <input class="input" id="loginPassword" type="password" placeholder="Password" value="${password}">
                 <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon"></i></button>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="rememberMe" ${saved.remember ? 'checked' : ''}>
+                <label for="rememberMe">Remember Me</label>
             </div>
             <button class="btn btn-gold btn-block" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
             <div style="margin-top:8px;font-size:12px;color:#666;">Don't have account? <span class="toggle-link" onclick="showRegister()">Register</span></div>
@@ -664,6 +836,7 @@ function showRegister() {
         <div class="login-box">
             <div class="icon">📝</div>
             <h2>Create Account</h2>
+            <p class="text-muted">Fill details and verify your email</p>
             <input class="input" id="regName" placeholder="Full Name">
             <input class="input" id="regEmail" placeholder="Email">
             <div class="password-wrapper">
@@ -681,7 +854,13 @@ function showRegister() {
 async function handleLogin() {
     const email = document.getElementById('loginEmail').value.trim();
     const pwd = document.getElementById('loginPassword').value;
+    const remember = document.getElementById('rememberMe')?.checked || false;
+    
     if (!email || !pwd) { showToast('Enter email & password', 'error'); return; }
+    
+    if (remember) saveRememberMe(email, pwd);
+    else clearRememberMe();
+    
     try {
         const userCred = await auth.signInWithEmailAndPassword(email, pwd);
         currentUser = userCred.user;
@@ -780,67 +959,6 @@ async function logout() {
 }
 
 // ============================================================
-// 🔥 BLOCK CHECK + COUNTDOWN
-// ============================================================
-function showBlockPopup(message) {
-    const popup = document.createElement('div');
-    popup.className = 'popup-overlay';
-    popup.id = 'blockPopup';
-    popup.innerHTML = `
-        <div class="popup-box" style="border:3px solid #ef4444;">
-            <div class="icon" style="color:#ef4444;">🚫</div>
-            <div class="title" style="color:#dc2626;">Account Blocked</div>
-            <div class="sub" id="blockMessage" style="font-size:14px;font-weight:600;color:#dc2626;">${message}</div>
-            <div style="font-size:12px;color:#666;margin:8px 0;">Contact admin for support</div>
-            <button class="btn btn-danger btn-block" onclick="this.closest('.popup-overlay').remove()">OK</button>
-        </div>
-    `;
-    document.body.appendChild(popup);
-}
-
-function startBlockCountdown(unblockTime) {
-    if (countdownInterval) clearInterval(countdownInterval);
-    countdownInterval = setInterval(() => {
-        const now = new Date();
-        const diffMs = unblockTime - now;
-        if (diffMs <= 0) {
-            clearInterval(countdownInterval);
-            db.collection('users').doc(currentUser.uid).update({
-                blocked: false, blockType: null, blockDuration: null, unblockAt: null
-            }).then(() => {
-                const popup = document.getElementById('blockPopup');
-                if (popup) popup.remove();
-                showToast('✅ Account unblocked!', 'success');
-                location.reload();
-            });
-            return;
-        }
-        const hours = Math.floor(diffMs / (1000 * 60 * 60));
-        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
-        const msgEl = document.getElementById('blockMessage');
-        if (msgEl) {
-            msgEl.textContent = `⏳ Blocked for ${hours}h ${minutes}m ${seconds}s remaining`;
-        }
-    }, 1000);
-}
-
-// ============================================================
-// 🔥 CHECK FIRST ORDER
-// ============================================================
-async function checkFirstOrder() {
-    try {
-        const snap = await db.collection('orders').where('userId', '==', currentUser.uid).get();
-        userOrderCount = snap.size;
-        isFirstOrder = userOrderCount === 0;
-        const banner = document.getElementById('firstOrderBanner');
-        if (banner) {
-            banner.style.display = isFirstOrder ? 'flex' : 'none';
-        }
-    } catch(e) { console.log('Check first order:', e); }
-}
-
-// ============================================================
 // 🔥 HOME
 // ============================================================
 function renderHome() {
@@ -856,8 +974,36 @@ function renderHome() {
             <div class="card-title">🛍️ Products</div>
             <span style="font-size:10px;color:#999;cursor:pointer;" onclick="navigateTo('coupons')">🎫 View Coupons →</span>
         </div>
-        <div class="product-grid" id="productGrid"><div class="loader-box"><div class="spinner"></div></div></div>
+        
+        <div style="margin-bottom:10px;">
+            <div class="delivery-options">
+                <div class="btn-delivery-option active" onclick="selectDeliveryType('turant')" id="deliveryTurant">
+                    <span class="icon">⚡</span>
+                    <span class="label">Turant Delivery</span>
+                    <span class="sub">20-60 min</span>
+                </div>
+                <div class="btn-delivery-option" onclick="selectDeliveryType('schedule')" id="deliverySchedule">
+                    <span class="icon">📅</span>
+                    <span class="label">Schedule Delivery</span>
+                    <span class="sub">Choose date & time</span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="scheduleDateTime" class="schedule-datetime">
+            <input class="input input-sm" type="datetime-local" id="scheduleInput" value="">
+        </div>
+        
+        <div id="productGrid"><div class="loader-box"><div class="spinner"></div></div></div>
     `;
+}
+
+function selectDeliveryType(type) {
+    selectedDeliveryType = type;
+    document.getElementById('deliveryTurant').classList.toggle('active', type === 'turant');
+    document.getElementById('deliverySchedule').classList.toggle('active', type === 'schedule');
+    document.getElementById('scheduleDateTime').classList.toggle('show', type === 'schedule');
+    loadProducts();
 }
 
 // ============================================================
@@ -869,18 +1015,33 @@ async function loadProducts() {
     try {
         const snap = await db.collection('products').get();
         products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        if (products.length === 0) {
-            grid.innerHTML = `<div class="empty-state"><div class="icon">📦</div><div class="title">No products yet</div></div>`;
+        turantProducts = products.filter(p => p.deliveryType === 'turant' || !p.deliveryType);
+        scheduleProducts = products.filter(p => p.deliveryType === 'schedule');
+        
+        const displayProducts = selectedDeliveryType === 'turant' ? turantProducts : scheduleProducts;
+        
+        if (displayProducts.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">📦</div>
+                    <div class="title">No ${selectedDeliveryType === 'turant' ? 'Turant' : 'Schedule'} products</div>
+                    <div class="sub">Check other delivery options</div>
+                </div>
+            `;
             return;
         }
+        
         let html = '';
-        products.forEach(p => {
+        displayProducts.forEach(p => {
+            const tag = p.deliveryType === 'schedule' ? 'schedule' : 'turant';
+            const tagLabel = p.deliveryType === 'schedule' ? '📅 Schedule' : '⚡ Turant';
             html += `
                 <div class="product-card" onclick="viewProduct('${p.id}')">
                     <img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'">
                     <div class="info">
                         <div class="name">${p.name}</div>
                         <div class="price">₹${p.price}</div>
+                        <span class="delivery-tag ${tag}">${tagLabel}</span>
                         <button class="add-btn" onclick="event.stopPropagation();addToCart('${p.id}')">Add to Cart</button>
                     </div>
                 </div>
@@ -894,7 +1055,7 @@ async function loadProducts() {
 }
 
 // ============================================================
-// 🔥 VIEW PRODUCT WITH REVIEWS
+// 🔥 VIEW PRODUCT
 // ============================================================
 function viewProduct(productId) {
     const p = products.find(x => x.id === productId);
@@ -927,6 +1088,11 @@ function viewProduct(productId) {
             <img src="${p.image || 'https://via.placeholder.com/300'}" style="width:100%;border-radius:8px;height:200px;object-fit:cover;" onerror="this.src='https://via.placeholder.com/300'">
             <div style="font-size:20px;font-weight:700;color:#D4AF37;margin:8px 0;">₹${p.price}</div>
             <p style="font-size:13px;color:#666;line-height:1.5;">${p.description || 'No description available'}</p>
+            <div style="margin:8px 0;">
+                <span class="delivery-tag ${p.deliveryType === 'schedule' ? 'schedule' : 'turant'}">
+                    ${p.deliveryType === 'schedule' ? '📅 Schedule Delivery' : '⚡ Turant Delivery (20-60 min)'}
+                </span>
+            </div>
             <button class="btn btn-gold btn-block mt-2" onclick="addToCart('${p.id}')"><i class="fas fa-cart-plus"></i> Add to Cart</button>
             <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('home')">← Back</button>
         </div>
@@ -945,86 +1111,6 @@ function viewProduct(productId) {
 }
 
 // ============================================================
-// 🔥 SAVE RECENT VIEW
-// ============================================================
-async function saveRecentView(productId) {
-    if (!currentUser) return;
-    const p = products.find(x => x.id === productId);
-    if (!p) return;
-    try {
-        const existing = await db.collection('recentViews')
-            .where('userId', '==', currentUser.uid)
-            .where('productId', '==', productId).get();
-        if (!existing.empty) {
-            await db.collection('recentViews').doc(existing.docs[0].id).update({ viewedAt: new Date().toISOString() });
-        } else {
-            await db.collection('recentViews').add({
-                userId: currentUser.uid, productId: productId, name: p.name,
-                price: p.price, image: p.image || '', viewedAt: new Date().toISOString()
-            });
-        }
-    } catch(e) { console.log('Save recent view error:', e); }
-}
-
-async function getRecentViews() {
-    if (!currentUser) return [];
-    try {
-        const snap = await db.collection('recentViews').where('userId', '==', currentUser.uid).get();
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }))
-            .sort((a, b) => new Date(b.viewedAt) - new Date(a.viewedAt)).slice(0, 6);
-    } catch(e) { return []; }
-}
-
-async function loadRecentViews() {
-    const container = document.getElementById('recentViewsContainer');
-    if (!container) return;
-    const recent = await getRecentViews();
-    if (recent.length === 0) {
-        container.innerHTML = `<div class="empty-state" style="padding:10px;"><div class="icon" style="font-size:24px;">👀</div><div class="title" style="font-size:12px;">No recent views</div></div>`;
-        return;
-    }
-    container.innerHTML = recent.map(r => `
-        <div class="product-card" onclick="viewProduct('${r.productId}')" style="cursor:pointer;">
-            <img src="${r.image || 'https://via.placeholder.com/150'}" onerror="this.src='https://via.placeholder.com/150'">
-            <div class="info">
-                <div class="name">${r.name}</div>
-                <div class="price">₹${r.price}</div>
-            </div>
-        </div>
-    `).join('');
-}
-
-// ============================================================
-// 🔥 LOAD PRODUCT REVIEWS
-// ============================================================
-async function loadProductReviews(productId) {
-    const container = document.getElementById('reviewsContainer');
-    if (!container) { setTimeout(() => loadProductReviews(productId), 300); return; }
-    container.innerHTML = `<div class="loader-box" style="padding:10px;"><div class="spinner" style="width:20px;height:20px;"></div><p style="font-size:10px;color:#999;margin-top:4px;">Loading reviews...</p></div>`;
-    try {
-        const snap = await db.collection('reviews').where('productId', '==', productId).get();
-        const reviews = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        if (reviews.length === 0) {
-            container.innerHTML = `<div style="text-align:center;padding:20px;color:#999;"><div style="font-size:32px;margin-bottom:8px;">📝</div><div style="font-size:14px;font-weight:600;color:#666;">No reviews yet</div><div style="font-size:11px;color:#aaa;">Be the first to review this product!</div></div>`;
-            return;
-        }
-        let totalRating = 0;
-        reviews.forEach(r => totalRating += (r.rating || 5));
-        const avgRating = (totalRating / reviews.length).toFixed(1);
-        const fullStars = Math.round(avgRating);
-        let html = `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e0e0e0;margin-bottom:8px;"><span style="font-size:18px;font-weight:800;color:#D4AF37;">${avgRating}</span><span style="color:#f59e0b;font-size:16px;">${'★'.repeat(fullStars)}${'☆'.repeat(5-fullStars)}</span><span style="font-size:11px;color:#999;">(${reviews.length} reviews)</span></div>`;
-        reviews.forEach(r => {
-            const date = r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
-            const rating = r.rating || 5;
-            html += `<div class="review-item"><div style="display:flex;justify-content:space-between;align-items:center;"><div class="user">${r.userName || 'Anonymous'} ${r.isVerified ? '<span class="verified">✅ Verified</span>' : ''}</div></div><div class="stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div><div class="text">${r.text || ''}</div>${r.imageUrl ? `<img src="${r.imageUrl}" class="review-image" alt="Review image" onerror="this.style.display='none'">` : ''}<div class="date">${date}</div></div>`;
-        });
-        container.innerHTML = html;
-    } catch(e) {
-        container.innerHTML = `<div style="text-align:center;padding:15px;border:2px solid #fee2e2;border-radius:12px;background:#fef2f2;"><div style="font-size:24px;margin-bottom:4px;">⚠️</div><div style="font-size:12px;font-weight:600;color:#dc2626;">Error loading reviews</div><button class="btn btn-secondary btn-sm mt-2" onclick="loadProductReviews('${productId}')">🔄 Retry</button></div>`;
-    }
-}
-
-// ============================================================
 // 🔥 ADD TO CART
 // ============================================================
 async function addToCart(productId) {
@@ -1032,7 +1118,9 @@ async function addToCart(productId) {
     if (!p) { showToast('Product not found', 'error'); return; }
     if (userData?.blocked) { showToast('🚫 Your account is blocked!', 'error'); return; }
     try {
-        const existing = await db.collection('cart').where('userId', '==', currentUser.uid).where('productId', '==', productId).get();
+        const existing = await db.collection('cart')
+            .where('userId', '==', currentUser.uid)
+            .where('productId', '==', productId).get();
         if (!existing.empty) {
             const doc = existing.docs[0];
             await db.collection('cart').doc(doc.id).update({ quantity: doc.data().quantity + 1 });
@@ -1040,6 +1128,7 @@ async function addToCart(productId) {
             await db.collection('cart').add({
                 userId: currentUser.uid, productId: p.id, name: p.name,
                 price: p.price, image: p.image || '', quantity: 1,
+                deliveryType: p.deliveryType || 'turant',
                 addedAt: new Date().toISOString()
             });
         }
@@ -1052,7 +1141,10 @@ async function addToCart(productId) {
 // 🔥 CART
 // ============================================================
 function renderCart() {
-    return `<div class="card"><div class="card-title">🛒 Your Cart</div></div><div id="cartContainer"><div class="loader-box"><div class="spinner"></div></div></div>`;
+    return `
+        <div class="card"><div class="card-title">🛒 Your Cart</div></div>
+        <div id="cartContainer"><div class="loader-box"><div class="spinner"></div></div></div>
+    `;
 }
 
 async function loadCart() {
@@ -1068,7 +1160,23 @@ async function loadCart() {
         let html = '', total = 0;
         cartItems.forEach(item => {
             total += item.price * item.quantity;
-            html += `<div class="cart-item"><img src="${item.image || 'https://via.placeholder.com/50'}" onerror="this.src='https://via.placeholder.com/50'"><div class="info"><div class="name">${item.name}</div><div class="price">₹${item.price}</div></div><div class="qty-control"><button onclick="updateCartQty('${item.id}', -1)">−</button><span>${item.quantity}</span><button onclick="updateCartQty('${item.id}', 1)">+</button></div><button class="btn btn-sm btn-danger" onclick="removeFromCart('${item.id}')"><i class="fas fa-trash"></i></button></div>`;
+            const tag = item.deliveryType === 'schedule' ? '📅 Schedule' : '⚡ Turant';
+            html += `
+                <div class="cart-item">
+                    <img src="${item.image || 'https://via.placeholder.com/50'}" onerror="this.src='https://via.placeholder.com/50'">
+                    <div class="info">
+                        <div class="name">${item.name}</div>
+                        <div class="price">₹${item.price}</div>
+                        <span style="font-size:8px;color:#666;">${tag}</span>
+                    </div>
+                    <div class="qty-control">
+                        <button onclick="updateCartQty('${item.id}', -1)">−</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateCartQty('${item.id}', 1)">+</button>
+                    </div>
+                    <button class="btn btn-sm btn-danger" onclick="removeFromCart('${item.id}')"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
         });
         html += `<div class="cart-total">Total: ₹${total}</div>`;
         html += `<button class="btn btn-secondary btn-sm" onclick="navigateTo('coupons')">🎫 View Coupons</button>`;
@@ -1168,9 +1276,19 @@ function renderCheckout() {
             <div class="od-price">₹${item.price * item.quantity}</div>
         </div>
     `).join('');
+    
+    const isTurant = cartItems.some(i => i.deliveryType !== 'schedule');
+    const isSchedule = cartItems.some(i => i.deliveryType === 'schedule');
+    let deliveryTypeLabel = 'Turant (20-60 min)';
+    if (isSchedule && !isTurant) deliveryTypeLabel = 'Schedule Delivery';
+    else if (isSchedule && isTurant) deliveryTypeLabel = 'Mixed (Turant + Schedule)';
+    
     return `
         <div class="card">
             <div class="card-title">📋 Checkout</div>
+            <div style="font-size:11px;color:#666;margin-bottom:8px;background:#f0f0f0;padding:6px 10px;border-radius:8px;">
+                🚚 Delivery: <strong>${deliveryTypeLabel}</strong>
+            </div>
             ${itemsHtml}
             <div style="border-top:2px solid #e0e0e0;padding-top:8px;margin-top:6px;">
                 <div class="flex-between"><span>Subtotal</span><span>₹${total}</span></div>
@@ -1212,68 +1330,6 @@ async function applyCoupon() {
         }
         appliedCoupon = { ...coupon, id: snap.docs[0].id };
         showToast(`✅ Coupon applied!`, 'success');
-        navigateTo('checkout');
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-// ============================================================
-// 🔥 COUPONS LIST
-// ============================================================
-function renderCouponsList() {
-    return `
-        <div class="card">
-            <div class="card-title">🎫 Available Coupons</div>
-            <div id="couponsContainer"><div class="loader-box"><div class="spinner"></div></div></div>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
-        </div>
-    `;
-}
-
-async function loadCouponsList() {
-    const container = document.getElementById('couponsContainer');
-    if (!container) return;
-    try {
-        const snap = await db.collection('coupons').where('active', '==', true).where('isPublic', '==', true).get();
-        allCoupons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        if (allCoupons.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">🎫</div><div class="title">No coupons available</div><div class="sub">Check back later for offers!</div></div>`;
-            return;
-        }
-        let html = '';
-        allCoupons.forEach(c => {
-            html += `
-                <div class="coupon-list-item" onclick="applyCouponFromList('${c.code}')">
-                    <div class="flex-between">
-                        <span class="code">${c.code}</span>
-                        <span class="badge-coupon">${c.discount * 100}% OFF</span>
-                    </div>
-                    <div class="detail">Max Discount: ₹${c.maxDiscount} • Min Order: ₹${c.minAmount}</div>
-                    <div class="detail" style="color:#22c55e;font-size:9px;">Click to apply →</div>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-    } catch(e) {
-        container.innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`;
-    }
-}
-
-async function applyCouponFromList(code) {
-    const total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    if (cartItems.length === 0) {
-        showToast('🛒 Cart is empty! Add items first.', 'error');
-        return;
-    }
-    try {
-        const snap = await db.collection('coupons').where('code', '==', code).where('active', '==', true).get();
-        if (snap.empty) { showToast('❌ Coupon not available', 'error'); return; }
-        const coupon = snap.docs[0].data();
-        if (total < (coupon.minAmount || 0)) {
-            showToast(`❌ Minimum order ₹${coupon.minAmount} required`, 'error');
-            return;
-        }
-        appliedCoupon = { ...coupon, id: snap.docs[0].id };
-        showToast(`✅ Coupon ${code} applied!`, 'success');
         navigateTo('checkout');
     } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
@@ -1348,6 +1404,15 @@ async function confirmPayment() {
         } catch(e) { showToast('Error: ' + e.message, 'error'); return; }
     }
     
+    let scheduleDate = null;
+    if (selectedDeliveryType === 'schedule') {
+        scheduleDate = document.getElementById('scheduleInput')?.value || null;
+        if (!scheduleDate) {
+            showToast('Please select date & time for schedule delivery', 'error');
+            return;
+        }
+    }
+    
     const total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     let deliveryCharge = isFirstOrder ? 0 : 40;
     let discount = 0;
@@ -1357,12 +1422,31 @@ async function confirmPayment() {
     let finalTotal = total - discount + deliveryCharge;
     if (finalTotal < 0) finalTotal = 0;
     
+    const isTurantOrder = cartItems.some(i => i.deliveryType !== 'schedule');
+    const isScheduleOrder = cartItems.some(i => i.deliveryType === 'schedule');
+    let orderDeliveryType = 'turant';
+    let orderStatus = 'pending';
+    let deliveryPartner = '';
+    
+    if (isScheduleOrder && !isTurantOrder) {
+        orderDeliveryType = 'schedule';
+        orderStatus = 'scheduled';
+        deliveryPartner = 'courier_partner';
+    } else {
+        orderDeliveryType = 'turant';
+        orderStatus = 'pending';
+    }
+    
     try {
         const orderRef = await db.collection('orders').add({
             userId: currentUser.uid,
             userEmail: userData?.email || '',
             userName: userData?.name || '',
-            items: cartItems.map(i => ({ name: i.name, price: i.price, quantity: i.quantity, image: i.image, productId: i.productId })),
+            items: cartItems.map(i => ({ 
+                name: i.name, price: i.price, quantity: i.quantity, 
+                image: i.image, productId: i.productId,
+                deliveryType: i.deliveryType || 'turant'
+            })),
             total: finalTotal,
             subtotal: total,
             discount: discount,
@@ -1373,38 +1457,28 @@ async function confirmPayment() {
             phone: userData?.phone || '',
             paymentMethod: selectedPayment,
             paymentStatus: selectedPayment === 'COD' ? 'pending' : 'completed',
-            status: 'pending',
+            deliveryType: orderDeliveryType,
+            scheduleDate: scheduleDate,
+            status: orderStatus,
+            deliveryPartner: deliveryPartner,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
         });
-        await db.collection('users').doc(currentUser.uid).update({ orderCount: firebase.firestore.FieldValue.increment(1) });
-        for (const item of cartItems) { await db.collection('cart').doc(item.id).delete(); }
+        
+        await db.collection('users').doc(currentUser.uid).update({ 
+            orderCount: firebase.firestore.FieldValue.increment(1) 
+        });
+        
+        for (const item of cartItems) { 
+            await db.collection('cart').doc(item.id).delete(); 
+        }
         cartItems = [];
         const usedCoupon = appliedCoupon;
         appliedCoupon = null;
-        showOrderSuccessPopup(orderRef.id, finalTotal, usedCoupon, isFirstOrder);
+        
+        showToast('✅ Order placed successfully!', 'success');
+        setTimeout(() => navigateTo('orders'), 500);
     } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-function showOrderSuccessPopup(orderId, amount, coupon, isFirstOrder) {
-    const popup = document.createElement('div');
-    popup.className = 'popup-overlay';
-    popup.innerHTML = `
-        <div class="popup-box" style="border:3px solid #22c55e;">
-            <div class="icon" style="color:#22c55e;">✅</div>
-            <div class="title" style="color:#22c55e;">Order Placed Successfully!</div>
-            <div class="order-id" style="background:#f0fdf4;color:#166534;">Order #${orderId.substring(0,12)}</div>
-            <div class="sub" style="font-size:16px;font-weight:700;color:#1a1a2e;">Total: ₹${amount.toFixed(0)}</div>
-            ${coupon ? `<div class="sub" style="color:#22c55e;">🎫 Coupon ${coupon.code} applied</div>` : ''}
-            ${isFirstOrder ? `<div class="sub" style="color:#22c55e;">🚚 Free delivery on first order!</div>` : ''}
-            <div style="display:flex;gap:8px;margin-top:12px;">
-                <button class="btn btn-gold btn-block" onclick="this.closest('.popup-overlay').remove();navigateTo('orderDetail','${orderId}')"><i class="fas fa-eye"></i> View Order</button>
-                <button class="btn btn-secondary btn-block" onclick="this.closest('.popup-overlay').remove();navigateTo('home')"><i class="fas fa-home"></i> Home</button>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(popup);
-    popup.addEventListener('click', (e) => { if (e.target === popup) popup.remove(); });
 }
 
 // ============================================================
@@ -1426,6 +1500,7 @@ async function loadOrders() {
         }
         let html = '';
         orders.forEach(o => {
+            const deliveryTag = o.deliveryType === 'schedule' ? '📅 Schedule' : '⚡ Turant';
             html += `
                 <div class="order-item" onclick="navigateTo('orderDetail', '${o.id}')">
                     <div class="flex-between">
@@ -1435,11 +1510,12 @@ async function loadOrders() {
                     <div class="detail">Items: ${o.items?.length || 0} • ₹${o.total}</div>
                     <div class="detail">📍 ${o.address || 'N/A'}</div>
                     <div class="detail">📅 ${o.createdAt ? new Date(o.createdAt).toLocaleDateString() : ''}</div>
+                    <div class="detail" style="font-size:9px;color:#7c3aed;">${deliveryTag}</div>
                     ${o.status === 'pending' ? `<div class="detail" style="color:#d97706;">⏳ Waiting for delivery partner...</div>` : ''}
                     ${o.status === 'assigned' ? `<div class="detail" style="color:#2563eb;">🚚 Delivery partner assigned!</div>` : ''}
                     ${o.status === 'picked' ? `<div class="detail" style="color:#7c3aed;">📦 Out for delivery!</div>` : ''}
                     ${o.status === 'delivered' ? `<div class="detail" style="color:#059669;">✅ Delivered! Thank you!</div>` : ''}
-                    ${o.status === 'cancelled' ? `<div class="detail" style="color:#dc2626;">❌ Cancelled</div>` : ''}
+                    ${o.status === 'scheduled' ? `<div class="detail" style="color:#7c3aed;">📅 Scheduled for ${o.scheduleDate ? new Date(o.scheduleDate).toLocaleString() : 'later'}</div>` : ''}
                 </div>
             `;
         });
@@ -1448,7 +1524,7 @@ async function loadOrders() {
 }
 
 // ============================================================
-// 🔥 ORDER DETAIL + DELIVERY BOY DETAILS (NO TRACKING)
+// 🔥 ORDER DETAIL
 // ============================================================
 function renderOrderDetail(orderId) {
     const order = orders.find(o => o.id === orderId);
@@ -1492,9 +1568,9 @@ function renderOrderDetail(orderId) {
     const isPending = order.status === 'pending';
     const isAssigned = order.status === 'assigned' || order.status === 'picked';
     const isDelivered = order.status === 'delivered';
-    const isCancelled = order.status === 'cancelled';
+    const isScheduled = order.status === 'scheduled';
+    const deliveryTag = order.deliveryType === 'schedule' ? '📅 Schedule Delivery' : '⚡ Turant Delivery';
     
-    // Delivery Boy Section - Only if assigned or delivered
     let deliverySection = '';
     if (isAssigned || isDelivered) {
         deliverySection = `<div id="deliveryBoyContainer"></div>`;
@@ -1508,17 +1584,12 @@ function renderOrderDetail(orderId) {
                 <div class="detail-item"><div class="label">Status</div><div class="value"><span class="status status-${order.status}">${order.status}</span></div></div>
                 <div class="detail-item"><div class="label">Total</div><div class="value" style="color:#D4AF37;">₹${order.total}</div></div>
                 <div class="detail-item"><div class="label">Payment</div><div class="value">${order.paymentMethod || 'COD'}</div></div>
-                ${order.discount ? `<div class="detail-item"><div class="label">Discount</div><div class="value" style="color:#22c55e;">-₹${order.discount}</div></div>` : ''}
+                <div class="detail-item" style="grid-column:span 2;"><div class="label">Delivery Type</div><div class="value" style="font-size:12px;">${deliveryTag}</div></div>
+                ${order.scheduleDate ? `<div class="detail-item" style="grid-column:span 2;"><div class="label">Scheduled Date</div><div class="value">${new Date(order.scheduleDate).toLocaleString()}</div></div>` : ''}
                 ${order.isFirstOrder ? `<div class="detail-item" style="grid-column:span 2;"><div class="label">🎉 First Order</div><div class="value" style="color:#22c55e;">Free Delivery</div></div>` : ''}
                 <div class="detail-item"><div class="label">Date</div><div class="value">${order.createdAt ? new Date(order.createdAt).toLocaleDateString() : ''}</div></div>
                 <div class="detail-item" style="grid-column:span 2;"><div class="label">Address</div><div class="value">${order.address || 'N/A'}</div></div>
                 <div class="detail-item" style="grid-column:span 2;"><div class="label">Phone</div><div class="value">${order.phone || 'N/A'}</div></div>
-                ${order.deliveryPartner ? `
-                    <div class="detail-item" style="grid-column:span 2;">
-                        <div class="label">Delivery Partner</div>
-                        <div class="value" style="font-size:11px;color:#666;">Assigned</div>
-                    </div>
-                ` : ''}
             </div>
             
             <div style="margin-top:10px;">
@@ -1527,7 +1598,7 @@ function renderOrderDetail(orderId) {
                 ${isPending ? `<div style="font-size:11px;color:#d97706;background:#fef3c7;padding:6px 10px;border-radius:8px;margin-top:6px;">⏳ Waiting for a delivery partner to accept your order</div>` : ''}
                 ${isAssigned ? `<div style="font-size:11px;color:#2563eb;background:#dbeafe;padding:6px 10px;border-radius:8px;margin-top:6px;">🚚 Your order is on the way! Delivery partner assigned.</div>` : ''}
                 ${isDelivered ? `<div style="font-size:11px;color:#059669;background:#d1fae5;padding:6px 10px;border-radius:8px;margin-top:6px;">✅ Order delivered successfully!</div>` : ''}
-                ${isCancelled ? `<div style="font-size:11px;color:#dc2626;background:#fee2e2;padding:6px 10px;border-radius:8px;margin-top:6px;">❌ Order cancelled</div>` : ''}
+                ${isScheduled ? `<div style="font-size:11px;color:#7c3aed;background:#ede9fe;padding:6px 10px;border-radius:8px;margin-top:6px;">📅 Order scheduled for ${order.scheduleDate ? new Date(order.scheduleDate).toLocaleString() : 'later'}</div>` : ''}
             </div>
             
             <div style="margin-top:10px;">
@@ -1541,7 +1612,10 @@ function renderOrderDetail(orderId) {
             
             <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
                 <button class="btn btn-sm btn-help" onclick="navigateTo('orderHelp', '${order.id}')"><i class="fas fa-question-circle"></i> Help</button>
-                ${isDelivered ? `<button class="btn btn-sm btn-success" onclick="openReview('${order.id}')"><i class="fas fa-star"></i> Review</button>` : ''}
+                ${isDelivered ? `
+                    <button class="btn btn-sm btn-success" onclick="navigateTo('review', '${order.id}')"><i class="fas fa-star"></i> Review Product</button>
+                    <button class="btn btn-sm btn-primary" onclick="navigateTo('deliveryReview', '${order.id}')"><i class="fas fa-truck"></i> Rate Delivery</button>
+                ` : ''}
             </div>
             
             <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orders')">← Back to Orders</button>
@@ -1551,20 +1625,26 @@ function renderOrderDetail(orderId) {
 }
 
 // ============================================================
-// 🔥 LOAD DELIVERY BOY DETAILS (NO TRACKING)
+// 🔥 LOAD DELIVERY BOY DETAILS
 // ============================================================
 function loadDeliveryBoyDetails(orderId) {
     const container = document.getElementById('deliveryBoyContainer');
     if (!container) return;
     
     const order = orders.find(o => o.id === orderId);
-    if (!order || !order.deliveryPartner) {
-        container.innerHTML = '';
+    if (!order || !order.deliveryPartner || order.deliveryPartner === 'courier_partner') {
+        container.innerHTML = `
+            <div class="card" style="margin-top:10px;border-left:3px solid #7c3aed;">
+                <p class="text-muted text-center" style="padding:8px;font-size:12px;">
+                    📦 Your order will be delivered by a courier partner
+                </p>
+            </div>
+        `;
         return;
     }
     
     container.innerHTML = `
-        <div class="card delivery-card" style="margin-top:10px;border-left:3px solid #7c3aed;">
+        <div class="card" style="margin-top:10px;border-left:3px solid #22c55e;">
             <div class="loader-box" style="padding:10px;">
                 <div class="spinner" style="width:20px;height:20px;"></div>
                 <p style="font-size:10px;color:#999;margin-top:4px;">Loading delivery partner...</p>
@@ -1578,39 +1658,49 @@ function loadDeliveryBoyDetails(orderId) {
             const initial = deliveryBoy.name ? deliveryBoy.name.charAt(0).toUpperCase() : 'D';
             
             container.innerHTML = `
-                <div class="card delivery-card" style="margin-top:10px;border-left:3px solid #7c3aed;">
+                <div class="card delivery-card" style="margin-top:10px;border-left:3px solid #22c55e;">
                     <div class="card-title">
                         <span>🛵 Delivery Partner</span>
                         <span style="font-size:9px;color:#22c55e;display:flex;align-items:center;gap:4px;">
-                            <span class="delivery-dot"></span> 
-                            ${deliveryBoy.isOnline ? 'Online' : 'Offline'}
+                            <span class="delivery-dot online"></span> Online
                         </span>
                     </div>
                     
                     <div style="display:flex;align-items:center;gap:14px;">
-                        <div class="delivery-avatar" style="width:65px;height:65px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;">
-                            ${initial}
+                        <div class="delivery-avatar">
+                            ${deliveryBoy.image ? `<img src="${deliveryBoy.image}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">` : initial}
                         </div>
                         
                         <div style="flex:1;">
                             <div style="font-weight:700;font-size:16px;color:#1a1a2e;">${deliveryBoy.name || 'Delivery Partner'}</div>
                             
-                            <div style="font-size:11px;color:#666;display:flex;align-items:center;gap:4px;">
+                            <div style="font-size:12px;color:#666;display:flex;align-items:center;gap:4px;margin-top:2px;">
+                                <i class="fas fa-phone" style="color:#22c55e;font-size:12px;"></i>
+                                <a href="tel:${deliveryBoy.phone}" style="color:#1a1a2e;text-decoration:none;font-weight:600;">
+                                    ${deliveryBoy.phone || 'N/A'}
+                                </a>
+                            </div>
+                            
+                            <div style="font-size:11px;color:#666;display:flex;align-items:center;gap:4px;margin-top:2px;">
+                                <i class="fas fa-motorcycle" style="color:#22c55e;font-size:12px;"></i>
+                                ${deliveryBoy.vehicle || 'Not specified'}
+                            </div>
+                            
+                            <div style="font-size:11px;color:#666;display:flex;align-items:center;gap:4px;margin-top:2px;">
                                 <i class="fas fa-star" style="color:#f59e0b;font-size:10px;"></i>
                                 <span style="font-weight:600;color:#1a1a2e;">${deliveryBoy.rating || 4.8}</span>
                                 <span style="color:#999;">(${deliveryBoy.totalDeliveries || 0} deliveries)</span>
                             </div>
-                            
-                            <div style="font-size:11px;color:#666;display:flex;align-items:center;gap:4px;">
-                                <i class="fas fa-phone" style="color:#7c3aed;font-size:10px;"></i>
-                                ${deliveryBoy.phone || 'N/A'}
-                            </div>
-                            
-                            <div style="font-size:11px;color:#666;display:flex;align-items:center;gap:4px;">
-                                <i class="fas fa-motorcycle" style="color:#7c3aed;font-size:10px;"></i>
-                                ${deliveryBoy.vehicle || 'Not specified'}
-                            </div>
                         </div>
+                    </div>
+                    
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <a href="tel:${deliveryBoy.phone}" style="flex:1;background:#22c55e;color:#fff;border:none;border-radius:25px;padding:8px;text-align:center;font-weight:600;font-size:12px;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">
+                            <i class="fas fa-phone"></i> Call
+                        </a>
+                        <button class="btn btn-sm btn-secondary" style="flex:1;padding:8px;font-size:12px;" onclick="showToast('📍 Location shared with delivery partner', 'info')">
+                            <i class="fas fa-map-pin"></i> Track
+                        </button>
                     </div>
                 </div>
             `;
@@ -1623,7 +1713,7 @@ function loadDeliveryBoyDetails(orderId) {
 }
 
 // ============================================================
-// 🔥 ORDER HELP - Cancel only from here with status check
+// 🔥 ORDER HELP - CANCEL ONLY FROM HERE
 // ============================================================
 function renderOrderHelp(orderId) {
     const order = orders.find(o => o.id === orderId);
@@ -1668,12 +1758,11 @@ function renderOrderHelp(orderId) {
 }
 
 // ============================================================
-// 🔥 CANCEL ORDER - Only from Help with Status Check
+// 🔥 CANCEL ORDER - Only from Help
 // ============================================================
 function renderCancelOrder(orderId) {
     const order = orders.find(o => o.id === orderId);
     if (!order) return `<div class="card"><p>Order not found</p></div>`;
-    
     if (order.status !== 'pending') {
         return `
             <div class="card">
@@ -1686,7 +1775,6 @@ function renderCancelOrder(orderId) {
             </div>
         `;
     }
-    
     return `
         <div class="card">
             <div class="card-title">❌ Cancel Order</div>
@@ -1734,9 +1822,14 @@ function renderChangePhone(orderId) {
         <div class="card">
             <div class="card-title">📱 Change Mobile Number</div>
             <p class="text-muted">Update mobile number for order #${orderId.substring(0,8)}</p>
-            <div style="background:#f0f0f0;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px;"><span style="color:#666;">Current Phone:</span> <span style="font-weight:600;">${order.phone || userData?.phone || 'N/A'}</span></div>
+            <div style="background:#f0f0f0;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px;">
+                <span style="color:#666;">Current Phone:</span> <span style="font-weight:600;">${order.phone || userData?.phone || 'N/A'}</span>
+            </div>
             <input class="input input-sm" id="newPhone" placeholder="New Phone Number" value="${order.phone || userData?.phone || ''}">
-            <div class="flex"><button class="btn btn-gold btn-block" onclick="confirmChangePhone('${orderId}')"><i class="fas fa-save"></i> Update Order Phone</button><button class="btn btn-secondary btn-block" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button></div>
+            <div class="flex">
+                <button class="btn btn-gold btn-block" onclick="confirmChangePhone('${orderId}')"><i class="fas fa-save"></i> Update Order Phone</button>
+                <button class="btn btn-secondary btn-block" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button>
+            </div>
         </div>
     `;
 }
@@ -1764,9 +1857,14 @@ function renderChangeAddress(orderId) {
         <div class="card">
             <div class="card-title">📍 Change Delivery Address</div>
             <p class="text-muted">Update address for order #${orderId.substring(0,8)}</p>
-            <div style="background:#f0f0f0;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px;"><span style="color:#666;">Current Address:</span> <span style="font-weight:600;">${order.address || userData?.address || 'N/A'}</span></div>
+            <div style="background:#f0f0f0;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px;">
+                <span style="color:#666;">Current Address:</span> <span style="font-weight:600;">${order.address || userData?.address || 'N/A'}</span>
+            </div>
             <textarea class="input input-sm" id="newAddress" placeholder="New Address" rows="3">${order.address || userData?.address || ''}</textarea>
-            <div class="flex"><button class="btn btn-gold btn-block" onclick="confirmChangeAddress('${orderId}')"><i class="fas fa-save"></i> Update Order Address</button><button class="btn btn-secondary btn-block" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button></div>
+            <div class="flex">
+                <button class="btn btn-gold btn-block" onclick="confirmChangeAddress('${orderId}')"><i class="fas fa-save"></i> Update Order Address</button>
+                <button class="btn btn-secondary btn-block" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button>
+            </div>
         </div>
     `;
 }
@@ -1800,7 +1898,11 @@ function renderRequestPayOnline(orderId) {
 
 async function confirmPayOnline(orderId) {
     try {
-        await db.collection('orders').doc(orderId).update({ paymentMethod: 'Online', paymentStatus: 'requested', updatedAt: new Date().toISOString() });
+        await db.collection('orders').doc(orderId).update({ 
+            paymentMethod: 'Online', 
+            paymentStatus: 'requested', 
+            updatedAt: new Date().toISOString() 
+        });
         showToast('✅ Payment link requested!', 'success');
         navigateTo('orderDetail', orderId);
     } catch(e) { showToast('Error: ' + e.message, 'error'); }
@@ -1824,7 +1926,11 @@ async function confirmExtendDelivery(orderId) {
     const days = document.getElementById('extendDays').value.trim();
     if (!days || days < 1) { showToast('Enter valid days', 'error'); return; }
     try {
-        await db.collection('orders').doc(orderId).update({ extendedDays: parseInt(days), extendedAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+        await db.collection('orders').doc(orderId).update({ 
+            extendedDays: parseInt(days), 
+            extendedAt: new Date().toISOString(), 
+            updatedAt: new Date().toISOString() 
+        });
         showToast(`✅ Extension requested for ${days} days!`, 'success');
         navigateTo('orderDetail', orderId);
     } catch(e) { showToast('Error: ' + e.message, 'error'); }
@@ -1885,15 +1991,24 @@ async function submitComplaint(orderId) {
 }
 
 // ============================================================
-// 🔥 REVIEW - One Per Order
+// 🔥 PRODUCT REVIEW
 // ============================================================
 function renderReview(orderId) {
     const order = orders.find(o => o.id === orderId);
     if (!order) return `<div class="card"><p>Order not found</p></div>`;
     const productName = order.items?.[0]?.name || 'Product';
+    const productId = order.items?.[0]?.productId || '';
+    
+    db.collection('reviews').where('orderId', '==', orderId).where('userId', '==', currentUser.uid).where('reviewType', '==', 'product').get().then(snap => {
+        if (!snap.empty) {
+            showToast('❌ You already reviewed this product!', 'error');
+            navigateTo('orderDetail', orderId);
+        }
+    }).catch(() => {});
+    
     return `
         <div class="card">
-            <div class="card-title">⭐ Write a Review</div>
+            <div class="card-title">⭐ Write Product Review</div>
             <p class="text-muted">Review: <strong>${productName}</strong></p>
             <div style="margin:10px 0;">
                 <div style="font-weight:600;font-size:12px;">Rating</div>
@@ -1902,7 +2017,10 @@ function renderReview(orderId) {
                 </div>
             </div>
             <textarea class="input" id="reviewText" placeholder="Write your review..." rows="3"></textarea>
-            <div style="margin:8px 0;"><div style="font-weight:600;font-size:12px;">Upload Image (Optional)</div><input type="file" id="reviewImage" accept="image/*" style="width:100%;padding:6px;border:1px solid #e0e0e0;border-radius:8px;"></div>
+            <div style="margin:8px 0;">
+                <div style="font-weight:600;font-size:12px;">Upload Image (Optional)</div>
+                <input type="file" id="reviewImage" accept="image/*" style="width:100%;padding:6px;border:1px solid #e0e0e0;border-radius:8px;">
+            </div>
             <button class="btn btn-gold btn-block" onclick="submitReview('${orderId}')">Submit Review</button>
             <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orderDetail', '${orderId}')">← Back</button>
         </div>
@@ -1926,26 +2044,603 @@ async function submitReview(orderId) {
     const productName = order.items?.[0]?.name || 'Product';
     if (!productId || productId === 'unknown') { showToast('Product ID missing.', 'error'); return; }
     try {
-        const existing = await db.collection('reviews').where('userId', '==', currentUser.uid).where('orderId', '==', orderId).get();
-        if (!existing.empty) { showToast('❌ You already reviewed this order!', 'error'); return; }
+        const existing = await db.collection('reviews')
+            .where('userId', '==', currentUser.uid)
+            .where('orderId', '==', orderId)
+            .where('reviewType', '==', 'product')
+            .get();
+        if (!existing.empty) { showToast('❌ You already reviewed this product!', 'error'); return; }
     } catch(e) { /* ignore */ }
     try {
         let imageUrl = '';
         const fileInput = document.getElementById('reviewImage');
-        if (fileInput && fileInput.files && fileInput.files[0]) { imageUrl = 'https://via.placeholder.com/200'; }
+        if (fileInput && fileInput.files && fileInput.files[0]) { 
+            imageUrl = 'https://via.placeholder.com/200'; 
+        }
         await db.collection('reviews').add({
-            productId: productId, productName: productName, userId: currentUser.uid,
-            userName: userData?.name || 'Customer', orderId: orderId, text: text,
-            rating: selectedRating, imageUrl: imageUrl, isVerified: true,
+            productId: productId, 
+            productName: productName, 
+            userId: currentUser.uid,
+            userName: userData?.name || 'Customer', 
+            orderId: orderId, 
+            text: text,
+            rating: selectedRating, 
+            imageUrl: imageUrl, 
+            isVerified: true,
+            reviewType: 'product',
             createdAt: new Date().toISOString()
         });
-        showToast('✅ Review submitted! Thank you!', 'success');
+        showToast('✅ Product review submitted!', 'success');
         setTimeout(() => { viewProduct(productId); }, 500);
     } catch(e) { showToast('Error: ' + e.message, 'error'); }
 }
 
 // ============================================================
-// 🔥 PROFILE - Screenshot jaisa
+// 🔥 DELIVERY REVIEW - Rate Delivery Boy
+// ============================================================
+function renderDeliveryReview(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return `<div class="card"><p>Order not found</p></div>`;
+    
+    db.collection('reviews')
+        .where('orderId', '==', orderId)
+        .where('userId', '==', currentUser.uid)
+        .where('reviewType', '==', 'delivery')
+        .get()
+        .then(snap => {
+            if (!snap.empty) {
+                showToast('❌ You already rated this delivery!', 'error');
+                navigateTo('orderDetail', orderId);
+            }
+        }).catch(() => {});
+    
+    let deliveryBoyName = 'Delivery Partner';
+    if (order.deliveryPartner && order.deliveryPartner !== 'courier_partner') {
+        db.collection('users').doc(order.deliveryPartner).get().then(doc => {
+            if (doc.exists) {
+                deliveryBoyName = doc.data().name || 'Delivery Partner';
+                document.getElementById('deliveryBoyNameDisplay')?.textContent = deliveryBoyName;
+            }
+        }).catch(() => {});
+    }
+    
+    return `
+        <div class="card">
+            <div class="card-title">⭐ Rate Delivery Partner</div>
+            <p class="text-muted">Rate the delivery experience for order #${orderId.substring(0,8)}</p>
+            
+            <div style="background:#f8f9fa;padding:10px;border-radius:8px;margin:10px 0;display:flex;align-items:center;gap:10px;">
+                <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;">
+                    ${order.deliveryPartner && order.deliveryPartner !== 'courier_partner' ? '🛵' : '📦'}
+                </div>
+                <div>
+                    <div style="font-weight:600;font-size:14px;" id="deliveryBoyNameDisplay">
+                        ${order.deliveryPartner && order.deliveryPartner !== 'courier_partner' ? 'Loading...' : 'Courier Partner'}
+                    </div>
+                    <div style="font-size:10px;color:#666;">${order.deliveryType === 'turant' ? '⚡ Turant Delivery' : '📅 Schedule Delivery'}</div>
+                </div>
+            </div>
+            
+            <div style="margin:10px 0;">
+                <div style="font-weight:600;font-size:12px;margin-bottom:4px;">Delivery Rating</div>
+                <div style="display:flex;gap:4px;font-size:32px;cursor:pointer;" id="deliveryStarRating">
+                    ${[1,2,3,4,5].map(i => `
+                        <span onclick="setDeliveryRating(${i})" 
+                              id="dstar${i}" 
+                              style="color:#ddd;transition:0.3s;cursor:pointer;"
+                              onmouseover="this.style.transform='scale(1.2)'" 
+                              onmouseout="this.style.transform='scale(1)'">
+                            ★
+                        </span>
+                    `).join('')}
+                </div>
+                <div style="font-size:11px;color:#999;margin-top:2px;" id="ratingLabel">Tap a star to rate</div>
+            </div>
+            
+            <div style="margin:10px 0;">
+                <div style="font-weight:600;font-size:12px;margin-bottom:4px;">Feedback (Optional)</div>
+                <textarea class="input" id="deliveryReviewText" placeholder="How was your delivery experience?" rows="3"></textarea>
+            </div>
+            
+            <div style="margin:10px 0;">
+                <div style="font-weight:600;font-size:12px;margin-bottom:4px;">Would you recommend this delivery partner?</div>
+                <div style="display:flex;gap:10px;">
+                    <button class="btn btn-sm ${selectedRecommend === 'yes' ? 'btn-success' : 'btn-secondary'}" 
+                            onclick="selectRecommend('yes')" 
+                            style="flex:1;${selectedRecommend === 'yes' ? 'background:#22c55e;color:#fff;' : ''}">
+                        👍 Yes
+                    </button>
+                    <button class="btn btn-sm ${selectedRecommend === 'no' ? 'btn-danger' : 'btn-secondary'}" 
+                            onclick="selectRecommend('no')" 
+                            style="flex:1;${selectedRecommend === 'no' ? 'background:#ef4444;color:#fff;' : ''}">
+                        👎 No
+                    </button>
+                </div>
+            </div>
+            
+            <button class="btn btn-gold btn-block mt-2" onclick="submitDeliveryReview('${orderId}')">
+                <i class="fas fa-paper-plane"></i> Submit Rating
+            </button>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('orderDetail', '${orderId}')">
+                ← Back
+            </button>
+        </div>
+    `;
+}
+
+function setDeliveryRating(val) {
+    selectedDeliveryRating = val;
+    for (let i = 1; i <= 5; i++) {
+        const star = document.getElementById(`dstar${i}`);
+        if (star) {
+            star.style.color = i <= val ? '#f59e0b' : '#ddd';
+        }
+    }
+    const label = document.getElementById('ratingLabel');
+    if (label) {
+        const labels = ['', '⭐ Poor', '⭐ Fair', '⭐ Good', '⭐ Very Good', '⭐ Excellent'];
+        label.textContent = labels[val] || 'Tap a star to rate';
+        label.style.color = '#D4AF37';
+        label.style.fontWeight = '600';
+    }
+}
+
+function selectRecommend(value) {
+    selectedRecommend = value;
+    document.querySelectorAll('[onclick*="selectRecommend"]').forEach(el => {
+        const val = el.textContent.trim().toLowerCase();
+        if (val === 'yes') {
+            el.className = `btn btn-sm ${value === 'yes' ? 'btn-success' : 'btn-secondary'}`;
+            el.style.cssText = value === 'yes' ? 'flex:1;background:#22c55e;color:#fff;' : 'flex:1;';
+        } else if (val === 'no') {
+            el.className = `btn btn-sm ${value === 'no' ? 'btn-danger' : 'btn-secondary'}`;
+            el.style.cssText = value === 'no' ? 'flex:1;background:#ef4444;color:#fff;' : 'flex:1;';
+        }
+    });
+}
+
+async function submitDeliveryReview(orderId) {
+    if (!selectedDeliveryRating) { showToast('Select rating', 'error'); return; }
+    const text = document.getElementById('deliveryReviewText')?.value?.trim() || '';
+    const order = orders.find(o => o.id === orderId);
+    if (!order) { showToast('Order not found', 'error'); return; }
+    
+    try {
+        const existing = await db.collection('reviews')
+            .where('userId', '==', currentUser.uid)
+            .where('orderId', '==', orderId)
+            .where('reviewType', '==', 'delivery')
+            .get();
+        if (!existing.empty) { 
+            showToast('❌ You already rated this delivery!', 'error'); 
+            return; 
+        }
+    } catch(e) { /* ignore */ }
+    
+    try {
+        await db.collection('reviews').add({
+            orderId: orderId,
+            userId: currentUser.uid,
+            userName: userData?.name || 'Customer',
+            deliveryPartnerId: order.deliveryPartner || '',
+            deliveryPartnerName: order.deliveryPartnerName || 'Delivery Partner',
+            rating: selectedDeliveryRating,
+            text: text,
+            recommend: selectedRecommend || 'yes',
+            reviewType: 'delivery',
+            createdAt: new Date().toISOString()
+        });
+        
+        if (order.deliveryPartner && order.deliveryPartner !== 'courier_partner') {
+            const snap = await db.collection('reviews')
+                .where('deliveryPartnerId', '==', order.deliveryPartner)
+                .where('reviewType', '==', 'delivery')
+                .get();
+            let totalRating = 0;
+            snap.forEach(d => { totalRating += d.data().rating || 0; });
+            const avgRating = snap.size > 0 ? (totalRating / snap.size).toFixed(1) : 4.8;
+            await db.collection('users').doc(order.deliveryPartner).update({
+                rating: parseFloat(avgRating)
+            });
+        }
+        
+        showToast('✅ Delivery rating submitted!', 'success');
+        navigateTo('orderDetail', orderId);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 COUPONS LIST
+// ============================================================
+function renderCouponsList() {
+    return `
+        <div class="card">
+            <div class="card-title">🎫 Available Coupons</div>
+            <div id="couponsContainer"><div class="loader-box"><div class="spinner"></div></div></div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+async function loadCouponsList() {
+    const container = document.getElementById('couponsContainer');
+    if (!container) return;
+    try {
+        const snap = await db.collection('coupons').where('active', '==', true).where('isPublic', '==', true).get();
+        allCoupons = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (allCoupons.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">🎫</div><div class="title">No coupons available</div><div class="sub">Check back later for offers!</div></div>`;
+            return;
+        }
+        let html = '';
+        allCoupons.forEach(c => {
+            html += `
+                <div class="coupon-list-item" onclick="applyCouponFromList('${c.code}')">
+                    <div class="flex-between">
+                        <span class="code">${c.code}</span>
+                        <span class="badge-coupon">${c.discount * 100}% OFF</span>
+                    </div>
+                    <div class="detail">Max Discount: ₹${c.maxDiscount} • Min Order: ₹${c.minAmount}</div>
+                    <div class="detail" style="color:#22c55e;font-size:9px;">Click to apply →</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    } catch(e) {
+        container.innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`;
+    }
+}
+
+async function applyCouponFromList(code) {
+    const total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    if (cartItems.length === 0) {
+        showToast('🛒 Cart is empty! Add items first.', 'error');
+        return;
+    }
+    try {
+        const snap = await db.collection('coupons').where('code', '==', code).where('active', '==', true).get();
+        if (snap.empty) { showToast('❌ Coupon not available', 'error'); return; }
+        const coupon = snap.docs[0].data();
+        if (total < (coupon.minAmount || 0)) {
+            showToast(`❌ Minimum order ₹${coupon.minAmount} required`, 'error');
+            return;
+        }
+        appliedCoupon = { ...coupon, id: snap.docs[0].id };
+        showToast(`✅ Coupon ${code} applied!`, 'success');
+        navigateTo('checkout');
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 ADDRESS BOOK
+// ============================================================
+function renderAddressBook() {
+    return `
+        <div class="card">
+            <div class="card-title">📂 Address Book</div>
+            ${userData?.address ? `
+                <div class="address-item">
+                    <div class="flex-between">
+                        <span class="name">${userData?.name || 'Customer'}</span>
+                        <span class="default-badge">Default</span>
+                    </div>
+                    <div class="phone">📱 ${userData?.phone || 'N/A'}</div>
+                    <div class="address">📍 ${userData.address}</div>
+                    <div style="margin-top:4px;display:flex;gap:4px;">
+                        <button class="btn btn-sm btn-secondary" onclick="navigateTo('editProfile')">✏️ Edit</button>
+                        <button class="btn btn-sm btn-danger" onclick="showToast('Delete address coming soon!', 'info')">🗑️ Delete</button>
+                    </div>
+                </div>
+            ` : `
+                <div class="empty-state" style="padding:20px;">
+                    <div class="icon" style="font-size:32px;">📍</div>
+                    <div class="title" style="font-size:14px;">No address added</div>
+                    <div class="sub">Add your delivery address</div>
+                    <button class="btn btn-gold btn-sm mt-2" onclick="navigateTo('address')">+ Add Address</button>
+                </div>
+            `}
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+// ============================================================
+// 🔥 WISHLIST
+// ============================================================
+function renderWishlist() {
+    return `
+        <div class="card">
+            <div class="card-title">❤️ Your Wishlist</div>
+            <div id="wishlistContainer">
+                <div class="loader-box" style="padding:10px;"><div class="spinner" style="width:20px;height:20px;"></div></div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+async function loadWishlist() {
+    const container = document.getElementById('wishlistContainer');
+    if (!container) return;
+    try {
+        const snap = await db.collection('wishlist').where('userId', '==', currentUser.uid).get();
+        wishlistItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (wishlistItems.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding:20px;">
+                    <div class="icon" style="font-size:32px;">❤️</div>
+                    <div class="title" style="font-size:14px;">Wishlist is empty</div>
+                    <div class="sub">Start adding products to your wishlist</div>
+                    <button class="btn btn-gold btn-sm mt-2" onclick="navigateTo('home')">🛍️ Browse Products</button>
+                </div>
+            `;
+            return;
+        }
+        let html = '';
+        wishlistItems.forEach(item => {
+            html += `
+                <div class="wishlist-item">
+                    <img src="${item.image || 'https://via.placeholder.com/50'}" onerror="this.src='https://via.placeholder.com/50'">
+                    <div class="info">
+                        <div class="name">${item.name}</div>
+                        <div class="price">₹${item.price}</div>
+                    </div>
+                    <span class="remove-btn" onclick="removeFromWishlist('${item.id}')"><i class="fas fa-times-circle"></i></span>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    } catch(e) {
+        container.innerHTML = `<div class="empty-state" style="padding:20px;"><div class="icon">⚠️</div><div class="title">Error loading wishlist</div></div>`;
+    }
+}
+
+async function removeFromWishlist(wishlistId) {
+    if (!confirm('Remove from wishlist?')) return;
+    try {
+        await db.collection('wishlist').doc(wishlistId).delete();
+        showToast('Removed from wishlist');
+        loadWishlist();
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 GIFT CARDS
+// ============================================================
+function renderGiftCards() {
+    return `
+        <div class="card">
+            <div class="card-title">🎁 E-Gift Cards</div>
+            <div id="giftCardsContainer">
+                <div class="loader-box" style="padding:10px;"><div class="spinner" style="width:20px;height:20px;"></div></div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+async function loadGiftCards() {
+    const container = document.getElementById('giftCardsContainer');
+    if (!container) return;
+    try {
+        const snap = await db.collection('giftCards').where('userId', '==', currentUser.uid).get();
+        giftCards = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (giftCards.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state" style="padding:20px;">
+                    <div class="icon" style="font-size:32px;">🎁</div>
+                    <div class="title" style="font-size:14px;">No gift cards</div>
+                    <div class="sub">You don't have any gift cards yet</div>
+                    <button class="btn btn-gold btn-sm mt-2" onclick="showToast('Gift card purchase coming soon!', 'info')">🛒 Buy Gift Card</button>
+                </div>
+            `;
+            return;
+        }
+        let html = '';
+        giftCards.forEach(c => {
+            const statusClass = c.active ? 'active' : 'used';
+            const statusLabel = c.active ? 'Active' : 'Used';
+            html += `
+                <div class="gift-card-item">
+                    <div class="flex-between">
+                        <span class="amount">₹${c.amount || 0}</span>
+                        <span class="status-badge ${statusClass}">${statusLabel}</span>
+                    </div>
+                    <div class="code">${c.code || 'N/A'}</div>
+                    <div class="expiry">Expires: ${c.expiry ? new Date(c.expiry).toLocaleDateString() : 'N/A'}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    } catch(e) {
+        container.innerHTML = `<div class="empty-state" style="padding:20px;"><div class="icon">⚠️</div><div class="title">Error loading gift cards</div></div>`;
+    }
+}
+
+// ============================================================
+// 🔥 EDIT PROFILE
+// ============================================================
+function renderEditProfile() {
+    return `
+        <div class="card">
+            <div class="card-title">✏️ Edit Profile</div>
+            <input class="input input-sm" id="editName" placeholder="Full Name" value="${userData?.name || ''}">
+            <input class="input input-sm" id="editPhone" placeholder="Phone Number" value="${userData?.phone || ''}">
+            <textarea class="input input-sm" id="editAddress" placeholder="Address" rows="2">${userData?.address || ''}</textarea>
+            <div class="flex">
+                <button class="btn btn-gold btn-block" onclick="updateProfile()"><i class="fas fa-save"></i> Update</button>
+                <button class="btn btn-secondary btn-block" onclick="navigateTo('profile')">← Back</button>
+            </div>
+        </div>
+    `;
+}
+
+async function updateProfile() {
+    const name = document.getElementById('editName').value.trim();
+    const phone = document.getElementById('editPhone').value.trim();
+    const address = document.getElementById('editAddress').value.trim();
+    if (!name || !phone) { showToast('Name and phone required', 'error'); return; }
+    try {
+        await db.collection('users').doc(currentUser.uid).update({
+            name, phone, address, updatedAt: new Date().toISOString()
+        });
+        userData = { ...userData, name, phone, address };
+        updateMenu();
+        showToast('✅ Profile updated!', 'success');
+        navigateTo('profile');
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+}
+
+// ============================================================
+// 🔥 CHANGE PASSWORD
+// ============================================================
+function renderChangePasswordPage() {
+    return `
+        <div class="card">
+            <div class="card-title">🔐 Change Password</div>
+            <div class="password-wrapper">
+                <input class="input input-sm" id="oldPassword" type="password" placeholder="Current Password">
+                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon"></i></button>
+            </div>
+            <div class="password-wrapper">
+                <input class="input input-sm" id="newPassword" type="password" placeholder="New Password (min 6 chars)">
+                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon2"></i></button>
+            </div>
+            <div class="password-wrapper">
+                <input class="input input-sm" id="confirmPassword" type="password" placeholder="Confirm New Password">
+                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon3"></i></button>
+            </div>
+            <div class="flex">
+                <button class="btn btn-gold btn-block" onclick="changePasswordPage()"><i class="fas fa-key"></i> Change Password</button>
+                <button class="btn btn-secondary btn-block" onclick="navigateTo('profile')">← Back</button>
+            </div>
+        </div>
+    `;
+}
+
+async function changePasswordPage() {
+    const oldPwd = document.getElementById('oldPassword').value;
+    const newPwd = document.getElementById('newPassword').value;
+    const confirmPwd = document.getElementById('confirmPassword').value;
+    if (!oldPwd || !newPwd || !confirmPwd) { showToast('Fill all fields', 'error'); return; }
+    if (newPwd.length < 6) { showToast('Password min 6 chars', 'error'); return; }
+    if (newPwd !== confirmPwd) { showToast('Passwords do not match', 'error'); return; }
+    try {
+        const cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, oldPwd);
+        await currentUser.reauthenticateWithCredential(cred);
+        await currentUser.updatePassword(newPwd);
+        await db.collection('users').doc(currentUser.uid).update({ password: newPwd });
+        showToast('✅ Password changed successfully!', 'success');
+        navigateTo('profile');
+    } catch(e) {
+        if (e.code === 'auth/wrong-password') {
+            showToast('Current password is incorrect', 'error');
+        } else {
+            showToast('Error: ' + e.message, 'error');
+        }
+    }
+}
+
+// ============================================================
+// 🔥 APPEARANCE
+// ============================================================
+function renderAppearance() {
+    return `
+        <div class="card">
+            <div class="card-title">👁️ Appearance</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="font-weight:600;">Theme</span>
+                <span style="color:#D4AF37;font-weight:600;">LIGHT</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;">
+                <span style="font-weight:600;">Dark Mode</span>
+                <span style="color:#999;">Coming Soon</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="font-weight:600;">Font Size</span>
+                <span style="color:#999;">Medium</span>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+// ============================================================
+// 🔥 HELP PAGE
+// ============================================================
+function renderHelpPage() {
+    return `
+        <div class="card">
+            <div class="card-title">🆘 Need Help?</div>
+            <div style="padding:8px 0;">
+                <div class="help-item" onclick="showToast('Contact us at support@prl.com', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
+                    <div class="icon" style="font-size:20px;">📧</div>
+                    <div class="label" style="font-size:13px;font-weight:600;">Email Support</div>
+                </div>
+                <div class="help-item" onclick="showToast('Call us at +91 9876543210', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
+                    <div class="icon" style="font-size:20px;">📞</div>
+                    <div class="label" style="font-size:13px;font-weight:600;">Call Support</div>
+                </div>
+                <div class="help-item" onclick="showToast('FAQ page coming soon!', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
+                    <div class="icon" style="font-size:20px;">❓</div>
+                    <div class="label" style="font-size:13px;font-weight:600;">FAQs</div>
+                </div>
+                <div class="help-item" onclick="showToast('WhatsApp support coming soon!', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
+                    <div class="icon" style="font-size:20px;">💬</div>
+                    <div class="label" style="font-size:13px;font-weight:600;">WhatsApp</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+// ============================================================
+// 🔥 PAYMENT METHODS
+// ============================================================
+function renderPaymentMethods() {
+    return `
+        <div class="card">
+            <div class="card-title">💳 Payment Methods</div>
+            <div class="payment-method-item">
+                <div class="icon"><i class="fas fa-credit-card"></i></div>
+                <div class="info">
+                    <div class="name">Credit/Debit Card</div>
+                    <div class="sub">Visa, Mastercard, RuPay</div>
+                </div>
+                <span class="default-badge">Default</span>
+            </div>
+            <div class="payment-method-item">
+                <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+                <div class="info">
+                    <div class="name">UPI</div>
+                    <div class="sub">Google Pay, PhonePe, Paytm</div>
+                </div>
+                <span class="text-muted" style="font-size:10px;">Add</span>
+            </div>
+            <div class="payment-method-item">
+                <div class="icon"><i class="fas fa-wallet"></i></div>
+                <div class="info">
+                    <div class="name">Wallet</div>
+                    <div class="sub">Paytm Wallet, Amazon Pay</div>
+                </div>
+                <span class="text-muted" style="font-size:10px;">Add</span>
+            </div>
+            <div class="payment-method-item" style="border-bottom:none;">
+                <div class="icon"><i class="fas fa-money-bill-wave"></i></div>
+                <div class="info">
+                    <div class="name">Cash on Delivery</div>
+                    <div class="sub">Pay when you receive</div>
+                </div>
+                <span class="badge-approved">Available</span>
+            </div>
+            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
+        </div>
+    `;
+}
+
+// ============================================================
+// 🔥 PROFILE - Screenshot Jaisa
 // ============================================================
 function renderProfile() {
     const initial = userData?.name ? userData.name.charAt(0).toUpperCase() : '👤';
@@ -2011,7 +2706,7 @@ function renderProfile() {
                 <span class="badge-count">${allCoupons.length || 0}</span>
                 <span class="arrow"><i class="fas fa-chevron-right"></i></span>
             </div>
-            <div class="menu-item" onclick="showToast('Payment methods coming soon!', 'info')">
+            <div class="menu-item" onclick="navigateTo('paymentMethods')">
                 <span class="icon"><i class="fas fa-credit-card"></i></span>
                 <span class="text">Payment Methods</span>
                 <span class="arrow"><i class="fas fa-chevron-right"></i></span>
@@ -2040,178 +2735,152 @@ function renderProfile() {
 }
 
 // ============================================================
-// 🔥 PROFILE SUB-PAGES
+// 🔥 SAVE RECENT VIEW
 // ============================================================
-function renderAddressBook() {
-    return `
-        <div class="card">
-            <div class="card-title">📂 Address Book</div>
-            ${userData?.address ? `
-                <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin-bottom:8px;">
-                    <p style="font-weight:600;">Default Address</p>
-                    <p style="font-size:13px;color:#666;">${userData.address}</p>
-                    <p style="font-size:11px;color:#999;">📱 ${userData.phone || 'N/A'}</p>
-                </div>
-            ` : `
-                <div class="empty-state" style="padding:20px;">
-                    <div class="icon" style="font-size:32px;">📍</div>
-                    <div class="title" style="font-size:14px;">No address added</div>
-                    <div class="sub">Add your delivery address</div>
-                </div>
-            `}
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
-        </div>
-    `;
-}
-
-function renderWishlist() {
-    return `
-        <div class="card">
-            <div class="card-title">❤️ Your Wishlist</div>
-            <div class="empty-state" style="padding:20px;">
-                <div class="icon" style="font-size:32px;">❤️</div>
-                <div class="title" style="font-size:14px;">Wishlist is empty</div>
-                <div class="sub">Start adding products to your wishlist</div>
-            </div>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
-        </div>
-    `;
-}
-
-function renderGiftCards() {
-    return `
-        <div class="card">
-            <div class="card-title">🎁 E-Gift Cards</div>
-            <div class="empty-state" style="padding:20px;">
-                <div class="icon" style="font-size:32px;">🎁</div>
-                <div class="title" style="font-size:14px;">No gift cards</div>
-                <div class="sub">You don't have any gift cards yet</div>
-            </div>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
-        </div>
-    `;
-}
-
-function renderAppearance() {
-    return `
-        <div class="card">
-            <div class="card-title">👁️ Appearance</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
-                <span style="font-weight:600;">Theme</span>
-                <span style="color:#D4AF37;font-weight:600;">LIGHT</span>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;">
-                <span style="font-weight:600;">Dark Mode</span>
-                <span style="color:#999;">Coming Soon</span>
-            </div>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
-        </div>
-    `;
-}
-
-function renderHelpPage() {
-    return `
-        <div class="card">
-            <div class="card-title">🆘 Need Help?</div>
-            <div style="padding:8px 0;">
-                <div class="help-item" onclick="showToast('Contact us at support@prl.com', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
-                    <div class="icon" style="font-size:20px;">📧</div>
-                    <div class="label" style="font-size:13px;font-weight:600;">Email Support</div>
-                </div>
-                <div class="help-item" onclick="showToast('Call us at +91 9876543210', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
-                    <div class="icon" style="font-size:20px;">📞</div>
-                    <div class="label" style="font-size:13px;font-weight:600;">Call Support</div>
-                </div>
-                <div class="help-item" onclick="showToast('FAQ page coming soon!', 'info')" style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;">
-                    <div class="icon" style="font-size:20px;">❓</div>
-                    <div class="label" style="font-size:13px;font-weight:600;">FAQs</div>
-                </div>
-            </div>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
-        </div>
-    `;
-}
-
-function renderEditProfile() {
-    return `
-        <div class="card">
-            <div class="card-title">✏️ Edit Profile</div>
-            <input class="input input-sm" id="editName" placeholder="Full Name" value="${userData?.name || ''}">
-            <input class="input input-sm" id="editPhone" placeholder="Phone Number" value="${userData?.phone || ''}">
-            <textarea class="input input-sm" id="editAddress" placeholder="Address" rows="2">${userData?.address || ''}</textarea>
-            <div class="flex">
-                <button class="btn btn-gold btn-block" onclick="updateProfile()"><i class="fas fa-save"></i> Update</button>
-                <button class="btn btn-secondary btn-block" onclick="navigateTo('profile')">← Back</button>
-            </div>
-        </div>
-    `;
-}
-
-async function updateProfile() {
-    const name = document.getElementById('editName').value.trim();
-    const phone = document.getElementById('editPhone').value.trim();
-    const address = document.getElementById('editAddress').value.trim();
-    if (!name || !phone) { showToast('Name and phone required', 'error'); return; }
+async function saveRecentView(productId) {
+    if (!currentUser) return;
+    const p = products.find(x => x.id === productId);
+    if (!p) return;
     try {
-        await db.collection('users').doc(currentUser.uid).update({
-            name, phone, address, updatedAt: new Date().toISOString()
-        });
-        userData = { ...userData, name, phone, address };
-        updateMenu();
-        showToast('✅ Profile updated!', 'success');
-        navigateTo('profile');
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-function renderChangePasswordPage() {
-    return `
-        <div class="card">
-            <div class="card-title">🔐 Change Password</div>
-            <div class="password-wrapper">
-                <input class="input input-sm" id="oldPassword" type="password" placeholder="Current Password">
-                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon"></i></button>
-            </div>
-            <div class="password-wrapper">
-                <input class="input input-sm" id="newPassword" type="password" placeholder="New Password (min 6 chars)">
-                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon2"></i></button>
-            </div>
-            <div class="password-wrapper">
-                <input class="input input-sm" id="confirmPassword" type="password" placeholder="Confirm New Password">
-                <button class="password-toggle" type="button" onclick="togglePassword()"><i class="fas fa-eye" id="pwdIcon3"></i></button>
-            </div>
-            <div class="flex">
-                <button class="btn btn-gold btn-block" onclick="changePasswordPage()"><i class="fas fa-key"></i> Change Password</button>
-                <button class="btn btn-secondary btn-block" onclick="navigateTo('profile')">← Back</button>
-            </div>
-        </div>
-    `;
-}
-
-async function changePasswordPage() {
-    const oldPwd = document.getElementById('oldPassword').value;
-    const newPwd = document.getElementById('newPassword').value;
-    const confirmPwd = document.getElementById('confirmPassword').value;
-    if (!oldPwd || !newPwd || !confirmPwd) { showToast('Fill all fields', 'error'); return; }
-    if (newPwd.length < 6) { showToast('Password min 6 chars', 'error'); return; }
-    if (newPwd !== confirmPwd) { showToast('Passwords do not match', 'error'); return; }
-    try {
-        const cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, oldPwd);
-        await currentUser.reauthenticateWithCredential(cred);
-        await currentUser.updatePassword(newPwd);
-        await db.collection('users').doc(currentUser.uid).update({ password: newPwd });
-        showToast('✅ Password changed successfully!', 'success');
-        navigateTo('profile');
-    } catch(e) {
-        if (e.code === 'auth/wrong-password') {
-            showToast('Current password is incorrect', 'error');
+        const existing = await db.collection('recentViews')
+            .where('userId', '==', currentUser.uid)
+            .where('productId', '==', productId).get();
+        if (!existing.empty) {
+            await db.collection('recentViews').doc(existing.docs[0].id).update({ viewedAt: new Date().toISOString() });
         } else {
-            showToast('Error: ' + e.message, 'error');
+            await db.collection('recentViews').add({
+                userId: currentUser.uid, productId: productId, name: p.name,
+                price: p.price, image: p.image || '', viewedAt: new Date().toISOString()
+            });
         }
+    } catch(e) { console.log('Save recent view error:', e); }
+}
+
+async function getRecentViews() {
+    if (!currentUser) return [];
+    try {
+        const snap = await db.collection('recentViews').where('userId', '==', currentUser.uid).get();
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => new Date(b.viewedAt) - new Date(a.viewedAt)).slice(0, 6);
+    } catch(e) { return []; }
+}
+
+async function loadRecentViews() {
+    const container = document.getElementById('recentViewsContainer');
+    if (!container) return;
+    const recent = await getRecentViews();
+    if (recent.length === 0) {
+        container.innerHTML = `<div class="empty-state" style="padding:10px;"><div class="icon" style="font-size:24px;">👀</div><div class="title" style="font-size:12px;">No recent views</div></div>`;
+        return;
+    }
+    container.innerHTML = recent.map(r => `
+        <div class="product-card" onclick="viewProduct('${r.productId}')" style="cursor:pointer;">
+            <img src="${r.image || 'https://via.placeholder.com/150'}" onerror="this.src='https://via.placeholder.com/150'">
+            <div class="info">
+                <div class="name">${r.name}</div>
+                <div class="price">₹${r.price}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ============================================================
+// 🔥 LOAD PRODUCT REVIEWS
+// ============================================================
+async function loadProductReviews(productId) {
+    const container = document.getElementById('reviewsContainer');
+    if (!container) { setTimeout(() => loadProductReviews(productId), 300); return; }
+    container.innerHTML = `<div class="loader-box" style="padding:10px;"><div class="spinner" style="width:20px;height:20px;"></div><p style="font-size:10px;color:#999;margin-top:4px;">Loading reviews...</p></div>`;
+    try {
+        const snap = await db.collection('reviews')
+            .where('productId', '==', productId)
+            .where('reviewType', '==', 'product')
+            .get();
+        const reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        if (reviews.length === 0) {
+            container.innerHTML = `<div style="text-align:center;padding:20px;color:#999;"><div style="font-size:32px;margin-bottom:8px;">📝</div><div style="font-size:14px;font-weight:600;color:#666;">No reviews yet</div><div style="font-size:11px;color:#aaa;">Be the first to review this product!</div></div>`;
+            return;
+        }
+        let totalRating = 0;
+        reviews.forEach(r => totalRating += (r.rating || 5));
+        const avgRating = (totalRating / reviews.length).toFixed(1);
+        const fullStars = Math.round(avgRating);
+        let html = `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e0e0e0;margin-bottom:8px;"><span style="font-size:18px;font-weight:800;color:#D4AF37;">${avgRating}</span><span style="color:#f59e0b;font-size:16px;">${'★'.repeat(fullStars)}${'☆'.repeat(5-fullStars)}</span><span style="font-size:11px;color:#999;">(${reviews.length} reviews)</span></div>`;
+        reviews.forEach(r => {
+            const date = r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+            const rating = r.rating || 5;
+            html += `<div class="review-item"><div style="display:flex;justify-content:space-between;align-items:center;"><div class="user">${r.userName || 'Anonymous'} ${r.isVerified ? '<span class="verified">✅ Verified</span>' : ''}</div></div><div class="stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div><div class="text">${r.text || ''}</div>${r.imageUrl ? `<img src="${r.imageUrl}" class="review-image" alt="Review image" onerror="this.style.display='none'">` : ''}<div class="date">${date}</div></div>`;
+        });
+        container.innerHTML = html;
+    } catch(e) {
+        container.innerHTML = `<div style="text-align:center;padding:15px;border:2px solid #fee2e2;border-radius:12px;background:#fef2f2;"><div style="font-size:24px;margin-bottom:4px;">⚠️</div><div style="font-size:12px;font-weight:600;color:#dc2626;">Error loading reviews</div><button class="btn btn-secondary btn-sm mt-2" onclick="loadProductReviews('${productId}')">🔄 Retry</button></div>`;
     }
 }
 
 // ============================================================
-// 🔥 AUTH STATE
+// 🔥 CHECK FIRST ORDER
+// ============================================================
+async function checkFirstOrder() {
+    try {
+        const snap = await db.collection('orders').where('userId', '==', currentUser.uid).get();
+        userOrderCount = snap.size;
+        isFirstOrder = userOrderCount === 0;
+        const banner = document.getElementById('firstOrderBanner');
+        if (banner) {
+            banner.style.display = isFirstOrder ? 'flex' : 'none';
+        }
+    } catch(e) { console.log('Check first order:', e); }
+}
+
+// ============================================================
+// 🔥 BLOCK POPUP
+// ============================================================
+function showBlockPopup(message) {
+    const popup = document.createElement('div');
+    popup.className = 'popup-overlay';
+    popup.id = 'blockPopup';
+    popup.innerHTML = `
+        <div class="popup-box" style="border:3px solid #ef4444;">
+            <div class="icon" style="color:#ef4444;">🚫</div>
+            <div class="title" style="color:#dc2626;">Account Blocked</div>
+            <div class="sub" id="blockMessage" style="font-size:14px;font-weight:600;color:#dc2626;">${message}</div>
+            <div style="font-size:12px;color:#666;margin:8px 0;">Contact admin for support</div>
+            <button class="btn btn-danger btn-block" onclick="this.closest('.popup-overlay').remove()">OK</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+}
+
+function startBlockCountdown(unblockTime) {
+    if (countdownInterval) clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+        const now = new Date();
+        const diffMs = unblockTime - now;
+        if (diffMs <= 0) {
+            clearInterval(countdownInterval);
+            db.collection('users').doc(currentUser.uid).update({
+                blocked: false, blockType: null, blockDuration: null, unblockAt: null
+            }).then(() => {
+                const popup = document.getElementById('blockPopup');
+                if (popup) popup.remove();
+                showToast('✅ Account unblocked!', 'success');
+                location.reload();
+            });
+            return;
+        }
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+        const msgEl = document.getElementById('blockMessage');
+        if (msgEl) {
+            msgEl.textContent = `⏳ Blocked for ${hours}h ${minutes}m ${seconds}s remaining`;
+        }
+    }, 1000);
+}
+
+// ============================================================
+// 🔥 AUTH STATE - WITH BLOCK CHECK
 // ============================================================
 auth.onAuthStateChanged(async (user) => {
     if (user) {
@@ -2289,26 +2958,36 @@ auth.onAuthStateChanged(async (user) => {
             console.log('✅ Demo customer created');
         }
     } catch(e) { if (e.code !== 'auth/email-already-in-use') console.log('Setup:', e.message); }
+    
     try {
         const snap = await db.collection('products').limit(1).get();
         if (snap.empty) {
             const products = [
-                { name: 'Arduino Uno', price: 200, image: 'https://images.unsplash.com/photo-1620287341056-49a2f1ab2fdc?w=150&h=150&fit=crop', description: 'Arduino Uno R3 board for beginners' },
-                { name: 'Wireless Earbuds', price: 1499, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=150&h=150&fit=crop', description: 'TWS wireless earbuds with noise cancellation' },
-                { name: 'Smart Watch', price: 4999, image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=150&h=150&fit=crop', description: 'Smart watch with heart rate monitor' },
-                { name: 'LED Monitor', price: 8999, image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=150&h=150&fit=crop', description: '27 inch 4K LED Monitor' },
-                { name: 'Wireless Mouse', price: 799, image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=150&h=150&fit=crop', description: 'Ergonomic wireless mouse' },
-                { name: 'USB C Hub', price: 1299, image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=150&h=150&fit=crop', description: '7-in-1 USB C hub with HDMI' }
+                { name: 'Arduino Uno', price: 200, image: 'https://images.unsplash.com/photo-1620287341056-49a2f1ab2fdc?w=150&h=150&fit=crop', description: 'Arduino Uno R3 board for beginners', deliveryType: 'turant' },
+                { name: 'Wireless Earbuds', price: 1499, image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=150&h=150&fit=crop', description: 'TWS wireless earbuds with noise cancellation', deliveryType: 'turant' },
+                { name: 'Smart Watch', price: 4999, image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=150&h=150&fit=crop', description: 'Smart watch with heart rate monitor', deliveryType: 'turant' },
+                { name: 'Wireless Mouse', price: 799, image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=150&h=150&fit=crop', description: 'Ergonomic wireless mouse', deliveryType: 'turant' },
+                { name: 'LED Monitor', price: 8999, image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=150&h=150&fit=crop', description: '27 inch 4K LED Monitor', deliveryType: 'schedule' },
+                { name: 'USB C Hub', price: 1299, image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=150&h=150&fit=crop', description: '7-in-1 USB C hub with HDMI', deliveryType: 'schedule' },
+                { name: 'Gaming Chair', price: 9999, image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=150&h=150&fit=crop', description: 'Ergonomic gaming chair with lumbar support', deliveryType: 'schedule' },
+                { name: 'Bookshelf', price: 2999, image: 'https://images.unsplash.com/photo-1594643881788-7945c7fe1c7d?w=150&h=150&fit=crop', description: 'Wooden bookshelf for home', deliveryType: 'schedule' }
             ];
             for (const p of products) { await db.collection('products').add(p); }
-            console.log('✅ Demo products created');
+            console.log('✅ Demo products created with delivery types');
         }
     } catch(e) { console.log('Products setup:', e.message); }
+    
     try {
         const snap = await db.collection('coupons').limit(1).get();
         if (snap.empty) {
-            await db.collection('coupons').add({ code: 'PRL10', discount: 0.1, maxDiscount: 500, minAmount: 100, active: true, isPublic: true, createdAt: new Date().toISOString() });
-            await db.collection('coupons').add({ code: 'PRL100', discount: 1.0, maxDiscount: 99999, minAmount: 0, active: true, isPublic: false, createdAt: new Date().toISOString() });
+            await db.collection('coupons').add({ 
+                code: 'PRL10', discount: 0.1, maxDiscount: 500, minAmount: 100, 
+                active: true, isPublic: true, createdAt: new Date().toISOString() 
+            });
+            await db.collection('coupons').add({ 
+                code: 'PRL100', discount: 1.0, maxDiscount: 99999, minAmount: 0, 
+                active: true, isPublic: false, createdAt: new Date().toISOString() 
+            });
             console.log('✅ Demo coupons created');
         }
     } catch(e) { console.log('Coupon setup:', e.message); }
@@ -2316,8 +2995,11 @@ auth.onAuthStateChanged(async (user) => {
 
 console.log('🛒 Customer Panel Loaded!');
 console.log('📧 customer@prl.com / customer123');
-console.log('✅ OTP Verification Enabled!');
-console.log('✅ All features working!');
+console.log('✅ All Pages Working!');
+console.log('✅ OTP Verification with Limit (5 per 2 hours)');
+console.log('✅ Remember Me Enabled!');
+console.log('✅ 2 Delivery Options: Turant + Schedule');
+console.log('✅ Product Reviews + Delivery Reviews');
 </script>
 </body>
 </html>
