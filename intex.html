@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Pawan Retail • Admin Panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { background: #0a0a1a; display: flex; justify-content: center; align-items: center; padding: 12px; min-height: 100vh; }
+        .mobile-frame { max-width: 450px; width: 100%; margin: 0 auto; background: #f0f2f6; min-height: 95vh; border-radius: 32px; overflow-y: auto; overflow-x: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); position: relative; }
+        
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+        @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.03); } }
+        @keyframes spin { 100% { transform:rotate(360deg); } }
+        @keyframes slideIn { from { transform:translateX(-100%); } to { transform:translateX(0); } }
+        @keyframes pop { 0% { transform:scale(0.7); opacity:0; } 70% { transform:scale(1.05); } 100% { transform:scale(1); opacity:1; } }
+        @keyframes bounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+        @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+        @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
+        
+        .animate-fadeInUp { animation: fadeInUp 0.5s ease forwards; }
+        .animate-fadeInDown { animation: fadeInDown 0.5s ease forwards; }
+        .animate-pulse { animation: pulse 2s infinite; }
+        .animate-pop { animation: pop 0.4s ease forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        
+        .premium-header { background: linear-gradient(135deg, #0a0a1a, #1a1a3e); padding: 12px 16px; position: sticky; top:0; z-index:100; border-bottom: 2px solid rgba(99,102,241,0.15); }
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 17px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #818cf8); -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 3s infinite; background-size:200% auto; }
+        .logo span { font-size:9px; opacity:0.7; }
+        .header-actions { display:flex; gap:10px; align-items:center; }
+        .refresh-btn { background:rgba(255,255,255,0.08); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
+        .refresh-btn:hover { transform:rotate(180deg); background:rgba(99,102,241,0.2); }
+        .menu-icon { background:rgba(255,255,255,0.08); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; border:1px solid rgba(99,102,241,0.2); transition:all 0.3s; color:white; }
+        .menu-icon:active { transform:scale(0.9); }
+        
+        .content-area { padding:12px 14px; background:#f0f2f6; min-height:450px; }
+        
+        .premium-card { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid #818cf8; transition:all 0.3s; }
+        .premium-card:hover { box-shadow:0 4px 25px rgba(0,0,0,0.08); transform:translateY(-2px); }
+        .premium-card.green { border-left-color: #34d399; }
+        .premium-card.pink { border-left-color: #f472b6; }
+        .premium-card.orange { border-left-color: #fb923c; }
+        .premium-card.purple { border-left-color: #a78bfa; }
+        .premium-card.teal { border-left-color: #2dd4bf; }
+        .premium-card.rose { border-left-color: #f43f5e; }
+        
+        .btn { width:100%; padding:12px 16px; border:none; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.3s; }
+        .btn:active { transform:scale(0.96); }
+        .btn-primary { background:linear-gradient(135deg, #818cf8, #6366f1); color:white; box-shadow:0 4px 15px rgba(99,102,241,0.3); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(99,102,241,0.4); }
+        .btn-secondary { background:#f0f2f5; color:#1a1a2e; border:1px solid #e0e0e0; }
+        .btn-secondary:hover { background:#e5e7eb; }
+        .btn-danger { background:linear-gradient(135deg, #f87171, #ef4444); color:white; box-shadow:0 4px 15px rgba(239,68,68,0.3); }
+        .btn-danger:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(239,68,68,0.4); }
+        .btn-success { background:linear-gradient(135deg, #34d399, #10b981); color:white; box-shadow:0 4px 15px rgba(16,185,129,0.3); }
+        .btn-success:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(16,185,129,0.4); }
+        .btn-warning { background:linear-gradient(135deg, #fb923c, #f59e0b); color:white; box-shadow:0 4px 15px rgba(245,158,11,0.3); }
+        .btn-warning:hover { transform:translateY(-2px); box-shadow:0 6px 25px rgba(245,158,11,0.4); }
+        .btn-pink { background:linear-gradient(135deg, #f472b6, #ec4899); color:white; box-shadow:0 4px 15px rgba(236,72,153,0.3); }
+        .btn-sm { padding:4px 12px; font-size:10px; width:auto; margin-top:0; border-radius:20px; }
+        .btn-outline { background:transparent; border:2px solid #818cf8; color:#6366f1; }
+        .btn-outline:hover { background:#818cf8; color:white; }
+        
+        .input-field { width:100%; padding:10px 14px; border:2px solid #e8ecf0; border-radius:30px; font-size:13px; margin:4px 0; background:#fafbfc; transition:all 0.3s; }
+        .input-field:focus { outline:none; border-color:#818cf8; box-shadow:0 0 0 4px rgba(99,102,241,0.1); }
+        
+        .flex-between { display:flex; justify-content:space-between; align-items:center; margin:6px 0; }
+        .flex { display:flex; gap:8px; flex-wrap:wrap; }
+        .text-muted { color:#999; font-size:12px; }
+        .text-center { text-align:center; }
+        .text-sm { font-size:12px; }
+        .text-primary { color:#6366f1; }
+        .text-danger { color:#ef4444; }
+        .text-success { color:#10b981; }
+        .text-orange { color:#f59e0b; }
+        .font-bold { font-weight:700; }
+        
+        .admin-nav { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:12px; background:white; border-radius:16px; padding:6px; box-shadow:0 2px 10px rgba(0,0,0,0.04); }
+        .admin-nav-item { padding:6px 12px; border-radius:20px; cursor:pointer; font-size:10px; font-weight:600; transition:all 0.3s; background:#f0f2f5; color:#666; border:1px solid transparent; white-space:nowrap; }
+        .admin-nav-item:hover { background:#e5e7eb; transform:translateY(-2px); }
+        .admin-nav-item.active { background:linear-gradient(135deg,#818cf8,#6366f1); color:white; border-color:#818cf8; box-shadow:0 2px 15px rgba(99,102,241,0.25); }
+        
+        .admin-table { width:100%; border-collapse:collapse; font-size:11px; }
+        .admin-table th { text-align:left; padding:6px 4px; border-bottom:2px solid #818cf8; color:#1a1a2e; font-weight:700; font-size:10px; text-transform:uppercase; }
+        .admin-table td { padding:6px 4px; border-bottom:1px solid #f0f0f0; }
+        .admin-table .clickable { cursor:pointer; transition:all 0.2s; }
+        .admin-table .clickable:hover { background:#f8f9fa; }
+        
+        .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:6000; display:none; justify-content:center; align-items:center; backdrop-filter:blur(8px); }
+        .modal-overlay.show { display:flex; }
+        .modal-box { background:white; border-radius:24px; padding:20px; max-width:420px; width:95%; max-height:80vh; overflow-y:auto; animation:pop 0.4s ease; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+        .modal-close { float:right; background:none; border:none; font-size:20px; cursor:pointer; color:#999; transition:all 0.3s; }
+        .modal-close:hover { transform:rotate(90deg); }
+        
+        .center-popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.8); z-index:5000; background:white; border-radius:24px; padding:24px; text-align:center; min-width:280px; animation:pop 0.4s ease forwards; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+        .center-popup .icon { font-size:48px; margin-bottom:8px; }
+        .center-popup .title { font-size:18px; font-weight:700; color:#1a1a2e; }
+        .center-popup .msg { font-size:14px; color:#666; margin:8px 0; }
+        .center-popup button { background:linear-gradient(135deg,#818cf8,#6366f1); border:none; padding:10px 24px; border-radius:30px; margin-top:12px; cursor:pointer; color:white; font-weight:700; transition:all 0.3s; }
+        .center-popup button:hover { transform:scale(1.05); }
+        .center-popup.error .icon { color:#ef4444; }
+        .center-popup.success .icon { color:#10b981; }
+        .center-popup.info .icon { color:#3b82f6; }
+        .center-popup.warning .icon { color:#f59e0b; }
+        
+        .loading-spinner { display:inline-block; width:36px; height:36px; border:4px solid #f3f3f3; border-top:4px solid #818cf8; border-radius:50%; animation:spin 0.8s linear infinite; }
+        
+        .status-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:600; }
+        .status-pending { background:#fef3c7; color:#d97706; }
+        .status-confirmed { background:#dbeafe; color:#2563eb; }
+        .status-processing { background:#ede9fe; color:#7c3aed; }
+        .status-out_for_delivery { background:#fef3c7; color:#d97706; }
+        .status-delivered { background:#d1fae5; color:#059669; }
+        .status-cancelled { background:#fee2e2; color:#dc2626; }
+        
+        .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; }
+        .badge-hot { background:linear-gradient(135deg,#f87171,#ef4444); color:white; }
+        .badge-cinema { background:linear-gradient(135deg,#a78bfa,#8b5cf6); color:white; }
+        .badge-flash { background:linear-gradient(135deg,#60a5fa,#3b82f6); color:white; }
+        
+        .stat-card { background:white; border-radius:14px; padding:14px; text-align:center; box-shadow:0 2px 10px rgba(0,0,0,0.04); border:1px solid rgba(99,102,241,0.06); transition:all 0.3s; }
+        .stat-card:hover { transform:translateY(-4px); box-shadow:0 6px 25px rgba(0,0,0,0.08); }
+        .stat-card .number { font-size:24px; font-weight:800; color:#1a1a2e; }
+        .stat-card .label { font-size:11px; color:#999; }
+        .stat-card .icon { font-size:28px; margin-bottom:4px; }
+        
+        .chart-container { background:white; border-radius:16px; padding:14px; margin-bottom:12px; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+        .chart-wrapper { position:relative; height:180px; }
+        
+        .menu-sidebar { position:fixed; top:0; left:-300px; width:280px; height:100%; background:white; z-index:1000; transition:left 0.4s cubic-bezier(0.4,0,0.2,1); padding:20px; border-radius:0 24px 24px 0; box-shadow:4px 0 30px rgba(0,0,0,0.3); overflow-y:auto; }
+        .menu-sidebar.open { left:0; animation:slideIn 0.4s ease; }
+        .menu-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:999; display:none; backdrop-filter:blur(4px); }
+        .menu-overlay.show { display:block; }
+        .menu-item { background:#fafafa; border-radius:14px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:12px; font-weight:500; border:1px solid transparent; font-size:14px; }
+        .menu-item:hover { background:#f0f0f0; border-color:#818cf8; transform:translateX(6px); }
+        .menu-item .icon { font-size:18px; }
+        .menu-item.logout-item { background:#fee2e2; color:#dc2626; border-color:#dc2626; }
+        .menu-header { text-align:center; margin-bottom:16px; padding-bottom:16px; border-bottom:2px solid #818cf8; }
+        .menu-header .avatar { width:60px; height:60px; border-radius:50%; border:3px solid #818cf8; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px; background:#f8fafc; animation:pulse 2s infinite; }
+        .menu-header .avatar img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
+        .menu-header .name { font-weight:700; font-size:15px; color:#1a1a2e; }
+        .menu-header .email { font-size:11px; color:#666; margin-top:2px; }
+        .menu-close-btn { position:absolute; top:12px; right:12px; background:none; border:none; font-size:20px; cursor:pointer; color:#999; padding:4px 8px; border-radius:50%; transition:all 0.3s; }
+        .menu-close-btn:hover { background:#f0f0f0; transform:rotate(90deg); }
+        
+        .used-by-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f0f0f0; animation:fadeInUp 0.3s ease; }
+        .used-by-item:last-child { border-bottom:none; }
+        .used-by-item .user-info { flex:1; }
+        .used-by-item .user-name { font-weight:600; font-size:13px; }
+        .used-by-item .user-email { font-size:11px; color:#666; }
+        .used-by-item .used-date { font-size:10px; color:#999; }
+        .used-by-item .remove-btn { background:#fee2e2; border:none; color:#dc2626; padding:4px 12px; border-radius:20px; cursor:pointer; font-size:10px; font-weight:600; transition:all 0.3s; }
+        .used-by-item .remove-btn:hover { background:#fecaca; transform:scale(1.05); }
+        
+        .refund-box { background:#d1fae5; border:2px solid #10b981; border-radius:12px; padding:12px; margin:8px 0; }
+        .refund-box .label { font-size:12px; color:#065f46; font-weight:600; }
+        .refund-box .value { font-size:16px; font-weight:700; color:#065f46; }
+        
+        .error-box { background:#fee2e2; border:2px solid #ef4444; border-radius:12px; padding:20px; text-align:center; margin:10px 0; }
+        .error-box .icon { font-size:48px; animation:bounce 1.5s infinite; }
+        .error-box .title { font-size:18px; font-weight:800; color:#dc2626; margin:8px 0; }
+        .error-box .desc { font-size:13px; color:#7f1d1d; }
+        
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:#f0f0f0; }
+        ::-webkit-scrollbar-thumb { background:#818cf8; border-radius:10px; }
+        
+        .complaint-item { background:#f8f9fa; border-radius:12px; padding:12px; margin-bottom:10px; border-left:3px solid #f59e0b; animation:fadeInUp 0.3s ease; }
+        .complaint-item.resolved { border-left-color: #10b981; }
+    </style>
+</head>
+<body>
+<div class="mobile-frame">
+    <div class="app-container">
+        <div class="premium-header">
+            <div class="header-top">
+                <div class="logo">PAWAN<span>RETAIL</span></div>
+                <div class="header-actions">
+                    <div class="refresh-btn" onclick="refreshPage()" title="Refresh">⟳</div>
+                    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+                </div>
+            </div>
+        </div>
+        <div class="content-area" id="dynamicPage">
+            <div style="text-align:center; padding:40px;">
+                <div class="loading-spinner"></div>
+                <p style="margin-top:12px; color:#666; animation:pulse 1.5s infinite;">Loading Admin Panel...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Sidebar -->
+    <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
+    <div id="menuSidebar" class="menu-sidebar">
+        <button class="menu-close-btn" onclick="closeMenu()">✕</button>
+        <div class="menu-header">
+            <div id="menuAvatar" class="avatar">👤</div>
+            <div id="menuName" class="name">Admin</div>
+            <div id="menuEmail" class="email">admin@email.com</div>
+        </div>
+        <div class="menu-item" onclick="loadSection('dashboard'); closeMenu();"><span class="icon">📊</span> Dashboard</div>
+        <div class="menu-item" onclick="loadSection('users'); closeMenu();"><span class="icon">👥</span> Users</div>
+        <div class="menu-item" onclick="loadSection('orders'); closeMenu();"><span class="icon">📦</span> Orders</div>
+        <div class="menu-item" onclick="loadSection('createuser'); closeMenu();"><span class="icon">➕</span> New User</div>
+        <div class="menu-item" onclick="loadSection('prlcoins'); closeMenu();"><span class="icon">🪙</span> Coins</div>
+        <div class="menu-item" onclick="loadSection('offers'); closeMenu();"><span class="icon">🎯</span> Offers</div>
+        <div class="menu-item" onclick="loadSection('coupons'); closeMenu();"><span class="icon">🎫</span> Coupons</div>
+        <div class="menu-item" onclick="loadSection('giftcards'); closeMenu();"><span class="icon">🎁</span> Gift Cards</div>
+        <div class="menu-item" onclick="loadSection('complaints'); closeMenu();"><span class="icon">📢</span> Complaints</div>
+        <div class="menu-item logout-item" onclick="logout(); closeMenu();"><span class="icon">🚪</span> Logout</div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script>
+// ============================================================
+// FIREBASE CONFIG
+// ============================================================
+const firebaseConfig = {
+    apiKey: "AIzaSyDzgIrjcWwnqS5e3lDplptyU6VDSngn7_o",
+    authDomain: "pawan-8388d.firebaseapp.com",
+    projectId: "pawan-8388d",
+    storageBucket: "pawan-8388d.firebasestorage.app",
+    messagingSenderId: "522473603051",
+    appId: "1:522473603051:web:519543c829c1eefd1523ae"
+};
+
+let auth, db;
+try {
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db = firebase.firestore();
+    console.log("✅ Firebase initialized");
+} catch(e) { console.error("Firebase init error:", e); }
+
+// ============================================================
+// GLOBAL STATE
+// ============================================================
+let currentUser = null;
+let userData = null;
+let isAdmin = false;
+let currentSection = 'dashboard';
+let chartInstance = null;
+let blockedUsersCache = {};
+
+// ============================================================
+// POPUP FUNCTION
+// ============================================================
+function showPopup(title, message, type = 'success') {
+    let existing = document.querySelector('.center-popup');
+    if (existing) existing.remove();
+    let icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+    let popup = document.createElement('div');
+    popup.className = `center-popup ${type}`;
+    popup.innerHTML = `
+        <div class="icon">${icons[type]}</div>
+        <div class="title">${title}</div>
+        <div class="msg">${message}</div>
+        <button onclick="this.parentElement.remove()">OK</button>
+    `;
+    document.body.appendChild(popup);
+    setTimeout(() => { if(popup) popup.remove(); }, 4000);
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function renderPage(html) {
+    document.getElementById('dynamicPage').innerHTML = html;
+}
+
+function getDateString(d) {
+    if (!d) return 'N/A';
+    try { return new Date(d).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }); } 
+    catch(e) { return 'Invalid Date'; }
+}
+
+function getDateTime(d) {
+    if (!d) return 'N/A';
+    try { return new Date(d).toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); } 
+    catch(e) { return 'Invalid Date'; }
+}
+
+function formatDateInput(date) {
+    if (!date) return '';
+    try { return new Date(date).toISOString().split('T')[0]; } 
+    catch(e) { return ''; }
+}
+
+function getTodayDate() {
+    return new Date().toISOString().split('T')[0];
+}
+
+function showModal(html) {
+    let overlay = document.getElementById('modalOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'modalOverlay';
+        overlay.className = 'modal-overlay';
+        overlay.innerHTML = `<div class="modal-box"><span class="modal-close" onclick="closeModal()">✕</span><div id="modalContent" style="animation:fadeInUp 0.3s ease;"></div></div>`;
+        document.body.appendChild(overlay);
+    }
+    document.getElementById('modalContent').innerHTML = html;
+    overlay.classList.add('show');
+}
+
+function closeModal() {
+    const overlay = document.getElementById('modalOverlay');
+    if (overlay) overlay.classList.remove('show');
+}
+
+function toggleMenu() {
+    document.getElementById('menuSidebar').classList.toggle('open');
+    document.getElementById('menuOverlay').classList.toggle('show');
+}
+
+function closeMenu() {
+    document.getElementById('menuSidebar').classList.remove('open');
+    document.getElementById('menuOverlay').classList.remove('show');
+}
+
+function refreshPage() {
+    const btn = document.querySelector('.refresh-btn');
+    btn.classList.add('refresh-spin');
+    setTimeout(() => btn.classList.remove('refresh-spin'), 600);
+    loadSection(currentSection);
+    showPopup('🔄 Refreshed', 'Data updated successfully!', 'success');
+}
+
+// ============================================================
+// BLOCKED USERS
+// ============================================================
+async function loadBlockedUsers() {
+    try {
+        const snap = await db.collection('blockedUsers').get();
+        blockedUsersCache = {};
+        snap.forEach(doc => { blockedUsersCache[doc.id] = doc.data(); });
+    } catch(e) { blockedUsersCache = {}; }
+}
+
+function checkIfBlocked(email) {
+    return blockedUsersCache[email?.toLowerCase()] || null;
+}
+
+// ============================================================
+// AUTH FUNCTIONS
+// ============================================================
+async function logout() {
+    if (!confirm("Are you sure you want to logout?")) return;
+    try {
+        await auth.signOut();
+        showPopup('👋 Logged Out', 'See you soon!', 'info');
+        closeMenu();
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function loadUserData() {
+    if (!currentUser) return;
+    try {
+        const adminDoc = await db.collection('admins').doc(currentUser.uid).get();
+        isAdmin = adminDoc.exists && adminDoc.data().role === 'admin';
+        
+        if (!isAdmin) {
+            renderPage(`
+                <div class="error-box animate-fadeInUp">
+                    <div class="icon">⛔</div>
+                    <div class="title">Access Denied</div>
+                    <div class="desc">You are not an admin. Please contact your administrator.</div>
+                </div>
+            `);
+            return;
+        }
+        
+        const doc = await db.collection('users').doc(currentUser.uid).get();
+        if (doc.exists) userData = doc.data();
+        else {
+            userData = {
+                uid: currentUser.uid,
+                name: currentUser.displayName || "Admin",
+                email: currentUser.email,
+                mobile: '',
+                prlCoins: 0,
+                address: { flat: '', street: '', city: '', pincode: '' },
+                photoURL: currentUser.photoURL || '',
+                isGoogleUser: false
+            };
+            await db.collection('users').doc(currentUser.uid).set(userData);
+        }
+        
+        document.getElementById('menuName').textContent = userData.name || "Admin";
+        document.getElementById('menuEmail').textContent = userData.email || '';
+        const avatar = document.getElementById('menuAvatar');
+        if (userData.photoURL) avatar.innerHTML = `<img src="${userData.photoURL}">`;
+        else avatar.textContent = userData.name ? userData.name.charAt(0).toUpperCase() : '👤';
+        
+        await loadBlockedUsers();
+        await seedData();
+        loadSection('dashboard');
+    } catch(e) {
+        console.error("Load user error:", e);
+        showPopup('Error', 'Failed to load user data', 'error');
+    }
+}
+
+// ============================================================
+// SEED DATA
+// ============================================================
+async function seedData() {
+    try {
+        const offers = await db.collection('offers').get();
+        if (offers.empty) {
+            await db.collection('offers').add({ title: "🍕 3 Classic Pizzas", price: 141, badge: "HOT", type: "food", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
+            await db.collection('offers').add({ title: "🎬 Pushpa 2 - Movie Ticket", price: 299, badge: "CINEMA", type: "movie", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
+            await db.collection('offers').add({ title: "⚡ 50% OFF Electronics", price: 499, badge: "FLASH", type: "electronics", startDate: getTodayDate(), endDate: new Date(Date.now()+30*24*60*60*1000).toISOString().split('T')[0], createdAt: new Date().toISOString() });
+        }
+        const coupons = await db.collection('coupons').get();
+        if (coupons.empty) {
+            await db.collection('coupons').add({ code: "SAVE50", discount: 50, minOrder: 200, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], usedHistory: [], createdAt: new Date().toISOString() });
+            await db.collection('coupons').add({ code: "WELCOME100", discount: 100, minOrder: 500, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], usedHistory: [], createdAt: new Date().toISOString() });
+            await db.collection('coupons').add({ code: "PRL20", discount: 20, minOrder: 100, expiry: new Date(Date.now()+180*24*60*60*1000).toISOString().split('T')[0], usedBy: [], usedHistory: [], createdAt: new Date().toISOString() });
+        }
+        const giftCards = await db.collection('giftCards').get();
+        if (giftCards.empty) {
+            await db.collection('giftCards').add({ code: "GIFT100", points: 100, usedBy: [], createdAt: new Date().toISOString() });
+            await db.collection('giftCards').add({ code: "GIFT500", points: 500, usedBy: [], createdAt: new Date().toISOString() });
+        }
+    } catch(e) { console.error("Seed error:", e); }
+}
+
+// ============================================================
+// LOAD SECTION
+// ============================================================
+function loadSection(section) {
+    if (!isAdmin) { showPopup('Access Denied', 'You are not an admin.', 'error'); return; }
+    currentSection = section;
+    
+    let content = '';
+    switch(section) {
+        case 'dashboard': content = renderDashboard(); break;
+        case 'users': content = renderUsers(); break;
+        case 'orders': content = renderOrders(); break;
+        case 'createuser': content = renderCreateUser(); break;
+        case 'prlcoins': content = renderPRLCoins(); break;
+        case 'offers': content = renderOffers(); break;
+        case 'coupons': content = renderCoupons(); break;
+        case 'giftcards': content = renderGiftCards(); break;
+        case 'complaints': content = renderComplaints(); break;
+        default: content = '<div class="premium-card"><p class="text-muted">Select a section</p></div>';
+    }
+    
+    renderPage(`
+        <div style="text-align:center; padding:6px 0; margin-bottom:10px; animation:fadeInUp 0.3s ease;">
+            <h1 style="color:#1a1a2e; font-size:20px; font-weight:800; background:linear-gradient(135deg,#1a1a2e,#818cf8); -webkit-background-clip:text; background-clip:text; color:transparent;">⚙️ Admin Panel</h1>
+            <p style="font-size:11px; color:#999;">Manage your store efficiently</p>
+        </div>
+        <div class="admin-nav" style="animation:fadeInUp 0.4s ease;">
+            <div class="admin-nav-item ${section==='dashboard'?'active':''}" onclick="loadSection('dashboard')">📊 Dashboard</div>
+            <div class="admin-nav-item ${section==='users'?'active':''}" onclick="loadSection('users')">👥 Users</div>
+            <div class="admin-nav-item ${section==='orders'?'active':''}" onclick="loadSection('orders')">📦 Orders</div>
+            <div class="admin-nav-item ${section==='createuser'?'active':''}" onclick="loadSection('createuser')">➕ New User</div>
+            <div class="admin-nav-item ${section==='prlcoins'?'active':''}" onclick="loadSection('prlcoins')">🪙 Coins</div>
+            <div class="admin-nav-item ${section==='offers'?'active':''}" onclick="loadSection('offers')">🎯 Offers</div>
+            <div class="admin-nav-item ${section==='coupons'?'active':''}" onclick="loadSection('coupons')">🎫 Coupons</div>
+            <div class="admin-nav-item ${section==='giftcards'?'active':''}" onclick="loadSection('giftcards')">🎁 Gift Cards</div>
+            <div class="admin-nav-item ${section==='complaints'?'active':''}" onclick="loadSection('complaints')">📢 Complaints</div>
+        </div>
+        <div id="sectionContent" style="animation:fadeInUp 0.5s ease;">${content}</div>
+    `);
+    
+    setTimeout(() => {
+        switch(section) {
+            case 'dashboard': loadDashboardData(); break;
+            case 'users': loadUsersData(); break;
+            case 'orders': loadOrdersData(); break;
+            case 'offers': loadOffersData(); break;
+            case 'coupons': loadCouponsData(); break;
+            case 'giftcards': loadGiftCardsData(); break;
+            case 'complaints': loadComplaintsData(); break;
+            case 'prlcoins': loadCoinTransactions(); break;
+        }
+    }, 200);
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+    return `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+            <div class="stat-card animate-fadeInUp delay-1"><div class="icon">👥</div><div class="number" id="totalUsers">0</div><div class="label">Users</div></div>
+            <div class="stat-card animate-fadeInUp delay-2"><div class="icon">📦</div><div class="number" id="totalOrders">0</div><div class="label">Orders</div></div>
+            <div class="stat-card animate-fadeInUp delay-3"><div class="icon">🎯</div><div class="number" id="totalOffers">0</div><div class="label">Offers</div></div>
+            <div class="stat-card animate-fadeInUp delay-4"><div class="icon">🪙</div><div class="number" id="totalCoins">0</div><div class="label">Coins</div></div>
+        </div>
+        <div class="chart-container animate-fadeInUp delay-2">
+            <div style="font-size:13px; font-weight:600; color:#1a1a2e; margin-bottom:8px;">📊 Overview</div>
+            <div class="chart-wrapper"><canvas id="dashboardChart"></canvas></div>
+        </div>
+        <div class="premium-card animate-fadeInUp delay-3">
+            <div style="font-size:13px; font-weight:600; color:#1a1a2e; margin-bottom:8px;">📋 Recent Orders</div>
+            <div id="recentOrdersList"><p class="text-muted">Loading...</p></div>
+        </div>
+    `;
+}
+
+async function loadDashboardData() {
+    try {
+        const usersSnap = await db.collection('users').get();
+        document.getElementById('totalUsers').textContent = usersSnap.size;
+        let orderCount = 0, totalCoins = 0, recentOrders = [];
+        for (const userDoc of usersSnap.docs) {
+            totalCoins += userDoc.data().prlCoins || 0;
+            const ordersSnap = await db.collection('users').doc(userDoc.id).collection('orders').orderBy('orderDate','desc').limit(5).get();
+            ordersSnap.forEach(o => { const data = o.data(); data.userName = userDoc.data().name || 'Unknown'; recentOrders.push(data); orderCount++; });
+        }
+        document.getElementById('totalOrders').textContent = orderCount;
+        document.getElementById('totalCoins').textContent = totalCoins;
+        const offersSnap = await db.collection('offers').get();
+        document.getElementById('totalOffers').textContent = offersSnap.size;
+        
+        recentOrders.sort((a,b) => new Date(b.orderDate) - new Date(a.orderDate));
+        let recentHtml = '';
+        recentOrders.slice(0, 10).forEach((o, i) => {
+            recentHtml += `<div style="padding:6px 0; border-bottom:1px solid #f0f0f0; font-size:12px; animation:fadeInUp 0.3s ease ${i*0.05}s forwards;">
+                <span style="font-weight:600;">${o.userName}</span> - ${o.offerTitle} 
+                <span style="color:#6366f1; font-weight:700;">₹${o.finalAmount}</span>
+                <span class="status-badge status-${o.status}">${o.status}</span>
+                <span style="color:#999; float:right; font-size:10px;">${getDateTime(o.orderDate)}</span>
+            </div>`;
+        });
+        document.getElementById('recentOrdersList').innerHTML = recentHtml || '<p class="text-muted">No orders found</p>';
+        
+        if (chartInstance) chartInstance.destroy();
+        const ctx = document.getElementById('dashboardChart').getContext('2d');
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Users', 'Orders', 'Offers', 'PRL Coins'],
+                datasets: [{ label: 'Total', data: [usersSnap.size, orderCount, offersSnap.size, totalCoins], backgroundColor: ['#818cf8', '#6366f1', '#a78bfa', '#34d399'], borderRadius: 8 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } }, animation: { duration: 800 } }
+        });
+    } catch(e) { console.error("Dashboard load error:", e); }
+}
+
+// ============================================================
+// USERS
+// ============================================================
+function renderUsers() {
+    return `<div id="usersList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading users...</p></div></div>`;
+}
+
+async function loadUsersData() {
+    try {
+        const snap = await db.collection('users').get();
+        let html = `<table class="admin-table"><tr><th>Name</th><th>Email</th><th>Coins</th><th>Status</th><th>Action</th></tr>`;
+        let i = 0;
+        snap.forEach(doc => {
+            const d = doc.data();
+            const isBlocked = checkIfBlocked(d.email);
+            html += `<tr class="clickable" style="animation:fadeInUp 0.3s ease ${i*0.05}s forwards;" onclick="viewUser('${doc.id}')">
+                <td>${d.name||'N/A'}</td><td>${d.email||''}</td><td>${d.prlCoins||0}</td>
+                <td>${isBlocked ? '🚫 Blocked' : '✅ Active'}</td>
+                <td><button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); viewUser('${doc.id}')">View</button></td>
+            </tr>`;
+            i++;
+        });
+        html += '</table>';
+        document.getElementById('usersList').innerHTML = html || '<div class="premium-card"><p class="text-muted">No users found</p></div>';
+    } catch(e) {
+        document.getElementById('usersList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading users</p></div>`;
+    }
+}
+
+async function viewUser(uid) {
+    try {
+        const doc = await db.collection('users').doc(uid).get();
+        if (!doc.exists) return showPopup('Error', 'User not found', 'error');
+        const d = doc.data();
+        const ordersSnap = await db.collection('users').doc(uid).collection('orders').orderBy('orderDate','desc').get();
+        let ordersHtml = '';
+        if (ordersSnap.empty) ordersHtml = '<p class="text-muted">No orders</p>';
+        else ordersSnap.forEach(o => {
+            const od = o.data();
+            ordersHtml += `<div style="padding:4px 0; border-bottom:1px solid #f0f0f0; font-size:12px;">
+                ${od.offerTitle} - ₹${od.finalAmount} <span class="status-badge status-${od.status}">${od.status}</span>
+            </div>`;
+        });
+        const isBlocked = checkIfBlocked(d.email);
+        showModal(`
+            <h3>👤 User Details</h3>
+            <div style="animation:fadeInUp 0.3s ease;">
+                <div><strong>Name:</strong> ${d.name}</div>
+                <div><strong>Email:</strong> ${d.email}</div>
+                <div><strong>Mobile:</strong> ${d.mobile||'N/A'}</div>
+                <div><strong>PRL Coins:</strong> ${d.prlCoins||0}</div>
+                <div><strong>Status:</strong> ${isBlocked ? '🚫 Blocked' : '✅ Active'}</div>
+                <div><strong>Address:</strong> ${d.address?`${d.address.flat}, ${d.address.street}, ${d.address.city}, ${d.address.pincode}`:'N/A'}</div>
+                <hr style="margin:10px 0;">
+                <div style="font-weight:600; font-size:13px;">📦 Orders (${ordersSnap.size})</div>
+                ${ordersHtml}
+                <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+                    <button class="btn btn-sm btn-primary" onclick="closeModal(); editUser('${uid}')">✏️ Edit</button>
+                    <button class="btn btn-sm btn-danger" onclick="closeModal(); deleteUser('${uid}')">🗑️ Delete</button>
+                    <button class="btn btn-sm btn-warning" onclick="closeModal(); toggleBlockUser('${uid}','${d.email}')">
+                        ${isBlocked ? '✅ Unblock' : '⛔ Block'}
+                    </button>
+                </div>
+                <button class="btn btn-secondary" onclick="closeModal()" style="margin-top:10px;">Close</button>
+            </div>
+        `);
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function editUser(uid) {
+    closeModal();
+    try {
+        const doc = await db.collection('users').doc(uid).get();
+        if (!doc.exists) return showPopup('Error', 'User not found', 'error');
+        const d = doc.data();
+        renderPage(`
+            <div style="text-align:center; padding:6px 0; animation:fadeInDown 0.4s ease;">
+                <h2 style="color:#1a1a2e; font-size:18px;">✏️ Edit User</h2>
+                <p class="text-muted">Edit user details</p>
+            </div>
+            <div class="premium-card animate-fadeInUp">
+                <input class="input-field" id="editName" value="${d.name||''}" placeholder="Name">
+                <input class="input-field" id="editEmail" value="${d.email||''}" placeholder="Email" disabled>
+                <input class="input-field" id="editMobile" value="${d.mobile||''}" placeholder="Mobile">
+                <input class="input-field" id="editFlat" value="${d.address?.flat||''}" placeholder="Flat">
+                <input class="input-field" id="editStreet" value="${d.address?.street||''}" placeholder="Street">
+                <input class="input-field" id="editCity" value="${d.address?.city||''}" placeholder="City">
+                <input class="input-field" id="editPincode" value="${d.address?.pincode||''}" placeholder="Pincode">
+                <div class="flex" style="margin-top:8px;">
+                    <button class="btn btn-sm btn-success" onclick="saveUserEdit('${uid}')" style="flex:1;">💾 Save</button>
+                    <button class="btn btn-sm btn-secondary" onclick="loadSection('users')" style="flex:1;">Cancel</button>
+                </div>
+            </div>
+        `);
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function saveUserEdit(uid) {
+    const name = document.getElementById('editName').value.trim();
+    const mobile = document.getElementById('editMobile').value.trim();
+    const flat = document.getElementById('editFlat').value.trim();
+    const street = document.getElementById('editStreet').value.trim();
+    const city = document.getElementById('editCity').value.trim();
+    const pincode = document.getElementById('editPincode').value.trim();
+    if (!name) return showPopup('Error', 'Name required', 'error');
+    try {
+        await db.collection('users').doc(uid).update({ name, mobile, address: { flat, street, city, pincode } });
+        showPopup('✅ Updated', 'User updated successfully', 'success');
+        loadSection('users');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function deleteUser(uid) {
+    if (!confirm("Delete user permanently? This will delete all orders and complaints.")) return;
+    try {
+        const orders = await db.collection('users').doc(uid).collection('orders').get();
+        for (const o of orders.docs) await o.ref.delete();
+        const complaints = await db.collection('users').doc(uid).collection('complaints').get();
+        for (const c of complaints.docs) await c.ref.delete();
+        await db.collection('users').doc(uid).delete();
+        showPopup('🗑️ Deleted', 'User removed from database.', 'success');
+        loadSection('users');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function toggleBlockUser(uid, email) {
+    const blocked = checkIfBlocked(email);
+    if (blocked) {
+        await db.collection('blockedUsers').doc(email).delete();
+        showPopup('✅ Unblocked', 'User enabled again.', 'success');
+    } else {
+        const reason = prompt("Enter reason for blocking:");
+        if (!reason) return;
+        await db.collection('blockedUsers').doc(email).set({ reason: reason, date: new Date().toISOString().split('T')[0] });
+        showPopup('⛔ Blocked', 'User blocked. Reason: ' + reason, 'warning');
+    }
+    await loadBlockedUsers();
+    loadSection('users');
+}
+
+// ============================================================
+// CREATE USER
+// ============================================================
+function renderCreateUser() {
+    return `
+        <div class="premium-card animate-fadeInUp">
+            <div style="font-size:15px; font-weight:700; color:#1a1a2e; margin-bottom:8px;">➕ Create New User</div>
+            <p class="text-muted" style="margin-bottom:10px;">Admin fills all customer details</p>
+            <input class="input-field" id="newUserName" placeholder="Full Name *">
+            <input class="input-field" id="newUserEmail" type="email" placeholder="Email *">
+            <input class="input-field" id="newUserMobile" type="tel" placeholder="Mobile (10 digits) *" maxlength="10">
+            <input class="input-field" id="newUserPassword" type="password" placeholder="Password (min 6 chars) *">
+            <input class="input-field" id="newUserFlat" placeholder="Flat/House">
+            <input class="input-field" id="newUserStreet" placeholder="Street">
+            <input class="input-field" id="newUserCity" placeholder="City">
+            <input class="input-field" id="newUserPincode" placeholder="Pincode" maxlength="6">
+            <button class="btn btn-success" onclick="createNewUser()" style="animation:pulse 2s infinite;">✅ Create User</button>
+        </div>
+    `;
+}
+
+async function createNewUser() {
+    const name = document.getElementById('newUserName').value.trim();
+    const email = document.getElementById('newUserEmail').value.trim();
+    const mobile = document.getElementById('newUserMobile').value.trim();
+    const pwd = document.getElementById('newUserPassword').value.trim();
+    const flat = document.getElementById('newUserFlat').value.trim();
+    const street = document.getElementById('newUserStreet').value.trim();
+    const city = document.getElementById('newUserCity').value.trim();
+    const pincode = document.getElementById('newUserPincode').value.trim();
+    
+    if (!name || !email || !mobile || !pwd) return showPopup('Error', 'Fill all required fields (*)', 'error');
+    if (mobile.length !== 10) return showPopup('Error', 'Mobile must be 10 digits', 'error');
+    if (pwd.length < 6) return showPopup('Error', 'Password min 6 chars', 'error');
+    
+    try {
+        const methods = await auth.fetchSignInMethodsForEmail(email);
+        if (methods.length > 0) return showPopup('Error', 'Email already registered', 'error');
+        
+        const cred = await auth.createUserWithEmailAndPassword(email, pwd);
+        await db.collection('users').doc(cred.user.uid).set({
+            uid: cred.user.uid, name, email, mobile, prlCoins: 0,
+            address: { flat, street, city, pincode }, photoURL: '', isGoogleUser: false
+        });
+        showPopup('🎉 Account Created!', `User ${name} added successfully.`, 'success');
+        document.getElementById('newUserName').value = '';
+        document.getElementById('newUserEmail').value = '';
+        document.getElementById('newUserMobile').value = '';
+        document.getElementById('newUserPassword').value = '';
+        document.getElementById('newUserFlat').value = '';
+        document.getElementById('newUserStreet').value = '';
+        document.getElementById('newUserCity').value = '';
+        document.getElementById('newUserPincode').value = '';
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+// ============================================================
+// ORDERS
+// ============================================================
+function renderOrders() {
+    return `<div id="ordersList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading orders...</p></div></div>`;
+}
+
+async function loadOrdersData() {
+    try {
+        let allOrders = [];
+        const users = await db.collection('users').get();
+        for (const userDoc of users.docs) {
+            const orders = await db.collection('users').doc(userDoc.id).collection('orders').get();
+            orders.forEach(o => {
+                const data = o.data();
+                data.uid = userDoc.id;
+                data.userName = userDoc.data().name || 'Unknown';
+                data.orderDocId = o.id;
+                allOrders.push(data);
+            });
+        }
+        allOrders.sort((a,b) => new Date(b.orderDate) - new Date(a.orderDate));
+        let html = `<table class="admin-table"><tr><th>User</th><th>Offer</th><th>Amount</th><th>Status</th><th>Date</th><th>Action</th></tr>`;
+        let i = 0;
+        allOrders.forEach(o => {
+            html += `<tr class="clickable" style="animation:fadeInUp 0.3s ease ${i*0.03}s forwards;" onclick="viewOrder('${o.uid}','${o.orderDocId}')">
+                <td>${o.userName}</td><td>${o.offerTitle}</td><td>₹${o.finalAmount}</td>
+                <td><span class="status-badge status-${o.status}">${o.status}</span></td>
+                <td>${getDateString(o.orderDate)}</td>
+                <td><button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); viewOrder('${o.uid}','${o.orderDocId}')">View</button></td>
+            </tr>`;
+            i++;
+        });
+        html += '</table>';
+        document.getElementById('ordersList').innerHTML = html || '<div class="premium-card"><p class="text-muted">No orders found</p></div>';
+    } catch(e) {
+        document.getElementById('ordersList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error: ${e.message}</p></div>`;
+    }
+}
+
+async function viewOrder(uid, orderId) {
+    try {
+        const doc = await db.collection('users').doc(uid).collection('orders').doc(orderId).get();
+        if (!doc.exists) return showPopup('Error', 'Order not found', 'error');
+        const d = doc.data();
+        
+        let refundHtml = '';
+        if (d.refundAmount && d.refundAmount > 0) {
+            refundHtml = `
+                <div class="refund-box">
+                    <div class="label">Refund Processed</div>
+                    <div class="value">₹${d.refundAmount}</div>
+                    ${d.refundUPI ? `<div class="text-muted">UPI: ${d.refundUPI}</div>` : ''}
+                    ${d.refundName ? `<div class="text-muted">Name: ${d.refundName}</div>` : ''}
+                </div>
+            `;
+        }
+        
+        showModal(`
+            <h3>📦 Order Details</h3>
+            <div style="animation:fadeInUp 0.3s ease;">
+                <div><strong>User:</strong> ${d.userName || 'Unknown'}</div>
+                <div><strong>Offer:</strong> ${d.offerTitle}</div>
+                <div><strong>Amount:</strong> ₹${d.finalAmount}</div>
+                <div><strong>Status:</strong> <span class="status-badge status-${d.status}">${d.status}</span></div>
+                <div><strong>Date:</strong> ${getDateTime(d.orderDate)}</div>
+                <div><strong>Transaction ID:</strong> ${d.transactionId||'N/A'}</div>
+                <div><strong>Coupon Used:</strong> ${d.couponUsed||'None'}</div>
+                <div><strong>PRL Coins Used:</strong> ${d.prlCoinsUsed||0}</div>
+                ${d.movieDetails ? `<div><strong>Movie:</strong> ${d.movieDetails.date} ${d.movieDetails.time} (${d.movieDetails.tickets} tickets)</div>` : ''}
+                ${d.address ? `<div><strong>Address:</strong> ${d.address.flat}, ${d.address.street}, ${d.address.city}, ${d.address.pincode}</div>` : ''}
+                ${refundHtml}
+                <hr style="margin:10px 0;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <select id="orderStatusSelect" style="padding:8px 12px; border-radius:30px; border:2px solid #e8ecf0; flex:1; font-size:12px; background:#fafbfc;">
+                        <option value="pending" ${d.status==='pending'?'selected':''}>Pending</option>
+                        <option value="confirmed" ${d.status==='confirmed'?'selected':''}>Confirmed</option>
+                        <option value="processing" ${d.status==='processing'?'selected':''}>Processing</option>
+                        <option value="out_for_delivery" ${d.status==='out_for_delivery'?'selected':''}>Out for Delivery</option>
+                        <option value="delivered" ${d.status==='delivered'?'selected':''}>Delivered</option>
+                        <option value="cancelled" ${d.status==='cancelled'?'selected':''}>Cancelled</option>
+                    </select>
+                    <button class="btn btn-sm btn-success" onclick="updateOrderStatus('${uid}','${orderId}')">Update</button>
+                    <button class="btn btn-sm btn-danger" onclick="cancelOrderAdmin('${uid}','${orderId}')">Cancel</button>
+                </div>
+                <button class="btn btn-secondary" onclick="closeModal()" style="margin-top:10px;">Close</button>
+            </div>
+        `);
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function updateOrderStatus(uid, orderId) {
+    const status = document.getElementById('orderStatusSelect').value;
+    try {
+        await db.collection('users').doc(uid).collection('orders').doc(orderId).update({ status });
+        showPopup('✅ Updated', `Order status changed to ${status}`, 'success');
+        closeModal();
+        loadSection('orders');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function cancelOrderAdmin(uid, orderId) {
+    if (!confirm("Cancel this order?")) return;
+    try {
+        await db.collection('users').doc(uid).collection('orders').doc(orderId).update({ status: 'cancelled' });
+        showPopup('✅ Cancelled', 'Order cancelled successfully', 'success');
+        closeModal();
+        loadSection('orders');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+// ============================================================
+// PRL COINS
+// ============================================================
+function renderPRLCoins() {
+    return `
+        <div class="premium-card animate-fadeInUp">
+            <div style="font-size:15px; font-weight:700; color:#1a1a2e; margin-bottom:8px;">🪙 Manage PRL Coins</div>
+            <div class="flex">
+                <input class="input-field" id="coinUserEmail" placeholder="User Email *" style="flex:2;">
+                <input class="input-field" id="coinAmount" type="number" placeholder="Amount *" style="flex:1;">
+            </div>
+            <select id="coinAction" style="padding:10px 14px; border-radius:30px; border:2px solid #e8ecf0; width:100%; margin:4px 0; font-size:13px; background:#fafbfc;">
+                <option value="credit">➕ Credit (Add)</option>
+                <option value="debit">➖ Debit (Subtract)</option>
+            </select>
+            <input class="input-field" id="coinReason" placeholder="Reason * (e.g., Bonus, Refund, Purchase)">
+            <input class="input-field" id="coinRemarks" placeholder="Remarks (optional)">
+            <button class="btn btn-primary" onclick="processCoinTransaction()" style="animation:pulse 2s infinite;">💳 Process Transaction</button>
+        </div>
+        <div class="premium-card animate-fadeInUp delay-1">
+            <div style="font-size:13px; font-weight:600; color:#1a1a2e; margin-bottom:8px;">📋 Recent Transactions</div>
+            <div id="coinTransactionLog"><p class="text-muted">Loading...</p></div>
+        </div>
+    `;
+}
+
+async function processCoinTransaction() {
+    const email = document.getElementById('coinUserEmail').value.trim();
+    const amount = parseInt(document.getElementById('coinAmount').value);
+    const action = document.getElementById('coinAction').value;
+    const reason = document.getElementById('coinReason').value.trim();
+    const remarks = document.getElementById('coinRemarks').value.trim();
+    
+    if (!email || !amount || !reason) return showPopup('Error', 'Fill email, amount and reason', 'error');
+    if (amount <= 0) return showPopup('Error', 'Amount must be positive', 'error');
+    
+    try {
+        const snap = await db.collection('users').where('email','==',email).get();
+        if (snap.empty) return showPopup('Error', 'User not found', 'error');
+        const userDoc = snap.docs[0];
+        const uid = userDoc.id;
+        const currentCoins = userDoc.data().prlCoins || 0;
+        let newCoins = currentCoins;
+        if (action === 'credit') newCoins += amount;
+        else newCoins -= amount;
+        if (newCoins < 0) return showPopup('Error', 'Insufficient coins to debit', 'error');
+        
+        await db.collection('users').doc(uid).update({ prlCoins: newCoins });
+        await db.collection('coinTransactions').add({
+            uid, email, amount, action, reason, remarks,
+            timestamp: new Date().toISOString(),
+            previousBalance: currentCoins,
+            newBalance: newCoins
+        });
+        showPopup('✅ Done', `${action==='credit'?'Credited':'Debited'} ${amount} coins. New balance: ${newCoins}`, 'success');
+        document.getElementById('coinUserEmail').value = '';
+        document.getElementById('coinAmount').value = '';
+        document.getElementById('coinReason').value = '';
+        document.getElementById('coinRemarks').value = '';
+        loadCoinTransactions();
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function loadCoinTransactions() {
+    try {
+        const snap = await db.collection('coinTransactions').orderBy('timestamp','desc').limit(20).get();
+        let html = '';
+        if (snap.empty) html = '<p class="text-muted">No transactions yet</p>';
+        else {
+            snap.forEach((doc, i) => {
+                const d = doc.data();
+                html += `<div style="padding:6px 0; border-bottom:1px solid #f0f0f0; font-size:12px; animation:fadeInUp 0.3s ease ${i*0.05}s forwards;">
+                    <span style="font-weight:600;">${d.email}</span>
+                    ${d.action==='credit'?'<span style="color:#10b981;">➕ +'+d.amount+'</span>':'<span style="color:#ef4444;">➖ -'+d.amount+'</span>'}
+                    <span style="color:#666;">${d.reason}</span>
+                    ${d.remarks ? '<span style="color:#999; font-size:10px;">('+d.remarks+')</span>' : ''}
+                    <span style="color:#999; float:right; font-size:10px;">${getDateTime(d.timestamp)}</span>
+                </div>`;
+            });
+        }
+        document.getElementById('coinTransactionLog').innerHTML = html;
+    } catch(e) {
+        document.getElementById('coinTransactionLog').innerHTML = '<p style="color:#ef4444;">Error loading transactions</p>';
+    }
+}
+
+// ============================================================
+// OFFERS
+// ============================================================
+function renderOffers() {
+    return `
+        <div id="offersList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading offers...</p></div></div>
+        <div class="premium-card animate-fadeInUp delay-1">
+            <div style="font-size:15px; font-weight:700; color:#1a1a2e; margin-bottom:8px;">➕ Add New Offer</div>
+            <input class="input-field" id="newOfferTitle" placeholder="Title *">
+            <input class="input-field" id="newOfferPrice" type="number" placeholder="Price *">
+            <select id="newOfferBadge" style="padding:10px 14px; border-radius:30px; border:2px solid #e8ecf0; width:100%; margin:4px 0; font-size:13px; background:#fafbfc;">
+                <option value="HOT">🔥 HOT</option><option value="CINEMA">🎬 CINEMA</option><option value="FLASH">⚡ FLASH</option>
+            </select>
+            <select id="newOfferType" style="padding:10px 14px; border-radius:30px; border:2px solid #e8ecf0; width:100%; margin:4px 0; font-size:13px; background:#fafbfc;">
+                <option value="food">🍔 Food</option><option value="movie">🎬 Movie</option><option value="electronics">💻 Electronics</option>
+            </select>
+            <div class="flex">
+                <input class="input-field" id="newOfferStart" type="date" style="flex:1;">
+                <input class="input-field" id="newOfferEnd" type="date" style="flex:1;">
+            </div>
+            <button class="btn btn-success" onclick="addOffer()" style="animation:pulse 2s infinite;">➕ Add Offer</button>
+        </div>
+    `;
+}
+
+async function loadOffersData() {
+    try {
+        const snap = await db.collection('offers').get();
+        let html = `<table class="admin-table"><tr><th>Title</th><th>Price</th><th>Badge</th><th>Active</th><th>Action</th></tr>`;
+        let i = 0;
+        snap.forEach(doc => {
+            const d = doc.data();
+            const isActive = d.startDate && d.endDate ? (new Date() >= new Date(d.startDate) && new Date() <= new Date(d.endDate) ? '✅ Yes' : '❌ No') : '❌ No';
+            html += `<tr style="animation:fadeInUp 0.3s ease ${i*0.05}s forwards;">
+                <td>${d.title}</td><td>₹${d.price}</td>
+                <td><span class="badge badge-${d.badge?.toLowerCase()}">${d.badge}</span></td>
+                <td>${isActive}</td>
+                <td><button class="btn btn-sm btn-primary" onclick="editOffer('${doc.id}')">✏️</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteOffer('${doc.id}')">🗑️</button></td>
+            </tr>`;
+            i++;
+        });
+        html += '</table>';
+        document.getElementById('offersList').innerHTML = html || '<div class="premium-card"><p class="text-muted">No offers found</p></div>';
+    } catch(e) {
+        document.getElementById('offersList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading: ${e.message}</p></div>`;
+    }
+}
+
+async function addOffer() {
+    const title = document.getElementById('newOfferTitle').value.trim();
+    const price = parseInt(document.getElementById('newOfferPrice').value);
+    const badge = document.getElementById('newOfferBadge').value;
+    const type = document.getElementById('newOfferType').value;
+    const startDate = document.getElementById('newOfferStart').value;
+    const endDate = document.getElementById('newOfferEnd').value;
+    if (!title || !price) return showPopup('Error', 'Title and price required', 'error');
+    try {
+        await db.collection('offers').add({ title, price, badge, type, startDate, endDate, createdAt: new Date().toISOString() });
+        showPopup('✅ Added', 'Offer added successfully', 'success');
+        loadSection('offers');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function editOffer(offerId) {
+    const doc = await db.collection('offers').doc(offerId).get();
+    if (!doc.exists) return showPopup('Error', 'Offer not found', 'error');
+    const d = doc.data();
+    showModal(`
+        <h3>✏️ Edit Offer</h3>
+        <div style="animation:fadeInUp 0.3s ease;">
+            <input class="input-field" id="editOfferTitle" value="${d.title}" placeholder="Title">
+            <input class="input-field" id="editOfferPrice" type="number" value="${d.price}" placeholder="Price">
+            <select id="editOfferBadge" style="padding:10px 14px; border-radius:30px; border:2px solid #e8ecf0; width:100%; margin:4px 0; font-size:13px; background:#fafbfc;">
+                <option value="HOT" ${d.badge==='HOT'?'selected':''}>🔥 HOT</option>
+                <option value="CINEMA" ${d.badge==='CINEMA'?'selected':''}>🎬 CINEMA</option>
+                <option value="FLASH" ${d.badge==='FLASH'?'selected':''}>⚡ FLASH</option>
+            </select>
+            <select id="editOfferType" style="padding:10px 14px; border-radius:30px; border:2px solid #e8ecf0; width:100%; margin:4px 0; font-size:13px; background:#fafbfc;">
+                <option value="food" ${d.type==='food'?'selected':''}>🍔 Food</option>
+                <option value="movie" ${d.type==='movie'?'selected':''}>🎬 Movie</option>
+                <option value="electronics" ${d.type==='electronics'?'selected':''}>💻 Electronics</option>
+            </select>
+            <div class="flex">
+                <input class="input-field" id="editOfferStart" type="date" value="${formatDateInput(d.startDate)}" style="flex:1;">
+                <input class="input-field" id="editOfferEnd" type="date" value="${formatDateInput(d.endDate)}" style="flex:1;">
+            </div>
+            <div class="flex" style="margin-top:8px;">
+                <button class="btn btn-sm btn-success" onclick="saveOfferEdit('${offerId}')" style="flex:1;">💾 Save</button>
+                <button class="btn btn-sm btn-secondary" onclick="closeModal()" style="flex:1;">Cancel</button>
+            </div>
+        </div>
+    `);
+}
+
+async function saveOfferEdit(offerId) {
+    const title = document.getElementById('editOfferTitle').value.trim();
+    const price = parseInt(document.getElementById('editOfferPrice').value);
+    const badge = document.getElementById('editOfferBadge').value;
+    const type = document.getElementById('editOfferType').value;
+    const startDate = document.getElementById('editOfferStart').value;
+    const endDate = document.getElementById('editOfferEnd').value;
+    if (!title || !price) return showPopup('Error', 'Title and price required', 'error');
+    try {
+        await db.collection('offers').doc(offerId).update({ title, price, badge, type, startDate, endDate });
+        showPopup('✅ Updated', 'Offer updated', 'success');
+        closeModal();
+        loadSection('offers');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function deleteOffer(offerId) {
+    if (!confirm("Delete this offer?")) return;
+    try {
+        await db.collection('offers').doc(offerId).delete();
+        showPopup('🗑️ Deleted', 'Offer removed', 'success');
+        loadSection('offers');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+// ============================================================
+// COUPONS WITH USED BY DETAILS
+// ============================================================
+function renderCoupons() {
+    return `
+        <div id="couponsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading coupons...</p></div></div>
+        <div class="premium-card animate-fadeInUp delay-1">
+            <div style="font-size:15px; font-weight:700; color:#1a1a2e; margin-bottom:8px;">➕ Add New Coupon</div>
+            <input class="input-field" id="newCouponCode" placeholder="Code * (e.g., SAVE50)">
+            <input class="input-field" id="newCouponDiscount" type="number" placeholder="Discount % *">
+            <input class="input-field" id="newCouponMinOrder" type="number" placeholder="Min Order Amount *">
+            <input class="input-field" id="newCouponExpiry" type="date">
+            <button class="btn btn-success" onclick="addCoupon()" style="animation:pulse 2s infinite;">➕ Add Coupon</button>
+        </div>
+    `;
+}
+
+async function loadCouponsData() {
+    try {
+        const snap = await db.collection('coupons').get();
+        let html = `<table class="admin-table"><tr><th>Code</th><th>Discount</th><th>Min Order</th><th>Expiry</th><th>Used</th><th>Action</th></tr>`;
+        let i = 0;
+        for (const doc of snap.docs) {
+            const d = doc.data();
+            const expiry = d.expiry ? getDateString(d.expiry) : 'N/A';
+            const used = d.usedBy ? d.usedBy.length : 0;
+            const isExpired = d.expiry ? new Date(d.expiry) < new Date() : false;
+            html += `<tr style="${isExpired ? 'opacity:0.5;' : ''} animation:fadeInUp 0.3s ease ${i*0.05}s forwards;">
+                <td><strong>${d.code}</strong></td>
+                <td>${d.discount}%</td>
+                <td>₹${d.minOrder || 0}</td>
+                <td>${expiry} ${isExpired ? '⛔' : ''}</td>
+                <td>${used}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" onclick="viewCouponUsers('${doc.id}')">👥</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteCoupon('${doc.id}')">🗑️</button>
+                </td>
+            </tr>`;
+            i++;
+        }
+        html += '</table>';
+        document.getElementById('couponsList').innerHTML = html || '<div class="premium-card"><p class="text-muted">No coupons found</p></div>';
+    } catch(e) {
+        document.getElementById('couponsList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading: ${e.message}</p></div>`;
+    }
+}
+
+async function viewCouponUsers(couponId) {
+    try {
+        const doc = await db.collection('coupons').doc(couponId).get();
+        if (!doc.exists) return showPopup('Error', 'Coupon not found', 'error');
+        const d = doc.data();
+        
+        let usersHtml = '';
+        if (!d.usedBy || d.usedBy.length === 0) {
+            usersHtml = '<p class="text-muted text-center" style="padding:10px 0;">No one has used this coupon yet</p>';
+        } else {
+            for (const uid of d.usedBy) {
+                try {
+                    const userDoc = await db.collection('users').doc(uid).get();
+                    const userData = userDoc.exists ? userDoc.data() : { name: 'Unknown', email: 'Unknown' };
+                    let usedDate = 'N/A';
+                    if (d.usedHistory) {
+                        const history = d.usedHistory.find(h => h.uid === uid);
+                        if (history) usedDate = getDateTime(history.timestamp);
+                    }
+                    usersHtml += `
+                        <div class="used-by-item">
+                            <div class="user-info">
+                                <div class="user-name">${userData.name || 'Unknown'}</div>
+                                <div class="user-email">${userData.email || 'Unknown'}</div>
+                                <div class="used-date">Used: ${usedDate}</div>
+                            </div>
+                            <button class="remove-btn" onclick="removeUserFromCoupon('${couponId}','${uid}')">Remove</button>
+                        </div>
+                    `;
+                } catch(e) { console.error("Error loading user:", e); }
+            }
+        }
+        
+        showModal(`
+            <h3>🎫 Coupon Users - ${d.code}</h3>
+            <div style="animation:fadeInUp 0.3s ease;">
+                <div><strong>Code:</strong> ${d.code}</div>
+                <div><strong>Discount:</strong> ${d.discount}%</div>
+                <div><strong>Min Order:</strong> ₹${d.minOrder || 0}</div>
+                <div><strong>Total Used:</strong> ${d.usedBy ? d.usedBy.length : 0} times</div>
+                <hr style="margin:10px 0;">
+                <div style="font-weight:600; font-size:13px;">👥 Users who used this coupon</div>
+                <div style="margin-top:8px;">${usersHtml}</div>
+                <button class="btn btn-secondary" onclick="closeModal()" style="margin-top:10px;">Close</button>
+            </div>
+        `);
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function removeUserFromCoupon(couponId, uid) {
+    if (!confirm("Remove this user from coupon usage?")) return;
+    try {
+        const doc = await db.collection('coupons').doc(couponId).get();
+        if (!doc.exists) return showPopup('Error', 'Coupon not found', 'error');
+        const d = doc.data();
+        const updatedUsedBy = d.usedBy.filter(id => id !== uid);
+        await db.collection('coupons').doc(couponId).update({ usedBy: updatedUsedBy });
+        showPopup('✅ Removed', 'User removed from coupon usage', 'success');
+        closeModal();
+        loadSection('coupons');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function addCoupon() {
+    const code = document.getElementById('newCouponCode').value.trim().toUpperCase();
+    const discount = parseInt(document.getElementById('newCouponDiscount').value);
+    const minOrder = parseInt(document.getElementById('newCouponMinOrder').value);
+    const expiry = document.getElementById('newCouponExpiry').value;
+    if (!code || !discount) return showPopup('Error', 'Code and discount required', 'error');
+    if (discount < 0 || discount > 100) return showPopup('Error', 'Discount must be between 0-100', 'error');
+    if (minOrder < 0) return showPopup('Error', 'Min order must be positive', 'error');
+    try {
+        await db.collection('coupons').add({ 
+            code, discount, minOrder: minOrder || 0, expiry, usedBy: [], usedHistory: [],
+            createdAt: new Date().toISOString() 
+        });
+        showPopup('✅ Added', 'Coupon added successfully', 'success');
+        loadSection('coupons');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function deleteCoupon(couponId) {
+    if (!confirm("Delete this coupon?")) return;
+    try {
+        await db.collection('coupons').doc(couponId).delete();
+        showPopup('🗑️ Deleted', 'Coupon removed', 'success');
+        loadSection('coupons');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+// ============================================================
+// GIFT CARDS
+// ============================================================
+function renderGiftCards() {
+    return `
+        <div id="giftCardsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading gift cards...</p></div></div>
+        <div class="premium-card animate-fadeInUp delay-1">
+            <div style="font-size:15px; font-weight:700; color:#1a1a2e; margin-bottom:8px;">➕ Add New Gift Card</div>
+            <input class="input-field" id="newGiftCode" placeholder="Code * (e.g., GIFT100)">
+            <input class="input-field" id="newGiftPoints" type="number" placeholder="Points (PRL Coins) *">
+            <input class="input-field" id="newGiftPassword" type="password" placeholder="Gift Card Password *">
+            <button class="btn btn-success" onclick="addGiftCard()" style="animation:pulse 2s infinite;">➕ Add Gift Card</button>
+        </div>
+    `;
+}
+
+async function loadGiftCardsData() {
+    try {
+        const snap = await db.collection('giftCards').get();
+        let html = `<table class="admin-table"><tr><th>Code</th><th>Points</th><th>Redeemed</th><th>Action</th></tr>`;
+        let i = 0;
+        snap.forEach(doc => {
+            const d = doc.data();
+            const used = d.usedBy ? d.usedBy.length : 0;
+            html += `<tr style="animation:fadeInUp 0.3s ease ${i*0.05}s forwards;">
+                <td><strong>${d.code}</strong></td><td>${d.points}</td><td>${used}</td>
+                <td><button class="btn btn-sm btn-danger" onclick="deleteGiftCard('${doc.id}')">🗑️</button></td>
+            </tr>`;
+            i++;
+        });
+        html += '</table>';
+        document.getElementById('giftCardsList').innerHTML = html || '<div class="premium-card"><p class="text-muted">No gift cards found</p></div>';
+    } catch(e) {
+        document.getElementById('giftCardsList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading: ${e.message}</p></div>`;
+    }
+}
+
+async function addGiftCard() {
+    const code = document.getElementById('newGiftCode').value.trim().toUpperCase();
+    const points = parseInt(document.getElementById('newGiftPoints').value);
+    const password = document.getElementById('newGiftPassword').value.trim();
+    if (!code || !points) return showPopup('Error', 'Code and points required', 'error');
+    if (points <= 0) return showPopup('Error', 'Points must be positive', 'error');
+    if (!password) return showPopup('Error', 'Password required', 'error');
+    try {
+        await db.collection('giftCards').add({ 
+            code, points, password, usedBy: [], 
+            createdAt: new Date().toISOString() 
+        });
+        showPopup('✅ Added', 'Gift card added successfully', 'success');
+        loadSection('giftcards');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function deleteGiftCard(giftId) {
+    if (!confirm("Delete this gift card?")) return;
+    try {
+        await db.collection('giftCards').doc(giftId).delete();
+        showPopup('🗑️ Deleted', 'Gift card removed', 'success');
+        loadSection('giftcards');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+// ============================================================
+// COMPLAINTS WITH REFUND
+// ============================================================
+function renderComplaints() {
+    return `<div id="complaintsList"><div class="premium-card"><div class="loading-spinner" style="margin:20px auto;display:block;"></div><p class="text-muted text-center">Loading complaints...</p></div></div>`;
+}
+
+async function loadComplaintsData() {
+    try {
+        let allComplaints = [];
+        const users = await db.collection('users').get();
+        for (const userDoc of users.docs) {
+            const complaints = await db.collection('users').doc(userDoc.id).collection('complaints').get();
+            complaints.forEach(c => {
+                const data = c.data();
+                data.userName = userDoc.data().name || 'Unknown';
+                data.userEmail = userDoc.data().email || '';
+                data.complaintId = c.id;
+                data.uid = userDoc.id;
+                allComplaints.push(data);
+            });
+        }
+        allComplaints.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+        let html = `<table class="admin-table"><tr><th>User</th><th>Type</th><th>Status</th><th>Date</th><th>Action</th></tr>`;
+        let i = 0;
+        allComplaints.forEach(c => {
+            html += `<tr style="animation:fadeInUp 0.3s ease ${i*0.05}s forwards;">
+                <td>${c.userName}</td><td>${c.type}</td>
+                <td><span class="status-badge ${c.status === 'resolved' ? 'status-delivered' : 'status-pending'}">${c.status}</span></td>
+                <td>${getDateTime(c.createdAt)}</td>
+                <td><button class="btn btn-sm btn-primary" onclick="viewComplaint('${c.uid}','${c.complaintId}')">View</button></td>
+            </tr>`;
+            i++;
+        });
+        html += '</table>';
+        document.getElementById('complaintsList').innerHTML = html || '<div class="premium-card"><p class="text-muted">No complaints found</p></div>';
+    } catch(e) {
+        document.getElementById('complaintsList').innerHTML = `<div class="premium-card"><p style="color:#ef4444;">Error loading: ${e.message}</p></div>`;
+    }
+}
+
+async function viewComplaint(uid, complaintId) {
+    try {
+        const doc = await db.collection('users').doc(uid).collection('complaints').doc(complaintId).get();
+        if (!doc.exists) return showPopup('Error', 'Complaint not found', 'error');
+        const d = doc.data();
+        
+        // Get order details for refund
+        let orderData = null;
+        if (d.orderId) {
+            const orderDoc = await db.collection('users').doc(uid).collection('orders').doc(d.orderId).get();
+            if (orderDoc.exists) orderData = orderDoc.data();
+        }
+        
+        showModal(`
+            <h3>📢 Complaint Details</h3>
+            <div style="animation:fadeInUp 0.3s ease;">
+                <div><strong>User:</strong> ${d.userName || 'Unknown'}</div>
+                <div><strong>Email:</strong> ${d.userEmail || 'Unknown'}</div>
+                <div><strong>Type:</strong> ${d.type}</div>
+                <div><strong>Description:</strong> ${d.description}</div>
+                <div><strong>Status:</strong> <span class="status-badge ${d.status === 'resolved' ? 'status-delivered' : 'status-pending'}">${d.status}</span></div>
+                <div><strong>Date:</strong> ${getDateTime(d.createdAt)}</div>
+                <div><strong>Order ID:</strong> ${d.orderId||'N/A'}</div>
+                ${orderData ? `<div><strong>Order Amount:</strong> ₹${orderData.finalAmount}</div>` : ''}
+                ${d.refundAmount ? `<div class="refund-box"><div class="label">Refund Processed</div><div class="value">₹${d.refundAmount}</div></div>` : ''}
+                <hr style="margin:10px 0;">
+                ${d.status !== 'resolved' ? `
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <input class="input-field" id="refundAmount" type="number" placeholder="Refund Amount (₹)" style="flex:2;" value="${orderData ? orderData.finalAmount : ''}">
+                        <button class="btn btn-sm btn-success" onclick="resolveComplaintWithRefund('${uid}','${complaintId}','${d.orderId||''}')" style="flex:1;">✅ Resolve & Refund</button>
+                    </div>
+                    <button class="btn btn-sm btn-primary" onclick="resolveComplaint('${uid}','${complaintId}')" style="margin-top:4px;">✅ Resolve without Refund</button>
+                ` : ''}
+                <button class="btn btn-secondary" onclick="closeModal()" style="margin-top:10px;">Close</button>
+            </div>
+        `);
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function resolveComplaint(uid, complaintId) {
+    if (!confirm("Mark this complaint as resolved?")) return;
+    try {
+        await db.collection('users').doc(uid).collection('complaints').doc(complaintId).update({ 
+            status: 'resolved',
+            resolvedAt: new Date().toISOString()
+        });
+        showPopup('✅ Resolved', 'Complaint marked as resolved', 'success');
+        closeModal();
+        loadSection('complaints');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+async function resolveComplaintWithRefund(uid, complaintId, orderId) {
+    const refundAmount = parseInt(document.getElementById('refundAmount').value);
+    if (!refundAmount || refundAmount <= 0) {
+        showPopup('Error', 'Please enter a valid refund amount', 'error');
+        return;
+    }
+    
+    if (!confirm(`Process refund of ₹${refundAmount} for this complaint?`)) return;
+    
+    try {
+        // Update complaint
+        await db.collection('users').doc(uid).collection('complaints').doc(complaintId).update({
+            status: 'resolved',
+            refundAmount: refundAmount,
+            refundProcessedAt: new Date().toISOString(),
+            resolvedAt: new Date().toISOString()
+        });
+        
+        // Update order with refund info
+        if (orderId) {
+            await db.collection('users').doc(uid).collection('orders').doc(orderId).update({
+                complaintResolved: true,
+                refundAmount: refundAmount,
+                refundStatus: 'pending'
+            });
+            
+            // Add coins back if PRL coins were used
+            const orderDoc = await db.collection('users').doc(uid).collection('orders').doc(orderId).get();
+            if (orderDoc.exists) {
+                const orderData = orderDoc.data();
+                if (orderData.prlCoinsUsed && orderData.prlCoinsUsed > 0) {
+                    await db.collection('users').doc(uid).update({
+                        prlCoins: firebase.firestore.FieldValue.increment(orderData.prlCoinsUsed)
+                    });
+                }
+            }
+        }
+        
+        showPopup('✅ Refund Processed', `₹${refundAmount} refund has been processed. User will be notified.`, 'success');
+        closeModal();
+        loadSection('complaints');
+    } catch(e) { showPopup('Error', e.message, 'error'); }
+}
+
+// ============================================================
+// AUTH STATE LISTENER
+// ============================================================
+auth.onAuthStateChanged(async (user) => {
+    if (user) {
+        currentUser = user;
+        await loadUserData();
+    } else {
+        currentUser = null;
+        userData = null;
+        isAdmin = false;
+        renderPage(`
+            <div style="text-align:center; padding:40px 20px; animation:fadeInUp 0.5s ease;">
+                <div style="font-size:56px; margin-bottom:16px; animation:float 3s ease-in-out infinite;">🔐</div>
+                <h2 style="color:#1a1a2e;">Admin Login</h2>
+                <p style="color:#666; font-size:14px;">Please sign in to access admin panel</p>
+                <div style="margin-top:20px;">
+                    <input class="input-field" id="loginEmail" type="email" placeholder="Email" style="animation:fadeInUp 0.6s ease;">
+                    <input class="input-field" id="loginPassword" type="password" placeholder="Password" style="animation:fadeInUp 0.7s ease;">
+                    <button class="btn btn-primary" onclick="adminLogin()" style="animation:pulse 2s infinite;">Sign In</button>
+                    <button class="btn btn-outline" style="margin-top:8px;" onclick="googleAdminLogin()">🔑 Sign in with Google</button>
+                </div>
+            </div>
+        `);
+    }
+});
+
+async function adminLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pwd = document.getElementById('loginPassword').value.trim();
+    if (!email || !pwd) return showPopup('Error', 'Fill all fields', 'error');
+    try {
+        await auth.signInWithEmailAndPassword(email, pwd);
+    } catch(e) { showPopup('Login Failed', e.message, 'error'); }
+}
+
+async function googleAdminLogin() {
+    try {
+        await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    } catch(e) { showPopup('Google Login Failed', e.message, 'error'); }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+console.log("🚀 Pawan Retail Admin Panel");
+console.log("✅ Features: Dashboard, Users, Orders, Create User, Coins, Offers, Coupons (with Used By), Gift Cards, Complaints (with Refund)");
+console.log("🎯 Coupon Users: View who used coupon, when they used, and remove users");
+console.log("💰 Complaints: Resolve with refund option");
+</script>
+</body>
+</html>
