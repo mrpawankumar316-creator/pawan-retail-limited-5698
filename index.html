@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Priya Electricals - Sell & Service</title>
     
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <style>
@@ -23,380 +26,341 @@
         body {
             background: #f0f4f8;
             color: #1e293b;
+            min-height: 100vh;
         }
 
-        header {
-            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+        /* ===== TOP TOAST ===== */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 90%;
+            max-width: 500px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: #1e293b;
             color: white;
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .logo {
-            display: flex;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            display: none;
             align-items: center;
             gap: 12px;
+            pointer-events: auto;
+            animation: slideDown 0.4s ease;
+            margin-bottom: 10px;
         }
 
-        .logo i {
-            font-size: 2rem;
-            color: #fbbf24;
-        }
-
-        .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 400;
-            opacity: 0.9;
-            letter-spacing: 1px;
-        }
-
-        .status-badge {
-            background: #64748b;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
+        .toast.show {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
         }
 
-        .status-badge i {
-            font-size: 0.6rem;
-        }
-
-        .status-badge.loading {
-            background: #f59e0b;
-            animation: pulse 1s infinite;
-        }
-
-        .status-badge.success {
+        .toast.success {
             background: #10b981;
         }
-
-        .status-badge.error {
+        .toast.error {
             background: #ef4444;
         }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+        .toast.warning {
+            background: #f59e0b;
+        }
+        .toast.info {
+            background: #2563eb;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        .toast i {
+            font-size: 1.2rem;
         }
 
-        .location-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            margin-bottom: 25px;
-        }
-
-        .location-card h2 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .location-card h2 i {
-            color: #2563eb;
-        }
-
-        .location-card > p {
-            color: #64748b;
-            font-size: 0.95rem;
-        }
-
-        .location-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .btn {
-            padding: 12px 24px;
+        .toast .close-toast {
+            margin-left: auto;
+            background: none;
             border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .btn-primary {
-            background: #2563eb;
-            color: white;
+        @keyframes slideDown {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        .btn-primary:hover {
-            background: #1d4ed8;
-            transform: scale(1.02);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-success {
-            background: #10b981;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #059669;
-            transform: scale(1.02);
-        }
-
-        .btn-success:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-whatsapp {
-            background: #25d366;
-            color: white;
-        }
-
-        .btn-whatsapp:hover {
-            background: #1da851;
-            transform: scale(1.02);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #2563eb;
-            color: #2563eb;
-        }
-
-        .btn-outline:hover {
-            background: #2563eb;
-            color: white;
-        }
-
-        .location-info {
-            margin-top: 15px;
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: 12px;
-            border-left: 4px solid #2563eb;
-            display: none;
-        }
-
-        .location-info.show {
+        /* ===== AUTH CONTAINER ===== */
+        .auth-container {
+            background: white;
+            border-radius: 24px;
+            padding: 32px 28px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            margin: 20px auto;
             display: block;
         }
 
-        .location-info p {
-            margin: 5px 0;
-            font-size: 0.95rem;
+        .auth-header {
+            text-align: center;
+            margin-bottom: 28px;
         }
 
-        .location-info strong {
+        .auth-header .logo {
+            font-size: 2.5rem;
+            color: #fbbf24;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .auth-header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
             color: #1e293b;
         }
 
-        .delivery-status {
-            margin-top: 12px;
-            padding: 12px 16px;
+        .auth-header p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
             border-radius: 10px;
             font-weight: 600;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            background: white;
+            color: #2563eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .auth-form {
             display: none;
         }
 
-        .delivery-status.available {
+        .auth-form.active {
             display: block;
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #6ee7b7;
-        }
-
-        .delivery-status.unavailable {
-            display: block;
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-        }
-
-        .delivery-status.checking {
-            display: block;
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid #fcd34d;
-        }
-
-        .map-wrapper {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            margin-bottom: 25px;
-        }
-
-        #map {
-            height: 450px;
-            border-radius: 12px;
-            width: 100%;
-            z-index: 1;
-        }
-
-        .store-details {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            margin-bottom: 25px;
-        }
-
-        .store-details h3 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .detail-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: #f8fafc;
-            border-radius: 10px;
-        }
-
-        .detail-item i {
-            color: #2563eb;
-            font-size: 1.2rem;
-            width: 24px;
-        }
-
-        .detail-item a {
-            color: #2563eb;
-            text-decoration: none;
-        }
-
-        .detail-item a:hover {
-            text-decoration: underline;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .service-tag {
-            background: #eff6ff;
-            padding: 12px 16px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #1e40af;
-            border: 1px solid #bfdbfe;
-        }
-
-        .service-tag i {
-            margin-right: 8px;
-            color: #2563eb;
-        }
-
-        .contact-section {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
             font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-bottom: 4px;
         }
 
-        .form-group input,
-        .form-group textarea {
+        .form-group .input-wrap {
+            position: relative;
+        }
+
+        .form-group .input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            z-index: 2;
+        }
+
+        .form-group input {
             width: 100%;
-            padding: 12px 14px;
+            padding: 12px 14px 12px 44px;
             border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border 0.2s;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group input:focus {
             outline: none;
             border-color: #2563eb;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
 
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
+        .form-group input.error {
+            border-color: #ef4444;
+            background: #fef2f2;
         }
 
-        footer {
-            text-align: center;
-            padding: 30px 20px;
+        .form-group input.success {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .form-group .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 1rem;
+            z-index: 2;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-options label {
+            font-size: 0.85rem;
             color: #64748b;
-            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
         }
 
-        .spinner {
+        .form-options a {
+            font-size: 0.85rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .btn-google:hover {
+            border-color: #2563eb;
+            background: #f8fafc;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .password-strength {
+            margin-top: 6px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .password-strength .bar {
+            flex: 1;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        .password-strength .bar.active.weak {
+            background: #ef4444;
+        }
+        .password-strength .bar.active.medium {
+            background: #f59e0b;
+        }
+        .password-strength .bar.active.strong {
+            background: #10b981;
+        }
+
+        .password-strength-text {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .spinner-small {
             display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 3px solid #e2e8f0;
-            border-top: 3px solid #2563eb;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.6s linear infinite;
         }
 
         @keyframes spin {
@@ -404,512 +368,1489 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e293b;
-            color: white;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            z-index: 9999;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        /* ===== HOME PAGE (Hidden by default) ===== */
+        #homePage {
             display: none;
-            max-width: 90%;
-            text-align: center;
         }
 
-        .toast.show {
+        .home-header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .home-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .home-header-left i {
+            font-size: 1.2rem;
+            color: #fbbf24;
+        }
+
+        .home-header-left h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .home-header-left .sub {
+            font-size: 0.6rem;
+            opacity: 0.8;
             display: block;
-            animation: slideUp 0.4s ease;
         }
 
-        .toast.success {
+        .home-header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .home-header-right i {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .search-bar-home {
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            padding: 8px 14px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-bar-home input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .search-bar-home input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .search-bar-home i {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .location-bar-home {
+            background: white;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+
+        .location-bar-home i {
+            color: #2563eb;
+        }
+
+        .location-bar-home .address {
+            flex: 1;
+            color: #475569;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .location-bar-home .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .location-bar-home .status-badge.available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .location-bar-home .status-badge.unavailable {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .location-bar-home .status-badge.checking {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* ===== CATEGORIES ===== */
+        .categories {
+            background: white;
+            padding: 12px 16px;
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            border-bottom: 1px solid #e2e8f0;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            min-width: 56px;
+            transition: color 0.2s;
+        }
+
+        .category-item.active {
+            color: #2563eb;
+        }
+
+        .category-item i {
+            font-size: 1.3rem;
+            color: #64748b;
+        }
+
+        .category-item.active i {
+            color: #2563eb;
+        }
+
+        /* ===== PRODUCTS ===== */
+        .products-section {
+            padding: 16px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title .see-all {
+            margin-left: auto;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 90px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #94a3b8;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 6px;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-weight {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .product-price .current {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .product-price .mrp {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 6px;
+            width: 100%;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .add-btn.in-cart {
             background: #10b981;
         }
 
-        .toast.error {
-            background: #ef4444;
+        .add-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .toast.warning {
-            background: #f59e0b;
+        .loading-spinner {
+            text-align: center;
+            padding: 40px 0;
+            color: #94a3b8;
+            grid-column: 1/-1;
         }
 
-        @keyframes slideUp {
-            from { transform: translateX(-50%) translateY(20px); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .loading-spinner i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
         }
 
-        @media (max-width: 600px) {
-            .logo h1 {
-                font-size: 1.1rem;
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 6px 0 10px;
+            border-top: 1px solid #e2e8f0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.6rem;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #2563eb;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        /* ===== SERVICE UNAVAILABLE POPUP (Bottom Half) ===== */
+        .service-overlay {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 500;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            transition: height 0.4s ease;
+        }
+
+        .service-overlay.open {
+            display: flex;
+            height: 100vh;
+        }
+
+        .service-popup {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px 30px;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .service-overlay.open .service-popup {
+            transform: translateY(0);
+        }
+
+        .service-popup .handle {
+            width: 40px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin: 0 auto 16px;
+        }
+
+        .service-popup .icon-big {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .service-popup .icon-big .red {
+            color: #ef4444;
+        }
+
+        .service-popup h2 {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        .service-popup .sub-text {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .service-popup .info-box {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .service-popup .info-box p {
+            font-size: 0.85rem;
+            color: #475569;
+            margin: 4px 0;
+        }
+
+        .service-popup .info-box i {
+            color: #2563eb;
+            width: 20px;
+        }
+
+        .service-popup .btn-close-popup {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .service-popup .btn-close-popup:hover {
+            background: #1d4ed8;
+        }
+
+        /* ===== CART DRAWER ===== */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            display: none;
+        }
+
+        .cart-overlay.open {
+            display: block;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-height: 80vh;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            z-index: 201;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            padding: 20px 16px;
+            overflow-y: auto;
+        }
+
+        .cart-drawer.open {
+            transform: translateY(0);
+        }
+
+        .cart-drawer .handle {
+            width: 40px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin: 0 auto 16px;
+        }
+
+        .cart-drawer h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .cart-item .item-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .cart-item .item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-item .item-qty button {
+            background: #f1f5f9;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cart-item .item-qty span {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-total {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #94a3b8;
+            padding: 30px 0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 600px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
-            .status-badge {
-                font-size: 0.7rem;
-                padding: 5px 12px;
+            .auth-container {
+                margin: 40px auto;
             }
-            #map {
-                height: 300px;
+        }
+
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 24px 16px;
+                margin: 10px auto;
             }
-            .location-controls .btn {
-                width: 100%;
-                justify-content: center;
-            }
-            .detail-grid {
-                grid-template-columns: 1fr;
+            .service-popup {
+                padding: 20px 16px 24px;
             }
         }
     </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-    <div class="header-content">
+<!-- ===== TOP TOAST ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ============================================================ -->
+<!-- ===== AUTH SECTION (Login/Register) ===== -->
+<!-- ============================================================ -->
+<div id="authSection" class="auth-container">
+    <div class="auth-header">
         <div class="logo">
             <i class="fas fa-bolt"></i>
-            <div>
-                <h1>PRIYA ELECTRICALS</h1>
-                <span>SELL & SERVICE</span>
-            </div>
         </div>
-        <div class="status-badge loading" id="statusBadge">
-            <i class="fas fa-circle"></i>
-            <span id="statusText">Loading...</span>
-        </div>
-    </div>
-</header>
-
-<!-- MAIN CONTENT -->
-<div class="container">
-
-    <!-- Location Card -->
-    <div class="location-card">
-        <h2><i class="fas fa-location-dot"></i> Your Location</h2>
-        <p id="locationMessage">Detecting your location automatically...</p>
-        
-        <div class="location-controls">
-            <button class="btn btn-primary" id="retryBtn">
-                <i class="fas fa-redo"></i> Retry Location
-            </button>
-            <button class="btn btn-success" id="getAddressBtn" disabled>
-                <i class="fas fa-map-pin"></i> Get My Address
-            </button>
-            <a href="https://wa.me/919045550397?text=Hi%2C%20I%20need%20electrical%20products%20or%20service" target="_blank" class="btn btn-whatsapp">
-                <i class="fab fa-whatsapp"></i> Contact WhatsApp
-            </a>
-        </div>
-
-        <div class="location-info" id="locationInfo">
-            <p><strong><i class="fas fa-map-pin"></i> Latitude:</strong> <span id="latDisplay">--</span></p>
-            <p><strong><i class="fas fa-map-pin"></i> Longitude:</strong> <span id="lngDisplay">--</span></p>
-            <p><strong><i class="fas fa-home"></i> Address:</strong> <span id="addressDisplay">Fetching...</span></p>
-            <div class="delivery-status" id="deliveryStatus"></div>
-        </div>
+        <h1>PRIYA ELECTRICALS</h1>
+        <p>Sell & Service · Secure Login</p>
     </div>
 
-    <!-- Map -->
-    <div class="map-wrapper">
-        <div id="map"></div>
+    <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login" onclick="switchTab('login')">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+        <button class="auth-tab" data-tab="register" onclick="switchTab('register')">
+            <i class="fas fa-user-plus"></i> Register
+        </button>
     </div>
 
-    <!-- Store Details -->
-    <div class="store-details">
-        <h3><i class="fas fa-store"></i> Store Information</h3>
-        <div class="detail-grid">
-            <div class="detail-item">
-                <i class="fas fa-location-dot"></i>
-                <span>Door No:27/38, Sajneev Gandhi Nagar,<br>Podalakur Road, Nellore-524004</span>
-            </div>
-            <div class="detail-item">
-                <i class="fas fa-phone"></i>
-                <a href="tel:+918651431053">+91 86514 31053</a>
-            </div>
-            <div class="detail-item">
-                <i class="fab fa-whatsapp"></i>
-                <a href="https://wa.me/919045550397" target="_blank">+91 90455 50397</a>
-            </div>
-            <div class="detail-item">
-                <i class="fas fa-clock"></i>
-                <span>Open 24 Hours</span>
-            </div>
-            <div class="detail-item">
+    <!-- Login Form -->
+    <div class="auth-form active" id="loginForm">
+        <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-wrap">
                 <i class="fas fa-envelope"></i>
-                <a href="mailto:priyaelectricals.chennai@gmail.com">Email Us</a>
-            </div>
-            <div class="detail-item">
-                <i class="fas fa-globe"></i>
-                <a href="https://priyaelectricals.net" target="_blank">Visit Website</a>
+                <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
             </div>
         </div>
-    </div>
-
-    <!-- Services -->
-    <div class="store-details">
-        <h3><i class="fas fa-tools"></i> Our Services</h3>
-        <div class="services-grid">
-            <div class="service-tag"><i class="fas fa-bolt"></i> Electrical Goods</div>
-            <div class="service-tag"><i class="fas fa-wrench"></i> Repair & Service</div>
-            <div class="service-tag"><i class="fas fa-pipe-valve"></i> Plumbing</div>
-            <div class="service-tag"><i class="fas fa-lightbulb"></i> Philips Lighting</div>
-            <div class="service-tag"><i class="fas fa-car"></i> Automotive Lights</div>
-            <div class="service-tag"><i class="fas fa-gas-pump"></i> Gas Pipeline</div>
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrap">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+                <button class="toggle-password" onclick="togglePassword('loginPassword', this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
         </div>
+        <div class="form-options">
+            <label><input type="checkbox" id="rememberMe"> Remember me</label>
+            <a href="#" onclick="forgotPassword()">Forgot password?</a>
+        </div>
+        <button class="btn-primary" id="loginBtn" onclick="handleLogin()">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+        <div class="divider">or continue with</div>
+        <button class="btn-google" onclick="handleGoogleLogin()">
+            <i class="fab fa-google"></i> Sign in with Google
+        </button>
     </div>
 
-    <!-- Contact Form -->
-    <div class="contact-section">
-        <h3 style="margin-bottom:20px;"><i class="fas fa-paper-plane"></i> Send Us a Message</h3>
-        <form action="https://formsubmit.co/priyaelectricals.chennai@gmail.com" method="POST">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            
-            <div class="form-group">
-                <label>Your Name</label>
-                <input type="text" name="name" required placeholder="Enter your name">
+    <!-- Register Form -->
+    <div class="auth-form" id="registerForm">
+        <div class="form-group">
+            <label>Full Name</label>
+            <div class="input-wrap">
+                <i class="fas fa-user"></i>
+                <input type="text" id="registerName" placeholder="Your full name" autocomplete="name">
             </div>
-            <div class="form-group">
-                <label>Phone / Email</label>
-                <input type="text" name="contact" required placeholder="Phone or Email">
+        </div>
+        <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-wrap">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="registerEmail" placeholder="you@example.com" autocomplete="email">
             </div>
-            <div class="form-group">
-                <label>Message</label>
-                <textarea name="message" placeholder="What do you need? Electrical items, repair, plumbing..." required></textarea>
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <div class="input-wrap">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="registerPhone" placeholder="+91 98765 43210" autocomplete="tel">
             </div>
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-paper-plane"></i> Send Message
-            </button>
-        </form>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrap">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="registerPassword" placeholder="Min 6 characters" oninput="checkPasswordStrength(this.value)">
+                <button class="toggle-password" onclick="togglePassword('registerPassword', this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div class="password-strength" id="passwordStrength">
+                <div class="bar" id="str1"></div>
+                <div class="bar" id="str2"></div>
+                <div class="bar" id="str3"></div>
+            </div>
+            <div class="password-strength-text" id="strengthText">Enter a strong password</div>
+        </div>
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <div class="input-wrap">
+                <i class="fas fa-check-circle"></i>
+                <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" oninput="validateConfirmPassword()">
+            </div>
+        </div>
+        <div class="form-options">
+            <label><input type="checkbox" id="termsCheck"> I agree to Terms & Conditions</label>
+        </div>
+        <button class="btn-primary" id="registerBtn" onclick="handleRegister()">
+            <i class="fas fa-user-plus"></i> Create Account
+        </button>
+        <div class="divider">or continue with</div>
+        <button class="btn-google" onclick="handleGoogleLogin()">
+            <i class="fab fa-google"></i> Sign up with Google
+        </button>
     </div>
-
 </div>
 
-<footer>
-    <p>&copy; 2026 PRIYA ELECTRICALS SELL & SERVICE. All rights reserved.</p>
-    <p style="margin-top:5px; font-size:0.8rem;">📍 Nellore, Andhra Pradesh | Made with ❤️</p>
-</footer>
+<!-- ============================================================ -->
+<!-- ===== HOME SECTION (After Login) ===== -->
+<!-- ============================================================ -->
+<div id="homePage">
+    <!-- Header -->
+    <div class="home-header">
+        <div class="home-header-top">
+            <div class="home-header-left">
+                <i class="fas fa-bolt"></i>
+                <div>
+                    <h1>PRIYA ELECTRICALS</h1>
+                    <span class="sub">⚡ Sell & Service</span>
+                </div>
+            </div>
+            <div class="home-header-right">
+                <i class="fas fa-user" onclick="showToast('Profile coming soon!', 'info')"></i>
+                <div class="cart-icon-wrap" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </div>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+        <div class="search-bar-home">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search 'wires, bulbs, switches...'" id="searchInput" oninput="filterProducts()">
+        </div>
+    </div>
 
-<!-- Toast Notification -->
-<div class="toast" id="toast"></div>
+    <!-- Location Bar -->
+    <div class="location-bar-home">
+        <i class="fas fa-location-dot"></i>
+        <span class="address" id="userAddress">📍 Detecting location...</span>
+        <span class="status-badge checking" id="serviceStatus">Checking...</span>
+    </div>
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Categories -->
+    <div class="categories" id="categoriesContainer">
+        <div class="category-item active" data-category="all" onclick="filterCategory('all')">
+            <i class="fas fa-th-large"></i><span>All</span>
+        </div>
+        <div class="category-item" data-category="electrical" onclick="filterCategory('electrical')">
+            <i class="fas fa-bolt"></i><span>Electrical</span>
+        </div>
+        <div class="category-item" data-category="lighting" onclick="filterCategory('lighting')">
+            <i class="fas fa-lightbulb"></i><span>Lighting</span>
+        </div>
+        <div class="category-item" data-category="wires" onclick="filterCategory('wires')">
+            <i class="fas fa-plug"></i><span>Wires</span>
+        </div>
+        <div class="category-item" data-category="switches" onclick="filterCategory('switches')">
+            <i class="fas fa-toggle-on"></i><span>Switches</span>
+        </div>
+        <div class="category-item" data-category="plumbing" onclick="filterCategory('plumbing')">
+            <i class="fas fa-pipe-valve"></i><span>Plumbing</span>
+        </div>
+    </div>
 
+    <!-- Products -->
+    <div class="products-section">
+        <div class="section-title">
+            <span>⚡ Shop Now</span>
+            <span class="see-all" id="categoryTitle">All Products</span>
+        </div>
+        <div class="product-grid" id="productGrid">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner"></i>
+                <p>Loading products...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+        <div class="nav-item active"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="toggleCart()"><i class="fas fa-shopping-bag"></i><span>Cart</span></div>
+        <div class="nav-item" onclick="showToast('Orders coming soon!', 'info')"><i class="fas fa-clock-rotate-left"></i><span>Orders</span></div>
+        <div class="nav-item" onclick="showToast('Profile coming soon!', 'info')"><i class="fas fa-user"></i><span>Profile</span></div>
+    </div>
+</div>
+
+<!-- ===== SERVICE UNAVAILABLE POPUP (Bottom Half) ===== -->
+<div class="service-overlay" id="serviceOverlay">
+    <div class="service-popup">
+        <div class="handle"></div>
+        <div class="icon-big">
+            <i class="fas fa-map-pin red"></i>
+        </div>
+        <h2>⚠️ Service Unavailable</h2>
+        <p class="sub-text">We're sorry, but delivery is not available at your location.</p>
+        <div class="info-box">
+            <p><i class="fas fa-store"></i> <strong>Store Address:</strong></p>
+            <p style="margin-left:24px;">Door No:27/38, Sajneev Gandhi Nagar</p>
+            <p style="margin-left:24px;">Podalakur Road, Nellore-524004</p>
+            <p style="margin-top:8px;"><i class="fas fa-phone"></i> <strong>Contact:</strong> +91 86514 31053</p>
+            <p><i class="fab fa-whatsapp"></i> <strong>WhatsApp:</strong> +91 90455 50397</p>
+            <p><i class="fas fa-clock"></i> <strong>Hours:</strong> Open 24 hours</p>
+        </div>
+        <button class="btn-close-popup" onclick="closeServicePopup()">
+            <i class="fas fa-times"></i> Close
+        </button>
+    </div>
+</div>
+
+<!-- ===== CART DRAWER ===== -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+    <div class="handle"></div>
+    <h3><i class="fas fa-shopping-cart"></i> Your Cart</h3>
+    <div id="cartItems">
+        <div class="empty-cart">
+            <i class="fas fa-shopping-bag" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+            <p>Your cart is empty</p>
+            <small>Add products to get started!</small>
+        </div>
+    </div>
+    <div class="cart-total" id="cartTotal" style="display:none;">
+        <span>Total:</span>
+        <span id="totalPrice">₹0</span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn" disabled onclick="placeOrder()">
+        <i class="fas fa-check-circle"></i> Place Order
+    </button>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== JAVASCRIPT ===== -->
+<!-- ============================================================ -->
 <script>
-    // ========================================
-    // PRIYA ELECTRICALS - AUTO DETECT LOCATION
-    // ========================================
+    // ============================================================
+    // 🔥 FIREBASE CONFIG
+    // ============================================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyD9SrgH4rYKdWXeYqiYL0cdznzypNFqLks",
+        authDomain: "pawan-retail-limited.firebaseapp.com",
+        projectId: "pawan-retail-limited",
+        storageBucket: "pawan-retail-limited.firebasestorage.app",
+        messagingSenderId: "1055612499123",
+        appId: "1:1055612499123:web:bcc80b1b73e19a3e1c6cc6",
+        measurementId: "G-5HHEP2ELKL"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ============================================================
+    // 🍞 TOP TOAST
+    // ============================================================
+    function showToast(message, type = 'info', duration = 4000) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast show ' + type;
+        
+        let icon = 'fa-info-circle';
+        if (type === 'success') icon = 'fa-check-circle';
+        else if (type === 'error') icon = 'fa-exclamation-circle';
+        else if (type === 'warning') icon = 'fa-triangle-exclamation';
+        
+        toast.innerHTML = `
+            <i class="fas ${icon}"></i>
+            <span>${message}</span>
+            <button class="close-toast" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+            if (toast.parentElement) toast.remove();
+        }, duration);
+    }
+
+    // ============================================================
+    // 🔄 AUTH STATE
+    // ============================================================
+    let isLoggedIn = false;
+
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            isLoggedIn = true;
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('homePage').style.display = 'block';
+            showToast('✅ Welcome, ' + (user.displayName || user.email || 'User') + '! 🎉', 'success', 3000);
+            loadProducts();
+            detectLocation();
+        } else {
+            isLoggedIn = false;
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('homePage').style.display = 'none';
+        }
+    });
+
+    // ============================================================
+    // 🏷️ SWITCH TABS
+    // ============================================================
+    function switchTab(tab) {
+        document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
+        document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
+        document.getElementById(tab + 'Form').classList.add('active');
+    }
+
+    // ============================================================
+    // 🔐 TOGGLE PASSWORD
+    // ============================================================
+    function togglePassword(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'fas fa-eye-slash';
+        } else {
+            input.type = 'password';
+            icon.className = 'fas fa-eye';
+        }
+    }
+
+    // ============================================================
+    // 🔒 PASSWORD STRENGTH
+    // ============================================================
+    function checkPasswordStrength(password) {
+        const str1 = document.getElementById('str1');
+        const str2 = document.getElementById('str2');
+        const str3 = document.getElementById('str3');
+        const text = document.getElementById('strengthText');
+        
+        str1.className = 'bar';
+        str2.className = 'bar';
+        str3.className = 'bar';
+        
+        if (password.length === 0) {
+            text.textContent = 'Enter a strong password';
+            return;
+        }
+        
+        let strength = 0;
+        if (password.length >= 6) strength++;
+        if (password.length >= 10) strength++;
+        if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+        
+        let level = 'weak';
+        if (strength <= 2) {
+            level = 'weak';
+            text.textContent = '⚠️ Weak password';
+        } else if (strength <= 3) {
+            level = 'medium';
+            text.textContent = '🟡 Medium password';
+        } else {
+            level = 'strong';
+            text.textContent = '✅ Strong password';
+        }
+        
+        if (strength >= 2) str1.className = 'bar active ' + level;
+        if (strength >= 3) str2.className = 'bar active ' + level;
+        if (strength >= 4) str3.className = 'bar active ' + level;
+    }
+
+    function validateConfirmPassword() {
+        const password = document.getElementById('registerPassword').value;
+        const confirm = document.getElementById('registerConfirmPassword');
+        if (confirm.value.length === 0) return;
+        if (confirm.value === password && password.length >= 6) {
+            confirm.className = 'success';
+        } else {
+            confirm.className = 'error';
+        }
+    }
+
+    // ============================================================
+    // 📩 FORGOT PASSWORD
+    // ============================================================
+    function forgotPassword() {
+        const email = document.getElementById('loginEmail').value.trim();
+        if (!email) {
+            showToast('Please enter your email address first', 'warning');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast('Please enter a valid email address', 'error');
+            return;
+        }
+        showToast('📧 Sending reset link...', 'info');
+        auth.sendPasswordResetEmail(email)
+            .then(() => showToast('✅ Password reset link sent to your email!', 'success'))
+            .catch(error => showToast('❌ ' + error.message, 'error'));
+    }
+
+    // ============================================================
+    // 🔐 HANDLE LOGIN
+    // ============================================================
+    function handleLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const btn = document.getElementById('loginBtn');
+        
+        if (!email || !password) {
+            showToast('Please fill all fields', 'error');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast('Please enter a valid email', 'error');
+            return;
+        }
+        if (password.length < 6) {
+            showToast('Password must be at least 6 characters', 'error');
+            return;
+        }
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-small"></span> Logging in...';
+        
+        auth.signInWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                if (document.getElementById('rememberMe').checked) {
+                    localStorage.setItem('rememberedEmail', email);
+                }
+                showToast('✅ Welcome back! 🎉', 'success', 3000);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            })
+            .catch(error => {
+                let message = error.message;
+                if (error.code === 'auth/wrong-password') {
+                    message = '❌ Incorrect password. Please try again.';
+                    document.getElementById('loginPassword').className = 'error';
+                } else if (error.code === 'auth/user-not-found') {
+                    message = '❌ No account found with this email';
+                }
+                showToast(message, 'error', 5000);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            });
+    }
+
+    // ============================================================
+    // 📝 HANDLE REGISTER
+    // ============================================================
+    function handleRegister() {
+        const name = document.getElementById('registerName').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const phone = document.getElementById('registerPhone').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirm = document.getElementById('registerConfirmPassword').value;
+        const terms = document.getElementById('termsCheck').checked;
+        const btn = document.getElementById('registerBtn');
+        
+        if (!name || !email || !phone || !password || !confirm) {
+            showToast('Please fill all fields', 'error');
+            return;
+        }
+        if (name.length < 2) {
+            showToast('Name must be at least 2 characters', 'error');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast('Please enter a valid email', 'error');
+            return;
+        }
+        if (password.length < 6) {
+            showToast('Password must be at least 6 characters', 'error');
+            return;
+        }
+        if (password !== confirm) {
+            showToast('Passwords do not match!', 'error');
+            document.getElementById('registerConfirmPassword').className = 'error';
+            return;
+        }
+        if (!terms) {
+            showToast('Please accept Terms & Conditions', 'warning');
+            return;
+        }
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-small"></span> Creating account...';
+        
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                return db.collection('users').doc(user.uid).set({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    role: 'customer'
+                });
+            })
+            .then(() => {
+                showToast('✅ Account created successfully! Welcome, ' + name + '! 🎉', 'success', 4000);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+            })
+            .catch(error => {
+                let message = error.message;
+                if (error.code === 'auth/email-already-in-use') {
+                    message = '❌ This email is already registered';
+                } else if (error.code === 'auth/configuration-not-found') {
+                    message = '⚠️ Please enable Email/Password in Firebase Console';
+                }
+                showToast(message, 'error', 5000);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+            });
+    }
+
+    // ============================================================
+    // 🔵 GOOGLE LOGIN
+    // ============================================================
+    function handleGoogleLogin() {
+        showToast('🔄 Connecting to Google...', 'info');
+        const provider = new firebase.auth.GoogleAuthProvider();
+        
+        auth.signInWithPopup(provider)
+            .then(result => {
+                const user = result.user;
+                return db.collection('users').doc(user.uid).set({
+                    name: user.displayName || 'User',
+                    email: user.email,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    role: 'customer'
+                }, { merge: true });
+            })
+            .catch(error => {
+                if (error.code === 'auth/popup-closed-by-user') {
+                    showToast('Login cancelled', 'warning');
+                } else {
+                    showToast('❌ ' + error.message, 'error');
+                }
+            });
+    }
+
+    // ============================================================
+    // 🚪 LOGOUT
+    // ============================================================
+    function handleLogout() {
+        showToast('👋 Logging out...', 'info');
+        auth.signOut().then(() => {
+            showToast('✅ Logged out successfully', 'success');
+        }).catch(error => {
+            showToast('❌ ' + error.message, 'error');
+        });
+    }
+
+    // ============================================================
+    // 📍 LOCATION DETECTION
+    // ============================================================
+    let userLat = null;
+    let userLng = null;
+    let isServiceAvailable = false;
 
     const STORE_LAT = 14.4425;
     const STORE_LNG = 79.9876;
     const DELIVERY_RADIUS_KM = 5;
 
-    let userMarker = null;
-    let userLat = null;
-    let userLng = null;
-    let locationFetched = false;
-    let isDetecting = false;
-
-    // DOM Elements
-    const statusBadge = document.getElementById('statusBadge');
-    const statusText = document.getElementById('statusText');
-    const locationMessage = document.getElementById('locationMessage');
-    const retryBtn = document.getElementById('retryBtn');
-    const addressBtn = document.getElementById('getAddressBtn');
-    const locationInfo = document.getElementById('locationInfo');
-    const latDisplay = document.getElementById('latDisplay');
-    const lngDisplay = document.getElementById('lngDisplay');
-    const addressDisplay = document.getElementById('addressDisplay');
-    const deliveryStatus = document.getElementById('deliveryStatus');
-    const toast = document.getElementById('toast');
-
-    // ========================================
-    // INITIALIZE MAP
-    // ========================================
-
-    const map = L.map('map').setView([STORE_LAT, STORE_LNG], 15);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 19
-    }).addTo(map);
-
-    // Store Marker
-    const storeIcon = L.divIcon({
-        html: '<i class="fas fa-store" style="font-size:30px; color:#2563eb; text-shadow: 0 2px 8px rgba(0,0,0,0.3);"></i>',
-        className: '',
-        iconSize: [30, 30],
-        iconAnchor: [15, 30]
-    });
-
-    const storeMarker = L.marker([STORE_LAT, STORE_LNG], { icon: storeIcon })
-        .addTo(map)
-        .bindPopup(`
-            <b>⚡ PRIYA ELECTRICALS</b><br>
-            Door No:27/38, Sajneev Gandhi Nagar<br>
-            Podalakur Road, Nellore-524004<br>
-            <a href="https://wa.me/919045550397" target="_blank">📱 WhatsApp</a>
-        `)
-        .openPopup();
-
-    // Delivery Radius Circle
-    L.circle([STORE_LAT, STORE_LNG], {
-        radius: DELIVERY_RADIUS_KM * 1000,
-        color: '#10b981',
-        fillColor: '#10b981',
-        fillOpacity: 0.1,
-        weight: 2,
-        dashArray: '5, 10'
-    }).addTo(map);
-
-    L.control.scale().addTo(map);
-
-    // ========================================
-    // SHOW TOAST
-    // ========================================
-
-    function showToast(message, type = 'warning', duration = 4000) {
-        toast.textContent = message;
-        toast.className = 'toast show ' + type;
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(() => {
-            toast.className = 'toast';
-        }, duration);
-    }
-
-    // ========================================
-    // LOCATION DETECTION (AUTO ON PAGE LOAD)
-    // ========================================
-
     function detectLocation() {
-        if (isDetecting) return;
-        isDetecting = true;
-
-        // Check if geolocation is supported
+        const statusEl = document.getElementById('serviceStatus');
+        const addressEl = document.getElementById('userAddress');
+        
         if (!navigator.geolocation) {
-            statusText.textContent = 'Not Supported ❌';
-            statusBadge.className = 'status-badge error';
-            locationMessage.textContent = '❌ Geolocation is not supported by your browser.';
-            showToast('Geolocation not supported. Please use a modern browser.', 'error');
-            isDetecting = false;
-            retryBtn.style.display = 'inline-flex';
+            addressEl.textContent = '📍 Geolocation not supported';
+            statusEl.textContent = '❌ Unavailable';
+            statusEl.className = 'status-badge unavailable';
+            showServiceUnavailable();
             return;
         }
 
-        // Update UI - Detecting
-        statusText.textContent = 'Detecting...';
-        statusBadge.className = 'status-badge loading';
-        locationMessage.textContent = '📡 Getting your location... Please allow permission if prompted.';
-        retryBtn.style.display = 'none';
-        addressBtn.disabled = true;
+        statusEl.textContent = '📍 Detecting...';
+        statusEl.className = 'status-badge checking';
 
         navigator.geolocation.getCurrentPosition(
-            // SUCCESS
             (position) => {
                 userLat = position.coords.latitude;
                 userLng = position.coords.longitude;
-                locationFetched = true;
-                isDetecting = false;
-
-                // Update UI
-                latDisplay.textContent = userLat.toFixed(6);
-                lngDisplay.textContent = userLng.toFixed(6);
-                locationInfo.classList.add('show');
-                addressBtn.disabled = false;
-                retryBtn.style.display = 'inline-flex';
-
-                statusText.textContent = 'Location Found ✅';
-                statusBadge.className = 'status-badge success';
-                locationMessage.textContent = '✅ Location detected successfully!';
-
-                // Add user marker
-                if (userMarker) map.removeLayer(userMarker);
-                
-                const userIcon = L.divIcon({
-                    html: '<i class="fas fa-user" style="font-size:24px; color:#ef4444; text-shadow: 0 2px 8px rgba(0,0,0,0.3);"></i>',
-                    className: '',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 24]
-                });
-                
-                userMarker = L.marker([userLat, userLng], { icon: userIcon })
-                    .addTo(map)
-                    .bindPopup('📍 Your Location')
-                    .openPopup();
-
-                // Fit map to show both locations
-                const group = L.featureGroup([storeMarker, userMarker]);
-                map.fitBounds(group.getBounds(), { padding: [50, 50] });
-
-                // Check delivery
-                checkDelivery(userLat, userLng);
-
-                // Get address
                 getAddressFromCoords(userLat, userLng);
-
-                showToast('✅ Location detected successfully!', 'success', 3000);
+                checkServiceAvailability(userLat, userLng);
             },
-            // ERROR
             (error) => {
-                isDetecting = false;
-                retryBtn.style.display = 'inline-flex';
-                
-                console.error('Geolocation error:', error);
-
-                let msg = '';
-                let toastMsg = '';
-
+                addressEl.textContent = '📍 Location access denied';
+                statusEl.textContent = '❌ Unavailable';
+                statusEl.className = 'status-badge unavailable';
+                showServiceUnavailable();
                 if (error.code === 1) {
-                    // PERMISSION DENIED
-                    msg = '❌ Location access denied. Please allow location access in your browser and click "Retry Location".';
-                    toastMsg = '❌ Location permission denied. Please allow in browser.';
-                    statusText.textContent = 'Permission Denied ❌';
-                    statusBadge.className = 'status-badge error';
-                    locationMessage.textContent = msg;
-                    showToast(toastMsg, 'error', 5000);
-                } else if (error.code === 2) {
-                    // POSITION UNAVAILABLE
-                    msg = '❌ Location unavailable. Please check your GPS/WiFi and click "Retry Location".';
-                    toastMsg = '❌ GPS signal unavailable. Try moving to open area.';
-                    statusText.textContent = 'Signal Lost 📡';
-                    statusBadge.className = 'status-badge error';
-                    locationMessage.textContent = msg;
-                    showToast(toastMsg, 'error', 4000);
-                } else if (error.code === 3) {
-                    // TIMEOUT
-                    msg = '⏳ Location request timed out. Please click "Retry Location".';
-                    toastMsg = '⏳ Request timed out. Please try again.';
-                    statusText.textContent = 'Timeout ⏳';
-                    statusBadge.className = 'status-badge error';
-                    locationMessage.textContent = msg;
-                    showToast(toastMsg, 'warning', 4000);
-                } else {
-                    msg = '❌ An unknown error occurred. Please click "Retry Location".';
-                    toastMsg = '❌ Unknown error. Please try again.';
-                    statusText.textContent = 'Error ❌';
-                    statusBadge.className = 'status-badge error';
-                    locationMessage.textContent = msg;
-                    showToast(toastMsg, 'error', 4000);
+                    showToast('Please allow location access for delivery', 'warning', 5000);
                 }
-
-                // Show delivery status as error
-                deliveryStatus.className = 'delivery-status unavailable';
-                deliveryStatus.innerHTML = `
-                    <i class="fas fa-times-circle"></i> 
-                    ${msg}
-                `;
-                deliveryStatus.style.display = 'block';
             },
-            {
-                enableHighAccuracy: true,
-                timeout: 15000,
-                maximumAge: 0
-            }
+            { enableHighAccuracy: true, timeout: 10000 }
         );
     }
 
-    // ========================================
-    // DELIVERY CHECK
-    // ========================================
-
-    function checkDelivery(lat, lng) {
-        const distance = calculateDistance(STORE_LAT, STORE_LNG, lat, lng);
-        
-        deliveryStatus.style.display = 'block';
-        deliveryStatus.className = 'delivery-status checking';
-        deliveryStatus.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Checking delivery...`;
-
-        setTimeout(() => {
-            if (distance <= DELIVERY_RADIUS_KM) {
-                deliveryStatus.className = 'delivery-status available';
-                deliveryStatus.innerHTML = `
-                    <i class="fas fa-check-circle"></i> 
-                    ✅ Delivery Available! (${distance.toFixed(1)} km away)
-                    <br><small>We deliver within ${DELIVERY_RADIUS_KM} km radius.</small>
-                `;
-            } else {
-                deliveryStatus.className = 'delivery-status unavailable';
-                deliveryStatus.innerHTML = `
-                    <i class="fas fa-times-circle"></i> 
-                    ❌ Delivery Not Available (${distance.toFixed(1)} km away)
-                    <br><small>Please visit our store or contact us for special arrangements.</small>
-                `;
-            }
-        }, 500);
-    }
-
-    // Haversine Formula
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371;
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = 
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return R * c;
-    }
-
-    // ========================================
-    // GET ADDRESS (Free Nominatim)
-    // ========================================
-
     function getAddressFromCoords(lat, lng) {
-        addressDisplay.textContent = 'Fetching address...';
-        
+        const addressEl = document.getElementById('userAddress');
         const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18&addressdetails=1`;
         
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 if (data && data.display_name) {
-                    addressDisplay.textContent = data.display_name;
-                } else {
-                    addressDisplay.textContent = 'Address not found';
+                    addressEl.textContent = '📍 ' + data.display_name.substring(0, 50) + '...';
                 }
             })
             .catch(() => {
-                addressDisplay.textContent = 'Could not fetch address';
+                addressEl.textContent = '📍 ' + lat.toFixed(4) + ', ' + lng.toFixed(4);
             });
     }
 
-    // ========================================
-    // EVENT LISTENERS
-    // ========================================
-
-    retryBtn.addEventListener('click', detectLocation);
-
-    addressBtn.addEventListener('click', () => {
-        if (userLat && userLng) {
-            getAddressFromCoords(userLat, userLng);
-            showToast('📍 Fetching your address...', 'warning', 2000);
+    function checkServiceAvailability(lat, lng) {
+        const statusEl = document.getElementById('serviceStatus');
+        const distance = calculateDistance(STORE_LAT, STORE_LNG, lat, lng);
+        
+        if (distance <= DELIVERY_RADIUS_KM) {
+            isServiceAvailable = true;
+            statusEl.textContent = '✅ Available (' + distance.toFixed(1) + ' km)';
+            statusEl.className = 'status-badge available';
+            document.getElementById('serviceOverlay').classList.remove('open');
+            showToast('✅ Delivery available! ' + distance.toFixed(1) + ' km from store', 'success', 3000);
+            loadProducts();
         } else {
-            showToast('Please detect your location first!', 'error', 3000);
+            isServiceAvailable = false;
+            statusEl.textContent = '❌ Unavailable (' + distance.toFixed(1) + ' km)';
+            statusEl.className = 'status-badge unavailable';
+            showServiceUnavailable();
+            showToast('❌ Service not available at your location', 'error', 4000);
+        }
+    }
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    }
+
+    function showServiceUnavailable() {
+        document.getElementById('serviceOverlay').classList.add('open');
+    }
+
+    function closeServicePopup() {
+        document.getElementById('serviceOverlay').classList.remove('open');
+    }
+
+    // ============================================================
+    // 🛒 PRODUCTS
+    // ============================================================
+    let products = [];
+    let cart = [];
+    let currentCategory = 'all';
+
+    function loadProducts() {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = `
+            <div class="loading-spinner">
+                <i class="fas fa-spinner"></i>
+                <p>Loading products...</p>
+            </div>
+        `;
+
+        const defaultProducts = [
+            { id: '1', name: 'PVC Copper Wire', category: 'wires', price: 850, mrp: 950, unit: '90m Roll', image: '🔌' },
+            { id: '2', name: 'LED Bulb 9W', category: 'lighting', price: 120, mrp: 180, unit: 'Pack of 2', image: '💡' },
+            { id: '3', name: 'Switch Board', category: 'switches', price: 250, mrp: 320, unit: '6 Socket', image: '🔘' },
+            { id: '4', name: 'MCB 32A', category: 'electrical', price: 180, mrp: 240, unit: 'Single Pole', image: '⚡' },
+            { id: '5', name: 'PVC Pipe 1"', category: 'plumbing', price: 350, mrp: 420, unit: '3m Length', image: '🔧' },
+            { id: '6', name: 'LED Tube Light', category: 'lighting', price: 280, mrp: 380, unit: '4ft', image: '💡' },
+            { id: '7', name: 'Extension Cord', category: 'wires', price: 150, mrp: 200, unit: '3m', image: '🔌' },
+            { id: '8', name: 'Fan Regulator', category: 'switches', price: 90, mrp: 130, unit: 'Modern', image: '🌀' }
+        ];
+
+        products = defaultProducts;
+        renderProducts(products);
+    }
+
+    function renderProducts(productList) {
+        const grid = document.getElementById('productGrid');
+        
+        if (!isServiceAvailable) {
+            grid.innerHTML = `
+                <div style="text-align:center;padding:40px 0;color:#94a3b8;grid-column:1/-1;">
+                    <i class="fas fa-map-pin" style="font-size:2rem;display:block;margin-bottom:8px;color:#ef4444;"></i>
+                    <p style="font-weight:600;color:#1e293b;">Service Unavailable at Your Location</p>
+                    <small>Please visit our store for products</small>
+                </div>
+            `;
+            return;
+        }
+
+        if (!productList || productList.length === 0) {
+            grid.innerHTML = `
+                <div style="text-align:center;padding:40px 0;color:#94a3b8;grid-column:1/-1;">
+                    <i class="fas fa-box-open" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+                    <p>No products found</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        productList.forEach(product => {
+            const inCart = cart.find(item => item.id === product.id);
+            const qty = inCart ? inCart.qty : 0;
+            const discount = product.mrp ? Math.round(((product.mrp - product.price) / product.mrp) * 100) : 0;
+            
+            html += `
+                <div class="product-card">
+                    <div class="product-image">${product.image || '🔌'}</div>
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-weight">${product.unit || '1 Piece'}</div>
+                    <div class="product-price">
+                        <span class="current">₹${product.price}</span>
+                        ${product.mrp ? `<span class="mrp">₹${product.mrp}</span>` : ''}
+                        ${discount > 0 ? `<span class="discount" style="color:#10b981;font-size:0.7rem;font-weight:600;">${discount}% OFF</span>` : ''}
+                    </div>
+                    <button class="add-btn ${qty > 0 ? 'in-cart' : ''}" onclick="addToCart('${product.id}')" id="btn_${product.id}">
+                        ${qty > 0 ? `🛒 ${qty} in Cart` : 'Add to Cart'}
+                    </button>
+                </div>
+            `;
+        });
+        
+        grid.innerHTML = html;
+    }
+
+    function filterCategory(category) {
+        currentCategory = category;
+        document.querySelectorAll('.category-item').forEach(el => {
+            el.classList.toggle('active', el.dataset.category === category);
+        });
+        document.getElementById('categoryTitle').textContent = 
+            category === 'all' ? 'All Products' : category.charAt(0).toUpperCase() + category.slice(1);
+        filterProducts();
+    }
+
+    function filterProducts() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        let filtered = products;
+        
+        if (currentCategory !== 'all') {
+            filtered = filtered.filter(p => p.category === currentCategory);
+        }
+        if (search) {
+            filtered = filtered.filter(p => 
+                p.name.toLowerCase().includes(search) || 
+                (p.category && p.category.toLowerCase().includes(search))
+            );
+        }
+        renderProducts(filtered);
+    }
+
+    // ============================================================
+    // 🛒 CART FUNCTIONS
+    // ============================================================
+    function addToCart(productId) {
+        if (!isServiceAvailable) {
+            showToast('❌ Service not available at your location', 'error');
+            return;
+        }
+        
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+
+        const existing = cart.find(item => item.id === productId);
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({ ...product, qty: 1 });
+        }
+        updateCartUI();
+        showToast('✅ Added ' + product.name + ' to cart', 'success');
+    }
+
+    function removeFromCart(productId) {
+        const existing = cart.find(item => item.id === productId);
+        if (existing) {
+            if (existing.qty > 1) {
+                existing.qty -= 1;
+            } else {
+                cart = cart.filter(item => item.id !== productId);
+            }
+        }
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+        document.getElementById('cartBadge').textContent = totalItems;
+        
+        cart.forEach(item => {
+            const btn = document.getElementById('btn_' + item.id);
+            if (btn) {
+                btn.textContent = `🛒 ${item.qty} in Cart`;
+                btn.classList.add('in-cart');
+            }
+        });
+        
+        products.forEach(product => {
+            const btn = document.getElementById('btn_' + product.id);
+            if (btn && !cart.find(item => item.id === product.id)) {
+                btn.textContent = 'Add to Cart';
+                btn.classList.remove('in-cart');
+            }
+        });
+        
+        renderCartDrawer();
+        document.getElementById('checkoutBtn').disabled = totalItems === 0;
+    }
+
+    function renderCartDrawer() {
+        const container = document.getElementById('cartItems');
+        const totalDiv = document.getElementById('cartTotal');
+        
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-bag" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+                    <p>Your cart is empty</p>
+                    <small>Add products to get started!</small>
+                </div>
+            `;
+            totalDiv.style.display = 'none';
+            return;
+        }
+
+        let html = '';
+        let total = 0;
+        cart.forEach(item => {
+            const itemTotal = item.price * item.qty;
+            total += itemTotal;
+            html += `
+                <div class="cart-item">
+                    <div>
+                        <div class="item-name">${item.name}</div>
+                        <div style="font-size:0.75rem;color:#94a3b8;">₹${item.price} × ${item.qty}</div>
+                    </div>
+                    <div class="item-qty">
+                        <button onclick="removeFromCart('${item.id}')">−</button>
+                        <span>${item.qty}</span>
+                        <button onclick="addToCart('${item.id}')">+</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        totalDiv.style.display = 'flex';
+        document.getElementById('totalPrice').textContent = '₹' + total;
+    }
+
+    function toggleCart() {
+        document.getElementById('cartOverlay').classList.toggle('open');
+        document.getElementById('cartDrawer').classList.toggle('open');
+        if (document.getElementById('cartDrawer').classList.contains('open')) {
+            renderCartDrawer();
+        }
+    }
+
+    function placeOrder() {
+        if (cart.length === 0) {
+            showToast('❌ Cart is empty!', 'error');
+            return;
+        }
+        if (!isServiceAvailable) {
+            showToast('❌ Service not available at your location', 'error');
+            return;
+        }
+        
+        showToast('✅ Order placed successfully! 🎉', 'success', 4000);
+        cart = [];
+        updateCartUI();
+        toggleCart();
+    }
+
+    // ============================================================
+    // 🚀 LOAD
+    // ============================================================
+    window.addEventListener('load', function() {
+        const remembered = localStorage.getItem('rememberedEmail');
+        if (remembered) {
+            document.getElementById('loginEmail').value = remembered;
+            document.getElementById('rememberMe').checked = true;
+        }
+        console.log('✅ Priya Electricals loaded');
+    });
+
+    // Enter key support
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const activeTab = document.querySelector('.auth-tab.active');
+            if (activeTab && activeTab.dataset.tab === 'login') {
+                handleLogin();
+            } else if (activeTab && activeTab.dataset.tab === 'register') {
+                handleRegister();
+            }
         }
     });
-
-    // ========================================
-    // AUTO DETECT ON PAGE LOAD
-    // ========================================
-
-    window.addEventListener('load', () => {
-        console.log('✅ PRIYA ELECTRICALS - Auto Location System');
-        console.log('📍 Page loaded. Auto-detecting location...');
-        console.log(`🏪 Store: ${STORE_LAT}, ${STORE_LNG}`);
-        console.log(`📦 Delivery Radius: ${DELIVERY_RADIUS_KM} km`);
-        
-        // Small delay to ensure everything is loaded
-        setTimeout(detectLocation, 800);
-    });
-
-    console.log('💡 Browser will ask for location permission automatically.');
-    console.log('💡 If you allow, everything works. If denied, click "Retry Location".');
 </script>
 
 </body>
