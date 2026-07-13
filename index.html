@@ -10,6 +10,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
     <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
@@ -68,7 +71,7 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE 1: LOGIN/REGISTER ===== */
+        /* ===== PAGE 1: LOGIN/REGISTER WITH OTP ===== */
         /* ============================================================ */
         #pageLogin {
             display: flex;
@@ -163,14 +166,6 @@
             background: white;
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
-        .form-group input.error {
-            border-color: #ef4444 !important;
-            background: #fef2f2 !important;
-        }
-        .form-group input.success {
-            border-color: #10b981 !important;
-            background: #f0fdf4 !important;
-        }
 
         .btn-primary {
             width: 100%;
@@ -191,41 +186,52 @@
         .btn-primary:hover { background: #1d4ed8; }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .btn-google {
-            width: 100%;
-            padding: 12px;
-            background: white;
-            color: #475569;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s;
+        .otp-row {
             display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 10px;
-            margin-top: 12px;
+            justify-content: center;
         }
-        .btn-google:hover {
-            border-color: #2563eb;
+        .otp-row input {
+            width: 45px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
             background: #f8fafc;
         }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 20px 0;
-            color: #94a3b8;
-            font-size: 0.8rem;
+        .otp-row input:focus {
+            border-color: #2563eb;
+            outline: none;
+            background: white;
         }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e2e8f0;
+
+        .otp-timer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 12px;
+        }
+        .otp-timer .resend {
+            color: #2563eb;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .otp-timer .resend:hover { text-decoration: underline; }
+
+        .spinner-small {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .password-strength {
@@ -249,20 +255,6 @@
             margin-top: 4px;
         }
 
-        .spinner-small {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         /* ============================================================ */
         /* ===== PAGE 2: LOCATION SELECTION ===== */
         /* ============================================================ */
@@ -282,41 +274,112 @@
         .location-header .back { font-size: 1.2rem; cursor: pointer; }
         .location-header h2 { font-size: 1.1rem; font-weight: 700; }
 
-        .location-status-card {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 16px;
-            margin: 16px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-        }
-        .location-status-card .icon { font-size: 2.5rem; margin-bottom: 8px; }
-        .location-status-card .status { font-weight: 700; font-size: 1rem; }
-        .location-status-card .sub { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
-        .location-status-card .retry-btn {
-            margin-top: 10px;
-            padding: 8px 24px;
-            background: #2563eb;
+        /* ===== STORE LOCATION CARD ===== */
+        .store-card {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
             color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
         }
-        .location-status-card .retry-btn:hover { background: #1d4ed8; }
-
-        .manual-section {
-            padding: 0 16px;
-        }
-        .manual-section .title {
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 12px;
+        .store-card .store-name {
+            font-size: 1.1rem;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .manual-section .title i { color: #2563eb; }
+        .store-card .store-name i { color: #fbbf24; }
+        .store-card .store-address {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin: 6px 0;
+        }
+        .store-card .store-time {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+        .store-card .store-time .quick {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .store-card .store-time .schedule {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .store-card .select-store-btn {
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        .store-card .select-store-btn:hover { background: rgba(255,255,255,0.3); }
+
+        /* ===== LOCATION OPTIONS ===== */
+        .location-options {
+            padding: 0 16px;
+        }
+        .location-options .option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        .location-options .option:hover {
+            border-color: #2563eb;
+            background: #f8fafc;
+        }
+        .location-options .option .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        .location-options .option .icon.green { background: #d1fae5; color: #10b981; }
+        .location-options .option .icon.purple { background: #ede9fe; color: #7c3aed; }
+        .location-options .option .icon.blue { background: #dbeafe; color: #2563eb; }
+        .location-options .option .info { flex: 1; }
+        .location-options .option .info .title { font-weight: 600; font-size: 0.9rem; }
+        .location-options .option .info .sub { font-size: 0.75rem; color: #94a3b8; }
+        .location-options .option .arrow { color: #94a3b8; }
+
+        /* ===== MANUAL ADDRESS PAGE ===== */
+        #pageManualAddress {
+            display: none;
+            background: white;
+            min-height: 100vh;
+            padding: 16px;
+        }
+        .manual-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .manual-header .back { font-size: 1.2rem; cursor: pointer; }
+        .manual-header h2 { font-size: 1.1rem; font-weight: 700; }
 
         .form-row {
             display: grid;
@@ -398,50 +461,6 @@
         .btn-primary:hover { background: #1d4ed8; }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .btn-secondary {
-            width: 100%;
-            padding: 12px;
-            background: #f1f5f9;
-            color: #475569;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-secondary:hover { background: #e2e8f0; }
-
-        .delivery-info {
-            background: #f0fdf4;
-            border: 1px solid #6ee7b7;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 16px;
-            display: none;
-        }
-        .delivery-info.show { display: block; }
-        .delivery-info.unavailable {
-            background: #fee2e2;
-            border-color: #fca5a5;
-        }
-        .delivery-info .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            font-size: 0.85rem;
-        }
-        .delivery-info .row .label { color: #64748b; }
-        .delivery-info .row .value { font-weight: 600; color: #065f46; }
-        .delivery-info .row .value.quick { color: #10b981; }
-        .delivery-info .row .value.normal { color: #f59e0b; }
-        .delivery-info .row .value.unavailable { color: #ef4444; }
-        .delivery-info.unavailable .row .value { color: #991b1b; }
-
         /* ============================================================ */
         /* ===== PAGE 3: CUSTOMER PANEL ===== */
         /* ============================================================ */
@@ -481,15 +500,10 @@
             background: #d1fae5;
             color: #065f46;
         }
-        .location-bar .delivery-time.normal {
+        .location-bar .delivery-time.schedule {
             background: #fef3c7;
             color: #92400e;
         }
-        .location-bar .delivery-time.long {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .location-bar .dropdown { color: #94a3b8; }
 
         .app-header {
             background: white;
@@ -800,15 +814,15 @@
         .empty-orders i { font-size: 3rem; display: block; margin-bottom: 12px; }
 
         /* ============================================================ */
-        /* ===== PAGE 5: PAYMENT / CHECKOUT ===== */
+        /* ===== PAGE 5: CHECKOUT / PAYMENT ===== */
         /* ============================================================ */
-        #pagePayment {
+        #pageCheckout {
             display: none;
             background: #f8fafc;
             min-height: 100vh;
             padding-bottom: 70px;
         }
-        .payment-header {
+        .checkout-header {
             background: white;
             padding: 16px;
             border-bottom: 1px solid #e2e8f0;
@@ -819,24 +833,24 @@
             top: 0;
             z-index: 10;
         }
-        .payment-header .back { font-size: 1.2rem; cursor: pointer; }
-        .payment-header h2 { font-size: 1.1rem; font-weight: 700; }
-        .payment-content { padding: 16px; }
-        .payment-card {
+        .checkout-header .back { font-size: 1.2rem; cursor: pointer; }
+        .checkout-header h2 { font-size: 1.1rem; font-weight: 700; }
+        .checkout-content { padding: 16px; }
+        .checkout-card {
             background: white;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
         }
-        .payment-card .label {
+        .checkout-card .label {
             font-size: 0.75rem;
             color: #94a3b8;
             font-weight: 600;
             text-transform: uppercase;
             margin-bottom: 6px;
         }
-        .payment-card .value { font-size: 0.95rem; font-weight: 600; color: #1e293b; }
-        .payment-card .change-btn {
+        .checkout-card .value { font-size: 0.95rem; font-weight: 600; color: #1e293b; }
+        .checkout-card .change-btn {
             color: #2563eb;
             font-weight: 600;
             font-size: 0.8rem;
@@ -961,6 +975,14 @@
             color: #475569;
             margin-bottom: 16px;
         }
+        .success-popup .delivery-confirm {
+            background: #d1fae5;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #065f46;
+            margin-bottom: 16px;
+        }
         .success-popup .btn-primary {
             width: 100%;
             padding: 12px;
@@ -1078,93 +1100,10 @@
         }
         .cart-drawer .empty-cart i { font-size: 2rem; display: block; margin-bottom: 8px; }
 
-        /* ============================================================ */
-        /* ===== MODAL - ADD ADDRESS ===== */
-        /* ============================================================ */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 500;
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-        }
-        .modal-overlay.open { display: flex; }
-        .modal-content {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 20px 20px 0 0;
-            padding: 24px 20px;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideUp 0.3s ease;
-        }
-        .modal-content .handle {
-            width: 40px;
-            height: 4px;
-            background: #e2e8f0;
-            border-radius: 2px;
-            margin: 0 auto 16px;
-        }
-        .modal-content h3 { font-size: 1.1rem; margin-bottom: 16px; }
-        .modal-content .form-group { margin-bottom: 14px; }
-        .modal-content .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 4px;
-        }
-        .modal-content .form-group input,
-        .modal-content .form-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 0.95rem;
-        }
-        .modal-content .form-group input:focus,
-        .modal-content .form-group textarea:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
-        .modal-content .btn-primary {
-            width: 100%;
-            padding: 12px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        .modal-content .btn-secondary {
-            width: 100%;
-            padding: 12px;
-            background: #f1f5f9;
-            color: #475569;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); opacity: 0; }
-            to { transform: translateY(0%); opacity: 1; }
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (min-width: 600px) {
             .product-grid { grid-template-columns: repeat(3, 1fr); }
-            #customerPanel, #pageLocation, #pageProfile, #pagePayment {
+            #customerPanel, #pageLocation, #pageProfile, #pageCheckout, #pageManualAddress {
                 max-width: 500px;
                 margin: 0 auto;
                 border-left: 1px solid #e2e8f0;
@@ -1176,6 +1115,7 @@
         @media (max-width: 480px) {
             .auth-container { padding: 24px 16px; }
             .form-row { grid-template-columns: 1fr; }
+            .otp-row input { width: 38px; height: 44px; font-size: 1.2rem; }
             .payment-methods { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
@@ -1186,14 +1126,14 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 1: LOGIN/REGISTER ===== -->
+<!-- ===== PAGE 1: LOGIN/REGISTER WITH OTP ===== -->
 <!-- ============================================================ -->
 <div id="pageLogin">
     <div class="auth-container">
         <div class="auth-header">
             <div class="logo"><i class="fas fa-bolt"></i></div>
             <h1>PRIYA ELECTRICALS</h1>
-            <p>Sell & Service · Customer Login</p>
+            <p>Sell & Service · OTP Login</p>
         </div>
 
         <div class="auth-tabs">
@@ -1211,28 +1151,33 @@
                 <label>Email Address</label>
                 <div class="input-wrap">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="loginEmail" placeholder="you@example.com" class="neutral" oninput="validateEmail('loginEmail')">
-                    <span class="status-icon" id="loginEmailStatus"></span>
+                    <input type="email" id="loginEmail" placeholder="you@example.com">
                 </div>
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="loginPassword" placeholder="Enter your password" class="neutral" oninput="validateLoginPassword()">
-                    <span class="status-icon" id="loginPasswordStatus"></span>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
                 </div>
             </div>
-            <div class="form-options">
-                <label><input type="checkbox" id="rememberMe"> Remember me</label>
-                <a href="#" onclick="forgotPassword()">Forgot password?</a>
+            <div class="form-group" id="loginOtpGroup" style="display:none;">
+                <label>Enter OTP</label>
+                <div class="otp-row">
+                    <input type="text" id="logOtp1" maxlength="1" oninput="otpMove(this, 'logOtp2')">
+                    <input type="text" id="logOtp2" maxlength="1" oninput="otpMove(this, 'logOtp3')">
+                    <input type="text" id="logOtp3" maxlength="1" oninput="otpMove(this, 'logOtp4')">
+                    <input type="text" id="logOtp4" maxlength="1" oninput="otpMove(this, 'logOtp5')">
+                    <input type="text" id="logOtp5" maxlength="1" oninput="otpMove(this, 'logOtp6')">
+                    <input type="text" id="logOtp6" maxlength="1">
+                </div>
+                <div class="otp-timer" id="loginTimer">
+                    <span id="loginTimerText">Resend OTP in 60s</span>
+                    <span class="resend" id="loginResend" style="display:none;" onclick="sendOTP('login')">Resend OTP</span>
+                </div>
             </div>
-            <button class="btn-primary" id="loginBtn" onclick="handleLogin()">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-            <div class="divider">or continue with</div>
-            <button class="btn-google" onclick="handleGoogleLogin()">
-                <i class="fab fa-google"></i> Sign in with Google
+            <button class="btn-primary" id="loginBtn" onclick="handleLoginOTP()">
+                <i class="fas fa-paper-plane"></i> Send OTP
             </button>
         </div>
 
@@ -1242,32 +1187,28 @@
                 <label>Full Name</label>
                 <div class="input-wrap">
                     <i class="fas fa-user"></i>
-                    <input type="text" id="registerName" placeholder="Your full name" class="neutral" oninput="validateName()">
-                    <span class="status-icon" id="registerNameStatus"></span>
+                    <input type="text" id="regName" placeholder="Your full name">
                 </div>
             </div>
             <div class="form-group">
                 <label>Email Address</label>
                 <div class="input-wrap">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="registerEmail" placeholder="you@example.com" class="neutral" oninput="validateEmail('registerEmail')">
-                    <span class="status-icon" id="registerEmailStatus"></span>
+                    <input type="email" id="regEmail" placeholder="you@example.com">
                 </div>
             </div>
             <div class="form-group">
                 <label>Phone Number</label>
                 <div class="input-wrap">
                     <i class="fas fa-phone"></i>
-                    <input type="tel" id="registerPhone" placeholder="+91 98765 43210" class="neutral" oninput="validatePhone()">
-                    <span class="status-icon" id="registerPhoneStatus"></span>
+                    <input type="tel" id="regPhone" placeholder="+91 98765 43210">
                 </div>
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="registerPassword" placeholder="Min 6 characters" class="neutral" oninput="checkPasswordStrength(this.value)">
-                    <span class="status-icon" id="registerPasswordStatus"></span>
+                    <input type="password" id="regPassword" placeholder="Min 6 characters" oninput="checkPasswordStrength(this.value)">
                 </div>
                 <div class="password-strength" id="passwordStrength">
                     <div class="bar" id="str1"></div>
@@ -1280,19 +1221,26 @@
                 <label>Confirm Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-check-circle"></i>
-                    <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" class="neutral" oninput="validateConfirmPassword()">
-                    <span class="status-icon" id="registerConfirmStatus"></span>
+                    <input type="password" id="regConfirmPassword" placeholder="Confirm your password" oninput="validateConfirmPassword()">
                 </div>
             </div>
-            <div class="form-options">
-                <label><input type="checkbox" id="termsCheck"> I agree to Terms & Conditions</label>
+            <div class="form-group" id="registerOtpGroup" style="display:none;">
+                <label>Enter OTP</label>
+                <div class="otp-row">
+                    <input type="text" id="regOtp1" maxlength="1" oninput="otpMove(this, 'regOtp2')">
+                    <input type="text" id="regOtp2" maxlength="1" oninput="otpMove(this, 'regOtp3')">
+                    <input type="text" id="regOtp3" maxlength="1" oninput="otpMove(this, 'regOtp4')">
+                    <input type="text" id="regOtp4" maxlength="1" oninput="otpMove(this, 'regOtp5')">
+                    <input type="text" id="regOtp5" maxlength="1" oninput="otpMove(this, 'regOtp6')">
+                    <input type="text" id="regOtp6" maxlength="1">
+                </div>
+                <div class="otp-timer" id="registerTimer">
+                    <span id="registerTimerText">Resend OTP in 60s</span>
+                    <span class="resend" id="registerResend" style="display:none;" onclick="sendOTP('register')">Resend OTP</span>
+                </div>
             </div>
-            <button class="btn-primary" id="registerBtn" onclick="handleRegister()">
-                <i class="fas fa-user-plus"></i> Create Account
-            </button>
-            <div class="divider">or continue with</div>
-            <button class="btn-google" onclick="handleGoogleLogin()">
-                <i class="fab fa-google"></i> Sign up with Google
+            <button class="btn-primary" id="registerBtn" onclick="handleRegisterOTP()">
+                <i class="fas fa-paper-plane"></i> Send OTP
             </button>
         </div>
     </div>
@@ -1307,119 +1255,131 @@
         <h2>Select Delivery Location</h2>
     </div>
 
-    <!-- Location Status -->
-    <div class="location-status-card">
-        <div class="icon" id="locationIcon">📍</div>
-        <div class="status" id="locationStatus">Detecting your location...</div>
-        <div class="sub" id="locationSub">Please wait or enter manually</div>
-        <button class="retry-btn" onclick="detectLocation()" id="retryLocationBtn">
-            <i class="fas fa-crosshairs"></i> Retry
+    <!-- ===== STORE LOCATION CARD ===== -->
+    <div class="store-card">
+        <div class="store-name">
+            <i class="fas fa-store"></i> Priya Electricals
+        </div>
+        <div class="store-address">
+            <i class="fas fa-map-pin"></i> Champi, Bokaro, Jharkhand - 829123
+        </div>
+        <div class="store-time">
+            <span class="quick"><i class="fas fa-bolt"></i> 1-60 mins</span>
+            <span class="schedule"><i class="fas fa-calendar"></i> Schedule: 7 days</span>
+        </div>
+        <button class="select-store-btn" onclick="selectStoreLocation()">
+            <i class="fas fa-check-circle"></i> Select This Store
         </button>
     </div>
 
-    <!-- Manual Form -->
-    <div class="manual-section">
-        <div class="title"><i class="fas fa-pen"></i> Enter Delivery Details Manually</div>
+    <!-- ===== LOCATION OPTIONS ===== -->
+    <div class="location-options">
+        <div class="option" onclick="useCurrentLocation()">
+            <div class="icon green"><i class="fas fa-location-crosshairs"></i></div>
+            <div class="info">
+                <div class="title">Use current location</div>
+                <div class="sub" id="currentLocationStatus">Detect your current location</div>
+            </div>
+            <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+
+        <div class="option" onclick="openManualAddress()">
+            <div class="icon purple"><i class="fas fa-pen"></i></div>
+            <div class="info">
+                <div class="title">Enter address manually</div>
+                <div class="sub">Add your delivery address details</div>
+            </div>
+            <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE 2B: MANUAL ADDRESS ===== -->
+<!-- ============================================================ -->
+<div id="pageManualAddress">
+    <div class="manual-header">
+        <span class="back" onclick="showPage('location')"><i class="fas fa-arrow-left"></i></span>
+        <h2>Enter Delivery Address</h2>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group full-width">
+            <label>Receiver Name <span class="required">*</span></label>
+            <div class="input-wrap">
+                <i class="fas fa-user"></i>
+                <input type="text" id="manualName" placeholder="Full name">
+            </div>
+        </div>
         
-        <div class="form-row">
-            <div class="form-group full-width">
-                <label>Receiver Name <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="receiverName" placeholder="Full name">
-                </div>
-            </div>
-            
-            <div class="form-group full-width">
-                <label>Mobile Number <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-phone"></i>
-                    <input type="tel" id="receiverPhone" placeholder="+91 98765 43210">
-                </div>
-            </div>
-            
-            <div class="form-group full-width">
-                <label>Flat/House Number <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-home"></i>
-                    <input type="text" id="flatNumber" placeholder="Flat 101, House No. 123">
-                </div>
-            </div>
-            
-            <div class="form-group full-width">
-                <label>Street/Sector/Area <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-road"></i>
-                    <input type="text" id="streetArea" placeholder="Street name, Sector, Area">
-                </div>
-            </div>
-            
-            <div class="form-group full-width">
-                <label>Landmark (Optional)</label>
-                <div class="input-wrap">
-                    <i class="fas fa-map-pin"></i>
-                    <input type="text" id="landmark" placeholder="Near School, Hospital, etc.">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>City <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-city"></i>
-                    <input type="text" id="city" placeholder="City name">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>State <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-map"></i>
-                    <select id="state">
-                        <option value="">Select State</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Chhattisgarh">Chhattisgarh</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Odisha">Odisha</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="West Bengal">West Bengal</option>
-                    </select>
-                    <i class="fas fa-chevron-down select-arrow"></i>
-                </div>
-            </div>
-            
-            <div class="form-group full-width">
-                <label>PINCODE <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-mailbox"></i>
-                    <input type="text" id="pincode" placeholder="6-digit pincode" maxlength="6">
-                </div>
+        <div class="form-group full-width">
+            <label>Mobile Number <span class="required">*</span></label>
+            <div class="input-wrap">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="manualPhone" placeholder="+91 98765 43210">
             </div>
         </div>
-
-        <!-- Delivery Info -->
-        <div class="delivery-info" id="deliveryInfo">
-            <div class="row"><span class="label">📍 Delivery Address</span><span class="value" id="deliveryAddressDisplay">-</span></div>
-            <div class="row"><span class="label">📏 Distance from Store</span><span class="value" id="deliveryDistance">-</span></div>
-            <div class="row"><span class="label">⏱️ Delivery Time</span><span class="value" id="deliveryTimeDisplay">-</span></div>
-            <div class="row"><span class="label">📦 Service Status</span><span class="value" id="serviceStatusDisplay">-</span></div>
+        
+        <div class="form-group full-width">
+            <label>Flat/House Number <span class="required">*</span></label>
+            <div class="input-wrap">
+                <i class="fas fa-home"></i>
+                <input type="text" id="manualFlat" placeholder="Flat 101, House No. 123">
+            </div>
         </div>
-
-        <button class="btn-primary" id="saveLocationBtn" onclick="saveLocation()">
-            <i class="fas fa-save"></i> Save Location & Continue
-        </button>
+        
+        <div class="form-group full-width">
+            <label>Street/Sector/Area <span class="required">*</span></label>
+            <div class="input-wrap">
+                <i class="fas fa-road"></i>
+                <input type="text" id="manualStreet" placeholder="Street name, Sector, Area">
+            </div>
+        </div>
+        
+        <div class="form-group full-width">
+            <label>Landmark (Optional)</label>
+            <div class="input-wrap">
+                <i class="fas fa-map-pin"></i>
+                <input type="text" id="manualLandmark" placeholder="Near School, Hospital, etc.">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>City <span class="required">*</span></label>
+            <div class="input-wrap">
+                <i class="fas fa-city"></i>
+                <input type="text" id="manualCity" placeholder="City name">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>State <span class="required">*</span></label>
+            <div class="input-wrap">
+                <i class="fas fa-map"></i>
+                <select id="manualState">
+                    <option value="">Select State</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                </select>
+                <i class="fas fa-chevron-down select-arrow"></i>
+            </div>
+        </div>
+        
+        <div class="form-group full-width">
+            <label>PINCODE <span class="required">*</span></label>
+            <div class="input-wrap">
+                <i class="fas fa-mailbox"></i>
+                <input type="text" id="manualPincode" placeholder="6-digit pincode" maxlength="6">
+            </div>
+        </div>
     </div>
+
+    <button class="btn-primary" onclick="saveManualAddress()">
+        <i class="fas fa-save"></i> Save Address & Continue
+    </button>
 </div>
 
 <!-- ============================================================ -->
@@ -1506,11 +1466,6 @@
             <span class="text">Address book</span>
             <span class="arrow"><i class="fas fa-chevron-right"></i></span>
         </div>
-        <div class="menu-item" onclick="showToast('Payment settings coming soon!', 'info')">
-            <i class="fas fa-credit-card"></i>
-            <span class="text">Payment settings</span>
-            <span class="arrow"><i class="fas fa-chevron-right"></i></span>
-        </div>
         <div class="menu-item danger" onclick="handleLogout()">
             <i class="fas fa-sign-out-alt"></i>
             <span class="text">Log out</span>
@@ -1531,34 +1486,34 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 5: PAYMENT / CHECKOUT ===== -->
+<!-- ===== PAGE 5: CHECKOUT / PAYMENT ===== -->
 <!-- ============================================================ -->
-<div id="pagePayment">
-    <div class="payment-header">
+<div id="pageCheckout">
+    <div class="checkout-header">
         <span class="back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i></span>
         <h2>Checkout</h2>
     </div>
 
-    <div class="payment-content">
-        <div class="payment-card">
+    <div class="checkout-content">
+        <div class="checkout-card">
             <div class="label">Delivering to</div>
-            <div class="value" id="deliveryAddress">Select address</div>
+            <div class="value" id="checkoutAddress">Select address</div>
             <span class="change-btn" onclick="showPage('location')">Change</span>
         </div>
 
-        <div class="payment-card">
-            <div class="label">Delivery in</div>
-            <div class="value time" id="checkoutDeliveryTime" style="color:#10b981;">⚡ 13 mins</div>
+        <div class="checkout-card">
+            <div class="label">Delivery Time</div>
+            <div class="value" id="checkoutDeliveryTime" style="color:#10b981;">⚡ 13 mins</div>
         </div>
 
-        <div class="payment-card">
+        <div class="checkout-card">
             <div class="label">Order Items</div>
             <div id="checkoutItems">
                 <div style="text-align:center;padding:10px;color:#94a3b8;">No items</div>
             </div>
         </div>
 
-        <div class="payment-card">
+        <div class="checkout-card">
             <div class="label">Pay using UPI</div>
             <div class="qr-container">
                 <div id="qrcode"></div>
@@ -1567,7 +1522,7 @@
             </div>
         </div>
 
-        <div class="payment-card">
+        <div class="checkout-card">
             <div class="label">Pay by any UPI app</div>
             <div class="payment-methods">
                 <div class="payment-method selected" onclick="selectPayment(this)">
@@ -1597,7 +1552,7 @@
             </div>
         </div>
 
-        <div class="payment-card">
+        <div class="checkout-card">
             <div class="bill-total">
                 <span>Bill total</span>
                 <span id="billTotal">₹0</span>
@@ -1609,13 +1564,18 @@
     </div>
 </div>
 
+<!-- ============================================================ -->
 <!-- ===== ORDER SUCCESS POPUP ===== -->
+<!-- ============================================================ -->
 <div class="success-overlay" id="successOverlay">
     <div class="success-popup">
         <div class="icon"><i class="fas fa-check-circle"></i></div>
         <h2>Order Placed! 🎉</h2>
-        <p>Your order has been placed successfully. You will receive a confirmation shortly.</p>
+        <p>Your order has been placed successfully!</p>
         <div class="order-id" id="orderIdDisplay">Order ID: ORD-XXXXX</div>
+        <div class="delivery-confirm" id="deliveryConfirm">
+            <i class="fas fa-truck"></i> Delivery Confirmed: <span id="confirmDeliveryTime">13 mins</span>
+        </div>
         <button class="btn-primary" onclick="closeSuccessPopup()">
             <i class="fas fa-shopping-bag"></i> View My Orders
         </button>
@@ -1655,8 +1615,8 @@
         <span>Total:</span>
         <span id="totalPrice">₹0</span>
     </div>
-    <button class="checkout-btn" id="checkoutBtn" disabled onclick="goToPayment()">
-        <i class="fas fa-credit-card"></i> Proceed to Payment
+    <button class="checkout-btn" id="checkoutBtn" disabled onclick="goToCheckout()">
+        <i class="fas fa-credit-card"></i> Proceed to Checkout
     </button>
 </div>
 
@@ -1680,6 +1640,17 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+
+    // ============================================================
+    // 📧 EMAILJS CONFIG
+    // ============================================================
+    const EMAILJS_CONFIG = {
+        PUBLIC_KEY: "3cUWXrfL9AhSkM5FA",
+        SERVICE_ID: "Pawanretaillimited-5678",
+        TEMPLATE_ID: "template_45qu30j"
+    };
+
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
     // ============================================================
     // 🍞 TOAST FUNCTION
@@ -1709,6 +1680,275 @@
     }
 
     // ============================================================
+    // 🔐 OTP VARIABLES
+    // ============================================================
+    let storedOTP = null;
+    let otpTimer = null;
+    let otpCountdown = 60;
+    let currentAction = 'login';
+
+    // ============================================================
+    // 📱 OTP FUNCTIONS
+    // ============================================================
+    function otpMove(current, nextId) {
+        if (current.value.length >= 1) {
+            document.getElementById(nextId).focus();
+        }
+    }
+
+    function getOtpValue(prefix) {
+        let otp = '';
+        for (let i = 1; i <= 6; i++) {
+            const val = document.getElementById(prefix + i).value;
+            otp += val || '';
+        }
+        return otp;
+    }
+
+    function generateOTP() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    function startTimer(type) {
+        otpCountdown = 60;
+        const timerText = document.getElementById(type === 'login' ? 'loginTimerText' : 'registerTimerText');
+        const resendBtn = document.getElementById(type === 'login' ? 'loginResend' : 'registerResend');
+        
+        if (otpTimer) clearInterval(otpTimer);
+        
+        timerText.style.display = 'block';
+        resendBtn.style.display = 'none';
+        
+        otpTimer = setInterval(() => {
+            otpCountdown--;
+            timerText.textContent = `Resend OTP in ${otpCountdown}s`;
+            
+            if (otpCountdown <= 0) {
+                clearInterval(otpTimer);
+                timerText.style.display = 'none';
+                resendBtn.style.display = 'inline';
+            }
+        }, 1000);
+    }
+
+    // ============================================================
+    // 📧 SEND OTP
+    // ============================================================
+    function sendOTP(type) {
+        const email = type === 'login' 
+            ? document.getElementById('loginEmail').value.trim()
+            : document.getElementById('regEmail').value.trim();
+        
+        const name = type === 'register' 
+            ? document.getElementById('regName').value.trim() 
+            : 'User';
+        
+        if (!email) {
+            showToast('Please enter your email address', 'error');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast('Please enter a valid email address', 'error');
+            return;
+        }
+
+        const otp = generateOTP();
+        storedOTP = otp;
+        currentAction = type;
+
+        const otpGroup = document.getElementById(type === 'login' ? 'loginOtpGroup' : 'registerOtpGroup');
+        otpGroup.style.display = 'block';
+        startTimer(type);
+
+        const btn = document.getElementById(type === 'login' ? 'loginBtn' : 'registerBtn');
+        btn.innerHTML = '<span class="spinner-small"></span> Sending OTP...';
+        btn.disabled = true;
+
+        const templateParams = {
+            to_email: email,
+            name: name || 'User',
+            otp_code: otp,
+            to_phone: document.getElementById(type === 'login' ? 'loginEmail' : 'regPhone').value || 'N/A'
+        };
+
+        emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, templateParams)
+            .then(() => {
+                showToast(`✅ OTP sent to ${email}`, 'success');
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Verify OTP';
+                btn.disabled = false;
+                btn.onclick = function() { verifyOTP(type); };
+            })
+            .catch(error => {
+                console.error('EmailJS Error:', error);
+                showToast('⚠️ Could not send OTP. Please try again.', 'error');
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
+                btn.disabled = false;
+                btn.onclick = function() { sendOTP(type); };
+            });
+    }
+
+    // ============================================================
+    // ✅ VERIFY OTP
+    // ============================================================
+    function verifyOTP(type) {
+        const enteredOtp = getOtpValue(type === 'login' ? 'logOtp' : 'regOtp');
+        
+        if (!enteredOtp || enteredOtp.length < 6) {
+            showToast('Please enter complete OTP', 'error');
+            return;
+        }
+
+        if (enteredOtp === storedOTP) {
+            showToast('✅ OTP Verified Successfully!', 'success');
+            
+            if (type === 'login') {
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+                loginUser(email, password);
+            } else {
+                const name = document.getElementById('regName').value.trim();
+                const email = document.getElementById('regEmail').value.trim();
+                const phone = document.getElementById('regPhone').value.trim();
+                const password = document.getElementById('regPassword').value;
+                registerUser(name, email, phone, password);
+            }
+        } else {
+            showToast('❌ Invalid OTP. Please try again.', 'error');
+        }
+    }
+
+    // ============================================================
+    // 📝 HANDLE LOGIN OTP
+    // ============================================================
+    function handleLoginOTP() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        
+        if (!email) {
+            showToast('Please enter your email address', 'error');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast('Please enter a valid email address', 'error');
+            return;
+        }
+        if (!password || password.length < 6) {
+            showToast('Please enter your password (min 6 characters)', 'error');
+            return;
+        }
+        sendOTP('login');
+    }
+
+    // ============================================================
+    // 📝 HANDLE REGISTER OTP
+    // ============================================================
+    function handleRegisterOTP() {
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('regConfirmPassword').value;
+        
+        if (!name || name.length < 2) {
+            showToast('Please enter your full name', 'error');
+            return;
+        }
+        if (!email) {
+            showToast('Please enter your email address', 'error');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast('Please enter a valid email address', 'error');
+            return;
+        }
+        if (!password || password.length < 6) {
+            showToast('Password must be at least 6 characters', 'error');
+            return;
+        }
+        if (password !== confirm) {
+            showToast('Passwords do not match!', 'error');
+            return;
+        }
+        sendOTP('register');
+    }
+
+    // ============================================================
+    // 🔐 LOGIN USER
+    // ============================================================
+    function loginUser(email, password) {
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                showToast('✅ Login successful!', 'success');
+                setTimeout(() => {
+                    document.getElementById('pageLogin').style.display = 'none';
+                    document.getElementById('pageLocation').style.display = 'none';
+                    document.getElementById('customerPanel').style.display = 'block';
+                    document.getElementById('bottomNav').style.display = 'flex';
+                    loadProducts();
+                    loadOrders();
+                }, 1000);
+            })
+            .catch(error => {
+                showToast('❌ ' + error.message, 'error');
+            });
+    }
+
+    // ============================================================
+    // 📝 REGISTER USER
+    // ============================================================
+    function registerUser(name, email, phone, password) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                return db.collection('users').doc(user.uid).set({
+                    name: name,
+                    email: email,
+                    phone: phone || '',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    role: 'customer'
+                });
+            })
+            .then(() => {
+                showToast('✅ Account created successfully! Welcome, ' + name + '! 🎉', 'success', 4000);
+                setTimeout(() => {
+                    document.getElementById('pageLogin').style.display = 'none';
+                    document.getElementById('pageLocation').style.display = 'none';
+                    document.getElementById('customerPanel').style.display = 'block';
+                    document.getElementById('bottomNav').style.display = 'flex';
+                    loadProducts();
+                    loadOrders();
+                }, 1500);
+            })
+            .catch(error => {
+                showToast('❌ ' + error.message, 'error');
+            });
+    }
+
+    // ============================================================
+    // 🏷️ SWITCH TABS
+    // ============================================================
+    function switchTab(tab) {
+        document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
+        document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
+        document.getElementById(tab + 'Form').classList.add('active');
+        
+        document.getElementById('loginOtpGroup').style.display = 'none';
+        document.getElementById('registerOtpGroup').style.display = 'none';
+        
+        const loginBtn = document.getElementById('loginBtn');
+        loginBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
+        loginBtn.onclick = handleLoginOTP;
+        loginBtn.disabled = false;
+        
+        const regBtn = document.getElementById('registerBtn');
+        regBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
+        regBtn.onclick = handleRegisterOTP;
+        regBtn.disabled = false;
+        
+        if (otpTimer) clearInterval(otpTimer);
+    }
+
+    // ============================================================
     // 🔄 AUTH STATE
     // ============================================================
     let currentUser = null;
@@ -1718,9 +1958,10 @@
             currentUser = user;
             document.getElementById('pageLogin').style.display = 'none';
             document.getElementById('pageLocation').style.display = 'none';
+            document.getElementById('pageManualAddress').style.display = 'none';
             document.getElementById('customerPanel').style.display = 'block';
             document.getElementById('pageProfile').style.display = 'none';
-            document.getElementById('pagePayment').style.display = 'none';
+            document.getElementById('pageCheckout').style.display = 'none';
             document.getElementById('bottomNav').style.display = 'flex';
             
             const name = user.displayName || user.email || 'User';
@@ -1728,16 +1969,14 @@
             document.getElementById('profilePhone').textContent = user.phoneNumber || user.email || '';
             
             loadProducts();
-            loadSavedAddresses();
             loadOrders();
             
-            // Check if location already saved
-            const savedLocation = localStorage.getItem('userLocation');
-            if (savedLocation) {
+            // Load saved location
+            const savedLoc = localStorage.getItem('userLocation');
+            if (savedLoc) {
                 try {
-                    const loc = JSON.parse(savedLocation);
-                    document.getElementById('homeAddress').textContent = '📍 ' + (loc.address || 'Saved location');
-                    document.getElementById('deliveryAddress').textContent = loc.address || 'Saved location';
+                    const loc = JSON.parse(savedLoc);
+                    document.getElementById('homeAddress').textContent = '📍 ' + loc.address.substring(0, 40) + '...';
                     document.getElementById('deliveryTimeBadge').textContent = loc.deliveryTime || '⏳ Select';
                 } catch(e) {}
             }
@@ -1745,283 +1984,13 @@
             currentUser = null;
             document.getElementById('pageLogin').style.display = 'flex';
             document.getElementById('pageLocation').style.display = 'none';
+            document.getElementById('pageManualAddress').style.display = 'none';
             document.getElementById('customerPanel').style.display = 'none';
             document.getElementById('pageProfile').style.display = 'none';
-            document.getElementById('pagePayment').style.display = 'none';
+            document.getElementById('pageCheckout').style.display = 'none';
             document.getElementById('bottomNav').style.display = 'none';
         }
     });
-
-    // ============================================================
-    // 🏷️ SWITCH TABS (Login/Register)
-    // ============================================================
-    function switchTab(tab) {
-        document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
-        document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
-        document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
-        document.getElementById(tab + 'Form').classList.add('active');
-    }
-
-    // ============================================================
-    // ✅ VALIDATION FUNCTIONS
-    // ============================================================
-    function setFieldStatus(inputId, status, iconHtml) {
-        const input = document.getElementById(inputId);
-        const statusEl = document.getElementById(inputId + 'Status');
-        if (input) input.className = status;
-        if (statusEl) statusEl.innerHTML = iconHtml || '';
-    }
-
-    function validateEmail(inputId) {
-        const input = document.getElementById(inputId);
-        const email = input.value.trim();
-        if (email.length === 0) { setFieldStatus(inputId, 'neutral', ''); return; }
-        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        if (isValid) {
-            setFieldStatus(inputId, 'success', '<i class="fas fa-check-circle" style="color:#10b981;"></i>');
-        } else {
-            setFieldStatus(inputId, 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-        }
-    }
-
-    function validateName() {
-        const input = document.getElementById('registerName');
-        const name = input.value.trim();
-        if (name.length === 0) { setFieldStatus('registerName', 'neutral', ''); return; }
-        if (name.length >= 2) {
-            setFieldStatus('registerName', 'success', '<i class="fas fa-check-circle" style="color:#10b981;"></i>');
-        } else {
-            setFieldStatus('registerName', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-        }
-    }
-
-    function validatePhone() {
-        const input = document.getElementById('registerPhone');
-        const phone = input.value.trim();
-        if (phone.length === 0) { setFieldStatus('registerPhone', 'neutral', ''); return; }
-        const isValid = /^[0-9+\-\s]{10,15}$/.test(phone);
-        if (isValid) {
-            setFieldStatus('registerPhone', 'success', '<i class="fas fa-check-circle" style="color:#10b981;"></i>');
-        } else {
-            setFieldStatus('registerPhone', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-        }
-    }
-
-    function validateLoginPassword() {
-        const input = document.getElementById('loginPassword');
-        const password = input.value;
-        if (password.length === 0) { setFieldStatus('loginPassword', 'neutral', ''); return; }
-        if (password.length >= 6) {
-            setFieldStatus('loginPassword', 'success', '<i class="fas fa-check-circle" style="color:#10b981;"></i>');
-        } else {
-            setFieldStatus('loginPassword', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-        }
-    }
-
-    function validateConfirmPassword() {
-        const password = document.getElementById('registerPassword').value;
-        const confirm = document.getElementById('registerConfirmPassword');
-        if (confirm.value.length === 0) { setFieldStatus('registerConfirmPassword', 'neutral', ''); return; }
-        if (confirm.value === password && password.length >= 6) {
-            setFieldStatus('registerConfirmPassword', 'success', '<i class="fas fa-check-circle" style="color:#10b981;"></i>');
-        } else {
-            setFieldStatus('registerConfirmPassword', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-        }
-    }
-
-    function checkPasswordStrength(password) {
-        const str1 = document.getElementById('str1');
-        const str2 = document.getElementById('str2');
-        const str3 = document.getElementById('str3');
-        const text = document.getElementById('strengthText');
-        
-        str1.className = 'bar';
-        str2.className = 'bar';
-        str3.className = 'bar';
-        
-        if (password.length === 0) {
-            text.textContent = 'Enter a strong password';
-            setFieldStatus('registerPassword', 'neutral', '');
-            return;
-        }
-        
-        let strength = 0;
-        if (password.length >= 6) strength++;
-        if (password.length >= 10) strength++;
-        if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
-        if (/[0-9]/.test(password)) strength++;
-        if (/[^A-Za-z0-9]/.test(password)) strength++;
-        
-        let level = 'weak';
-        if (strength <= 2) {
-            level = 'weak';
-            text.textContent = '⚠️ Weak password';
-            setFieldStatus('registerPassword', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-        } else if (strength <= 3) {
-            level = 'medium';
-            text.textContent = '🟡 Medium password';
-            setFieldStatus('registerPassword', 'success', '<i class="fas fa-check-circle" style="color:#f59e0b;"></i>');
-        } else {
-            level = 'strong';
-            text.textContent = '✅ Strong password';
-            setFieldStatus('registerPassword', 'success', '<i class="fas fa-check-circle" style="color:#10b981;"></i>');
-        }
-        
-        if (strength >= 2) str1.className = 'bar active ' + level;
-        if (strength >= 3) str2.className = 'bar active ' + level;
-        if (strength >= 4) str3.className = 'bar active ' + level;
-        
-        validateConfirmPassword();
-    }
-
-    // ============================================================
-    // 📩 FORGOT PASSWORD
-    // ============================================================
-    function forgotPassword() {
-        const email = document.getElementById('loginEmail').value.trim();
-        if (!email) { showToast('Please enter your email address first', 'warning'); return; }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email address', 'error'); return; }
-        showToast('📧 Sending reset link...', 'info');
-        auth.sendPasswordResetEmail(email)
-            .then(() => showToast('✅ Password reset link sent to your email!', 'success'))
-            .catch(error => showToast('❌ ' + error.message, 'error'));
-    }
-
-    // ============================================================
-    // 🔐 HANDLE LOGIN
-    // ============================================================
-    function handleLogin() {
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        const btn = document.getElementById('loginBtn');
-        
-        if (!email || !password) { showToast('Please fill all fields', 'error'); return; }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email', 'error'); return; }
-        if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
-        
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-small"></span> Logging in...';
-        
-        auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
-                if (document.getElementById('rememberMe').checked) {
-                    localStorage.setItem('rememberedEmail', email);
-                }
-                showToast('✅ Welcome back! 🎉', 'success', 3000);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-            })
-            .catch(error => {
-                let message = error.message;
-                if (error.code === 'auth/wrong-password') {
-                    message = '❌ Incorrect password. Please try again.';
-                    setFieldStatus('loginPassword', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-                } else if (error.code === 'auth/user-not-found') {
-                    message = '❌ No account found with this email';
-                    setFieldStatus('loginEmail', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-                }
-                showToast(message, 'error', 5000);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-            });
-    }
-
-    // ============================================================
-    // 📝 HANDLE REGISTER
-    // ============================================================
-    function handleRegister() {
-        const name = document.getElementById('registerName').value.trim();
-        const email = document.getElementById('registerEmail').value.trim();
-        const phone = document.getElementById('registerPhone').value.trim();
-        const password = document.getElementById('registerPassword').value;
-        const confirm = document.getElementById('registerConfirmPassword').value;
-        const terms = document.getElementById('termsCheck').checked;
-        const btn = document.getElementById('registerBtn');
-        
-        if (!name || !email || !phone || !password || !confirm) {
-            showToast('Please fill all fields', 'error');
-            return;
-        }
-        if (name.length < 2) {
-            showToast('Name must be at least 2 characters', 'error');
-            setFieldStatus('registerName', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-            return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            showToast('Please enter a valid email', 'error');
-            setFieldStatus('registerEmail', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-            return;
-        }
-        if (password.length < 6) {
-            showToast('Password must be at least 6 characters', 'error');
-            setFieldStatus('registerPassword', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-            return;
-        }
-        if (password !== confirm) {
-            showToast('Passwords do not match!', 'error');
-            setFieldStatus('registerConfirmPassword', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-            return;
-        }
-        if (!terms) { showToast('Please accept Terms & Conditions', 'warning'); return; }
-        
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-small"></span> Creating account...';
-        
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                const user = userCredential.user;
-                return db.collection('users').doc(user.uid).set({
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    role: 'customer'
-                });
-            })
-            .then(() => {
-                showToast('✅ Account created successfully! Welcome, ' + name + '! 🎉', 'success', 4000);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-            })
-            .catch(error => {
-                let message = error.message;
-                if (error.code === 'auth/email-already-in-use') {
-                    message = '❌ This email is already registered';
-                    setFieldStatus('registerEmail', 'error', '<i class="fas fa-times-circle" style="color:#ef4444;"></i>');
-                } else if (error.code === 'auth/configuration-not-found') {
-                    message = '⚠️ Please enable Email/Password in Firebase Console → Authentication → Sign-in methods';
-                }
-                showToast(message, 'error', 5000);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-            });
-    }
-
-    // ============================================================
-    // 🔵 GOOGLE LOGIN
-    // ============================================================
-    function handleGoogleLogin() {
-        showToast('🔄 Connecting to Google...', 'info');
-        const provider = new firebase.auth.GoogleAuthProvider();
-        
-        auth.signInWithPopup(provider)
-            .then(result => {
-                const user = result.user;
-                return db.collection('users').doc(user.uid).set({
-                    name: user.displayName || 'User',
-                    email: user.email,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    role: 'customer'
-                }, { merge: true });
-            })
-            .catch(error => {
-                if (error.code === 'auth/popup-closed-by-user') {
-                    showToast('Login cancelled', 'warning');
-                } else {
-                    showToast('❌ ' + error.message, 'error');
-                }
-            });
-    }
 
     // ============================================================
     // 🚪 LOGOUT
@@ -2030,10 +1999,6 @@
         showToast('👋 Logging out...', 'info');
         auth.signOut().then(() => {
             showToast('✅ Logged out successfully', 'success');
-            document.getElementById('pageProfile').style.display = 'none';
-            document.getElementById('customerPanel').style.display = 'none';
-            document.getElementById('bottomNav').style.display = 'none';
-            document.getElementById('pageLogin').style.display = 'flex';
         }).catch(error => {
             showToast('❌ ' + error.message, 'error');
         });
@@ -2044,12 +2009,15 @@
     // ============================================================
     function showPage(page) {
         document.getElementById('pageLocation').style.display = 'none';
+        document.getElementById('pageManualAddress').style.display = 'none';
         document.getElementById('customerPanel').style.display = 'none';
         document.getElementById('pageProfile').style.display = 'none';
-        document.getElementById('pagePayment').style.display = 'none';
+        document.getElementById('pageCheckout').style.display = 'none';
         
         if (page === 'location') {
             document.getElementById('pageLocation').style.display = 'block';
+        } else if (page === 'manual') {
+            document.getElementById('pageManualAddress').style.display = 'block';
         } else if (page === 'home') {
             document.getElementById('customerPanel').style.display = 'block';
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -2064,180 +2032,92 @@
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.querySelector('.nav-item[data-page="profile"]').classList.add('active');
             loadOrders();
-        } else if (page === 'payment') {
-            document.getElementById('pagePayment').style.display = 'block';
+        } else if (page === 'checkout') {
+            document.getElementById('pageCheckout').style.display = 'block';
         }
     }
 
     // ============================================================
-    // 📍 LOCATION DETECTION
+    // 📍 LOCATION FUNCTIONS
     // ============================================================
-    let userLat = null;
-    let userLng = null;
-    let isServiceAvailable = false;
     let selectedAddress = null;
-    let locationDetected = false;
+    let deliveryTime = '⚡ 13 mins';
 
-    const STORE_LAT = 23.6693;
-    const STORE_LNG = 86.1511;
-    const QUICK_DELIVERY_KM = 10;
-    const MAX_DELIVERY_KM = 1000;
-
-    function detectLocation() {
-        const statusEl = document.getElementById('locationStatus');
-        const subEl = document.getElementById('locationSub');
-        const iconEl = document.getElementById('locationIcon');
-        const btn = document.getElementById('retryLocationBtn');
+    function selectStoreLocation() {
+        const address = 'Priya Electricals, Champi, Bokaro, Jharkhand - 829123';
+        selectedAddress = { address: address, type: 'store' };
+        deliveryTime = '⚡ 13 mins';
         
+        document.getElementById('homeAddress').textContent = '📍 ' + address;
+        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
+        document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
+        document.getElementById('checkoutAddress').textContent = address;
+        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
+        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
+        
+        localStorage.setItem('userLocation', JSON.stringify({ address: address, deliveryTime: deliveryTime }));
+        
+        showToast('✅ Store location selected!', 'success');
+        setTimeout(() => showPage('home'), 500);
+    }
+
+    function useCurrentLocation() {
         if (!navigator.geolocation) {
-            statusEl.textContent = '❌ Geolocation not supported';
-            subEl.textContent = 'Please enter your address manually';
-            iconEl.textContent = '❌';
+            showToast('Geolocation not supported. Please enter manually.', 'warning');
             return;
         }
 
-        statusEl.textContent = '📍 Detecting...';
-        subEl.textContent = 'Please wait...';
-        iconEl.textContent = '⏳';
-        btn.disabled = true;
-
+        showToast('📍 Detecting your location...', 'info');
+        
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                userLat = position.coords.latitude;
-                userLng = position.coords.longitude;
-                locationDetected = true;
-                
-                statusEl.textContent = '✅ Location detected!';
-                iconEl.textContent = '✅';
-                btn.disabled = false;
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
                 
                 // Get address from coords
-                getAddressFromCoords(userLat, userLng);
-                calculateDelivery(userLat, userLng);
-                
-                showToast('✅ Location detected successfully!', 'success');
+                fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const address = data.display_name || 'Current Location';
+                        selectedAddress = { address: address, lat: lat, lng: lng, type: 'current' };
+                        deliveryTime = '⚡ 13 mins';
+                        
+                        document.getElementById('homeAddress').textContent = '📍 ' + address.substring(0, 40) + '...';
+                        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
+                        document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
+                        document.getElementById('checkoutAddress').textContent = address;
+                        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
+                        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
+                        
+                        localStorage.setItem('userLocation', JSON.stringify({ address: address, deliveryTime: deliveryTime }));
+                        
+                        showToast('✅ Location detected!', 'success');
+                        setTimeout(() => showPage('home'), 500);
+                    })
+                    .catch(() => {
+                        showToast('Could not get address. Please enter manually.', 'warning');
+                    });
             },
             (error) => {
-                let msg = '❌ Location detection failed';
-                if (error.code === 1) msg = '❌ Location access denied';
-                else if (error.code === 2) msg = '❌ Location unavailable';
-                else if (error.code === 3) msg = '⏳ Location timeout';
-                
-                statusEl.textContent = msg;
-                subEl.textContent = 'Please enter your address manually';
-                iconEl.textContent = '❌';
-                btn.disabled = false;
-                
-                showToast('Please enter address manually', 'warning');
+                showToast('Location detection failed. Please enter manually.', 'error');
             },
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+            { enableHighAccuracy: true, timeout: 10000 }
         );
     }
 
-    function getAddressFromCoords(lat, lng) {
-        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18&addressdetails=1`;
-        
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.display_name) {
-                    const addr = data.display_name;
-                    document.getElementById('homeAddress').textContent = '📍 ' + addr.substring(0, 50) + '...';
-                    document.getElementById('deliveryAddress').textContent = addr;
-                }
-            })
-            .catch(() => {});
+    function openManualAddress() {
+        showPage('manual');
     }
 
-    // ============================================================
-    // 📦 CALCULATE DELIVERY
-    // ============================================================
-    function calculateDelivery(lat, lng) {
-        const distance = calculateDistance(STORE_LAT, STORE_LNG, lat, lng);
-        const deliveryInfo = document.getElementById('deliveryInfo');
-        const distanceDisplay = document.getElementById('deliveryDistance');
-        const timeDisplay = document.getElementById('deliveryTimeDisplay');
-        const statusDisplay = document.getElementById('serviceStatusDisplay');
-        const addressDisplay = document.getElementById('deliveryAddressDisplay');
-        
-        deliveryInfo.classList.add('show');
-        
-        let address = document.getElementById('receiverName').value || 'Current Location';
-        let flat = document.getElementById('flatNumber').value || '';
-        let street = document.getElementById('streetArea').value || '';
-        let city = document.getElementById('city').value || '';
-        let pincode = document.getElementById('pincode').value || '';
-        
-        let fullAddress = flat + ', ' + street + ', ' + city + ' - ' + pincode;
-        addressDisplay.textContent = fullAddress || 'Current Location';
-        
-        let distanceKm = distance.toFixed(1);
-        distanceDisplay.textContent = distanceKm + ' km';
-        
-        let deliveryTime = '';
-        let status = '';
-        let statusClass = '';
-        
-        if (distance <= QUICK_DELIVERY_KM) {
-            // Quick Delivery - 13 mins to 2 hours
-            let minutes = Math.max(13, Math.round(distance * 2.6));
-            deliveryTime = '⚡ ' + minutes + ' mins (Quick Delivery)';
-            status = '✅ Available - Quick Delivery';
-            statusClass = 'quick';
-            isServiceAvailable = true;
-        } else if (distance <= MAX_DELIVERY_KM) {
-            // Normal Delivery - 7-15 working days
-            let days = Math.max(7, Math.round(distance / 40));
-            if (days > 15) days = 15;
-            deliveryTime = '📦 ' + days + ' working days (Standard Delivery)';
-            status = '✅ Available - Standard Delivery';
-            statusClass = 'normal';
-            isServiceAvailable = true;
-        } else {
-            deliveryTime = '❌ Not deliverable';
-            status = '❌ Unavailable - Too far';
-            statusClass = 'unavailable';
-            isServiceAvailable = false;
-        }
-        
-        timeDisplay.textContent = deliveryTime;
-        timeDisplay.className = 'value ' + statusClass;
-        statusDisplay.textContent = status;
-        statusDisplay.className = 'value ' + statusClass;
-        
-        if (!isServiceAvailable) {
-            deliveryInfo.classList.add('unavailable');
-        } else {
-            deliveryInfo.classList.remove('unavailable');
-        }
-        
-        // Update badge
-        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
-    }
-
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371;
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLon/2) * Math.sin(dLon/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return R * c;
-    }
-
-    // ============================================================
-    // 💾 SAVE LOCATION
-    // ============================================================
-    function saveLocation() {
-        const name = document.getElementById('receiverName').value.trim();
-        const phone = document.getElementById('receiverPhone').value.trim();
-        const flat = document.getElementById('flatNumber').value.trim();
-        const street = document.getElementById('streetArea').value.trim();
-        const landmark = document.getElementById('landmark').value.trim();
-        const city = document.getElementById('city').value.trim();
-        const state = document.getElementById('state').value;
-        const pincode = document.getElementById('pincode').value.trim();
+    function saveManualAddress() {
+        const name = document.getElementById('manualName').value.trim();
+        const phone = document.getElementById('manualPhone').value.trim();
+        const flat = document.getElementById('manualFlat').value.trim();
+        const street = document.getElementById('manualStreet').value.trim();
+        const landmark = document.getElementById('manualLandmark').value.trim();
+        const city = document.getElementById('manualCity').value.trim();
+        const state = document.getElementById('manualState').value;
+        const pincode = document.getElementById('manualPincode').value.trim();
         
         // Validation
         if (!name) { showToast('Please enter receiver name', 'error'); return; }
@@ -2250,56 +2130,63 @@
         
         let fullAddress = flat + ', ' + street + (landmark ? ', ' + landmark : '') + ', ' + city + ', ' + state + ' - ' + pincode;
         
-        const locationData = {
-            name: name,
-            phone: phone,
-            flat: flat,
-            street: street,
-            landmark: landmark,
-            city: city,
-            state: state,
+        selectedAddress = { 
+            address: fullAddress, 
+            name: name, 
+            phone: phone, 
+            flat: flat, 
+            street: street, 
+            landmark: landmark, 
+            city: city, 
+            state: state, 
             pincode: pincode,
-            address: fullAddress,
-            lat: userLat || 23.6693,
-            lng: userLng || 86.1511
+            type: 'manual'
         };
         
-        // Calculate delivery if we have coordinates
-        if (userLat && userLng) {
-            calculateDelivery(userLat, userLng);
-            locationData.deliveryTime = document.getElementById('deliveryTimeDisplay').textContent;
+        // Check pincode distance (simplified)
+        let distance = Math.abs(parseInt(pincode) - 829123) * 0.5;
+        if (distance <= 50) {
+            deliveryTime = '⚡ 13 mins';
+            document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
+        } else if (distance <= 100) {
+            deliveryTime = '⏰ 30 mins';
+            document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
+        } else if (distance <= 500) {
+            deliveryTime = '📦 7 days';
+            document.getElementById('deliveryTimeBadge').className = 'delivery-time schedule';
         } else {
-            // Estimate based on pincode (simplified)
-            let distance = Math.abs(parseInt(pincode) - 829123) * 0.5;
-            if (distance < 1) distance = 0.5;
-            calculateDelivery(STORE_LAT + (distance * 0.01), STORE_LNG + (distance * 0.01));
+            deliveryTime = '📦 7-15 days';
+            document.getElementById('deliveryTimeBadge').className = 'delivery-time schedule';
         }
         
-        // Save to localStorage
-        localStorage.setItem('userLocation', JSON.stringify(locationData));
-        
-        // Update UI
         document.getElementById('homeAddress').textContent = '📍 ' + fullAddress.substring(0, 40) + '...';
-        document.getElementById('deliveryAddress').textContent = fullAddress;
-        selectedAddress = locationData;
+        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
+        document.getElementById('checkoutAddress').textContent = fullAddress;
+        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
+        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
         
-        showToast('✅ Location saved successfully!', 'success');
-        setTimeout(() => showPage('home'), 1000);
-    }
-
-    // ============================================================
-    // 📍 SAVED ADDRESSES
-    // ============================================================
-    function loadSavedAddresses() {
-        const saved = localStorage.getItem('savedAddresses');
-        let addresses = saved ? JSON.parse(saved) : [];
-        
-        if (addresses.length === 0) {
-            addresses = [
-                { id: '1', label: 'HOME', address: 'Champi, Bokaro, Jharkhand - 829123', phone: '9142739651' }
-            ];
-            localStorage.setItem('savedAddresses', JSON.stringify(addresses));
+        // Save to Firebase
+        if (currentUser) {
+            db.collection('users').doc(currentUser.uid).collection('addresses').add({
+                name: name,
+                phone: phone,
+                flat: flat,
+                street: street,
+                landmark: landmark,
+                city: city,
+                state: state,
+                pincode: pincode,
+                address: fullAddress,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                showToast('✅ Address saved successfully!', 'success');
+            }).catch(() => {});
         }
+        
+        localStorage.setItem('userLocation', JSON.stringify({ address: fullAddress, deliveryTime: deliveryTime }));
+        
+        showToast('✅ Address saved successfully!', 'success');
+        setTimeout(() => showPage('home'), 500);
     }
 
     // ============================================================
@@ -2336,17 +2223,6 @@
     function renderProducts(productList) {
         const grid = document.getElementById('productGrid');
         
-        if (!isServiceAvailable && userLat && userLng) {
-            grid.innerHTML = `
-                <div style="text-align:center;padding:40px 0;color:#94a3b8;grid-column:1/-1;">
-                    <i class="fas fa-map-pin" style="font-size:2rem;display:block;margin-bottom:8px;color:#ef4444;"></i>
-                    <p style="font-weight:600;color:#1e293b;">Service Unavailable at Your Location</p>
-                    <small>Please visit our store</small>
-                </div>
-            `;
-            return;
-        }
-
         if (!productList || productList.length === 0) {
             grid.innerHTML = `
                 <div style="text-align:center;padding:40px 0;color:#94a3b8;grid-column:1/-1;">
@@ -2373,7 +2249,7 @@
                         ${product.mrp ? `<span class="mrp">₹${product.mrp}</span>` : ''}
                         ${discount > 0 ? `<span style="color:#10b981;font-size:0.7rem;font-weight:600;">${discount}% OFF</span>` : ''}
                     </div>
-                    <button class="add-btn ${qty > 0 ? 'in-cart' : ''}" onclick="addToCart('${product.id}')" id="btn_${product.id}" ${!isServiceAvailable ? 'disabled' : ''}>
+                    <button class="add-btn ${qty > 0 ? 'in-cart' : ''}" onclick="addToCart('${product.id}')" id="btn_${product.id}">
                         ${qty > 0 ? `🛒 ${qty} in Cart` : 'Add to Cart'}
                     </button>
                 </div>
@@ -2414,11 +2290,6 @@
     // 🛒 CART FUNCTIONS
     // ============================================================
     function addToCart(productId) {
-        if (!isServiceAvailable) {
-            showToast('❌ Service not available at your location', 'error');
-            return;
-        }
-        
         const product = products.find(p => p.id === productId);
         if (!product) return;
 
@@ -2519,21 +2390,22 @@
     }
 
     // ============================================================
-    // 💳 GO TO PAYMENT
+    // 💳 GO TO CHECKOUT
     // ============================================================
-    function goToPayment() {
+    function goToCheckout() {
         if (cart.length === 0) {
             showToast('❌ Cart is empty!', 'error');
             return;
         }
-        if (!isServiceAvailable) {
-            showToast('❌ Service not available at your location', 'error');
+        if (!selectedAddress) {
+            showToast('❌ Please select a delivery address first', 'error');
+            showPage('location');
             return;
         }
         
         generateQR();
         renderCheckoutItems();
-        showPage('payment');
+        showPage('checkout');
     }
 
     function renderCheckoutItems() {
@@ -2630,10 +2502,189 @@
             })),
             total: getTotal(),
             address: selectedAddress || { address: 'Champi, Bokaro, Jharkhand - 829123' },
-            status: 'delivered',
+            status: 'confirmed',
+            deliveryTime: deliveryTime || '13 mins',
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             orderDate: new Date().toLocaleString('en-IN', { 
                 day: '2-digit', 
+                month: 'short', 
+                year: "'" + new Date().getFullYear().toString().slice(-2),
+                hour: '2-digit',
+                minute: '2-digit'
+            })
+        };
+
+        db.collection('orders').add(orderData)
+            .then((docRef) => {
+                document.getElementById('orderIdDisplay').textContent = 'Order ID: ' + orderId;
+                document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
+                document.getElementById('successOverlay').classList.add('open');
+                
+                cart = [];
+                updateCartUI();
+                showToast('✅ Order placed successfully! 🎉', 'success', 3000);
+                loadOrders();
+            })
+            .catch(error => {
+                showToast('❌ Error placing order: ' + error.message, 'error');
+            });
+    }
+
+    // ============================================================
+    // 🎉 SUCCESS POPUP FUNCTIONS
+    // ============================================================
+    function closeSuccessPopup() {
+        document.getElementById('successOverlay').classList.remove('open');
+        showPage('profile');
+        loadOrders();
+    }
+
+    function closeSuccessPopupAndHome() {
+        document.getElementById('successOverlay').classList.remove('open');
+        showPage('home');
+    }
+
+    // ============================================================
+    // 📋 LOAD ORDERS
+    // ============================================================
+    function loadOrders() {
+        if (!currentUser) return;
+
+        db.collection('orders')
+            .where('userId', '==', currentUser.uid)
+            .orderBy('createdAt', 'desc')
+            .get()
+            .then(snapshot => {
+                const orders = [];
+                snapshot.forEach(doc => {
+                    orders.push({ id: doc.id, ...doc.data() });
+                });
+                renderOrders(orders);
+                updateProfileStats(orders);
+            })
+            .catch(error => {
+                console.error('Error loading orders:', error);
+            });
+    }
+
+    function renderOrders(orders) {
+        const container = document.getElementById('ordersList');
+        const badge = document.getElementById('orderBadge');
+        
+        badge.textContent = orders.length;
+
+        if (!orders || orders.length === 0) {
+            container.innerHTML = `
+                <div class="empty-orders">
+                    <i class="fas fa-box-open"></i>
+                    <p>No orders yet</p>
+                    <small>Start shopping to see your orders here</small>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        orders.forEach(order => {
+            const items = order.items || [];
+            const itemNames = items.map(item => item.name).slice(0, 3);
+            const moreCount = items.length - 3;
+            
+            html += `
+                <div class="order-card">
+                    <div class="order-top">
+                        <span class="status">
+                            <i class="fas fa-check-circle"></i> ${order.status === 'confirmed' ? 'Order Confirmed' : 'Order Placed'}
+                        </span>
+                        <span class="amount">₹${order.total || 0}</span>
+                    </div>
+                    <div class="order-date">
+                        ${order.orderDate || new Date(order.createdAt?.toDate()).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                    <div class="order-by">
+                        Order placed by ${order.userName || 'User'}
+                    </div>
+                    <div class="order-items">
+                        ${itemNames.map(name => `<span class="item-tag">${name}</span>`).join('')}
+                        ${moreCount > 0 ? `<span class="more-tag">+${moreCount}</span>` : ''}
+                    </div>
+                    <div class="order-actions">
+                        <button class="action-btn primary" onclick="repeatOrder('${order.id}')">
+                            <i class="fas fa-redo"></i> Reorder
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    // ============================================================
+    // 🔄 REPEAT ORDER
+    // ============================================================
+    function repeatOrder(orderId) {
+        db.collection('orders').doc(orderId).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const order = doc.data();
+                    const items = order.items || [];
+                    
+                    items.forEach(item => {
+                        const existing = cart.find(c => c.id === item.id);
+                        if (existing) {
+                            existing.qty += item.qty || 1;
+                        } else {
+                            const product = products.find(p => p.id === item.id);
+                            if (product) {
+                                cart.push({ ...product, qty: item.qty || 1 });
+                            } else {
+                                cart.push({
+                                    id: item.id,
+                                    name: item.name,
+                                    price: item.price,
+                                    unit: item.unit || '1 Piece',
+                                    qty: item.qty || 1,
+                                    image: '📦'
+                                });
+                            }
+                        }
+                    });
+                    
+                    updateCartUI();
+                    showToast('✅ Items added to cart!', 'success');
+                    showPage('home');
+                }
+            })
+            .catch(error => {
+                showToast('❌ Error repeating order', 'error');
+            });
+    }
+
+    // ============================================================
+    // 📊 UPDATE PROFILE STATS
+    // ============================================================
+    function updateProfileStats(orders) {
+        if (!orders) return;
+        const totalOrders = orders.length;
+        const totalSpent = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+        
+        document.getElementById('orderCount').textContent = totalOrders;
+        document.getElementById('totalSpent').textContent = '₹' + totalSpent;
+        document.getElementById('savedCount').textContent = Math.round(totalSpent * 0.1);
+        document.getElementById('orderBadge').textContent = totalOrders;
+    }
+
+    // ============================================================
+    // 🚀 LOAD
+    // ============================================================
+    window.addEventListener('load', function() {
+        console.log('✅ Priya Electricals - Complete App Loaded');
+    });
+</script>
+
+</body>
+</html>', 
                 month: 'short', 
                 year: "'" + new Date().getFullYear().toString().slice(-2),
                 hour: '2-digit',
