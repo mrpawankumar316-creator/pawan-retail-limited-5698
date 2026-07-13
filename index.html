@@ -2,2475 +2,915 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>PRL Digital Banking</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Priya Electricals - Sell & Service</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <style>
-        :root {
-            --primary: #1A237E;
-            --primary-light: #283593;
-            --primary-gradient: linear-gradient(135deg, #1A237E, #283593);
-            --accent: #FFC107;
-            --success: #4CAF50;
-            --danger: #F44336;
-            --warning: #FF9800;
-            --info: #00BCD4;
-            --white: #FFFFFF;
-            --gray-50: #F8F9FA;
-            --gray-100: #F1F3F5;
-            --gray-200: #E9ECEF;
-            --gray-300: #DEE2E6;
-            --gray-400: #CED4DA;
-            --gray-500: #ADB5BD;
-            --gray-600: #6C757D;
-            --gray-700: #495057;
-            --gray-800: #343A40;
-            --gray-900: #212529;
-            --shadow: 0 4px 20px rgba(0,0,0,0.06);
-            --shadow-lg: 0 10px 40px rgba(0,0,0,0.08);
-            --shadow-xl: 0 20px 60px rgba(0,0,0,0.12);
-            --radius: 16px;
-            --radius-sm: 10px;
-            --radius-lg: 24px;
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
-        body { background: var(--gray-100); display: flex; justify-content: center; min-height: 100vh; color: var(--gray-800); overflow-x: hidden; }
-        .app { max-width: 420px; width: 100%; background: var(--white); min-height: 100vh; position: relative; overflow-x: hidden; }
+        body {
+            background: #f0f4f8;
+            color: #1e293b;
+        }
 
-        /* ===== PREMIUM ANIMATIONS ===== */
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-40px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8) rotate(-5deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
-        @keyframes slideInRight { from { opacity: 0; transform: translateX(60px) rotate(5deg); } to { opacity: 1; transform: translateX(0) rotate(0deg); } }
-        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-60px) rotate(-5deg); } to { opacity: 1; transform: translateX(0) rotate(0deg); } }
-        @keyframes bounceIn { 0% { transform: scale(0.3) rotate(-10deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 70% { transform: scale(0.9) rotate(-1deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
-        @keyframes rotateIn { from { opacity: 0; transform: rotate(-360deg) scale(0.5); } to { opacity: 1; transform: rotate(0deg) scale(1); } }
-        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(3deg); } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-        @keyframes shake { 0%, 100% { transform: translateX(0) rotate(0deg); } 20% { transform: translateX(-12px) rotate(-2deg); } 40% { transform: translateX(12px) rotate(2deg); } 60% { transform: translateX(-8px) rotate(-1deg); } 80% { transform: translateX(8px) rotate(1deg); } }
-        @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 20px rgba(26, 35, 126, 0.15); } 50% { box-shadow: 0 0 50px rgba(26, 35, 126, 0.3); } }
-        @keyframes successPop { 0% { transform: scale(0) rotate(-20deg); opacity: 0; } 50% { transform: scale(1.3) rotate(5deg); } 70% { transform: scale(0.9) rotate(-2deg); } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
-        @keyframes confettiFall { 0% { transform: translateY(-100px) rotate(0deg) scale(1); opacity: 1; } 100% { transform: translateY(300px) rotate(720deg) scale(0.5); opacity: 0; } }
-        @keyframes confettiBurst { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(1.5) rotate(360deg); opacity: 0; } }
-        @keyframes loadingDots { 0%, 80%, 100% { transform: scale(0.6) translateY(0); opacity: 0.4; } 40% { transform: scale(1) translateY(-8px); opacity: 1; } }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        @keyframes ripple { 0% { transform: scale(0); opacity: 0.6; } 100% { transform: scale(4); opacity: 0; } }
-        @keyframes spin3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-        @keyframes floatParticle { 0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; } 100% { transform: translateY(-200px) translateX(50px) scale(0); opacity: 0; } }
-        @keyframes scaleIn { from { transform: scale(0.5) rotateX(30deg); opacity: 0; } to { transform: scale(1) rotateX(0deg); opacity: 1; } }
-        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-3px, 3px); } 40% { transform: translate(3px, -3px); } 60% { transform: translate(-2px, 2px); } 80% { transform: translate(2px, -2px); } 100% { transform: translate(0); } }
+        header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
 
-        .animate-fadeUp { animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-fadeDown { animation: fadeInDown 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-fadeScale { animation: fadeInScale 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-slideRight { animation: slideInRight 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-slideLeft { animation: slideInLeft 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-bounce { animation: bounceIn 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
-        .animate-rotate { animation: rotateIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-pulse { animation: pulse 2s ease-in-out infinite; }
-        .animate-glow { animation: glowPulse 2s ease-in-out infinite; }
-        .animate-success { animation: successPop 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-shake { animation: shake 0.6s ease-in-out; }
-        .animate-scaleIn { animation: scaleIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .animate-glitch { animation: glitch 0.4s ease-in-out; }
-
-        /* STEP INDICATOR */
-        .step-indicators { display: flex; justify-content: center; gap: 10px; margin: 16px 0; }
-        .step-dot { width: 35px; height: 4px; border-radius: 4px; background: var(--gray-300); transition: var(--transition); position: relative; }
-        .step-dot.active { background: var(--primary); width: 45px; }
-        .step-dot.completed { background: var(--success); }
-        .step-dot.error { background: var(--danger); }
-        .step-dot .step-number { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 8px; color: var(--gray-500); font-weight: 600; }
-
-        /* STEP IMAGE WITH 3D EFFECT */
-        .step-image { text-align: center; padding: 20px 0; perspective: 800px; }
-        .step-image .icon { font-size: 80px; display: block; margin: 0 auto; transform-style: preserve-3d; }
-        .step-image .icon.animate-float { animation: float 3s ease-in-out infinite; }
-        .step-image .icon.animate-pulse { animation: pulse 2s ease-in-out infinite; }
-        .step-image .icon.animate-success { animation: successPop 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .step-image .icon.animate-rotate { animation: rotateIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .step-image .icon.animate-bounce { animation: bounceIn 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
-        .step-image .icon.animate-scaleIn { animation: scaleIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .step-image .icon.animate-glitch { animation: glitch 0.4s ease-in-out; }
-
-        /* CONFETTI */
-        .confetti-container { position: relative; height: 120px; overflow: hidden; }
-        .confetti-piece { position: absolute; width: 12px; height: 12px; top: 50%; border-radius: 2px; animation: confettiFall 2.5s ease-in forwards; }
-        .confetti-piece:nth-child(1) { left: 8%; background: #FF6B6B; animation-delay: 0s; transform: rotate(45deg); }
-        .confetti-piece:nth-child(2) { left: 20%; background: #4ECDC4; animation-delay: 0.2s; transform: rotate(90deg); }
-        .confetti-piece:nth-child(3) { left: 32%; background: #FFE66D; animation-delay: 0.4s; transform: rotate(135deg); }
-        .confetti-piece:nth-child(4) { left: 44%; background: #A8E6CF; animation-delay: 0.6s; transform: rotate(180deg); }
-        .confetti-piece:nth-child(5) { left: 56%; background: #FF8A5C; animation-delay: 0.8s; transform: rotate(225deg); }
-        .confetti-piece:nth-child(6) { left: 68%; background: #6C5CE7; animation-delay: 1.0s; transform: rotate(270deg); }
-        .confetti-piece:nth-child(7) { left: 80%; background: #F7DC6F; animation-delay: 1.2s; transform: rotate(315deg); }
-        .confetti-piece:nth-child(8) { left: 92%; background: #BB8FCE; animation-delay: 1.4s; transform: rotate(360deg); }
-
-        /* PARTICLES */
-        .particles { position: relative; height: 80px; overflow: hidden; }
-        .particle { position: absolute; width: 6px; height: 6px; border-radius: 50%; animation: floatParticle 2s ease-in forwards; }
-        .particle:nth-child(1) { left: 10%; background: var(--primary); animation-delay: 0s; }
-        .particle:nth-child(2) { left: 25%; background: var(--accent); animation-delay: 0.3s; }
-        .particle:nth-child(3) { left: 40%; background: var(--success); animation-delay: 0.6s; }
-        .particle:nth-child(4) { left: 55%; background: var(--info); animation-delay: 0.9s; }
-        .particle:nth-child(5) { left: 70%; background: var(--warning); animation-delay: 1.2s; }
-        .particle:nth-child(6) { left: 85%; background: var(--danger); animation-delay: 1.5s; }
-
-        /* HEADER */
-        .header {
-            background: var(--primary-gradient);
-            padding: 14px 16px;
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(26, 35, 126, 0.2);
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .logo { display: flex; align-items: center; gap: 10px; color: var(--white); font-size: 18px; font-weight: 800; }
-        .logo i { font-size: 24px; color: var(--accent); }
-        .logo span { font-size: 9px; opacity: 0.7; font-weight: 400; display: block; }
-        .header-actions { display: flex; gap: 10px; align-items: center; }
-        .header-btn { color: rgba(255,255,255,0.8); font-size: 18px; cursor: pointer; padding: 6px; border-radius: 50%; transition: var(--transition); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: none; position: relative; }
-        .header-btn:hover { background: rgba(255,255,255,0.15); color: var(--white); }
-        .role-badge { font-size: 9px; background: rgba(255, 193, 7, 0.15); color: var(--accent); padding: 3px 12px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(255, 193, 7, 0.2); }
 
-        /* CONTENT */
-        .content { padding: 14px; padding-bottom: 80px; min-height: calc(100vh - 60px); }
-        .page { animation: fadeInUp 0.6s ease forwards; }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-        /* CARDS WITH GLASS EFFECT */
-        .card { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid rgba(255,255,255,0.2); }
-        .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
-        .card-title { font-size: 15px; font-weight: 700; color: var(--gray-800); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .logo i {
+            font-size: 2rem;
+            color: #fbbf24;
+        }
 
-        /* BUTTONS WITH RIPPLE EFFECT */
-        .btn { padding: 12px 24px; border: none; border-radius: 25px; font-weight: 600; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); font-family: 'Inter', sans-serif; position: relative; overflow: hidden; }
-        .btn:active { transform: scale(0.95); }
-        .btn .ripple-effect { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); animation: ripple 0.6s linear; }
-        .btn-primary { background: var(--primary-gradient); color: var(--white); box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(26, 35, 126, 0.4); }
-        .btn-secondary { background: var(--gray-200); color: var(--gray-700); }
-        .btn-secondary:hover { background: var(--gray-300); transform: translateY(-2px); }
-        .btn-success { background: linear-gradient(135deg, #4CAF50, #388E3C); color: var(--white); box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); }
-        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(76, 175, 80, 0.4); }
-        .btn-danger { background: linear-gradient(135deg, #F44336, #C62828); color: var(--white); }
-        .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(244, 67, 54, 0.4); }
-        .btn-gold { background: linear-gradient(135deg, #FFC107, #FFB300); color: var(--gray-900); box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3); }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(255, 193, 7, 0.4); }
-        .btn-info { background: linear-gradient(135deg, #00BCD4, #0097A7); color: var(--white); }
-        .btn-sm { padding: 6px 14px; font-size: 11px; border-radius: 15px; }
-        .btn-block { width: 100%; }
-        .btn-lg { padding: 14px 28px; font-size: 16px; }
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
 
-        /* INPUTS */
-        .input-group { margin-bottom: 14px; }
-        .input-group label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 4px; }
-        .input { width: 100%; padding: 12px 16px; border: 2px solid var(--gray-200); border-radius: 12px; font-size: 14px; transition: var(--transition); background: var(--white); color: var(--gray-800); font-family: 'Inter', sans-serif; }
-        .input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(26, 35, 126, 0.05); }
-        .input::placeholder { color: var(--gray-400); }
-        .input-sm { padding: 8px 14px; font-size: 12px; border-radius: 10px; }
-        .input-lg { padding: 14px 18px; font-size: 16px; }
+        .logo span {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
 
-        /* LOGIN */
-        .login-box { max-width: 380px; margin: 20px auto; padding: 30px 24px; background: var(--white); border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow-xl); animation: fadeInUp 0.6s ease; }
-        .login-box .icon { font-size: 56px; margin-bottom: 8px; color: var(--primary); }
-        .login-box h2 { font-size: 26px; font-weight: 800; color: var(--primary); margin: 4px 0; }
-        .login-box .subtitle { font-size: 13px; color: var(--gray-500); margin-bottom: 16px; }
-        .login-box .toggle-link { color: var(--primary); cursor: pointer; font-weight: 600; transition: var(--transition); }
-        .login-box .toggle-link:hover { text-decoration: underline; }
-        .login-box .demo-hint { margin-top: 10px; font-size: 10px; color: var(--gray-500); background: rgba(26, 35, 126, 0.04); padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(26, 35, 126, 0.08); }
+        .status-badge {
+            background: #64748b;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
 
-        /* OTP */
-        .otp-inputs { display: flex; gap: 8px; justify-content: center; margin: 12px 0; }
-        .otp-inputs input { width: 46px; height: 54px; text-align: center; font-size: 22px; font-weight: 700; border: 2px solid var(--gray-200); border-radius: 12px; background: var(--white); color: var(--gray-800); transition: var(--transition); }
-        .otp-inputs input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(26, 35, 126, 0.05); }
-        .otp-timer { font-size: 13px; color: var(--gray-500); text-align: center; margin: 6px 0; }
-        .otp-timer .time { color: var(--primary); font-weight: 700; }
-        .otp-resend { font-size: 12px; color: var(--primary); cursor: pointer; font-weight: 600; transition: var(--transition); }
-        .otp-resend:hover { text-decoration: underline; }
-        .otp-resend.disabled { color: var(--gray-400); cursor: not-allowed; }
+        .status-badge i {
+            font-size: 0.6rem;
+        }
 
-        /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); max-width: 420px; width: 100%; background: var(--white); border-radius: 20px 20px 0 0; padding: 6px 8px 12px; display: none; justify-content: space-around; box-shadow: 0 -4px 20px rgba(0,0,0,0.06); z-index: 50; border-top: 1px solid var(--gray-200); animation: fadeInUp 0.6s ease; }
-        .bottom-nav.show { display: flex; }
-        .nav-item { text-align: center; cursor: pointer; padding: 6px 10px; border-radius: 12px; transition: var(--transition); position: relative; min-width: 52px; background: transparent; border: none; }
-        .nav-item i { font-size: 20px; color: var(--gray-400); transition: var(--transition); }
-        .nav-item span { display: block; font-size: 9px; color: var(--gray-400); font-weight: 600; margin-top: 2px; transition: var(--transition); }
-        .nav-item.active i { color: var(--primary); }
-        .nav-item.active span { color: var(--primary); }
-        .nav-item.active { background: rgba(26, 35, 126, 0.04); }
+        .status-badge.loading {
+            background: #f59e0b;
+            animation: pulse 1s infinite;
+        }
 
-        /* MENU */
-        .menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 999; display: none; backdrop-filter: blur(4px); }
-        .menu-overlay.show { display: block; }
-        .menu-sidebar { position: fixed; top: 0; left: -300px; width: 290px; height: 100%; background: var(--white); z-index: 1000; transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 20px; border-radius: 0 24px 24px 0; box-shadow: var(--shadow-xl); overflow-y: auto; }
-        .menu-sidebar.open { left: 0; }
-        .menu-close-btn { position: absolute; top: 14px; right: 14px; background: var(--gray-100); border: none; font-size: 16px; cursor: pointer; color: var(--gray-500); padding: 6px; border-radius: 50%; width: 36px; height: 36px; transition: var(--transition); }
-        .menu-close-btn:hover { background: var(--gray-200); transform: rotate(90deg); }
-        .menu-header { text-align: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--gray-200); }
-        .menu-header .avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--primary-gradient); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--white); font-weight: 700; }
-        .menu-header .name { font-weight: 700; font-size: 16px; color: var(--gray-800); }
-        .menu-header .email { font-size: 11px; color: var(--gray-500); }
-        .menu-item { padding: 12px 14px; margin-bottom: 2px; cursor: pointer; display: flex; align-items: center; gap: 12px; color: var(--gray-700); font-size: 13px; transition: var(--transition); border-radius: 12px; background: transparent; border: none; width: 100%; }
-        .menu-item:hover { background: var(--gray-100); }
-        .menu-item .icon { font-size: 16px; width: 28px; text-align: center; color: var(--primary); }
-        .menu-item.logout-item { color: var(--danger); margin-top: 8px; border-top: 1px solid var(--gray-200); padding-top: 14px; }
-        .menu-item.logout-item .icon { color: var(--danger); }
+        .status-badge.success {
+            background: #10b981;
+        }
 
-        /* TOAST */
-        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; background: var(--white); border-radius: 12px; padding: 14px 20px; box-shadow: var(--shadow-xl); border-left: 4px solid var(--primary); max-width: 90%; animation: slideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .toast .msg { font-weight: 600; font-size: 13px; color: var(--gray-800); }
-        .toast .sub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
-        .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--danger); }
-        .toast.warning { border-left-color: var(--warning); }
-        .toast.info { border-left-color: var(--info); }
+        .status-badge.error {
+            background: #ef4444;
+        }
 
-        /* LOADER */
-        .loader-box { text-align: center; padding: 30px 0; }
-        .spinner { width: 36px; height: 36px; border: 3px solid var(--gray-200); border-top: 3px solid var(--primary); border-radius: 50%; display: inline-block; animation: spin 0.8s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
 
-        /* DASHBOARD */
-        .dashboard-welcome { background: var(--primary-gradient); border-radius: var(--radius); padding: 20px; color: var(--white); margin-bottom: 16px; animation: fadeInUp 0.6s ease; }
-        .dashboard-welcome .greeting { font-size: 14px; opacity: 0.8; }
-        .dashboard-welcome .name { font-size: 22px; font-weight: 800; margin: 2px 0; }
-        .dashboard-welcome .time { font-size: 12px; opacity: 0.7; margin-top: 4px; }
-        .dashboard-welcome .status-badge { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 10px; font-weight: 600; margin-top: 6px; animation: pulse 2s ease-in-out infinite; }
-        .dashboard-welcome .status-badge.open { background: rgba(76, 175, 80, 0.2); color: #81C784; }
-        .dashboard-welcome .status-badge.closed { background: rgba(244, 67, 54, 0.2); color: #EF9A9A; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-        /* STATS CARDS */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
-        .stat-card { background: var(--white); border-radius: var(--radius-sm); padding: 14px; text-align: center; border: 1px solid var(--gray-200); transition: var(--transition); }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-        .stat-card .number { font-size: 22px; font-weight: 800; color: var(--primary); }
-        .stat-card .label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-        .stat-card .icon { font-size: 24px; margin-bottom: 2px; display: block; }
-        .stat-card.deposit .number { color: var(--success); }
-        .stat-card.withdraw .number { color: var(--danger); }
+        .location-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+        }
 
-        /* QUICK ACTIONS */
-        .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
-        .quick-action { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius); padding: 20px 16px; text-align: center; cursor: pointer; transition: var(--transition); }
-        .quick-action:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-        .quick-action:active { transform: scale(0.95); }
-        .quick-action .icon { font-size: 36px; margin-bottom: 6px; display: block; }
-        .quick-action .label { font-size: 12px; font-weight: 600; color: var(--gray-700); }
-        .quick-action .sub { font-size: 9px; color: var(--gray-400); }
+        .location-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        /* AMOUNT BUTTONS */
-        .amount-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0; }
-        .amount-btn { padding: 12px 8px; border: 2px solid var(--gray-200); border-radius: 12px; background: var(--white); cursor: pointer; transition: var(--transition); font-weight: 700; font-size: 14px; color: var(--gray-700); text-align: center; }
-        .amount-btn:hover { border-color: var(--primary); background: rgba(26, 35, 126, 0.04); transform: translateY(-2px); }
-        .amount-btn.active { border-color: var(--primary); background: var(--primary); color: var(--white); transform: scale(1.05); }
-        .amount-btn .sub { font-size: 8px; font-weight: 400; display: block; opacity: 0.6; }
+        .location-card h2 i {
+            color: #2563eb;
+        }
 
-        /* TRANSACTION ITEM */
-        .transaction-item { background: var(--white); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 8px; border: 1px solid var(--gray-200); transition: var(--transition); cursor: pointer; }
-        .transaction-item:hover { border-color: var(--primary); box-shadow: var(--shadow); transform: translateX(4px); }
-        .transaction-item .flex-between { display: flex; justify-content: space-between; align-items: center; }
-        .transaction-item .id { font-size: 11px; font-weight: 600; color: var(--gray-500); }
-        .transaction-item .amount { font-size: 16px; font-weight: 800; color: var(--primary); }
-        .transaction-item .detail { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
-        .transaction-item .status { font-size: 9px; padding: 2px 12px; border-radius: 20px; font-weight: 600; text-transform: capitalize; }
-        .status-pending { background: rgba(255, 152, 0, 0.1); color: #F57C00; }
-        .status-processing { background: rgba(33, 150, 243, 0.1); color: #1A73E8; }
-        .status-completed { background: rgba(76, 175, 80, 0.1); color: #2E7D32; }
-        .status-rejected { background: rgba(244, 67, 54, 0.1); color: #C62828; }
+        .location-card > p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
 
-        /* DETAIL GRID */
-        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        .detail-item { background: var(--gray-50); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); }
-        .detail-item .label { font-size: 9px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; }
-        .detail-item .value { font-size: 13px; font-weight: 600; color: var(--gray-800); }
-        .detail-item .value .highlight { color: var(--primary); font-weight: 700; }
+        .location-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
 
-        /* DETAIL ROW */
-        .detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--gray-100); }
-        .detail-row:last-child { border-bottom: none; }
-        .detail-row .label { font-size: 12px; color: var(--gray-500); }
-        .detail-row .value { font-size: 13px; font-weight: 600; color: var(--gray-800); }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-        /* STATUS CARD */
-        .status-card { background: var(--gray-50); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 12px; border-left: 4px solid var(--primary); }
-        .status-card .label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; }
-        .status-card .value { font-size: 14px; font-weight: 600; color: var(--gray-800); }
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
 
-        /* IMAGE PREVIEW */
-        .image-preview { max-width: 100%; border-radius: var(--radius-sm); margin: 6px 0; border: 1px solid var(--gray-200); max-height: 200px; object-fit: contain; }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: scale(1.02);
+        }
 
-        /* RESPONSIVE */
-        @media (max-width: 420px) { .content { padding: 10px; } .login-box { margin: 20px auto; padding: 20px 16px; } .amount-grid { grid-template-columns: repeat(3, 1fr); } .quick-actions { grid-template-columns: 1fr 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; } .detail-grid { grid-template-columns: 1fr 1fr; } }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: scale(1.02);
+        }
+
+        .btn-success:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: scale(1.02);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #2563eb;
+            color: #2563eb;
+        }
+
+        .btn-outline:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        .location-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #2563eb;
+            display: none;
+        }
+
+        .location-info.show {
+            display: block;
+        }
+
+        .location-info p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        .location-info strong {
+            color: #1e293b;
+        }
+
+        .delivery-status {
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .delivery-status.available {
+            display: block;
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        .delivery-status.unavailable {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .delivery-status.checking {
+            display: block;
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .map-wrapper {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+        }
+
+        #map {
+            height: 450px;
+            border-radius: 12px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .store-details {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+        }
+
+        .store-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .detail-item i {
+            color: #2563eb;
+            font-size: 1.2rem;
+            width: 24px;
+        }
+
+        .detail-item a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .detail-item a:hover {
+            text-decoration: underline;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .service-tag {
+            background: #eff6ff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        .service-tag i {
+            margin-right: 8px;
+            color: #2563eb;
+        }
+
+        .contact-section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            z-index: 9999;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            display: none;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast.show {
+            display: block;
+            animation: slideUp 0.4s ease;
+        }
+
+        .toast.success {
+            background: #10b981;
+        }
+
+        .toast.error {
+            background: #ef4444;
+        }
+
+        .toast.warning {
+            background: #f59e0b;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .logo h1 {
+                font-size: 1.1rem;
+            }
+            .status-badge {
+                font-size: 0.7rem;
+                padding: 5px 12px;
+            }
+            #map {
+                height: 300px;
+            }
+            .location-controls .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="app" id="app">
-    <!-- HEADER -->
-    <div class="header">
+
+<!-- HEADER -->
+<header>
+    <div class="header-content">
         <div class="logo">
-            <i class="fas fa-university"></i>
+            <i class="fas fa-bolt"></i>
             <div>
-                PRL
-                <span>Pawan Retail Limited</span>
+                <h1>PRIYA ELECTRICALS</h1>
+                <span>SELL & SERVICE</span>
             </div>
         </div>
-        <div class="header-actions">
-            <span class="role-badge" id="roleBadge">Customer</span>
-            <button class="header-btn" onclick="toggleMenu()">
-                <i class="fas fa-user"></i>
+        <div class="status-badge loading" id="statusBadge">
+            <i class="fas fa-circle"></i>
+            <span id="statusText">Loading...</span>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <!-- Location Card -->
+    <div class="location-card">
+        <h2><i class="fas fa-location-dot"></i> Your Location</h2>
+        <p id="locationMessage">Detecting your location automatically...</p>
+        
+        <div class="location-controls">
+            <button class="btn btn-primary" id="retryBtn">
+                <i class="fas fa-redo"></i> Retry Location
             </button>
+            <button class="btn btn-success" id="getAddressBtn" disabled>
+                <i class="fas fa-map-pin"></i> Get My Address
+            </button>
+            <a href="https://wa.me/919045550397?text=Hi%2C%20I%20need%20electrical%20products%20or%20service" target="_blank" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> Contact WhatsApp
+            </a>
+        </div>
+
+        <div class="location-info" id="locationInfo">
+            <p><strong><i class="fas fa-map-pin"></i> Latitude:</strong> <span id="latDisplay">--</span></p>
+            <p><strong><i class="fas fa-map-pin"></i> Longitude:</strong> <span id="lngDisplay">--</span></p>
+            <p><strong><i class="fas fa-home"></i> Address:</strong> <span id="addressDisplay">Fetching...</span></p>
+            <div class="delivery-status" id="deliveryStatus"></div>
         </div>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content" id="pageContent"></div>
-
-    <!-- BOTTOM NAV -->
-    <div class="bottom-nav" id="bottomNav">
-        <button class="nav-item active" onclick="navigateTo('dashboard')">
-            <i class="fas fa-home"></i><span>Home</span>
-        </button>
-        <button class="nav-item" onclick="navigateTo('recentPayments')">
-            <i class="fas fa-clock"></i><span>Recent</span>
-        </button>
-        <button class="nav-item" onclick="navigateTo('transactions')">
-            <i class="fas fa-history"></i><span>History</span>
-        </button>
-        <button class="nav-item" onclick="navigateTo('profile')">
-            <i class="fas fa-user"></i><span>Profile</span>
-        </button>
+    <!-- Map -->
+    <div class="map-wrapper">
+        <div id="map"></div>
     </div>
+
+    <!-- Store Details -->
+    <div class="store-details">
+        <h3><i class="fas fa-store"></i> Store Information</h3>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <i class="fas fa-location-dot"></i>
+                <span>Door No:27/38, Sajneev Gandhi Nagar,<br>Podalakur Road, Nellore-524004</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-phone"></i>
+                <a href="tel:+918651431053">+91 86514 31053</a>
+            </div>
+            <div class="detail-item">
+                <i class="fab fa-whatsapp"></i>
+                <a href="https://wa.me/919045550397" target="_blank">+91 90455 50397</a>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <span>Open 24 Hours</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:priyaelectricals.chennai@gmail.com">Email Us</a>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-globe"></i>
+                <a href="https://priyaelectricals.net" target="_blank">Visit Website</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services -->
+    <div class="store-details">
+        <h3><i class="fas fa-tools"></i> Our Services</h3>
+        <div class="services-grid">
+            <div class="service-tag"><i class="fas fa-bolt"></i> Electrical Goods</div>
+            <div class="service-tag"><i class="fas fa-wrench"></i> Repair & Service</div>
+            <div class="service-tag"><i class="fas fa-pipe-valve"></i> Plumbing</div>
+            <div class="service-tag"><i class="fas fa-lightbulb"></i> Philips Lighting</div>
+            <div class="service-tag"><i class="fas fa-car"></i> Automotive Lights</div>
+            <div class="service-tag"><i class="fas fa-gas-pump"></i> Gas Pipeline</div>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-section">
+        <h3 style="margin-bottom:20px;"><i class="fas fa-paper-plane"></i> Send Us a Message</h3>
+        <form action="https://formsubmit.co/priyaelectricals.chennai@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" name="name" required placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label>Phone / Email</label>
+                <input type="text" name="contact" required placeholder="Phone or Email">
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea name="message" placeholder="What do you need? Electrical items, repair, plumbing..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+        </form>
+    </div>
+
 </div>
 
-<!-- MENU OVERLAY -->
-<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<footer>
+    <p>&copy; 2026 PRIYA ELECTRICALS SELL & SERVICE. All rights reserved.</p>
+    <p style="margin-top:5px; font-size:0.8rem;">📍 Nellore, Andhra Pradesh | Made with ❤️</p>
+</footer>
 
-<!-- MENU SIDEBAR -->
-<div class="menu-sidebar" id="menuSidebar">
-    <button class="menu-close-btn" onclick="closeMenu()"><i class="fas fa-times"></i></button>
-    <div class="menu-header">
-        <div class="avatar" id="menuAvatar">👤</div>
-        <div class="name" id="menuName">Customer</div>
-        <div class="email" id="menuEmail">customer@prl.com</div>
-    </div>
-    <button class="menu-item" onclick="closeMenu();navigateTo('dashboard')">
-        <span class="icon">🏠</span> Dashboard
-    </button>
-    <button class="menu-item" onclick="closeMenu();navigateTo('recentPayments')">
-        <span class="icon">🕐</span> Recent Payments
-    </button>
-    <button class="menu-item" onclick="closeMenu();navigateTo('transactions')">
-        <span class="icon">📊</span> Transactions
-    </button>
-    <button class="menu-item" onclick="closeMenu();navigateTo('profile')">
-        <span class="icon">👤</span> Profile
-    </button>
-    <button class="menu-item" onclick="closeMenu();navigateTo('account')">
-        <span class="icon">🏦</span> My Account
-    </button>
-    <button class="menu-item" onclick="closeMenu();navigateTo('help')">
-        <span class="icon">❓</span> Help & Support
-    </button>
-    <button class="menu-item logout-item" onclick="closeMenu();logout()">
-        <span class="icon">🚪</span> Logout
-    </button>
-</div>
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-// ============================================================
-// 🔥 FIREBASE CONFIG
-// ============================================================
-const firebaseConfig = {
-    apiKey: "AIzaSyDzgIrjcWwnqS5e3lDplptyU6VDSngn7_o",
-    authDomain: "pawan-8388d.firebaseapp.com",
-    projectId: "pawan-8388d",
-    storageBucket: "pawan-8388d.firebasestorage.app",
-    messagingSenderId: "522473603051",
-    appId: "1:522473603051:web:519543c829c1eefd1523ae"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+    // ========================================
+    // PRIYA ELECTRICALS - AUTO DETECT LOCATION
+    // ========================================
 
-// ============================================================
-// 🔥 EMAILJS CONFIG
-// ============================================================
-const EMAILJS_CONFIG = {
-    PUBLIC_KEY: "3cUWXrfL9AhSkM5FA",
-    SERVICE_ID: "Pawanretaillimited-5678",
-    TEMPLATE_ID: "template_45qu30j"
-};
-emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    const STORE_LAT = 14.4425;
+    const STORE_LNG = 79.9876;
+    const DELIVERY_RADIUS_KM = 5;
 
-// ============================================================
-// 🔥 STATE VARIABLES
-// ============================================================
-let currentUser = null;
-let userData = null;
-let isAdmin = false;
-let currentTransactionId = null;
-let selectedAmount = 0;
-let selectedProprietor = 'Pawan Kumar';
-let selectedTransferMethod = 'UPI';
-let transactionStep = 0;
-let otpTimerInterval = null;
-let otpCode = '';
-let otpEmail = '';
-let otpExpiryTime = 0;
-let isRegisterMode = false;
-let totalDeposit = 0;
-let totalWithdraw = 0;
+    let userMarker = null;
+    let userLat = null;
+    let userLng = null;
+    let locationFetched = false;
+    let isDetecting = false;
 
-// ============================================================
-// 🔥 BUSINESS HOURS & CHARGE
-// ============================================================
-function getBusinessHours() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const timeInMinutes = hours * 60 + minutes;
-    const startBusiness = 10 * 60;
-    const endBusiness = 16 * 60;
-    const isOpen = timeInMinutes >= startBusiness && timeInMinutes < endBusiness;
-    const charge = isOpen ? '1%' : '₹47.27';
-    const chargeValue = isOpen ? 0.01 : 47.27;
-    return { isOpen, charge, chargeValue, hours, minutes, timeStr: `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}` };
-}
+    // DOM Elements
+    const statusBadge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const locationMessage = document.getElementById('locationMessage');
+    const retryBtn = document.getElementById('retryBtn');
+    const addressBtn = document.getElementById('getAddressBtn');
+    const locationInfo = document.getElementById('locationInfo');
+    const latDisplay = document.getElementById('latDisplay');
+    const lngDisplay = document.getElementById('lngDisplay');
+    const addressDisplay = document.getElementById('addressDisplay');
+    const deliveryStatus = document.getElementById('deliveryStatus');
+    const toast = document.getElementById('toast');
 
-function calculateCharge(amount) {
-    const { isOpen, chargeValue, charge } = getBusinessHours();
-    let chargeAmount = isOpen ? Math.round(amount * 0.01) : 47.27;
-    return { charge: chargeAmount, total: amount + chargeAmount, rate: charge, isOpen: isOpen };
-}
+    // ========================================
+    // INITIALIZE MAP
+    // ========================================
 
-// ============================================================
-// 🔥 TOAST & RENDER
-// ============================================================
-function showToast(msg, type = 'success', sub = '') {
-    const t = document.createElement('div');
-    t.className = `toast ${type}`;
-    t.innerHTML = `<div class="msg">${msg}</div>${sub ? `<div class="sub">${sub}</div>` : ''}`;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 3500);
-}
+    const map = L.map('map').setView([STORE_LAT, STORE_LNG], 15);
 
-function render(html) {
-    document.getElementById('pageContent').innerHTML = `<div class="page">${html}</div>`;
-}
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19
+    }).addTo(map);
 
-function showLoader() {
-    document.getElementById('pageContent').innerHTML = `<div class="loader-box"><div class="spinner"></div></div>`;
-}
+    // Store Marker
+    const storeIcon = L.divIcon({
+        html: '<i class="fas fa-store" style="font-size:30px; color:#2563eb; text-shadow: 0 2px 8px rgba(0,0,0,0.3);"></i>',
+        className: '',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30]
+    });
 
-function showBottomNav(show) {
-    document.getElementById('bottomNav').classList.toggle('show', show);
-}
+    const storeMarker = L.marker([STORE_LAT, STORE_LNG], { icon: storeIcon })
+        .addTo(map)
+        .bindPopup(`
+            <b>⚡ PRIYA ELECTRICALS</b><br>
+            Door No:27/38, Sajneev Gandhi Nagar<br>
+            Podalakur Road, Nellore-524004<br>
+            <a href="https://wa.me/919045550397" target="_blank">📱 WhatsApp</a>
+        `)
+        .openPopup();
 
-// ============================================================
-// 🔥 NAVIGATION
-// ============================================================
-function navigateTo(page, data = null) {
-    if (!currentUser && page !== 'login' && page !== 'register' && page !== 'welcome' && page !== 'splash') {
-        showBottomNav(false);
-        showLogin();
-        return;
+    // Delivery Radius Circle
+    L.circle([STORE_LAT, STORE_LNG], {
+        radius: DELIVERY_RADIUS_KM * 1000,
+        color: '#10b981',
+        fillColor: '#10b981',
+        fillOpacity: 0.1,
+        weight: 2,
+        dashArray: '5, 10'
+    }).addTo(map);
+
+    L.control.scale().addTo(map);
+
+    // ========================================
+    // SHOW TOAST
+    // ========================================
+
+    function showToast(message, type = 'warning', duration = 4000) {
+        toast.textContent = message;
+        toast.className = 'toast show ' + type;
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+            toast.className = 'toast';
+        }, duration);
     }
 
-    if (currentUser) {
-        showBottomNav(true);
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-        const map = { dashboard: 0, recentPayments: 1, transactions: 2, profile: 3 };
-        const items = document.querySelectorAll('.nav-item');
-        if (items[map[page]]) items[map[page]].classList.add('active');
-    }
+    // ========================================
+    // LOCATION DETECTION (AUTO ON PAGE LOAD)
+    // ========================================
 
-    showLoader();
-    setTimeout(() => {
-        let html = '';
-        switch(page) {
-            case 'splash': html = renderSplash(); break;
-            case 'welcome': html = renderWelcome(); break;
-            case 'login': html = renderLogin(); break;
-            case 'register': html = renderRegister(); break;
-            case 'dashboard': html = renderDashboard(); break;
-            case 'recentPayments': html = renderRecentPayments(); break;
-            case 'paymentDetail': html = renderPaymentDetail(data); break;
-            case 'cashStep1': html = renderCashStep1(); break;
-            case 'cashStep2': html = renderCashStep2(); break;
-            case 'cashStep3': html = renderCashStep3(); break;
-            case 'cashStep4': html = renderCashStep4(); break;
-            case 'onlineStep1': html = renderOnlineStep1(); break;
-            case 'onlineStep2': html = renderOnlineStep2(); break;
-            case 'onlineStep3': html = renderOnlineStep3(); break;
-            case 'onlineStep4': html = renderOnlineStep4(); break;
-            case 'transactions': html = renderTransactions(); break;
-            case 'transactionDetail': html = renderTransactionDetail(data); break;
-            case 'profile': html = renderProfile(); break;
-            case 'editProfile': html = renderEditProfile(); break;
-            case 'changePassword': html = renderChangePassword(); break;
-            case 'account': html = renderAccount(); break;
-            case 'adminDashboard': html = renderAdminDashboard(); break;
-            case 'adminDetail': html = renderAdminDetail(data); break;
-            default: html = renderDashboard();
-        }
-        render(html);
-        
-        setTimeout(() => {
-            if (page === 'dashboard') { loadDashboardData(); }
-            if (page === 'recentPayments') { loadRecentPayments(); }
-            if (page === 'paymentDetail') { loadPaymentDetail(data); }
-            if (page === 'transactions') { loadAllTransactions(); }
-            if (page === 'transactionDetail') { loadTransactionDetail(data); }
-            if (page === 'account') { loadAccountData(); }
-            if (page === 'adminDashboard') { loadAdminStats(); }
-            if (page === 'adminDetail') { loadAdminDetail(data); }
-        }, 300);
-    }, 400);
-}
+    function detectLocation() {
+        if (isDetecting) return;
+        isDetecting = true;
 
-// ============================================================
-// 🔥 SPLASH & WELCOME
-// ============================================================
-function renderSplash() {
-    return `
-        <div class="splash-screen">
-            <div class="logo-icon"><i class="fas fa-university animate-float"></i></div>
-            <h1>PRL</h1>
-            <p>Pawan Retail Limited</p>
-            <div class="loading-bar"><div class="fill"></div></div>
-        </div>
-    `;
-}
-
-function renderWelcome() {
-    return `
-        <div class="login-box" style="max-width:400px;margin:40px auto;">
-            <div class="icon"><i class="fas fa-university"></i></div>
-            <h2>Welcome to PRL</h2>
-            <p class="subtitle">Digital Banking Made Simple</p>
-            <button class="btn btn-primary btn-block btn-lg" onclick="navigateTo('login')">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-            <button class="btn btn-gold btn-block btn-lg mt-2" onclick="navigateTo('register')">
-                <i class="fas fa-user-plus"></i> Create Account
-            </button>
-        </div>
-    `;
-}
-
-// ============================================================
-// 🔥 LOGIN & REGISTER
-// ============================================================
-function renderLogin() {
-    return `
-        <div class="login-box">
-            <div class="icon"><i class="fas fa-sign-in-alt"></i></div>
-            <h2>Welcome Back</h2>
-            <p class="subtitle">Sign in to your account</p>
-            <input class="input input-lg" id="loginEmail" placeholder="Email address">
-            <div class="password-wrapper">
-                <input class="input input-lg" id="loginPassword" type="password" placeholder="Password">
-                <button class="password-toggle" type="button" onclick="togglePassword('loginPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-            <button class="btn btn-primary btn-block btn-lg" onclick="handleLogin()">
-                <i class="fas fa-sign-in-alt"></i> Sign In
-            </button>
-            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
-                Don't have an account? <span class="toggle-link" onclick="navigateTo('register')">Create one</span>
-            </div>
-            <div class="demo-hint">
-                <i class="fas fa-key"></i> Demo: customer@prl.com / customer123
-            </div>
-        </div>
-    `;
-}
-
-function renderRegister() {
-    return `
-        <div class="login-box">
-            <div class="icon"><i class="fas fa-user-plus"></i></div>
-            <h2>Create Account</h2>
-            <p class="subtitle">Join PRL Digital Banking</p>
-            <input class="input input-lg" id="regName" placeholder="Full name">
-            <input class="input input-lg" id="regPhone" placeholder="Mobile number">
-            <input class="input input-lg" id="regEmail" placeholder="Email address">
-            <div class="password-wrapper">
-                <input class="input input-lg" id="regPassword" type="password" placeholder="Password (min 6 chars)">
-                <button class="password-toggle" type="button" onclick="togglePassword('regPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-            <div class="password-wrapper">
-                <input class="input input-lg" id="regConfirmPassword" type="password" placeholder="Confirm password">
-                <button class="password-toggle" type="button" onclick="togglePassword('regConfirmPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-            <button class="btn btn-primary btn-block btn-lg" onclick="handleRegister()">
-                <i class="fas fa-user-plus"></i> Register
-            </button>
-            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
-                Already have an account? <span class="toggle-link" onclick="navigateTo('login')">Sign in</span>
-            </div>
-        </div>
-    `;
-}
-
-// ============================================================
-// 🔥 AUTH FUNCTIONS
-// ============================================================
-async function handleLogin() {
-    const email = document.getElementById('loginEmail').value.trim();
-    const pwd = document.getElementById('loginPassword').value;
-    if (!email || !pwd) { showToast('Please fill all fields', 'error'); return; }
-    try {
-        const userCred = await auth.signInWithEmailAndPassword(email, pwd);
-        currentUser = userCred.user;
-        await completeLogin();
-    } catch(e) {
-        showToast('Login failed: ' + e.message, 'error');
-    }
-}
-
-async function handleRegister() {
-    const name = document.getElementById('regName').value.trim();
-    const phone = document.getElementById('regPhone').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const pwd = document.getElementById('regPassword').value;
-    const confirmPwd = document.getElementById('regConfirmPassword').value;
-    if (!name || !phone || !email || !pwd || !confirmPwd) { showToast('Fill all fields', 'error'); return; }
-    if (pwd.length < 6) { showToast('Password min 6 chars', 'error'); return; }
-    if (pwd !== confirmPwd) { showToast('Passwords do not match', 'error'); return; }
-    try {
-        const cred = await auth.createUserWithEmailAndPassword(email, pwd);
-        currentUser = cred.user;
-        await db.collection('users').doc(currentUser.uid).set({
-            uid: currentUser.uid, name, email, phone, role: 'customer',
-            createdAt: new Date().toISOString(), blocked: false,
-            totalDeposit: 0, totalWithdraw: 0,
-            upiId: '', receiverName: ''
-        });
-        userData = { uid: currentUser.uid, name, email, phone, role: 'customer', totalDeposit: 0, totalWithdraw: 0, upiId: '', receiverName: '' };
-        updateMenu();
-        showBottomNav(true);
-        navigateTo('dashboard');
-        showToast('Account created! 🎉', 'success');
-    } catch(e) {
-        showToast('Registration failed: ' + e.message, 'error');
-    }
-}
-
-async function completeLogin() {
-    try {
-        const doc = await db.collection('users').doc(currentUser.uid).get();
-        if (!doc.exists) { showToast('Profile not found', 'error'); return; }
-        userData = doc.data();
-        isAdmin = userData.role === 'admin';
-        updateMenu();
-        showBottomNav(true);
-        navigateTo('dashboard');
-        showToast('Welcome back, ' + userData.name + '! 🎉', 'success');
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-async function logout() {
-    if (!confirm('Logout?')) return;
-    await auth.signOut();
-    currentUser = null; userData = null; isAdmin = false;
-    showBottomNav(false);
-    navigateTo('welcome');
-    showToast('Logged out', 'success');
-}
-
-function togglePassword(id) {
-    const pwd = document.getElementById(id);
-    if (pwd) pwd.type = pwd.type === 'password' ? 'text' : 'password';
-}
-
-function updateMenu() {
-    if (userData) {
-        document.getElementById('menuAvatar').textContent = userData.name ? userData.name.charAt(0).toUpperCase() : '👤';
-        document.getElementById('menuName').textContent = userData.name || 'Customer';
-        document.getElementById('menuEmail').textContent = userData.email || '';
-        document.getElementById('roleBadge').textContent = isAdmin ? 'Admin' : 'Customer';
-    }
-}
-
-function toggleMenu() {
-    document.getElementById('menuSidebar').classList.toggle('open');
-    document.getElementById('menuOverlay').classList.toggle('show');
-}
-
-function closeMenu() {
-    document.getElementById('menuSidebar').classList.remove('open');
-    document.getElementById('menuOverlay').classList.remove('show');
-}
-
-// ============================================================
-// 🔥 DASHBOARD
-// ============================================================
-function renderDashboard() {
-    const { isOpen, charge, timeStr } = getBusinessHours();
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-    
-    return `
-        <div class="dashboard-welcome">
-            <div class="greeting">Good ${now.getHours() < 12 ? 'Morning' : now.getHours() < 17 ? 'Afternoon' : 'Evening'},</div>
-            <div class="name">${userData?.name || 'Customer'}</div>
-            <div class="time">${dateStr} • ${now.toLocaleTimeString()}</div>
-            <div>
-                <span class="status-badge ${isOpen ? 'open' : 'closed'}">
-                    ${isOpen ? '🟢 Open' : '🔴 Closed'} • ${isOpen ? '1% Charge' : '₹47.27 Charge'}
-                </span>
-            </div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card deposit">
-                <span class="icon">💰</span>
-                <div class="number" id="totalDeposit">₹0</div>
-                <div class="label">Total Deposit</div>
-            </div>
-            <div class="stat-card withdraw">
-                <span class="icon">💳</span>
-                <div class="number" id="totalWithdraw">₹0</div>
-                <div class="label">Total Withdrawal</div>
-            </div>
-        </div>
-
-        <div class="quick-actions">
-            <div class="quick-action" onclick="navigateTo('cashStep1')" style="border-color: rgba(76, 175, 80, 0.3);">
-                <span class="icon">💵</span>
-                <span class="label">Cash → Online</span>
-                <span class="sub">4-Step Process</span>
-            </div>
-            <div class="quick-action" onclick="navigateTo('onlineStep1')" style="border-color: rgba(0, 188, 212, 0.3);">
-                <span class="icon">📱</span>
-                <span class="label">Online → Cash</span>
-                <span class="sub">4-Step Process</span>
-            </div>
-        </div>
-
-        ${isAdmin ? renderAdminStats() : ''}
-
-        <div class="card">
-            <div class="card-title">
-                Recent Transactions
-                <span style="font-size:10px;color:var(--gray-400);cursor:pointer;" onclick="navigateTo('recentPayments')">View All →</span>
-            </div>
-            <div id="recentTransactions"><div class="loader-box" style="padding:10px;"><div class="spinner" style="width:20px;height:20px;"></div></div></div>
-        </div>
-    `;
-}
-
-function renderAdminStats() {
-    return `
-        <div class="card">
-            <div class="card-title">📊 Admin Dashboard</div>
-            <div class="admin-stats" id="adminStats">
-                <div class="admin-stat"><span class="icon">💰</span><div class="number" id="statTodayIncome">0</div><div class="label">Today's Income</div></div>
-                <div class="admin-stat"><span class="icon">📊</span><div class="number" id="statTodayCharges">0</div><div class="label">Today's Charges</div></div>
-                <div class="admin-stat"><span class="icon">👥</span><div class="number" id="statTotalCustomers">0</div><div class="label">Total Customers</div></div>
-                <div class="admin-stat"><span class="icon">⏳</span><div class="number" id="statPending">0</div><div class="label">Pending Requests</div></div>
-            </div>
-            <button class="btn btn-primary btn-sm btn-block mt-2" onclick="navigateTo('adminDashboard')">
-                <i class="fas fa-eye"></i> Admin Panel
-            </button>
-        </div>
-    `;
-}
-
-// ============================================================
-// 🔥 CASH → ONLINE - 4 STEPS WITH PREMIUM ANIMATIONS
-// ============================================================
-
-// STEP 1: Agent Collect Money
-function renderCashStep1() {
-    const { isOpen, charge, timeStr } = getBusinessHours();
-    return `
-        <div class="card animate-fadeUp" style="border-top: 3px solid var(--accent);">
-            <div class="step-indicators">
-                <div class="step-dot active"><span class="step-number">01</span></div>
-                <div class="step-dot"><span class="step-number">02</span></div>
-                <div class="step-dot"><span class="step-number">03</span></div>
-                <div class="step-dot"><span class="step-number">04</span></div>
-            </div>
-            <div class="step-image">
-                <span class="icon animate-float" style="color: var(--accent);">🤝</span>
-            </div>
-            <div class="step-title" style="color: var(--accent);">Step 1: Agent Collect Money</div>
-            <div class="step-subtitle">Our agent will collect your cash</div>
-            <div style="background:rgba(255,193,7,0.05);padding:12px;border-radius:8px;margin-bottom:12px;border:1px solid rgba(255,193,7,0.15);">
-                <div style="font-size:12px;color:var(--warning);">
-                    <i class="fas fa-info-circle"></i> ${isOpen ? 'Business Hours • 1% Charge' : 'After Hours • ₹47.27 Charge'}
-                </div>
-            </div>
-            
-            <div style="font-weight:600;font-size:13px;margin-bottom:8px;">Select Amount</div>
-            <div class="amount-grid">
-                ${[100, 200, 500, 1000, 2000, 5000, 10000].map(amt => `
-                    <button class="amount-btn" onclick="selectAmount(${amt})" id="amt${amt}">
-                        ₹${amt}
-                    </button>
-                `).join('')}
-            </div>
-            <div class="input-group">
-                <label>Custom Amount</label>
-                <input class="input input-sm" id="customAmount" type="number" placeholder="Enter amount" oninput="onCustomAmount()">
-            </div>
-            <div id="chargePreview" style="background:var(--gray-100);padding:12px;border-radius:10px;margin:8px 0;display:none;">
-                <div style="display:flex;justify-content:space-between;font-size:12px;">
-                    <span>Amount</span>
-                    <span id="previewAmount">₹0</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--gray-500);">
-                    <span>Charge (${isOpen ? '1%' : '₹47.27'})</span>
-                    <span id="previewCharge" style="${!isOpen ? 'color:var(--warning);' : ''}">₹0</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:var(--primary);border-top:1px solid var(--gray-300);padding-top:6px;">
-                    <span>Total</span>
-                    <span id="previewTotal">₹0</span>
-                </div>
-            </div>
-            <button class="btn btn-gold btn-block mt-2" onclick="proceedCashStep2()">
-                <i class="fas fa-arrow-right"></i> Next Step →
-            </button>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('dashboard')">← Cancel</button>
-        </div>
-    `;
-}
-
-function selectAmount(amount) {
-    selectedAmount = amount;
-    document.querySelectorAll('.amount-btn').forEach(el => el.classList.remove('active'));
-    const el = document.getElementById(`amt${amount}`);
-    if (el) el.classList.add('active');
-    document.getElementById('customAmount').value = '';
-    updateChargePreview();
-}
-
-function onCustomAmount() {
-    const val = parseInt(document.getElementById('customAmount').value);
-    if (val > 0) {
-        selectedAmount = val;
-        document.querySelectorAll('.amount-btn').forEach(el => el.classList.remove('active'));
-        updateChargePreview();
-    }
-}
-
-function updateChargePreview() {
-    const preview = document.getElementById('chargePreview');
-    if (!preview) return;
-    if (selectedAmount > 0) {
-        const { charge, total, isOpen } = calculateCharge(selectedAmount);
-        document.getElementById('previewAmount').textContent = `₹${selectedAmount}`;
-        document.getElementById('previewCharge').textContent = `₹${charge.toFixed(2)}`;
-        document.getElementById('previewTotal').textContent = `₹${total.toFixed(2)}`;
-        preview.style.display = 'block';
-    } else {
-        preview.style.display = 'none';
-    }
-}
-
-function proceedCashStep2() {
-    if (selectedAmount <= 0) { showToast('Select an amount', 'error'); return; }
-    navigateTo('cashStep2');
-}
-
-// STEP 2: Process Your Money
-function renderCashStep2() {
-    return `
-        <div class="card animate-slideRight" style="border-top: 3px solid var(--info);">
-            <div class="step-indicators">
-                <div class="step-dot completed"><span class="step-number">01</span></div>
-                <div class="step-dot active"><span class="step-number">02</span></div>
-                <div class="step-dot"><span class="step-number">03</span></div>
-                <div class="step-dot"><span class="step-number">04</span></div>
-            </div>
-            <div class="step-image">
-                <span class="icon animate-rotate" style="color: var(--info);">🏦</span>
-            </div>
-            <div class="step-title" style="color: var(--info);">Step 2: Process Your Money</div>
-            <div class="step-subtitle">We are processing your deposit</div>
-            
-            <div style="background:rgba(0,188,212,0.05);padding:12px;border-radius:8px;margin-bottom:12px;border:1px solid rgba(0,188,212,0.15);">
-                <div style="font-size:12px;color:var(--info);">
-                    <i class="fas fa-check-circle"></i> Amount: ₹${selectedAmount}
-                </div>
-            </div>
-            
-            <div style="font-weight:600;font-size:13px;margin:8px 0;">Select Proprietor</div>
-            ${['Pawan Kumar'].map(name => `
-                <button class="btn ${selectedProprietor === name ? 'btn-primary' : 'btn-secondary'} btn-block" 
-                        onclick="selectProprietor('${name}')" style="margin-bottom:6px;">
-                    ${name} ${selectedProprietor === name ? '✓' : ''}
-                </button>
-            `).join('')}
-            
-            <div style="font-weight:600;font-size:13px;margin:12px 0 8px 0;">Transfer Method</div>
-            <button class="btn ${selectedTransferMethod === 'UPI' ? 'btn-primary' : 'btn-secondary'} btn-block" 
-                    onclick="selectTransferMethod('UPI')" style="margin-bottom:6px;">
-                📱 UPI ${selectedTransferMethod === 'UPI' ? '✓' : ''}
-            </button>
-            <button class="btn ${selectedTransferMethod === 'Bank' ? 'btn-primary' : 'btn-secondary'} btn-block" 
-                    onclick="selectTransferMethod('Bank')" style="margin-bottom:6px;">
-                🏦 Bank Transfer ${selectedTransferMethod === 'Bank' ? '✓' : ''}
-            </button>
-            
-            <button class="btn btn-info btn-block mt-2" onclick="navigateTo('cashStep3')">
-                <i class="fas fa-arrow-right"></i> Next Step →
-            </button>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('cashStep1')">← Back</button>
-        </div>
-    `;
-}
-
-function selectProprietor(name) { selectedProprietor = name; }
-function selectTransferMethod(method) { selectedTransferMethod = method; }
-
-// STEP 3: Verification & Sending
-function renderCashStep3() {
-    const savedUPI = userData?.upiId || '';
-    const savedName = userData?.receiverName || '';
-    
-    return `
-        <div class="card animate-fadeScale" style="border-top: 3px solid var(--warning);">
-            <div class="step-indicators">
-                <div class="step-dot completed"><span class="step-number">01</span></div>
-                <div class="step-dot completed"><span class="step-number">02</span></div>
-                <div class="step-dot active"><span class="step-number">03</span></div>
-                <div class="step-dot"><span class="step-number">04</span></div>
-            </div>
-            <div class="step-image">
-                <span class="icon animate-pulse" style="color: var(--warning);">🔐</span>
-            </div>
-            <div class="step-title" style="color: var(--warning);">Step 3: Verification & Sending</div>
-            <div class="step-subtitle">Verifying and sending money to receiver</div>
-            
-            ${selectedTransferMethod === 'UPI' ? `
-                ${savedUPI ? `
-                    <div style="background:rgba(76,175,80,0.05);padding:10px;border-radius:8px;margin-bottom:10px;border:1px solid rgba(76,175,80,0.15);">
-                        <div style="font-size:11px;color:var(--gray-500);">Saved UPI</div>
-                        <div style="font-weight:600;">${savedUPI}</div>
-                        <div style="font-size:11px;color:var(--gray-500);">Receiver: ${savedName || 'N/A'}</div>
-                    </div>
-                ` : ''}
-                <div class="input-group">
-                    <label>Receiver Name</label>
-                    <input class="input input-sm" id="upiName" placeholder="Enter receiver name" value="${savedName || ''}">
-                </div>
-                <div class="input-group">
-                    <label>UPI ID</label>
-                    <input class="input input-sm" id="upiId" placeholder="example@upi" value="${savedUPI || ''}">
-                </div>
-            ` : `
-                <div class="input-group">
-                    <label>Account Holder Name</label>
-                    <input class="input input-sm" id="bankName" placeholder="Enter account holder name">
-                </div>
-                <div class="input-group">
-                    <label>Account Number</label>
-                    <input class="input input-sm" id="bankAccount" placeholder="Enter account number">
-                </div>
-                <div class="input-group">
-                    <label>IFSC Code</label>
-                    <input class="input input-sm" id="bankIfsc" placeholder="Enter IFSC code">
-                </div>
-                <div class="input-group">
-                    <label>Bank Name</label>
-                    <input class="input input-sm" id="bankName2" placeholder="Enter bank name">
-                </div>
-            `}
-            
-            <button class="btn btn-warning btn-block mt-2" onclick="proceedCashStep4()">
-                <i class="fas fa-arrow-right"></i> Next Step →
-            </button>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('cashStep2')">← Back</button>
-        </div>
-    `;
-}
-
-function getTransferDetails() {
-    if (selectedTransferMethod === 'UPI') {
-        return { 
-            name: document.getElementById('upiName')?.value || userData?.receiverName || '',
-            upiId: document.getElementById('upiId')?.value || userData?.upiId || ''
-        };
-    } else {
-        return {
-            name: document.getElementById('bankName')?.value || '',
-            accountNumber: document.getElementById('bankAccount')?.value || '',
-            ifsc: document.getElementById('bankIfsc')?.value || '',
-            bankName: document.getElementById('bankName2')?.value || ''
-        };
-    }
-}
-
-function proceedCashStep4() {
-    const details = getTransferDetails();
-    if (selectedTransferMethod === 'UPI') {
-        if (!details.upiId) { showToast('Enter UPI ID', 'error'); return; }
-        if (!details.name) { showToast('Enter receiver name', 'error'); return; }
-    } else {
-        if (!details.accountNumber) { showToast('Enter account details', 'error'); return; }
-        if (!details.ifsc) { showToast('Enter IFSC code', 'error'); return; }
-    }
-    navigateTo('cashStep4');
-}
-
-// STEP 4: Successfully Transaction & Congratulations
-function renderCashStep4() {
-    const { charge, total, isOpen } = calculateCharge(selectedAmount);
-    const details = getTransferDetails();
-    const upiIdDisplay = details.upiId || userData?.upiId || 'N/A';
-    const receiverNameDisplay = details.name || userData?.receiverName || 'N/A';
-    
-    return `
-        <div class="card animate-bounce" style="border-top: 3px solid var(--success); background: linear-gradient(180deg, #ffffff, #f0fdf4);">
-            <div class="step-indicators">
-                <div class="step-dot completed"><span class="step-number">01</span></div>
-                <div class="step-dot completed"><span class="step-number">02</span></div>
-                <div class="step-dot completed"><span class="step-number">03</span></div>
-                <div class="step-dot active"><span class="step-number">04</span></div>
-            </div>
-            <div class="confetti-container">
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-            </div>
-            <div class="particles">
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-            </div>
-            <div class="step-image">
-                <span class="icon animate-success" style="color: var(--success);">🎉</span>
-            </div>
-            <div class="step-title" style="color: var(--success);">🎊 Congratulations!</div>
-            <div class="step-subtitle">Transaction completed successfully!</div>
-            
-            <div style="background:linear-gradient(135deg, #f0fdf4, #dcfce7);padding:14px;border-radius:10px;border:1px solid rgba(76,175,80,0.2);">
-                <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;">
-                    <span style="color:var(--gray-500);">Deposit Amount</span>
-                    <span style="font-weight:600;">₹${selectedAmount}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:var(--gray-500);">
-                    <span>Charge (${isOpen ? '1%' : '₹47.27'})</span>
-                    <span style="${!isOpen ? 'color:var(--warning);' : ''}">₹${charge.toFixed(2)}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:18px;font-weight:800;color:var(--primary);border-top:2px solid rgba(76,175,80,0.2);">
-                    <span>Total</span>
-                    <span>₹${total.toFixed(2)}</span>
-                </div>
-            </div>
-            
-            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
-                <div><strong>Proprietor:</strong> ${selectedProprietor}</div>
-                <div><strong>Method:</strong> ${selectedTransferMethod}</div>
-                ${selectedTransferMethod === 'UPI' ? `
-                    <div><strong>Receiver Name:</strong> ${receiverNameDisplay}</div>
-                    <div><strong>UPI ID:</strong> <span style="color:var(--primary);font-weight:700;">${upiIdDisplay}</span></div>
-                ` : `
-                    <div><strong>Account Holder:</strong> ${details.name || 'N/A'}</div>
-                    <div><strong>Account:</strong> ${details.accountNumber || 'N/A'}</div>
-                    <div><strong>IFSC:</strong> ${details.ifsc || 'N/A'}</div>
-                `}
-                <div><strong>Time:</strong> ${getBusinessHours().timeStr}</div>
-            </div>
-            
-            <button class="btn btn-success btn-block mt-2 animate-glow" onclick="confirmCashTransaction()">
-                <i class="fas fa-check"></i> Complete Transaction ✅
-            </button>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('cashStep3')">← Back</button>
-        </div>
-    `;
-}
-
-async function confirmCashTransaction() {
-    const { charge, total, isOpen } = calculateCharge(selectedAmount);
-    const details = getTransferDetails();
-    
-    try {
-        const transaction = {
-            type: 'cash_to_online',
-            userId: currentUser.uid,
-            userEmail: userData?.email || '',
-            userName: userData?.name || '',
-            userPhone: userData?.phone || '',
-            amount: selectedAmount,
-            charge: charge,
-            total: total,
-            isOpen: isOpen,
-            rate: isOpen ? '1%' : '₹47.27',
-            proprietor: selectedProprietor,
-            method: selectedTransferMethod,
-            transferDetails: details,
-            status: 'pending',
-            step: 1,
-            stepName: 'Agent Collect Money',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        };
-        const docRef = await db.collection('transactions').add(transaction);
-        currentTransactionId = docRef.id;
-        
-        await db.collection('users').doc(currentUser.uid).update({
-            totalDeposit: firebase.firestore.FieldValue.increment(selectedAmount)
-        });
-        
-        showToast('✅ Transaction completed successfully! 🎉', 'success');
-        navigateTo('dashboard');
-        showToast('📋 Transaction ID: #' + docRef.id.substring(0,8), 'info');
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-// ============================================================
-// 🔥 ONLINE → CASH - 4 STEPS WITH PREMIUM ANIMATIONS
-// ============================================================
-
-// STEP 1: Pay Online & Enter UTR
-function renderOnlineStep1() {
-    return `
-        <div class="card animate-fadeDown" style="border-top: 3px solid var(--info);">
-            <div class="step-indicators">
-                <div class="step-dot active"><span class="step-number">01</span></div>
-                <div class="step-dot"><span class="step-number">02</span></div>
-                <div class="step-dot"><span class="step-number">03</span></div>
-                <div class="step-dot"><span class="step-number">04</span></div>
-            </div>
-            <div class="step-image">
-                <span class="icon animate-float" style="color: var(--info);">📱</span>
-            </div>
-            <div class="step-title" style="color: var(--info);">Step 1: Pay Online & Enter UTR</div>
-            <div class="step-subtitle">Pay online using our QR and enter UTR</div>
-            <div style="background:rgba(0,188,212,0.05);padding:12px;border-radius:8px;margin-bottom:12px;border:1px solid rgba(0,188,212,0.15);">
-                <div style="font-size:12px;color:var(--info);">
-                    <i class="fas fa-info-circle"></i> 💵 Free Service • No Charges
-                </div>
-            </div>
-            
-            <div class="input-group">
-                <label>Amount</label>
-                <input class="input input-lg" id="onlineAmount" type="number" placeholder="Enter amount">
-            </div>
-            <div class="input-group">
-                <label>UTR Number</label>
-                <input class="input input-sm" id="onlineUtr" placeholder="Enter UTR number">
-            </div>
-            
-            <button class="btn btn-info btn-block mt-2" onclick="proceedOnlineStep2()">
-                <i class="fas fa-arrow-right"></i> Next Step →
-            </button>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('dashboard')">← Cancel</button>
-        </div>
-    `;
-}
-
-function proceedOnlineStep2() {
-    const amount = parseInt(document.getElementById('onlineAmount').value);
-    const utr = document.getElementById('onlineUtr').value.trim();
-    if (!amount || amount <= 0) { showToast('Enter valid amount', 'error'); return; }
-    if (!utr) { showToast('Enter UTR number', 'error'); return; }
-    if (utr.length < 6) { showToast('Enter valid UTR number', 'error'); return; }
-    selectedAmount = amount;
-    window._onlineUtr = utr;
-    navigateTo('onlineStep2');
-}
-
-// STEP 2: Verify Payment & Details
-function renderOnlineStep2() {
-    return `
-        <div class="card animate-slideLeft" style="border-top: 3px solid var(--warning);">
-            <div class="step-indicators">
-                <div class="step-dot completed"><span class="step-number">01</span></div>
-                <div class="step-dot active"><span class="step-number">02</span></div>
-                <div class="step-dot"><span class="step-number">03</span></div>
-                <div class="step-dot"><span class="step-number">04</span></div>
-            </div>
-            <div class="step-image">
-                <span class="icon animate-rotate" style="color: var(--warning);">🔍</span>
-            </div>
-            <div class="step-title" style="color: var(--warning);">Step 2: Verify Payment & Details</div>
-            <div class="step-subtitle">Verifying your payment and details</div>
-            
-            <div style="background:rgba(255,152,0,0.05);padding:10px;border-radius:8px;margin-bottom:12px;border:1px solid rgba(255,152,0,0.15);">
-                <div style="font-size:12px;color:var(--warning);">
-                    <i class="fas fa-check-circle"></i> UTR: ${window._onlineUtr || 'N/A'}
-                </div>
-                <div style="font-size:12px;color:var(--warning);">
-                    <i class="fas fa-check-circle"></i> Amount: ₹${selectedAmount}
-                </div>
-            </div>
-            
-            <div style="font-weight:600;font-size:13px;margin:8px 0;">Select Proprietor</div>
-            ${['Pawan Kumar'].map(name => `
-                <button class="btn ${selectedProprietor === name ? 'btn-primary' : 'btn-secondary'} btn-block" 
-                        onclick="selectProprietor('${name}')" style="margin-bottom:6px;">
-                    ${name} ${selectedProprietor === name ? '✓' : ''}
-                </button>
-            `).join('')}
-            
-            <div class="input-group">
-                <label>Your Name</label>
-                <input class="input input-sm" id="onlineCustomerName" value="${userData?.name || ''}" placeholder="Enter your name">
-            </div>
-            <div class="input-group">
-                <label>Mobile Number</label>
-                <input class="input input-sm" id="onlineCustomerPhone" value="${userData?.phone || ''}" placeholder="Enter mobile number">
-            </div>
-            
-            <button class="btn btn-warning btn-block mt-2" onclick="navigateTo('onlineStep3')">
-                <i class="fas fa-arrow-right"></i> Next Step →
-            </button>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('onlineStep1')">← Back</button>
-        </div>
-    `;
-}
-
-// STEP 3: Withdrawal Your Money
-function renderOnlineStep3() {
-    return `
-        <div class="card animate-fadeScale" style="border-top: 3px solid var(--danger);">
-            <div class="step-indicators">
-                <div class="step-dot completed"><span class="step-number">01</span></div>
-                <div class="step-dot completed"><span class="step-number">02</span></div>
-                <div class="step-dot active"><span class="step-number">03</span></div>
-                <div class="step-dot"><span class="step-number">04</span></div>
-            </div>
-            <div class="step-image">
-                <span class="icon animate-pulse" style="color: var(--danger);">💳</span>
-            </div>
-            <div class="step-title" style="color: var(--danger);">Step 3: Withdrawal Your Money</div>
-            <div class="step-subtitle">Processing your withdrawal request</div>
-            
-            <div style="background:var(--gray-100);padding:14px;border-radius:10px;">
-                <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;">
-                    <span style="color:var(--gray-500);">Amount</span>
-                    <span style="font-weight:600;">₹${selectedAmount}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:var(--gray-500);">
-                    <span>Charge</span>
-                    <span>₹0 (Free)</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:18px;font-weight:800;color:var(--primary);border-top:2px solid var(--gray-300);">
-                    <span>Total</span>
-                    <span>₹${selectedAmount}</span>
-                </div>
-            </div>
-            
-            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
-                <div><strong>Proprietor:</strong> ${selectedProprietor}</div>
-                <div><strong>Customer:</strong> ${document.getElementById('onlineCustomerName')?.value || 'N/A'}</div>
-                <div><strong>Phone:</strong> ${document.getElementById('onlineCustomerPhone')?.value || 'N/A'}</div>
-                <div><strong>UTR:</strong> ${window._onlineUtr || 'N/A'}</div>
-            </div>
-            
-            <button class="btn btn-danger btn-block mt-2" onclick="navigateTo('onlineStep4')">
-                <i class="fas fa-arrow-right"></i> Next Step →
-            </button>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('onlineStep2')">← Back</button>
-        </div>
-    `;
-}
-
-// STEP 4: Successfully Withdrawal Congratulations
-function renderOnlineStep4() {
-    const name = document.getElementById('onlineCustomerName')?.value || userData?.name || '';
-    const phone = document.getElementById('onlineCustomerPhone')?.value || userData?.phone || '';
-    
-    return `
-        <div class="card animate-bounce" style="border-top: 3px solid var(--success); background: linear-gradient(180deg, #ffffff, #f0fdf4);">
-            <div class="step-indicators">
-                <div class="step-dot completed"><span class="step-number">01</span></div>
-                <div class="step-dot completed"><span class="step-number">02</span></div>
-                <div class="step-dot completed"><span class="step-number">03</span></div>
-                <div class="step-dot active"><span class="step-number">04</span></div>
-            </div>
-            <div class="confetti-container">
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-            </div>
-            <div class="particles">
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-            </div>
-            <div class="step-image">
-                <span class="icon animate-success" style="color: var(--success);">🎉</span>
-            </div>
-            <div class="step-title" style="color: var(--success);">🎊 Congratulations!</div>
-            <div class="step-subtitle">Withdrawal completed successfully!</div>
-            
-            <div style="background:linear-gradient(135deg, #f0fdf4, #dcfce7);padding:14px;border-radius:10px;border:1px solid rgba(76,175,80,0.2);">
-                <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;">
-                    <span style="color:var(--gray-500);">Amount</span>
-                    <span style="font-weight:600;">₹${selectedAmount}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:var(--gray-500);">
-                    <span>Charge</span>
-                    <span>₹0 (Free)</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:18px;font-weight:800;color:var(--primary);border-top:2px solid rgba(76,175,80,0.2);">
-                    <span>Total</span>
-                    <span>₹${selectedAmount}</span>
-                </div>
-            </div>
-            
-            <div style="margin-top:10px;font-size:12px;color:var(--gray-500);">
-                <div><strong>Proprietor:</strong> ${selectedProprietor}</div>
-                <div><strong>Customer:</strong> ${name || 'N/A'}</div>
-                <div><strong>Phone:</strong> ${phone || 'N/A'}</div>
-                <div><strong>UTR:</strong> ${window._onlineUtr || 'N/A'}</div>
-            </div>
-            
-            <button class="btn btn-success btn-block mt-2 animate-glow" onclick="confirmOnlineTransaction()">
-                <i class="fas fa-check"></i> Complete Withdrawal ✅
-            </button>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('onlineStep3')">← Back</button>
-        </div>
-    `;
-}
-
-async function confirmOnlineTransaction() {
-    const name = document.getElementById('onlineCustomerName')?.value.trim() || userData?.name || '';
-    const phone = document.getElementById('onlineCustomerPhone')?.value.trim() || userData?.phone || '';
-    const utr = window._onlineUtr || '';
-    
-    if (!name || !phone) { showToast('Enter customer details', 'error'); return; }
-    if (!utr) { showToast('Enter UTR number', 'error'); return; }
-    
-    try {
-        const transaction = {
-            type: 'online_to_cash',
-            userId: currentUser.uid,
-            userEmail: userData?.email || '',
-            userName: userData?.name || '',
-            userPhone: userData?.phone || '',
-            amount: selectedAmount,
-            charge: 0,
-            total: selectedAmount,
-            rate: 'Free',
-            isOpen: true,
-            proprietor: selectedProprietor,
-            customerName: name,
-            customerPhone: phone,
-            utr: utr,
-            status: 'pending',
-            step: 1,
-            stepName: 'Pay Online & Enter UTR',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        };
-        const docRef = await db.collection('transactions').add(transaction);
-        currentTransactionId = docRef.id;
-        
-        await db.collection('users').doc(currentUser.uid).update({
-            totalWithdraw: firebase.firestore.FieldValue.increment(selectedAmount)
-        });
-        
-        showToast('✅ Withdrawal completed successfully! 🎉', 'success');
-        navigateTo('dashboard');
-        showToast('📋 Transaction ID: #' + docRef.id.substring(0,8), 'info');
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-// ============================================================
-// 🔥 TRANSACTION DETAIL - WITH FULL INFO DISPLAY
-// ============================================================
-function renderTransactionDetail(transactionId) {
-    return `
-        <div class="card">
-            <div class="card-title">
-                📄 Transaction Details
-                <button class="btn btn-sm btn-secondary" onclick="navigateTo('transactions')">← Back</button>
-            </div>
-            <div id="transactionDetailContainer"><div class="loader-box"><div class="spinner"></div></div></div>
-        </div>
-    `;
-}
-
-async function loadTransactionDetail(transactionId) {
-    const container = document.getElementById('transactionDetailContainer');
-    if (!container) return;
-    try {
-        const doc = await db.collection('transactions').doc(transactionId).get();
-        if (!doc.exists) { 
-            container.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><div class="title">Transaction not found</div></div>'; 
-            return; 
-        }
-        
-        const t = { id: doc.id, ...doc.data() };
-        const isCashToOnline = t.type === 'cash_to_online';
-        const statusColors = {
-            pending: 'status-pending',
-            processing: 'status-processing',
-            completed: 'status-completed',
-            rejected: 'status-rejected'
-        };
-        const statusClass = statusColors[t.status] || 'status-pending';
-        const stepName = t.stepName || (isCashToOnline ? 'Agent Collect Money' : 'Pay Online & Enter UTR');
-        
-        // Get UPI display values
-        const upiIdDisplay = t.transferDetails?.upiId || 'N/A';
-        const receiverNameDisplay = t.transferDetails?.name || 'N/A';
-        
-        let html = `
-            <div class="animate-fadeUp">
-                <!-- Status Card -->
-                <div class="status-card" style="border-left-color: ${t.status === 'completed' ? 'var(--success)' : t.status === 'rejected' ? 'var(--danger)' : 'var(--warning)'};">
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <div>
-                            <div class="label">Status</div>
-                            <div class="value" style="display:flex;align-items:center;gap:8px;">
-                                <span class="status ${statusClass}">${t.status}</span>
-                            </div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div class="label">Step</div>
-                            <div class="value" style="font-size:13px;color:var(--gray-600);">
-                                ${stepName} (${t.step || 1}/4)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Transaction ID & Type Grid -->
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <div class="label">Transaction ID</div>
-                        <div class="value" style="font-size:11px;">#${t.id.substring(0,12)}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="label">Type</div>
-                        <div class="value">${isCashToOnline ? '💵 Cash → Online' : '📱 Online → Cash'}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="label">Amount</div>
-                        <div class="value" style="color:var(--primary);font-size:16px;">₹${t.amount}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="label">Total</div>
-                        <div class="value" style="color:var(--primary);font-size:16px;">₹${t.total || t.amount}</div>
-                    </div>
-                </div>
-
-                <!-- Customer Details -->
-                <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:12px;margin-bottom:10px;border:1px solid var(--gray-200);">
-                    <div style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
-                        <i class="fas fa-user"></i> Customer Details
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Name</span>
-                        <span class="value">${t.userName || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Email</span>
-                        <span class="value">${t.userEmail || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row" style="border-bottom:none;">
-                        <span class="label">Phone</span>
-                        <span class="value">${t.userPhone || 'N/A'}</span>
-                    </div>
-                </div>
-
-                ${isCashToOnline ? `
-                <!-- Transfer Details -->
-                <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:12px;margin-bottom:10px;border:1px solid var(--gray-200);">
-                    <div style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
-                        <i class="fas fa-exchange-alt"></i> Transfer Details
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Method</span>
-                        <span class="value">${t.method || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Charge</span>
-                        <span class="value" style="${!t.isOpen ? 'color:var(--warning);' : ''}">
-                            ₹${t.charge || 0} (${t.rate || '1%'})
-                        </span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Receiver</span>
-                        <span class="value">${receiverNameDisplay}</span>
-                    </div>
-                    <div class="detail-row" style="border-bottom:none;">
-                        <span class="label">UPI ID</span>
-                        <span class="value" style="color:var(--primary);font-weight:700;">${upiIdDisplay}</span>
-                    </div>
-                </div>
-                ` : `
-                <!-- Customer Details for Online to Cash -->
-                <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:12px;margin-bottom:10px;border:1px solid var(--gray-200);">
-                    <div style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
-                        <i class="fas fa-user-check"></i> Withdrawal Details
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Customer Name</span>
-                        <span class="value">${t.customerName || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Phone</span>
-                        <span class="value">${t.customerPhone || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row" style="border-bottom:none;">
-                        <span class="label">UTR Number</span>
-                        <span class="value" style="color:var(--success);font-weight:700;">${t.utr || 'N/A'}</span>
-                    </div>
-                </div>
-                `}
-
-                ${t.imageUrl ? `
-                <!-- Payment Proof Image -->
-                <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:12px;margin-bottom:10px;border:1px solid var(--gray-200);">
-                    <div style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
-                        <i class="fas fa-image"></i> Payment Proof
-                    </div>
-                    <img src="${t.imageUrl}" class="image-preview" alt="Payment Proof">
-                    ${t.utr ? `<div class="detail-row" style="border-bottom:none;margin-top:4px;"><span class="label">UTR</span><span class="value" style="color:var(--success);">${t.utr}</span></div>` : ''}
-                    ${t.approvedBy ? `<div class="detail-row" style="border-bottom:none;"><span class="label">Approved By</span><span class="value">${t.approvedBy}</span></div>` : ''}
-                </div>
-                ` : ''}
-
-                <!-- Timeline -->
-                <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:12px;border:1px solid var(--gray-200);">
-                    <div style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">
-                        <i class="fas fa-clock"></i> Timeline
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Created</span>
-                        <span class="value">${t.createdAt ? new Date(t.createdAt).toLocaleString() : 'N/A'}</span>
-                    </div>
-                    <div class="detail-row" style="border-bottom:none;">
-                        <span class="label">Updated</span>
-                        <span class="value">${t.updatedAt ? new Date(t.updatedAt).toLocaleString() : 'N/A'}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Admin actions if pending
-        if (isAdmin && (t.status === 'pending' || t.status === 'processing')) {
-            const stepNames = {
-                1: isCashToOnline ? 'Agent Collect Money' : 'Pay Online & Enter UTR',
-                2: isCashToOnline ? 'Process Your Money' : 'Verify Payment & Details',
-                3: isCashToOnline ? 'Verification & Sending' : 'Withdrawal Your Money',
-                4: isCashToOnline ? 'Transaction Complete' : 'Withdrawal Complete'
-            };
-            html += `
-                <div style="background:rgba(26,35,126,0.04);padding:14px;border-radius:10px;margin-top:12px;border:1px solid rgba(26,35,126,0.08);">
-                    <div style="font-weight:600;font-size:13px;margin-bottom:8px;">🔑 Admin Actions</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-                        <button class="btn btn-sm btn-secondary" onclick="updateTransactionStatus('${t.id}', 1)">
-                            📝 ${stepNames[1]}
-                        </button>
-                        <button class="btn btn-sm btn-secondary" onclick="updateTransactionStatus('${t.id}', 2)">
-                            🔄 ${stepNames[2]}
-                        </button>
-                        <button class="btn btn-sm btn-success" onclick="updateTransactionStatus('${t.id}', 3)">
-                            ✅ ${stepNames[3]}
-                        </button>
-                        <button class="btn btn-sm btn-success" onclick="updateTransactionStatus('${t.id}', 4)">
-                            🎉 ${stepNames[4]}
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="updateTransactionStatus('${t.id}', 0)" style="grid-column:span 2;">
-                            ❌ Reject
-                        </button>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <div class="input-group">
-                            <label>UTR Number</label>
-                            <input class="input input-sm" id="adminUtr2" placeholder="Enter UTR number">
-                        </div>
-                        <div class="input-group">
-                            <label>Image URL</label>
-                            <input class="input input-sm" id="adminImageUrl2" placeholder="https://example.com/image.jpg">
-                        </div>
-                        <button class="btn btn-success btn-block" onclick="adminApproveWithImage2('${t.id}')">
-                            <i class="fas fa-check"></i> Approve with Image
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        container.innerHTML = html;
-    } catch(e) { 
-        container.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`; 
-    }
-}
-
-async function updateTransactionStatus(transactionId, step) {
-    let status = 'pending';
-    let stepName = '';
-    
-    const doc = await db.collection('transactions').doc(transactionId).get();
-    const t = doc.data();
-    const isCashToOnline = t.type === 'cash_to_online';
-    
-    if (step === 1) {
-        status = 'pending';
-        stepName = isCashToOnline ? 'Agent Collect Money' : 'Pay Online & Enter UTR';
-    } else if (step === 2) {
-        status = 'processing';
-        stepName = isCashToOnline ? 'Process Your Money' : 'Verify Payment & Details';
-    } else if (step === 3) {
-        status = 'processing';
-        stepName = isCashToOnline ? 'Verification & Sending' : 'Withdrawal Your Money';
-    } else if (step === 4) {
-        status = 'completed';
-        stepName = isCashToOnline ? 'Transaction Complete' : 'Withdrawal Complete';
-    } else if (step === 0) {
-        status = 'rejected';
-        stepName = 'Rejected';
-    }
-    
-    try {
-        await db.collection('transactions').doc(transactionId).update({
-            status: status,
-            step: step,
-            stepName: stepName,
-            updatedAt: new Date().toISOString()
-        });
-        showToast(`✅ Status updated to: ${stepName}`, 'success');
-        navigateTo('transactionDetail', transactionId);
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-async function adminApproveWithImage2(transactionId) {
-    const utr = document.getElementById('adminUtr2').value.trim();
-    const imageUrl = document.getElementById('adminImageUrl2').value.trim();
-    
-    if (!utr) { showToast('Enter UTR number', 'error'); return; }
-    if (!imageUrl) { showToast('Enter image URL', 'error'); return; }
-    
-    try {
-        await db.collection('transactions').doc(transactionId).update({
-            status: 'completed',
-            step: 4,
-            stepName: 'Transaction Complete',
-            utr: utr,
-            imageUrl: imageUrl,
-            approvedBy: userData?.name || 'Admin',
-            approvedAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        });
-        showToast('✅ Transaction approved with image!', 'success');
-        navigateTo('transactionDetail', transactionId);
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-// ============================================================
-// 🔥 DASHBOARD DATA LOAD
-// ============================================================
-async function loadDashboardData() {
-    try {
-        const doc = await db.collection('users').doc(currentUser.uid).get();
-        if (doc.exists) {
-            const data = doc.data();
-            totalDeposit = data.totalDeposit || 0;
-            totalWithdraw = data.totalWithdraw || 0;
-            document.getElementById('totalDeposit').textContent = `₹${totalDeposit.toFixed(2)}`;
-            document.getElementById('totalWithdraw').textContent = `₹${totalWithdraw.toFixed(2)}`;
-        }
-        await loadRecentTransactions();
-        if (isAdmin) await loadAdminStats();
-    } catch(e) { console.log('Error loading dashboard:', e); }
-}
-
-// ============================================================
-// 🔥 RECENT PAYMENTS
-// ============================================================
-function renderRecentPayments() {
-    return `
-        <div class="card">
-            <div class="card-title">
-                🕐 Recent Payments
-                <span class="badge badge-success">Updated</span>
-            </div>
-            <button class="btn btn-sm btn-secondary" onclick="loadRecentPayments()">
-                <i class="fas fa-sync"></i> Refresh
-            </button>
-        </div>
-        <div id="recentPaymentsContainer"><div class="loader-box"><div class="spinner"></div></div></div>
-    `;
-}
-
-async function loadRecentPayments() {
-    const container = document.getElementById('recentPaymentsContainer');
-    if (!container) return;
-
-    try {
-        const snap = await db.collection('transactions')
-            .where('userId', '==', currentUser.uid)
-            .limit(20)
-            .get();
-        
-        let txns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        txns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-        if (txns.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <div class="icon">🕐</div>
-                    <div class="title">No payments yet</div>
-                    <div class="sub">Start your first transaction now!</div>
-                    <button class="btn btn-gold btn-sm mt-2" onclick="navigateTo('cashStep1')">
-                        <i class="fas fa-plus"></i> Start Now →
-                    </button>
-                </div>
-            `;
+        // Check if geolocation is supported
+        if (!navigator.geolocation) {
+            statusText.textContent = 'Not Supported ❌';
+            statusBadge.className = 'status-badge error';
+            locationMessage.textContent = '❌ Geolocation is not supported by your browser.';
+            showToast('Geolocation not supported. Please use a modern browser.', 'error');
+            isDetecting = false;
+            retryBtn.style.display = 'inline-flex';
             return;
         }
 
-        let html = '';
-        txns.forEach((t, index) => {
-            const isDeposit = t.type === 'cash_to_online';
-            const icon = isDeposit ? '💵' : '📱';
-            const amountClass = isDeposit ? 'positive' : 'negative';
-            const sign = isDeposit ? '+' : '-';
-            const statusColors = {
-                pending: 'status-pending',
-                processing: 'status-processing',
-                completed: 'status-completed',
-                rejected: 'status-rejected'
-            };
-            const statusClass = statusColors[t.status] || 'status-pending';
-            const stepName = t.stepName || (isDeposit ? 'Agent Collect Money' : 'Pay Online & Enter UTR');
-            
-            html += `
-                <div class="recent-payment-item animate-fadeUp" style="animation-delay: ${index * 0.05}s;" onclick="navigateTo('transactionDetail', '${t.id}')">
-                    <div style="display:flex;align-items:center;gap:12px;">
-                        <div class="payment-icon ${isDeposit ? 'deposit' : 'withdraw'}">
-                            ${icon}
-                        </div>
-                        <div class="payment-info">
-                            <div class="title">${isDeposit ? 'Cash Deposit' : 'Cash Withdrawal'}</div>
-                            <div class="sub">${stepName} • ${t.proprietor || 'PRL'}</div>
-                            <div class="sub" style="font-size:10px;color:var(--gray-400);">${t.createdAt ? new Date(t.createdAt).toLocaleDateString() : 'N/A'}</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div class="payment-amount ${amountClass}">${sign}₹${t.total || t.amount}</div>
-                            <span class="payment-status ${statusClass}">${t.status}</span>
-                        </div>
-                    </div>
-                    ${t.imageUrl ? `<img src="${t.imageUrl}" style="max-width:100%;border-radius:8px;margin-top:6px;max-height:100px;object-fit:contain;border:1px solid var(--gray-200);">` : ''}
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-    } catch (e) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <div class="icon">⚠️</div>
-                <div class="title">Error loading payments</div>
-                <div class="sub">${e.message}</div>
-                <button class="btn btn-primary btn-sm mt-2" onclick="loadRecentPayments()">
-                    <i class="fas fa-sync"></i> Retry
-                </button>
-            </div>
-        `;
-    }
-}
+        // Update UI - Detecting
+        statusText.textContent = 'Detecting...';
+        statusBadge.className = 'status-badge loading';
+        locationMessage.textContent = '📡 Getting your location... Please allow permission if prompted.';
+        retryBtn.style.display = 'none';
+        addressBtn.disabled = true;
 
-// ============================================================
-// 🔥 TRANSACTIONS
-// ============================================================
-function renderTransactions() {
-    return `
-        <div class="card">
-            <div class="card-title">📊 Transaction History</div>
-            <div class="search-bar">
-                <input class="input input-sm" id="searchInput" placeholder="🔍 Search..." oninput="loadAllTransactions()">
-            </div>
-            <div class="filter-row">
-                <select class="input input-sm" id="statusFilter" onchange="loadAllTransactions()">
-                    <option value="all">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="processing">Processing</option>
-                    <option value="completed">Completed</option>
-                    <option value="rejected">Rejected</option>
-                </select>
-                <select class="input input-sm" id="typeFilter" onchange="loadAllTransactions()">
-                    <option value="all">All Types</option>
-                    <option value="cash_to_online">Cash → Online</option>
-                    <option value="online_to_cash">Online → Cash</option>
-                </select>
-            </div>
-            <button class="btn btn-sm btn-secondary" onclick="loadAllTransactions()">
-                <i class="fas fa-sync"></i> Refresh
-            </button>
-        </div>
-        <div id="transactionsContainer"><div class="loader-box"><div class="spinner"></div></div></div>
-    `;
-}
+        navigator.geolocation.getCurrentPosition(
+            // SUCCESS
+            (position) => {
+                userLat = position.coords.latitude;
+                userLng = position.coords.longitude;
+                locationFetched = true;
+                isDetecting = false;
 
-async function loadAllTransactions() {
-    const container = document.getElementById('transactionsContainer');
-    if (!container) return;
-    try {
-        const snap = await db.collection('transactions')
-            .where('userId', '==', currentUser.uid)
-            .limit(100)
-            .get();
-        
-        let txns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        txns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-        const statusFilter = document.getElementById('statusFilter')?.value || 'all';
-        const typeFilter = document.getElementById('typeFilter')?.value || 'all';
-        const search = document.getElementById('searchInput')?.value.toLowerCase().trim() || '';
-        
-        if (statusFilter !== 'all') txns = txns.filter(t => t.status === statusFilter);
-        if (typeFilter !== 'all') txns = txns.filter(t => t.type === typeFilter);
-        if (search) txns = txns.filter(t => t.id.toLowerCase().includes(search) || (t.userName || '').toLowerCase().includes(search));
-        
-        if (txns.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <div class="icon">📭</div>
-                    <div class="title">No transactions found</div>
-                    <div class="sub">Start your first transaction now!</div>
-                    <button class="btn btn-gold btn-sm mt-2" onclick="navigateTo('cashStep1')">
-                        <i class="fas fa-plus"></i> Start Now →
-                    </button>
-                </div>
-            `;
-            return;
-        }
-        let html = '';
-        txns.forEach(t => {
-            const statusIcon = { pending: '⏳', processing: '🔄', completed: '✅', rejected: '❌' }[t.status] || '📌';
-            const stepName = t.stepName || (t.type === 'cash_to_online' ? 'Agent Collect Money' : 'Pay Online & Enter UTR');
-            html += `
-                <div class="transaction-item" onclick="navigateTo('transactionDetail', '${t.id}')">
-                    <div class="flex-between">
-                        <span class="id">#${t.id.substring(0,8)}</span>
-                        <span class="status status-${t.status}">${statusIcon} ${t.status}</span>
-                    </div>
-                    <div class="flex-between">
-                        <span style="font-size:12px;color:var(--gray-500);">${t.type === 'cash_to_online' ? '💵→📱' : '📱→💵'}</span>
-                        <span class="amount">₹${t.total || t.amount}</span>
-                    </div>
-                    <div class="detail">${stepName} • ${t.createdAt ? new Date(t.createdAt).toLocaleString() : 'N/A'}</div>
-                    ${t.imageUrl ? `<img src="${t.imageUrl}" style="max-width:100%;border-radius:4px;margin-top:4px;max-height:60px;object-fit:contain;">` : ''}
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-    } catch(e) { 
-        container.innerHTML = `
-            <div class="empty-state">
-                <div class="icon">⚠️</div>
-                <div class="title">Error loading transactions</div>
-                <div class="sub">${e.message}</div>
-                <button class="btn btn-primary btn-sm mt-2" onclick="loadAllTransactions()">
-                    <i class="fas fa-sync"></i> Retry
-                </button>
-            </div>
-        `;
-    }
-}
+                // Update UI
+                latDisplay.textContent = userLat.toFixed(6);
+                lngDisplay.textContent = userLng.toFixed(6);
+                locationInfo.classList.add('show');
+                addressBtn.disabled = false;
+                retryBtn.style.display = 'inline-flex';
 
-// ============================================================
-// 🔥 PROFILE
-// ============================================================
-function renderProfile() {
-    const initial = userData?.name ? userData.name.charAt(0).toUpperCase() : '👤';
-    return `
-        <div class="profile-header">
-            <div class="avatar">${initial}</div>
-            <div class="name">${userData?.name || 'Customer'}</div>
-            <div class="phone">${userData?.phone || 'No phone'}</div>
-            <div style="font-size:12px;color:var(--gray-500);">${userData?.email || ''}</div>
-            <div style="font-size:10px;color:var(--gray-400);margin-top:4px;">${isAdmin ? '🔑 Admin' : '👤 Customer'}</div>
-        </div>
-        <div class="profile-menu">
-            <button class="menu-item" onclick="navigateTo('editProfile')">
-                <span class="icon"><i class="fas fa-user-edit"></i></span>
-                <span class="text">Edit Profile</span>
-                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
-            </button>
-            <button class="menu-item" onclick="navigateTo('changePassword')">
-                <span class="icon"><i class="fas fa-key"></i></span>
-                <span class="text">Change Password</span>
-                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
-            </button>
-            <button class="menu-item" onclick="navigateTo('account')">
-                <span class="icon"><i class="fas fa-university"></i></span>
-                <span class="text">My Account</span>
-                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
-            </button>
-            <button class="menu-item" onclick="navigateTo('help')">
-                <span class="icon"><i class="fas fa-question-circle"></i></span>
-                <span class="text">Help & Support</span>
-                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
-            </button>
-            <button class="menu-item" onclick="logout()" style="border-bottom:none;color:var(--danger);">
-                <span class="icon" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i></span>
-                <span class="text" style="color:var(--danger);">Logout</span>
-                <span class="arrow"><i class="fas fa-chevron-right"></i></span>
-            </button>
-        </div>
-    `;
-}
+                statusText.textContent = 'Location Found ✅';
+                statusBadge.className = 'status-badge success';
+                locationMessage.textContent = '✅ Location detected successfully!';
 
-function renderEditProfile() {
-    return `
-        <div class="card">
-            <div class="card-title">✏️ Edit Profile</div>
-            <div class="input-group">
-                <label>Full Name</label>
-                <input class="input input-sm" id="editName" value="${userData?.name || ''}">
-            </div>
-            <div class="input-group">
-                <label>Phone Number</label>
-                <input class="input input-sm" id="editPhone" value="${userData?.phone || ''}">
-            </div>
-            <div style="display:flex;gap:8px;">
-                <button class="btn btn-primary" style="flex:1;" onclick="updateProfile()">
-                    <i class="fas fa-save"></i> Update
-                </button>
-                <button class="btn btn-secondary" style="flex:1;" onclick="navigateTo('profile')">← Back</button>
-            </div>
-        </div>
-    `;
-}
+                // Add user marker
+                if (userMarker) map.removeLayer(userMarker);
+                
+                const userIcon = L.divIcon({
+                    html: '<i class="fas fa-user" style="font-size:24px; color:#ef4444; text-shadow: 0 2px 8px rgba(0,0,0,0.3);"></i>',
+                    className: '',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 24]
+                });
+                
+                userMarker = L.marker([userLat, userLng], { icon: userIcon })
+                    .addTo(map)
+                    .bindPopup('📍 Your Location')
+                    .openPopup();
 
-async function updateProfile() {
-    const name = document.getElementById('editName').value.trim();
-    const phone = document.getElementById('editPhone').value.trim();
-    if (!name || !phone) { showToast('Fill all fields', 'error'); return; }
-    try {
-        await db.collection('users').doc(currentUser.uid).update({ name, phone, updatedAt: new Date().toISOString() });
-        userData = { ...userData, name, phone };
-        updateMenu();
-        showToast('✅ Profile updated!', 'success');
-        navigateTo('profile');
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
+                // Fit map to show both locations
+                const group = L.featureGroup([storeMarker, userMarker]);
+                map.fitBounds(group.getBounds(), { padding: [50, 50] });
 
-function renderChangePassword() {
-    return `
-        <div class="card">
-            <div class="card-title">🔐 Change Password</div>
-            <div class="password-wrapper">
-                <input class="input input-sm" id="oldPassword" type="password" placeholder="Current Password">
-                <button class="password-toggle" type="button" onclick="togglePassword('oldPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-            <div class="password-wrapper">
-                <input class="input input-sm" id="newPassword" type="password" placeholder="New Password (min 6 chars)">
-                <button class="password-toggle" type="button" onclick="togglePassword('newPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-            <div class="password-wrapper">
-                <input class="input input-sm" id="confirmPassword" type="password" placeholder="Confirm New Password">
-                <button class="password-toggle" type="button" onclick="togglePassword('confirmPassword')">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-            <div style="display:flex;gap:8px;">
-                <button class="btn btn-primary" style="flex:1;" onclick="changePassword()">
-                    <i class="fas fa-key"></i> Change
-                </button>
-                <button class="btn btn-secondary" style="flex:1;" onclick="navigateTo('profile')">← Back</button>
-            </div>
-        </div>
-    `;
-}
+                // Check delivery
+                checkDelivery(userLat, userLng);
 
-async function changePassword() {
-    const oldPwd = document.getElementById('oldPassword').value;
-    const newPwd = document.getElementById('newPassword').value;
-    const confirmPwd = document.getElementById('confirmPassword').value;
-    if (!oldPwd || !newPwd || !confirmPwd) { showToast('Fill all fields', 'error'); return; }
-    if (newPwd.length < 6) { showToast('Password min 6 chars', 'error'); return; }
-    if (newPwd !== confirmPwd) { showToast('Passwords do not match', 'error'); return; }
-    try {
-        const cred = firebase.auth.EmailAuthProvider.credential(currentUser.email, oldPwd);
-        await currentUser.reauthenticateWithCredential(cred);
-        await currentUser.updatePassword(newPwd);
-        await db.collection('users').doc(currentUser.uid).update({ password: newPwd });
-        showToast('✅ Password changed!', 'success');
-        navigateTo('profile');
-    } catch(e) {
-        if (e.code === 'auth/wrong-password') { showToast('Current password is incorrect', 'error'); } 
-        else { showToast('Error: ' + e.message, 'error'); }
-    }
-}
+                // Get address
+                getAddressFromCoords(userLat, userLng);
 
-// ============================================================
-// 🔥 ACCOUNT
-// ============================================================
-function renderAccount() {
-    return `
-        <div class="card">
-            <div class="card-title">
-                🏦 My Account
-                <button class="btn btn-sm btn-secondary" onclick="navigateTo('editUPI')">
-                    <i class="fas fa-edit"></i> Edit UPI
-                </button>
-            </div>
-            <div id="accountContainer"><div class="loader-box"><div class="spinner"></div></div></div>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('profile')">← Back</button>
-        </div>
-    `;
-}
+                showToast('✅ Location detected successfully!', 'success', 3000);
+            },
+            // ERROR
+            (error) => {
+                isDetecting = false;
+                retryBtn.style.display = 'inline-flex';
+                
+                console.error('Geolocation error:', error);
 
-async function loadAccountData() {
-    const container = document.getElementById('accountContainer');
-    if (!container) return;
-    try {
-        const doc = await db.collection('users').doc(currentUser.uid).get();
-        if (!doc.exists) { container.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><div class="title">Account not found</div></div>'; return; }
-        const data = doc.data();
-        container.innerHTML = `
-            <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:16px;">
-                <div class="account-detail-item"><span class="label">Customer Name</span><span class="value">${data.name || 'N/A'}</span></div>
-                <div class="account-detail-item"><span class="label">Email</span><span class="value">${data.email || 'N/A'}</span></div>
-                <div class="account-detail-item"><span class="label">Phone</span><span class="value">${data.phone || 'N/A'}</span></div>
-                <div class="account-detail-item"><span class="label">UPI ID</span><span class="value" style="color:var(--primary);font-weight:700;">${data.upiId || 'Not set'}</span></div>
-                <div class="account-detail-item"><span class="label">Receiver Name</span><span class="value">${data.receiverName || 'Not set'}</span></div>
-                <div class="account-detail-item"><span class="label">Total Deposit</span><span class="value" style="color:var(--success);">₹${(data.totalDeposit || 0).toFixed(2)}</span></div>
-                <div class="account-detail-item"><span class="label">Total Withdrawal</span><span class="value" style="color:var(--danger);">₹${(data.totalWithdraw || 0).toFixed(2)}</span></div>
-                <div class="account-detail-item" style="border-bottom:none;"><span class="label">Member Since</span><span class="value">${data.createdAt ? new Date(data.createdAt).toLocaleDateString() : 'N/A'}</span></div>
-            </div>
-        `;
-    } catch(e) { container.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`; }
-}
+                let msg = '';
+                let toastMsg = '';
 
-// ============================================================
-// 🔥 ADMIN DASHBOARD
-// ============================================================
-function renderAdminDashboard() {
-    return `
-        <div class="dashboard-welcome">
-            <div class="greeting">Admin Dashboard</div>
-            <div class="name">${userData?.name || 'Admin'}</div>
-            <div class="time">${new Date().toLocaleString()}</div>
-        </div>
-        <div class="admin-stats" id="adminStats">
-            <div class="admin-stat"><span class="icon">💰</span><div class="number" id="statTodayIncome">0</div><div class="label">Today's Income</div></div>
-            <div class="admin-stat"><span class="icon">📊</span><div class="number" id="statTodayCharges">0</div><div class="label">Today's Charges</div></div>
-            <div class="admin-stat"><span class="icon">👥</span><div class="number" id="statTotalCustomers">0</div><div class="label">Total Customers</div></div>
-            <div class="admin-stat"><span class="icon">⏳</span><div class="number" id="statPending">0</div><div class="label">Pending Requests</div></div>
-        </div>
-        <div class="card">
-            <div class="card-title">📋 All Transactions</div>
-            <div id="adminTransactionsList"><div class="loader-box"><div class="spinner"></div></div></div>
-        </div>
-        <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('dashboard')">← Back</button>
-    `;
-}
-
-async function loadAdminStats() {
-    if (!isAdmin) return;
-    try {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const snap = await db.collection('transactions').get();
-        let totalIncome = 0, totalCharges = 0, pending = 0;
-        snap.forEach(doc => {
-            const data = doc.data();
-            const createdAt = new Date(data.createdAt);
-            if (createdAt >= today) {
-                totalIncome += data.total || data.amount || 0;
-                totalCharges += data.charge || 0;
-            }
-            if (data.status === 'pending' || data.status === 'processing') {
-                pending++;
-            }
-        });
-        const usersSnap = await db.collection('users').where('role', '==', 'customer').get();
-        document.getElementById('statTodayIncome').textContent = `₹${totalIncome}`;
-        document.getElementById('statTodayCharges').textContent = `₹${totalCharges}`;
-        document.getElementById('statTotalCustomers').textContent = usersSnap.size;
-        document.getElementById('statPending').textContent = pending;
-        
-        const container = document.getElementById('adminTransactionsList');
-        if (container) {
-            let txns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            txns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            txns = txns.slice(0, 10);
-            let html = '';
-            txns.forEach(t => {
-                const statusColors = {
-                    pending: 'status-pending',
-                    processing: 'status-processing',
-                    completed: 'status-completed',
-                    rejected: 'status-rejected'
-                };
-                const stepName = t.stepName || (t.type === 'cash_to_online' ? 'Agent Collect Money' : 'Pay Online & Enter UTR');
-                html += `
-                    <div class="transaction-item" onclick="navigateTo('adminDetail', '${t.id}')">
-                        <div class="flex-between">
-                            <span class="id">#${t.id.substring(0,8)}</span>
-                            <span class="status ${statusColors[t.status] || 'status-pending'}">${t.status}</span>
-                        </div>
-                        <div class="flex-between">
-                            <span style="font-size:12px;color:var(--gray-500);">${t.userName || 'N/A'} • ${t.type === 'cash_to_online' ? '💵' : '📱'}</span>
-                            <span class="amount">₹${t.total || t.amount}</span>
-                        </div>
-                        <div class="detail">${stepName} • ${t.createdAt ? new Date(t.createdAt).toLocaleString() : 'N/A'}</div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html || '<div class="empty-state"><div class="icon">📭</div><div class="title">No transactions</div></div>';
-        }
-    } catch(e) { console.log('Admin stats error:', e); }
-}
-
-// ============================================================
-// 🔥 ADMIN DETAIL
-// ============================================================
-function renderAdminDetail(transactionId) {
-    return `
-        <div class="card">
-            <div class="card-title">📄 Admin - Transaction Details</div>
-            <div id="adminDetailContainer"><div class="loader-box"><div class="spinner"></div></div></div>
-            <button class="btn btn-secondary btn-block mt-2" onclick="navigateTo('adminDashboard')">← Back</button>
-        </div>
-    `;
-}
-
-async function loadAdminDetail(transactionId) {
-    const container = document.getElementById('adminDetailContainer');
-    if (!container) return;
-    try {
-        const doc = await db.collection('transactions').doc(transactionId).get();
-        if (!doc.exists) { container.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><div class="title">Transaction not found</div></div>'; return; }
-        const t = { id: doc.id, ...doc.data() };
-        const isCashToOnline = t.type === 'cash_to_online';
-        const statusColors = {
-            pending: 'status-pending',
-            processing: 'status-processing',
-            completed: 'status-completed',
-            rejected: 'status-rejected'
-        };
-        const stepName = t.stepName || (isCashToOnline ? 'Agent Collect Money' : 'Pay Online & Enter UTR');
-        
-        let html = `
-            <div style="background:var(--gray-50);padding:14px;border-radius:10px;margin-bottom:10px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                    <span style="font-weight:600;">Status</span>
-                    <span class="status ${statusColors[t.status] || 'status-pending'}">${t.status}</span>
-                </div>
-                <div style="margin-top:4px;font-size:11px;color:var(--gray-500);">
-                    Step: ${stepName} (${t.step || 1}/4)
-                </div>
-            </div>
-            
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
-                <div style="background:var(--gray-50);padding:10px;border-radius:8px;">
-                    <div style="font-size:9px;color:var(--gray-500);text-transform:uppercase;">Transaction ID</div>
-                    <div style="font-size:12px;font-weight:600;">#${t.id.substring(0,12)}</div>
-                </div>
-                <div style="background:var(--gray-50);padding:10px;border-radius:8px;">
-                    <div style="font-size:9px;color:var(--gray-500);text-transform:uppercase;">Type</div>
-                    <div style="font-size:12px;font-weight:600;">${isCashToOnline ? 'Cash → Online' : 'Online → Cash'}</div>
-                </div>
-                <div style="background:var(--gray-50);padding:10px;border-radius:8px;">
-                    <div style="font-size:9px;color:var(--gray-500);text-transform:uppercase;">Amount</div>
-                    <div style="font-size:16px;font-weight:800;color:var(--primary);">₹${t.amount}</div>
-                </div>
-                <div style="background:var(--gray-50);padding:10px;border-radius:8px;">
-                    <div style="font-size:9px;color:var(--gray-500);text-transform:uppercase;">Total</div>
-                    <div style="font-size:16px;font-weight:800;color:var(--primary);">₹${t.total || t.amount}</div>
-                </div>
-            </div>
-            
-            <div style="background:var(--gray-50);padding:12px;border-radius:8px;margin-bottom:10px;">
-                <div style="font-size:11px;font-weight:600;margin-bottom:6px;">Customer Details</div>
-                <div style="font-size:12px;color:var(--gray-600);">
-                    <div><strong>Name:</strong> ${t.userName || 'N/A'}</div>
-                    <div><strong>Email:</strong> ${t.userEmail || 'N/A'}</div>
-                    <div><strong>Phone:</strong> ${t.userPhone || 'N/A'}</div>
-                </div>
-            </div>
-            
-            ${t.imageUrl ? `
-                <div style="background:var(--gray-50);padding:12px;border-radius:8px;margin-bottom:10px;">
-                    <div style="font-size:11px;font-weight:600;margin-bottom:6px;">Payment Proof</div>
-                    <img src="${t.imageUrl}" class="image-preview" alt="Payment Proof">
-                    <div style="font-size:12px;color:var(--gray-600);margin-top:4px;">
-                        <strong>UTR:</strong> ${t.utr || 'N/A'}
-                    </div>
-                </div>
-            ` : ''}
-            
-            <div style="background:var(--gray-50);padding:12px;border-radius:8px;">
-                <div style="font-size:11px;font-weight:600;margin-bottom:6px;">Timeline</div>
-                <div style="font-size:12px;color:var(--gray-600);">
-                    <div><strong>Created:</strong> ${t.createdAt ? new Date(t.createdAt).toLocaleString() : 'N/A'}</div>
-                    <div><strong>Updated:</strong> ${t.updatedAt ? new Date(t.updatedAt).toLocaleString() : 'N/A'}</div>
-                </div>
-            </div>
-        `;
-        
-        if (t.status === 'pending' || t.status === 'processing') {
-            const stepNames = {
-                1: isCashToOnline ? 'Agent Collect Money' : 'Pay Online & Enter UTR',
-                2: isCashToOnline ? 'Process Your Money' : 'Verify Payment & Details',
-                3: isCashToOnline ? 'Verification & Sending' : 'Withdrawal Your Money',
-                4: isCashToOnline ? 'Transaction Complete' : 'Withdrawal Complete'
-            };
-            html += `
-                <div style="background:rgba(26,35,126,0.04);padding:14px;border-radius:10px;margin-top:10px;border:1px solid rgba(26,35,126,0.08);">
-                    <div style="font-weight:600;font-size:13px;margin-bottom:8px;">🔑 Admin Actions</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-                        <button class="btn btn-sm btn-secondary" onclick="updateTransactionStatus('${t.id}', 1)">📝 ${stepNames[1]}</button>
-                        <button class="btn btn-sm btn-secondary" onclick="updateTransactionStatus('${t.id}', 2)">🔄 ${stepNames[2]}</button>
-                        <button class="btn btn-sm btn-secondary" onclick="updateTransactionStatus('${t.id}', 3)">✅ ${stepNames[3]}</button>
-                        <button class="btn btn-sm btn-success" onclick="updateTransactionStatus('${t.id}', 4)" style="grid-column:span 2;">🎉 ${stepNames[4]}</button>
-                        <button class="btn btn-sm btn-danger" onclick="updateTransactionStatus('${t.id}', 0)">❌ Reject</button>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <div class="input-group">
-                            <label>UTR Number</label>
-                            <input class="input input-sm" id="adminUtr3" placeholder="Enter UTR number">
-                        </div>
-                        <div class="input-group">
-                            <label>Image URL</label>
-                            <input class="input input-sm" id="adminImageUrl3" placeholder="https://example.com/image.jpg">
-                        </div>
-                        <button class="btn btn-success btn-block" onclick="adminApproveWithImage3('${t.id}')">
-                            <i class="fas fa-check"></i> Approve with Image
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        container.innerHTML = html;
-    } catch(e) { container.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><div class="title">${e.message}</div></div>`; }
-}
-
-async function adminApproveWithImage3(transactionId) {
-    const utr = document.getElementById('adminUtr3').value.trim();
-    const imageUrl = document.getElementById('adminImageUrl3').value.trim();
-    
-    if (!utr) { showToast('Enter UTR number', 'error'); return; }
-    if (!imageUrl) { showToast('Enter image URL', 'error'); return; }
-    
-    try {
-        await db.collection('transactions').doc(transactionId).update({
-            status: 'completed',
-            step: 4,
-            stepName: 'Transaction Complete',
-            utr: utr,
-            imageUrl: imageUrl,
-            approvedBy: userData?.name || 'Admin',
-            approvedAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        });
-        showToast('✅ Transaction approved with image!', 'success');
-        navigateTo('adminDetail', transactionId);
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-}
-
-// ============================================================
-// 🔥 RECENT TRANSACTIONS - DASHBOARD
-// ============================================================
-async function loadRecentTransactions() {
-    const container = document.getElementById('recentTransactions');
-    if (!container) return;
-    try {
-        const snap = await db.collection('transactions')
-            .where('userId', '==', currentUser.uid)
-            .limit(5)
-            .get();
-        
-        const txns = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        txns.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-        if (txns.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state" style="padding:20px;">
-                    <div class="icon" style="font-size:32px;">📭</div>
-                    <div class="title" style="font-size:14px;">No transactions yet</div>
-                    <div class="sub">Start your first transaction now!</div>
-                    <button class="btn btn-gold btn-sm mt-2" onclick="navigateTo('cashStep1')">
-                        <i class="fas fa-plus"></i> Start Now →
-                    </button>
-                </div>
-            `;
-            return;
-        }
-        let html = '';
-        txns.forEach(t => {
-            const stepName = t.stepName || (t.type === 'cash_to_online' ? 'Agent Collect Money' : 'Pay Online & Enter UTR');
-            html += `
-                <div class="transaction-item" onclick="navigateTo('transactionDetail', '${t.id}')">
-                    <div class="flex-between">
-                        <span class="id">#${t.id.substring(0,8)}</span>
-                        <span class="status status-${t.status}">${t.status}</span>
-                    </div>
-                    <div class="flex-between">
-                        <span style="font-size:12px;color:var(--gray-500);">${t.type === 'cash_to_online' ? '💵→📱' : '📱→💵'}</span>
-                        <span class="amount">₹${t.total || t.amount}</span>
-                    </div>
-                    <div class="detail">${stepName} • ${t.createdAt ? new Date(t.createdAt).toLocaleString() : 'N/A'}</div>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-    } catch(e) { 
-        container.innerHTML = `
-            <div class="empty-state" style="padding:20px;">
-                <div class="icon">⚠️</div>
-                <div class="title">Error loading</div>
-                <div class="sub">${e.message}</div>
-                <button class="btn btn-primary btn-sm mt-2" onclick="loadRecentTransactions()">
-                    <i class="fas fa-sync"></i> Retry
-                </button>
-            </div>
-        `;
-    }
-}
-
-// ============================================================
-// 🔥 RECEIPT FUNCTIONS
-// ============================================================
-function downloadReceipt(transactionId) {
-    showToast('📄 Generating PDF receipt...', 'info');
-    setTimeout(() => showToast('✅ Receipt downloaded!', 'success'), 1500);
-}
-
-function shareReceipt(transactionId) {
-    if (navigator.share) {
-        navigator.share({
-            title: 'PRL Transaction Receipt',
-            text: `Transaction #${transactionId?.substring(0,12) || 'N/A'}\nAmount: ₹${selectedAmount}\nStatus: Completed`,
-        }).catch(() => {});
-    } else {
-        navigator.clipboard.writeText(
-            `PRL Transaction Receipt\nID: #${transactionId?.substring(0,12) || 'N/A'}\nAmount: ₹${selectedAmount}\nDate: ${new Date().toLocaleString()}\nStatus: Completed`
-        ).then(() => showToast('📋 Copied!', 'success')).catch(() => showToast('Share not available', 'info'));
-    }
-}
-
-// ============================================================
-// 🔥 AUTH STATE
-// ============================================================
-auth.onAuthStateChanged(async (user) => {
-    if (user) {
-        currentUser = user;
-        try {
-            const doc = await db.collection('users').doc(user.uid).get();
-            if (doc.exists) {
-                userData = doc.data();
-                isAdmin = userData.role === 'admin';
-                if (userData.blocked) {
-                    showToast('🚫 Account blocked!', 'error');
-                    await auth.signOut();
-                    navigateTo('login');
-                    return;
+                if (error.code === 1) {
+                    // PERMISSION DENIED
+                    msg = '❌ Location access denied. Please allow location access in your browser and click "Retry Location".';
+                    toastMsg = '❌ Location permission denied. Please allow in browser.';
+                    statusText.textContent = 'Permission Denied ❌';
+                    statusBadge.className = 'status-badge error';
+                    locationMessage.textContent = msg;
+                    showToast(toastMsg, 'error', 5000);
+                } else if (error.code === 2) {
+                    // POSITION UNAVAILABLE
+                    msg = '❌ Location unavailable. Please check your GPS/WiFi and click "Retry Location".';
+                    toastMsg = '❌ GPS signal unavailable. Try moving to open area.';
+                    statusText.textContent = 'Signal Lost 📡';
+                    statusBadge.className = 'status-badge error';
+                    locationMessage.textContent = msg;
+                    showToast(toastMsg, 'error', 4000);
+                } else if (error.code === 3) {
+                    // TIMEOUT
+                    msg = '⏳ Location request timed out. Please click "Retry Location".';
+                    toastMsg = '⏳ Request timed out. Please try again.';
+                    statusText.textContent = 'Timeout ⏳';
+                    statusBadge.className = 'status-badge error';
+                    locationMessage.textContent = msg;
+                    showToast(toastMsg, 'warning', 4000);
+                } else {
+                    msg = '❌ An unknown error occurred. Please click "Retry Location".';
+                    toastMsg = '❌ Unknown error. Please try again.';
+                    statusText.textContent = 'Error ❌';
+                    statusBadge.className = 'status-badge error';
+                    locationMessage.textContent = msg;
+                    showToast(toastMsg, 'error', 4000);
                 }
-                updateMenu();
-                showBottomNav(true);
-                navigateTo('dashboard');
-            } else {
-                showToast('Profile not found', 'error');
-                await auth.signOut();
-                navigateTo('login');
+
+                // Show delivery status as error
+                deliveryStatus.className = 'delivery-status unavailable';
+                deliveryStatus.innerHTML = `
+                    <i class="fas fa-times-circle"></i> 
+                    ${msg}
+                `;
+                deliveryStatus.style.display = 'block';
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 0
             }
-        } catch(e) { navigateTo('login'); }
-    } else {
-        currentUser = null; userData = null; isAdmin = false;
-        showBottomNav(false);
-        if (document.getElementById('pageContent').innerHTML === '') {
-            navigateTo('splash');
-            setTimeout(() => navigateTo('welcome'), 2000);
-        }
+        );
     }
-});
 
-// ============================================================
-// 🔥 SETUP DEMO DATA
-// ============================================================
-(async function setupDemo() {
-    try {
-        const snap = await db.collection('users').where('email', '==', 'customer@prl.com').get();
-        if (snap.empty) {
-            const cred = await auth.createUserWithEmailAndPassword('customer@prl.com', 'customer123');
-            await db.collection('users').doc(cred.user.uid).set({
-                uid: cred.user.uid, name: 'Demo Customer', email: 'customer@prl.com',
-                phone: '9876543210', role: 'customer',
-                createdAt: new Date().toISOString(), blocked: false,
-                totalDeposit: 0, totalWithdraw: 0,
-                upiId: 'demo@upi', receiverName: 'Demo Receiver'
-            });
-            console.log('✅ Demo customer created');
-        }
-        const adminSnap = await db.collection('users').where('email', '==', 'admin@prl.com').get();
-        if (adminSnap.empty) {
-            const cred = await auth.createUserWithEmailAndPassword('admin@prl.com', 'admin123');
-            await db.collection('users').doc(cred.user.uid).set({
-                uid: cred.user.uid, name: 'Admin', email: 'admin@prl.com',
-                phone: '9876543211', role: 'admin',
-                createdAt: new Date().toISOString(), blocked: false,
-                totalDeposit: 0, totalWithdraw: 0,
-                upiId: 'admin@upi', receiverName: 'Admin Receiver'
-            });
-            console.log('✅ Admin user created');
-        }
-    } catch(e) { if (e.code !== 'auth/email-already-in-use') console.log('Setup:', e.message); }
-})();
+    // ========================================
+    // DELIVERY CHECK
+    // ========================================
 
-// ============================================================
-// 🔥 INIT
-// ============================================================
-console.log('🏦 PRL Digital Banking v6.0');
-console.log('📧 Customer: customer@prl.com / customer123');
-console.log('📧 Admin: admin@prl.com / admin123');
-console.log('✅ Premium Realistic Animations');
-console.log('✅ 4-Step Process with Different Animations');
-console.log('✅ Confetti & Particle Effects');
-console.log('✅ All Transaction Details Display');
+    function checkDelivery(lat, lng) {
+        const distance = calculateDistance(STORE_LAT, STORE_LNG, lat, lng);
+        
+        deliveryStatus.style.display = 'block';
+        deliveryStatus.className = 'delivery-status checking';
+        deliveryStatus.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Checking delivery...`;
 
-setTimeout(() => {
-    if (!currentUser) {
-        navigateTo('splash');
-        setTimeout(() => navigateTo('welcome'), 2500);
+        setTimeout(() => {
+            if (distance <= DELIVERY_RADIUS_KM) {
+                deliveryStatus.className = 'delivery-status available';
+                deliveryStatus.innerHTML = `
+                    <i class="fas fa-check-circle"></i> 
+                    ✅ Delivery Available! (${distance.toFixed(1)} km away)
+                    <br><small>We deliver within ${DELIVERY_RADIUS_KM} km radius.</small>
+                `;
+            } else {
+                deliveryStatus.className = 'delivery-status unavailable';
+                deliveryStatus.innerHTML = `
+                    <i class="fas fa-times-circle"></i> 
+                    ❌ Delivery Not Available (${distance.toFixed(1)} km away)
+                    <br><small>Please visit our store or contact us for special arrangements.</small>
+                `;
+            }
+        }, 500);
     }
-}, 100);
+
+    // Haversine Formula
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = 
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    }
+
+    // ========================================
+    // GET ADDRESS (Free Nominatim)
+    // ========================================
+
+    function getAddressFromCoords(lat, lng) {
+        addressDisplay.textContent = 'Fetching address...';
+        
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18&addressdetails=1`;
+        
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.display_name) {
+                    addressDisplay.textContent = data.display_name;
+                } else {
+                    addressDisplay.textContent = 'Address not found';
+                }
+            })
+            .catch(() => {
+                addressDisplay.textContent = 'Could not fetch address';
+            });
+    }
+
+    // ========================================
+    // EVENT LISTENERS
+    // ========================================
+
+    retryBtn.addEventListener('click', detectLocation);
+
+    addressBtn.addEventListener('click', () => {
+        if (userLat && userLng) {
+            getAddressFromCoords(userLat, userLng);
+            showToast('📍 Fetching your address...', 'warning', 2000);
+        } else {
+            showToast('Please detect your location first!', 'error', 3000);
+        }
+    });
+
+    // ========================================
+    // AUTO DETECT ON PAGE LOAD
+    // ========================================
+
+    window.addEventListener('load', () => {
+        console.log('✅ PRIYA ELECTRICALS - Auto Location System');
+        console.log('📍 Page loaded. Auto-detecting location...');
+        console.log(`🏪 Store: ${STORE_LAT}, ${STORE_LNG}`);
+        console.log(`📦 Delivery Radius: ${DELIVERY_RADIUS_KM} km`);
+        
+        // Small delay to ensure everything is loaded
+        setTimeout(detectLocation, 800);
+    });
+
+    console.log('💡 Browser will ask for location permission automatically.');
+    console.log('💡 If you allow, everything works. If denied, click "Retry Location".');
 </script>
+
 </body>
 </html>
