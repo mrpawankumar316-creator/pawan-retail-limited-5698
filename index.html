@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Priya Electricals - Customer Panel</title>
+    <title>Priya Electricals</title>
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -264,7 +264,186 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE 2: CUSTOMER PANEL ===== */
+        /* ===== PAGE 2: LOCATION SELECTION ===== */
+        /* ============================================================ */
+        #pageLocation {
+            display: none;
+            background: white;
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+        .location-header {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .location-header .back { font-size: 1.2rem; cursor: pointer; }
+        .location-header h2 { font-size: 1.1rem; font-weight: 700; }
+
+        .location-status-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .location-status-card .icon { font-size: 2.5rem; margin-bottom: 8px; }
+        .location-status-card .status { font-weight: 700; font-size: 1rem; }
+        .location-status-card .sub { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
+        .location-status-card .retry-btn {
+            margin-top: 10px;
+            padding: 8px 24px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .location-status-card .retry-btn:hover { background: #1d4ed8; }
+
+        .manual-section {
+            padding: 0 16px;
+        }
+        .manual-section .title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .manual-section .title i { color: #2563eb; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .form-row .full-width { grid-column: 1 / -1; }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        .form-group label .required { color: #ef4444; }
+        .form-group .input-wrap {
+            position: relative;
+        }
+        .form-group .input-wrap i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            z-index: 2;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px 10px 38px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+        }
+        .form-group input.error {
+            border-color: #ef4444 !important;
+            background: #fef2f2 !important;
+        }
+        .form-group input.success {
+            border-color: #10b981 !important;
+            background: #f0fdf4 !important;
+        }
+        .form-group select { appearance: none; cursor: pointer; padding-right: 32px; }
+        .form-group .select-arrow {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-secondary:hover { background: #e2e8f0; }
+
+        .delivery-info {
+            background: #f0fdf4;
+            border: 1px solid #6ee7b7;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            display: none;
+        }
+        .delivery-info.show { display: block; }
+        .delivery-info.unavailable {
+            background: #fee2e2;
+            border-color: #fca5a5;
+        }
+        .delivery-info .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.85rem;
+        }
+        .delivery-info .row .label { color: #64748b; }
+        .delivery-info .row .value { font-weight: 600; color: #065f46; }
+        .delivery-info .row .value.quick { color: #10b981; }
+        .delivery-info .row .value.normal { color: #f59e0b; }
+        .delivery-info .row .value.unavailable { color: #ef4444; }
+        .delivery-info.unavailable .row .value { color: #991b1b; }
+
+        /* ============================================================ */
+        /* ===== PAGE 3: CUSTOMER PANEL ===== */
         /* ============================================================ */
         #customerPanel {
             display: none;
@@ -273,7 +452,6 @@
             padding-bottom: 70px;
         }
 
-        /* ===== LOCATION BAR ===== */
         .location-bar {
             background: white;
             padding: 10px 16px;
@@ -298,20 +476,21 @@
             font-weight: 600;
             padding: 2px 10px;
             border-radius: 12px;
+        }
+        .location-bar .delivery-time.quick {
             background: #d1fae5;
             color: #065f46;
         }
-        .location-bar .delivery-time.long {
+        .location-bar .delivery-time.normal {
             background: #fef3c7;
             color: #92400e;
         }
-        .location-bar .delivery-time.very-long {
+        .location-bar .delivery-time.long {
             background: #fee2e2;
             color: #991b1b;
         }
         .location-bar .dropdown { color: #94a3b8; }
 
-        /* ===== HEADER ===== */
         .app-header {
             background: white;
             padding: 12px 16px;
@@ -343,7 +522,6 @@
             width: 100%;
             font-size: 0.85rem;
         }
-        .app-header .search-box input::placeholder { color: #94a3b8; }
         .app-header .cart-icon {
             position: relative;
             cursor: pointer;
@@ -360,7 +538,6 @@
             font-weight: 700;
         }
 
-        /* ===== CATEGORIES ===== */
         .categories-scroll {
             background: white;
             padding: 10px 16px;
@@ -387,7 +564,6 @@
         .category-chip i { font-size: 1.3rem; color: #64748b; }
         .category-chip.active i { color: #2563eb; }
 
-        /* ===== PRODUCTS ===== */
         .products-container { padding: 12px 16px; }
         .section-header {
             display: flex;
@@ -461,7 +637,6 @@
         .product-card .add-btn.in-cart { background: #10b981; }
         .product-card .add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* ===== BOTTOM NAV ===== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -499,128 +674,7 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE: LOCATION ===== */
-        /* ============================================================ */
-        #pageLocation {
-            display: none;
-            background: white;
-            min-height: 100vh;
-        }
-        .location-header {
-            padding: 16px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .location-header .back { font-size: 1.2rem; cursor: pointer; }
-        .location-header h2 { font-size: 1.1rem; font-weight: 700; }
-        .location-permission {
-            background: #fef3c7;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #fcd34d;
-        }
-        .location-permission .left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .location-permission .left i { color: #d97706; font-size: 1.2rem; }
-        .location-permission .left div { font-size: 0.8rem; color: #92400e; }
-        .location-permission .left div strong { display: block; }
-        .location-permission .enable-btn {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .location-options { padding: 16px; }
-        .location-options .option {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 0;
-            border-bottom: 1px solid #f1f5f9;
-            cursor: pointer;
-        }
-        .location-options .option .icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-        .location-options .option .icon.green { background: #d1fae5; color: #10b981; }
-        .location-options .option .icon.purple { background: #ede9fe; color: #7c3aed; }
-        .location-options .option .icon.blue { background: #dbeafe; color: #2563eb; }
-        .location-options .option .info { flex: 1; }
-        .location-options .option .info .title { font-weight: 600; font-size: 0.9rem; }
-        .location-options .option .info .sub { font-size: 0.75rem; color: #94a3b8; }
-        .location-options .option .arrow { color: #94a3b8; }
-
-        .saved-addresses { padding: 16px; border-top: 8px solid #f1f5f9; }
-        .saved-addresses .label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #94a3b8;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-        .address-card {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f1f5f9;
-            cursor: pointer;
-        }
-        .address-card .radio {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #cbd5e1;
-            border-radius: 50%;
-            flex-shrink: 0;
-            margin-top: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .address-card .radio.selected {
-            border-color: #2563eb;
-            background: #2563eb;
-        }
-        .address-card .radio.selected::after {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: white;
-            border-radius: 50%;
-        }
-        .address-card .info .label {
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        .address-card .info .label .tag {
-            background: #dbeafe;
-            color: #2563eb;
-            font-size: 0.6rem;
-            padding: 1px 8px;
-            border-radius: 10px;
-            font-weight: 600;
-        }
-        .address-card .info .addr { font-size: 0.75rem; color: #475569; margin-top: 2px; }
-        .address-card .info .phone { font-size: 0.7rem; color: #94a3b8; margin-top: 2px; }
-
-        /* ============================================================ */
-        /* ===== PAGE: PROFILE / ORDER HISTORY ===== */
+        /* ===== PAGE 4: PROFILE / ORDER HISTORY ===== */
         /* ============================================================ */
         #pageProfile {
             display: none;
@@ -672,7 +726,6 @@
         .profile-menu .menu-item.danger .text { color: #ef4444; }
         .profile-menu .menu-item.danger i { color: #ef4444; }
 
-        /* ===== ORDER HISTORY ===== */
         .orders-list { padding: 12px 16px; }
         .order-card {
             background: white;
@@ -680,7 +733,6 @@
             padding: 16px;
             margin-bottom: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            cursor: pointer;
         }
         .order-card .order-top {
             display: flex;
@@ -748,7 +800,7 @@
         .empty-orders i { font-size: 3rem; display: block; margin-bottom: 12px; }
 
         /* ============================================================ */
-        /* ===== PAGE: PAYMENT / CHECKOUT ===== */
+        /* ===== PAGE 5: PAYMENT / CHECKOUT ===== */
         /* ============================================================ */
         #pagePayment {
             display: none;
@@ -1026,7 +1078,9 @@
         }
         .cart-drawer .empty-cart i { font-size: 2rem; display: block; margin-bottom: 8px; }
 
+        /* ============================================================ */
         /* ===== MODAL - ADD ADDRESS ===== */
+        /* ============================================================ */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1121,6 +1175,7 @@
         }
         @media (max-width: 480px) {
             .auth-container { padding: 24px 16px; }
+            .form-row { grid-template-columns: 1fr; }
             .payment-methods { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
@@ -1244,18 +1299,140 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 2: CUSTOMER PANEL ===== -->
+<!-- ===== PAGE 2: LOCATION SELECTION ===== -->
+<!-- ============================================================ -->
+<div id="pageLocation">
+    <div class="location-header">
+        <span class="back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i></span>
+        <h2>Select Delivery Location</h2>
+    </div>
+
+    <!-- Location Status -->
+    <div class="location-status-card">
+        <div class="icon" id="locationIcon">📍</div>
+        <div class="status" id="locationStatus">Detecting your location...</div>
+        <div class="sub" id="locationSub">Please wait or enter manually</div>
+        <button class="retry-btn" onclick="detectLocation()" id="retryLocationBtn">
+            <i class="fas fa-crosshairs"></i> Retry
+        </button>
+    </div>
+
+    <!-- Manual Form -->
+    <div class="manual-section">
+        <div class="title"><i class="fas fa-pen"></i> Enter Delivery Details Manually</div>
+        
+        <div class="form-row">
+            <div class="form-group full-width">
+                <label>Receiver Name <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="receiverName" placeholder="Full name">
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label>Mobile Number <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="receiverPhone" placeholder="+91 98765 43210">
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label>Flat/House Number <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-home"></i>
+                    <input type="text" id="flatNumber" placeholder="Flat 101, House No. 123">
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label>Street/Sector/Area <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-road"></i>
+                    <input type="text" id="streetArea" placeholder="Street name, Sector, Area">
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label>Landmark (Optional)</label>
+                <div class="input-wrap">
+                    <i class="fas fa-map-pin"></i>
+                    <input type="text" id="landmark" placeholder="Near School, Hospital, etc.">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>City <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-city"></i>
+                    <input type="text" id="city" placeholder="City name">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>State <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-map"></i>
+                    <select id="state">
+                        <option value="">Select State</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="West Bengal">West Bengal</option>
+                    </select>
+                    <i class="fas fa-chevron-down select-arrow"></i>
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label>PINCODE <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-mailbox"></i>
+                    <input type="text" id="pincode" placeholder="6-digit pincode" maxlength="6">
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Info -->
+        <div class="delivery-info" id="deliveryInfo">
+            <div class="row"><span class="label">📍 Delivery Address</span><span class="value" id="deliveryAddressDisplay">-</span></div>
+            <div class="row"><span class="label">📏 Distance from Store</span><span class="value" id="deliveryDistance">-</span></div>
+            <div class="row"><span class="label">⏱️ Delivery Time</span><span class="value" id="deliveryTimeDisplay">-</span></div>
+            <div class="row"><span class="label">📦 Service Status</span><span class="value" id="serviceStatusDisplay">-</span></div>
+        </div>
+
+        <button class="btn-primary" id="saveLocationBtn" onclick="saveLocation()">
+            <i class="fas fa-save"></i> Save Location & Continue
+        </button>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE 3: CUSTOMER PANEL ===== -->
 <!-- ============================================================ -->
 <div id="customerPanel">
-    <!-- Location Bar -->
     <div class="location-bar" onclick="showPage('location')">
         <i class="fas fa-location-dot"></i>
         <span class="address" id="homeAddress">📍 Select location</span>
-        <span class="delivery-time" id="deliveryTime">⏳ Select</span>
+        <span class="delivery-time" id="deliveryTimeBadge">⏳ Select</span>
         <span class="dropdown"><i class="fas fa-chevron-down"></i></span>
     </div>
 
-    <!-- Header -->
     <div class="app-header">
         <div class="logo-text">PRIYA <span>ELECTRICALS</span></div>
         <div class="search-box">
@@ -1268,7 +1445,6 @@
         </div>
     </div>
 
-    <!-- Categories -->
     <div class="categories-scroll" id="categoriesContainer">
         <div class="category-chip active" data-category="all" onclick="filterCategory('all')">
             <i class="fas fa-th-large"></i><span>All</span>
@@ -1290,7 +1466,6 @@
         </div>
     </div>
 
-    <!-- Products -->
     <div class="products-container">
         <div class="section-header">
             <h3 id="categoryTitle">⚡ All Products</h3>
@@ -1300,67 +1475,6 @@
             <div class="loading-spinner" style="text-align:center;padding:40px 0;color:#94a3b8;grid-column:1/-1;">
                 <i class="fas fa-spinner" style="font-size:2rem;animation:spin 1s linear infinite;"></i>
                 <p>Loading products...</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- ===== PAGE 3: LOCATION ===== -->
-<!-- ============================================================ -->
-<div id="pageLocation">
-    <div class="location-header">
-        <span class="back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i></span>
-        <h2>Select delivery location</h2>
-    </div>
-
-    <div class="location-permission" id="locationPermission">
-        <div class="left">
-            <i class="fas fa-location-dot"></i>
-            <div>
-                <strong>Device location not enabled</strong>
-                <span>Enable for a better delivery experience</span>
-            </div>
-        </div>
-        <button class="enable-btn" onclick="detectLocation()">
-            <i class="fas fa-crosshairs"></i> Enable
-        </button>
-    </div>
-
-    <div class="location-options">
-        <div class="option" onclick="detectLocation()">
-            <div class="icon green"><i class="fas fa-location-crosshairs"></i></div>
-            <div class="info">
-                <div class="title">Use current location</div>
-                <div class="sub" id="currentLocationStatus">Detect your current location</div>
-            </div>
-            <div class="arrow"><i class="fas fa-chevron-right"></i></div>
-        </div>
-        <div class="option" onclick="openAddAddressModal()">
-            <div class="icon purple"><i class="fas fa-plus"></i></div>
-            <div class="info">
-                <div class="title">Add new address</div>
-                <div class="sub">Add a new delivery address</div>
-            </div>
-            <div class="arrow"><i class="fas fa-chevron-right"></i></div>
-        </div>
-        <div class="option" onclick="shareAddress()">
-            <div class="icon blue"><i class="fas fa-share-nodes"></i></div>
-            <div class="info">
-                <div class="title">Request address from someone else</div>
-                <div class="sub">Share a link to get address</div>
-            </div>
-            <div class="arrow"><i class="fas fa-chevron-right"></i></div>
-        </div>
-    </div>
-
-    <div class="saved-addresses">
-        <div class="label">Your saved addresses</div>
-        <div id="savedAddresses">
-            <div style="text-align:center;padding:20px;color:#94a3b8;">
-                <i class="fas fa-home" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>
-                <p>No saved addresses</p>
-                <small>Add a new address to get started</small>
             </div>
         </div>
     </div>
@@ -1404,7 +1518,6 @@
         </div>
     </div>
 
-    <!-- Order History -->
     <div style="padding: 0 16px 16px;">
         <h3 style="font-size:1rem;font-weight:700;margin:12px 0;">Order History</h3>
         <div class="orders-list" id="ordersList">
@@ -1496,9 +1609,7 @@
     </div>
 </div>
 
-<!-- ============================================================ -->
 <!-- ===== ORDER SUCCESS POPUP ===== -->
-<!-- ============================================================ -->
 <div class="success-overlay" id="successOverlay">
     <div class="success-popup">
         <div class="icon"><i class="fas fa-check-circle"></i></div>
@@ -1547,32 +1658,6 @@
     <button class="checkout-btn" id="checkoutBtn" disabled onclick="goToPayment()">
         <i class="fas fa-credit-card"></i> Proceed to Payment
     </button>
-</div>
-
-<!-- ===== MODAL - ADD ADDRESS ===== -->
-<div class="modal-overlay" id="addAddressModal">
-    <div class="modal-content">
-        <div class="handle"></div>
-        <h3><i class="fas fa-plus-circle" style="color:#2563eb;"></i> Add New Address</h3>
-        <div class="form-group">
-            <label>Address Label</label>
-            <input type="text" id="addrLabel" placeholder="Home / Office / Shop">
-        </div>
-        <div class="form-group">
-            <label>Full Address</label>
-            <textarea id="addrFull" placeholder="Flat no, Building, Street, Area, City, Pincode"></textarea>
-        </div>
-        <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" id="addrPhone" placeholder="Enter phone number">
-        </div>
-        <button class="btn-primary" onclick="saveAddress()">
-            <i class="fas fa-save"></i> Save Address
-        </button>
-        <button class="btn-secondary" onclick="closeAddAddressModal()">
-            <i class="fas fa-times"></i> Cancel
-        </button>
-    </div>
 </div>
 
 <!-- ============================================================ -->
@@ -1643,9 +1728,19 @@
             document.getElementById('profilePhone').textContent = user.phoneNumber || user.email || '';
             
             loadProducts();
-            detectLocation();
             loadSavedAddresses();
             loadOrders();
+            
+            // Check if location already saved
+            const savedLocation = localStorage.getItem('userLocation');
+            if (savedLocation) {
+                try {
+                    const loc = JSON.parse(savedLocation);
+                    document.getElementById('homeAddress').textContent = '📍 ' + (loc.address || 'Saved location');
+                    document.getElementById('deliveryAddress').textContent = loc.address || 'Saved location';
+                    document.getElementById('deliveryTimeBadge').textContent = loc.deliveryTime || '⏳ Select';
+                } catch(e) {}
+            }
         } else {
             currentUser = null;
             document.getElementById('pageLogin').style.display = 'flex';
@@ -1985,26 +2080,26 @@
 
     const STORE_LAT = 23.6693;
     const STORE_LNG = 86.1511;
-    const DELIVERY_RADIUS_KM = 1000;
+    const QUICK_DELIVERY_KM = 10;
+    const MAX_DELIVERY_KM = 1000;
 
     function detectLocation() {
-        if (locationDetected) {
-            showToast('📍 Location already detected!', 'info');
-            return;
-        }
-
-        const statusEl = document.getElementById('currentLocationStatus');
-        const addressEl = document.getElementById('homeAddress');
+        const statusEl = document.getElementById('locationStatus');
+        const subEl = document.getElementById('locationSub');
+        const iconEl = document.getElementById('locationIcon');
+        const btn = document.getElementById('retryLocationBtn');
         
         if (!navigator.geolocation) {
-            addressEl.textContent = '📍 Geolocation not supported';
-            showToast('Geolocation not supported', 'error');
+            statusEl.textContent = '❌ Geolocation not supported';
+            subEl.textContent = 'Please enter your address manually';
+            iconEl.textContent = '❌';
             return;
         }
 
-        document.getElementById('locationPermission').style.display = 'none';
         statusEl.textContent = '📍 Detecting...';
-        showToast('📍 Detecting your location...', 'info');
+        subEl.textContent = 'Please wait...';
+        iconEl.textContent = '⏳';
+        btn.disabled = true;
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -2012,102 +2107,112 @@
                 userLng = position.coords.longitude;
                 locationDetected = true;
                 
-                localStorage.setItem('userLocation', JSON.stringify({
-                    lat: userLat,
-                    lng: userLng,
-                    address: 'Current Location'
-                }));
-                
-                getAddressFromCoords(userLat, userLng);
-                calculateDeliveryTime(userLat, userLng);
                 statusEl.textContent = '✅ Location detected!';
-                showToast('✅ Location detected!', 'success');
-                setTimeout(() => showPage('home'), 500);
+                iconEl.textContent = '✅';
+                btn.disabled = false;
+                
+                // Get address from coords
+                getAddressFromCoords(userLat, userLng);
+                calculateDelivery(userLat, userLng);
+                
+                showToast('✅ Location detected successfully!', 'success');
             },
             (error) => {
-                if (error.code === 1) {
-                    document.getElementById('locationPermission').style.display = 'flex';
-                    statusEl.textContent = '❌ Location access denied';
-                    showToast('Please allow location access', 'warning', 5000);
-                } else {
-                    statusEl.textContent = '❌ Error detecting location';
-                    showToast('Error: ' + error.message, 'error');
-                }
+                let msg = '❌ Location detection failed';
+                if (error.code === 1) msg = '❌ Location access denied';
+                else if (error.code === 2) msg = '❌ Location unavailable';
+                else if (error.code === 3) msg = '⏳ Location timeout';
+                
+                statusEl.textContent = msg;
+                subEl.textContent = 'Please enter your address manually';
+                iconEl.textContent = '❌';
+                btn.disabled = false;
+                
+                showToast('Please enter address manually', 'warning');
             },
-            { 
-                enableHighAccuracy: true, 
-                timeout: 15000,
-                maximumAge: 0
-            }
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
         );
     }
 
     function getAddressFromCoords(lat, lng) {
-        const addressEl = document.getElementById('homeAddress');
         const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18&addressdetails=1`;
         
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 if (data && data.display_name) {
-                    const addr = data.display_name.substring(0, 50);
-                    addressEl.textContent = '📍 ' + addr + '...';
-                    selectedAddress = { address: data.display_name, lat: lat, lng: lng };
-                    localStorage.setItem('selectedAddress', JSON.stringify(selectedAddress));
+                    const addr = data.display_name;
+                    document.getElementById('homeAddress').textContent = '📍 ' + addr.substring(0, 50) + '...';
                     document.getElementById('deliveryAddress').textContent = addr;
                 }
             })
-            .catch(() => {
-                addressEl.textContent = '📍 ' + lat.toFixed(4) + ', ' + lng.toFixed(4);
-            });
+            .catch(() => {});
     }
 
     // ============================================================
-    // 🚚 DELIVERY TIME CALCULATION
+    // 📦 CALCULATE DELIVERY
     // ============================================================
-    function calculateDeliveryTime(lat, lng) {
-        const timeEl = document.getElementById('deliveryTime');
-        const checkoutTimeEl = document.getElementById('checkoutDeliveryTime');
+    function calculateDelivery(lat, lng) {
         const distance = calculateDistance(STORE_LAT, STORE_LNG, lat, lng);
+        const deliveryInfo = document.getElementById('deliveryInfo');
+        const distanceDisplay = document.getElementById('deliveryDistance');
+        const timeDisplay = document.getElementById('deliveryTimeDisplay');
+        const statusDisplay = document.getElementById('serviceStatusDisplay');
+        const addressDisplay = document.getElementById('deliveryAddressDisplay');
         
-        const SPEED_PER_DAY = 40;
-        let deliveryDays = distance / SPEED_PER_DAY;
-        const MIN_MINUTES = 13;
-        const MIN_DAYS = MIN_MINUTES / (24 * 60);
-        const MAX_DAYS = 7;
-        let finalDays = Math.max(MIN_DAYS, Math.min(MAX_DAYS, deliveryDays));
+        deliveryInfo.classList.add('show');
         
-        let displayText = '';
-        let className = '';
-        if (finalDays <= MIN_DAYS + 0.01) {
-            displayText = '⚡ ' + MIN_MINUTES + ' mins';
-            className = '';
-        } else if (finalDays < 1) {
-            displayText = '⏰ ' + Math.round(finalDays * 24) + ' hrs';
-            className = '';
-        } else if (finalDays <= 2) {
-            displayText = '📦 ' + Math.round(finalDays) + ' day';
-            className = '';
-        } else if (finalDays <= 4) {
-            displayText = '📦 ' + Math.round(finalDays) + ' days';
-            className = 'long';
-        } else {
-            displayText = '📦 ' + Math.round(finalDays) + ' days';
-            className = 'very-long';
-        }
+        let address = document.getElementById('receiverName').value || 'Current Location';
+        let flat = document.getElementById('flatNumber').value || '';
+        let street = document.getElementById('streetArea').value || '';
+        let city = document.getElementById('city').value || '';
+        let pincode = document.getElementById('pincode').value || '';
         
-        timeEl.textContent = displayText;
-        timeEl.className = 'delivery-time ' + className;
-        if (checkoutTimeEl) checkoutTimeEl.textContent = displayText;
+        let fullAddress = flat + ', ' + street + ', ' + city + ' - ' + pincode;
+        addressDisplay.textContent = fullAddress || 'Current Location';
         
-        if (finalDays <= MAX_DAYS) {
+        let distanceKm = distance.toFixed(1);
+        distanceDisplay.textContent = distanceKm + ' km';
+        
+        let deliveryTime = '';
+        let status = '';
+        let statusClass = '';
+        
+        if (distance <= QUICK_DELIVERY_KM) {
+            // Quick Delivery - 13 mins to 2 hours
+            let minutes = Math.max(13, Math.round(distance * 2.6));
+            deliveryTime = '⚡ ' + minutes + ' mins (Quick Delivery)';
+            status = '✅ Available - Quick Delivery';
+            statusClass = 'quick';
             isServiceAvailable = true;
-            showToast('✅ Delivery available! Distance: ' + distance.toFixed(1) + ' km', 'success', 3000);
-            loadProducts();
+        } else if (distance <= MAX_DELIVERY_KM) {
+            // Normal Delivery - 7-15 working days
+            let days = Math.max(7, Math.round(distance / 40));
+            if (days > 15) days = 15;
+            deliveryTime = '📦 ' + days + ' working days (Standard Delivery)';
+            status = '✅ Available - Standard Delivery';
+            statusClass = 'normal';
+            isServiceAvailable = true;
         } else {
+            deliveryTime = '❌ Not deliverable';
+            status = '❌ Unavailable - Too far';
+            statusClass = 'unavailable';
             isServiceAvailable = false;
-            showToast('❌ Service not available at your location', 'error', 4000);
         }
+        
+        timeDisplay.textContent = deliveryTime;
+        timeDisplay.className = 'value ' + statusClass;
+        statusDisplay.textContent = status;
+        statusDisplay.className = 'value ' + statusClass;
+        
+        if (!isServiceAvailable) {
+            deliveryInfo.classList.add('unavailable');
+        } else {
+            deliveryInfo.classList.remove('unavailable');
+        }
+        
+        // Update badge
+        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -2122,6 +2227,67 @@
     }
 
     // ============================================================
+    // 💾 SAVE LOCATION
+    // ============================================================
+    function saveLocation() {
+        const name = document.getElementById('receiverName').value.trim();
+        const phone = document.getElementById('receiverPhone').value.trim();
+        const flat = document.getElementById('flatNumber').value.trim();
+        const street = document.getElementById('streetArea').value.trim();
+        const landmark = document.getElementById('landmark').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value;
+        const pincode = document.getElementById('pincode').value.trim();
+        
+        // Validation
+        if (!name) { showToast('Please enter receiver name', 'error'); return; }
+        if (!phone || phone.length < 10) { showToast('Please enter valid phone number', 'error'); return; }
+        if (!flat) { showToast('Please enter flat/house number', 'error'); return; }
+        if (!street) { showToast('Please enter street/sector', 'error'); return; }
+        if (!city) { showToast('Please enter city', 'error'); return; }
+        if (!state) { showToast('Please select state', 'error'); return; }
+        if (!pincode || pincode.length !== 6) { showToast('Please enter valid 6-digit pincode', 'error'); return; }
+        
+        let fullAddress = flat + ', ' + street + (landmark ? ', ' + landmark : '') + ', ' + city + ', ' + state + ' - ' + pincode;
+        
+        const locationData = {
+            name: name,
+            phone: phone,
+            flat: flat,
+            street: street,
+            landmark: landmark,
+            city: city,
+            state: state,
+            pincode: pincode,
+            address: fullAddress,
+            lat: userLat || 23.6693,
+            lng: userLng || 86.1511
+        };
+        
+        // Calculate delivery if we have coordinates
+        if (userLat && userLng) {
+            calculateDelivery(userLat, userLng);
+            locationData.deliveryTime = document.getElementById('deliveryTimeDisplay').textContent;
+        } else {
+            // Estimate based on pincode (simplified)
+            let distance = Math.abs(parseInt(pincode) - 829123) * 0.5;
+            if (distance < 1) distance = 0.5;
+            calculateDelivery(STORE_LAT + (distance * 0.01), STORE_LNG + (distance * 0.01));
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('userLocation', JSON.stringify(locationData));
+        
+        // Update UI
+        document.getElementById('homeAddress').textContent = '📍 ' + fullAddress.substring(0, 40) + '...';
+        document.getElementById('deliveryAddress').textContent = fullAddress;
+        selectedAddress = locationData;
+        
+        showToast('✅ Location saved successfully!', 'success');
+        setTimeout(() => showPage('home'), 1000);
+    }
+
+    // ============================================================
     // 📍 SAVED ADDRESSES
     // ============================================================
     function loadSavedAddresses() {
@@ -2130,117 +2296,9 @@
         
         if (addresses.length === 0) {
             addresses = [
-                { id: '1', label: 'HOME', address: 'Champi, Bokaro, Jharkhand - 829123', phone: '9142739651' },
-                { id: '2', label: 'OFFICE', address: 'Sector 9D, Bokaro Steel City', phone: '8340466463' }
+                { id: '1', label: 'HOME', address: 'Champi, Bokaro, Jharkhand - 829123', phone: '9142739651' }
             ];
             localStorage.setItem('savedAddresses', JSON.stringify(addresses));
-        }
-        
-        renderAddresses(addresses);
-    }
-
-    function renderAddresses(addresses) {
-        const container = document.getElementById('savedAddresses');
-        if (!addresses || addresses.length === 0) {
-            container.innerHTML = `
-                <div style="text-align:center;padding:20px;color:#94a3b8;">
-                    <i class="fas fa-home" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>
-                    <p>No saved addresses</p>
-                    <small>Add a new address to get started</small>
-                </div>
-            `;
-            return;
-        }
-
-        let html = '';
-        addresses.forEach(addr => {
-            html += `
-                <div class="address-card" onclick="selectAddress('${addr.id}')">
-                    <div class="radio ${addr.id === '1' ? 'selected' : ''}" id="radio_${addr.id}"></div>
-                    <div class="info">
-                        <div class="label">
-                            ${addr.label || 'Home'}
-                            <span class="tag">${addr.label || 'Home'}</span>
-                        </div>
-                        <div class="addr">${addr.address}</div>
-                        <div class="phone"><i class="fas fa-phone"></i> ${addr.phone || ''}</div>
-                    </div>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-    }
-
-    function selectAddress(addressId) {
-        const saved = localStorage.getItem('savedAddresses');
-        if (!saved) return;
-        const addresses = JSON.parse(saved);
-        const selected = addresses.find(a => a.id === addressId);
-        
-        if (selected) {
-            document.querySelectorAll('.address-card .radio').forEach(el => el.classList.remove('selected'));
-            document.getElementById('radio_' + addressId).classList.add('selected');
-            
-            selectedAddress = selected;
-            document.getElementById('homeAddress').textContent = '📍 ' + selected.address.substring(0, 40) + '...';
-            document.getElementById('deliveryAddress').textContent = selected.address;
-            showToast('✅ Address selected: ' + selected.label, 'success');
-            showPage('home');
-        }
-    }
-
-    function openAddAddressModal() {
-        document.getElementById('addAddressModal').classList.add('open');
-    }
-
-    function closeAddAddressModal() {
-        document.getElementById('addAddressModal').classList.remove('open');
-    }
-
-    function saveAddress() {
-        const label = document.getElementById('addrLabel').value.trim();
-        const address = document.getElementById('addrFull').value.trim();
-        const phone = document.getElementById('addrPhone').value.trim();
-        
-        if (!label || !address) {
-            showToast('Please fill Label and Address', 'error');
-            return;
-        }
-        
-        const newAddress = {
-            id: Date.now().toString(),
-            label: label.toUpperCase(),
-            address: address,
-            phone: phone || ''
-        };
-        
-        const saved = localStorage.getItem('savedAddresses');
-        let addresses = saved ? JSON.parse(saved) : [];
-        addresses.push(newAddress);
-        localStorage.setItem('savedAddresses', JSON.stringify(addresses));
-        
-        showToast('✅ Address saved successfully!', 'success');
-        closeAddAddressModal();
-        loadSavedAddresses();
-        
-        document.getElementById('addrLabel').value = '';
-        document.getElementById('addrFull').value = '';
-        document.getElementById('addrPhone').value = '';
-    }
-
-    function shareAddress() {
-        if (navigator.share) {
-            navigator.share({
-                title: 'Share Address with Priya Electricals',
-                text: 'Share your delivery address for Priya Electricals',
-                url: window.location.href
-            }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText('Share your address for Priya Electricals').then(() => {
-                showToast('📋 Copied! Share it with others.', 'success');
-            }).catch(() => {
-                showToast('📋 Share this page to get address', 'warning');
-            });
         }
     }
 
@@ -2581,7 +2639,7 @@
                 hour: '2-digit',
                 minute: '2-digit'
             }),
-            deliveryTime: document.getElementById('deliveryTime').textContent || '13 mins'
+            deliveryTime: document.getElementById('deliveryTimeBadge').textContent || '13 mins'
         };
 
         db.collection('orders').add(orderData)
@@ -2754,147 +2812,6 @@
             document.getElementById('rememberMe').checked = true;
         }
         console.log('✅ Priya Electricals - Customer Panel Loaded');
-    });
-</script>
-
-</body>
-</html>rder arrived' : 'Order placed'}
-                </div>
-                <div class="status-sub">${order.orderDate || 'Date not available'}</div>
-                <div class="placed-by">Order placed by ${order.userName || 'User'}, ${order.userEmail || ''}</div>
-            </div>
-
-            <div class="detail-items-card">
-                <div class="items-title">${items.length} items in this order</div>
-                ${itemsHtml}
-            </div>
-
-            <div class="detail-bill-card">
-                <div class="bill-title">Bill details</div>
-                <div class="detail-bill-row"><span>MRP</span><span>₹${mrp}</span></div>
-                <div class="detail-bill-row"><span>Product discount</span><span>-₹${discount}</span></div>
-                <div class="detail-bill-row"><span>Item total</span><span>₹${mrp - discount}</span></div>
-                <div class="detail-bill-row"><span>Flat ₹${flatDiscount} OFF</span><span>-₹${flatDiscount}</span></div>
-                <div class="detail-bill-row"><span>Handling charge</span><span>₹${handling}</span></div>
-                <div class="detail-bill-row"><span>Delivery charges</span><span>${delivery === 0 ? 'FREE' : '₹' + delivery}</span></div>
-                <div class="detail-bill-row total"><span>Bill total</span><span>₹${total}</span></div>
-            </div>
-
-            <div class="detail-order-card">
-                <div class="detail-title">Order details</div>
-                <div class="detail-order-row"><span class="label">Order id</span><span>${order.id || 'N/A'}</span></div>
-                <div class="detail-order-row"><span class="label">Payment</span><span>Cash on delivery</span></div>
-                <div class="detail-order-row"><span class="label">Deliver to</span><span>${order.address?.address || 'Champi, Bokaro, Jharkhand - 829123'}</span></div>
-                <div class="detail-order-row"><span class="label">Order placed</span><span>${order.orderDate || 'Date not available'}</span></div>
-            </div>
-
-            <div class="detail-help-card">
-                <div class="help-title">Need help with your order?</div>
-                <div class="help-sub">About any issues related to your order</div>
-                <button class="chat-btn" onclick="showToast('📱 Chat with support coming soon!', 'info')">
-                    <i class="fas fa-comment-dots"></i> Chat with us
-                </button>
-            </div>
-
-            <div class="detail-actions">
-                <button class="action-btn primary" onclick="repeatOrder('${order.id}')">
-                    <i class="fas fa-redo"></i> Repeat Order
-                </button>
-                <button class="action-btn secondary" onclick="showPage('orders')">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-            </div>
-        `;
-    }
-
-    // ============================================================
-    // 🔄 REPEAT ORDER
-    // ============================================================
-    function repeatOrder(orderId) {
-        db.collection('orders').doc(orderId).get()
-            .then(doc => {
-                if (doc.exists) {
-                    const order = doc.data();
-                    const items = order.items || [];
-                    
-                    // Add all items to cart
-                    items.forEach(item => {
-                        const existing = cart.find(c => c.id === item.id);
-                        if (existing) {
-                            existing.qty += item.qty || 1;
-                        } else {
-                            const product = products.find(p => p.id === item.id);
-                            if (product) {
-                                cart.push({ ...product, qty: item.qty || 1 });
-                            } else {
-                                // If product not found in current list, create from order data
-                                cart.push({
-                                    id: item.id,
-                                    name: item.name,
-                                    price: item.price,
-                                    unit: item.unit || '1 Piece',
-                                    qty: item.qty || 1,
-                                    image: '📦'
-                                });
-                            }
-                        }
-                    });
-                    
-                    updateCartUI();
-                    showToast('✅ Items added to cart!', 'success');
-                    showPage('home');
-                }
-            })
-            .catch(error => {
-                showToast('❌ Error repeating order', 'error');
-            });
-    }
-
-    // ============================================================
-    // 📊 UPDATE PROFILE STATS
-    // ============================================================
-    function updateProfileStats(orders) {
-        if (!orders) {
-            // Try to load from DOM
-            const cards = document.querySelectorAll('.order-card');
-            orders = [];
-            // Just count visible cards
-            document.getElementById('orderCount').textContent = cards.length;
-            document.getElementById('orderBadge').textContent = cards.length;
-            return;
-        }
-
-        const totalOrders = orders.length;
-        const totalSpent = orders.reduce((sum, order) => sum + (order.total || 0), 0);
-        
-        document.getElementById('orderCount').textContent = totalOrders;
-        document.getElementById('totalSpent').textContent = '₹' + totalSpent;
-        document.getElementById('savedCount').textContent = Math.round(totalSpent * 0.1);
-        document.getElementById('orderBadge').textContent = totalOrders;
-    }
-
-    // ============================================================
-    // 🚀 LOAD
-    // ============================================================
-    window.addEventListener('load', function() {
-        const remembered = localStorage.getItem('rememberedEmail');
-        if (remembered) {
-            document.getElementById('loginEmail').value = remembered;
-            document.getElementById('rememberMe').checked = true;
-        }
-        console.log('✅ Priya Electricals App Loaded');
-    });
-
-    // Enter key support
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const activeTab = document.querySelector('.auth-tab.active');
-            if (activeTab && activeTab.dataset.tab === 'login') {
-                handleLogin();
-            } else if (activeTab && activeTab.dataset.tab === 'register') {
-                handleRegister();
-            }
-        }
     });
 </script>
 
