@@ -24,10 +24,9 @@
         }
 
         body {
-            background: #f8fafc;
+            background: #f0f4f8;
             color: #1e293b;
             min-height: 100vh;
-            padding-bottom: 70px;
         }
 
         /* ===== TOP TOAST ===== */
@@ -392,8 +391,21 @@
 
         .location-bar .delivery-time {
             font-size: 0.7rem;
-            color: #10b981;
             font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .location-bar .delivery-time.long {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .location-bar .delivery-time.very-long {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         .location-bar .dropdown {
@@ -411,7 +423,7 @@
         }
 
         .app-header .logo-text {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: #1e293b;
         }
@@ -601,6 +613,11 @@
 
         .product-card .add-btn.in-cart {
             background: #10b981;
+        }
+
+        .product-card .add-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         /* ===== BOTTOM NAV ===== */
@@ -921,15 +938,6 @@
 
         .profile-menu .menu-item .arrow {
             color: #94a3b8;
-        }
-
-        .profile-menu .menu-item .badge {
-            background: #ef4444;
-            color: white;
-            padding: 1px 8px;
-            border-radius: 10px;
-            font-size: 0.6rem;
-            font-weight: 600;
         }
 
         .profile-menu .menu-item.danger .text {
@@ -1370,7 +1378,7 @@
     <div class="location-bar" onclick="showPage('location')">
         <i class="fas fa-location-dot"></i>
         <span class="address" id="homeAddress">📍 Select location</span>
-        <span class="delivery-time" id="deliveryTime">⚡ 13 mins</span>
+        <span class="delivery-time" id="deliveryTime">⏳ Select</span>
         <span class="dropdown"><i class="fas fa-chevron-down"></i></span>
     </div>
 
@@ -1462,7 +1470,6 @@
         <div class="menu-item" onclick="showToast('Notifications coming soon!', 'info')">
             <i class="fas fa-bell"></i>
             <span class="text">Notification preferences</span>
-            <span class="badge">3</span>
             <span class="arrow"><i class="fas fa-chevron-right"></i></span>
         </div>
         <div class="menu-item" onclick="showToast('About us', 'info')">
@@ -1540,7 +1547,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== JAVASCRIPT ===== -->
+<!-- ===== JAVASCRIPT - ALL FEATURES ===== -->
 <!-- ============================================================ -->
 <script>
     // ============================================================
@@ -1598,12 +1605,28 @@
             document.getElementById('pageProfile').style.display = 'none';
             document.getElementById('bottomNav').style.display = 'flex';
             
-            // Update profile
             document.getElementById('profileName').textContent = user.displayName || user.email || 'User';
             
             showToast('✅ Welcome, ' + (user.displayName || user.email || 'User') + '! 🎉', 'success', 3000);
             loadProducts();
-            detectLocation();
+            
+            // Check if location already saved
+            const savedLocation = localStorage.getItem('userLocation');
+            if (savedLocation) {
+                try {
+                    const loc = JSON.parse(savedLocation);
+                    userLat = loc.lat;
+                    userLng = loc.lng;
+                    document.getElementById('homeAddress').textContent = '📍 ' + (loc.address || 'Saved location');
+                    calculateDeliveryTime(userLat, userLng);
+                    isServiceAvailable = true;
+                    loadProducts();
+                } catch(e) {
+                    detectLocation();
+                }
+            } else {
+                detectLocation();
+            }
             loadSavedAddresses();
         } else {
             document.getElementById('pageLogin').style.display = 'flex';
@@ -1628,17 +1651,14 @@
     // 📱 PAGE NAVIGATION
     // ============================================================
     function showPage(page) {
-        // Hide all pages
         document.getElementById('pageLocation').style.display = 'none';
         document.getElementById('appContainer').style.display = 'none';
         document.getElementById('pageProfile').style.display = 'none';
         
-        // Show selected page
         if (page === 'location') {
             document.getElementById('pageLocation').style.display = 'block';
         } else if (page === 'home') {
             document.getElementById('appContainer').style.display = 'block';
-            // Update bottom nav
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.querySelector('.nav-item[data-page="home"]').classList.add('active');
         } else if (page === 'profile') {
@@ -1649,7 +1669,7 @@
     }
 
     // ============================================================
-    // ✅ VALIDATION FUNCTIONS
+    // ✅ VALIDATION FUNCTIONS (Same as before)
     // ============================================================
     function setFieldStatus(inputId, status, iconHtml) {
         const input = document.getElementById(inputId);
@@ -1715,9 +1735,6 @@
         }
     }
 
-    // ============================================================
-    // 🔒 PASSWORD STRENGTH
-    // ============================================================
     function checkPasswordStrength(password) {
         const str1 = document.getElementById('str1');
         const str2 = document.getElementById('str2');
@@ -1929,19 +1946,26 @@
     }
 
     // ============================================================
-    // 📍 LOCATION DETECTION
+    // 📍 LOCATION DETECTION (ONE TIME)
     // ============================================================
     let userLat = null;
     let userLng = null;
     let isServiceAvailable = false;
     let selectedAddress = null;
+    let locationDetected = false;
 
     // Store Address: Champi, Bokaro, Jharkhand - 829123
     const STORE_LAT = 23.6693;
     const STORE_LNG = 86.1511;
-    const DELIVERY_RADIUS_KM = 10;
+    const DELIVERY_RADIUS_KM = 1000; // 1000 km radius for 7 days delivery
 
     function detectLocation() {
+        // Check if location already detected
+        if (locationDetected) {
+            showToast('📍 Location already detected!', 'info');
+            return;
+        }
+
         const statusEl = document.getElementById('currentLocationStatus');
         const addressEl = document.getElementById('homeAddress');
         
@@ -1959,8 +1983,17 @@
             (position) => {
                 userLat = position.coords.latitude;
                 userLng = position.coords.longitude;
+                locationDetected = true;
+                
+                // Save location
+                localStorage.setItem('userLocation', JSON.stringify({
+                    lat: userLat,
+                    lng: userLng,
+                    address: 'Current Location'
+                }));
+                
                 getAddressFromCoords(userLat, userLng);
-                checkServiceAvailability(userLat, userLng);
+                calculateDeliveryTime(userLat, userLng);
                 statusEl.textContent = '✅ Location detected!';
                 showToast('✅ Location detected!', 'success');
                 setTimeout(() => showPage('home'), 500);
@@ -1970,12 +2003,19 @@
                     document.getElementById('locationPermission').style.display = 'flex';
                     statusEl.textContent = '❌ Location access denied';
                     showToast('Please allow location access', 'warning', 5000);
+                } else if (error.code === 3) {
+                    statusEl.textContent = '⏳ Timeout - Please try again';
+                    showToast('Location timeout. Please try again.', 'error');
                 } else {
                     statusEl.textContent = '❌ Error detecting location';
                     showToast('Error: ' + error.message, 'error');
                 }
             },
-            { enableHighAccuracy: true, timeout: 10000 }
+            { 
+                enableHighAccuracy: true, 
+                timeout: 15000,
+                maximumAge: 0
+            }
         );
     }
 
@@ -1998,21 +2038,61 @@
             });
     }
 
-    function checkServiceAvailability(lat, lng) {
-        const distance = calculateDistance(STORE_LAT, STORE_LNG, lat, lng);
+    // ============================================================
+    // 🚚 DELIVERY TIME CALCULATION (7 Days Maximum)
+    // ============================================================
+    function calculateDeliveryTime(lat, lng) {
         const timeEl = document.getElementById('deliveryTime');
+        const distance = calculateDistance(STORE_LAT, STORE_LNG, lat, lng);
         
-        if (distance <= DELIVERY_RADIUS_KM) {
+        // Speed: 40 km per day (average delivery speed)
+        const SPEED_PER_DAY = 40; // km per day
+        let deliveryDays = distance / SPEED_PER_DAY;
+        
+        // Minimum 13 minutes (if very close)
+        const MIN_MINUTES = 13;
+        const MIN_DAYS = MIN_MINUTES / (24 * 60); // 13 minutes in days
+        
+        // Maximum 7 days
+        const MAX_DAYS = 7;
+        
+        // Clamp between min and max
+        let finalDays = Math.max(MIN_DAYS, Math.min(MAX_DAYS, deliveryDays));
+        
+        let displayText = '';
+        let className = '';
+        
+        if (finalDays <= MIN_DAYS + 0.01) {
+            // Very close - show minutes
+            displayText = '⚡ ' + MIN_MINUTES + ' mins';
+            className = '';
+        } else if (finalDays < 1) {
+            // Less than 1 day - show hours
+            const hours = Math.round(finalDays * 24);
+            displayText = '⏰ ' + hours + ' hrs';
+            className = '';
+        } else if (finalDays <= 2) {
+            displayText = '📦 ' + Math.round(finalDays) + ' day';
+            className = '';
+        } else if (finalDays <= 4) {
+            displayText = '📦 ' + Math.round(finalDays) + ' days';
+            className = 'long';
+        } else {
+            displayText = '📦 ' + Math.round(finalDays) + ' days';
+            className = 'very-long';
+        }
+        
+        timeEl.textContent = displayText;
+        timeEl.className = 'delivery-time ' + className;
+        
+        // Check if service is available
+        if (finalDays <= MAX_DAYS) {
             isServiceAvailable = true;
-            timeEl.textContent = '⚡ ' + Math.round(distance * 2.6) + ' mins';
-            timeEl.style.color = '#10b981';
-            showToast('✅ Delivery available! ' + distance.toFixed(1) + ' km from store', 'success', 3000);
+            showToast('✅ Delivery available! Distance: ' + distance.toFixed(1) + ' km', 'success', 3000);
             loadProducts();
         } else {
             isServiceAvailable = false;
-            timeEl.textContent = '❌ Unavailable';
-            timeEl.style.color = '#ef4444';
-            showServiceUnavailable();
+            showToast('❌ Service not available at your location', 'error', 4000);
         }
     }
 
@@ -2027,10 +2107,6 @@
         return R * c;
     }
 
-    function showServiceUnavailable() {
-        showToast('❌ Service not available at your location. Please visit our store.', 'error', 5000);
-    }
-
     // ============================================================
     // 📍 SAVED ADDRESSES
     // ============================================================
@@ -2039,10 +2115,9 @@
         let addresses = saved ? JSON.parse(saved) : [];
         
         if (addresses.length === 0) {
-            // Add default addresses
             addresses = [
-                { id: '1', label: 'Home', address: 'Champi, Bokaro, Jharkhand - 829123', phone: '9142739651' },
-                { id: '2', label: 'Office', address: 'Sector 9D, Bokaro Steel City', phone: '8340466463' }
+                { id: '1', label: 'HOME', address: 'Champi, Bokaro, Jharkhand - 829123', phone: '9142739651' },
+                { id: '2', label: 'OFFICE', address: 'Sector 9D, Bokaro Steel City', phone: '8340466463' }
             ];
             localStorage.setItem('savedAddresses', JSON.stringify(addresses));
         }
@@ -2119,7 +2194,7 @@
         
         const newAddress = {
             id: Date.now().toString(),
-            label: label,
+            label: label.toUpperCase(),
             address: address,
             phone: phone || ''
         };
@@ -2188,7 +2263,7 @@
     function renderProducts(productList) {
         const grid = document.getElementById('productGrid');
         
-        if (!isServiceAvailable) {
+        if (!isServiceAvailable && userLat && userLng) {
             grid.innerHTML = `
                 <div style="text-align:center;padding:40px 0;color:#94a3b8;grid-column:1/-1;">
                     <i class="fas fa-map-pin" style="font-size:2rem;display:block;margin-bottom:8px;color:#ef4444;"></i>
@@ -2225,7 +2300,7 @@
                         ${product.mrp ? `<span class="mrp">₹${product.mrp}</span>` : ''}
                         ${discount > 0 ? `<span style="color:#10b981;font-size:0.7rem;font-weight:600;">${discount}% OFF</span>` : ''}
                     </div>
-                    <button class="add-btn ${qty > 0 ? 'in-cart' : ''}" onclick="addToCart('${product.id}')" id="btn_${product.id}">
+                    <button class="add-btn ${qty > 0 ? 'in-cart' : ''}" onclick="addToCart('${product.id}')" id="btn_${product.id}" ${!isServiceAvailable ? 'disabled' : ''}>
                         ${qty > 0 ? `🛒 ${qty} in Cart` : 'Add to Cart'}
                     </button>
                 </div>
