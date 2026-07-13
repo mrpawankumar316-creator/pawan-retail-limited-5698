@@ -354,7 +354,7 @@
         }
 
         /* ============================================================ */
-        /* ===== BLINKIT-STYLE MAIN APP ===== */
+        /* ===== MAIN APP ===== */
         /* ============================================================ */
         #appContainer {
             display: none;
@@ -666,7 +666,7 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE: LOCATION SELECTION ===== */
+        /* ===== PAGE: LOCATION ===== */
         /* ============================================================ */
         #pageLocation {
             display: none;
@@ -899,6 +899,7 @@
         .profile-stats .stat .num {
             font-weight: 700;
             font-size: 1.1rem;
+            color: #2563eb;
         }
 
         .profile-stats .stat .label {
@@ -940,12 +941,410 @@
             color: #94a3b8;
         }
 
+        .profile-menu .menu-item .badge {
+            background: #ef4444;
+            color: white;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
         .profile-menu .menu-item.danger .text {
             color: #ef4444;
         }
 
         .profile-menu .menu-item.danger i {
             color: #ef4444;
+        }
+
+        /* ============================================================ */
+        /* ===== PAGE: ORDER HISTORY ===== */
+        /* ============================================================ */
+        #pageOrders {
+            display: none;
+            background: #f8fafc;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+
+        .orders-header {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .orders-header .back {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .orders-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .orders-search {
+            padding: 12px 16px;
+            background: white;
+        }
+
+        .orders-search .search-box {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .orders-search .search-box i {
+            color: #94a3b8;
+        }
+
+        .orders-search .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .orders-search .search-box input::placeholder {
+            color: #94a3b8;
+        }
+
+        .orders-list {
+            padding: 12px 16px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .order-card:active {
+            transform: scale(0.98);
+        }
+
+        .order-card .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .order-card .order-top .status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .order-card .order-top .status.delivered {
+            color: #10b981;
+        }
+
+        .order-card .order-top .status.pending {
+            color: #f59e0b;
+        }
+
+        .order-card .order-top .amount {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .order-card .order-date {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 6px;
+        }
+
+        .order-card .order-by {
+            font-size: 0.8rem;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .order-card .order-items {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .order-card .order-items .item-tag {
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            color: #64748b;
+        }
+
+        .order-card .order-items .more-tag {
+            background: #dbeafe;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            color: #2563eb;
+        }
+
+        .order-card .order-actions {
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 10px;
+        }
+
+        .order-card .order-actions .action-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .order-card .order-actions .action-btn:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .order-card .order-actions .action-btn.primary {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .order-card .order-actions .action-btn.primary:hover {
+            background: #1d4ed8;
+        }
+
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-orders i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        /* ============================================================ */
+        /* ===== PAGE: ORDER DETAIL ===== */
+        /* ============================================================ */
+        #pageOrderDetail {
+            display: none;
+            background: #f8fafc;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+
+        .order-detail-header {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .order-detail-header .back {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .order-detail-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .order-detail-content {
+            padding: 16px;
+        }
+
+        .detail-status-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .detail-status-card .status-big {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .detail-status-card .status-sub {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .detail-status-card .placed-by {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 4px;
+        }
+
+        .detail-items-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .detail-items-card .items-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .detail-item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f8fafc;
+            font-size: 0.85rem;
+        }
+
+        .detail-item-row .item-name {
+            flex: 1;
+        }
+
+        .detail-item-row .item-price {
+            font-weight: 600;
+        }
+
+        .detail-bill-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .detail-bill-card .bill-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .detail-bill-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .detail-bill-row.total {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            margin-top: 4px;
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 1rem;
+        }
+
+        .detail-order-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .detail-order-card .detail-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .detail-order-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.8rem;
+            color: #475569;
+        }
+
+        .detail-order-row .label {
+            color: #94a3b8;
+        }
+
+        .detail-help-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .detail-help-card .help-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .detail-help-card .help-sub {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .detail-help-card .chat-btn {
+            padding: 10px 24px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .detail-actions .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .detail-actions .action-btn.primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .detail-actions .action-btn.secondary {
+            background: #f1f5f9;
+            color: #475569;
         }
 
         /* ============================================================ */
@@ -1172,7 +1571,7 @@
             .product-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-            #appContainer, #pageLocation, #pageProfile {
+            #appContainer, #pageLocation, #pageProfile, #pageOrders, #pageOrderDetail {
                 max-width: 500px;
                 margin: 0 auto;
                 border-left: 1px solid #e2e8f0;
@@ -1437,19 +1836,20 @@
 <!-- ============================================================ -->
 <div id="pageProfile">
     <div class="profile-header">
-        <div class="name" id="profileName">Pawan Kumar</div>
-        <div class="phone" id="profilePhone">9142739651</div>
+        <div class="name" id="profileName">User</div>
+        <div class="phone" id="profilePhone"></div>
         <div class="profile-stats">
-            <div class="stat"><div class="num">0</div><div class="label">Orders</div></div>
-            <div class="stat"><div class="num">₹0</div><div class="label">Spent</div></div>
-            <div class="stat"><div class="num">0</div><div class="label">Saved</div></div>
+            <div class="stat"><div class="num" id="orderCount">0</div><div class="label">Orders</div></div>
+            <div class="stat"><div class="num" id="totalSpent">₹0</div><div class="label">Spent</div></div>
+            <div class="stat"><div class="num" id="savedCount">0</div><div class="label">Saved</div></div>
         </div>
     </div>
 
     <div class="profile-menu">
-        <div class="menu-item" onclick="showToast('Orders coming soon!', 'info')">
+        <div class="menu-item" onclick="showPage('orders')">
             <i class="fas fa-box"></i>
             <span class="text">Your orders</span>
+            <span class="badge" id="orderBadge">0</span>
             <span class="arrow"><i class="fas fa-chevron-right"></i></span>
         </div>
         <div class="menu-item" onclick="showToast('Wishlist coming soon!', 'info')">
@@ -1482,6 +1882,45 @@
             <span class="text">Log out</span>
             <span class="arrow"><i class="fas fa-chevron-right"></i></span>
         </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE 5: ORDER HISTORY ===== -->
+<!-- ============================================================ -->
+<div id="pageOrders">
+    <div class="orders-header">
+        <span class="back" onclick="showPage('profile')"><i class="fas fa-arrow-left"></i></span>
+        <h2>Order History</h2>
+    </div>
+
+    <div class="orders-search">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search your orders..." id="orderSearchInput" oninput="filterOrders()">
+        </div>
+    </div>
+
+    <div class="orders-list" id="ordersList">
+        <div class="empty-orders">
+            <i class="fas fa-box-open"></i>
+            <p>No orders yet</p>
+            <small>Start shopping to see your orders here</small>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE 6: ORDER DETAIL ===== -->
+<!-- ============================================================ -->
+<div id="pageOrderDetail">
+    <div class="order-detail-header">
+        <span class="back" onclick="showPage('orders')"><i class="fas fa-arrow-left"></i></span>
+        <h2>Order Summary</h2>
+    </div>
+
+    <div class="order-detail-content" id="orderDetailContent">
+        <!-- Will be filled dynamically -->
     </div>
 </div>
 
@@ -1597,18 +2036,30 @@
     // ============================================================
     // 🔄 AUTH STATE
     // ============================================================
+    let currentUser = null;
+
     auth.onAuthStateChanged(user => {
         if (user) {
+            currentUser = user;
             document.getElementById('pageLogin').style.display = 'none';
             document.getElementById('pageLocation').style.display = 'none';
             document.getElementById('appContainer').style.display = 'block';
             document.getElementById('pageProfile').style.display = 'none';
+            document.getElementById('pageOrders').style.display = 'none';
+            document.getElementById('pageOrderDetail').style.display = 'none';
             document.getElementById('bottomNav').style.display = 'flex';
             
-            document.getElementById('profileName').textContent = user.displayName || user.email || 'User';
+            // Update profile
+            const name = user.displayName || user.email || 'User';
+            document.getElementById('profileName').textContent = name;
+            document.getElementById('profilePhone').textContent = user.phoneNumber || user.email || '';
             
-            showToast('✅ Welcome, ' + (user.displayName || user.email || 'User') + '! 🎉', 'success', 3000);
+            showToast('✅ Welcome, ' + name + '! 🎉', 'success', 3000);
+            
+            // Load user data
+            loadUserData();
             loadProducts();
+            loadOrders();
             
             // Check if location already saved
             const savedLocation = localStorage.getItem('userLocation');
@@ -1629,13 +2080,39 @@
             }
             loadSavedAddresses();
         } else {
+            currentUser = null;
             document.getElementById('pageLogin').style.display = 'flex';
             document.getElementById('pageLocation').style.display = 'none';
             document.getElementById('appContainer').style.display = 'none';
             document.getElementById('pageProfile').style.display = 'none';
+            document.getElementById('pageOrders').style.display = 'none';
+            document.getElementById('pageOrderDetail').style.display = 'none';
             document.getElementById('bottomNav').style.display = 'none';
         }
     });
+
+    // ============================================================
+    // 📊 LOAD USER DATA
+    // ============================================================
+    function loadUserData() {
+        if (!currentUser) return;
+        
+        db.collection('users').doc(currentUser.uid).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (data.name) {
+                        document.getElementById('profileName').textContent = data.name;
+                    }
+                    if (data.phone) {
+                        document.getElementById('profilePhone').textContent = data.phone;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error loading user data:', error);
+            });
+    }
 
     // ============================================================
     // 🏷️ SWITCH TABS (Login/Register)
@@ -1654,6 +2131,8 @@
         document.getElementById('pageLocation').style.display = 'none';
         document.getElementById('appContainer').style.display = 'none';
         document.getElementById('pageProfile').style.display = 'none';
+        document.getElementById('pageOrders').style.display = 'none';
+        document.getElementById('pageOrderDetail').style.display = 'none';
         
         if (page === 'location') {
             document.getElementById('pageLocation').style.display = 'block';
@@ -1665,11 +2144,17 @@
             document.getElementById('pageProfile').style.display = 'block';
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.querySelector('.nav-item[data-page="profile"]').classList.add('active');
+            loadOrders();
+        } else if (page === 'orders') {
+            document.getElementById('pageOrders').style.display = 'block';
+            loadOrders();
+        } else if (page === 'orderdetail') {
+            document.getElementById('pageOrderDetail').style.display = 'block';
         }
     }
 
     // ============================================================
-    // ✅ VALIDATION FUNCTIONS (Same as before)
+    // ✅ VALIDATION FUNCTIONS
     // ============================================================
     function setFieldStatus(inputId, status, iconHtml) {
         const input = document.getElementById(inputId);
@@ -1946,7 +2431,7 @@
     }
 
     // ============================================================
-    // 📍 LOCATION DETECTION (ONE TIME)
+    // 📍 LOCATION DETECTION
     // ============================================================
     let userLat = null;
     let userLng = null;
@@ -1954,13 +2439,11 @@
     let selectedAddress = null;
     let locationDetected = false;
 
-    // Store Address: Champi, Bokaro, Jharkhand - 829123
     const STORE_LAT = 23.6693;
     const STORE_LNG = 86.1511;
-    const DELIVERY_RADIUS_KM = 1000; // 1000 km radius for 7 days delivery
+    const DELIVERY_RADIUS_KM = 1000;
 
     function detectLocation() {
-        // Check if location already detected
         if (locationDetected) {
             showToast('📍 Location already detected!', 'info');
             return;
@@ -1985,7 +2468,6 @@
                 userLng = position.coords.longitude;
                 locationDetected = true;
                 
-                // Save location
                 localStorage.setItem('userLocation', JSON.stringify({
                     lat: userLat,
                     lng: userLng,
@@ -2045,29 +2527,22 @@
         const timeEl = document.getElementById('deliveryTime');
         const distance = calculateDistance(STORE_LAT, STORE_LNG, lat, lng);
         
-        // Speed: 40 km per day (average delivery speed)
-        const SPEED_PER_DAY = 40; // km per day
+        const SPEED_PER_DAY = 40;
         let deliveryDays = distance / SPEED_PER_DAY;
         
-        // Minimum 13 minutes (if very close)
         const MIN_MINUTES = 13;
-        const MIN_DAYS = MIN_MINUTES / (24 * 60); // 13 minutes in days
-        
-        // Maximum 7 days
+        const MIN_DAYS = MIN_MINUTES / (24 * 60);
         const MAX_DAYS = 7;
         
-        // Clamp between min and max
         let finalDays = Math.max(MIN_DAYS, Math.min(MAX_DAYS, deliveryDays));
         
         let displayText = '';
         let className = '';
         
         if (finalDays <= MIN_DAYS + 0.01) {
-            // Very close - show minutes
             displayText = '⚡ ' + MIN_MINUTES + ' mins';
             className = '';
         } else if (finalDays < 1) {
-            // Less than 1 day - show hours
             const hours = Math.round(finalDays * 24);
             displayText = '⏰ ' + hours + ' hrs';
             className = '';
@@ -2085,7 +2560,6 @@
         timeEl.textContent = displayText;
         timeEl.className = 'delivery-time ' + className;
         
-        // Check if service is available
         if (finalDays <= MAX_DAYS) {
             isServiceAvailable = true;
             showToast('✅ Delivery available! Distance: ' + distance.toFixed(1) + ' km', 'success', 3000);
@@ -2445,6 +2919,9 @@
         }
     }
 
+    // ============================================================
+    // 📦 PLACE ORDER (Save to Firebase)
+    // ============================================================
     function placeOrder() {
         if (cart.length === 0) {
             showToast('❌ Cart is empty!', 'error');
@@ -2454,11 +2931,308 @@
             showToast('❌ Service not available at your location', 'error');
             return;
         }
+        if (!currentUser) {
+            showToast('❌ Please login first', 'error');
+            return;
+        }
+
+        showToast('📦 Placing order...', 'info');
+
+        const orderData = {
+            userId: currentUser.uid,
+            userEmail: currentUser.email,
+            userName: currentUser.displayName || 'User',
+            items: cart.map(item => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                qty: item.qty,
+                unit: item.unit || '1 Piece'
+            })),
+            total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+            address: selectedAddress || { address: 'Champi, Bokaro, Jharkhand - 829123' },
+            status: 'delivered',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            orderDate: new Date().toLocaleString('en-IN', { 
+                day: '2-digit', 
+                month: 'short', 
+                year: "'" + new Date().getFullYear().toString().slice(-2),
+                hour: '2-digit',
+                minute: '2-digit'
+            }),
+            deliveryTime: document.getElementById('deliveryTime').textContent || '13 mins'
+        };
+
+        db.collection('orders').add(orderData)
+            .then(() => {
+                showToast('✅ Order placed successfully! 🎉', 'success', 4000);
+                cart = [];
+                updateCartUI();
+                toggleCart();
+                loadOrders(); // Refresh order list
+                updateProfileStats();
+            })
+            .catch(error => {
+                showToast('❌ Error placing order: ' + error.message, 'error');
+            });
+    }
+
+    // ============================================================
+    // 📋 LOAD ORDERS (User-Specific)
+    // ============================================================
+    function loadOrders() {
+        if (!currentUser) return;
+
+        db.collection('orders')
+            .where('userId', '==', currentUser.uid)
+            .orderBy('createdAt', 'desc')
+            .get()
+            .then(snapshot => {
+                const orders = [];
+                snapshot.forEach(doc => {
+                    orders.push({ id: doc.id, ...doc.data() });
+                });
+                renderOrders(orders);
+                updateProfileStats(orders);
+            })
+            .catch(error => {
+                console.error('Error loading orders:', error);
+                // Try localStorage fallback
+                const cached = localStorage.getItem('orders_' + currentUser.uid);
+                if (cached) {
+                    try {
+                        const orders = JSON.parse(cached);
+                        renderOrders(orders);
+                        updateProfileStats(orders);
+                    } catch(e) {}
+                }
+            });
+    }
+
+    function renderOrders(orders) {
+        const container = document.getElementById('ordersList');
+        const badge = document.getElementById('orderBadge');
         
-        showToast('✅ Order placed successfully! 🎉', 'success', 4000);
-        cart = [];
-        updateCartUI();
-        toggleCart();
+        badge.textContent = orders.length;
+
+        if (!orders || orders.length === 0) {
+            container.innerHTML = `
+                <div class="empty-orders">
+                    <i class="fas fa-box-open"></i>
+                    <p>No orders yet</p>
+                    <small>Start shopping to see your orders here</small>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        orders.forEach(order => {
+            const items = order.items || [];
+            const itemNames = items.map(item => item.name).slice(0, 3);
+            const moreCount = items.length - 3;
+            
+            html += `
+                <div class="order-card" onclick="viewOrderDetail('${order.id}')">
+                    <div class="order-top">
+                        <span class="status ${order.status || 'delivered'}">
+                            <i class="fas ${order.status === 'delivered' ? 'fa-check-circle' : 'fa-clock'}"></i>
+                            ${order.status === 'delivered' ? 'Order arrived' : 'Order placed'}
+                        </span>
+                        <span class="amount">₹${order.total || 0}</span>
+                    </div>
+                    <div class="order-date">
+                        ${order.orderDate || new Date(order.createdAt?.toDate()).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                    <div class="order-by">
+                        Order placed by ${order.userName || 'User'}, ${order.userEmail || ''}
+                    </div>
+                    <div class="order-items">
+                        ${itemNames.map(name => `<span class="item-tag">${name}</span>`).join('')}
+                        ${moreCount > 0 ? `<span class="more-tag">+${moreCount}</span>` : ''}
+                    </div>
+                    <div class="order-actions">
+                        <button class="action-btn primary" onclick="event.stopPropagation(); repeatOrder('${order.id}')">
+                            <i class="fas fa-redo"></i> Reorder
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+        
+        // Cache orders
+        if (currentUser) {
+            localStorage.setItem('orders_' + currentUser.uid, JSON.stringify(orders));
+        }
+    }
+
+    function filterOrders() {
+        const search = document.getElementById('orderSearchInput').value.toLowerCase();
+        const cards = document.querySelectorAll('.order-card');
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(search) ? 'block' : 'none';
+        });
+    }
+
+    // ============================================================
+    // 📄 VIEW ORDER DETAIL
+    // ============================================================
+    function viewOrderDetail(orderId) {
+        db.collection('orders').doc(orderId).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const order = { id: doc.id, ...doc.data() };
+                    showOrderDetail(order);
+                    showPage('orderdetail');
+                }
+            })
+            .catch(error => {
+                showToast('❌ Error loading order details', 'error');
+            });
+    }
+
+    function showOrderDetail(order) {
+        const container = document.getElementById('orderDetailContent');
+        const items = order.items || [];
+        
+        let itemsHtml = '';
+        items.forEach(item => {
+            itemsHtml += `
+                <div class="detail-item-row">
+                    <span class="item-name">${item.name} <span style="color:#94a3b8;font-size:0.75rem;">${item.unit || ''} x ${item.qty}</span></span>
+                    <span class="item-price">₹${item.price * item.qty}</span>
+                </div>
+            `;
+        });
+
+        // Calculate bill details
+        const total = order.total || 0;
+        const mrp = items.reduce((sum, item) => sum + (item.mrp || item.price) * item.qty, total + 17);
+        const discount = 17;
+        const flatDiscount = 50;
+        const handling = 5;
+        const delivery = 0;
+
+        container.innerHTML = `
+            <div class="detail-status-card">
+                <div class="status-big">
+                    <i class="fas ${order.status === 'delivered' ? 'fa-check-circle' : 'fa-clock'}" style="color:#10b981;"></i>
+                    ${order.status === 'delivered' ? 'Order arrived' : 'Order placed'}
+                </div>
+                <div class="status-sub">${order.orderDate || 'Date not available'}</div>
+                <div class="placed-by">Order placed by ${order.userName || 'User'}, ${order.userEmail || ''}</div>
+            </div>
+
+            <div class="detail-items-card">
+                <div class="items-title">${items.length} items in this order</div>
+                ${itemsHtml}
+            </div>
+
+            <div class="detail-bill-card">
+                <div class="bill-title">Bill details</div>
+                <div class="detail-bill-row"><span>MRP</span><span>₹${mrp}</span></div>
+                <div class="detail-bill-row"><span>Product discount</span><span>-₹${discount}</span></div>
+                <div class="detail-bill-row"><span>Item total</span><span>₹${mrp - discount}</span></div>
+                <div class="detail-bill-row"><span>Flat ₹${flatDiscount} OFF</span><span>-₹${flatDiscount}</span></div>
+                <div class="detail-bill-row"><span>Handling charge</span><span>₹${handling}</span></div>
+                <div class="detail-bill-row"><span>Delivery charges</span><span>${delivery === 0 ? 'FREE' : '₹' + delivery}</span></div>
+                <div class="detail-bill-row total"><span>Bill total</span><span>₹${total}</span></div>
+            </div>
+
+            <div class="detail-order-card">
+                <div class="detail-title">Order details</div>
+                <div class="detail-order-row"><span class="label">Order id</span><span>${order.id || 'N/A'}</span></div>
+                <div class="detail-order-row"><span class="label">Payment</span><span>Cash on delivery</span></div>
+                <div class="detail-order-row"><span class="label">Deliver to</span><span>${order.address?.address || 'Champi, Bokaro, Jharkhand - 829123'}</span></div>
+                <div class="detail-order-row"><span class="label">Order placed</span><span>${order.orderDate || 'Date not available'}</span></div>
+            </div>
+
+            <div class="detail-help-card">
+                <div class="help-title">Need help with your order?</div>
+                <div class="help-sub">About any issues related to your order</div>
+                <button class="chat-btn" onclick="showToast('📱 Chat with support coming soon!', 'info')">
+                    <i class="fas fa-comment-dots"></i> Chat with us
+                </button>
+            </div>
+
+            <div class="detail-actions">
+                <button class="action-btn primary" onclick="repeatOrder('${order.id}')">
+                    <i class="fas fa-redo"></i> Repeat Order
+                </button>
+                <button class="action-btn secondary" onclick="showPage('orders')">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+        `;
+    }
+
+    // ============================================================
+    // 🔄 REPEAT ORDER
+    // ============================================================
+    function repeatOrder(orderId) {
+        db.collection('orders').doc(orderId).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const order = doc.data();
+                    const items = order.items || [];
+                    
+                    // Add all items to cart
+                    items.forEach(item => {
+                        const existing = cart.find(c => c.id === item.id);
+                        if (existing) {
+                            existing.qty += item.qty || 1;
+                        } else {
+                            const product = products.find(p => p.id === item.id);
+                            if (product) {
+                                cart.push({ ...product, qty: item.qty || 1 });
+                            } else {
+                                // If product not found in current list, create from order data
+                                cart.push({
+                                    id: item.id,
+                                    name: item.name,
+                                    price: item.price,
+                                    unit: item.unit || '1 Piece',
+                                    qty: item.qty || 1,
+                                    image: '📦'
+                                });
+                            }
+                        }
+                    });
+                    
+                    updateCartUI();
+                    showToast('✅ Items added to cart!', 'success');
+                    showPage('home');
+                }
+            })
+            .catch(error => {
+                showToast('❌ Error repeating order', 'error');
+            });
+    }
+
+    // ============================================================
+    // 📊 UPDATE PROFILE STATS
+    // ============================================================
+    function updateProfileStats(orders) {
+        if (!orders) {
+            // Try to load from DOM
+            const cards = document.querySelectorAll('.order-card');
+            orders = [];
+            // Just count visible cards
+            document.getElementById('orderCount').textContent = cards.length;
+            document.getElementById('orderBadge').textContent = cards.length;
+            return;
+        }
+
+        const totalOrders = orders.length;
+        const totalSpent = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+        
+        document.getElementById('orderCount').textContent = totalOrders;
+        document.getElementById('totalSpent').textContent = '₹' + totalSpent;
+        document.getElementById('savedCount').textContent = Math.round(totalSpent * 0.1);
+        document.getElementById('orderBadge').textContent = totalOrders;
     }
 
     // ============================================================
