@@ -10,9 +10,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
-    <!-- EmailJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
     <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
@@ -25,7 +22,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: #f0f4f8; color: #1e293b; min-height: 100vh; }
 
-        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -71,7 +67,7 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE 1: LOGIN/REGISTER WITH OTP ===== */
+        /* ===== PAGE 1: LOGIN/REGISTER ===== */
         /* ============================================================ */
         #pageLogin {
             display: flex;
@@ -186,52 +182,41 @@
         .btn-primary:hover { background: #1d4ed8; }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .otp-row {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        .otp-row input {
-            width: 45px;
-            height: 50px;
-            text-align: center;
-            font-size: 1.4rem;
-            font-weight: 700;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            background: #f8fafc;
-        }
-        .otp-row input:focus {
-            border-color: #2563eb;
-            outline: none;
+        .btn-google {
+            width: 100%;
+            padding: 12px;
             background: white;
-        }
-
-        .otp-timer {
-            text-align: center;
-            font-size: 0.85rem;
-            color: #94a3b8;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             margin-top: 12px;
         }
-        .otp-timer .resend {
-            color: #2563eb;
-            font-weight: 600;
-            cursor: pointer;
+        .btn-google:hover {
+            border-color: #2563eb;
+            background: #f8fafc;
         }
-        .otp-timer .resend:hover { text-decoration: underline; }
 
-        .spinner-small {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: #94a3b8;
+            font-size: 0.8rem;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
         }
 
         .password-strength {
@@ -255,8 +240,22 @@
             margin-top: 4px;
         }
 
+        .spinner-small {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* ============================================================ */
-        /* ===== PAGE 2: LOCATION SELECTION ===== */
+        /* ===== PAGE 2: LOCATION ===== */
         /* ============================================================ */
         #pageLocation {
             display: none;
@@ -274,7 +273,7 @@
         .location-header .back { font-size: 1.2rem; cursor: pointer; }
         .location-header h2 { font-size: 1.1rem; font-weight: 700; }
 
-        /* ===== STORE LOCATION CARD ===== */
+        /* Store Location Card */
         .store-card {
             background: linear-gradient(135deg, #1e3a8a, #2563eb);
             color: white;
@@ -328,7 +327,7 @@
         }
         .store-card .select-store-btn:hover { background: rgba(255,255,255,0.3); }
 
-        /* ===== LOCATION OPTIONS ===== */
+        /* Location Options */
         .location-options {
             padding: 0 16px;
         }
@@ -359,13 +358,14 @@
         }
         .location-options .option .icon.green { background: #d1fae5; color: #10b981; }
         .location-options .option .icon.purple { background: #ede9fe; color: #7c3aed; }
-        .location-options .option .icon.blue { background: #dbeafe; color: #2563eb; }
         .location-options .option .info { flex: 1; }
         .location-options .option .info .title { font-weight: 600; font-size: 0.9rem; }
         .location-options .option .info .sub { font-size: 0.75rem; color: #94a3b8; }
         .location-options .option .arrow { color: #94a3b8; }
 
-        /* ===== MANUAL ADDRESS PAGE ===== */
+        /* ============================================================ */
+        /* ===== PAGE 3: MANUAL ADDRESS ===== */
+        /* ============================================================ */
         #pageManualAddress {
             display: none;
             background: white;
@@ -424,14 +424,6 @@
             background: white;
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
         }
-        .form-group input.error {
-            border-color: #ef4444 !important;
-            background: #fef2f2 !important;
-        }
-        .form-group input.success {
-            border-color: #10b981 !important;
-            background: #f0fdf4 !important;
-        }
         .form-group select { appearance: none; cursor: pointer; padding-right: 32px; }
         .form-group .select-arrow {
             position: absolute;
@@ -442,27 +434,8 @@
             pointer-events: none;
         }
 
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-primary:hover { background: #1d4ed8; }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-
         /* ============================================================ */
-        /* ===== PAGE 3: CUSTOMER PANEL ===== */
+        /* ===== PAGE 4: CUSTOMER PANEL ===== */
         /* ============================================================ */
         #customerPanel {
             display: none;
@@ -649,7 +622,6 @@
             width: 100%;
         }
         .product-card .add-btn.in-cart { background: #10b981; }
-        .product-card .add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .bottom-nav {
             position: fixed;
@@ -688,7 +660,7 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE 4: PROFILE / ORDER HISTORY ===== */
+        /* ===== PAGE 5: PROFILE / ORDER HISTORY ===== */
         /* ============================================================ */
         #pageProfile {
             display: none;
@@ -814,7 +786,7 @@
         .empty-orders i { font-size: 3rem; display: block; margin-bottom: 12px; }
 
         /* ============================================================ */
-        /* ===== PAGE 5: CHECKOUT / PAYMENT ===== */
+        /* ===== PAGE 6: CHECKOUT / PAYMENT ===== */
         /* ============================================================ */
         #pageCheckout {
             display: none;
@@ -1115,7 +1087,6 @@
         @media (max-width: 480px) {
             .auth-container { padding: 24px 16px; }
             .form-row { grid-template-columns: 1fr; }
-            .otp-row input { width: 38px; height: 44px; font-size: 1.2rem; }
             .payment-methods { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
@@ -1126,14 +1097,14 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 1: LOGIN/REGISTER WITH OTP ===== -->
+<!-- ===== PAGE 1: LOGIN/REGISTER ===== -->
 <!-- ============================================================ -->
 <div id="pageLogin">
     <div class="auth-container">
         <div class="auth-header">
             <div class="logo"><i class="fas fa-bolt"></i></div>
             <h1>PRIYA ELECTRICALS</h1>
-            <p>Sell & Service · OTP Login</p>
+            <p>Sell & Service · Customer Login</p>
         </div>
 
         <div class="auth-tabs">
@@ -1145,7 +1116,7 @@
             </button>
         </div>
 
-        <!-- ===== LOGIN FORM ===== -->
+        <!-- Login Form -->
         <div class="auth-form active" id="loginForm">
             <div class="form-group">
                 <label>Email Address</label>
@@ -1161,54 +1132,47 @@
                     <input type="password" id="loginPassword" placeholder="Enter your password">
                 </div>
             </div>
-            <div class="form-group" id="loginOtpGroup" style="display:none;">
-                <label>Enter OTP</label>
-                <div class="otp-row">
-                    <input type="text" id="logOtp1" maxlength="1" oninput="otpMove(this, 'logOtp2')">
-                    <input type="text" id="logOtp2" maxlength="1" oninput="otpMove(this, 'logOtp3')">
-                    <input type="text" id="logOtp3" maxlength="1" oninput="otpMove(this, 'logOtp4')">
-                    <input type="text" id="logOtp4" maxlength="1" oninput="otpMove(this, 'logOtp5')">
-                    <input type="text" id="logOtp5" maxlength="1" oninput="otpMove(this, 'logOtp6')">
-                    <input type="text" id="logOtp6" maxlength="1">
-                </div>
-                <div class="otp-timer" id="loginTimer">
-                    <span id="loginTimerText">Resend OTP in 60s</span>
-                    <span class="resend" id="loginResend" style="display:none;" onclick="sendOTP('login')">Resend OTP</span>
-                </div>
+            <div class="form-options">
+                <label><input type="checkbox" id="rememberMe"> Remember me</label>
+                <a href="#" onclick="forgotPassword()">Forgot password?</a>
             </div>
-            <button class="btn-primary" id="loginBtn" onclick="handleLoginOTP()">
-                <i class="fas fa-paper-plane"></i> Send OTP
+            <button class="btn-primary" id="loginBtn" onclick="handleLogin()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <div class="divider">or continue with</div>
+            <button class="btn-google" onclick="handleGoogleLogin()">
+                <i class="fab fa-google"></i> Sign in with Google
             </button>
         </div>
 
-        <!-- ===== REGISTER FORM ===== -->
+        <!-- Register Form -->
         <div class="auth-form" id="registerForm">
             <div class="form-group">
                 <label>Full Name</label>
                 <div class="input-wrap">
                     <i class="fas fa-user"></i>
-                    <input type="text" id="regName" placeholder="Your full name">
+                    <input type="text" id="registerName" placeholder="Your full name">
                 </div>
             </div>
             <div class="form-group">
                 <label>Email Address</label>
                 <div class="input-wrap">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="regEmail" placeholder="you@example.com">
+                    <input type="email" id="registerEmail" placeholder="you@example.com">
                 </div>
             </div>
             <div class="form-group">
                 <label>Phone Number</label>
                 <div class="input-wrap">
                     <i class="fas fa-phone"></i>
-                    <input type="tel" id="regPhone" placeholder="+91 98765 43210">
+                    <input type="tel" id="registerPhone" placeholder="+91 98765 43210">
                 </div>
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="regPassword" placeholder="Min 6 characters" oninput="checkPasswordStrength(this.value)">
+                    <input type="password" id="registerPassword" placeholder="Min 6 characters" oninput="checkPasswordStrength(this.value)">
                 </div>
                 <div class="password-strength" id="passwordStrength">
                     <div class="bar" id="str1"></div>
@@ -1221,33 +1185,25 @@
                 <label>Confirm Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-check-circle"></i>
-                    <input type="password" id="regConfirmPassword" placeholder="Confirm your password" oninput="validateConfirmPassword()">
+                    <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" oninput="validateConfirmPassword()">
                 </div>
             </div>
-            <div class="form-group" id="registerOtpGroup" style="display:none;">
-                <label>Enter OTP</label>
-                <div class="otp-row">
-                    <input type="text" id="regOtp1" maxlength="1" oninput="otpMove(this, 'regOtp2')">
-                    <input type="text" id="regOtp2" maxlength="1" oninput="otpMove(this, 'regOtp3')">
-                    <input type="text" id="regOtp3" maxlength="1" oninput="otpMove(this, 'regOtp4')">
-                    <input type="text" id="regOtp4" maxlength="1" oninput="otpMove(this, 'regOtp5')">
-                    <input type="text" id="regOtp5" maxlength="1" oninput="otpMove(this, 'regOtp6')">
-                    <input type="text" id="regOtp6" maxlength="1">
-                </div>
-                <div class="otp-timer" id="registerTimer">
-                    <span id="registerTimerText">Resend OTP in 60s</span>
-                    <span class="resend" id="registerResend" style="display:none;" onclick="sendOTP('register')">Resend OTP</span>
-                </div>
+            <div class="form-options">
+                <label><input type="checkbox" id="termsCheck"> I agree to Terms & Conditions</label>
             </div>
-            <button class="btn-primary" id="registerBtn" onclick="handleRegisterOTP()">
-                <i class="fas fa-paper-plane"></i> Send OTP
+            <button class="btn-primary" id="registerBtn" onclick="handleRegister()">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+            <div class="divider">or continue with</div>
+            <button class="btn-google" onclick="handleGoogleLogin()">
+                <i class="fab fa-google"></i> Sign up with Google
             </button>
         </div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 2: LOCATION SELECTION ===== -->
+<!-- ===== PAGE 2: LOCATION ===== -->
 <!-- ============================================================ -->
 <div id="pageLocation">
     <div class="location-header">
@@ -1255,7 +1211,7 @@
         <h2>Select Delivery Location</h2>
     </div>
 
-    <!-- ===== STORE LOCATION CARD ===== -->
+    <!-- Store Card -->
     <div class="store-card">
         <div class="store-name">
             <i class="fas fa-store"></i> Priya Electricals
@@ -1272,7 +1228,7 @@
         </button>
     </div>
 
-    <!-- ===== LOCATION OPTIONS ===== -->
+    <!-- Location Options -->
     <div class="location-options">
         <div class="option" onclick="useCurrentLocation()">
             <div class="icon green"><i class="fas fa-location-crosshairs"></i></div>
@@ -1282,7 +1238,6 @@
             </div>
             <div class="arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
-
         <div class="option" onclick="openManualAddress()">
             <div class="icon purple"><i class="fas fa-pen"></i></div>
             <div class="info">
@@ -1311,7 +1266,6 @@
                 <input type="text" id="manualName" placeholder="Full name">
             </div>
         </div>
-        
         <div class="form-group full-width">
             <label>Mobile Number <span class="required">*</span></label>
             <div class="input-wrap">
@@ -1319,7 +1273,6 @@
                 <input type="tel" id="manualPhone" placeholder="+91 98765 43210">
             </div>
         </div>
-        
         <div class="form-group full-width">
             <label>Flat/House Number <span class="required">*</span></label>
             <div class="input-wrap">
@@ -1327,7 +1280,6 @@
                 <input type="text" id="manualFlat" placeholder="Flat 101, House No. 123">
             </div>
         </div>
-        
         <div class="form-group full-width">
             <label>Street/Sector/Area <span class="required">*</span></label>
             <div class="input-wrap">
@@ -1335,7 +1287,6 @@
                 <input type="text" id="manualStreet" placeholder="Street name, Sector, Area">
             </div>
         </div>
-        
         <div class="form-group full-width">
             <label>Landmark (Optional)</label>
             <div class="input-wrap">
@@ -1343,7 +1294,6 @@
                 <input type="text" id="manualLandmark" placeholder="Near School, Hospital, etc.">
             </div>
         </div>
-        
         <div class="form-group">
             <label>City <span class="required">*</span></label>
             <div class="input-wrap">
@@ -1351,7 +1301,6 @@
                 <input type="text" id="manualCity" placeholder="City name">
             </div>
         </div>
-        
         <div class="form-group">
             <label>State <span class="required">*</span></label>
             <div class="input-wrap">
@@ -1367,7 +1316,6 @@
                 <i class="fas fa-chevron-down select-arrow"></i>
             </div>
         </div>
-        
         <div class="form-group full-width">
             <label>PINCODE <span class="required">*</span></label>
             <div class="input-wrap">
@@ -1621,7 +1569,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== JAVASCRIPT - ALL FEATURES ===== -->
+<!-- ===== JAVASCRIPT - ALL FEATURES WORKING ===== -->
 <!-- ============================================================ -->
 <script>
     // ============================================================
@@ -1640,17 +1588,6 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
-
-    // ============================================================
-    // 📧 EMAILJS CONFIG
-    // ============================================================
-    const EMAILJS_CONFIG = {
-        PUBLIC_KEY: "3cUWXrfL9AhSkM5FA",
-        SERVICE_ID: "Pawanretaillimited-5678",
-        TEMPLATE_ID: "template_45qu30j"
-    };
-
-    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
     // ============================================================
     // 🍞 TOAST FUNCTION
@@ -1677,275 +1614,6 @@
         setTimeout(() => {
             if (toast.parentElement) toast.remove();
         }, duration);
-    }
-
-    // ============================================================
-    // 🔐 OTP VARIABLES
-    // ============================================================
-    let storedOTP = null;
-    let otpTimer = null;
-    let otpCountdown = 60;
-    let currentAction = 'login';
-
-    // ============================================================
-    // 📱 OTP FUNCTIONS
-    // ============================================================
-    function otpMove(current, nextId) {
-        if (current.value.length >= 1) {
-            document.getElementById(nextId).focus();
-        }
-    }
-
-    function getOtpValue(prefix) {
-        let otp = '';
-        for (let i = 1; i <= 6; i++) {
-            const val = document.getElementById(prefix + i).value;
-            otp += val || '';
-        }
-        return otp;
-    }
-
-    function generateOTP() {
-        return Math.floor(100000 + Math.random() * 900000).toString();
-    }
-
-    function startTimer(type) {
-        otpCountdown = 60;
-        const timerText = document.getElementById(type === 'login' ? 'loginTimerText' : 'registerTimerText');
-        const resendBtn = document.getElementById(type === 'login' ? 'loginResend' : 'registerResend');
-        
-        if (otpTimer) clearInterval(otpTimer);
-        
-        timerText.style.display = 'block';
-        resendBtn.style.display = 'none';
-        
-        otpTimer = setInterval(() => {
-            otpCountdown--;
-            timerText.textContent = `Resend OTP in ${otpCountdown}s`;
-            
-            if (otpCountdown <= 0) {
-                clearInterval(otpTimer);
-                timerText.style.display = 'none';
-                resendBtn.style.display = 'inline';
-            }
-        }, 1000);
-    }
-
-    // ============================================================
-    // 📧 SEND OTP
-    // ============================================================
-    function sendOTP(type) {
-        const email = type === 'login' 
-            ? document.getElementById('loginEmail').value.trim()
-            : document.getElementById('regEmail').value.trim();
-        
-        const name = type === 'register' 
-            ? document.getElementById('regName').value.trim() 
-            : 'User';
-        
-        if (!email) {
-            showToast('Please enter your email address', 'error');
-            return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            showToast('Please enter a valid email address', 'error');
-            return;
-        }
-
-        const otp = generateOTP();
-        storedOTP = otp;
-        currentAction = type;
-
-        const otpGroup = document.getElementById(type === 'login' ? 'loginOtpGroup' : 'registerOtpGroup');
-        otpGroup.style.display = 'block';
-        startTimer(type);
-
-        const btn = document.getElementById(type === 'login' ? 'loginBtn' : 'registerBtn');
-        btn.innerHTML = '<span class="spinner-small"></span> Sending OTP...';
-        btn.disabled = true;
-
-        const templateParams = {
-            to_email: email,
-            name: name || 'User',
-            otp_code: otp,
-            to_phone: document.getElementById(type === 'login' ? 'loginEmail' : 'regPhone').value || 'N/A'
-        };
-
-        emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, templateParams)
-            .then(() => {
-                showToast(`✅ OTP sent to ${email}`, 'success');
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Verify OTP';
-                btn.disabled = false;
-                btn.onclick = function() { verifyOTP(type); };
-            })
-            .catch(error => {
-                console.error('EmailJS Error:', error);
-                showToast('⚠️ Could not send OTP. Please try again.', 'error');
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
-                btn.disabled = false;
-                btn.onclick = function() { sendOTP(type); };
-            });
-    }
-
-    // ============================================================
-    // ✅ VERIFY OTP
-    // ============================================================
-    function verifyOTP(type) {
-        const enteredOtp = getOtpValue(type === 'login' ? 'logOtp' : 'regOtp');
-        
-        if (!enteredOtp || enteredOtp.length < 6) {
-            showToast('Please enter complete OTP', 'error');
-            return;
-        }
-
-        if (enteredOtp === storedOTP) {
-            showToast('✅ OTP Verified Successfully!', 'success');
-            
-            if (type === 'login') {
-                const email = document.getElementById('loginEmail').value.trim();
-                const password = document.getElementById('loginPassword').value;
-                loginUser(email, password);
-            } else {
-                const name = document.getElementById('regName').value.trim();
-                const email = document.getElementById('regEmail').value.trim();
-                const phone = document.getElementById('regPhone').value.trim();
-                const password = document.getElementById('regPassword').value;
-                registerUser(name, email, phone, password);
-            }
-        } else {
-            showToast('❌ Invalid OTP. Please try again.', 'error');
-        }
-    }
-
-    // ============================================================
-    // 📝 HANDLE LOGIN OTP
-    // ============================================================
-    function handleLoginOTP() {
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        
-        if (!email) {
-            showToast('Please enter your email address', 'error');
-            return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            showToast('Please enter a valid email address', 'error');
-            return;
-        }
-        if (!password || password.length < 6) {
-            showToast('Please enter your password (min 6 characters)', 'error');
-            return;
-        }
-        sendOTP('login');
-    }
-
-    // ============================================================
-    // 📝 HANDLE REGISTER OTP
-    // ============================================================
-    function handleRegisterOTP() {
-        const name = document.getElementById('regName').value.trim();
-        const email = document.getElementById('regEmail').value.trim();
-        const password = document.getElementById('regPassword').value;
-        const confirm = document.getElementById('regConfirmPassword').value;
-        
-        if (!name || name.length < 2) {
-            showToast('Please enter your full name', 'error');
-            return;
-        }
-        if (!email) {
-            showToast('Please enter your email address', 'error');
-            return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            showToast('Please enter a valid email address', 'error');
-            return;
-        }
-        if (!password || password.length < 6) {
-            showToast('Password must be at least 6 characters', 'error');
-            return;
-        }
-        if (password !== confirm) {
-            showToast('Passwords do not match!', 'error');
-            return;
-        }
-        sendOTP('register');
-    }
-
-    // ============================================================
-    // 🔐 LOGIN USER
-    // ============================================================
-    function loginUser(email, password) {
-        auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
-                showToast('✅ Login successful!', 'success');
-                setTimeout(() => {
-                    document.getElementById('pageLogin').style.display = 'none';
-                    document.getElementById('pageLocation').style.display = 'none';
-                    document.getElementById('customerPanel').style.display = 'block';
-                    document.getElementById('bottomNav').style.display = 'flex';
-                    loadProducts();
-                    loadOrders();
-                }, 1000);
-            })
-            .catch(error => {
-                showToast('❌ ' + error.message, 'error');
-            });
-    }
-
-    // ============================================================
-    // 📝 REGISTER USER
-    // ============================================================
-    function registerUser(name, email, phone, password) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                const user = userCredential.user;
-                return db.collection('users').doc(user.uid).set({
-                    name: name,
-                    email: email,
-                    phone: phone || '',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    role: 'customer'
-                });
-            })
-            .then(() => {
-                showToast('✅ Account created successfully! Welcome, ' + name + '! 🎉', 'success', 4000);
-                setTimeout(() => {
-                    document.getElementById('pageLogin').style.display = 'none';
-                    document.getElementById('pageLocation').style.display = 'none';
-                    document.getElementById('customerPanel').style.display = 'block';
-                    document.getElementById('bottomNav').style.display = 'flex';
-                    loadProducts();
-                    loadOrders();
-                }, 1500);
-            })
-            .catch(error => {
-                showToast('❌ ' + error.message, 'error');
-            });
-    }
-
-    // ============================================================
-    // 🏷️ SWITCH TABS
-    // ============================================================
-    function switchTab(tab) {
-        document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
-        document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
-        document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
-        document.getElementById(tab + 'Form').classList.add('active');
-        
-        document.getElementById('loginOtpGroup').style.display = 'none';
-        document.getElementById('registerOtpGroup').style.display = 'none';
-        
-        const loginBtn = document.getElementById('loginBtn');
-        loginBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
-        loginBtn.onclick = handleLoginOTP;
-        loginBtn.disabled = false;
-        
-        const regBtn = document.getElementById('registerBtn');
-        regBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
-        regBtn.onclick = handleRegisterOTP;
-        regBtn.disabled = false;
-        
-        if (otpTimer) clearInterval(otpTimer);
     }
 
     // ============================================================
@@ -1976,7 +1644,7 @@
             if (savedLoc) {
                 try {
                     const loc = JSON.parse(savedLoc);
-                    document.getElementById('homeAddress').textContent = '📍 ' + loc.address.substring(0, 40) + '...';
+                    document.getElementById('homeAddress').textContent = '📍 ' + (loc.address || 'Saved location').substring(0, 40) + '...';
                     document.getElementById('deliveryTimeBadge').textContent = loc.deliveryTime || '⏳ Select';
                 } catch(e) {}
             }
@@ -1991,6 +1659,158 @@
             document.getElementById('bottomNav').style.display = 'none';
         }
     });
+
+    // ============================================================
+    // 🏷️ SWITCH TABS (Login/Register)
+    // ============================================================
+    function switchTab(tab) {
+        document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
+        document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
+        document.getElementById(tab + 'Form').classList.add('active');
+    }
+
+    // ============================================================
+    // 📩 FORGOT PASSWORD
+    // ============================================================
+    function forgotPassword() {
+        const email = document.getElementById('loginEmail').value.trim();
+        if (!email) { showToast('Please enter your email address first', 'warning'); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email address', 'error'); return; }
+        showToast('📧 Sending reset link...', 'info');
+        auth.sendPasswordResetEmail(email)
+            .then(() => showToast('✅ Password reset link sent to your email!', 'success'))
+            .catch(error => showToast('❌ ' + error.message, 'error'));
+    }
+
+    // ============================================================
+    // 🔐 HANDLE LOGIN
+    // ============================================================
+    function handleLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const btn = document.getElementById('loginBtn');
+        
+        if (!email || !password) { showToast('Please fill all fields', 'error'); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email', 'error'); return; }
+        if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-small"></span> Logging in...';
+        
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                if (document.getElementById('rememberMe').checked) {
+                    localStorage.setItem('rememberedEmail', email);
+                }
+                showToast('✅ Welcome back! 🎉', 'success', 3000);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            })
+            .catch(error => {
+                let message = error.message;
+                if (error.code === 'auth/wrong-password') {
+                    message = '❌ Incorrect password. Please try again.';
+                } else if (error.code === 'auth/user-not-found') {
+                    message = '❌ No account found with this email';
+                }
+                showToast(message, 'error', 5000);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            });
+    }
+
+    // ============================================================
+    // 📝 HANDLE REGISTER
+    // ============================================================
+    function handleRegister() {
+        const name = document.getElementById('registerName').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const phone = document.getElementById('registerPhone').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirm = document.getElementById('registerConfirmPassword').value;
+        const terms = document.getElementById('termsCheck').checked;
+        const btn = document.getElementById('registerBtn');
+        
+        if (!name || !email || !phone || !password || !confirm) {
+            showToast('Please fill all fields', 'error');
+            return;
+        }
+        if (name.length < 2) {
+            showToast('Name must be at least 2 characters', 'error');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showToast('Please enter a valid email', 'error');
+            return;
+        }
+        if (password.length < 6) {
+            showToast('Password must be at least 6 characters', 'error');
+            return;
+        }
+        if (password !== confirm) {
+            showToast('Passwords do not match!', 'error');
+            return;
+        }
+        if (!terms) { showToast('Please accept Terms & Conditions', 'warning'); return; }
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-small"></span> Creating account...';
+        
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                return db.collection('users').doc(user.uid).set({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    role: 'customer'
+                });
+            })
+            .then(() => {
+                showToast('✅ Account created successfully! Welcome, ' + name + '! 🎉', 'success', 4000);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+            })
+            .catch(error => {
+                let message = error.message;
+                if (error.code === 'auth/email-already-in-use') {
+                    message = '❌ This email is already registered';
+                } else if (error.code === 'auth/configuration-not-found') {
+                    message = '⚠️ Please enable Email/Password in Firebase Console → Authentication → Sign-in methods';
+                }
+                showToast(message, 'error', 5000);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+            });
+    }
+
+    // ============================================================
+    // 🔵 GOOGLE LOGIN
+    // ============================================================
+    function handleGoogleLogin() {
+        showToast('🔄 Connecting to Google...', 'info');
+        const provider = new firebase.auth.GoogleAuthProvider();
+        
+        auth.signInWithPopup(provider)
+            .then(result => {
+                const user = result.user;
+                return db.collection('users').doc(user.uid).set({
+                    name: user.displayName || 'User',
+                    email: user.email,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    role: 'customer'
+                }, { merge: true });
+            })
+            .catch(error => {
+                if (error.code === 'auth/popup-closed-by-user') {
+                    showToast('Login cancelled', 'warning');
+                } else {
+                    showToast('❌ ' + error.message, 'error');
+                }
+            });
+    }
 
     // ============================================================
     // 🚪 LOGOUT
@@ -2048,15 +1868,7 @@
         selectedAddress = { address: address, type: 'store' };
         deliveryTime = '⚡ 13 mins';
         
-        document.getElementById('homeAddress').textContent = '📍 ' + address;
-        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
-        document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
-        document.getElementById('checkoutAddress').textContent = address;
-        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
-        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
-        
-        localStorage.setItem('userLocation', JSON.stringify({ address: address, deliveryTime: deliveryTime }));
-        
+        updateLocationUI(address);
         showToast('✅ Store location selected!', 'success');
         setTimeout(() => showPage('home'), 500);
     }
@@ -2074,23 +1886,13 @@
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
                 
-                // Get address from coords
                 fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18`)
                     .then(res => res.json())
                     .then(data => {
                         const address = data.display_name || 'Current Location';
                         selectedAddress = { address: address, lat: lat, lng: lng, type: 'current' };
                         deliveryTime = '⚡ 13 mins';
-                        
-                        document.getElementById('homeAddress').textContent = '📍 ' + address.substring(0, 40) + '...';
-                        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
-                        document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
-                        document.getElementById('checkoutAddress').textContent = address;
-                        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
-                        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
-                        
-                        localStorage.setItem('userLocation', JSON.stringify({ address: address, deliveryTime: deliveryTime }));
-                        
+                        updateLocationUI(address);
                         showToast('✅ Location detected!', 'success');
                         setTimeout(() => showPage('home'), 500);
                     })
@@ -2119,7 +1921,6 @@
         const state = document.getElementById('manualState').value;
         const pincode = document.getElementById('manualPincode').value.trim();
         
-        // Validation
         if (!name) { showToast('Please enter receiver name', 'error'); return; }
         if (!phone || phone.length < 10) { showToast('Please enter valid phone number', 'error'); return; }
         if (!flat) { showToast('Please enter flat/house number', 'error'); return; }
@@ -2143,27 +1944,17 @@
             type: 'manual'
         };
         
-        // Check pincode distance (simplified)
+        // Calculate delivery time based on pincode distance
         let distance = Math.abs(parseInt(pincode) - 829123) * 0.5;
         if (distance <= 50) {
             deliveryTime = '⚡ 13 mins';
-            document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
         } else if (distance <= 100) {
             deliveryTime = '⏰ 30 mins';
-            document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
         } else if (distance <= 500) {
             deliveryTime = '📦 7 days';
-            document.getElementById('deliveryTimeBadge').className = 'delivery-time schedule';
         } else {
             deliveryTime = '📦 7-15 days';
-            document.getElementById('deliveryTimeBadge').className = 'delivery-time schedule';
         }
-        
-        document.getElementById('homeAddress').textContent = '📍 ' + fullAddress.substring(0, 40) + '...';
-        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
-        document.getElementById('checkoutAddress').textContent = fullAddress;
-        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
-        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
         
         // Save to Firebase
         if (currentUser) {
@@ -2179,14 +1970,77 @@
                 address: fullAddress,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
-                showToast('✅ Address saved successfully!', 'success');
+                showToast('✅ Address saved to Firebase!', 'success');
             }).catch(() => {});
         }
         
-        localStorage.setItem('userLocation', JSON.stringify({ address: fullAddress, deliveryTime: deliveryTime }));
-        
+        updateLocationUI(fullAddress);
         showToast('✅ Address saved successfully!', 'success');
         setTimeout(() => showPage('home'), 500);
+    }
+
+    function updateLocationUI(address) {
+        document.getElementById('homeAddress').textContent = '📍 ' + address.substring(0, 40) + '...';
+        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
+        document.getElementById('deliveryTimeBadge').className = 'delivery-time ' + (deliveryTime.includes('min') ? 'quick' : 'schedule');
+        document.getElementById('checkoutAddress').textContent = address;
+        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
+        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
+        
+        localStorage.setItem('userLocation', JSON.stringify({ address: address, deliveryTime: deliveryTime }));
+    }
+
+    // ============================================================
+    // 🔒 PASSWORD STRENGTH
+    // ============================================================
+    function checkPasswordStrength(password) {
+        const str1 = document.getElementById('str1');
+        const str2 = document.getElementById('str2');
+        const str3 = document.getElementById('str3');
+        const text = document.getElementById('strengthText');
+        
+        str1.className = 'bar';
+        str2.className = 'bar';
+        str3.className = 'bar';
+        
+        if (password.length === 0) {
+            text.textContent = 'Enter a strong password';
+            return;
+        }
+        
+        let strength = 0;
+        if (password.length >= 6) strength++;
+        if (password.length >= 10) strength++;
+        if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+        
+        let level = 'weak';
+        if (strength <= 2) {
+            level = 'weak';
+            text.textContent = '⚠️ Weak password';
+        } else if (strength <= 3) {
+            level = 'medium';
+            text.textContent = '🟡 Medium password';
+        } else {
+            level = 'strong';
+            text.textContent = '✅ Strong password';
+        }
+        
+        if (strength >= 2) str1.className = 'bar active ' + level;
+        if (strength >= 3) str2.className = 'bar active ' + level;
+        if (strength >= 4) str3.className = 'bar active ' + level;
+    }
+
+    function validateConfirmPassword() {
+        const password = document.getElementById('registerPassword').value;
+        const confirm = document.getElementById('registerConfirmPassword');
+        if (confirm.value.length === 0) return;
+        if (confirm.value === password && password.length >= 6) {
+            confirm.className = 'success';
+        } else {
+            confirm.className = 'error';
+        }
     }
 
     // ============================================================
@@ -2545,10 +2399,13 @@
     }
 
     // ============================================================
-    // 📋 LOAD ORDERS
+    // 📋 LOAD ORDERS (FIXED)
     // ============================================================
     function loadOrders() {
-        if (!currentUser) return;
+        if (!currentUser) {
+            console.log('No user logged in');
+            return;
+        }
 
         db.collection('orders')
             .where('userId', '==', currentUser.uid)
@@ -2564,14 +2421,19 @@
             })
             .catch(error => {
                 console.error('Error loading orders:', error);
+                // Show empty state
+                renderOrders([]);
             });
     }
 
+    // ============================================================
+    // 📋 RENDER ORDERS (FIXED)
+    // ============================================================
     function renderOrders(orders) {
         const container = document.getElementById('ordersList');
         const badge = document.getElementById('orderBadge');
         
-        badge.textContent = orders.length;
+        badge.textContent = orders ? orders.length : 0;
 
         if (!orders || orders.length === 0) {
             container.innerHTML = `
@@ -2589,6 +2451,22 @@
             const items = order.items || [];
             const itemNames = items.map(item => item.name).slice(0, 3);
             const moreCount = items.length - 3;
+            
+            // Format date safely
+            let orderDate = order.orderDate || '';
+            if (!orderDate && order.createdAt) {
+                try {
+                    const date = order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt);
+                    orderDate = date.toLocaleString('en-IN', { 
+                        day: '2-digit', 
+                        month: 'short', 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                } catch(e) {
+                    orderDate = 'Date not available';
+                }
+            }
             
             html += `
                 <div class="order-card">
@@ -2599,7 +2477,7 @@
                         <span class="amount">₹${order.total || 0}</span>
                     </div>
                     <div class="order-date">
-                        ${order.orderDate || new Date(order.createdAt?.toDate()).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                        ${orderDate || 'Date not available'}
                     </div>
                     <div class="order-by">
                         Order placed by ${order.userName || 'User'}
@@ -2621,187 +2499,14 @@
     }
 
     // ============================================================
-    // 🔄 REPEAT ORDER
+    // 🔄 REPEAT ORDER (FIXED)
     // ============================================================
     function repeatOrder(orderId) {
-        db.collection('orders').doc(orderId).get()
-            .then(doc => {
-                if (doc.exists) {
-                    const order = doc.data();
-                    const items = order.items || [];
-                    
-                    items.forEach(item => {
-                        const existing = cart.find(c => c.id === item.id);
-                        if (existing) {
-                            existing.qty += item.qty || 1;
-                        } else {
-                            const product = products.find(p => p.id === item.id);
-                            if (product) {
-                                cart.push({ ...product, qty: item.qty || 1 });
-                            } else {
-                                cart.push({
-                                    id: item.id,
-                                    name: item.name,
-                                    price: item.price,
-                                    unit: item.unit || '1 Piece',
-                                    qty: item.qty || 1,
-                                    image: '📦'
-                                });
-                            }
-                        }
-                    });
-                    
-                    updateCartUI();
-                    showToast('✅ Items added to cart!', 'success');
-                    showPage('home');
-                }
-            })
-            .catch(error => {
-                showToast('❌ Error repeating order', 'error');
-            });
-    }
-
-    // ============================================================
-    // 📊 UPDATE PROFILE STATS
-    // ============================================================
-    function updateProfileStats(orders) {
-        if (!orders) return;
-        const totalOrders = orders.length;
-        const totalSpent = orders.reduce((sum, order) => sum + (order.total || 0), 0);
-        
-        document.getElementById('orderCount').textContent = totalOrders;
-        document.getElementById('totalSpent').textContent = '₹' + totalSpent;
-        document.getElementById('savedCount').textContent = Math.round(totalSpent * 0.1);
-        document.getElementById('orderBadge').textContent = totalOrders;
-    }
-
-    // ============================================================
-    // 🚀 LOAD
-    // ============================================================
-    window.addEventListener('load', function() {
-        console.log('✅ Priya Electricals - Complete App Loaded');
-    });
-</script>
-
-</body>
-</html>', 
-                month: 'short', 
-                year: "'" + new Date().getFullYear().toString().slice(-2),
-                hour: '2-digit',
-                minute: '2-digit'
-            }),
-            deliveryTime: document.getElementById('deliveryTimeBadge').textContent || '13 mins'
-        };
-
-        db.collection('orders').add(orderData)
-            .then((docRef) => {
-                document.getElementById('orderIdDisplay').textContent = 'Order ID: ' + orderId;
-                document.getElementById('successOverlay').classList.add('open');
-                
-                cart = [];
-                updateCartUI();
-                showToast('✅ Order placed successfully! 🎉', 'success', 3000);
-                loadOrders();
-            })
-            .catch(error => {
-                showToast('❌ Error placing order: ' + error.message, 'error');
-            });
-    }
-
-    // ============================================================
-    // 🎉 SUCCESS POPUP FUNCTIONS
-    // ============================================================
-    function closeSuccessPopup() {
-        document.getElementById('successOverlay').classList.remove('open');
-        showPage('profile');
-        loadOrders();
-    }
-
-    function closeSuccessPopupAndHome() {
-        document.getElementById('successOverlay').classList.remove('open');
-        showPage('home');
-    }
-
-    // ============================================================
-    // 📋 LOAD ORDERS (User-Specific)
-    // ============================================================
-    function loadOrders() {
-        if (!currentUser) return;
-
-        db.collection('orders')
-            .where('userId', '==', currentUser.uid)
-            .orderBy('createdAt', 'desc')
-            .get()
-            .then(snapshot => {
-                const orders = [];
-                snapshot.forEach(doc => {
-                    orders.push({ id: doc.id, ...doc.data() });
-                });
-                renderOrders(orders);
-                updateProfileStats(orders);
-            })
-            .catch(error => {
-                console.error('Error loading orders:', error);
-            });
-    }
-
-    function renderOrders(orders) {
-        const container = document.getElementById('ordersList');
-        const badge = document.getElementById('orderBadge');
-        
-        badge.textContent = orders.length;
-
-        if (!orders || orders.length === 0) {
-            container.innerHTML = `
-                <div class="empty-orders">
-                    <i class="fas fa-box-open"></i>
-                    <p>No orders yet</p>
-                    <small>Start shopping to see your orders here</small>
-                </div>
-            `;
+        if (!currentUser) {
+            showToast('❌ Please login first', 'error');
             return;
         }
 
-        let html = '';
-        orders.forEach(order => {
-            const items = order.items || [];
-            const itemNames = items.map(item => item.name).slice(0, 3);
-            const moreCount = items.length - 3;
-            
-            html += `
-                <div class="order-card">
-                    <div class="order-top">
-                        <span class="status">
-                            <i class="fas fa-check-circle"></i> ${order.status === 'delivered' ? 'Order arrived' : 'Order placed'}
-                        </span>
-                        <span class="amount">₹${order.total || 0}</span>
-                    </div>
-                    <div class="order-date">
-                        ${order.orderDate || new Date(order.createdAt?.toDate()).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                    </div>
-                    <div class="order-by">
-                        Order placed by ${order.userName || 'User'}
-                    </div>
-                    <div class="order-items">
-                        ${itemNames.map(name => `<span class="item-tag">${name}</span>`).join('')}
-                        ${moreCount > 0 ? `<span class="more-tag">+${moreCount}</span>` : ''}
-                    </div>
-                    <div class="order-actions">
-                        <button class="action-btn primary" onclick="repeatOrder('${order.id}')">
-                            <i class="fas fa-redo"></i> Reorder
-                        </button>
-                    </div>
-                </div>
-            `;
-        });
-        
-        container.innerHTML = html;
-    }
-
-    // ============================================================
-    // 🔄 REPEAT ORDER
-    // ============================================================
-    function repeatOrder(orderId) {
         db.collection('orders').doc(orderId).get()
             .then(doc => {
                 if (doc.exists) {
@@ -2832,18 +2537,28 @@
                     updateCartUI();
                     showToast('✅ Items added to cart!', 'success');
                     showPage('home');
+                } else {
+                    showToast('❌ Order not found', 'error');
                 }
             })
             .catch(error => {
+                console.error('Error repeating order:', error);
                 showToast('❌ Error repeating order', 'error');
             });
     }
 
     // ============================================================
-    // 📊 UPDATE PROFILE STATS
+    // 📊 UPDATE PROFILE STATS (FIXED)
     // ============================================================
     function updateProfileStats(orders) {
-        if (!orders) return;
+        if (!orders) {
+            document.getElementById('orderCount').textContent = '0';
+            document.getElementById('totalSpent').textContent = '₹0';
+            document.getElementById('savedCount').textContent = '0';
+            document.getElementById('orderBadge').textContent = '0';
+            return;
+        }
+        
         const totalOrders = orders.length;
         const totalSpent = orders.reduce((sum, order) => sum + (order.total || 0), 0);
         
@@ -2862,7 +2577,7 @@
             document.getElementById('loginEmail').value = remembered;
             document.getElementById('rememberMe').checked = true;
         }
-        console.log('✅ Priya Electricals - Customer Panel Loaded');
+        console.log('✅ Priya Electricals - Fully Working App Loaded');
     });
 </script>
 
