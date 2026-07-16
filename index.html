@@ -10,6 +10,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
     <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
@@ -67,7 +70,7 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE 1: LOGIN/REGISTER ===== */
+        /* ===== PAGE 1: LOGIN ===== */
         /* ============================================================ */
         #pageLogin {
             display: flex;
@@ -153,14 +156,14 @@
             border: 2px solid #e2e8f0;
             border-radius: 12px;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
             background: #f8fafc;
+            transition: all 0.3s ease;
         }
         .form-group input:focus {
             outline: none;
             border-color: #2563eb;
             background: white;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
         }
 
         .btn-primary {
@@ -173,72 +176,14 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            transition: all 0.2s;
         }
         .btn-primary:hover { background: #1d4ed8; }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .btn-google {
-            width: 100%;
-            padding: 12px;
-            background: white;
-            color: #475569;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .btn-google:hover {
-            border-color: #2563eb;
-            background: #f8fafc;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 20px 0;
-            color: #94a3b8;
-            font-size: 0.8rem;
-        }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e2e8f0;
-        }
-
-        .password-strength {
-            margin-top: 6px;
-            display: flex;
-            gap: 6px;
-        }
-        .password-strength .bar {
-            flex: 1;
-            height: 4px;
-            background: #e2e8f0;
-            border-radius: 2px;
-            transition: background 0.3s;
-        }
-        .password-strength .bar.active.weak { background: #ef4444; }
-        .password-strength .bar.active.medium { background: #f59e0b; }
-        .password-strength .bar.active.strong { background: #10b981; }
-        .password-strength-text {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            margin-top: 4px;
-        }
 
         .spinner-small {
             display: inline-block;
@@ -255,82 +200,107 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE 2: LOCATION ===== */
+        /* ===== PAGE 2: OTP VERIFICATION ===== */
+        /* ============================================================ */
+        #pageOtp {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: #f0f4f8;
+        }
+        .otp-container {
+            background: white;
+            border-radius: 24px;
+            padding: 32px 28px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .otp-container .icon {
+            font-size: 3rem;
+            color: #2563eb;
+            margin-bottom: 12px;
+        }
+        .otp-container h2 { font-size: 1.3rem; font-weight: 700; color: #1e293b; }
+        .otp-container p { color: #94a3b8; font-size: 0.9rem; margin: 4px 0 16px; }
+        .otp-container .email-display {
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .otp-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .otp-row input {
+            width: 45px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+        }
+        .otp-row input:focus {
+            border-color: #2563eb;
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+        }
+
+        .otp-timer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 12px;
+        }
+        .otp-timer .resend {
+            color: #2563eb;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .otp-timer .resend:hover { text-decoration: underline; }
+
+        .back-to-login {
+            color: #2563eb;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: inline-block;
+        }
+        .back-to-login:hover { text-decoration: underline; }
+
+        /* ============================================================ */
+        /* ===== PAGE 3: LOCATION WITH SAVED ADDRESSES ===== */
         /* ============================================================ */
         #pageLocation {
             display: none;
             background: white;
             min-height: 100vh;
-            padding-bottom: 20px;
+            padding: 16px;
+            padding-bottom: 80px;
         }
         .location-header {
-            padding: 16px;
-            border-bottom: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-bottom: 20px;
         }
         .location-header .back { font-size: 1.2rem; cursor: pointer; }
         .location-header h2 { font-size: 1.1rem; font-weight: 700; }
 
-        /* Store Location Card */
-        .store-card {
-            background: linear-gradient(135deg, #1e3a8a, #2563eb);
-            color: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin: 16px;
-            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
-        }
-        .store-card .store-name {
-            font-size: 1.1rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .store-card .store-name i { color: #fbbf24; }
-        .store-card .store-address {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            margin: 6px 0;
-        }
-        .store-card .store-time {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 8px;
-            font-size: 0.85rem;
-        }
-        .store-card .store-time .quick {
-            background: rgba(255,255,255,0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        .store-card .store-time .schedule {
-            background: rgba(255,255,255,0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        .store-card .select-store-btn {
-            margin-top: 12px;
-            padding: 10px;
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-        }
-        .store-card .select-store-btn:hover { background: rgba(255,255,255,0.3); }
-
-        /* Location Options */
-        .location-options {
-            padding: 0 16px;
-        }
+        .location-options { margin-bottom: 16px; }
         .location-options .option {
             display: flex;
             align-items: center;
@@ -363,44 +333,123 @@
         .location-options .option .info .sub { font-size: 0.75rem; color: #94a3b8; }
         .location-options .option .arrow { color: #94a3b8; }
 
-        /* ============================================================ */
-        /* ===== PAGE 3: MANUAL ADDRESS ===== */
-        /* ============================================================ */
-        #pageManualAddress {
-            display: none;
-            background: white;
-            min-height: 100vh;
-            padding: 16px;
+        /* ===== SAVED ADDRESSES ===== */
+        .saved-addresses {
+            margin-top: 16px;
+            border-top: 8px solid #f1f5f9;
+            padding-top: 16px;
         }
-        .manual-header {
+        .saved-addresses .label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .address-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .address-card:hover { border-color: #2563eb; }
+        .address-card .radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 2px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            justify-content: center;
+            transition: all 0.2s;
         }
-        .manual-header .back { font-size: 1.2rem; cursor: pointer; }
-        .manual-header h2 { font-size: 1.1rem; font-weight: 700; }
+        .address-card .radio.selected {
+            border-color: #2563eb;
+            background: #2563eb;
+        }
+        .address-card .radio.selected::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+        .address-card .info { flex: 1; }
+        .address-card .info .label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .address-card .info .label .tag {
+            background: #dbeafe;
+            color: #2563eb;
+            font-size: 0.6rem;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .address-card .info .addr {
+            font-size: 0.75rem;
+            color: #475569;
+            margin-top: 2px;
+        }
+        .address-card .info .phone {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+        .address-card .actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+            align-items: center;
+        }
+        .address-card .actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 6px;
+            border-radius: 50%;
+            transition: all 0.2s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .address-card .actions .edit-btn:hover { background: #dbeafe; color: #2563eb; }
+        .address-card .actions .delete-btn:hover { background: #fee2e2; color: #ef4444; }
 
-        .form-row {
+        .address-form .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
-        .form-row .full-width { grid-column: 1 / -1; }
-
-        .form-group { margin-bottom: 12px; }
-        .form-group label {
+        .address-form .form-row .full-width { grid-column: 1 / -1; }
+        .address-form .form-group { margin-bottom: 12px; }
+        .address-form .form-group label {
             display: block;
             font-weight: 600;
             font-size: 0.8rem;
             color: #475569;
             margin-bottom: 4px;
         }
-        .form-group label .required { color: #ef4444; }
-        .form-group .input-wrap {
+        .address-form .form-group label .required { color: #ef4444; }
+        .address-form .form-group .input-wrap {
             position: relative;
         }
-        .form-group .input-wrap i {
+        .address-form .form-group .input-wrap i {
             position: absolute;
             left: 12px;
             top: 50%;
@@ -409,23 +458,23 @@
             z-index: 2;
             font-size: 0.9rem;
         }
-        .form-group input, .form-group select {
+        .address-form .form-group input, .address-form .form-group select {
             width: 100%;
             padding: 10px 12px 10px 38px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
             background: #f8fafc;
+            transition: all 0.3s ease;
         }
-        .form-group input:focus, .form-group select:focus {
+        .address-form .form-group input:focus, .address-form .form-group select:focus {
             outline: none;
             border-color: #2563eb;
             background: white;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
         }
-        .form-group select { appearance: none; cursor: pointer; padding-right: 32px; }
-        .form-group .select-arrow {
+        .address-form .form-group select { appearance: none; cursor: pointer; padding-right: 32px; }
+        .address-form .form-group .select-arrow {
             position: absolute;
             right: 12px;
             top: 50%;
@@ -469,14 +518,8 @@
             padding: 2px 10px;
             border-radius: 12px;
         }
-        .location-bar .delivery-time.quick {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .location-bar .delivery-time.schedule {
-            background: #fef3c7;
-            color: #92400e;
-        }
+        .location-bar .delivery-time.quick { background: #d1fae5; color: #065f46; }
+        .location-bar .delivery-time.schedule { background: #fef3c7; color: #92400e; }
 
         .app-header {
             background: white;
@@ -559,12 +602,7 @@
             margin-bottom: 12px;
         }
         .section-header h3 { font-size: 1.1rem; font-weight: 700; }
-        .section-header .see-all {
-            font-size: 0.8rem;
-            color: #2563eb;
-            font-weight: 600;
-            cursor: pointer;
-        }
+        .section-header .see-all { font-size: 0.8rem; color: #2563eb; font-weight: 600; cursor: pointer; }
         .product-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -575,7 +613,10 @@
             border-radius: 12px;
             padding: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: transform 0.2s;
         }
+        .product-card:active { transform: scale(0.98); }
         .product-card .image {
             width: 100%;
             height: 90px;
@@ -620,8 +661,10 @@
             cursor: pointer;
             margin-top: 6px;
             width: 100%;
+            transition: all 0.2s;
         }
         .product-card .add-btn.in-cart { background: #10b981; }
+        .product-card .add-btn:active { transform: scale(0.95); }
 
         .bottom-nav {
             position: fixed;
@@ -642,8 +685,8 @@
             font-size: 0.6rem;
             color: #94a3b8;
             cursor: pointer;
-            transition: color 0.2s;
             position: relative;
+            transition: color 0.2s;
         }
         .nav-item.active { color: #2563eb; }
         .nav-item i { font-size: 1.3rem; }
@@ -660,7 +703,96 @@
         }
 
         /* ============================================================ */
-        /* ===== PAGE 5: PROFILE / ORDER HISTORY ===== */
+        /* ===== PAGE 5: PRODUCT DETAIL ===== */
+        /* ============================================================ */
+        #pageProductDetail {
+            display: none;
+            background: white;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+        .product-detail-header {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        .product-detail-header .back { font-size: 1.2rem; cursor: pointer; }
+        .product-detail-header h2 { font-size: 1.1rem; font-weight: 700; flex: 1; }
+
+        .product-detail-content { padding: 16px; }
+        .detail-image {
+            width: 100%;
+            height: 200px;
+            background: #f1f5f9;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        .detail-name { font-size: 1.3rem; font-weight: 700; margin-top: 12px; }
+        .detail-price {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+        .detail-price .current { font-size: 1.4rem; font-weight: 700; color: #2563eb; }
+        .detail-price .mrp {
+            font-size: 1rem;
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+        .detail-price .discount { font-size: 0.9rem; color: #10b981; font-weight: 600; }
+        .detail-unit { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; }
+
+        .detail-description {
+            margin-top: 16px;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+        }
+        .detail-description h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+        .detail-description p { font-size: 0.9rem; color: #475569; line-height: 1.6; }
+
+        .detail-reviews {
+            margin-top: 16px;
+        }
+        .detail-reviews h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+        .review-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        .review-item .reviewer { font-weight: 600; font-size: 0.85rem; }
+        .review-item .stars { color: #f59e0b; font-size: 0.8rem; }
+        .review-item .comment { font-size: 0.8rem; color: #475569; margin-top: 4px; }
+
+        .detail-add-btn {
+            width: 100%;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s;
+        }
+        .detail-add-btn.in-cart { background: #10b981; }
+        .detail-add-btn:active { transform: scale(0.98); }
+
+        /* ============================================================ */
+        /* ===== PAGE 6: PROFILE / ORDER HISTORY ===== */
         /* ============================================================ */
         #pageProfile {
             display: none;
@@ -696,7 +828,9 @@
             padding: 14px 0;
             border-bottom: 1px solid #f1f5f9;
             cursor: pointer;
+            transition: background 0.2s;
         }
+        .profile-menu .menu-item:hover { background: #f8fafc; }
         .profile-menu .menu-item:last-child { border-bottom: none; }
         .profile-menu .menu-item i { width: 24px; color: #64748b; font-size: 1.1rem; }
         .profile-menu .menu-item .text { flex: 1; font-size: 0.9rem; }
@@ -712,6 +846,55 @@
         .profile-menu .menu-item.danger .text { color: #ef4444; }
         .profile-menu .menu-item.danger i { color: #ef4444; }
 
+        /* ===== FAQ SECTION ===== */
+        .faq-section {
+            background: white;
+            margin: 12px 16px;
+            border-radius: 12px;
+            padding: 0 16px;
+            overflow: hidden;
+        }
+        .faq-section .faq-title {
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .faq-section .faq-title i { color: #2563eb; }
+        .faq-item {
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .faq-item .faq-question:hover { color: #2563eb; }
+        .faq-item .faq-question i { transition: transform 0.3s ease; }
+        .faq-item .faq-question.open i { transform: rotate(180deg); }
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+        .faq-item .faq-answer.open {
+            max-height: 200px;
+            padding-bottom: 14px;
+        }
+
+        /* ===== ORDERS LIST ===== */
         .orders-list { padding: 12px 16px; }
         .order-card {
             background: white;
@@ -771,12 +954,15 @@
             color: #475569;
             cursor: pointer;
             background: white;
+            transition: all 0.2s;
         }
+        .order-card .order-actions .action-btn:hover { border-color: #2563eb; color: #2563eb; }
         .order-card .order-actions .action-btn.primary {
             background: #2563eb;
             color: white;
             border-color: #2563eb;
         }
+        .order-card .order-actions .action-btn.primary:hover { background: #1d4ed8; }
 
         .empty-orders {
             text-align: center;
@@ -786,7 +972,7 @@
         .empty-orders i { font-size: 3rem; display: block; margin-bottom: 12px; }
 
         /* ============================================================ */
-        /* ===== PAGE 6: CHECKOUT / PAYMENT ===== */
+        /* ===== PAGE 7: CHECKOUT / PAYMENT ===== */
         /* ============================================================ */
         #pageCheckout {
             display: none;
@@ -813,6 +999,7 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .checkout-card .label {
             font-size: 0.75rem;
@@ -899,6 +1086,7 @@
             font-size: 1rem;
             cursor: pointer;
             margin-top: 12px;
+            transition: all 0.2s;
         }
         .place-order-btn:hover { background: #1d4ed8; }
         .place-order-btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -965,7 +1153,9 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
+            transition: all 0.2s;
         }
+        .success-popup .btn-primary:hover { background: #1d4ed8; }
         .success-popup .btn-secondary {
             width: 100%;
             padding: 12px;
@@ -977,7 +1167,9 @@
             font-size: 1rem;
             cursor: pointer;
             margin-top: 8px;
+            transition: all 0.2s;
         }
+        .success-popup .btn-secondary:hover { background: #e2e8f0; }
 
         /* ============================================================ */
         /* ===== CART DRAWER ===== */
@@ -1037,7 +1229,9 @@
             border-radius: 50%;
             font-weight: 700;
             cursor: pointer;
+            transition: all 0.2s;
         }
+        .cart-drawer .cart-item .item-qty button:hover { background: #e2e8f0; }
         .cart-drawer .cart-item .item-qty span {
             font-weight: 600;
             min-width: 20px;
@@ -1063,7 +1257,9 @@
             font-size: 1rem;
             margin-top: 12px;
             cursor: pointer;
+            transition: all 0.2s;
         }
+        .cart-drawer .checkout-btn:hover { background: #1d4ed8; }
         .cart-drawer .checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .cart-drawer .empty-cart {
             text-align: center;
@@ -1072,10 +1268,12 @@
         }
         .cart-drawer .empty-cart i { font-size: 2rem; display: block; margin-bottom: 8px; }
 
+        /* ============================================================ */
         /* ===== RESPONSIVE ===== */
+        /* ============================================================ */
         @media (min-width: 600px) {
             .product-grid { grid-template-columns: repeat(3, 1fr); }
-            #customerPanel, #pageLocation, #pageProfile, #pageCheckout, #pageManualAddress {
+            #customerPanel, #pageLocation, #pageProfile, #pageCheckout, #pageProductDetail, #pageOtp {
                 max-width: 500px;
                 margin: 0 auto;
                 border-left: 1px solid #e2e8f0;
@@ -1087,7 +1285,10 @@
         @media (max-width: 480px) {
             .auth-container { padding: 24px 16px; }
             .form-row { grid-template-columns: 1fr; }
+            .otp-row input { width: 38px; height: 44px; font-size: 1.2rem; }
             .payment-methods { grid-template-columns: repeat(2, 1fr); }
+            .address-card { flex-wrap: wrap; }
+            .address-card .actions { width: 100%; justify-content: flex-end; padding-top: 8px; border-top: 1px solid #f1f5f9; }
         }
     </style>
 </head>
@@ -1097,14 +1298,14 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 1: LOGIN/REGISTER ===== -->
+<!-- ===== PAGE 1: LOGIN ===== -->
 <!-- ============================================================ -->
 <div id="pageLogin">
     <div class="auth-container">
         <div class="auth-header">
             <div class="logo"><i class="fas fa-bolt"></i></div>
             <h1>PRIYA ELECTRICALS</h1>
-            <p>Sell & Service · Customer Login</p>
+            <p>Sell & Service · Secure Login</p>
         </div>
 
         <div class="auth-tabs">
@@ -1139,10 +1340,6 @@
             <button class="btn-primary" id="loginBtn" onclick="handleLogin()">
                 <i class="fas fa-sign-in-alt"></i> Login
             </button>
-            <div class="divider">or continue with</div>
-            <button class="btn-google" onclick="handleGoogleLogin()">
-                <i class="fab fa-google"></i> Sign in with Google
-            </button>
         </div>
 
         <!-- Register Form -->
@@ -1172,7 +1369,7 @@
                 <label>Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="registerPassword" placeholder="Min 6 characters" oninput="checkPasswordStrength(this.value)">
+                    <input type="password" id="registerPassword" placeholder="Min 6 characters">
                 </div>
                 <div class="password-strength" id="passwordStrength">
                     <div class="bar" id="str1"></div>
@@ -1185,7 +1382,7 @@
                 <label>Confirm Password</label>
                 <div class="input-wrap">
                     <i class="fas fa-check-circle"></i>
-                    <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" oninput="validateConfirmPassword()">
+                    <input type="password" id="registerConfirmPassword" placeholder="Confirm your password">
                 </div>
             </div>
             <div class="form-options">
@@ -1194,38 +1391,45 @@
             <button class="btn-primary" id="registerBtn" onclick="handleRegister()">
                 <i class="fas fa-user-plus"></i> Create Account
             </button>
-            <div class="divider">or continue with</div>
-            <button class="btn-google" onclick="handleGoogleLogin()">
-                <i class="fab fa-google"></i> Sign up with Google
-            </button>
         </div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 2: LOCATION ===== -->
+<!-- ===== PAGE 2: OTP VERIFICATION ===== -->
+<!-- ============================================================ -->
+<div id="pageOtp">
+    <div class="otp-container">
+        <div class="icon"><i class="fas fa-envelope"></i></div>
+        <h2>OTP Verification</h2>
+        <p>We have sent a 6-digit OTP to your email</p>
+        <div class="email-display" id="otpEmailDisplay">user@example.com</div>
+        <div class="otp-row">
+            <input type="text" id="otp1" maxlength="1" oninput="otpMove(this, 'otp2')">
+            <input type="text" id="otp2" maxlength="1" oninput="otpMove(this, 'otp3')">
+            <input type="text" id="otp3" maxlength="1" oninput="otpMove(this, 'otp4')">
+            <input type="text" id="otp4" maxlength="1" oninput="otpMove(this, 'otp5')">
+            <input type="text" id="otp5" maxlength="1" oninput="otpMove(this, 'otp6')">
+            <input type="text" id="otp6" maxlength="1">
+        </div>
+        <div class="otp-timer" id="otpTimer">
+            <span id="otpTimerText">Resend OTP in 60s</span>
+            <span class="resend" id="otpResend" style="display:none;" onclick="resendOTP()">Resend OTP</span>
+        </div>
+        <button class="btn-primary" id="verifyOtpBtn" onclick="verifyOTP()">
+            <i class="fas fa-check-circle"></i> Verify OTP
+        </button>
+        <span class="back-to-login" onclick="goToLogin()"><i class="fas fa-arrow-left"></i> Back to Login</span>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE 3: LOCATION WITH SAVED ADDRESSES ===== -->
 <!-- ============================================================ -->
 <div id="pageLocation">
     <div class="location-header">
         <span class="back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i></span>
         <h2>Select Delivery Location</h2>
-    </div>
-
-    <!-- Store Card -->
-    <div class="store-card">
-        <div class="store-name">
-            <i class="fas fa-store"></i> Priya Electricals
-        </div>
-        <div class="store-address">
-            <i class="fas fa-map-pin"></i> Champi, Bokaro, Jharkhand - 829123
-        </div>
-        <div class="store-time">
-            <span class="quick"><i class="fas fa-bolt"></i> 1-60 mins</span>
-            <span class="schedule"><i class="fas fa-calendar"></i> Schedule: 7 days</span>
-        </div>
-        <button class="select-store-btn" onclick="selectStoreLocation()">
-            <i class="fas fa-check-circle"></i> Select This Store
-        </button>
     </div>
 
     <!-- Location Options -->
@@ -1238,100 +1442,109 @@
             </div>
             <div class="arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
-        <div class="option" onclick="openManualAddress()">
-            <div class="icon purple"><i class="fas fa-pen"></i></div>
+        <div class="option" onclick="openAddAddress()">
+            <div class="icon purple"><i class="fas fa-plus"></i></div>
             <div class="info">
-                <div class="title">Enter address manually</div>
-                <div class="sub">Add your delivery address details</div>
+                <div class="title">Add new address</div>
+                <div class="sub">Add a new delivery address</div>
             </div>
             <div class="arrow"><i class="fas fa-chevron-right"></i></div>
         </div>
     </div>
+
+    <!-- Add/Edit Address Form -->
+    <div id="addressForm" style="display:none;" class="address-form">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <h3 style="font-size:1rem;font-weight:700;" id="addressFormTitle">Add New Address</h3>
+            <span style="color:#ef4444;cursor:pointer;font-weight:600;font-size:0.85rem;" onclick="closeAddressForm()">✕ Cancel</span>
+        </div>
+        <div class="form-row">
+            <div class="form-group full-width">
+                <label>Receiver Name <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="addrName" placeholder="Full name">
+                </div>
+            </div>
+            <div class="form-group full-width">
+                <label>Mobile Number <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="addrPhone" placeholder="+91 98765 43210">
+                </div>
+            </div>
+            <div class="form-group full-width">
+                <label>Flat/House Number <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-home"></i>
+                    <input type="text" id="addrFlat" placeholder="Flat 101, House No. 123">
+                </div>
+            </div>
+            <div class="form-group full-width">
+                <label>Street/Sector/Area <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-road"></i>
+                    <input type="text" id="addrStreet" placeholder="Street name, Sector, Area">
+                </div>
+            </div>
+            <div class="form-group full-width">
+                <label>Landmark (Optional)</label>
+                <div class="input-wrap">
+                    <i class="fas fa-map-pin"></i>
+                    <input type="text" id="addrLandmark" placeholder="Near School, Hospital, etc.">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>City <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-city"></i>
+                    <input type="text" id="addrCity" placeholder="City name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>State <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-map"></i>
+                    <select id="addrState">
+                        <option value="">Select State</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    </select>
+                    <i class="fas fa-chevron-down select-arrow"></i>
+                </div>
+            </div>
+            <div class="form-group full-width">
+                <label>PINCODE <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-mailbox"></i>
+                    <input type="text" id="addrPincode" placeholder="6-digit pincode" maxlength="6">
+                </div>
+            </div>
+            <input type="hidden" id="editAddressId" value="">
+            <button class="btn-primary" onclick="saveAddress()" id="saveAddressBtn">
+                <i class="fas fa-save"></i> Save Address
+            </button>
+        </div>
+    </div>
+
+    <!-- Saved Addresses -->
+    <div class="saved-addresses" id="savedAddressesContainer">
+        <div class="label">Your saved addresses</div>
+        <div id="savedAddressesList">
+            <div style="text-align:center;padding:20px;color:#94a3b8;">
+                <i class="fas fa-home" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>
+                <p>No saved addresses</p>
+                <small>Add a new address to get started</small>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 2B: MANUAL ADDRESS ===== -->
-<!-- ============================================================ -->
-<div id="pageManualAddress">
-    <div class="manual-header">
-        <span class="back" onclick="showPage('location')"><i class="fas fa-arrow-left"></i></span>
-        <h2>Enter Delivery Address</h2>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group full-width">
-            <label>Receiver Name <span class="required">*</span></label>
-            <div class="input-wrap">
-                <i class="fas fa-user"></i>
-                <input type="text" id="manualName" placeholder="Full name">
-            </div>
-        </div>
-        <div class="form-group full-width">
-            <label>Mobile Number <span class="required">*</span></label>
-            <div class="input-wrap">
-                <i class="fas fa-phone"></i>
-                <input type="tel" id="manualPhone" placeholder="+91 98765 43210">
-            </div>
-        </div>
-        <div class="form-group full-width">
-            <label>Flat/House Number <span class="required">*</span></label>
-            <div class="input-wrap">
-                <i class="fas fa-home"></i>
-                <input type="text" id="manualFlat" placeholder="Flat 101, House No. 123">
-            </div>
-        </div>
-        <div class="form-group full-width">
-            <label>Street/Sector/Area <span class="required">*</span></label>
-            <div class="input-wrap">
-                <i class="fas fa-road"></i>
-                <input type="text" id="manualStreet" placeholder="Street name, Sector, Area">
-            </div>
-        </div>
-        <div class="form-group full-width">
-            <label>Landmark (Optional)</label>
-            <div class="input-wrap">
-                <i class="fas fa-map-pin"></i>
-                <input type="text" id="manualLandmark" placeholder="Near School, Hospital, etc.">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>City <span class="required">*</span></label>
-            <div class="input-wrap">
-                <i class="fas fa-city"></i>
-                <input type="text" id="manualCity" placeholder="City name">
-            </div>
-        </div>
-        <div class="form-group">
-            <label>State <span class="required">*</span></label>
-            <div class="input-wrap">
-                <i class="fas fa-map"></i>
-                <select id="manualState">
-                    <option value="">Select State</option>
-                    <option value="Jharkhand">Jharkhand</option>
-                    <option value="Bihar">Bihar</option>
-                    <option value="West Bengal">West Bengal</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                </select>
-                <i class="fas fa-chevron-down select-arrow"></i>
-            </div>
-        </div>
-        <div class="form-group full-width">
-            <label>PINCODE <span class="required">*</span></label>
-            <div class="input-wrap">
-                <i class="fas fa-mailbox"></i>
-                <input type="text" id="manualPincode" placeholder="6-digit pincode" maxlength="6">
-            </div>
-        </div>
-    </div>
-
-    <button class="btn-primary" onclick="saveManualAddress()">
-        <i class="fas fa-save"></i> Save Address & Continue
-    </button>
-</div>
-
-<!-- ============================================================ -->
-<!-- ===== PAGE 3: CUSTOMER PANEL ===== -->
+<!-- ===== PAGE 4: CUSTOMER PANEL ===== -->
 <!-- ============================================================ -->
 <div id="customerPanel">
     <div class="location-bar" onclick="showPage('location')">
@@ -1389,7 +1602,20 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 4: PROFILE / ORDER HISTORY ===== -->
+<!-- ===== PAGE 5: PRODUCT DETAIL ===== -->
+<!-- ============================================================ -->
+<div id="pageProductDetail">
+    <div class="product-detail-header">
+        <span class="back" onclick="showPage('home')"><i class="fas fa-arrow-left"></i></span>
+        <h2 id="detailProductName">Product Detail</h2>
+    </div>
+    <div class="product-detail-content" id="productDetailContent">
+        <!-- Dynamically filled -->
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE 6: PROFILE / ORDER HISTORY ===== -->
 <!-- ============================================================ -->
 <div id="pageProfile">
     <div class="profile-header">
@@ -1421,6 +1647,48 @@
         </div>
     </div>
 
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <div class="faq-title"><i class="fas fa-question-circle"></i> Frequently Asked Questions</div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>What is the delivery time?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                For PINCODE 829123, we offer Quick Delivery (13-60 mins). For other locations, Schedule Delivery takes 7-15 working days.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>How can I track my order?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                You can track your order in the "Your Orders" section of your profile. Order history is always available.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>What payment methods are accepted?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                We accept UPI payments via PhonePe, Google Pay, WhatsApp, BHIM UPI, Paytm, and Credit/Debit Cards.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <span>Can I cancel my order?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                Orders can be cancelled within 5 minutes of placing. Contact support for assistance.
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders -->
     <div style="padding: 0 16px 16px;">
         <h3 style="font-size:1rem;font-weight:700;margin:12px 0;">Order History</h3>
         <div class="orders-list" id="ordersList">
@@ -1434,7 +1702,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 5: CHECKOUT / PAYMENT ===== -->
+<!-- ===== PAGE 7: CHECKOUT / PAYMENT ===== -->
 <!-- ============================================================ -->
 <div id="pageCheckout">
     <div class="checkout-header">
@@ -1569,7 +1837,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== JAVASCRIPT - ALL FEATURES WORKING ===== -->
+<!-- ===== JAVASCRIPT - ALL FEATURES ===== -->
 <!-- ============================================================ -->
 <script>
     // ============================================================
@@ -1590,7 +1858,18 @@
     const db = firebase.firestore();
 
     // ============================================================
-    // 🍞 TOAST FUNCTION
+    // 📧 EMAILJS CONFIG
+    // ============================================================
+    const EMAILJS_CONFIG = {
+        PUBLIC_KEY: "3cUWXrfL9AhSkM5FA",
+        SERVICE_ID: "Pawanretaillimited-5678",
+        TEMPLATE_ID: "template_45qu30j"
+    };
+
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+
+    // ============================================================
+    // 🍞 TOAST
     // ============================================================
     function showToast(message, type = 'info', duration = 4000) {
         const container = document.getElementById('toastContainer');
@@ -1617,6 +1896,118 @@
     }
 
     // ============================================================
+    // 🔐 OTP VARIABLES
+    // ============================================================
+    let storedOTP = null;
+    let otpTimer = null;
+    let otpCountdown = 60;
+    let currentUserEmail = '';
+
+    // ============================================================
+    // 📱 OTP FUNCTIONS
+    // ============================================================
+    function otpMove(current, nextId) {
+        if (current.value.length >= 1) {
+            document.getElementById(nextId).focus();
+        }
+    }
+
+    function getOtpValue() {
+        let otp = '';
+        for (let i = 1; i <= 6; i++) {
+            const val = document.getElementById('otp' + i).value;
+            otp += val || '';
+        }
+        return otp;
+    }
+
+    function generateOTP() {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    function startOTPTimer() {
+        otpCountdown = 60;
+        const timerText = document.getElementById('otpTimerText');
+        const resendBtn = document.getElementById('otpResend');
+        
+        if (otpTimer) clearInterval(otpTimer);
+        
+        timerText.style.display = 'block';
+        resendBtn.style.display = 'none';
+        
+        otpTimer = setInterval(() => {
+            otpCountdown--;
+            timerText.textContent = `Resend OTP in ${otpCountdown}s`;
+            
+            if (otpCountdown <= 0) {
+                clearInterval(otpTimer);
+                timerText.style.display = 'none';
+                resendBtn.style.display = 'inline';
+            }
+        }, 1000);
+    }
+
+    function sendOTP(email, name = 'User') {
+        const otp = generateOTP();
+        storedOTP = otp;
+        currentUserEmail = email;
+        
+        document.getElementById('otpEmailDisplay').textContent = email;
+        document.getElementById('pageLogin').style.display = 'none';
+        document.getElementById('pageOtp').style.display = 'flex';
+        startOTPTimer();
+
+        const templateParams = {
+            to_email: email,
+            name: name,
+            otp_code: otp,
+            to_phone: 'N/A'
+        };
+
+        emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, templateParams)
+            .then(() => {
+                showToast('✅ OTP sent to ' + email, 'success');
+            })
+            .catch(error => {
+                console.error('EmailJS Error:', error);
+                showToast('⚠️ Could not send OTP. Please try again.', 'error');
+            });
+    }
+
+    function resendOTP() {
+        if (currentUserEmail) {
+            sendOTP(currentUserEmail);
+        }
+    }
+
+    function verifyOTP() {
+        const enteredOtp = getOtpValue();
+        
+        if (!enteredOtp || enteredOtp.length < 6) {
+            showToast('Please enter complete OTP', 'error');
+            return;
+        }
+
+        if (enteredOtp === storedOTP) {
+            showToast('✅ OTP Verified Successfully!', 'success');
+            document.getElementById('pageOtp').style.display = 'none';
+            document.getElementById('pageLogin').style.display = 'flex';
+            // Auto login after OTP verification
+            const email = currentUserEmail;
+            const password = email.split('@')[0] + '@123';
+            loginUser(email, password);
+        } else {
+            showToast('❌ Invalid OTP. Please try again.', 'error');
+        }
+    }
+
+    function goToLogin() {
+        document.getElementById('pageOtp').style.display = 'none';
+        document.getElementById('pageLogin').style.display = 'flex';
+        if (otpTimer) clearInterval(otpTimer);
+    }
+
+    // ============================================================
     // 🔄 AUTH STATE
     // ============================================================
     let currentUser = null;
@@ -1625,11 +2016,12 @@
         if (user) {
             currentUser = user;
             document.getElementById('pageLogin').style.display = 'none';
+            document.getElementById('pageOtp').style.display = 'none';
             document.getElementById('pageLocation').style.display = 'none';
-            document.getElementById('pageManualAddress').style.display = 'none';
             document.getElementById('customerPanel').style.display = 'block';
             document.getElementById('pageProfile').style.display = 'none';
             document.getElementById('pageCheckout').style.display = 'none';
+            document.getElementById('pageProductDetail').style.display = 'none';
             document.getElementById('bottomNav').style.display = 'flex';
             
             const name = user.displayName || user.email || 'User';
@@ -1638,6 +2030,7 @@
             
             loadProducts();
             loadOrders();
+            loadSavedAddresses();
             
             // Load saved location
             const savedLoc = localStorage.getItem('userLocation');
@@ -1646,16 +2039,22 @@
                     const loc = JSON.parse(savedLoc);
                     document.getElementById('homeAddress').textContent = '📍 ' + (loc.address || 'Saved location').substring(0, 40) + '...';
                     document.getElementById('deliveryTimeBadge').textContent = loc.deliveryTime || '⏳ Select';
+                    if (loc.deliveryTime && loc.deliveryTime.includes('min')) {
+                        document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
+                    } else {
+                        document.getElementById('deliveryTimeBadge').className = 'delivery-time schedule';
+                    }
                 } catch(e) {}
             }
         } else {
             currentUser = null;
             document.getElementById('pageLogin').style.display = 'flex';
+            document.getElementById('pageOtp').style.display = 'none';
             document.getElementById('pageLocation').style.display = 'none';
-            document.getElementById('pageManualAddress').style.display = 'none';
             document.getElementById('customerPanel').style.display = 'none';
             document.getElementById('pageProfile').style.display = 'none';
             document.getElementById('pageCheckout').style.display = 'none';
+            document.getElementById('pageProductDetail').style.display = 'none';
             document.getElementById('bottomNav').style.display = 'none';
         }
     });
@@ -1671,58 +2070,30 @@
     }
 
     // ============================================================
-    // 📩 FORGOT PASSWORD
-    // ============================================================
-    function forgotPassword() {
-        const email = document.getElementById('loginEmail').value.trim();
-        if (!email) { showToast('Please enter your email address first', 'warning'); return; }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email address', 'error'); return; }
-        showToast('📧 Sending reset link...', 'info');
-        auth.sendPasswordResetEmail(email)
-            .then(() => showToast('✅ Password reset link sent to your email!', 'success'))
-            .catch(error => showToast('❌ ' + error.message, 'error'));
-    }
-
-    // ============================================================
-    // 🔐 HANDLE LOGIN
+    // 🔐 LOGIN FUNCTIONS
     // ============================================================
     function handleLogin() {
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
-        const btn = document.getElementById('loginBtn');
         
         if (!email || !password) { showToast('Please fill all fields', 'error'); return; }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email', 'error'); return; }
         if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
         
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-small"></span> Logging in...';
-        
+        // Send OTP instead of direct login
+        sendOTP(email);
+    }
+
+    function loginUser(email, password) {
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
-                if (document.getElementById('rememberMe').checked) {
-                    localStorage.setItem('rememberedEmail', email);
-                }
-                showToast('✅ Welcome back! 🎉', 'success', 3000);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                showToast('✅ Login successful!', 'success');
             })
             .catch(error => {
-                let message = error.message;
-                if (error.code === 'auth/wrong-password') {
-                    message = '❌ Incorrect password. Please try again.';
-                } else if (error.code === 'auth/user-not-found') {
-                    message = '❌ No account found with this email';
-                }
-                showToast(message, 'error', 5000);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                showToast('❌ ' + error.message, 'error');
             });
     }
 
-    // ============================================================
-    // 📝 HANDLE REGISTER
-    // ============================================================
     function handleRegister() {
         const name = document.getElementById('registerName').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
@@ -1730,91 +2101,21 @@
         const password = document.getElementById('registerPassword').value;
         const confirm = document.getElementById('registerConfirmPassword').value;
         const terms = document.getElementById('termsCheck').checked;
-        const btn = document.getElementById('registerBtn');
         
         if (!name || !email || !phone || !password || !confirm) {
             showToast('Please fill all fields', 'error');
             return;
         }
-        if (name.length < 2) {
-            showToast('Name must be at least 2 characters', 'error');
-            return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            showToast('Please enter a valid email', 'error');
-            return;
-        }
-        if (password.length < 6) {
-            showToast('Password must be at least 6 characters', 'error');
-            return;
-        }
-        if (password !== confirm) {
-            showToast('Passwords do not match!', 'error');
-            return;
-        }
+        if (name.length < 2) { showToast('Name must be at least 2 characters', 'error'); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email', 'error'); return; }
+        if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+        if (password !== confirm) { showToast('Passwords do not match!', 'error'); return; }
         if (!terms) { showToast('Please accept Terms & Conditions', 'warning'); return; }
         
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-small"></span> Creating account...';
-        
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                const user = userCredential.user;
-                return db.collection('users').doc(user.uid).set({
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    role: 'customer'
-                });
-            })
-            .then(() => {
-                showToast('✅ Account created successfully! Welcome, ' + name + '! 🎉', 'success', 4000);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-            })
-            .catch(error => {
-                let message = error.message;
-                if (error.code === 'auth/email-already-in-use') {
-                    message = '❌ This email is already registered';
-                } else if (error.code === 'auth/configuration-not-found') {
-                    message = '⚠️ Please enable Email/Password in Firebase Console → Authentication → Sign-in methods';
-                }
-                showToast(message, 'error', 5000);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-            });
+        // Send OTP for registration
+        sendOTP(email, name);
     }
 
-    // ============================================================
-    // 🔵 GOOGLE LOGIN
-    // ============================================================
-    function handleGoogleLogin() {
-        showToast('🔄 Connecting to Google...', 'info');
-        const provider = new firebase.auth.GoogleAuthProvider();
-        
-        auth.signInWithPopup(provider)
-            .then(result => {
-                const user = result.user;
-                return db.collection('users').doc(user.uid).set({
-                    name: user.displayName || 'User',
-                    email: user.email,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    role: 'customer'
-                }, { merge: true });
-            })
-            .catch(error => {
-                if (error.code === 'auth/popup-closed-by-user') {
-                    showToast('Login cancelled', 'warning');
-                } else {
-                    showToast('❌ ' + error.message, 'error');
-                }
-            });
-    }
-
-    // ============================================================
-    // 🚪 LOGOUT
-    // ============================================================
     function handleLogout() {
         showToast('👋 Logging out...', 'info');
         auth.signOut().then(() => {
@@ -1829,15 +2130,14 @@
     // ============================================================
     function showPage(page) {
         document.getElementById('pageLocation').style.display = 'none';
-        document.getElementById('pageManualAddress').style.display = 'none';
         document.getElementById('customerPanel').style.display = 'none';
         document.getElementById('pageProfile').style.display = 'none';
         document.getElementById('pageCheckout').style.display = 'none';
+        document.getElementById('pageProductDetail').style.display = 'none';
         
         if (page === 'location') {
             document.getElementById('pageLocation').style.display = 'block';
-        } else if (page === 'manual') {
-            document.getElementById('pageManualAddress').style.display = 'block';
+            loadSavedAddresses();
         } else if (page === 'home') {
             document.getElementById('customerPanel').style.display = 'block';
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -1854,23 +2154,259 @@
             loadOrders();
         } else if (page === 'checkout') {
             document.getElementById('pageCheckout').style.display = 'block';
+        } else if (page === 'productdetail') {
+            document.getElementById('pageProductDetail').style.display = 'block';
         }
     }
 
     // ============================================================
-    // 📍 LOCATION FUNCTIONS
+    // 📍 LOCATION FUNCTIONS WITH SAVED ADDRESSES
     // ============================================================
     let selectedAddress = null;
     let deliveryTime = '⚡ 13 mins';
+    let addresses = [];
+    let editingAddressId = null;
 
-    function selectStoreLocation() {
-        const address = 'Priya Electricals, Champi, Bokaro, Jharkhand - 829123';
-        selectedAddress = { address: address, type: 'store' };
-        deliveryTime = '⚡ 13 mins';
+    function loadSavedAddresses() {
+        if (!currentUser) return;
+
+        db.collection('users').doc(currentUser.uid).collection('addresses')
+            .orderBy('createdAt', 'desc')
+            .get()
+            .then(snapshot => {
+                addresses = [];
+                snapshot.forEach(doc => {
+                    addresses.push({ id: doc.id, ...doc.data() });
+                });
+                renderAddresses(addresses);
+            })
+            .catch(error => {
+                console.error('Error loading addresses:', error);
+                // Load from localStorage as fallback
+                const saved = localStorage.getItem('savedAddresses');
+                if (saved) {
+                    addresses = JSON.parse(saved);
+                    renderAddresses(addresses);
+                }
+            });
+    }
+
+    function renderAddresses(addresses) {
+        const container = document.getElementById('savedAddressesList');
         
-        updateLocationUI(address);
-        showToast('✅ Store location selected!', 'success');
+        if (!addresses || addresses.length === 0) {
+            container.innerHTML = `
+                <div style="text-align:center;padding:20px;color:#94a3b8;">
+                    <i class="fas fa-home" style="font-size:1.5rem;display:block;margin-bottom:8px;"></i>
+                    <p>No saved addresses</p>
+                    <small>Add a new address to get started</small>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        addresses.forEach(addr => {
+            const fullAddress = addr.flat + ', ' + addr.street + (addr.landmark ? ', ' + addr.landmark : '') + ', ' + addr.city + ', ' + addr.state + ' - ' + addr.pincode;
+            const isSelected = selectedAddress && selectedAddress.id === addr.id;
+            
+            // Check if pincode is 829123 for quick delivery
+            const isQuickDelivery = addr.pincode === '829123';
+            const deliveryTag = isQuickDelivery ? '⚡ Quick' : '📦 Schedule';
+            
+            html += `
+                <div class="address-card" onclick="selectAddress('${addr.id}')">
+                    <div class="radio ${isSelected ? 'selected' : ''}" id="radio_${addr.id}"></div>
+                    <div class="info">
+                        <div class="label">
+                            ${addr.name || 'Home'}
+                            <span class="tag">${deliveryTag}</span>
+                        </div>
+                        <div class="addr">${fullAddress}</div>
+                        <div class="phone"><i class="fas fa-phone"></i> ${addr.phone || ''}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="edit-btn" onclick="event.stopPropagation();editAddress('${addr.id}')" title="Edit">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <button class="delete-btn" onclick="event.stopPropagation();deleteAddress('${addr.id}')" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    function selectAddress(addressId) {
+        const addr = addresses.find(a => a.id === addressId);
+        if (!addr) return;
+        
+        selectedAddress = addr;
+        
+        // Update radio buttons
+        document.querySelectorAll('.address-card .radio').forEach(el => el.classList.remove('selected'));
+        document.getElementById('radio_' + addressId).classList.add('selected');
+        
+        // Update UI
+        const fullAddress = addr.flat + ', ' + addr.street + (addr.landmark ? ', ' + addr.landmark : '') + ', ' + addr.city + ', ' + addr.state + ' - ' + addr.pincode;
+        document.getElementById('homeAddress').textContent = '📍 ' + fullAddress.substring(0, 40) + '...';
+        document.getElementById('checkoutAddress').textContent = fullAddress;
+        
+        // Calculate delivery time based on pincode
+        if (addr.pincode === '829123') {
+            deliveryTime = '⚡ 13 mins';
+            document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
+        } else {
+            deliveryTime = '📦 7-15 days';
+            document.getElementById('deliveryTimeBadge').className = 'delivery-time schedule';
+        }
+        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
+        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
+        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
+        
+        // Save to localStorage
+        localStorage.setItem('userLocation', JSON.stringify({ 
+            address: fullAddress, 
+            deliveryTime: deliveryTime,
+            addressId: addr.id
+        }));
+        
+        showToast('✅ Address selected: ' + (addr.name || 'Home'), 'success');
         setTimeout(() => showPage('home'), 500);
+    }
+
+    function openAddAddress() {
+        document.getElementById('addressForm').style.display = 'block';
+        document.getElementById('addressFormTitle').textContent = 'Add New Address';
+        document.getElementById('editAddressId').value = '';
+        document.getElementById('saveAddressBtn').innerHTML = '<i class="fas fa-save"></i> Save Address';
+        // Clear form
+        document.getElementById('addrName').value = '';
+        document.getElementById('addrPhone').value = '';
+        document.getElementById('addrFlat').value = '';
+        document.getElementById('addrStreet').value = '';
+        document.getElementById('addrLandmark').value = '';
+        document.getElementById('addrCity').value = '';
+        document.getElementById('addrState').value = '';
+        document.getElementById('addrPincode').value = '';
+        
+        document.getElementById('addressForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeAddressForm() {
+        document.getElementById('addressForm').style.display = 'none';
+    }
+
+    function editAddress(addressId) {
+        const addr = addresses.find(a => a.id === addressId);
+        if (!addr) return;
+        
+        editingAddressId = addressId;
+        document.getElementById('addressForm').style.display = 'block';
+        document.getElementById('addressFormTitle').textContent = 'Edit Address';
+        document.getElementById('editAddressId').value = addressId;
+        document.getElementById('saveAddressBtn').innerHTML = '<i class="fas fa-save"></i> Update Address';
+        
+        document.getElementById('addrName').value = addr.name || '';
+        document.getElementById('addrPhone').value = addr.phone || '';
+        document.getElementById('addrFlat').value = addr.flat || '';
+        document.getElementById('addrStreet').value = addr.street || '';
+        document.getElementById('addrLandmark').value = addr.landmark || '';
+        document.getElementById('addrCity').value = addr.city || '';
+        document.getElementById('addrState').value = addr.state || '';
+        document.getElementById('addrPincode').value = addr.pincode || '';
+        
+        document.getElementById('addressForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function saveAddress() {
+        const name = document.getElementById('addrName').value.trim();
+        const phone = document.getElementById('addrPhone').value.trim();
+        const flat = document.getElementById('addrFlat').value.trim();
+        const street = document.getElementById('addrStreet').value.trim();
+        const landmark = document.getElementById('addrLandmark').value.trim();
+        const city = document.getElementById('addrCity').value.trim();
+        const state = document.getElementById('addrState').value;
+        const pincode = document.getElementById('addrPincode').value.trim();
+        const editId = document.getElementById('editAddressId').value;
+        
+        if (!name) { showToast('Please enter receiver name', 'error'); return; }
+        if (!phone || phone.length < 10) { showToast('Please enter valid phone number', 'error'); return; }
+        if (!flat) { showToast('Please enter flat/house number', 'error'); return; }
+        if (!street) { showToast('Please enter street/sector', 'error'); return; }
+        if (!city) { showToast('Please enter city', 'error'); return; }
+        if (!state) { showToast('Please select state', 'error'); return; }
+        if (!pincode || pincode.length !== 6) { showToast('Please enter valid 6-digit pincode', 'error'); return; }
+        
+        const addressData = {
+            name: name,
+            phone: phone,
+            flat: flat,
+            street: street,
+            landmark: landmark,
+            city: city,
+            state: state,
+            pincode: pincode,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        if (!currentUser) {
+            showToast('Please login first', 'error');
+            return;
+        }
+        
+        const userRef = db.collection('users').doc(currentUser.uid);
+        
+        if (editId) {
+            // Update existing address
+            userRef.collection('addresses').doc(editId).update(addressData)
+                .then(() => {
+                    showToast('✅ Address updated successfully!', 'success');
+                    closeAddressForm();
+                    loadSavedAddresses();
+                })
+                .catch(error => {
+                    showToast('❌ Error updating address: ' + error.message, 'error');
+                });
+        } else {
+            // Add new address
+            addressData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            userRef.collection('addresses').add(addressData)
+                .then(() => {
+                    showToast('✅ Address saved successfully!', 'success');
+                    closeAddressForm();
+                    loadSavedAddresses();
+                })
+                .catch(error => {
+                    showToast('❌ Error saving address: ' + error.message, 'error');
+                });
+        }
+    }
+
+    function deleteAddress(addressId) {
+        if (!confirm('Are you sure you want to delete this address?')) return;
+        
+        if (!currentUser) {
+            showToast('Please login first', 'error');
+            return;
+        }
+        
+        db.collection('users').doc(currentUser.uid).collection('addresses').doc(addressId).delete()
+            .then(() => {
+                showToast('✅ Address deleted successfully!', 'success');
+                if (selectedAddress && selectedAddress.id === addressId) {
+                    selectedAddress = null;
+                    document.getElementById('homeAddress').textContent = '📍 Select location';
+                    document.getElementById('deliveryTimeBadge').textContent = '⏳ Select';
+                }
+                loadSavedAddresses();
+            })
+            .catch(error => {
+                showToast('❌ Error deleting address: ' + error.message, 'error');
+            });
     }
 
     function useCurrentLocation() {
@@ -1889,12 +2425,55 @@
                 fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18`)
                     .then(res => res.json())
                     .then(data => {
-                        const address = data.display_name || 'Current Location';
-                        selectedAddress = { address: address, lat: lat, lng: lng, type: 'current' };
-                        deliveryTime = '⚡ 13 mins';
-                        updateLocationUI(address);
-                        showToast('✅ Location detected!', 'success');
-                        setTimeout(() => showPage('home'), 500);
+                        if (data && data.address) {
+                            const addr = data.address;
+                            const fullAddress = [
+                                addr.road || addr.house_number || '',
+                                addr.suburb || addr.neighbourhood || '',
+                                addr.city || addr.town || addr.village || '',
+                                addr.state || '',
+                                addr.postcode || ''
+                            ].filter(Boolean).join(', ');
+                            
+                            // Create address object
+                            const addressData = {
+                                name: 'Current Location',
+                                phone: '',
+                                flat: addr.house_number || '',
+                                street: addr.road || addr.street || '',
+                                landmark: addr.neighbourhood || '',
+                                city: addr.city || addr.town || addr.village || '',
+                                state: addr.state || '',
+                                pincode: addr.postcode || '829123'
+                            };
+                            
+                            // Check if pincode is 829123
+                            if (addressData.pincode === '829123') {
+                                deliveryTime = '⚡ 13 mins';
+                            } else {
+                                deliveryTime = '📦 7-15 days';
+                            }
+                            
+                            selectedAddress = addressData;
+                            document.getElementById('homeAddress').textContent = '📍 ' + fullAddress.substring(0, 40) + '...';
+                            document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
+                            if (addressData.pincode === '829123') {
+                                document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
+                            } else {
+                                document.getElementById('deliveryTimeBadge').className = 'delivery-time schedule';
+                            }
+                            document.getElementById('checkoutAddress').textContent = fullAddress;
+                            document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
+                            document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
+                            
+                            localStorage.setItem('userLocation', JSON.stringify({ 
+                                address: fullAddress, 
+                                deliveryTime: deliveryTime 
+                            }));
+                            
+                            showToast('✅ Location detected!', 'success');
+                            setTimeout(() => showPage('home'), 500);
+                        }
                     })
                     .catch(() => {
                         showToast('Could not get address. Please enter manually.', 'warning');
@@ -1905,142 +2484,6 @@
             },
             { enableHighAccuracy: true, timeout: 10000 }
         );
-    }
-
-    function openManualAddress() {
-        showPage('manual');
-    }
-
-    function saveManualAddress() {
-        const name = document.getElementById('manualName').value.trim();
-        const phone = document.getElementById('manualPhone').value.trim();
-        const flat = document.getElementById('manualFlat').value.trim();
-        const street = document.getElementById('manualStreet').value.trim();
-        const landmark = document.getElementById('manualLandmark').value.trim();
-        const city = document.getElementById('manualCity').value.trim();
-        const state = document.getElementById('manualState').value;
-        const pincode = document.getElementById('manualPincode').value.trim();
-        
-        if (!name) { showToast('Please enter receiver name', 'error'); return; }
-        if (!phone || phone.length < 10) { showToast('Please enter valid phone number', 'error'); return; }
-        if (!flat) { showToast('Please enter flat/house number', 'error'); return; }
-        if (!street) { showToast('Please enter street/sector', 'error'); return; }
-        if (!city) { showToast('Please enter city', 'error'); return; }
-        if (!state) { showToast('Please select state', 'error'); return; }
-        if (!pincode || pincode.length !== 6) { showToast('Please enter valid 6-digit pincode', 'error'); return; }
-        
-        let fullAddress = flat + ', ' + street + (landmark ? ', ' + landmark : '') + ', ' + city + ', ' + state + ' - ' + pincode;
-        
-        selectedAddress = { 
-            address: fullAddress, 
-            name: name, 
-            phone: phone, 
-            flat: flat, 
-            street: street, 
-            landmark: landmark, 
-            city: city, 
-            state: state, 
-            pincode: pincode,
-            type: 'manual'
-        };
-        
-        // Calculate delivery time based on pincode distance
-        let distance = Math.abs(parseInt(pincode) - 829123) * 0.5;
-        if (distance <= 50) {
-            deliveryTime = '⚡ 13 mins';
-        } else if (distance <= 100) {
-            deliveryTime = '⏰ 30 mins';
-        } else if (distance <= 500) {
-            deliveryTime = '📦 7 days';
-        } else {
-            deliveryTime = '📦 7-15 days';
-        }
-        
-        // Save to Firebase
-        if (currentUser) {
-            db.collection('users').doc(currentUser.uid).collection('addresses').add({
-                name: name,
-                phone: phone,
-                flat: flat,
-                street: street,
-                landmark: landmark,
-                city: city,
-                state: state,
-                pincode: pincode,
-                address: fullAddress,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                showToast('✅ Address saved to Firebase!', 'success');
-            }).catch(() => {});
-        }
-        
-        updateLocationUI(fullAddress);
-        showToast('✅ Address saved successfully!', 'success');
-        setTimeout(() => showPage('home'), 500);
-    }
-
-    function updateLocationUI(address) {
-        document.getElementById('homeAddress').textContent = '📍 ' + address.substring(0, 40) + '...';
-        document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
-        document.getElementById('deliveryTimeBadge').className = 'delivery-time ' + (deliveryTime.includes('min') ? 'quick' : 'schedule');
-        document.getElementById('checkoutAddress').textContent = address;
-        document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
-        document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
-        
-        localStorage.setItem('userLocation', JSON.stringify({ address: address, deliveryTime: deliveryTime }));
-    }
-
-    // ============================================================
-    // 🔒 PASSWORD STRENGTH
-    // ============================================================
-    function checkPasswordStrength(password) {
-        const str1 = document.getElementById('str1');
-        const str2 = document.getElementById('str2');
-        const str3 = document.getElementById('str3');
-        const text = document.getElementById('strengthText');
-        
-        str1.className = 'bar';
-        str2.className = 'bar';
-        str3.className = 'bar';
-        
-        if (password.length === 0) {
-            text.textContent = 'Enter a strong password';
-            return;
-        }
-        
-        let strength = 0;
-        if (password.length >= 6) strength++;
-        if (password.length >= 10) strength++;
-        if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
-        if (/[0-9]/.test(password)) strength++;
-        if (/[^A-Za-z0-9]/.test(password)) strength++;
-        
-        let level = 'weak';
-        if (strength <= 2) {
-            level = 'weak';
-            text.textContent = '⚠️ Weak password';
-        } else if (strength <= 3) {
-            level = 'medium';
-            text.textContent = '🟡 Medium password';
-        } else {
-            level = 'strong';
-            text.textContent = '✅ Strong password';
-        }
-        
-        if (strength >= 2) str1.className = 'bar active ' + level;
-        if (strength >= 3) str2.className = 'bar active ' + level;
-        if (strength >= 4) str3.className = 'bar active ' + level;
-    }
-
-    function validateConfirmPassword() {
-        const password = document.getElementById('registerPassword').value;
-        const confirm = document.getElementById('registerConfirmPassword');
-        if (confirm.value.length === 0) return;
-        if (confirm.value === password && password.length >= 6) {
-            confirm.className = 'success';
-        } else {
-            confirm.className = 'error';
-        }
     }
 
     // ============================================================
@@ -2060,14 +2503,118 @@
         `;
 
         const defaultProducts = [
-            { id: '1', name: 'PVC Copper Wire', category: 'wires', price: 850, mrp: 950, unit: '90m Roll', image: '🔌' },
-            { id: '2', name: 'LED Bulb 9W', category: 'lighting', price: 120, mrp: 180, unit: 'Pack of 2', image: '💡' },
-            { id: '3', name: 'Switch Board', category: 'switches', price: 250, mrp: 320, unit: '6 Socket', image: '🔘' },
-            { id: '4', name: 'MCB 32A', category: 'electrical', price: 180, mrp: 240, unit: 'Single Pole', image: '⚡' },
-            { id: '5', name: 'PVC Pipe 1"', category: 'plumbing', price: 350, mrp: 420, unit: '3m Length', image: '🔧' },
-            { id: '6', name: 'LED Tube Light', category: 'lighting', price: 280, mrp: 380, unit: '4ft', image: '💡' },
-            { id: '7', name: 'Extension Cord', category: 'wires', price: 150, mrp: 200, unit: '3m', image: '🔌' },
-            { id: '8', name: 'Fan Regulator', category: 'switches', price: 90, mrp: 130, unit: 'Modern', image: '🌀' }
+            { 
+                id: '1', 
+                name: 'PVC Copper Wire', 
+                category: 'wires', 
+                price: 850, 
+                mrp: 950, 
+                unit: '90m Roll', 
+                image: '🔌',
+                description: 'High-quality PVC copper wire for electrical wiring. Fire-resistant and durable. Suitable for home and industrial use.',
+                reviews: [
+                    { reviewer: 'Rahul S.', stars: 5, comment: 'Excellent quality wire! Highly recommended.' },
+                    { reviewer: 'Priya M.', stars: 4, comment: 'Good product, delivery was quick.' }
+                ]
+            },
+            { 
+                id: '2', 
+                name: 'LED Bulb 9W', 
+                category: 'lighting', 
+                price: 120, 
+                mrp: 180, 
+                unit: 'Pack of 2', 
+                image: '💡',
+                description: 'Energy-efficient LED bulb with 9W power. Provides bright light with low electricity consumption. Long life span.',
+                reviews: [
+                    { reviewer: 'Amit K.', stars: 5, comment: 'Very bright and energy efficient!' },
+                    { reviewer: 'Sneha R.', stars: 4, comment: 'Good value for money.' }
+                ]
+            },
+            { 
+                id: '3', 
+                name: 'Switch Board', 
+                category: 'switches', 
+                price: 250, 
+                mrp: 320, 
+                unit: '6 Socket', 
+                image: '🔘',
+                description: 'Premium quality switch board with 6 sockets. Includes MCB and surge protection. Safe and reliable.',
+                reviews: [
+                    { reviewer: 'Vikram P.', stars: 5, comment: 'Very sturdy and well-built.' },
+                    { reviewer: 'Neha G.', stars: 3, comment: 'Good but price is a bit high.' }
+                ]
+            },
+            { 
+                id: '4', 
+                name: 'MCB 32A', 
+                category: 'electrical', 
+                price: 180, 
+                mrp: 240, 
+                unit: 'Single Pole', 
+                image: '⚡',
+                description: 'Miniature Circuit Breaker (MCB) 32A single pole. Protects electrical circuits from overload and short circuits.',
+                reviews: [
+                    { reviewer: 'Suresh R.', stars: 5, comment: 'Works perfectly. Genuine product.' },
+                    { reviewer: 'Anita D.', stars: 4, comment: 'Good quality MCB.' }
+                ]
+            },
+            { 
+                id: '5', 
+                name: 'PVC Pipe 1"', 
+                category: 'plumbing', 
+                price: 350, 
+                mrp: 420, 
+                unit: '3m Length', 
+                image: '🔧',
+                description: 'High-grade PVC pipe for plumbing. Corrosion-resistant and durable. Easy to install.',
+                reviews: [
+                    { reviewer: 'Mohan L.', stars: 5, comment: 'Excellent quality pipe.' },
+                    { reviewer: 'Geeta S.', stars: 4, comment: 'Good product, delivered on time.' }
+                ]
+            },
+            { 
+                id: '6', 
+                name: 'LED Tube Light', 
+                category: 'lighting', 
+                price: 280, 
+                mrp: 380, 
+                unit: '4ft', 
+                image: '💡',
+                description: 'LED tube light with 4ft length. Provides bright white light. Energy efficient and long lasting.',
+                reviews: [
+                    { reviewer: 'Rajesh K.', stars: 5, comment: 'Very bright and lasts long.' },
+                    { reviewer: 'Pooja M.', stars: 4, comment: 'Good product, installation was easy.' }
+                ]
+            },
+            { 
+                id: '7', 
+                name: 'Extension Cord', 
+                category: 'wires', 
+                price: 150, 
+                mrp: 200, 
+                unit: '3m', 
+                image: '🔌',
+                description: 'Heavy-duty extension cord with 3m length. Multi-socket with surge protection. Safe and reliable.',
+                reviews: [
+                    { reviewer: 'Deepak S.', stars: 5, comment: 'Very useful and well-made.' },
+                    { reviewer: 'Kavita R.', stars: 4, comment: 'Good quality product.' }
+                ]
+            },
+            { 
+                id: '8', 
+                name: 'Fan Regulator', 
+                category: 'switches', 
+                price: 90, 
+                mrp: 130, 
+                unit: 'Modern', 
+                image: '🌀',
+                description: 'Modern fan regulator with smooth speed control. Energy efficient and stylish design.',
+                reviews: [
+                    { reviewer: 'Arjun P.', stars: 5, comment: 'Works smoothly, great product.' },
+                    { reviewer: 'Meera S.', stars: 4, comment: 'Good design and works well.' }
+                ]
+            }
         ];
 
         products = defaultProducts;
@@ -2094,7 +2641,7 @@
             const discount = product.mrp ? Math.round(((product.mrp - product.price) / product.mrp) * 100) : 0;
             
             html += `
-                <div class="product-card">
+                <div class="product-card" onclick="showProductDetail('${product.id}')">
                     <div class="image">${product.image || '🔌'}</div>
                     <div class="name">${product.name}</div>
                     <div class="weight">${product.unit || '1 Piece'}</div>
@@ -2103,7 +2650,7 @@
                         ${product.mrp ? `<span class="mrp">₹${product.mrp}</span>` : ''}
                         ${discount > 0 ? `<span style="color:#10b981;font-size:0.7rem;font-weight:600;">${discount}% OFF</span>` : ''}
                     </div>
-                    <button class="add-btn ${qty > 0 ? 'in-cart' : ''}" onclick="addToCart('${product.id}')" id="btn_${product.id}">
+                    <button class="add-btn ${qty > 0 ? 'in-cart' : ''}" onclick="event.stopPropagation();addToCart('${product.id}')" id="btn_${product.id}">
                         ${qty > 0 ? `🛒 ${qty} in Cart` : 'Add to Cart'}
                     </button>
                 </div>
@@ -2138,6 +2685,63 @@
             );
         }
         renderProducts(filtered);
+    }
+
+    // ============================================================
+    // 📄 PRODUCT DETAIL
+    // ============================================================
+    function showProductDetail(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        
+        const container = document.getElementById('productDetailContent');
+        const inCart = cart.find(item => item.id === productId);
+        const qty = inCart ? inCart.qty : 0;
+        const discount = product.mrp ? Math.round(((product.mrp - product.price) / product.mrp) * 100) : 0;
+        
+        let reviewsHtml = '';
+        if (product.reviews && product.reviews.length > 0) {
+            product.reviews.forEach(review => {
+                const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+                reviewsHtml += `
+                    <div class="review-item">
+                        <div class="reviewer">${review.reviewer}</div>
+                        <div class="stars">${stars}</div>
+                        <div class="comment">${review.comment}</div>
+                    </div>
+                `;
+            });
+        } else {
+            reviewsHtml = '<p style="color:#94a3b8;font-size:0.85rem;">No reviews yet</p>';
+        }
+        
+        container.innerHTML = `
+            <div class="detail-image">${product.image || '🔌'}</div>
+            <div class="detail-name">${product.name}</div>
+            <div class="detail-price">
+                <span class="current">₹${product.price}</span>
+                ${product.mrp ? `<span class="mrp">₹${product.mrp}</span>` : ''}
+                ${discount > 0 ? `<span class="discount">${discount}% OFF</span>` : ''}
+            </div>
+            <div class="detail-unit">${product.unit || '1 Piece'}</div>
+            
+            <div class="detail-description">
+                <h4><i class="fas fa-info-circle"></i> Description</h4>
+                <p>${product.description || 'No description available.'}</p>
+            </div>
+            
+            <div class="detail-reviews">
+                <h4><i class="fas fa-star" style="color:#f59e0b;"></i> Reviews</h4>
+                ${reviewsHtml}
+            </div>
+            
+            <button class="detail-add-btn ${qty > 0 ? 'in-cart' : ''}" onclick="addToCart('${product.id}')">
+                ${qty > 0 ? `🛒 ${qty} in Cart` : 'Add to Cart'}
+            </button>
+        `;
+        
+        document.getElementById('detailProductName').textContent = product.name;
+        showPage('productdetail');
     }
 
     // ============================================================
@@ -2244,14 +2848,14 @@
     }
 
     // ============================================================
-    // 💳 GO TO CHECKOUT
+    // 💳 CHECKOUT
     // ============================================================
     function goToCheckout() {
         if (cart.length === 0) {
             showToast('❌ Cart is empty!', 'error');
             return;
         }
-        if (!selectedAddress) {
+        if (!selectedAddress && !document.getElementById('homeAddress').textContent.includes('Select')) {
             showToast('❌ Please select a delivery address first', 'error');
             showPage('location');
             return;
@@ -2293,7 +2897,7 @@
     }
 
     // ============================================================
-    // 📱 GENERATE QR CODE
+    // 📱 QR CODE
     // ============================================================
     let qrCodeInstance = null;
 
@@ -2301,7 +2905,8 @@
         const container = document.getElementById('qrcode');
         container.innerHTML = '';
         
-        const upiString = `upi://pay?pa=9142739651@upi&pn=Priya%20Electricals&am=${getTotal()}&cu=INR`;
+        const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        const upiString = `upi://pay?pa=9142739651@upi&pn=Priya%20Electricals&am=${total}&cu=INR`;
         
         qrCodeInstance = new QRCode(container, {
             text: upiString,
@@ -2313,20 +2918,13 @@
         });
     }
 
-    function getTotal() {
-        return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    }
-
-    // ============================================================
-    // 💳 SELECT PAYMENT METHOD
-    // ============================================================
     function selectPayment(el) {
         document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
         el.classList.add('selected');
     }
 
     // ============================================================
-    // 📦 PLACE ORDER WITH SUCCESS POPUP
+    // 📦 PLACE ORDER
     // ============================================================
     function placeOrder() {
         if (!currentUser) {
@@ -2342,6 +2940,8 @@
         showToast('📦 Placing order...', 'info');
 
         const orderId = 'ORD-' + Date.now().toString().slice(-8);
+        const address = selectedAddress || { address: document.getElementById('homeAddress').textContent.replace('📍 ', '') };
+        
         const orderData = {
             orderId: orderId,
             userId: currentUser.uid,
@@ -2354,8 +2954,8 @@
                 qty: item.qty,
                 unit: item.unit || '1 Piece'
             })),
-            total: getTotal(),
-            address: selectedAddress || { address: 'Champi, Bokaro, Jharkhand - 829123' },
+            total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+            address: address,
             status: 'confirmed',
             deliveryTime: deliveryTime || '13 mins',
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -2369,7 +2969,7 @@
         };
 
         db.collection('orders').add(orderData)
-            .then((docRef) => {
+            .then(() => {
                 document.getElementById('orderIdDisplay').textContent = 'Order ID: ' + orderId;
                 document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
                 document.getElementById('successOverlay').classList.add('open');
@@ -2385,7 +2985,7 @@
     }
 
     // ============================================================
-    // 🎉 SUCCESS POPUP FUNCTIONS
+    // 🎉 SUCCESS POPUP
     // ============================================================
     function closeSuccessPopup() {
         document.getElementById('successOverlay').classList.remove('open');
@@ -2399,13 +2999,10 @@
     }
 
     // ============================================================
-    // 📋 LOAD ORDERS (FIXED)
+    // 📋 ORDERS
     // ============================================================
     function loadOrders() {
-        if (!currentUser) {
-            console.log('No user logged in');
-            return;
-        }
+        if (!currentUser) return;
 
         db.collection('orders')
             .where('userId', '==', currentUser.uid)
@@ -2421,14 +3018,10 @@
             })
             .catch(error => {
                 console.error('Error loading orders:', error);
-                // Show empty state
                 renderOrders([]);
             });
     }
 
-    // ============================================================
-    // 📋 RENDER ORDERS (FIXED)
-    // ============================================================
     function renderOrders(orders) {
         const container = document.getElementById('ordersList');
         const badge = document.getElementById('orderBadge');
@@ -2452,7 +3045,6 @@
             const itemNames = items.map(item => item.name).slice(0, 3);
             const moreCount = items.length - 3;
             
-            // Format date safely
             let orderDate = order.orderDate || '';
             if (!orderDate && order.createdAt) {
                 try {
@@ -2498,15 +3090,7 @@
         container.innerHTML = html;
     }
 
-    // ============================================================
-    // 🔄 REPEAT ORDER (FIXED)
-    // ============================================================
     function repeatOrder(orderId) {
-        if (!currentUser) {
-            showToast('❌ Please login first', 'error');
-            return;
-        }
-
         db.collection('orders').doc(orderId).get()
             .then(doc => {
                 if (doc.exists) {
@@ -2537,19 +3121,13 @@
                     updateCartUI();
                     showToast('✅ Items added to cart!', 'success');
                     showPage('home');
-                } else {
-                    showToast('❌ Order not found', 'error');
                 }
             })
             .catch(error => {
-                console.error('Error repeating order:', error);
                 showToast('❌ Error repeating order', 'error');
             });
     }
 
-    // ============================================================
-    // 📊 UPDATE PROFILE STATS (FIXED)
-    // ============================================================
     function updateProfileStats(orders) {
         if (!orders) {
             document.getElementById('orderCount').textContent = '0';
@@ -2566,6 +3144,26 @@
         document.getElementById('totalSpent').textContent = '₹' + totalSpent;
         document.getElementById('savedCount').textContent = Math.round(totalSpent * 0.1);
         document.getElementById('orderBadge').textContent = totalOrders;
+    }
+
+    // ============================================================
+    // ❓ FAQ TOGGLE
+    // ============================================================
+    function toggleFAQ(element) {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('i');
+        
+        if (answer.classList.contains('open')) {
+            answer.classList.remove('open');
+            icon.classList.remove('open');
+        } else {
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(el => el.classList.remove('open'));
+            document.querySelectorAll('.faq-question i').forEach(el => el.classList.remove('open'));
+            
+            answer.classList.add('open');
+            icon.classList.add('open');
+        }
     }
 
     // ============================================================
