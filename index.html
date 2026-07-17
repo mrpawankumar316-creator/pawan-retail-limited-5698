@@ -25,6 +25,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: #f0f4f8; color: #1e293b; min-height: 100vh; }
 
+        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -282,7 +283,7 @@
         .back-to-login:hover { text-decoration: underline; }
 
         /* ============================================================ */
-        /* ===== PAGE 3: LOCATION WITH SAVED ADDRESSES ===== */
+        /* ===== PAGE 3: LOCATION ===== */
         /* ============================================================ */
         #pageLocation {
             display: none;
@@ -1305,7 +1306,7 @@
         <div class="auth-header">
             <div class="logo"><i class="fas fa-bolt"></i></div>
             <h1>PRIYA ELECTRICALS</h1>
-            <p>Sell & Service · Secure Login</p>
+            <p>Sell & Service · OTP Login</p>
         </div>
 
         <div class="auth-tabs">
@@ -1338,7 +1339,7 @@
                 <a href="#" onclick="forgotPassword()">Forgot password?</a>
             </div>
             <button class="btn-primary" id="loginBtn" onclick="handleLogin()">
-                <i class="fas fa-sign-in-alt"></i> Login
+                <i class="fas fa-paper-plane"></i> Send OTP
             </button>
         </div>
 
@@ -1389,7 +1390,7 @@
                 <label><input type="checkbox" id="termsCheck"> I agree to Terms & Conditions</label>
             </div>
             <button class="btn-primary" id="registerBtn" onclick="handleRegister()">
-                <i class="fas fa-user-plus"></i> Create Account
+                <i class="fas fa-paper-plane"></i> Send OTP
             </button>
         </div>
     </div>
@@ -1424,7 +1425,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 3: LOCATION WITH SAVED ADDRESSES ===== -->
+<!-- ===== PAGE 3: LOCATION ===== -->
 <!-- ============================================================ -->
 <div id="pageLocation">
     <div class="location-header">
@@ -1432,7 +1433,6 @@
         <h2>Select Delivery Location</h2>
     </div>
 
-    <!-- Location Options -->
     <div class="location-options">
         <div class="option" onclick="useCurrentLocation()">
             <div class="icon green"><i class="fas fa-location-crosshairs"></i></div>
@@ -1452,86 +1452,7 @@
         </div>
     </div>
 
-    <!-- Add/Edit Address Form -->
-    <div id="addressForm" style="display:none;" class="address-form">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <h3 style="font-size:1rem;font-weight:700;" id="addressFormTitle">Add New Address</h3>
-            <span style="color:#ef4444;cursor:pointer;font-weight:600;font-size:0.85rem;" onclick="closeAddressForm()">✕ Cancel</span>
-        </div>
-        <div class="form-row">
-            <div class="form-group full-width">
-                <label>Receiver Name <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="addrName" placeholder="Full name">
-                </div>
-            </div>
-            <div class="form-group full-width">
-                <label>Mobile Number <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-phone"></i>
-                    <input type="tel" id="addrPhone" placeholder="+91 98765 43210">
-                </div>
-            </div>
-            <div class="form-group full-width">
-                <label>Flat/House Number <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-home"></i>
-                    <input type="text" id="addrFlat" placeholder="Flat 101, House No. 123">
-                </div>
-            </div>
-            <div class="form-group full-width">
-                <label>Street/Sector/Area <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-road"></i>
-                    <input type="text" id="addrStreet" placeholder="Street name, Sector, Area">
-                </div>
-            </div>
-            <div class="form-group full-width">
-                <label>Landmark (Optional)</label>
-                <div class="input-wrap">
-                    <i class="fas fa-map-pin"></i>
-                    <input type="text" id="addrLandmark" placeholder="Near School, Hospital, etc.">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>City <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-city"></i>
-                    <input type="text" id="addrCity" placeholder="City name">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>State <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-map"></i>
-                    <select id="addrState">
-                        <option value="">Select State</option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="West Bengal">West Bengal</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                    </select>
-                    <i class="fas fa-chevron-down select-arrow"></i>
-                </div>
-            </div>
-            <div class="form-group full-width">
-                <label>PINCODE <span class="required">*</span></label>
-                <div class="input-wrap">
-                    <i class="fas fa-mailbox"></i>
-                    <input type="text" id="addrPincode" placeholder="6-digit pincode" maxlength="6">
-                </div>
-            </div>
-            <input type="hidden" id="editAddressId" value="">
-            <button class="btn-primary" onclick="saveAddress()" id="saveAddressBtn">
-                <i class="fas fa-save"></i> Save Address
-            </button>
-        </div>
-    </div>
-
-    <!-- Saved Addresses -->
-    <div class="saved-addresses" id="savedAddressesContainer">
+    <div class="saved-addresses">
         <div class="label">Your saved addresses</div>
         <div id="savedAddressesList">
             <div style="text-align:center;padding:20px;color:#94a3b8;">
@@ -1544,7 +1465,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ===== PAGE 4: CUSTOMER PANEL ===== -->
+<!-- ===== PAGE 4: CUSTOMER PANEL (HOME) ===== -->
 <!-- ============================================================ -->
 <div id="customerPanel">
     <div class="location-bar" onclick="showPage('location')">
@@ -1647,7 +1568,6 @@
         </div>
     </div>
 
-    <!-- FAQ Section -->
     <div class="faq-section">
         <div class="faq-title"><i class="fas fa-question-circle"></i> Frequently Asked Questions</div>
         <div class="faq-item">
@@ -1677,18 +1597,8 @@
                 We accept UPI payments via PhonePe, Google Pay, WhatsApp, BHIM UPI, Paytm, and Credit/Debit Cards.
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-                <span>Can I cancel my order?</span>
-                <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="faq-answer">
-                Orders can be cancelled within 5 minutes of placing. Contact support for assistance.
-            </div>
-        </div>
     </div>
 
-    <!-- Orders -->
     <div style="padding: 0 16px 16px;">
         <h3 style="font-size:1rem;font-weight:700;margin:12px 0;">Order History</h3>
         <div class="orders-list" id="ordersList">
@@ -1902,6 +1812,7 @@
     let otpTimer = null;
     let otpCountdown = 60;
     let currentUserEmail = '';
+    let currentUserName = '';
 
     // ============================================================
     // 📱 OTP FUNCTIONS
@@ -1947,10 +1858,11 @@
         }, 1000);
     }
 
-    function sendOTP(email, name = 'User') {
+    function sendOTP(email, name = 'User', isLogin = true) {
         const otp = generateOTP();
         storedOTP = otp;
         currentUserEmail = email;
+        currentUserName = name;
         
         document.getElementById('otpEmailDisplay').textContent = email;
         document.getElementById('pageLogin').style.display = 'none';
@@ -1976,7 +1888,7 @@
 
     function resendOTP() {
         if (currentUserEmail) {
-            sendOTP(currentUserEmail);
+            sendOTP(currentUserEmail, currentUserName);
         }
     }
 
@@ -1991,7 +1903,7 @@
         if (enteredOtp === storedOTP) {
             showToast('✅ OTP Verified Successfully!', 'success');
             document.getElementById('pageOtp').style.display = 'none';
-            document.getElementById('pageLogin').style.display = 'flex';
+            
             // Auto login after OTP verification
             const email = currentUserEmail;
             const password = email.split('@')[0] + '@123';
@@ -2015,13 +1927,17 @@
     auth.onAuthStateChanged(user => {
         if (user) {
             currentUser = user;
+            
+            // Hide all pages except home
             document.getElementById('pageLogin').style.display = 'none';
             document.getElementById('pageOtp').style.display = 'none';
             document.getElementById('pageLocation').style.display = 'none';
-            document.getElementById('customerPanel').style.display = 'block';
             document.getElementById('pageProfile').style.display = 'none';
             document.getElementById('pageCheckout').style.display = 'none';
             document.getElementById('pageProductDetail').style.display = 'none';
+            
+            // Show Home Page
+            document.getElementById('customerPanel').style.display = 'block';
             document.getElementById('bottomNav').style.display = 'flex';
             
             const name = user.displayName || user.email || 'User';
@@ -2031,6 +1947,8 @@
             loadProducts();
             loadOrders();
             loadSavedAddresses();
+            
+            showToast('✅ Welcome to Priya Electricals! 🎉', 'success', 3000);
             
             // Load saved location
             const savedLoc = localStorage.getItem('userLocation');
@@ -2076,21 +1994,33 @@
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
         
-        if (!email || !password) { showToast('Please fill all fields', 'error'); return; }
+        if (!email) { showToast('Please enter your email', 'error'); return; }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email', 'error'); return; }
-        if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+        if (!password || password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
         
-        // Send OTP instead of direct login
-        sendOTP(email);
+        // Send OTP
+        sendOTP(email, 'User', true);
     }
 
     function loginUser(email, password) {
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
                 showToast('✅ Login successful!', 'success');
+                // Home page will open automatically via onAuthStateChanged
             })
             .catch(error => {
-                showToast('❌ ' + error.message, 'error');
+                if (error.code === 'auth/user-not-found') {
+                    // User doesn't exist, create account
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .then(() => {
+                            showToast('✅ Account created! Welcome! 🎉', 'success');
+                        })
+                        .catch(err => {
+                            showToast('❌ ' + err.message, 'error');
+                        });
+                } else {
+                    showToast('❌ ' + error.message, 'error');
+                }
             });
     }
 
@@ -2102,18 +2032,15 @@
         const confirm = document.getElementById('registerConfirmPassword').value;
         const terms = document.getElementById('termsCheck').checked;
         
-        if (!name || !email || !phone || !password || !confirm) {
-            showToast('Please fill all fields', 'error');
-            return;
-        }
-        if (name.length < 2) { showToast('Name must be at least 2 characters', 'error'); return; }
+        if (!name || name.length < 2) { showToast('Please enter your full name', 'error'); return; }
+        if (!email) { showToast('Please enter your email', 'error'); return; }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email', 'error'); return; }
-        if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+        if (!password || password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
         if (password !== confirm) { showToast('Passwords do not match!', 'error'); return; }
         if (!terms) { showToast('Please accept Terms & Conditions', 'warning'); return; }
         
         // Send OTP for registration
-        sendOTP(email, name);
+        sendOTP(email, name, false);
     }
 
     function handleLogout() {
@@ -2160,12 +2087,11 @@
     }
 
     // ============================================================
-    // 📍 LOCATION FUNCTIONS WITH SAVED ADDRESSES
+    // 📍 LOCATION FUNCTIONS
     // ============================================================
     let selectedAddress = null;
     let deliveryTime = '⚡ 13 mins';
     let addresses = [];
-    let editingAddressId = null;
 
     function loadSavedAddresses() {
         if (!currentUser) return;
@@ -2182,12 +2108,6 @@
             })
             .catch(error => {
                 console.error('Error loading addresses:', error);
-                // Load from localStorage as fallback
-                const saved = localStorage.getItem('savedAddresses');
-                if (saved) {
-                    addresses = JSON.parse(saved);
-                    renderAddresses(addresses);
-                }
             });
     }
 
@@ -2209,10 +2129,7 @@
         addresses.forEach(addr => {
             const fullAddress = addr.flat + ', ' + addr.street + (addr.landmark ? ', ' + addr.landmark : '') + ', ' + addr.city + ', ' + addr.state + ' - ' + addr.pincode;
             const isSelected = selectedAddress && selectedAddress.id === addr.id;
-            
-            // Check if pincode is 829123 for quick delivery
-            const isQuickDelivery = addr.pincode === '829123';
-            const deliveryTag = isQuickDelivery ? '⚡ Quick' : '📦 Schedule';
+            const isQuick = addr.pincode === '829123';
             
             html += `
                 <div class="address-card" onclick="selectAddress('${addr.id}')">
@@ -2220,7 +2137,7 @@
                     <div class="info">
                         <div class="label">
                             ${addr.name || 'Home'}
-                            <span class="tag">${deliveryTag}</span>
+                            <span class="tag">${isQuick ? '⚡ Quick' : '📦 Schedule'}</span>
                         </div>
                         <div class="addr">${fullAddress}</div>
                         <div class="phone"><i class="fas fa-phone"></i> ${addr.phone || ''}</div>
@@ -2246,16 +2163,13 @@
         
         selectedAddress = addr;
         
-        // Update radio buttons
         document.querySelectorAll('.address-card .radio').forEach(el => el.classList.remove('selected'));
         document.getElementById('radio_' + addressId).classList.add('selected');
         
-        // Update UI
         const fullAddress = addr.flat + ', ' + addr.street + (addr.landmark ? ', ' + addr.landmark : '') + ', ' + addr.city + ', ' + addr.state + ' - ' + addr.pincode;
         document.getElementById('homeAddress').textContent = '📍 ' + fullAddress.substring(0, 40) + '...';
         document.getElementById('checkoutAddress').textContent = fullAddress;
         
-        // Calculate delivery time based on pincode
         if (addr.pincode === '829123') {
             deliveryTime = '⚡ 13 mins';
             document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
@@ -2267,11 +2181,9 @@
         document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
         document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
         
-        // Save to localStorage
         localStorage.setItem('userLocation', JSON.stringify({ 
             address: fullAddress, 
-            deliveryTime: deliveryTime,
-            addressId: addr.id
+            deliveryTime: deliveryTime 
         }));
         
         showToast('✅ Address selected: ' + (addr.name || 'Home'), 'success');
@@ -2279,120 +2191,17 @@
     }
 
     function openAddAddress() {
-        document.getElementById('addressForm').style.display = 'block';
-        document.getElementById('addressFormTitle').textContent = 'Add New Address';
-        document.getElementById('editAddressId').value = '';
-        document.getElementById('saveAddressBtn').innerHTML = '<i class="fas fa-save"></i> Save Address';
-        // Clear form
-        document.getElementById('addrName').value = '';
-        document.getElementById('addrPhone').value = '';
-        document.getElementById('addrFlat').value = '';
-        document.getElementById('addrStreet').value = '';
-        document.getElementById('addrLandmark').value = '';
-        document.getElementById('addrCity').value = '';
-        document.getElementById('addrState').value = '';
-        document.getElementById('addrPincode').value = '';
-        
-        document.getElementById('addressForm').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function closeAddressForm() {
-        document.getElementById('addressForm').style.display = 'none';
+        showToast('📝 Add address feature coming soon!', 'info');
     }
 
     function editAddress(addressId) {
-        const addr = addresses.find(a => a.id === addressId);
-        if (!addr) return;
-        
-        editingAddressId = addressId;
-        document.getElementById('addressForm').style.display = 'block';
-        document.getElementById('addressFormTitle').textContent = 'Edit Address';
-        document.getElementById('editAddressId').value = addressId;
-        document.getElementById('saveAddressBtn').innerHTML = '<i class="fas fa-save"></i> Update Address';
-        
-        document.getElementById('addrName').value = addr.name || '';
-        document.getElementById('addrPhone').value = addr.phone || '';
-        document.getElementById('addrFlat').value = addr.flat || '';
-        document.getElementById('addrStreet').value = addr.street || '';
-        document.getElementById('addrLandmark').value = addr.landmark || '';
-        document.getElementById('addrCity').value = addr.city || '';
-        document.getElementById('addrState').value = addr.state || '';
-        document.getElementById('addrPincode').value = addr.pincode || '';
-        
-        document.getElementById('addressForm').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function saveAddress() {
-        const name = document.getElementById('addrName').value.trim();
-        const phone = document.getElementById('addrPhone').value.trim();
-        const flat = document.getElementById('addrFlat').value.trim();
-        const street = document.getElementById('addrStreet').value.trim();
-        const landmark = document.getElementById('addrLandmark').value.trim();
-        const city = document.getElementById('addrCity').value.trim();
-        const state = document.getElementById('addrState').value;
-        const pincode = document.getElementById('addrPincode').value.trim();
-        const editId = document.getElementById('editAddressId').value;
-        
-        if (!name) { showToast('Please enter receiver name', 'error'); return; }
-        if (!phone || phone.length < 10) { showToast('Please enter valid phone number', 'error'); return; }
-        if (!flat) { showToast('Please enter flat/house number', 'error'); return; }
-        if (!street) { showToast('Please enter street/sector', 'error'); return; }
-        if (!city) { showToast('Please enter city', 'error'); return; }
-        if (!state) { showToast('Please select state', 'error'); return; }
-        if (!pincode || pincode.length !== 6) { showToast('Please enter valid 6-digit pincode', 'error'); return; }
-        
-        const addressData = {
-            name: name,
-            phone: phone,
-            flat: flat,
-            street: street,
-            landmark: landmark,
-            city: city,
-            state: state,
-            pincode: pincode,
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        
-        if (!currentUser) {
-            showToast('Please login first', 'error');
-            return;
-        }
-        
-        const userRef = db.collection('users').doc(currentUser.uid);
-        
-        if (editId) {
-            // Update existing address
-            userRef.collection('addresses').doc(editId).update(addressData)
-                .then(() => {
-                    showToast('✅ Address updated successfully!', 'success');
-                    closeAddressForm();
-                    loadSavedAddresses();
-                })
-                .catch(error => {
-                    showToast('❌ Error updating address: ' + error.message, 'error');
-                });
-        } else {
-            // Add new address
-            addressData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-            userRef.collection('addresses').add(addressData)
-                .then(() => {
-                    showToast('✅ Address saved successfully!', 'success');
-                    closeAddressForm();
-                    loadSavedAddresses();
-                })
-                .catch(error => {
-                    showToast('❌ Error saving address: ' + error.message, 'error');
-                });
-        }
+        showToast('✏️ Edit address feature coming soon!', 'info');
     }
 
     function deleteAddress(addressId) {
         if (!confirm('Are you sure you want to delete this address?')) return;
         
-        if (!currentUser) {
-            showToast('Please login first', 'error');
-            return;
-        }
+        if (!currentUser) return;
         
         db.collection('users').doc(currentUser.uid).collection('addresses').doc(addressId).delete()
             .then(() => {
@@ -2427,44 +2236,32 @@
                     .then(data => {
                         if (data && data.address) {
                             const addr = data.address;
+                            const pincode = addr.postcode || '829123';
                             const fullAddress = [
                                 addr.road || addr.house_number || '',
-                                addr.suburb || addr.neighbourhood || '',
+                                addr.suburb || '',
                                 addr.city || addr.town || addr.village || '',
                                 addr.state || '',
-                                addr.postcode || ''
+                                pincode
                             ].filter(Boolean).join(', ');
                             
-                            // Create address object
-                            const addressData = {
-                                name: 'Current Location',
-                                phone: '',
-                                flat: addr.house_number || '',
-                                street: addr.road || addr.street || '',
-                                landmark: addr.neighbourhood || '',
-                                city: addr.city || addr.town || addr.village || '',
-                                state: addr.state || '',
-                                pincode: addr.postcode || '829123'
-                            };
-                            
-                            // Check if pincode is 829123
-                            if (addressData.pincode === '829123') {
+                            if (pincode === '829123') {
                                 deliveryTime = '⚡ 13 mins';
                             } else {
                                 deliveryTime = '📦 7-15 days';
                             }
                             
-                            selectedAddress = addressData;
                             document.getElementById('homeAddress').textContent = '📍 ' + fullAddress.substring(0, 40) + '...';
                             document.getElementById('deliveryTimeBadge').textContent = deliveryTime;
-                            if (addressData.pincode === '829123') {
+                            document.getElementById('checkoutAddress').textContent = fullAddress;
+                            document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
+                            document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
+                            
+                            if (pincode === '829123') {
                                 document.getElementById('deliveryTimeBadge').className = 'delivery-time quick';
                             } else {
                                 document.getElementById('deliveryTimeBadge').className = 'delivery-time schedule';
                             }
-                            document.getElementById('checkoutAddress').textContent = fullAddress;
-                            document.getElementById('checkoutDeliveryTime').textContent = deliveryTime;
-                            document.getElementById('confirmDeliveryTime').textContent = deliveryTime;
                             
                             localStorage.setItem('userLocation', JSON.stringify({ 
                                 address: fullAddress, 
@@ -2476,11 +2273,11 @@
                         }
                     })
                     .catch(() => {
-                        showToast('Could not get address. Please enter manually.', 'warning');
+                        showToast('Could not get address. Please try again.', 'warning');
                     });
             },
             (error) => {
-                showToast('Location detection failed. Please enter manually.', 'error');
+                showToast('Location detection failed. Please try again.', 'error');
             },
             { enableHighAccuracy: true, timeout: 10000 }
         );
@@ -2503,118 +2300,30 @@
         `;
 
         const defaultProducts = [
-            { 
-                id: '1', 
-                name: 'PVC Copper Wire', 
-                category: 'wires', 
-                price: 850, 
-                mrp: 950, 
-                unit: '90m Roll', 
-                image: '🔌',
-                description: 'High-quality PVC copper wire for electrical wiring. Fire-resistant and durable. Suitable for home and industrial use.',
-                reviews: [
-                    { reviewer: 'Rahul S.', stars: 5, comment: 'Excellent quality wire! Highly recommended.' },
-                    { reviewer: 'Priya M.', stars: 4, comment: 'Good product, delivery was quick.' }
-                ]
-            },
-            { 
-                id: '2', 
-                name: 'LED Bulb 9W', 
-                category: 'lighting', 
-                price: 120, 
-                mrp: 180, 
-                unit: 'Pack of 2', 
-                image: '💡',
-                description: 'Energy-efficient LED bulb with 9W power. Provides bright light with low electricity consumption. Long life span.',
-                reviews: [
-                    { reviewer: 'Amit K.', stars: 5, comment: 'Very bright and energy efficient!' },
-                    { reviewer: 'Sneha R.', stars: 4, comment: 'Good value for money.' }
-                ]
-            },
-            { 
-                id: '3', 
-                name: 'Switch Board', 
-                category: 'switches', 
-                price: 250, 
-                mrp: 320, 
-                unit: '6 Socket', 
-                image: '🔘',
-                description: 'Premium quality switch board with 6 sockets. Includes MCB and surge protection. Safe and reliable.',
-                reviews: [
-                    { reviewer: 'Vikram P.', stars: 5, comment: 'Very sturdy and well-built.' },
-                    { reviewer: 'Neha G.', stars: 3, comment: 'Good but price is a bit high.' }
-                ]
-            },
-            { 
-                id: '4', 
-                name: 'MCB 32A', 
-                category: 'electrical', 
-                price: 180, 
-                mrp: 240, 
-                unit: 'Single Pole', 
-                image: '⚡',
-                description: 'Miniature Circuit Breaker (MCB) 32A single pole. Protects electrical circuits from overload and short circuits.',
-                reviews: [
-                    { reviewer: 'Suresh R.', stars: 5, comment: 'Works perfectly. Genuine product.' },
-                    { reviewer: 'Anita D.', stars: 4, comment: 'Good quality MCB.' }
-                ]
-            },
-            { 
-                id: '5', 
-                name: 'PVC Pipe 1"', 
-                category: 'plumbing', 
-                price: 350, 
-                mrp: 420, 
-                unit: '3m Length', 
-                image: '🔧',
-                description: 'High-grade PVC pipe for plumbing. Corrosion-resistant and durable. Easy to install.',
-                reviews: [
-                    { reviewer: 'Mohan L.', stars: 5, comment: 'Excellent quality pipe.' },
-                    { reviewer: 'Geeta S.', stars: 4, comment: 'Good product, delivered on time.' }
-                ]
-            },
-            { 
-                id: '6', 
-                name: 'LED Tube Light', 
-                category: 'lighting', 
-                price: 280, 
-                mrp: 380, 
-                unit: '4ft', 
-                image: '💡',
-                description: 'LED tube light with 4ft length. Provides bright white light. Energy efficient and long lasting.',
-                reviews: [
-                    { reviewer: 'Rajesh K.', stars: 5, comment: 'Very bright and lasts long.' },
-                    { reviewer: 'Pooja M.', stars: 4, comment: 'Good product, installation was easy.' }
-                ]
-            },
-            { 
-                id: '7', 
-                name: 'Extension Cord', 
-                category: 'wires', 
-                price: 150, 
-                mrp: 200, 
-                unit: '3m', 
-                image: '🔌',
-                description: 'Heavy-duty extension cord with 3m length. Multi-socket with surge protection. Safe and reliable.',
-                reviews: [
-                    { reviewer: 'Deepak S.', stars: 5, comment: 'Very useful and well-made.' },
-                    { reviewer: 'Kavita R.', stars: 4, comment: 'Good quality product.' }
-                ]
-            },
-            { 
-                id: '8', 
-                name: 'Fan Regulator', 
-                category: 'switches', 
-                price: 90, 
-                mrp: 130, 
-                unit: 'Modern', 
-                image: '🌀',
-                description: 'Modern fan regulator with smooth speed control. Energy efficient and stylish design.',
-                reviews: [
-                    { reviewer: 'Arjun P.', stars: 5, comment: 'Works smoothly, great product.' },
-                    { reviewer: 'Meera S.', stars: 4, comment: 'Good design and works well.' }
-                ]
-            }
+            { id: '1', name: 'PVC Copper Wire', category: 'wires', price: 850, mrp: 950, unit: '90m Roll', image: '🔌',
+              description: 'High-quality PVC copper wire for electrical wiring. Fire-resistant and durable.',
+              reviews: [{ reviewer: 'Rahul S.', stars: 5, comment: 'Excellent quality!' }] },
+            { id: '2', name: 'LED Bulb 9W', category: 'lighting', price: 120, mrp: 180, unit: 'Pack of 2', image: '💡',
+              description: 'Energy-efficient LED bulb with 9W power. Long life span.',
+              reviews: [{ reviewer: 'Amit K.', stars: 5, comment: 'Very bright!' }] },
+            { id: '3', name: 'Switch Board', category: 'switches', price: 250, mrp: 320, unit: '6 Socket', image: '🔘',
+              description: 'Premium quality switch board with 6 sockets. Includes MCB protection.',
+              reviews: [{ reviewer: 'Vikram P.', stars: 5, comment: 'Very sturdy!' }] },
+            { id: '4', name: 'MCB 32A', category: 'electrical', price: 180, mrp: 240, unit: 'Single Pole', image: '⚡',
+              description: 'Miniature Circuit Breaker (MCB) 32A single pole.',
+              reviews: [{ reviewer: 'Suresh R.', stars: 5, comment: 'Works perfectly.' }] },
+            { id: '5', name: 'PVC Pipe 1"', category: 'plumbing', price: 350, mrp: 420, unit: '3m Length', image: '🔧',
+              description: 'High-grade PVC pipe for plumbing. Corrosion-resistant.',
+              reviews: [{ reviewer: 'Mohan L.', stars: 5, comment: 'Excellent quality!' }] },
+            { id: '6', name: 'LED Tube Light', category: 'lighting', price: 280, mrp: 380, unit: '4ft', image: '💡',
+              description: 'LED tube light with 4ft length. Energy efficient.',
+              reviews: [{ reviewer: 'Rajesh K.', stars: 5, comment: 'Very bright!' }] },
+            { id: '7', name: 'Extension Cord', category: 'wires', price: 150, mrp: 200, unit: '3m', image: '🔌',
+              description: 'Heavy-duty extension cord with 3m length.',
+              reviews: [{ reviewer: 'Deepak S.', stars: 5, comment: 'Very useful.' }] },
+            { id: '8', name: 'Fan Regulator', category: 'switches', price: 90, mrp: 130, unit: 'Modern', image: '🌀',
+              description: 'Modern fan regulator with smooth speed control.',
+              reviews: [{ reviewer: 'Arjun P.', stars: 5, comment: 'Works smoothly.' }] }
         ];
 
         products = defaultProducts;
@@ -2853,11 +2562,6 @@
     function goToCheckout() {
         if (cart.length === 0) {
             showToast('❌ Cart is empty!', 'error');
-            return;
-        }
-        if (!selectedAddress && !document.getElementById('homeAddress').textContent.includes('Select')) {
-            showToast('❌ Please select a delivery address first', 'error');
-            showPage('location');
             return;
         }
         
@@ -3157,7 +2861,6 @@
             answer.classList.remove('open');
             icon.classList.remove('open');
         } else {
-            // Close all other FAQs
             document.querySelectorAll('.faq-answer').forEach(el => el.classList.remove('open'));
             document.querySelectorAll('.faq-question i').forEach(el => el.classList.remove('open'));
             
@@ -3175,7 +2878,7 @@
             document.getElementById('loginEmail').value = remembered;
             document.getElementById('rememberMe').checked = true;
         }
-        console.log('✅ Priya Electricals - Fully Working App Loaded');
+        console.log('✅ Priya Electricals - OTP Login App Loaded');
     });
 </script>
 
