@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pawan Retail - Smart Home Control</title>
+    <title>Smart Home - Pawan Retail</title>
     
-    <!-- Firebase SDK -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
@@ -36,9 +36,9 @@
         
         /* ===== AUTH ===== */
         .auth-container {
-            max-width: 420px;
-            margin: 50px auto;
-            padding: 30px;
+            max-width: 440px;
+            margin: 40px auto;
+            padding: 35px;
             background: white;
             border-radius: 16px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.12);
@@ -71,19 +71,23 @@
             color: #333;
         }
         
-        .auth-container .form-group input {
+        .auth-container .form-group input,
+        .auth-container .form-group select {
             width: 100%;
             padding: 12px 14px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 15px;
             transition: 0.3s;
+            background: #fafafa;
         }
         
-        .auth-container .form-group input:focus {
+        .auth-container .form-group input:focus,
+        .auth-container .form-group select:focus {
             border-color: #1a73e8;
             outline: none;
             box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+            background: white;
         }
         
         .btn-primary {
@@ -103,6 +107,11 @@
             background: #1557b0;
         }
         
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
         .btn-success {
             background: #10b981;
         }
@@ -117,14 +126,6 @@
         
         .btn-danger:hover {
             background: #dc2626;
-        }
-        
-        .btn-warning {
-            background: #f59e0b;
-        }
-        
-        .btn-warning:hover {
-            background: #d97706;
         }
         
         .link-text {
@@ -171,6 +172,22 @@
             font-weight: 700;
         }
         
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .auth-container {
+                margin: 20px 16px;
+                padding: 20px;
+            }
+        }
+        
         /* ===== APP ===== */
         .app-container {
             display: none;
@@ -212,6 +229,7 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            text-transform: uppercase;
         }
         
         .navbar .user-info .user-name {
@@ -369,10 +387,6 @@
             color: #ef4444;
         }
         
-        .device-status.pending {
-            color: #f59e0b;
-        }
-        
         .toggle-switch {
             position: relative;
             width: 50px;
@@ -387,11 +401,6 @@
         
         .toggle-switch.active {
             background: #10b981;
-        }
-        
-        .toggle-switch.disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
         }
         
         .toggle-slider {
@@ -410,7 +419,29 @@
             left: 25px;
         }
         
-        /* ===== BLYNK STATUS ===== */
+        /* ===== BADGES ===== */
+        .permission-badge {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .permission-badge.approved {
+            background: #d1fae5;
+            color: #10b981;
+        }
+        
+        .permission-badge.pending {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+        
+        .permission-badge.denied {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+        
         .blynk-status {
             display: inline-block;
             padding: 4px 12px;
@@ -427,11 +458,6 @@
         .blynk-status.offline {
             background: #fee2e2;
             color: #ef4444;
-        }
-        
-        .blynk-status.pending {
-            background: #fef3c7;
-            color: #f59e0b;
         }
         
         .stats-grid {
@@ -472,7 +498,7 @@
             background: white;
             border-radius: 12px;
             padding: 16px;
-            max-height: 200px;
+            max-height: 250px;
             overflow-y: auto;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
@@ -499,28 +525,7 @@
             font-size: 12px;
         }
         
-        .permission-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .permission-badge.approved {
-            background: #d1fae5;
-            color: #10b981;
-        }
-        
-        .permission-badge.pending {
-            background: #fef3c7;
-            color: #f59e0b;
-        }
-        
-        .permission-badge.denied {
-            background: #fee2e2;
-            color: #ef4444;
-        }
-        
+        /* ===== ADMIN ===== */
         .admin-panel {
             background: white;
             border-radius: 12px;
@@ -542,6 +547,8 @@
             background: #f8f9fa;
             border-radius: 8px;
             margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .request-item .user-info .name {
@@ -557,6 +564,7 @@
         .request-actions {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
         
         .btn-sm {
@@ -594,6 +602,59 @@
             background: #2563eb;
         }
         
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-tab {
+            padding: 8px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+            background: white;
+            color: #666;
+        }
+        
+        .admin-tab:hover {
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+        
+        .admin-tab.active {
+            border-color: #1a73e8;
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .profile-card p {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .profile-card p:last-child {
+            border-bottom: none;
+        }
+        
+        .profile-card strong {
+            color: #333;
+            display: inline-block;
+            width: 120px;
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 60px;
@@ -608,9 +669,8 @@
             .device-grid {
                 grid-template-columns: 1fr 1fr;
             }
-            .auth-container {
-                margin: 20px 16px;
-                padding: 20px;
+            .profile-card strong {
+                width: 80px;
             }
         }
         
@@ -620,6 +680,13 @@
             }
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            .request-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .request-actions {
+                justify-content: center;
             }
         }
     </style>
@@ -631,7 +698,7 @@
 <!-- ============================================================ -->
 <div id="authContainer" class="auth-container">
     <div class="logo"><i class="fas fa-home"></i> Smart Home</div>
-    <div class="subtitle">Pawan Retail Limited - Control Your Devices</div>
+    <div class="subtitle">Pawan Retail Limited - Complete Solution</div>
     
     <div id="authError" class="error-msg"></div>
     <div id="authSuccess" class="success-msg"></div>
@@ -639,11 +706,11 @@
     <!-- LOGIN -->
     <div id="loginForm">
         <div class="form-group">
-            <label>Email Address</label>
+            <label>📧 Email Address</label>
             <input type="email" id="loginEmail" placeholder="Enter your email" />
         </div>
         <div class="form-group">
-            <label>Password</label>
+            <label>🔒 Password</label>
             <input type="password" id="loginPassword" placeholder="Enter your password" />
         </div>
         <button class="btn-primary" id="loginBtn">Login</button>
@@ -652,25 +719,50 @@
         </div>
     </div>
     
-    <!-- REGISTER -->
+    <!-- REGISTER - FULL DATA COLLECTION -->
     <div id="registerForm" class="hidden">
         <div class="form-group">
-            <label>Full Name</label>
+            <label>👤 Full Name</label>
             <input type="text" id="regName" placeholder="Enter your full name" />
         </div>
-        <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" id="regEmail" placeholder="Enter your email" />
+        <div class="form-row">
+            <div class="form-group">
+                <label>📧 Email</label>
+                <input type="email" id="regEmail" placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+                <label>📱 Phone</label>
+                <input type="tel" id="regPhone" placeholder="9876543210" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>🔒 Password</label>
+                <input type="password" id="regPassword" placeholder="Min 6 chars" />
+            </div>
+            <div class="form-group">
+                <label>📍 City</label>
+                <input type="text" id="regCity" placeholder="Your city" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>🏠 Address</label>
+                <input type="text" id="regAddress" placeholder="Your address" />
+            </div>
+            <div class="form-group">
+                <label>📝 Role</label>
+                <select id="regRole">
+                    <option value="customer">Customer</option>
+                    <option value="agent">Agent</option>
+                </select>
+            </div>
         </div>
         <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" id="regPhone" placeholder="Enter your phone number" />
+            <label>📋 Additional Notes</label>
+            <input type="text" id="regNotes" placeholder="Any additional information" />
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="regPassword" placeholder="Create a password (min 6 chars)" />
-        </div>
-        <button class="btn-primary" id="registerBtn">Register</button>
+        <button class="btn-primary" id="registerBtn">Create Account</button>
         <div class="link-text">
             Already have account? <span onclick="showLogin()">Login</span>
         </div>
@@ -682,7 +774,7 @@
             Enter the 6-digit OTP sent to <strong id="otpEmailDisplay"></strong>
         </p>
         <div class="form-group">
-            <label>OTP Code</label>
+            <label>🔑 OTP Code</label>
             <input type="text" id="otpInput" class="otp-input" placeholder="------" maxlength="6" />
         </div>
         <button class="btn-primary" id="otpVerifyBtn">Verify OTP</button>
@@ -738,7 +830,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-const rtdb = firebase.database();
 
 // EmailJS
 emailjs.init("3cUWXrfL9AhSkM5FA");
@@ -748,7 +839,6 @@ const EMAILJS_TEMPLATE = "template_45qu30j";
 // Blynk Config
 const BLYNK_AUTH = "kt22R7H1FFa-qKeIpYJXKGkOgEl0tjR4";
 const BLYNK_HOST = "blynk.cloud";
-const BLYNK_PORT = 80;
 
 // ==============================================================
 // 2. GLOBAL STATE
@@ -761,9 +851,6 @@ let pendingOTPEmail = '';
 let pendingOTPPurpose = 'login';
 let deviceStates = {1: 0, 2: 0, 3: 0, 4: 0};
 let blynkConnected = false;
-let blynkClient = null;
-let deviceNames = {1: '9W Bulb', 2: '12W LED', 3: '60W Fan', 4: '20W Tubelight'};
-let deviceWatts = {1: 9, 2: 12, 3: 60, 4: 20};
 let permissionStatus = 'pending';
 let isAdmin = false;
 let historyUnsubscribe = null;
@@ -857,58 +944,91 @@ async function verifyOTP(email, enteredOTP) {
     }
 }
 
-// ----- REGISTER -----
+// ==============================================================
+// 4. REGISTER - COMPLETE DATA TO FIRESTORE
+// ==============================================================
 async function handleRegister() {
     const name = document.getElementById('regName').value.trim();
     const email = document.getElementById('regEmail').value.trim();
     const phone = document.getElementById('regPhone').value.trim();
     const password = document.getElementById('regPassword').value;
+    const city = document.getElementById('regCity').value.trim();
+    const address = document.getElementById('regAddress').value.trim();
+    const role = document.getElementById('regRole').value;
+    const notes = document.getElementById('regNotes').value.trim();
 
     if (!name || !email || !phone || !password) {
-        showError('Please fill all fields');
+        showError('Please fill all required fields (Name, Email, Phone, Password)');
         return;
     }
     if (password.length < 6) {
         showError('Password must be at least 6 characters');
         return;
     }
+    if (!email.includes('@') || !email.includes('.')) {
+        showError('Please enter a valid email address');
+        return;
+    }
 
     document.getElementById('registerBtn').disabled = true;
-    document.getElementById('registerBtn').textContent = 'Creating...';
+    document.getElementById('registerBtn').textContent = 'Creating account...';
 
     try {
+        // 1. Create user in Firebase Auth
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
-        await db.collection('users').doc(user.uid).set({
+        // 2. Save COMPLETE user data to Firestore
+        const userData = {
             uid: user.uid,
             name: name,
             email: email,
             phone: phone,
-            role: 'customer',
+            city: city || 'Not specified',
+            address: address || 'Not specified',
+            role: role,
+            notes: notes || '',
             walletBalance: 0,
             isActive: true,
+            isVerified: false,
             permission: 'pending',
-            devices: {1: 0, 2: 0, 3: 0, 4: 0},
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+            devices: {
+                1: 0,  // 9W Bulb
+                2: 0,  // 12W LED
+                3: 0,  // 60W Fan
+                4: 0   // 20W Tubelight
+            },
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastLogin: null,
+            // Additional fields for complete profile
+            profileComplete: true,
+            registrationSource: 'web',
+            appVersion: '2.0'
+        };
 
+        await db.collection('users').doc(user.uid).set(userData);
+
+        // 3. Generate and send OTP
         const otp = generateOTP();
         await storeOTP(email, otp);
         await sendOTPEmail(email, otp, name);
 
-        showSuccess('Account created! OTP sent to your email.');
+        showSuccess('✅ Account created successfully! All data saved to Firestore. OTP sent to your email.');
         showOTP(email, 'register');
 
     } catch (error) {
+        console.error('Register error:', error);
         showError(error.message);
     }
 
     document.getElementById('registerBtn').disabled = false;
-    document.getElementById('registerBtn').textContent = 'Register';
+    document.getElementById('registerBtn').textContent = 'Create Account';
 }
 
-// ----- LOGIN -----
+// ==============================================================
+// 5. LOGIN
+// ==============================================================
 async function handleLogin() {
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
@@ -937,6 +1057,11 @@ async function handleLogin() {
             return;
         }
 
+        // Update last login
+        await db.collection('users').doc(user.uid).update({
+            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
         const otp = generateOTP();
         await storeOTP(email, otp);
         await sendOTPEmail(email, otp, userData.name);
@@ -952,7 +1077,9 @@ async function handleLogin() {
     document.getElementById('loginBtn').textContent = 'Login';
 }
 
-// ----- VERIFY OTP -----
+// ==============================================================
+// 6. VERIFY OTP
+// ==============================================================
 async function handleOTPVerify() {
     const otp = document.getElementById('otpInput').value.trim();
     if (!otp || otp.length !== 6) {
@@ -973,7 +1100,15 @@ async function handleOTPVerify() {
         }
 
         if (pendingOTPPurpose === 'register') {
-            showSuccess('Email verified! Please login.');
+            // Mark user as verified
+            const q = await db.collection('users').where('email', '==', pendingOTPEmail).get();
+            if (!q.empty) {
+                await db.collection('users').doc(q.docs[0].id).update({
+                    isVerified: true,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+            showSuccess('✅ Email verified! Please login.');
             showLogin();
             document.getElementById('otpVerifyBtn').disabled = false;
             document.getElementById('otpVerifyBtn').textContent = 'Verify OTP';
@@ -995,14 +1130,9 @@ async function handleOTPVerify() {
         permissionStatus = userData.permission || 'pending';
         isAdmin = currentRole === 'admin';
 
-        // Load device states
         if (userData.devices) {
             deviceStates = userData.devices;
         }
-
-        await db.collection('users').doc(uid).update({
-            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-        });
 
         showDashboard();
 
@@ -1014,7 +1144,9 @@ async function handleOTPVerify() {
     document.getElementById('otpVerifyBtn').textContent = 'Verify OTP';
 }
 
-// ----- RESEND OTP -----
+// ==============================================================
+// 7. RESEND OTP
+// ==============================================================
 async function resendOTP() {
     if (!pendingOTPEmail) return;
     try {
@@ -1027,13 +1159,11 @@ async function resendOTP() {
     }
 }
 
-// ----- LOGOUT -----
+// ==============================================================
+// 8. LOGOUT
+// ==============================================================
 async function logoutUser() {
     try {
-        if (blynkClient) {
-            blynkClient.disconnect();
-            blynkClient = null;
-        }
         if (deviceListener) {
             deviceListener();
             deviceListener = null;
@@ -1055,22 +1185,15 @@ async function logoutUser() {
 }
 
 // ==============================================================
-// 4. BLYNK INTEGRATION
+// 9. BLYNK INTEGRATION
 // ==============================================================
-
 function initBlynk() {
     try {
-        // Blynk using REST API calls (simpler approach)
         blynkConnected = true;
-        document.getElementById('blynkStatus').className = 'blynk-status online';
-        document.getElementById('blynkStatus').textContent = 'Blynk: Online';
-        console.log('Blynk connected');
+        console.log('Blynk ready');
         return true;
     } catch (error) {
-        console.error('Blynk error:', error);
         blynkConnected = false;
-        document.getElementById('blynkStatus').className = 'blynk-status offline';
-        document.getElementById('blynkStatus').textContent = 'Blynk: Offline';
         return false;
     }
 }
@@ -1079,21 +1202,16 @@ async function sendBlynkCommand(pin, value) {
     try {
         const url = `https://${BLYNK_HOST}/external/api/update/V${pin}?value=${value}&token=${BLYNK_AUTH}`;
         const response = await fetch(url);
-        if (response.ok) {
-            console.log(`Blynk V${pin} set to ${value}`);
-            return true;
-        }
-        return false;
+        return response.ok;
     } catch (error) {
-        console.error('Blynk send error:', error);
+        console.error('Blynk error:', error);
         return false;
     }
 }
 
 // ==============================================================
-// 5. DASHBOARD
+// 10. DASHBOARD
 // ==============================================================
-
 function showDashboard() {
     document.getElementById('authContainer').style.display = 'none';
     document.getElementById('appContainer').style.display = 'block';
@@ -1115,7 +1233,7 @@ function renderSidebar() {
     ];
     
     if (isAdmin) {
-        items.push({ icon: 'fa-users', label: 'Admin Panel', page: 'admin' });
+        items.push({ icon: 'fa-users-cog', label: 'Admin Panel', page: 'admin' });
     }
     
     sidebar.innerHTML = items.map(item => `
@@ -1133,35 +1251,22 @@ function renderPage(pageName) {
 
     let html = '';
     switch (pageName) {
-        case 'dashboard':
-            html = renderDashboard();
-            break;
-        case 'devices':
-            html = renderDevices();
-            break;
-        case 'history':
-            html = renderHistory();
-            break;
-        case 'profile':
-            html = renderProfile();
-            break;
-        case 'admin':
-            html = renderAdmin();
-            break;
-        default:
-            html = '<h2>Page not found</h2>';
+        case 'dashboard': html = renderDashboardPage(); break;
+        case 'devices': html = renderDevicesPage(); break;
+        case 'history': html = renderHistoryPage(); break;
+        case 'profile': html = renderProfilePage(); break;
+        case 'admin': html = renderAdminPage(); break;
+        default: html = '<h2>Page not found</h2>';
     }
     contentArea.innerHTML = html;
     
-    // Load data after render
     setTimeout(() => loadPageData(pageName), 200);
 }
 
 // ==============================================================
-// 6. RENDER FUNCTIONS
+// 11. PAGE RENDERERS
 // ==============================================================
-
-function renderDashboard() {
+function renderDashboardPage() {
     const totalOn = Object.values(deviceStates).filter(v => v === 1).length;
     const totalPower = Object.keys(deviceStates).reduce((sum, key) => {
         return sum + (deviceStates[key] === 1 ? deviceWatts[key] : 0);
@@ -1202,7 +1307,7 @@ function renderDashboard() {
 
             <div style="background:white;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
                 <h3 style="margin-bottom:16px;">📋 Quick Actions</h3>
-                <div class="device-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                <div class="device-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
                     ${Object.keys(deviceStates).map(id => `
                         <div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:10px;cursor:pointer;" 
                              onclick="toggleDevice(${id})">
@@ -1219,7 +1324,7 @@ function renderDashboard() {
     `;
 }
 
-function renderDevices() {
+function renderDevicesPage() {
     return `
         <div class="page active">
             <h2 class="page-title">🔌 Control Devices</h2>
@@ -1251,7 +1356,7 @@ function renderDevices() {
     `;
 }
 
-function renderHistory() {
+function renderHistoryPage() {
     return `
         <div class="page active">
             <h2 class="page-title">📋 Action History</h2>
@@ -1262,17 +1367,22 @@ function renderHistory() {
     `;
 }
 
-function renderProfile() {
+function renderProfilePage() {
     return `
         <div class="page active">
             <h2 class="page-title">👤 My Profile</h2>
-            <div style="background:white;border-radius:12px;padding:24px;max-width:500px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-                <p><strong>Name:</strong> ${currentUserData.name}</p>
-                <p><strong>Email:</strong> ${currentUserData.email}</p>
+            <div class="profile-card">
+                <p><strong>Name:</strong> ${currentUserData.name || 'N/A'}</p>
+                <p><strong>Email:</strong> ${currentUserData.email || 'N/A'}</p>
                 <p><strong>Phone:</strong> ${currentUserData.phone || 'N/A'}</p>
-                <p><strong>Role:</strong> ${currentUserData.role}</p>
-                <p><strong>Status:</strong> <span class="permission-badge ${permissionStatus}">${permissionStatus.toUpperCase()}</span></p>
+                <p><strong>City:</strong> ${currentUserData.city || 'N/A'}</p>
+                <p><strong>Address:</strong> ${currentUserData.address || 'N/A'}</p>
+                <p><strong>Role:</strong> ${currentUserData.role || 'customer'}</p>
+                <p><strong>Permission:</strong> <span class="permission-badge ${permissionStatus}">${permissionStatus.toUpperCase()}</span></p>
+                <p><strong>Wallet:</strong> ₹${currentUserData.walletBalance || 0}</p>
                 <p><strong>Joined:</strong> ${currentUserData.createdAt ? new Date(currentUserData.createdAt.toDate()).toLocaleDateString() : 'N/A'}</p>
+                <p><strong>Verified:</strong> ${currentUserData.isVerified ? '✅ Yes' : '❌ No'}</p>
+                ${currentUserData.notes ? `<p><strong>Notes:</strong> ${currentUserData.notes}</p>` : ''}
                 <button class="btn-danger" style="width:auto;padding:10px 24px;margin-top:16px;border:none;border-radius:8px;cursor:pointer;color:white;font-weight:600;" onclick="deleteAccount()">
                     <i class="fas fa-trash"></i> Delete Account
                 </button>
@@ -1281,25 +1391,28 @@ function renderProfile() {
     `;
 }
 
-function renderAdmin() {
+function renderAdminPage() {
     return `
         <div class="page active">
             <h2 class="page-title">👑 Admin Panel</h2>
-            <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
-                <button class="btn-primary" style="width:auto;padding:10px 20px;" onclick="loadPendingRequests()">Pending Requests</button>
-                <button class="btn-success" style="width:auto;padding:10px 20px;" onclick="loadApprovedUsers()">Approved Users</button>
-                <button class="btn-danger" style="width:auto;padding:10px 20px;" onclick="loadDeniedUsers()">Denied Users</button>
+            <div class="admin-tabs">
+                <div class="admin-tab active" onclick="loadUsers('pending', this)">⏳ Pending</div>
+                <div class="admin-tab" onclick="loadUsers('approved', this)">✅ Approved</div>
+                <div class="admin-tab" onclick="loadUsers('denied', this)">❌ Denied</div>
+                <div class="admin-tab" onclick="loadUsers('all', this)">📋 All Users</div>
             </div>
             <div class="admin-panel" id="adminRequestsList">
-                <p style="color:#888;">Select a filter to view users</p>
+                <p style="color:#888;text-align:center;padding:20px;">Select a filter above</p>
             </div>
         </div>
     `;
 }
 
 // ==============================================================
-// 7. DEVICE CONTROL FUNCTIONS
+// 12. DEVICE CONTROL
 // ==============================================================
+const deviceNames = {1: '9W Bulb', 2: '12W LED', 3: '60W Fan', 4: '20W Tubelight'};
+const deviceWatts = {1: 9, 2: 12, 3: 60, 4: 20};
 
 async function toggleDevice(deviceId) {
     if (permissionStatus !== 'approved') {
@@ -1315,15 +1428,11 @@ async function toggleDevice(deviceId) {
     const newState = deviceStates[deviceId] === 0 ? 1 : 0;
     deviceStates[deviceId] = newState;
 
-    // Update UI
     updateDeviceUI(deviceId);
     updateStats();
 
     // Send to Blynk
-    const blynkResult = await sendBlynkCommand(deviceId, newState);
-    if (!blynkResult) {
-        console.warn('Blynk command failed');
-    }
+    await sendBlynkCommand(deviceId, newState);
 
     // Save to Firestore
     try {
@@ -1331,7 +1440,6 @@ async function toggleDevice(deviceId) {
         updateData['devices.' + deviceId] = newState;
         await db.collection('users').doc(currentUserId).update(updateData);
 
-        // Save to history
         const action = newState === 1 ? 'ON' : 'OFF';
         await db.collection('users').doc(currentUserId)
             .collection('history').add({
@@ -1384,13 +1492,11 @@ function updateStats() {
 }
 
 // ==============================================================
-// 8. LOAD DATA FUNCTIONS
+// 13. LOAD DATA
 // ==============================================================
-
 function loadDeviceStates() {
     if (!currentUserId) return;
 
-    // Listen to device changes in real-time
     deviceListener = db.collection('users').doc(currentUserId)
         .onSnapshot((doc) => {
             if (doc.exists) {
@@ -1398,7 +1504,6 @@ function loadDeviceStates() {
                 if (data.devices) {
                     deviceStates = data.devices;
                     permissionStatus = data.permission || 'pending';
-                    // Update UI for all devices
                     Object.keys(deviceStates).forEach(id => updateDeviceUI(parseInt(id)));
                     updateStats();
                 }
@@ -1407,12 +1512,8 @@ function loadDeviceStates() {
 }
 
 function loadPageData(pageName) {
-    if (pageName === 'history') {
-        loadHistory();
-    }
-    if (pageName === 'admin') {
-        loadPendingRequests();
-    }
+    if (pageName === 'history') loadHistory();
+    if (pageName === 'admin') loadUsers('pending');
 }
 
 async function loadHistory() {
@@ -1444,42 +1545,57 @@ async function loadHistory() {
         historyList.innerHTML = html;
 
     } catch (error) {
-        console.error('Load history error:', error);
         historyList.innerHTML = '<div style="text-align:center;color:red;padding:20px;">Error loading history</div>';
     }
 }
 
 // ==============================================================
-// 9. ADMIN FUNCTIONS
+// 14. ADMIN FUNCTIONS
 // ==============================================================
-
-async function loadPendingRequests() {
+async function loadUsers(filter, tabElement) {
     const container = document.getElementById('adminRequestsList');
     if (!container) return;
 
+    // Update tab styles
+    document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
+    if (tabElement) tabElement.classList.add('active');
+
     try {
-        const snapshot = await db.collection('users')
-            .where('permission', '==', 'pending')
-            .orderBy('createdAt', 'desc')
-            .get();
+        let query = db.collection('users');
+        if (filter !== 'all') {
+            query = query.where('permission', '==', filter);
+        }
+        query = query.orderBy('createdAt', 'desc');
+        const snapshot = await query.get();
 
         if (snapshot.empty) {
-            container.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No pending requests</p>';
+            container.innerHTML = `<p style="color:#888;text-align:center;padding:20px;">No ${filter} users found</p>`;
             return;
         }
 
-        let html = '<h4 style="margin-bottom:12px;">📌 Pending Requests</h4>';
+        let html = `<h4 style="margin-bottom:12px;">📌 ${filter.toUpperCase()} Users (${snapshot.size})</h4>`;
         snapshot.forEach(doc => {
             const data = doc.data();
+            const statusBadge = data.permission === 'approved' ? 'badge-success' : 
+                               data.permission === 'pending' ? 'badge-warning' : 'badge-danger';
             html += `
                 <div class="request-item">
                     <div class="user-info">
                         <div class="name">${data.name || 'Unknown'}</div>
                         <div class="email">${data.email}</div>
+                        <div style="font-size:12px;color:#888;">Role: ${data.role} | Phone: ${data.phone || 'N/A'}</div>
                     </div>
                     <div class="request-actions">
-                        <button class="btn-sm approve" onclick="approveUser('${doc.id}')">Approve</button>
-                        <button class="btn-sm deny" onclick="denyUser('${doc.id}')">Deny</button>
+                        ${data.permission === 'pending' ? `
+                            <button class="btn-sm approve" onclick="approveUser('${doc.id}')">Approve</button>
+                            <button class="btn-sm deny" onclick="denyUser('${doc.id}')">Deny</button>
+                        ` : ''}
+                        ${data.permission === 'approved' ? `
+                            <button class="btn-sm deny" onclick="denyUser('${doc.id}')">Revoke</button>
+                        ` : ''}
+                        ${data.permission === 'denied' ? `
+                            <button class="btn-sm approve" onclick="approveUser('${doc.id}')">Re-approve</button>
+                        ` : ''}
                         <button class="btn-sm view" onclick="viewUser('${doc.id}')">View</button>
                     </div>
                 </div>
@@ -1488,84 +1604,7 @@ async function loadPendingRequests() {
         container.innerHTML = html;
 
     } catch (error) {
-        console.error('Load pending error:', error);
-    }
-}
-
-async function loadApprovedUsers() {
-    const container = document.getElementById('adminRequestsList');
-    if (!container) return;
-
-    try {
-        const snapshot = await db.collection('users')
-            .where('permission', '==', 'approved')
-            .orderBy('createdAt', 'desc')
-            .get();
-
-        if (snapshot.empty) {
-            container.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No approved users</p>';
-            return;
-        }
-
-        let html = '<h4 style="margin-bottom:12px;">✅ Approved Users</h4>';
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            html += `
-                <div class="request-item">
-                    <div class="user-info">
-                        <div class="name">${data.name || 'Unknown'}</div>
-                        <div class="email">${data.email}</div>
-                        <div style="font-size:12px;color:#888;">Role: ${data.role}</div>
-                    </div>
-                    <div class="request-actions">
-                        <button class="btn-sm deny" onclick="denyUser('${doc.id}')">Revoke</button>
-                        <button class="btn-sm view" onclick="viewUser('${doc.id}')">View</button>
-                    </div>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-
-    } catch (error) {
-        console.error('Load approved error:', error);
-    }
-}
-
-async function loadDeniedUsers() {
-    const container = document.getElementById('adminRequestsList');
-    if (!container) return;
-
-    try {
-        const snapshot = await db.collection('users')
-            .where('permission', '==', 'denied')
-            .orderBy('createdAt', 'desc')
-            .get();
-
-        if (snapshot.empty) {
-            container.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">No denied users</p>';
-            return;
-        }
-
-        let html = '<h4 style="margin-bottom:12px;">❌ Denied Users</h4>';
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            html += `
-                <div class="request-item">
-                    <div class="user-info">
-                        <div class="name">${data.name || 'Unknown'}</div>
-                        <div class="email">${data.email}</div>
-                    </div>
-                    <div class="request-actions">
-                        <button class="btn-sm approve" onclick="approveUser('${doc.id}')">Re-approve</button>
-                        <button class="btn-sm view" onclick="viewUser('${doc.id}')">View</button>
-                    </div>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-
-    } catch (error) {
-        console.error('Load denied error:', error);
+        container.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
     }
 }
 
@@ -1577,7 +1616,7 @@ async function approveUser(userId) {
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         alert('✅ User approved!');
-        loadPendingRequests();
+        loadUsers('pending', document.querySelector('.admin-tab.active'));
     } catch (error) {
         alert('Error: ' + error.message);
     }
@@ -1591,7 +1630,7 @@ async function denyUser(userId) {
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         alert('❌ User denied!');
-        loadPendingRequests();
+        loadUsers('pending', document.querySelector('.admin-tab.active'));
     } catch (error) {
         alert('Error: ' + error.message);
     }
@@ -1602,22 +1641,26 @@ function viewUser(userId) {
         if (doc.exists) {
             const data = doc.data();
             alert(
-                '📋 User Details\n\n' +
-                'Name: ' + (data.name || 'N/A') + '\n' +
-                'Email: ' + (data.email || 'N/A') + '\n' +
-                'Phone: ' + (data.phone || 'N/A') + '\n' +
-                'Role: ' + (data.role || 'N/A') + '\n' +
-                'Permission: ' + (data.permission || 'N/A') + '\n' +
-                'Status: ' + (data.isActive ? 'Active' : 'Inactive')
+                '📋 USER DETAILS\n\n' +
+                '👤 Name: ' + (data.name || 'N/A') + '\n' +
+                '📧 Email: ' + (data.email || 'N/A') + '\n' +
+                '📱 Phone: ' + (data.phone || 'N/A') + '\n' +
+                '📍 City: ' + (data.city || 'N/A') + '\n' +
+                '🏠 Address: ' + (data.address || 'N/A') + '\n' +
+                '📝 Role: ' + (data.role || 'N/A') + '\n' +
+                '🔑 Permission: ' + (data.permission || 'N/A') + '\n' +
+                '💰 Wallet: ₹' + (data.walletBalance || 0) + '\n' +
+                '✅ Verified: ' + (data.isVerified ? 'Yes' : 'No') + '\n' +
+                '📅 Joined: ' + (data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString() : 'N/A') + '\n' +
+                '📌 Notes: ' + (data.notes || 'N/A')
             );
         }
     });
 }
 
 // ==============================================================
-// 10. DELETE ACCOUNT
+// 15. DELETE ACCOUNT
 // ==============================================================
-
 async function deleteAccount() {
     if (!confirm('⚠️ Are you sure you want to delete your account?')) return;
     if (!confirm('Type "DELETE" to confirm')) return;
@@ -1633,9 +1676,8 @@ async function deleteAccount() {
 }
 
 // ==============================================================
-// 11. EVENT LISTENERS
+// 16. EVENT LISTENERS
 // ==============================================================
-
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('loginBtn').addEventListener('click', handleLogin);
     document.getElementById('registerBtn').addEventListener('click', handleRegister);
@@ -1656,9 +1698,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ==============================================================
-// 12. AUTH STATE LISTENER
+// 17. AUTH STATE LISTENER
 // ==============================================================
-
 auth.onAuthStateChanged(async (user) => {
     if (user) {
         try {
