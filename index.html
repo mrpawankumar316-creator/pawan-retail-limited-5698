@@ -208,6 +208,21 @@
             color: #888;
         }
         
+        .live-status {
+            background: #e8f5e9;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #2e7d32;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .live-status.active {
+            display: block;
+        }
+        
         @media (max-width: 480px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -672,6 +687,35 @@
             width: 120px;
         }
         
+        .live-registration-status {
+            background: #dbeafe;
+            padding: 10px 16px;
+            border-radius: 10px;
+            margin-top: 12px;
+            border-left: 4px solid #1a73e8;
+            display: none;
+        }
+        
+        .live-registration-status.active {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .live-registration-status .pulse {
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 60px;
@@ -719,6 +763,12 @@
     
     <div id="authError" class="error-msg"></div>
     <div id="authSuccess" class="success-msg"></div>
+    
+    <!-- Live Registration Status -->
+    <div id="liveStatus" class="live-registration-status">
+        <div class="pulse"></div>
+        <span id="liveStatusText">🔥 Real-time: Customer registration tracking active</span>
+    </div>
     
     <!-- LOGIN -->
     <div id="loginForm">
@@ -796,6 +846,11 @@
         <button class="btn-primary" id="registerBtn">Create Account</button>
         <div class="link-text">
             Already have account? <span onclick="showLogin()">Login</span>
+        </div>
+        
+        <!-- Live registration indicator -->
+        <div style="background:#e8f5e9;padding:8px 14px;border-radius:8px;margin-top:12px;font-size:12px;color:#2e7d32;text-align:center;">
+            ✅ Your data will be saved to Firestore in real-time
         </div>
     </div>
     
@@ -900,9 +955,46 @@ let permissionStatus = 'pending';
 let isAdmin = false;
 let historyUnsubscribe = null;
 let deviceListener = null;
+let customerListener = null;
 
 // ==============================================================
-// 3. CREATE ADMIN ACCOUNT IN FIRESTORE
+// 3. REAL-TIME CUSTOMER REGISTRATION TRACKING
+// ==============================================================
+function enableCustomerTracking() {
+    const statusEl = document.getElementById('liveStatus');
+    const textEl = document.getElementById('liveStatusText');
+    
+    statusEl.classList.add('active');
+    textEl.textContent = '🔥 Real-time: Customer registration tracking active';
+    
+    // Listen for new customer registrations
+    customerListener = db.collection('users')
+        .where('role', '==', 'customer')
+        .orderBy('createdAt', 'desc')
+        .limit(1)
+        .onSnapshot((snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === 'added') {
+                    const data = change.doc.data();
+                    textEl.textContent = `🆕 New Customer Registered: ${data.name || 'Unknown'} (${data.email || 'No email'}) - ${new Date().toLocaleTimeString()}`;
+                    statusEl.classList.add('active');
+                    
+                    // Also show in success message
+                    showSuccess(`🆕 New customer registered: ${data.name || 'Unknown'} - ${data.email || 'No email'}`);
+                    
+                    // Auto hide after 5 seconds
+                    setTimeout(() => {
+                        textEl.textContent = '🔥 Real-time: Customer registration tracking active';
+                    }, 5000);
+                }
+            });
+        }, (error) => {
+            console.error('Customer tracking error:', error);
+        });
+}
+
+// ==============================================================
+// 4. CREATE ADMIN ACCOUNT IN FIRESTORE
 // ==============================================================
 async function createAdminAccount() {
     const adminEmail = "admin@pawanretail.com";
@@ -913,7 +1005,6 @@ async function createAdminAccount() {
     document.getElementById('adminCreateStatus').style.color = '#f59e0b';
     
     try {
-        // Check if admin already exists
         const existingAdmin = await db.collection('users')
             .where('email', '==', adminEmail)
             .where('role', '==', 'admin')
@@ -925,11 +1016,9 @@ async function createAdminAccount() {
             return;
         }
         
-        // Create user in Firebase Auth
         const userCredential = await auth.createUserWithEmailAndPassword(adminEmail, adminPassword);
         const user = userCredential.user;
         
-        // Save admin data to Firestore
         const adminData = {
             uid: user.uid,
             name: adminName,
@@ -956,14 +1045,11 @@ async function createAdminAccount() {
         document.getElementById('adminCreateStatus').innerHTML = '✅ Admin created successfully! Email: admin@pawanretail.com | Password: Admin@123';
         document.getElementById('adminCreateStatus').style.color = '#10b981';
         
-        // Show success in main area too
         showSuccess('✅ Admin account created! Login with admin@pawanretail.com / Admin@123');
         
-        // Pre-fill login form
         document.getElementById('loginEmail').value = adminEmail;
         document.getElementById('loginPassword').value = adminPassword;
         
-        // Auto login after 2 seconds
         setTimeout(() => {
             handleLogin();
         }, 2000);
@@ -977,7 +1063,7 @@ async function createAdminAccount() {
 }
 
 // ==============================================================
-// 4. AUTH FUNCTIONS
+// 5. AUTH FUNCTIONS
 // ==============================================================
 
 function showLogin() {
@@ -996,6 +1082,9 @@ function showRegister() {
     document.getElementById('otpForm').classList.add('hidden');
     document.getElementById('authError').style.display = 'none';
     document.getElementById('authSuccess').style.display = 'none';
+    
+    // Activate real-time customer tracking
+    enableCustomerTracking();
 }
 
 function showForgotPassword() {
@@ -1077,7 +1166,7 @@ async function verifyOTP(email, enteredOTP) {
 }
 
 // ==============================================================
-// 5. REGISTER
+// 6. REGISTER - SAVES TO FIRESTORE INSTANTLY
 // ==============================================================
 async function handleRegister() {
     const name = document.getElementById('regName').value.trim();
@@ -1105,6 +1194,7 @@ async function handleRegister() {
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
+        // COMPLETE USER DATA - INSTANTLY SAVED TO FIRESTORE
         const userData = {
             uid: user.uid,
             name: name,
@@ -1123,16 +1213,21 @@ async function handleRegister() {
             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
             lastLogin: null,
             profileComplete: true,
-            registrationSource: 'web'
+            registrationSource: 'web',
+            appVersion: '2.0'
         };
 
+        // FIREBASE - INSTANT SAVE
         await db.collection('users').doc(user.uid).set(userData);
+        
+        console.log('✅ User data saved to Firestore:', userData);
+        console.log('📁 Firestore Path: users/' + user.uid);
 
         const otp = generateOTP();
         await storeOTP(email, otp);
         await sendOTPEmail(email, otp, name);
 
-        showSuccess('✅ Account created! OTP sent to your email.');
+        showSuccess('✅ Account created! Data saved to Firestore. OTP sent to your email.');
         showOTP(email, 'register');
 
     } catch (error) {
@@ -1144,7 +1239,7 @@ async function handleRegister() {
 }
 
 // ==============================================================
-// 6. LOGIN
+// 7. LOGIN
 // ==============================================================
 async function handleLogin() {
     const email = document.getElementById('loginEmail').value.trim();
@@ -1194,7 +1289,7 @@ async function handleLogin() {
 }
 
 // ==============================================================
-// 7. FORGOT PASSWORD
+// 8. FORGOT PASSWORD
 // ==============================================================
 async function handleForgotPassword() {
     const email = document.getElementById('forgotEmail').value.trim();
@@ -1234,7 +1329,7 @@ async function handleForgotPassword() {
 }
 
 // ==============================================================
-// 8. VERIFY OTP
+// 9. VERIFY OTP
 // ==============================================================
 async function handleOTPVerify() {
     const otp = document.getElementById('otpInput').value.trim();
@@ -1299,7 +1394,7 @@ async function handleOTPVerify() {
 }
 
 // ==============================================================
-// 9. RESEND OTP
+// 10. RESEND OTP
 // ==============================================================
 async function resendOTP() {
     if (!pendingOTPEmail) return;
@@ -1314,7 +1409,7 @@ async function resendOTP() {
 }
 
 // ==============================================================
-// 10. LOGOUT
+// 11. LOGOUT
 // ==============================================================
 async function logoutUser() {
     try {
@@ -1325,6 +1420,10 @@ async function logoutUser() {
         if (historyUnsubscribe) {
             historyUnsubscribe();
             historyUnsubscribe = null;
+        }
+        if (customerListener) {
+            customerListener();
+            customerListener = null;
         }
         await auth.signOut();
         currentUser = null;
@@ -1339,7 +1438,7 @@ async function logoutUser() {
 }
 
 // ==============================================================
-// 11. BLYNK - ALWAYS WORKING
+// 12. BLYNK - ALWAYS WORKING
 // ==============================================================
 async function sendBlynkCommand(pin, value) {
     try {
@@ -1358,7 +1457,7 @@ async function sendBlynkCommand(pin, value) {
 }
 
 // ==============================================================
-// 12. DASHBOARD
+// 13. DASHBOARD
 // ==============================================================
 function showDashboard() {
     document.getElementById('authContainer').style.display = 'none';
@@ -1418,7 +1517,7 @@ function renderPage(pageName) {
 }
 
 // ==============================================================
-// 13. PAGE RENDERERS
+// 14. PAGE RENDERERS
 // ==============================================================
 function renderDashboardPage() {
     const totalOn = Object.values(deviceStates).filter(v => v === 1).length;
@@ -1551,6 +1650,12 @@ function renderAdminPage() {
     return `
         <div class="page active">
             <h2 class="page-title">👑 Admin Panel</h2>
+            <div style="background:#dbeafe;padding:10px 16px;border-radius:8px;margin-bottom:16px;border-left:4px solid #1a73e8;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:14px;font-weight:600;">🟢 Live Customer Tracking:</span>
+                    <span style="font-size:13px;color:#555;" id="adminLiveStatus">Watching for new registrations...</span>
+                </div>
+            </div>
             <div class="admin-tabs">
                 <div class="admin-tab active" onclick="loadUsers('pending', this)">⏳ Pending</div>
                 <div class="admin-tab" onclick="loadUsers('approved', this)">✅ Approved</div>
@@ -1565,7 +1670,7 @@ function renderAdminPage() {
 }
 
 // ==============================================================
-// 14. DEVICE CONTROL
+// 15. DEVICE CONTROL
 // ==============================================================
 const deviceNames = {1: '9W Bulb', 2: '12W LED', 3: '60W Fan', 4: '20W Tubelight'};
 const deviceWatts = {1: 9, 2: 12, 3: 60, 4: 20};
@@ -1644,7 +1749,7 @@ function updateStats() {
 }
 
 // ==============================================================
-// 15. LOAD DATA
+// 16. LOAD DATA
 // ==============================================================
 function loadDeviceStates() {
     if (!currentUserId) return;
@@ -1665,7 +1770,11 @@ function loadDeviceStates() {
 
 function loadPageData(pageName) {
     if (pageName === 'history') loadHistory();
-    if (pageName === 'admin') loadUsers('pending');
+    if (pageName === 'admin') {
+        loadUsers('pending');
+        // Start real-time tracking in admin
+        enableCustomerTracking();
+    }
 }
 
 async function loadHistory() {
@@ -1702,7 +1811,7 @@ async function loadHistory() {
 }
 
 // ==============================================================
-// 16. ADMIN FUNCTIONS
+// 17. ADMIN FUNCTIONS
 // ==============================================================
 async function loadUsers(filter, tabElement) {
     const container = document.getElementById('adminRequestsList');
@@ -1734,6 +1843,7 @@ async function loadUsers(filter, tabElement) {
                         <div class="name">${data.name || 'Unknown'} ${isAdminUser ? '👑' : ''}</div>
                         <div class="email">${data.email}</div>
                         <div style="font-size:12px;color:#888;">Role: ${data.role || 'customer'} | Phone: ${data.phone || 'N/A'}</div>
+                        <div style="font-size:11px;color:#999;">Registered: ${data.createdAt ? new Date(data.createdAt.toDate()).toLocaleString() : 'N/A'}</div>
                     </div>
                     <div class="request-actions">
                         ${!isAdminUser && data.permission === 'pending' ? `
@@ -1753,6 +1863,9 @@ async function loadUsers(filter, tabElement) {
             `;
         });
         container.innerHTML = html;
+
+        // Update admin live status
+        document.getElementById('adminLiveStatus').textContent = `✅ Tracking ${snapshot.size} users in real-time`;
 
     } catch (error) {
         container.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
@@ -1802,7 +1915,7 @@ function viewUser(userId) {
                 '🔑 Permission: ' + (data.permission || 'N/A') + '\n' +
                 '💰 Wallet: ₹' + (data.walletBalance || 0) + '\n' +
                 '✅ Verified: ' + (data.isVerified ? 'Yes' : 'No') + '\n' +
-                '📅 Joined: ' + (data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString() : 'N/A') + '\n' +
+                '📅 Joined: ' + (data.createdAt ? new Date(data.createdAt.toDate()).toLocaleString() : 'N/A') + '\n' +
                 '📌 Notes: ' + (data.notes || 'N/A') + '\n' +
                 '👑 Admin: ' + (data.role === 'admin' ? 'Yes' : 'No')
             );
@@ -1811,7 +1924,7 @@ function viewUser(userId) {
 }
 
 // ==============================================================
-// 17. DELETE ACCOUNT
+// 18. DELETE ACCOUNT
 // ==============================================================
 async function deleteAccount() {
     if (!confirm('⚠️ Are you sure you want to delete your account?')) return;
@@ -1828,7 +1941,7 @@ async function deleteAccount() {
 }
 
 // ==============================================================
-// 18. EVENT LISTENERS
+// 19. EVENT LISTENERS
 // ==============================================================
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('loginBtn').addEventListener('click', handleLogin);
@@ -1849,15 +1962,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Enter') handleOTPVerify();
     });
 
-    // Check if admin exists on load
     checkAdminExists();
-    
     showLogin();
     console.log('🚀 Smart Home App Loaded!');
 });
 
 // ==============================================================
-// 19. CHECK IF ADMIN EXISTS
+// 20. CHECK IF ADMIN EXISTS
 // ==============================================================
 async function checkAdminExists() {
     try {
@@ -1876,8 +1987,7 @@ async function checkAdminExists() {
 }
 
 // ==============================================================
-// 20. AUTH STATE LISTENER
-// ==============================================================
+// 21. AUTH STATE LISTENER// ==============================================================
 auth.onAuthStateChanged(async (user) => {
     if (user) {
         try {
