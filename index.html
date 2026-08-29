@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Pawan Finance - Loan Management</title>
+    <title>Pawan Finance - Premium Loan Management</title>
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -15,7 +15,7 @@
     
     <style>
         /* ============================================================
-           COMPLETE STYLES
+           PREMIUM FIN TECH STYLES
            ============================================================ */
         :root {
             --primary: #0A1628;
@@ -29,17 +29,19 @@
             --warning: #ff9100;
             --info: #2979ff;
             --white: #ffffff;
-            --gray-100: #f8f9fa;
-            --gray-200: #e9ecef;
-            --gray-300: #dee2e6;
-            --gray-400: #ced4da;
-            --gray-500: #adb5bd;
-            --gray-600: #6c757d;
-            --gray-700: #495057;
-            --gray-800: #343a40;
-            --gray-900: #212529;
-            --shadow: 0 2px 16px rgba(0,0,0,0.08);
-            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --shadow: 0 4px 24px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
             --radius: 16px;
             --radius-sm: 10px;
             --radius-lg: 24px;
@@ -121,7 +123,7 @@
             padding: 40px 32px;
             max-width: 440px;
             width: 100%;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-xl);
         }
         .auth-box .logo {
             text-align: center;
@@ -133,7 +135,7 @@
         .auth-box .logo span { color: var(--accent); }
         .auth-box .subtitle {
             text-align: center;
-            color: var(--gray-600);
+            color: var(--gray-500);
             font-size: 14px;
             margin-bottom: 24px;
         }
@@ -151,11 +153,11 @@
         .auth-box .form-group select {
             width: 100%;
             padding: 10px 14px;
-            border: 2px solid var(--gray-300);
+            border: 2px solid var(--gray-200);
             border-radius: var(--radius-sm);
             font-size: 14px;
             transition: var(--transition);
-            background: var(--gray-100);
+            background: var(--gray-50);
         }
         .auth-box .form-group input:focus,
         .auth-box .form-group select:focus {
@@ -164,16 +166,6 @@
             background: var(--white);
             box-shadow: 0 0 0 4px rgba(0,212,255,0.1);
         }
-        .auth-box .form-group input.error {
-            border-color: var(--danger);
-        }
-        .auth-box .form-group .error-text {
-            color: var(--danger);
-            font-size: 12px;
-            margin-top: 4px;
-            display: none;
-        }
-        .auth-box .form-group .error-text.show { display: block; }
         .auth-box .btn {
             width: 100%;
             padding: 12px;
@@ -196,11 +188,6 @@
             background: var(--primary-dark);
             transform: translateY(-2px);
         }
-        .auth-box .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
         .auth-box .btn-accent {
             background: var(--accent);
             color: var(--white);
@@ -214,21 +201,15 @@
             color: var(--primary);
             border: 2px solid var(--primary);
         }
-        .auth-box .btn-outline:hover {
-            background: var(--primary);
-            color: var(--white);
-        }
         .auth-box .link {
             color: var(--accent);
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
         }
-        .auth-box .link:hover { text-decoration: underline; }
         .auth-box .text-center { text-align: center; }
         .auth-box .mt-12 { margin-top: 12px; }
-        .auth-box .mt-16 { margin-top: 16px; }
-        .auth-box .text-muted { color: var(--gray-600); font-size: 13px; }
+        .auth-box .text-muted { color: var(--gray-500); font-size: 13px; }
         .auth-box .error-msg {
             color: var(--danger);
             font-size: 13px;
@@ -325,10 +306,10 @@
             padding: 20px 16px 100px;
         }
         
-        /* ----- BOTTOM NAV (Mobile) ----- */
+        /* ----- BOTTOM NAV ----- */
         .bottom-nav {
             background: var(--white);
-            border-top: 1px solid var(--gray-300);
+            border-top: 1px solid var(--gray-200);
             display: none;
             justify-content: space-around;
             align-items: center;
@@ -351,7 +332,7 @@
             padding: 4px 8px;
             transition: var(--transition);
             min-width: 48px;
-            color: var(--gray-600);
+            color: var(--gray-500);
         }
         .bottom-nav .nav-item i {
             font-size: 18px;
@@ -429,7 +410,9 @@
             padding: 16px;
             box-shadow: var(--shadow);
             text-align: center;
+            transition: var(--transition);
         }
+        .stats-grid .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
         .stats-grid .stat-card .icon {
             font-size: 24px;
             color: var(--accent);
@@ -442,7 +425,7 @@
         }
         .stats-grid .stat-card .label {
             font-size: 12px;
-            color: var(--gray-600);
+            color: var(--gray-500);
             font-weight: 500;
         }
         
@@ -458,7 +441,7 @@
             top: 0;
             bottom: 0;
             width: 3px;
-            background: var(--gray-300);
+            background: var(--gray-200);
         }
         .timeline-item {
             display: flex;
@@ -483,6 +466,9 @@
             background: var(--accent);
             box-shadow: 0 0 0 4px rgba(0,212,255,0.2);
         }
+        .timeline-item .dot.rejected {
+            background: var(--danger);
+        }
         .timeline-item .content {
             flex: 1;
         }
@@ -493,14 +479,20 @@
         }
         .timeline-item .content .sub {
             font-size: 12px;
-            color: var(--gray-600);
+            color: var(--gray-500);
         }
         .timeline-item .content .date {
             font-size: 11px;
-            color: var(--gray-500);
+            color: var(--gray-400);
         }
         
-        /* ----- KYC FORM ----- */
+        /* ----- KYC FORM - PREMIUM ----- */
+        .kyc-container {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
         .kyc-step {
             display: none;
         }
@@ -508,17 +500,154 @@
         .kyc-progress {
             display: flex;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         .kyc-progress .step {
             flex: 1;
             height: 4px;
             border-radius: 4px;
-            background: var(--gray-300);
+            background: var(--gray-200);
             transition: var(--transition);
         }
         .kyc-progress .step.done { background: var(--success); }
         .kyc-progress .step.active { background: var(--accent); }
+        .kyc-progress .step.error { background: var(--danger); }
+        
+        .kyc-step-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 4px;
+        }
+        .kyc-step-subtitle {
+            font-size: 13px;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+        }
+        .kyc-form-group {
+            margin-bottom: 16px;
+        }
+        .kyc-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--gray-700);
+        }
+        .kyc-form-group input,
+        .kyc-form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            transition: var(--transition);
+            background: var(--gray-50);
+        }
+        .kyc-form-group input:focus,
+        .kyc-form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(0,212,255,0.1);
+        }
+        .kyc-form-group input.error {
+            border-color: var(--danger);
+        }
+        .kyc-form-group .error-text {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+        .kyc-form-group .error-text.show { display: block; }
+        .kyc-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .kyc-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .kyc-btn-group .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .kyc-btn-group .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .kyc-btn-group .btn-primary:hover { background: var(--primary-dark); }
+        .kyc-btn-group .btn-accent {
+            background: var(--accent);
+            color: var(--white);
+        }
+        .kyc-btn-group .btn-accent:hover { background: var(--accent-dark); }
+        .kyc-btn-group .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+        .kyc-btn-group .btn-success:hover { background: #16a34a; }
+        .kyc-btn-group .btn-ghost {
+            background: transparent;
+            color: var(--gray-600);
+            border: 1px solid var(--gray-200);
+        }
+        .kyc-btn-group .btn-ghost:hover { background: var(--gray-50); }
+        .kyc-btn-group .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* ----- KYC COMPLETED ----- */
+        .kyc-completed {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .kyc-completed .icon {
+            font-size: 72px;
+            color: var(--success);
+            margin-bottom: 16px;
+        }
+        .kyc-completed h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--gray-800);
+            margin-bottom: 4px;
+        }
+        .kyc-completed p {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+        .kyc-completed .details {
+            background: var(--gray-50);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin: 16px 0;
+            text-align: left;
+        }
+        .kyc-completed .details .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 13px;
+        }
+        .kyc-completed .details .row:last-child { border-bottom: none; }
+        .kyc-completed .details .label { color: var(--gray-500); font-weight: 500; }
+        .kyc-completed .details .value { font-weight: 600; color: var(--gray-800); }
         
         /* ----- TABLES ----- */
         .table-wrap {
@@ -533,10 +662,10 @@
         .table th {
             text-align: left;
             padding: 10px 12px;
-            background: var(--gray-100);
+            background: var(--gray-50);
             font-weight: 600;
-            color: var(--gray-700);
-            border-bottom: 2px solid var(--gray-300);
+            color: var(--gray-600);
+            border-bottom: 2px solid var(--gray-200);
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -562,7 +691,7 @@
             transition: var(--transition);
             margin: 2px;
         }
-        .table .action-btn:hover { opacity: 0.8; }
+        .table .action-btn:hover { opacity: 0.8; transform: scale(0.95); }
         .table .action-btn.view { background: #dbeafe; color: #1e40af; }
         .table .action-btn.approve { background: #dcfce7; color: #166534; }
         .table .action-btn.reject { background: #fee2e2; color: #991b1b; }
@@ -608,7 +737,7 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: var(--gray-600);
+            color: var(--gray-500);
         }
         .modal .modal-header .close:hover { color: var(--gray-900); }
         .modal .form-group {
@@ -625,7 +754,7 @@
         .modal .form-group textarea {
             width: 100%;
             padding: 8px 12px;
-            border: 2px solid var(--gray-300);
+            border: 2px solid var(--gray-200);
             border-radius: var(--radius-sm);
             font-size: 13px;
             transition: var(--transition);
@@ -665,10 +794,10 @@
         .modal .btn-ghost {
             background: transparent;
             color: var(--gray-600);
-            border: 1px solid var(--gray-300);
+            border: 1px solid var(--gray-200);
         }
         .modal .mt-12 { margin-top: 12px; }
-        .modal .text-muted { color: var(--gray-600); font-size: 13px; }
+        .modal .text-muted { color: var(--gray-500); font-size: 13px; }
         
         /* ----- TOAST ----- */
         .toast-container {
@@ -717,7 +846,7 @@
         .empty-state {
             text-align: center;
             padding: 40px 20px;
-            color: var(--gray-600);
+            color: var(--gray-500);
         }
         .empty-state i {
             font-size: 48px;
@@ -745,6 +874,8 @@
             .modal .form-row { grid-template-columns: 1fr; }
             .table { font-size: 12px; }
             .table th, .table td { padding: 6px 8px; }
+            .kyc-form-row { grid-template-columns: 1fr; }
+            .kyc-btn-group { flex-direction: column; }
         }
         @media (max-width: 480px) {
             .stats-grid { grid-template-columns: 1fr; }
@@ -861,7 +992,7 @@
 
 <script>
 // ================================================================
-// FIREBASE CONFIG - YOUR PROVIDED CONFIG
+// FIREBASE CONFIG
 // ================================================================
 const firebaseConfig = {
     apiKey: "AIzaSyDnBnw0rkduTZe2_Y7E67j2EWMJVBSAhH0",
@@ -892,8 +1023,8 @@ const state = {
     allKYCs: [],
     unreadCount: 0,
     kycStep: 1,
-    kycTotalSteps: 4,
-    kycData: {}
+    kycData: {},
+    kycSubmitted: false
 };
 
 // ================================================================
@@ -958,7 +1089,7 @@ $('modalOverlay').addEventListener('click', function(e) {
 });
 
 // ================================================================
-// AUTH FUNCTIONS - REAL FIREBASE
+// AUTH FUNCTIONS
 // ================================================================
 async function registerUser(email, password, name, mobile) {
     try {
@@ -1023,11 +1154,6 @@ async function logoutUser() {
     state.notifications = [];
     showToast('Logged out successfully', 'info');
     showAuthPage('login');
-}
-
-function maskString(str, show = 4) {
-    if (!str) return '****';
-    return str.slice(0, show) + '****' + str.slice(-show);
 }
 
 // ================================================================
@@ -1218,12 +1344,14 @@ function loadUserData() {
         if (doc.exists) {
             state.profile = { id: doc.id, ...doc.data() };
             state.isAdmin = state.profile?.role === 'admin';
+            state.kycSubmitted = state.profile?.kycCompleted || false;
             updateHeader();
             loadApplications();
             loadNotifications();
             renderAll();
         }
-    }).catch(() => {
+    }).catch((err) => {
+        console.error('Error loading profile:', err);
         showToast('Error loading profile', 'error');
     });
 }
@@ -1268,7 +1396,7 @@ function renderPage(page) {
 }
 
 // ================================================================
-// DASHBOARD - REAL TIME DATA
+// DASHBOARD
 // ================================================================
 function renderDashboard() {
     const container = $('mainContent');
@@ -1347,6 +1475,11 @@ function renderDashboard() {
                 <button class="btn btn-outline" onclick="navigateTo('applications')" style="padding:10px;font-size:12px;border:2px solid var(--primary);border-radius:var(--radius-sm);background:transparent;color:var(--primary);font-weight:700;cursor:pointer;">
                     <i class="fas fa-list-ul"></i> View Applications
                 </button>
+                ${state.isAdmin ? `
+                    <button class="btn btn-warning" onclick="navigateTo('admin')" style="padding:10px;font-size:12px;border:none;border-radius:var(--radius-sm);background:var(--warning);color:var(--white);font-weight:700;cursor:pointer;">
+                        <i class="fas fa-shield-alt"></i> Admin Panel
+                    </button>
+                ` : ''}
             </div>
         </div>
         
@@ -1360,7 +1493,7 @@ function renderDashboard() {
                     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--gray-200);">
                         <div>
                             <div style="font-weight:600;font-size:14px;">${formatCurrency(app.amount)}</div>
-                            <div style="font-size:12px;color:var(--gray-600);">${app.applicationId || app.id.slice(0,8)}</div>
+                            <div style="font-size:12px;color:var(--gray-500);">${app.applicationId || app.id.slice(0,8)}</div>
                         </div>
                         <span class="badge badge-${app.status === 'approved' ? 'success' : app.status === 'rejected' ? 'danger' : app.status === 'disbursed' ? 'accent' : 'warning'}">${app.status}</span>
                     </div>
@@ -1371,19 +1504,28 @@ function renderDashboard() {
 }
 
 // ================================================================
-// KYC PAGE - REAL FIREBASE
+// KYC PAGE - PREMIUM UI
 // ================================================================
 function renderKYC() {
     const container = $('mainContent');
     const p = state.profile || {};
     
-    if (p.kycCompleted) {
+    // If KYC already submitted and verified
+    if (p.kycCompleted && p.kycStatus === 'verified') {
         container.innerHTML = `
-            <div class="card" style="text-align:center;padding:40px;">
-                <i class="fas fa-check-circle" style="font-size:60px;color:var(--success);"></i>
-                <h2 style="margin:12px 0 4px;">KYC Completed!</h2>
-                <p class="text-muted">Your KYC verification is complete.</p>
-                <button class="btn btn-primary" onclick="navigateTo('dashboard')" style="margin-top:12px;width:auto;padding:10px 32px;display:inline-flex;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:700;cursor:pointer;">
+            <div class="kyc-completed">
+                <div class="icon"><i class="fas fa-check-circle"></i></div>
+                <h2>KYC Verification Complete!</h2>
+                <p>Your KYC has been verified successfully.</p>
+                <div class="details">
+                    <div class="row"><span class="label">Name</span><span class="value">${p.kycData?.name || p.name}</span></div>
+                    <div class="row"><span class="label">Email</span><span class="value">${p.email}</span></div>
+                    <div class="row"><span class="label">Mobile</span><span class="value">${p.kycData?.mobile || p.mobile}</span></div>
+                    <div class="row"><span class="label">Address</span><span class="value">${p.kycData?.address || 'N/A'}</span></div>
+                    <div class="row"><span class="label">Bank</span><span class="value">${p.kycData?.bank || 'N/A'}</span></div>
+                    <div class="row"><span class="label">Status</span><span class="value" style="color:var(--success);">Verified ✅</span></div>
+                </div>
+                <button class="btn btn-primary" onclick="navigateTo('dashboard')" style="width:auto;padding:10px 32px;display:inline-flex;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:700;cursor:pointer;">
                     <i class="fas fa-home"></i> Dashboard
                 </button>
             </div>
@@ -1391,14 +1533,17 @@ function renderKYC() {
         return;
     }
     
-    if (p.kycStatus === 'submitted' || p.kycStatus === 'verified') {
+    // If KYC submitted but under verification
+    if (p.kycStatus === 'submitted') {
         container.innerHTML = `
-            <div class="card" style="text-align:center;padding:40px;">
-                <i class="fas fa-clock" style="font-size:60px;color:var(--warning);"></i>
-                <h2 style="margin:12px 0 4px;">KYC Under Verification</h2>
-                <p class="text-muted">Your KYC documents are being reviewed.</p>
-                <p style="font-size:13px;color:var(--gray-600);">Status: ${p.kycStatus}</p>
-                <button class="btn btn-primary" onclick="navigateTo('dashboard')" style="margin-top:12px;width:auto;padding:10px 32px;display:inline-flex;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:700;cursor:pointer;">
+            <div class="kyc-completed">
+                <div class="icon" style="color:var(--warning);"><i class="fas fa-clock"></i></div>
+                <h2>KYC Under Verification</h2>
+                <p>Your KYC documents are being reviewed by our team.</p>
+                <div style="margin-top:16px;">
+                    <div class="badge badge-warning" style="font-size:14px;padding:8px 20px;">Status: ${p.kycStatus.toUpperCase()}</div>
+                </div>
+                <button class="btn btn-primary" onclick="navigateTo('dashboard')" style="margin-top:16px;width:auto;padding:10px 32px;display:inline-flex;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:700;cursor:pointer;">
                     <i class="fas fa-home"></i> Dashboard
                 </button>
             </div>
@@ -1406,26 +1551,29 @@ function renderKYC() {
         return;
     }
     
+    // KYC Form - 4 Steps
     const steps = ['Personal', 'Address', 'Identity', 'Bank'];
     
     container.innerHTML = `
-        <h2 style="font-size:20px;font-weight:800;margin-bottom:4px;">KYC Verification</h2>
-        <p class="text-muted" style="margin-bottom:16px;">Complete your KYC to apply for loans</p>
-        
-        <div class="kyc-progress">
-            ${steps.map((s, i) => `
-                <div class="step ${i + 1 < state.kycStep ? 'done' : i + 1 === state.kycStep ? 'active' : ''}"></div>
-            `).join('')}
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--gray-600);margin-bottom:16px;">
-            ${steps.map(s => `<span>${s}</span>`).join('')}
-        </div>
-        
-        <div class="card" id="kycForm">
-            ${state.kycStep === 1 ? renderKYCPersonal() : ''}
-            ${state.kycStep === 2 ? renderKYCAddress() : ''}
-            ${state.kycStep === 3 ? renderKYCIdentity() : ''}
-            ${state.kycStep === 4 ? renderKYCBank() : ''}
+        <div class="kyc-container">
+            <h2 style="font-size:20px;font-weight:800;margin-bottom:4px;">KYC Verification</h2>
+            <p style="font-size:13px;color:var(--gray-500);margin-bottom:16px;">Complete your KYC to apply for loans</p>
+            
+            <div class="kyc-progress">
+                ${steps.map((s, i) => `
+                    <div class="step ${i + 1 < state.kycStep ? 'done' : i + 1 === state.kycStep ? 'active' : ''}"></div>
+                `).join('')}
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--gray-500);margin-bottom:20px;">
+                ${steps.map(s => `<span>${s}</span>`).join('')}
+            </div>
+            
+            <div id="kycFormContainer">
+                ${state.kycStep === 1 ? renderKYCPersonal() : ''}
+                ${state.kycStep === 2 ? renderKYCAddress() : ''}
+                ${state.kycStep === 3 ? renderKYCIdentity() : ''}
+                ${state.kycStep === 4 ? renderKYCBank() : ''}
+            </div>
         </div>
     `;
 }
@@ -1433,128 +1581,172 @@ function renderKYC() {
 function renderKYCPersonal() {
     const p = state.profile || {};
     return `
-        <h3 style="font-size:16px;margin-bottom:12px;">Personal Information</h3>
-        <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" id="kycName" value="${p.name || ''}" placeholder="John Doe" />
+        <div class="kyc-step active">
+            <div class="kyc-step-title">Personal Information</div>
+            <div class="kyc-step-subtitle">Enter your personal details</div>
+            
+            <div class="kyc-form-group">
+                <label>Full Name *</label>
+                <input type="text" id="kycName" value="${p.name || ''}" placeholder="John Doe" />
+                <div class="error-text" id="kycNameError">Please enter your full name</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>Date of Birth *</label>
+                <input type="date" id="kycDob" />
+                <div class="error-text" id="kycDobError">Please select your date of birth</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>Gender *</label>
+                <select id="kycGender">
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div class="error-text" id="kycGenderError">Please select your gender</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>Mobile Number *</label>
+                <input type="tel" id="kycMobile" value="${p.mobile || ''}" placeholder="9876543210" />
+                <div class="error-text" id="kycMobileError">Please enter a valid mobile number</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>Email Address</label>
+                <input type="email" id="kycEmail" value="${p.email || ''}" placeholder="your@email.com" disabled />
+            </div>
+            
+            <div class="kyc-btn-group">
+                <button class="btn btn-primary" onclick="saveKYCPersonal()">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Date of Birth</label>
-            <input type="date" id="kycDob" />
-        </div>
-        <div class="form-group">
-            <label>Gender</label>
-            <select id="kycGender">
-                <option value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Mobile Number</label>
-            <input type="tel" id="kycMobile" value="${p.mobile || ''}" placeholder="9876543210" />
-        </div>
-        <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" id="kycEmail" value="${p.email || ''}" placeholder="your@email.com" disabled />
-        </div>
-        <button class="btn btn-primary" onclick="saveKYCPersonal()" style="width:100%;padding:12px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:700;cursor:pointer;">
-            <i class="fas fa-arrow-right"></i> Next
-        </button>
     `;
 }
 
 function renderKYCAddress() {
     return `
-        <h3 style="font-size:16px;margin-bottom:12px;">Address Details</h3>
-        <div class="form-group">
-            <label>House / Street</label>
-            <input type="text" id="kycAddress" placeholder="House no, Street" />
-        </div>
-        <div class="form-group">
-            <label>Village / City</label>
-            <input type="text" id="kycCity" placeholder="City name" />
-        </div>
-        <div class="form-group">
-            <label>District</label>
-            <input type="text" id="kycDistrict" placeholder="District" />
-        </div>
-        <div class="form-group">
-            <label>State</label>
-            <input type="text" id="kycState" placeholder="State" />
-        </div>
-        <div class="form-group">
-            <label>PIN Code</label>
-            <input type="text" id="kycPincode" placeholder="400001" maxlength="6" />
-        </div>
-        <div style="display:flex;gap:8px;">
-            <button class="btn btn-ghost" onclick="kycStepBack()" style="flex:1;padding:10px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:transparent;color:var(--gray-600);font-weight:600;cursor:pointer;">
-                <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <button class="btn btn-primary" onclick="saveKYCAddress()" style="flex:2;padding:10px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:700;cursor:pointer;">
-                Next <i class="fas fa-arrow-right"></i>
-            </button>
+        <div class="kyc-step active">
+            <div class="kyc-step-title">Address Details</div>
+            <div class="kyc-step-subtitle">Enter your current address</div>
+            
+            <div class="kyc-form-group">
+                <label>House / Street *</label>
+                <input type="text" id="kycAddress" placeholder="House no, Street" />
+                <div class="error-text" id="kycAddressError">Please enter your address</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>City *</label>
+                <input type="text" id="kycCity" placeholder="City name" />
+                <div class="error-text" id="kycCityError">Please enter your city</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>District *</label>
+                <input type="text" id="kycDistrict" placeholder="District" />
+                <div class="error-text" id="kycDistrictError">Please enter your district</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>State *</label>
+                <input type="text" id="kycState" placeholder="State" />
+                <div class="error-text" id="kycStateError">Please enter your state</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>PIN Code *</label>
+                <input type="text" id="kycPincode" placeholder="400001" maxlength="6" />
+                <div class="error-text" id="kycPincodeError">Please enter a valid 6-digit pincode</div>
+            </div>
+            
+            <div class="kyc-btn-group">
+                <button class="btn btn-ghost" onclick="kycStepBack()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button class="btn btn-primary" onclick="saveKYCAddress()">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     `;
 }
 
 function renderKYCIdentity() {
     return `
-        <h3 style="font-size:16px;margin-bottom:12px;">Identity Verification</h3>
-        <div class="text-muted" style="font-size:13px;margin-bottom:12px;background:var(--gray-100);padding:12px;border-radius:var(--radius-sm);">
-            <i class="fas fa-shield-alt"></i> Your data is stored securely in Firebase
-        </div>
-        <div class="form-group">
-            <label>Aadhaar Number</label>
-            <input type="text" id="kycAadhaar" placeholder="1234-5678-9012" maxlength="14" />
-        </div>
-        <div class="form-group">
-            <label>PAN Number</label>
-            <input type="text" id="kycPan" placeholder="ABCDE1234F" maxlength="10" />
-        </div>
-        <div class="form-group">
-            <label>Identity Document Upload</label>
-            <input type="file" id="kycDocument" accept=".pdf,.jpg,.png" />
-            <div style="font-size:11px;color:var(--gray-500);">Upload PDF, JPG or PNG (Max 5MB)</div>
-        </div>
-        <div style="display:flex;gap:8px;">
-            <button class="btn btn-ghost" onclick="kycStepBack()" style="flex:1;padding:10px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:transparent;color:var(--gray-600);font-weight:600;cursor:pointer;">
-                <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <button class="btn btn-primary" onclick="saveKYCIdentity()" style="flex:2;padding:10px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:700;cursor:pointer;">
-                Next <i class="fas fa-arrow-right"></i>
-            </button>
+        <div class="kyc-step active">
+            <div class="kyc-step-title">Identity Verification</div>
+            <div class="kyc-step-subtitle">Enter your identity details</div>
+            
+            <div style="background:var(--gray-50);padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:16px;border-left:4px solid var(--accent);">
+                <i class="fas fa-shield-alt" style="color:var(--accent);"></i>
+                <span style="font-size:13px;color:var(--gray-600);">Your data is stored securely in Firebase</span>
+            </div>
+            
+            <div class="kyc-form-group">
+                <label>Aadhaar Number *</label>
+                <input type="text" id="kycAadhaar" placeholder="1234-5678-9012" maxlength="14" />
+                <div class="error-text" id="kycAadhaarError">Please enter a valid Aadhaar number</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>PAN Number *</label>
+                <input type="text" id="kycPan" placeholder="ABCDE1234F" maxlength="10" />
+                <div class="error-text" id="kycPanError">Please enter a valid PAN number</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>Identity Document Upload</label>
+                <input type="file" id="kycDocument" accept=".pdf,.jpg,.png" />
+                <div style="font-size:12px;color:var(--gray-500);margin-top:4px;">Upload PDF, JPG or PNG (Max 5MB)</div>
+            </div>
+            
+            <div class="kyc-btn-group">
+                <button class="btn btn-ghost" onclick="kycStepBack()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button class="btn btn-primary" onclick="saveKYCIdentity()">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     `;
 }
 
 function renderKYCBank() {
     return `
-        <h3 style="font-size:16px;margin-bottom:12px;">Bank Details</h3>
-        <div class="form-group">
-            <label>Account Holder Name</label>
-            <input type="text" id="kycBankName" placeholder="John Doe" />
-        </div>
-        <div class="form-group">
-            <label>Bank Name</label>
-            <input type="text" id="kycBank" placeholder="Bank Name" />
-        </div>
-        <div class="form-group">
-            <label>Account Number</label>
-            <input type="text" id="kycAccount" placeholder="1234567890" />
-        </div>
-        <div class="form-group">
-            <label>IFSC Code</label>
-            <input type="text" id="kycIfsc" placeholder="ABCD0123456" />
-        </div>
-        <div style="display:flex;gap:8px;">
-            <button class="btn btn-ghost" onclick="kycStepBack()" style="flex:1;padding:10px;border:1px solid var(--gray-300);border-radius:var(--radius-sm);background:transparent;color:var(--gray-600);font-weight:600;cursor:pointer;">
-                <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <button class="btn btn-success" onclick="submitKYC()" style="flex:2;padding:10px;border:none;border-radius:var(--radius-sm);background:var(--success);color:var(--white);font-weight:700;cursor:pointer;">
-                <i class="fas fa-check"></i> Submit KYC
-            </button>
+        <div class="kyc-step active">
+            <div class="kyc-step-title">Bank Details</div>
+            <div class="kyc-step-subtitle">Enter your bank account details</div>
+            
+            <div class="kyc-form-group">
+                <label>Account Holder Name *</label>
+                <input type="text" id="kycBankName" placeholder="John Doe" />
+                <div class="error-text" id="kycBankNameError">Please enter account holder name</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>Bank Name *</label>
+                <input type="text" id="kycBank" placeholder="Bank Name" />
+                <div class="error-text" id="kycBankError">Please enter bank name</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>Account Number *</label>
+                <input type="text" id="kycAccount" placeholder="1234567890" />
+                <div class="error-text" id="kycAccountError">Please enter a valid account number</div>
+            </div>
+            <div class="kyc-form-group">
+                <label>IFSC Code *</label>
+                <input type="text" id="kycIfsc" placeholder="ABCD0123456" />
+                <div class="error-text" id="kycIfscError">Please enter a valid IFSC code</div>
+            </div>
+            
+            <div style="background:var(--gray-50);padding:16px;border-radius:var(--radius-sm);margin:16px 0;">
+                <h4 style="font-size:14px;margin-bottom:8px;">📋 Review & Submit</h4>
+                <p style="font-size:13px;color:var(--gray-500);">Please verify all information before submitting.</p>
+            </div>
+            
+            <div class="kyc-btn-group">
+                <button class="btn btn-ghost" onclick="kycStepBack()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button class="btn btn-success" onclick="submitKYC()" id="kycSubmitBtn">
+                    <i class="fas fa-check"></i> Submit KYC
+                </button>
+            </div>
         </div>
     `;
 }
@@ -1572,14 +1764,14 @@ function saveKYCPersonal() {
     const gender = document.getElementById('kycGender').value;
     const mobile = document.getElementById('kycMobile').value.trim();
     
-    if (!name || !dob || !gender || !mobile) {
-        showToast('Please fill all fields', 'error');
-        return;
-    }
-    if (mobile.length < 10) {
-        showToast('Please enter valid mobile number', 'error');
-        return;
-    }
+    let valid = true;
+    
+    if (!name) { showError('kycNameError'); valid = false; }
+    if (!dob) { showError('kycDobError'); valid = false; }
+    if (!gender) { showError('kycGenderError'); valid = false; }
+    if (!mobile || mobile.length < 10) { showError('kycMobileError'); valid = false; }
+    
+    if (!valid) { showToast('Please fill all required fields', 'error'); return; }
     
     state.kycData = { ...state.kycData, name, dob, gender, mobile };
     state.kycStep = 2;
@@ -1593,14 +1785,15 @@ function saveKYCAddress() {
     const state = document.getElementById('kycState').value.trim();
     const pincode = document.getElementById('kycPincode').value.trim();
     
-    if (!address || !city || !district || !state || !pincode) {
-        showToast('Please fill all fields', 'error');
-        return;
-    }
-    if (pincode.length !== 6) {
-        showToast('Please enter valid 6-digit pincode', 'error');
-        return;
-    }
+    let valid = true;
+    
+    if (!address) { showError('kycAddressError'); valid = false; }
+    if (!city) { showError('kycCityError'); valid = false; }
+    if (!district) { showError('kycDistrictError'); valid = false; }
+    if (!state) { showError('kycStateError'); valid = false; }
+    if (!pincode || pincode.length !== 6) { showError('kycPincodeError'); valid = false; }
+    
+    if (!valid) { showToast('Please fill all required fields', 'error'); return; }
     
     state.kycData = { ...state.kycData, address, city, district, state, pincode };
     state.kycStep = 3;
@@ -1608,52 +1801,54 @@ function saveKYCAddress() {
 }
 
 function saveKYCIdentity() {
-    const aadhaar = document.getElementById('kycAadhaar').value.trim();
-    const pan = document.getElementById('kycPan').value.trim();
-    const documentFile = document.getElementById('kycDocument').files[0];
+    const aadhaar = document.getElementById('kycAadhaar').value.trim().replace(/-/g, '');
+    const pan = document.getElementById('kycPan').value.trim().toUpperCase();
     
-    if (!aadhaar || !pan) {
-        showToast('Please enter Aadhaar and PAN', 'error');
-        return;
-    }
-    if (aadhaar.length < 12) {
-        showToast('Please enter valid Aadhaar number', 'error');
-        return;
-    }
-    if (pan.length < 10) {
-        showToast('Please enter valid PAN number', 'error');
-        return;
-    }
+    let valid = true;
     
-    state.kycData = { ...state.kycData, aadhaar, pan, documentFile };
+    if (!aadhaar || aadhaar.length < 12) { showError('kycAadhaarError'); valid = false; }
+    if (!pan || pan.length < 10) { showError('kycPanError'); valid = false; }
+    
+    if (!valid) { showToast('Please enter valid Aadhaar and PAN', 'error'); return; }
+    
+    state.kycData = { ...state.kycData, aadhaar, pan };
     state.kycStep = 4;
     renderKYC();
+}
+
+function showError(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('show');
+}
+
+function hideErrors() {
+    document.querySelectorAll('.error-text').forEach(el => el.classList.remove('show'));
 }
 
 async function submitKYC() {
     const bankName = document.getElementById('kycBankName').value.trim();
     const bank = document.getElementById('kycBank').value.trim();
     const account = document.getElementById('kycAccount').value.trim();
-    const ifsc = document.getElementById('kycIfsc').value.trim();
+    const ifsc = document.getElementById('kycIfsc').value.trim().toUpperCase();
     
-    if (!bankName || !bank || !account || !ifsc) {
-        showToast('Please fill all bank details', 'error');
-        return;
-    }
-    if (account.length < 9) {
-        showToast('Please enter valid account number', 'error');
-        return;
-    }
-    if (ifsc.length < 10) {
-        showToast('Please enter valid IFSC code', 'error');
-        return;
-    }
+    let valid = true;
+    
+    if (!bankName) { showError('kycBankNameError'); valid = false; }
+    if (!bank) { showError('kycBankError'); valid = false; }
+    if (!account || account.length < 9) { showError('kycAccountError'); valid = false; }
+    if (!ifsc || ifsc.length < 10) { showError('kycIfscError'); valid = false; }
+    
+    if (!valid) { showToast('Please fill all bank details', 'error'); return; }
     
     const kycData = { ...state.kycData, bankName, bank, account, ifsc };
     
     try {
         const user = auth.currentUser;
         if (!user) { showToast('Please login again', 'error'); return; }
+        
+        const btn = document.getElementById('kycSubmitBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
         
         await db.collection('users').doc(user.uid).update({
             kycStatus: 'submitted',
@@ -1671,18 +1866,22 @@ async function submitKYC() {
             createdAt: getTS()
         });
         
-        showToast('KYC submitted successfully!', 'success');
+        showToast('KYC submitted successfully! 🎉', 'success');
         state.profile.kycStatus = 'submitted';
         state.profile.kycCompleted = true;
+        state.kycSubmitted = true;
         state.kycStep = 1;
         navigateTo('dashboard');
     } catch (e) {
         showToast(e.message, 'error');
+        const btn = document.getElementById('kycSubmitBtn');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-check"></i> Submit KYC';
     }
 }
 
 // ================================================================
-// LOAN APPLICATION - REAL FIREBASE
+// LOAN APPLICATION
 // ================================================================
 function renderLoanApplication() {
     const container = $('mainContent');
@@ -1708,13 +1907,13 @@ function renderLoanApplication() {
         
         <div class="card">
             <form onsubmit="event.preventDefault();submitLoanApplication()">
-                <div class="form-group">
-                    <label>Requested Loan Amount</label>
-                    <input type="number" id="loanAmount" placeholder="100000" min="1000" step="1000" required />
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label style="font-size:13px;font-weight:600;">Requested Loan Amount</label>
+                    <input type="number" id="loanAmount" placeholder="100000" min="1000" step="1000" required style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;" />
                 </div>
-                <div class="form-group">
-                    <label>Loan Tenure (Months)</label>
-                    <select id="loanTenure" required>
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label style="font-size:13px;font-weight:600;">Loan Tenure (Months)</label>
+                    <select id="loanTenure" required style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;">
                         <option value="">Select tenure</option>
                         <option value="3">3 months</option>
                         <option value="6">6 months</option>
@@ -1723,9 +1922,9 @@ function renderLoanApplication() {
                         <option value="36">36 months</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Purpose of Loan</label>
-                    <select id="loanPurpose" required>
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label style="font-size:13px;font-weight:600;">Purpose of Loan</label>
+                    <select id="loanPurpose" required style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;">
                         <option value="">Select purpose</option>
                         <option value="home">Home Purchase</option>
                         <option value="car">Car Purchase</option>
@@ -1735,13 +1934,13 @@ function renderLoanApplication() {
                         <option value="debt">Debt Consolidation</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Monthly Income (₹)</label>
-                    <input type="number" id="loanIncome" placeholder="50000" required />
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label style="font-size:13px;font-weight:600;">Monthly Income (₹)</label>
+                    <input type="number" id="loanIncome" placeholder="50000" required style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;" />
                 </div>
-                <div class="form-group">
-                    <label>Employment Type</label>
-                    <select id="loanEmployment" required>
+                <div class="form-group" style="margin-bottom:14px;">
+                    <label style="font-size:13px;font-weight:600;">Employment Type</label>
+                    <select id="loanEmployment" required style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;">
                         <option value="">Select</option>
                         <option value="salaried">Salaried</option>
                         <option value="self_employed">Self Employed</option>
@@ -1751,7 +1950,7 @@ function renderLoanApplication() {
                     </select>
                 </div>
                 
-                <div style="background:var(--gray-100);padding:16px;border-radius:var(--radius-sm);margin:16px 0;">
+                <div style="background:var(--gray-50);padding:16px;border-radius:var(--radius-sm);margin:16px 0;">
                     <h4 style="font-size:14px;margin-bottom:8px;">Loan Summary</h4>
                     <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;">
                         <span>Requested Amount</span>
@@ -1765,7 +1964,7 @@ function renderLoanApplication() {
                         <span>Processing Fee (2%)</span>
                         <span id="summaryFee">₹0</span>
                     </div>
-                    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;font-weight:700;border-top:1px solid var(--gray-300);padding-top:8px;">
+                    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;font-weight:700;border-top:1px solid var(--gray-200);padding-top:8px;">
                         <span>Estimated Repayment</span>
                         <span id="summaryTotal" style="color:var(--accent);">₹0</span>
                     </div>
@@ -1856,7 +2055,7 @@ async function submitLoanApplication() {
 }
 
 // ================================================================
-// APPLICATIONS - REAL FIREBASE
+// APPLICATIONS
 // ================================================================
 async function loadApplications() {
     const user = auth.currentUser;
@@ -1899,18 +2098,18 @@ function renderApplications() {
                 <div class="card-header">
                     <div>
                         <div style="font-weight:600;font-size:16px;">${formatCurrency(app.amount)}</div>
-                        <div style="font-size:12px;color:var(--gray-600);">${app.applicationId || app.id.slice(0,8)}</div>
+                        <div style="font-size:12px;color:var(--gray-500);">${app.applicationId || app.id.slice(0,8)}</div>
                     </div>
                     <span class="badge badge-${app.status === 'approved' ? 'success' : app.status === 'rejected' ? 'danger' : app.status === 'disbursed' ? 'accent' : app.status === 'under_review' || app.status === 'kyc_verification' ? 'warning' : 'info'}">${app.status.toUpperCase()}</span>
                 </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--gray-600);">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--gray-500);">
                     <div><strong>Tenure:</strong> ${app.tenure} months</div>
                     <div><strong>Purpose:</strong> ${app.purpose}</div>
                     <div><strong>Applied:</strong> ${formatDate(app.createdAt)}</div>
                     <div><strong>Updated:</strong> ${formatDate(app.updatedAt)}</div>
                 </div>
                 ${app.adminRemarks && app.adminRemarks.length > 0 ? `
-                    <div style="margin-top:8px;padding:8px 12px;background:var(--gray-100);border-radius:var(--radius-sm);font-size:13px;">
+                    <div style="margin-top:8px;padding:8px 12px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:13px;">
                         <strong>Admin Remarks:</strong>
                         ${app.adminRemarks.map(r => `<div style="padding:2px 0;border-bottom:1px solid var(--gray-200);">${r}</div>`).join('')}
                     </div>
@@ -1936,6 +2135,7 @@ function viewApplicationStatus(appId) {
     ];
     
     const currentIndex = statusFlow.findIndex(s => s.status === app.status);
+    const isRejected = app.status === 'rejected';
     
     openModal('Application Status', `
         <div style="margin-bottom:16px;">
@@ -1943,23 +2143,24 @@ function viewApplicationStatus(appId) {
                 <div><strong>Application ID:</strong> ${app.applicationId || app.id.slice(0,8)}</div>
                 <span class="badge badge-${app.status === 'approved' ? 'success' : app.status === 'rejected' ? 'danger' : app.status === 'disbursed' ? 'accent' : 'warning'}">${app.status.toUpperCase()}</span>
             </div>
-            <div style="font-size:13px;color:var(--gray-600);margin-top:4px;">
+            <div style="font-size:13px;color:var(--gray-500);margin-top:4px;">
                 Applied: ${formatDate(app.createdAt)} | Updated: ${formatDate(app.updatedAt)}
             </div>
         </div>
         
         <div class="timeline">
             ${statusFlow.map((step, i) => {
-                const isDone = i <= currentIndex && app.status !== 'rejected';
-                const isActive = i === currentIndex;
-                const isRejected = app.status === 'rejected' && i === currentIndex;
+                const isDone = i <= currentIndex && !isRejected;
+                const isActive = i === currentIndex && !isRejected;
                 return `
                     <div class="timeline-item">
-                        <div class="dot ${isRejected ? 'dot' : isDone ? 'done' : isActive ? 'active' : ''}"></div>
+                        <div class="dot ${isRejected && i === currentIndex ? 'rejected' : isDone ? 'done' : isActive ? 'active' : ''}"></div>
                         <div class="content">
-                            <div class="title" style="${isRejected ? 'color:var(--danger);' : ''}">${isRejected ? '❌ Rejected' : step.label}</div>
+                            <div class="title" style="${isRejected && i === currentIndex ? 'color:var(--danger);' : ''}">
+                                ${isRejected && i === currentIndex ? '❌ Rejected' : step.label}
+                            </div>
                             ${isDone || isActive ? `<div class="date">${formatDate(app.updatedAt)}</div>` : ''}
-                            ${isRejected ? `<div class="sub" style="color:var(--danger);">${app.adminRemarks?.join(', ') || 'No reason provided'}</div>` : ''}
+                            ${isRejected && i === currentIndex ? `<div class="sub" style="color:var(--danger);">${app.adminRemarks?.join(', ') || 'No reason provided'}</div>` : ''}
                         </div>
                     </div>
                 `;
@@ -1970,7 +2171,7 @@ function viewApplicationStatus(appId) {
             <div style="margin-top:12px;padding:12px;background:#cffafe;border-radius:var(--radius-sm);">
                 <i class="fas fa-money-bill-wave" style="color:var(--accent);"></i>
                 <strong>Disbursed Amount:</strong> ${formatCurrency(app.amount)}
-                <div style="font-size:12px;color:var(--gray-600);">Ref: ${app.disbursementRef || 'N/A'}</div>
+                <div style="font-size:12px;color:var(--gray-500);">Ref: ${app.disbursementRef || 'N/A'}</div>
             </div>
         ` : ''}
         
@@ -1993,8 +2194,8 @@ function renderProfile() {
             <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(p.name || 'User')}&background=00d4ff&color=0A1628&size=128" 
                  style="width:80px;height:80px;border-radius:50%;border:4px solid var(--accent);margin:0 auto 10px;display:block;" />
             <div style="font-size:20px;font-weight:700;">${p.name || 'User'}</div>
-            <div style="font-size:14px;color:var(--gray-600);">${p.email || ''}</div>
-            <div style="font-size:13px;color:var(--gray-600);margin-top:4px;">
+            <div style="font-size:14px;color:var(--gray-500);">${p.email || ''}</div>
+            <div style="font-size:13px;color:var(--gray-500);margin-top:4px;">
                 <i class="fas fa-phone"></i> ${p.mobile || 'N/A'}
             </div>
             <div style="margin-top:8px;">
@@ -2009,19 +2210,19 @@ function renderProfile() {
             <h4 style="font-size:14px;margin-bottom:8px;">Account Information</h4>
             <div style="display:grid;gap:6px;font-size:13px;">
                 <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--gray-200);">
-                    <span style="color:var(--gray-600);">User ID</span>
+                    <span style="color:var(--gray-500);">User ID</span>
                     <span>${p.uid || 'N/A'}</span>
                 </div>
                 <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--gray-200);">
-                    <span style="color:var(--gray-600);">Role</span>
+                    <span style="color:var(--gray-500);">Role</span>
                     <span>${state.isAdmin ? 'Admin' : 'User'}</span>
                 </div>
                 <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--gray-200);">
-                    <span style="color:var(--gray-600);">Account Status</span>
+                    <span style="color:var(--gray-500);">Account Status</span>
                     <span style="color:var(--success);">Active</span>
                 </div>
                 <div style="display:flex;justify-content:space-between;padding:4px 0;">
-                    <span style="color:var(--gray-600);">Member Since</span>
+                    <span style="color:var(--gray-500);">Member Since</span>
                     <span>${formatDate(p.createdAt)}</span>
                 </div>
             </div>
@@ -2045,7 +2246,7 @@ function renderProfile() {
 }
 
 // ================================================================
-// NOTIFICATIONS - REAL FIREBASE
+// NOTIFICATIONS
 // ================================================================
 async function loadNotifications() {
     const user = auth.currentUser;
@@ -2093,8 +2294,8 @@ function renderNotifications() {
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
                     <div style="flex:1;">
                         <div style="font-weight:600;">${n.title}</div>
-                        <div style="font-size:13px;color:var(--gray-600);margin-top:2px;">${n.message}</div>
-                        <div style="font-size:11px;color:var(--gray-500);margin-top:4px;">${formatRelativeTime(n.createdAt)}</div>
+                        <div style="font-size:13px;color:var(--gray-500);margin-top:2px;">${n.message}</div>
+                        <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">${formatRelativeTime(n.createdAt)}</div>
                     </div>
                     ${!n.isRead ? `
                         <button class="btn btn-sm btn-primary" onclick="markNotificationRead('${n.id}')" style="padding:2px 12px;font-size:10px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:600;cursor:pointer;">
@@ -2134,7 +2335,7 @@ function openNotifications() {
 }
 
 // ================================================================
-// ADMIN PANEL - REAL FIREBASE
+// ADMIN PANEL - WORKING
 // ================================================================
 let adminData = {
     users: [],
@@ -2174,12 +2375,36 @@ async function renderAdmin() {
         <p class="text-muted" style="margin-bottom:16px;">Manage users, loans and KYC</p>
         
         <div class="stats-grid">
-            <div class="stat-card"><div class="icon"><i class="fas fa-users"></i></div><div class="num">${totalUsers}</div><div class="label">Total Users</div></div>
-            <div class="stat-card"><div class="icon"><i class="fas fa-id-card"></i></div><div class="num">${pendingKYC}</div><div class="label">Pending KYC</div></div>
-            <div class="stat-card"><div class="icon"><i class="fas fa-file-alt"></i></div><div class="num">${pendingApps}</div><div class="label">Pending Loans</div></div>
-            <div class="stat-card"><div class="icon"><i class="fas fa-check-circle" style="color:var(--success);"></i></div><div class="num">${approvedApps}</div><div class="label">Approved</div></div>
-            <div class="stat-card"><div class="icon"><i class="fas fa-times-circle" style="color:var(--danger);"></i></div><div class="num">${rejectedApps}</div><div class="label">Rejected</div></div>
-            <div class="stat-card"><div class="icon"><i class="fas fa-money-bill-wave" style="color:var(--accent);"></i></div><div class="num">${disbursedApps}</div><div class="label">Disbursed</div></div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-users"></i></div>
+                <div class="num">${totalUsers}</div>
+                <div class="label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-id-card"></i></div>
+                <div class="num">${pendingKYC}</div>
+                <div class="label">Pending KYC</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-file-alt"></i></div>
+                <div class="num">${pendingApps}</div>
+                <div class="label">Pending Loans</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-check-circle" style="color:var(--success);"></i></div>
+                <div class="num">${approvedApps}</div>
+                <div class="label">Approved</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-times-circle" style="color:var(--danger);"></i></div>
+                <div class="num">${rejectedApps}</div>
+                <div class="label">Rejected</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-money-bill-wave" style="color:var(--accent);"></i></div>
+                <div class="num">${disbursedApps}</div>
+                <div class="label">Disbursed</div>
+            </div>
         </div>
         
         <div class="card">
@@ -2196,6 +2421,9 @@ async function renderAdmin() {
                 </button>
                 <button class="btn btn-sm btn-primary" onclick="showAllApplications()" style="padding:6px 16px;font-size:12px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:600;cursor:pointer;">
                     <i class="fas fa-list-ul"></i> All Applications
+                </button>
+                <button class="btn btn-sm btn-success" onclick="refreshAdminData()" style="padding:6px 16px;font-size:12px;border:none;border-radius:var(--radius-sm);background:var(--success);color:var(--white);font-weight:600;cursor:pointer;">
+                    <i class="fas fa-sync"></i> Refresh
                 </button>
             </div>
         </div>
@@ -2267,7 +2495,8 @@ function showPendingKYCs() {
                 <div style="display:flex;justify-content:space-between;align-items:center;">
                     <div>
                         <strong>${k.name}</strong>
-                        <div style="font-size:12px;color:var(--gray-600);">${k.email}</div>
+                        <div style="font-size:12px;color:var(--gray-500);">${k.email}</div>
+                        <div style="font-size:11px;color:var(--gray-400);">Status: ${k.kycStatus}</div>
                     </div>
                     <button class="btn btn-sm btn-success" onclick="verifyKYC('${k.uid}')" style="padding:4px 12px;font-size:11px;border:none;border-radius:var(--radius-sm);background:var(--success);color:var(--white);font-weight:600;cursor:pointer;">
                         <i class="fas fa-check"></i> Verify
@@ -2317,8 +2546,8 @@ function showPendingLoans() {
                 <div style="display:flex;justify-content:space-between;align-items:center;">
                     <div>
                         <strong>${app.applicationId || app.id.slice(0,8)}</strong>
-                        <div style="font-size:12px;color:var(--gray-600);">${app.userName} - ${formatCurrency(app.amount)}</div>
-                        <div style="font-size:11px;color:var(--gray-500);">${app.status}</div>
+                        <div style="font-size:12px;color:var(--gray-500);">${app.userName} - ${formatCurrency(app.amount)}</div>
+                        <div style="font-size:11px;color:var(--gray-400);">${app.status}</div>
                     </div>
                     <div style="display:flex;gap:4px;">
                         <button class="action-btn approve" onclick="approveLoan('${app.id}')" style="padding:4px 10px;border:none;border-radius:4px;background:#dcfce7;color:#166534;font-weight:600;cursor:pointer;">
@@ -2346,7 +2575,7 @@ function showAllUsers() {
                     <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div>
                             <strong>${u.name}</strong>
-                            <div style="font-size:12px;color:var(--gray-600);">${u.email}</div>
+                            <div style="font-size:12px;color:var(--gray-500);">${u.email}</div>
                         </div>
                         <div>
                             <span class="badge badge-${u.kycCompleted ? 'success' : 'warning'}">${u.kycCompleted ? 'KYC Done' : 'KYC Pending'}</span>
@@ -2368,7 +2597,7 @@ function showAllApplications() {
                     <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div>
                             <strong>${app.applicationId || app.id.slice(0,8)}</strong>
-                            <div style="font-size:12px;color:var(--gray-600);">${app.userName} - ${formatCurrency(app.amount)}</div>
+                            <div style="font-size:12px;color:var(--gray-500);">${app.userName} - ${formatCurrency(app.amount)}</div>
                         </div>
                         <span class="badge badge-${app.status === 'approved' ? 'success' : app.status === 'rejected' ? 'danger' : app.status === 'disbursed' ? 'accent' : 'warning'}">${app.status}</span>
                     </div>
@@ -2568,7 +2797,7 @@ function viewAdminApplication(appId) {
             ` : ''}
             
             ${app.adminRemarks && app.adminRemarks.length > 0 ? `
-                <div style="background:var(--gray-100);padding:12px;border-radius:var(--radius-sm);margin:8px 0;">
+                <div style="background:var(--gray-50);padding:12px;border-radius:var(--radius-sm);margin:8px 0;">
                     <strong>Admin Remarks:</strong>
                     ${app.adminRemarks.map(r => `<div style="padding:2px 0;border-bottom:1px solid var(--gray-200);">${r}</div>`).join('')}
                 </div>
@@ -2595,6 +2824,12 @@ function viewAdminApplication(appId) {
         </div>
         <button class="btn btn-primary mt-12" onclick="closeModal()" style="width:100%;padding:10px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:var(--white);font-weight:700;cursor:pointer;">Close</button>
     `);
+}
+
+function refreshAdminData() {
+    showToast('Refreshing data...', 'info');
+    loadAdminData();
+    renderAdmin();
 }
 
 // ================================================================
@@ -2670,10 +2905,11 @@ window.handleRegister = handleRegister;
 window.handleForgotPassword = handleForgotPassword;
 window.closeModal = closeModal;
 window.showToast = showToast;
+window.refreshAdminData = refreshAdminData;
 
-console.log('🚀 Pawan Finance - Loan Management System Loaded');
+console.log('🚀 Pawan Finance - Premium Loan Management System Loaded');
 console.log('🔐 Firebase Connected - Real Time Data');
-console.log('📋 Features: Auth, KYC, Loans, Applications, Admin Panel');
+console.log('📋 Features: Auth, Premium KYC, Loans, Applications, Admin Panel');
 console.log('📁 Project: pawan-retail-limited-8fee7');
 </script>
 </body>
