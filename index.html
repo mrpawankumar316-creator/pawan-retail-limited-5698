@@ -2,8 +2,8 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher's Day Collection - Premium Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Teacher's Day Collection - Complete Premium Application</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -46,6 +46,7 @@
             min-height: 100vh;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* ============ AUTH PAGE ============ */
@@ -478,11 +479,13 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 15px;
-            overflow: hidden;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .data-table {
             width: 100%;
+            min-width: 600px;
             border-collapse: collapse;
         }
 
@@ -490,17 +493,19 @@
             background: rgba(255, 255, 255, 0.03);
             padding: 15px;
             text-align: left;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--gray-400);
             border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
         }
 
         .data-table td {
-            padding: 12px;
-            font-size: 13px;
+            padding: 15px;
+            font-size: 14px;
             border-bottom: 1px solid var(--glass-border);
             color: var(--gray-200);
         }
@@ -515,7 +520,7 @@
             align-items: center;
             padding: 4px 10px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             gap: 5px;
         }
@@ -802,7 +807,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* User Profile Page (New Page) */
+        /* User Profile Page */
         .user-profile-page {
             display: none;
             min-height: 100vh;
@@ -925,15 +930,11 @@
             }
 
             .data-table {
-                overflow-x: auto;
-            }
-
-            .filters-row {
-                flex-direction: column;
+                min-width: 550px;
             }
 
             .public-header h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
 
             .head-members-grid {
@@ -1045,13 +1046,21 @@
                             <option value="not_paid">Not Paid Yet</option>
                         </select>
                     </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Payment Method</label>
+                        <select class="filter-select" id="methodFilter">
+                            <option value="">All</option>
+                            <option value="cash">Cash</option>
+                            <option value="online">Online</option>
+                        </select>
+                    </div>
                     <button class="clear-filters-btn" onclick="clearFilters()">
                         <i class="fas fa-filter"></i> Clear Filters
                     </button>
                 </div>
             </div>
 
-            <!-- Data Table (Home Page - No Cards) -->
+            <!-- Data Table -->
             <div class="data-table-wrapper">
                 <table class="data-table">
                     <thead>
@@ -1078,7 +1087,7 @@
         </div>
     </div>
 
-    <!-- User Profile Page (New Page) -->
+    <!-- User Profile Page -->
     <div class="user-profile-page" id="userProfilePage">
         <div class="user-profile-header">
             <button class="back-btn" onclick="goBackToHome()">
@@ -1217,41 +1226,7 @@
             <!-- Dashboard Section -->
             <div class="admin-section active" id="dashboardSection">
                 <div class="stats-grid" id="adminStats">
-                    <div class="stat-card">
-                        <i class="fas fa-users"></i>
-                        <div class="stat-value" id="adminTotalParticipants">0</div>
-                        <div class="stat-label">Total Participants</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-check-circle"></i>
-                        <div class="stat-value" id="adminPaidCount">0</div>
-                        <div class="stat-label">Paid</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-clock"></i>
-                        <div class="stat-value" id="adminPendingCount">0</div>
-                        <div class="stat-label">Pending</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-times-circle"></i>
-                        <div class="stat-value" id="adminNotPaidCount">0</div>
-                        <div class="stat-label">Not Paid Yet</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <div class="stat-value" id="adminCashCount">0</div>
-                        <div class="stat-label">Cash Payments</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-globe"></i>
-                        <div class="stat-value" id="adminOnlineCount">0</div>
-                        <div class="stat-label">Online Payments</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-rupee-sign"></i>
-                        <div class="stat-value" id="adminTotalAmount">₹0</div>
-                        <div class="stat-label">Total Collection</div>
-                    </div>
+                    <!-- Stats will be populated -->
                 </div>
             </div>
 
@@ -1317,23 +1292,7 @@
 
             <!-- Manage Records Section -->
             <div class="admin-section" id="manageRecordsSection">
-                <div class="search-filter-section">
-                    <input type="text" class="search-input" id="adminSearch" placeholder="Search records...">
-                    <div class="filters-row">
-                        <div class="filter-group">
-                            <label class="filter-label">Status</label>
-                            <select class="filter-select" id="adminStatusFilter">
-                                <option value="">All</option>
-                                <option value="paid">Paid</option>
-                                <option value="pending">Pending</option>
-                                <option value="not_paid">Not Paid Yet</option>
-                            </select>
-                        </div>
-                        <button class="clear-filters-btn" onclick="clearAdminFilters()">Clear</button>
-                    </div>
-                </div>
-                
-                <div class="data-table-wrapper">
+                <div class="data-table-wrapper" style="margin-top:20px;">
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -1620,6 +1579,7 @@
             const searchTerm = document.getElementById('publicSearch').value.toLowerCase();
             const classFilter = document.getElementById('classFilter').value;
             const statusFilter = document.getElementById('statusFilter').value;
+            const methodFilter = document.getElementById('methodFilter').value;
             
             let filtered = allRecords.filter(record => {
                 if (searchTerm) {
@@ -1629,6 +1589,7 @@
                 
                 if (classFilter && record.className !== classFilter) return false;
                 if (statusFilter && record.paymentStatus !== statusFilter) return false;
+                if (methodFilter && record.paymentMethod !== methodFilter) return false;
                 
                 return true;
             });
@@ -1683,12 +1644,10 @@
             
             currentUserRecord = record;
             
-            // Update profile page
             document.getElementById('profileAvatar').textContent = record.name ? record.name.charAt(0).toUpperCase() : '?';
             document.getElementById('profileName').textContent = record.name || 'Unknown';
             document.getElementById('profileClass').textContent = record.className || 'Class not specified';
             
-            // Payment Status
             let statusText = '';
             if (record.paymentStatus === 'paid') {
                 statusText = '<span class="badge badge-paid">PAID</span>';
@@ -1699,7 +1658,6 @@
             }
             document.getElementById('profileStatus').innerHTML = statusText;
             
-            // Payment Method
             let methodText = '-';
             if (record.paymentStatus === 'paid') {
                 methodText = record.paymentMethod === 'cash' 
@@ -1708,13 +1666,9 @@
             }
             document.getElementById('profileMethod').innerHTML = methodText;
             
-            // Mobile
             document.getElementById('profileMobile').textContent = record.mobileLast4 ? '•••• ' + record.mobileLast4 : '-';
-            
-            // Amount
             document.getElementById('profileAmount').textContent = formatCurrency(record.amount || 0);
             
-            // UTR ID Card (show only if online paid)
             const utrCard = document.getElementById('profileUtrCard');
             if (record.paymentStatus === 'paid' && record.paymentMethod === 'online' && record.utrId) {
                 utrCard.style.display = 'block';
@@ -1723,11 +1677,9 @@
                 utrCard.style.display = 'none';
             }
             
-            // Created/Updated
             document.getElementById('profileCreated').textContent = record.createdAt ? record.createdAt.toDate().toLocaleDateString('hi-IN') : '-';
             document.getElementById('profileUpdated').textContent = record.updatedAt ? record.updatedAt.toDate().toLocaleDateString('hi-IN') : '-';
             
-            // Show profile page
             document.getElementById('publicPage').style.display = 'none';
             document.getElementById('userProfilePage').style.display = 'block';
         }
@@ -1741,11 +1693,13 @@
         document.getElementById('publicSearch').addEventListener('input', debounce(renderPublicTable, 300));
         document.getElementById('classFilter').addEventListener('change', renderPublicTable);
         document.getElementById('statusFilter').addEventListener('change', renderPublicTable);
+        document.getElementById('methodFilter').addEventListener('change', renderPublicTable);
 
         function clearFilters() {
             document.getElementById('publicSearch').value = '';
             document.getElementById('classFilter').value = '';
             document.getElementById('statusFilter').value = '';
+            document.getElementById('methodFilter').value = '';
             renderPublicTable();
         }
 
@@ -1812,8 +1766,8 @@
             try {
                 await auth.signOut();
                 document.getElementById('adminDashboard').style.display = 'none';
-                document.getElementById('publicPage').style.display = 'block';
                 document.getElementById('userProfilePage').style.display = 'none';
+                document.getElementById('publicPage').style.display = 'block';
                 showToast('Logged out successfully', 'success');
             } catch (error) {
                 showToast('Failed to logout', 'error');
@@ -1868,13 +1822,33 @@
                     .filter(r => r.paymentStatus === 'paid')
                     .reduce((sum, r) => sum + (r.amount || 0), 0);
                 
-                document.getElementById('adminTotalParticipants').textContent = totalParticipants;
-                document.getElementById('adminPaidCount').textContent = paidCount;
-                document.getElementById('adminPendingCount').textContent = pendingCount;
-                document.getElementById('adminNotPaidCount').textContent = notPaidCount;
-                document.getElementById('adminCashCount').textContent = cashCount;
-                document.getElementById('adminOnlineCount').textContent = onlineCount;
-                document.getElementById('adminTotalAmount').textContent = formatCurrency(totalAmount);
+                document.getElementById('adminStats').innerHTML = `
+                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
+                        <i class="fas fa-users" style="font-size:24px; color:var(--accent);"></i>
+                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${totalParticipants}</div>
+                        <div style="font-size:13px; color:var(--gray-400);">Total Participants</div>
+                    </div>
+                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
+                        <i class="fas fa-check-circle" style="font-size:24px; color:var(--success);"></i>
+                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${paidCount}</div>
+                        <div style="font-size:13px; color:var(--gray-400);">Paid</div>
+                    </div>
+                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
+                        <i class="fas fa-clock" style="font-size:24px; color:var(--warning);"></i>
+                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${pendingCount}</div>
+                        <div style="font-size:13px; color:var(--gray-400);">Pending</div>
+                    </div>
+                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
+                        <i class="fas fa-times-circle" style="font-size:24px; color:var(--danger);"></i>
+                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${notPaidCount}</div>
+                        <div style="font-size:13px; color:var(--gray-400);">Not Paid Yet</div>
+                    </div>
+                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
+                        <i class="fas fa-rupee-sign" style="font-size:24px; color:var(--accent);"></i>
+                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${formatCurrency(totalAmount)}</div>
+                        <div style="font-size:13px; color:var(--gray-400);">Total Collection</div>
+                    </div>
+                `;
                 
                 loadAdminTable();
                 
@@ -1887,24 +1861,10 @@
         }
 
         function loadAdminTable() {
-            const searchTerm = document.getElementById('adminSearch').value.toLowerCase();
-            const statusFilter = document.getElementById('adminStatusFilter').value;
-            
-            let filtered = allRecords.filter(record => {
-                if (searchTerm) {
-                    const searchable = `${record.name} ${record.className} ${record.mobileLast4} ${record.utrId || ''}`.toLowerCase();
-                    if (!searchable.includes(searchTerm)) return false;
-                }
-                
-                if (statusFilter && record.paymentStatus !== statusFilter) return false;
-                
-                return true;
-            });
-            
             const tableBody = document.getElementById('adminTableBody');
             const emptyState = document.getElementById('adminEmptyState');
             
-            if (filtered.length === 0) {
+            if (allRecords.length === 0) {
                 tableBody.innerHTML = '';
                 emptyState.style.display = 'block';
                 return;
@@ -1912,7 +1872,7 @@
             
             emptyState.style.display = 'none';
             
-            tableBody.innerHTML = filtered.map(record => {
+            tableBody.innerHTML = allRecords.map(record => {
                 let statusBadge = '';
                 if (record.paymentStatus === 'paid') {
                     statusBadge = '<span class="badge badge-paid">PAID</span>';
@@ -1949,16 +1909,6 @@
                     </tr>
                 `;
             }).join('');
-        }
-
-        // Admin Search and Filters
-        document.getElementById('adminSearch').addEventListener('input', debounce(loadAdminTable, 300));
-        document.getElementById('adminStatusFilter').addEventListener('change', loadAdminTable);
-
-        function clearAdminFilters() {
-            document.getElementById('adminSearch').value = '';
-            document.getElementById('adminStatusFilter').value = '';
-            loadAdminTable();
         }
 
         // ============ ADD RECORD FUNCTIONS ============
