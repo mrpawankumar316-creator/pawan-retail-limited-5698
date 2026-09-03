@@ -205,7 +205,7 @@
 
         .public-header {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
-            padding: 60px 20px;
+            padding: 40px 20px;
             text-align: center;
             border-bottom: 1px solid var(--glass-border);
         }
@@ -279,6 +279,87 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
+        }
+
+        /* ============ HEAD MEMBERS SECTION ============ */
+        .head-members-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .head-members-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .head-members-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .head-members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .head-member-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .head-member-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .head-member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 0 auto 15px;
+        }
+
+        .head-member-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 5px;
+        }
+
+        .head-member-role {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 10px;
         }
 
         /* Stats Cards */
@@ -452,6 +533,12 @@
             border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
+        .badge-not-paid {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
         .badge-cash {
             background: rgba(59, 130, 246, 0.15);
             color: var(--info);
@@ -485,19 +572,6 @@
         .empty-state p {
             font-size: 14px;
             color: var(--gray-500);
-        }
-
-        /* Loading Skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, var(--gray-800) 25%, var(--gray-700) 50%, var(--gray-800) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 8px;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
         }
 
         /* Toast */
@@ -591,6 +665,37 @@
             font-size: 24px;
             cursor: pointer;
             color: var(--gray-400);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10002;
+        }
+
+        .loading-spinner.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--gray-700);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Admin Layout */
@@ -698,11 +803,111 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .add-record-form {
+        /* User Details Section */
+        .user-details-section {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .user-details-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-details-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .user-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .user-detail-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-detail-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        .user-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .user-detail-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-detail-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .user-detail-class {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+
+        .user-detail-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .user-detail-info-item {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .user-detail-info-label {
+            font-size: 11px;
+            color: var(--gray-500);
+            margin-bottom: 3px;
+        }
+
+        .user-detail-info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white);
         }
 
         /* Responsive */
@@ -731,6 +936,10 @@
             .filters-row {
                 flex-direction: column;
             }
+
+            .user-details-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -753,8 +962,9 @@
 
         <!-- Header -->
         <div class="public-header">
-            <h1>Teacher's Day Collection</h1>
-            <p>A transparent, simple and secure way to manage our Teacher's Day collection.</p>
+            <h1>🎓 Teacher's Day Collection</h1>
+            <p>एक पारदर्शी, सरल और सुरक्षित तरीका हमारे Teacher's Day collection को manage करने का।</p>
+            
             <div class="live-indicator">
                 <span class="live-dot"></span>
                 Live Collection
@@ -763,6 +973,26 @@
 
         <!-- Main Content -->
         <div class="public-container">
+            <!-- Head Members Section -->
+            <div class="head-members-section">
+                <h2>👑 Head Members</h2>
+                <p style="color:var(--gray-400); margin-top:15px;">इस collection को संभालने वाले प्रमुख सदस्य</p>
+                
+                <div class="head-members-grid">
+                    <div class="head-member-card">
+                        <div class="head-member-avatar">B</div>
+                        <div class="head-member-name">Bhumika</div>
+                        <div class="head-member-role">Head Member</div>
+                    </div>
+                    
+                    <div class="head-member-card">
+                        <div class="head-member-avatar">F</div>
+                        <div class="head-member-name">Faizan</div>
+                        <div class="head-member-role">Head Member</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Stats -->
             <div class="stats-grid" id="publicStats">
                 <div class="stat-card">
@@ -781,6 +1011,11 @@
                     <div class="stat-label">Pending</div>
                 </div>
                 <div class="stat-card">
+                    <i class="fas fa-times-circle"></i>
+                    <div class="stat-value" id="notPaidCount">0</div>
+                    <div class="stat-label">Not Paid Yet</div>
+                </div>
+                <div class="stat-card">
                     <i class="fas fa-rupee-sign"></i>
                     <div class="stat-value" id="totalCollection">₹0</div>
                     <div class="stat-label">Total Collection</div>
@@ -789,7 +1024,7 @@
 
             <!-- Search and Filters -->
             <div class="search-filter-section">
-                <input type="text" class="search-input" id="publicSearch" placeholder="Search by name, class, mobile last 4, UTI ID...">
+                <input type="text" class="search-input" id="publicSearch" placeholder="Search by name, class, mobile last 4, UTR ID...">
                 
                 <div class="filters-row">
                     <div class="filter-group">
@@ -804,14 +1039,7 @@
                             <option value="">All</option>
                             <option value="paid">Paid</option>
                             <option value="pending">Pending</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Payment Method</label>
-                        <select class="filter-select" id="methodFilter">
-                            <option value="">All</option>
-                            <option value="cash">Cash</option>
-                            <option value="online">Online</option>
+                            <option value="not_paid">Not Paid Yet</option>
                         </select>
                     </div>
                     <button class="clear-filters-btn" onclick="clearFilters()">
@@ -830,7 +1058,6 @@
                             <th>Status</th>
                             <th>Method</th>
                             <th>Mobile</th>
-                            <th>UTI ID</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
@@ -845,6 +1072,27 @@
                     <p>Try adjusting your search or filters</p>
                 </div>
             </div>
+
+            <!-- All User Details Section -->
+            <div class="user-details-section" style="margin-top:40px;">
+                <h2>👥 All User Details</h2>
+                <p style="color:var(--gray-400); margin-top:15px; text-align:center;">किसी भी user पर click करें उनकी पूरी details देखने के लिए</p>
+                
+                <div class="user-details-grid" id="allUserDetails">
+                    <!-- User details will be populated -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div class="modal-overlay" id="userProfileModal">
+        <div class="modal-content" style="max-width:500px;">
+            <div class="modal-header">
+                <h3>User Profile</h3>
+                <button class="modal-close" onclick="closeModal('userProfileModal')">×</button>
+            </div>
+            <div id="userProfileModalBody"></div>
         </div>
     </div>
 
@@ -898,6 +1146,10 @@
                     <i class="fas fa-edit"></i>
                     Manage Records
                 </button>
+                <button class="admin-menu-item" onclick="adminNavigate('allUsers')">
+                    <i class="fas fa-users"></i>
+                    All Users
+                </button>
                 <button class="admin-menu-item" onclick="adminNavigate('addAdmin')">
                     <i class="fas fa-user-shield"></i>
                     Add Admin
@@ -943,6 +1195,11 @@
                         <div class="stat-label">Pending</div>
                     </div>
                     <div class="stat-card">
+                        <i class="fas fa-times-circle"></i>
+                        <div class="stat-value" id="adminNotPaidCount">0</div>
+                        <div class="stat-label">Not Paid Yet</div>
+                    </div>
+                    <div class="stat-card">
                         <i class="fas fa-money-bill-wave"></i>
                         <div class="stat-value" id="adminCashCount">0</div>
                         <div class="stat-label">Cash Payments</div>
@@ -962,7 +1219,7 @@
 
             <!-- Add Record Section -->
             <div class="admin-section" id="addRecordSection">
-                <div class="add-record-form">
+                <div class="card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:30px;">
                     <h3 style="margin-bottom:20px; color:var(--white);">Add New Record</h3>
                     
                     <form id="addRecordForm">
@@ -992,24 +1249,25 @@
                         
                         <div class="form-group">
                             <label>Payment Status *</label>
-                            <select id="addPaymentStatus">
+                            <select id="addPaymentStatus" onchange="togglePaymentMethodField('add')">
                                 <option value="paid">Paid</option>
                                 <option value="pending">Pending</option>
+                                <option value="not_paid">Not Paid Yet</option>
                             </select>
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group" id="addPaymentMethodField" style="display:none;">
                             <label>Payment Method *</label>
-                            <select id="addPaymentMethod" onchange="toggleUtiField('add')">
+                            <select id="addPaymentMethod" onchange="toggleUtrField('add')">
                                 <option value="cash">Cash</option>
                                 <option value="online">Online</option>
                             </select>
                         </div>
                         
-                        <div class="form-group" id="addUtiField" style="display:none;">
-                            <label>UTI ID *</label>
-                            <input type="text" id="addUtiId" placeholder="Enter UTI ID">
-                            <div class="error-message" id="addUtiIdError"></div>
+                        <div class="form-group" id="addUtrField" style="display:none;">
+                            <label>UTR ID (12 digits) *</label>
+                            <input type="text" id="addUtrId" placeholder="Enter 12-digit UTR ID" maxlength="12">
+                            <div class="error-message" id="addUtrIdError"></div>
                         </div>
                         
                         <button type="submit" class="btn btn-primary">
@@ -1030,6 +1288,7 @@
                                 <option value="">All</option>
                                 <option value="paid">Paid</option>
                                 <option value="pending">Pending</option>
+                                <option value="not_paid">Not Paid Yet</option>
                             </select>
                         </div>
                         <button class="clear-filters-btn" onclick="clearAdminFilters()">Clear</button>
@@ -1046,7 +1305,6 @@
                                 <th>Method</th>
                                 <th>Amount</th>
                                 <th>Mobile</th>
-                                <th>UTI ID</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -1062,9 +1320,17 @@
                 </div>
             </div>
 
+            <!-- All Users Section -->
+            <div class="admin-section" id="allUsersSection">
+                <div class="card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:30px;">
+                    <h3 style="margin-bottom:20px; color:var(--white);">All Users Details</h3>
+                    <div class="user-details-grid" id="adminAllUsers"></div>
+                </div>
+            </div>
+
             <!-- Add Admin Section -->
             <div class="admin-section" id="addAdminSection">
-                <div class="add-record-form">
+                <div class="card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:30px;">
                     <h3 style="margin-bottom:20px; color:var(--white);">Add New Admin</h3>
                     
                     <form id="addAdminForm">
@@ -1132,24 +1398,25 @@
                 
                 <div class="form-group">
                     <label>Payment Status *</label>
-                    <select id="editPaymentStatus">
+                    <select id="editPaymentStatus" onchange="togglePaymentMethodField('edit')">
                         <option value="paid">Paid</option>
                         <option value="pending">Pending</option>
+                        <option value="not_paid">Not Paid Yet</option>
                     </select>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group" id="editPaymentMethodField" style="display:none;">
                     <label>Payment Method *</label>
-                    <select id="editPaymentMethod" onchange="toggleUtiField('edit')">
+                    <select id="editPaymentMethod" onchange="toggleUtrField('edit')">
                         <option value="cash">Cash</option>
                         <option value="online">Online</option>
                     </select>
                 </div>
                 
-                <div class="form-group" id="editUtiField" style="display:none;">
-                    <label>UTI ID *</label>
-                    <input type="text" id="editUtiId" placeholder="Enter UTI ID">
-                    <div class="error-message" id="editUtiIdError"></div>
+                <div class="form-group" id="editUtrField" style="display:none;">
+                    <label>UTR ID (12 digits) *</label>
+                    <input type="text" id="editUtrId" placeholder="Enter 12-digit UTR ID" maxlength="12">
+                    <div class="error-message" id="editUtrIdError"></div>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">
@@ -1199,17 +1466,16 @@
 
         // Global State
         let currentUser = null;
-        let currentUserData = null;
         let allRecords = [];
         let deleteRecordId = null;
 
         // Utility Functions
         function showLoading() {
-            document.getElementById('loading').style.display = 'flex';
+            document.getElementById('loading').classList.add('active');
         }
 
         function hideLoading() {
-            document.getElementById('loading').style.display = 'none';
+            document.getElementById('loading').classList.remove('active');
         }
 
         function showToast(message, type = 'info') {
@@ -1232,10 +1498,10 @@
             return '₹' + Number(amount).toLocaleString('en-IN');
         }
 
-        function maskUtiId(utiId) {
-            if (!utiId) return '-';
-            if (utiId.length <= 4) return utiId;
-            return '••••••' + utiId.slice(-4);
+        function maskUtrId(utrId) {
+            if (!utrId) return '-';
+            if (utrId.length <= 4) return utrId;
+            return '••••••' + utrId.slice(-4);
         }
 
         function closeModal(modalId) {
@@ -1244,6 +1510,31 @@
 
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
+        }
+
+        // ============ PAYMENT STATUS FUNCTIONS ============
+        function togglePaymentMethodField(prefix) {
+            const status = document.getElementById(prefix + 'PaymentStatus').value;
+            const methodField = document.getElementById(prefix + 'PaymentMethodField');
+            const utrField = document.getElementById(prefix + 'UtrField');
+            
+            if (status === 'paid') {
+                methodField.style.display = 'block';
+            } else {
+                methodField.style.display = 'none';
+                utrField.style.display = 'none';
+            }
+        }
+
+        function toggleUtrField(prefix) {
+            const method = document.getElementById(prefix + 'PaymentMethod').value;
+            const utrField = document.getElementById(prefix + 'UtrField');
+            
+            if (method === 'online') {
+                utrField.style.display = 'block';
+            } else {
+                utrField.style.display = 'none';
+            }
         }
 
         // ============ PUBLIC FUNCTIONS ============
@@ -1257,6 +1548,7 @@
                 updateStats();
                 populateClassFilter();
                 renderPublicTable();
+                renderAllUserDetails();
                 
             } catch (error) {
                 console.error('Error loading public data:', error);
@@ -1270,26 +1562,16 @@
             const totalParticipants = allRecords.length;
             const paidCount = allRecords.filter(r => r.paymentStatus === 'paid').length;
             const pendingCount = allRecords.filter(r => r.paymentStatus === 'pending').length;
+            const notPaidCount = allRecords.filter(r => r.paymentStatus === 'not_paid').length;
             const totalCollection = allRecords
                 .filter(r => r.paymentStatus === 'paid')
                 .reduce((sum, r) => sum + (r.amount || 0), 0);
             
-            // Public stats
             document.getElementById('totalParticipants').textContent = totalParticipants;
             document.getElementById('paidCount').textContent = paidCount;
             document.getElementById('pendingCount').textContent = pendingCount;
+            document.getElementById('notPaidCount').textContent = notPaidCount;
             document.getElementById('totalCollection').textContent = formatCurrency(totalCollection);
-            
-            // Admin stats
-            const cashCount = allRecords.filter(r => r.paymentMethod === 'cash').length;
-            const onlineCount = allRecords.filter(r => r.paymentMethod === 'online').length;
-            
-            document.getElementById('adminTotalParticipants').textContent = totalParticipants;
-            document.getElementById('adminPaidCount').textContent = paidCount;
-            document.getElementById('adminPendingCount').textContent = pendingCount;
-            document.getElementById('adminCashCount').textContent = cashCount;
-            document.getElementById('adminOnlineCount').textContent = onlineCount;
-            document.getElementById('adminTotalAmount').textContent = formatCurrency(totalCollection);
         }
 
         function populateClassFilter() {
@@ -1309,17 +1591,15 @@
             const searchTerm = document.getElementById('publicSearch').value.toLowerCase();
             const classFilter = document.getElementById('classFilter').value;
             const statusFilter = document.getElementById('statusFilter').value;
-            const methodFilter = document.getElementById('methodFilter').value;
             
             let filtered = allRecords.filter(record => {
                 if (searchTerm) {
-                    const searchable = `${record.name} ${record.className} ${record.mobileLast4} ${record.utiId || ''}`.toLowerCase();
+                    const searchable = `${record.name} ${record.className} ${record.mobileLast4} ${record.utrId || ''}`.toLowerCase();
                     if (!searchable.includes(searchTerm)) return false;
                 }
                 
                 if (classFilter && record.className !== classFilter) return false;
                 if (statusFilter && record.paymentStatus !== statusFilter) return false;
-                if (methodFilter && record.paymentMethod !== methodFilter) return false;
                 
                 return true;
             });
@@ -1335,40 +1615,181 @@
             
             emptyState.style.display = 'none';
             
-            tableBody.innerHTML = filtered.map(record => `
-                <tr>
-                    <td><strong>${record.name || '-'}</strong></td>
-                    <td>${record.className || '-'}</td>
-                    <td>
-                        <span class="badge ${record.paymentStatus === 'paid' ? 'badge-paid' : 'badge-pending'}">
-                            <i class="fas ${record.paymentStatus === 'paid' ? 'fa-check' : 'fa-clock'}"></i>
-                            ${record.paymentStatus === 'paid' ? 'PAID' : 'PENDING'}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge ${record.paymentMethod === 'cash' ? 'badge-cash' : 'badge-online'}">
-                            <i class="fas ${record.paymentMethod === 'cash' ? 'fa-money-bill' : 'fa-globe'}"></i>
-                            ${record.paymentMethod === 'cash' ? 'CASH' : 'ONLINE'}
-                        </span>
-                    </td>
-                    <td>•••• ${record.mobileLast4 || '----'}</td>
-                    <td>${maskUtiId(record.utiId)}</td>
-                    <td style="color:var(--accent); font-weight:600;">${formatCurrency(record.amount || 0)}</td>
-                </tr>
-            `).join('');
+            tableBody.innerHTML = filtered.map(record => {
+                let statusBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    statusBadge = '<span class="badge badge-paid"><i class="fas fa-check"></i> PAID</span>';
+                } else if (record.paymentStatus === 'pending') {
+                    statusBadge = '<span class="badge badge-pending"><i class="fas fa-clock"></i> PENDING</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-not-paid"><i class="fas fa-times"></i> NOT PAID YET</span>';
+                }
+                
+                let methodBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    methodBadge = record.paymentMethod === 'cash' 
+                        ? '<span class="badge badge-cash"><i class="fas fa-money-bill"></i> CASH</span>' 
+                        : '<span class="badge badge-online"><i class="fas fa-globe"></i> ONLINE</span>';
+                } else {
+                    methodBadge = '-';
+                }
+                
+                return `
+                    <tr>
+                        <td><strong>${record.name || '-'}</strong></td>
+                        <td>${record.className || '-'}</td>
+                        <td>${statusBadge}</td>
+                        <td>${methodBadge}</td>
+                        <td>•••• ${record.mobileLast4 || '----'}</td>
+                        <td style="color:var(--accent); font-weight:600;">${formatCurrency(record.amount || 0)}</td>
+                    </tr>
+                `;
+            }).join('');
         }
 
-        // Search and Filters
+        // Render All User Details
+        function renderAllUserDetails() {
+            const userDetailsDiv = document.getElementById('allUserDetails');
+            
+            if (allRecords.length === 0) {
+                userDetailsDiv.innerHTML = '<p style="color:var(--gray-600); text-align:center; padding:20px;">No users yet</p>';
+                return;
+            }
+            
+            userDetailsDiv.innerHTML = allRecords.map(record => {
+                let statusBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    statusBadge = '<span class="badge badge-paid">PAID</span>';
+                } else if (record.paymentStatus === 'pending') {
+                    statusBadge = '<span class="badge badge-pending">PENDING</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-not-paid">NOT PAID YET</span>';
+                }
+                
+                let methodBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    methodBadge = record.paymentMethod === 'cash' 
+                        ? '<span class="badge badge-cash">CASH</span>' 
+                        : '<span class="badge badge-online">ONLINE</span>';
+                } else {
+                    methodBadge = '-';
+                }
+                
+                return `
+                    <div class="user-detail-card" onclick="openUserProfile('${record.id}')">
+                        <div class="user-detail-header">
+                            <div class="user-detail-avatar">${record.name ? record.name.charAt(0).toUpperCase() : '?'}</div>
+                            <div>
+                                <div class="user-detail-name">${record.name || 'Unknown'}</div>
+                                <div class="user-detail-class">${record.className || '-'}</div>
+                            </div>
+                        </div>
+                        <div class="user-detail-info">
+                            <div class="user-detail-info-item">
+                                <div class="user-detail-info-label">Status</div>
+                                <div class="user-detail-info-value">${statusBadge}</div>
+                            </div>
+                            <div class="user-detail-info-item">
+                                <div class="user-detail-info-label">Method</div>
+                                <div class="user-detail-info-value">${methodBadge}</div>
+                            </div>
+                            <div class="user-detail-info-item">
+                                <div class="user-detail-info-label">Mobile</div>
+                                <div class="user-detail-info-value">•••• ${record.mobileLast4 || '----'}</div>
+                            </div>
+                            <div class="user-detail-info-item">
+                                <div class="user-detail-info-label">Amount</div>
+                                <div class="user-detail-info-value">${formatCurrency(record.amount || 0)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Open User Profile
+        async function openUserProfile(recordId) {
+            try {
+                const doc = await db.collection('teacherDayCollection').doc(recordId).get();
+                const record = doc.data();
+                
+                const modalBody = document.getElementById('userProfileModalBody');
+                
+                let statusBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    statusBadge = '<span class="badge badge-paid">PAID</span>';
+                } else if (record.paymentStatus === 'pending') {
+                    statusBadge = '<span class="badge badge-pending">PENDING</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-not-paid">NOT PAID YET</span>';
+                }
+                
+                let methodBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    methodBadge = record.paymentMethod === 'cash' 
+                        ? '<span class="badge badge-cash">CASH</span>' 
+                        : '<span class="badge badge-online">ONLINE</span>';
+                } else {
+                    methodBadge = '-';
+                }
+                
+                modalBody.innerHTML = `
+                    <div style="text-align:center; margin-bottom:20px;">
+                        <div style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-light)); display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:800; color:var(--primary); margin:0 auto 15px;">
+                            ${record.name ? record.name.charAt(0).toUpperCase() : '?'}
+                        </div>
+                        <h2 style="color:var(--white);">${record.name || 'Unknown'}</h2>
+                        <p style="color:var(--gray-400);">${record.className || 'Class not specified'}</p>
+                    </div>
+                    
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
+                        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:15px; text-align:center;">
+                            <div style="font-size:12px; color:var(--gray-500); margin-bottom:5px;">Payment Status</div>
+                            <div>${statusBadge}</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:15px; text-align:center;">
+                            <div style="font-size:12px; color:var(--gray-500); margin-bottom:5px;">Payment Method</div>
+                            <div>${methodBadge}</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:15px; text-align:center;">
+                            <div style="font-size:12px; color:var(--gray-500); margin-bottom:5px;">Mobile</div>
+                            <div style="font-size:18px; font-weight:700; color:var(--white);">•••• ${record.mobileLast4 || '----'}</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:15px; text-align:center;">
+                            <div style="font-size:12px; color:var(--gray-500); margin-bottom:5px;">Amount</div>
+                            <div style="font-size:18px; font-weight:700; color:var(--accent);">${formatCurrency(record.amount || 0)}</div>
+                        </div>
+                    </div>
+                    
+                    ${record.paymentStatus === 'paid' && record.paymentMethod === 'online' ? `
+                        <div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:15px; text-align:center; margin-bottom:20px;">
+                            <div style="font-size:12px; color:var(--gray-500); margin-bottom:5px;">UTR ID (12 digits)</div>
+                            <div style="font-size:18px; font-weight:700; color:var(--white);">${record.utrId || 'Not available'}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <div style="text-align:center;">
+                        <button class="btn btn-secondary" onclick="closeModal('userProfileModal')">Close</button>
+                    </div>
+                `;
+                
+                openModal('userProfileModal');
+                
+            } catch (error) {
+                console.error('Open user profile error:', error);
+                showToast('Failed to load user profile', 'error');
+            }
+        }
+
+        // ============ SEARCH AND FILTERS ============
         document.getElementById('publicSearch').addEventListener('input', debounce(renderPublicTable, 300));
         document.getElementById('classFilter').addEventListener('change', renderPublicTable);
         document.getElementById('statusFilter').addEventListener('change', renderPublicTable);
-        document.getElementById('methodFilter').addEventListener('change', renderPublicTable);
 
         function clearFilters() {
             document.getElementById('publicSearch').value = '';
             document.getElementById('classFilter').value = '';
             document.getElementById('statusFilter').value = '';
-            document.getElementById('methodFilter').value = '';
             renderPublicTable();
         }
 
@@ -1402,7 +1823,6 @@
                 showLoading();
                 await auth.signInWithEmailAndPassword(email, password);
                 
-                // Check if user is admin
                 const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
                 const userData = userDoc.data();
                 
@@ -1412,7 +1832,6 @@
                     return;
                 }
                 
-                // Show admin dashboard
                 document.getElementById('adminLoginModal').classList.remove('active');
                 document.getElementById('publicPage').style.display = 'none';
                 document.getElementById('adminDashboard').style.display = 'block';
@@ -1462,6 +1881,7 @@
                 dashboard: 'Dashboard',
                 addRecord: 'Add Record',
                 manageRecords: 'Manage Records',
+                allUsers: 'All Users',
                 addAdmin: 'Add Admin'
             };
             
@@ -1469,6 +1889,9 @@
 
             if (section === 'manageRecords') {
                 loadAdminTable();
+            }
+            if (section === 'allUsers') {
+                loadAdminAllUsers();
             }
         }
 
@@ -1480,7 +1903,25 @@
                 const snapshot = await db.collection('teacherDayCollection').orderBy('createdAt', 'desc').get();
                 allRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
-                updateStats();
+                // Update admin stats
+                const totalParticipants = allRecords.length;
+                const paidCount = allRecords.filter(r => r.paymentStatus === 'paid').length;
+                const pendingCount = allRecords.filter(r => r.paymentStatus === 'pending').length;
+                const notPaidCount = allRecords.filter(r => r.paymentStatus === 'not_paid').length;
+                const cashCount = allRecords.filter(r => r.paymentStatus === 'paid' && r.paymentMethod === 'cash').length;
+                const onlineCount = allRecords.filter(r => r.paymentStatus === 'paid' && r.paymentMethod === 'online').length;
+                const totalAmount = allRecords
+                    .filter(r => r.paymentStatus === 'paid')
+                    .reduce((sum, r) => sum + (r.amount || 0), 0);
+                
+                document.getElementById('adminTotalParticipants').textContent = totalParticipants;
+                document.getElementById('adminPaidCount').textContent = paidCount;
+                document.getElementById('adminPendingCount').textContent = pendingCount;
+                document.getElementById('adminNotPaidCount').textContent = notPaidCount;
+                document.getElementById('adminCashCount').textContent = cashCount;
+                document.getElementById('adminOnlineCount').textContent = onlineCount;
+                document.getElementById('adminTotalAmount').textContent = formatCurrency(totalAmount);
+                
                 loadAdminTable();
                 
             } catch (error) {
@@ -1497,7 +1938,7 @@
             
             let filtered = allRecords.filter(record => {
                 if (searchTerm) {
-                    const searchable = `${record.name} ${record.className} ${record.mobileLast4} ${record.utiId || ''}`.toLowerCase();
+                    const searchable = `${record.name} ${record.className} ${record.mobileLast4} ${record.utrId || ''}`.toLowerCase();
                     if (!searchable.includes(searchTerm)) return false;
                 }
                 
@@ -1517,33 +1958,103 @@
             
             emptyState.style.display = 'none';
             
-            tableBody.innerHTML = filtered.map(record => `
-                <tr>
-                    <td><strong>${record.name || '-'}</strong></td>
-                    <td>${record.className || '-'}</td>
-                    <td>
-                        <span class="badge ${record.paymentStatus === 'paid' ? 'badge-paid' : 'badge-pending'}">
-                            ${record.paymentStatus === 'paid' ? 'PAID' : 'PENDING'}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge ${record.paymentMethod === 'cash' ? 'badge-cash' : 'badge-online'}">
-                            ${record.paymentMethod === 'cash' ? 'CASH' : 'ONLINE'}
-                        </span>
-                    </td>
-                    <td style="color:var(--accent); font-weight:600;">${formatCurrency(record.amount || 0)}</td>
-                    <td>•••• ${record.mobileLast4 || '----'}</td>
-                    <td>${record.utiId || '-'}</td>
-                    <td>
-                        <button class="btn btn-sm btn-ghost" onclick="openEditModal('${record.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-ghost" onclick="openDeleteModal('${record.id}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
+            tableBody.innerHTML = filtered.map(record => {
+                let statusBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    statusBadge = '<span class="badge badge-paid">PAID</span>';
+                } else if (record.paymentStatus === 'pending') {
+                    statusBadge = '<span class="badge badge-pending">PENDING</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-not-paid">NOT PAID YET</span>';
+                }
+                
+                let methodBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    methodBadge = record.paymentMethod === 'cash' 
+                        ? '<span class="badge badge-cash">CASH</span>' 
+                        : '<span class="badge badge-online">ONLINE</span>';
+                } else {
+                    methodBadge = '-';
+                }
+                
+                return `
+                    <tr>
+                        <td><strong>${record.name || '-'}</strong></td>
+                        <td>${record.className || '-'}</td>
+                        <td>${statusBadge}</td>
+                        <td>${methodBadge}</td>
+                        <td style="color:var(--accent); font-weight:600;">${formatCurrency(record.amount || 0)}</td>
+                        <td>•••• ${record.mobileLast4 || '----'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-ghost" onclick="openEditModal('${record.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-ghost" onclick="openDeleteModal('${record.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function loadAdminAllUsers() {
+            const usersDiv = document.getElementById('adminAllUsers');
+            
+            if (allRecords.length === 0) {
+                usersDiv.innerHTML = '<p style="color:var(--gray-600); text-align:center; padding:20px;">No users yet</p>';
+                return;
+            }
+            
+            usersDiv.innerHTML = allRecords.map(record => {
+                let statusBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    statusBadge = '<span class="badge badge-paid">PAID</span>';
+                } else if (record.paymentStatus === 'pending') {
+                    statusBadge = '<span class="badge badge-pending">PENDING</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-not-paid">NOT PAID YET</span>';
+                }
+                
+                let methodBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    methodBadge = record.paymentMethod === 'cash' 
+                        ? '<span class="badge badge-cash">CASH</span>' 
+                        : '<span class="badge badge-online">ONLINE</span>';
+                } else {
+                    methodBadge = '-';
+                }
+                
+                return `
+                    <div class="user-detail-card" onclick="openUserProfile('${record.id}')">
+                        <div class="user-detail-header">
+                            <div class="user-detail-avatar">${record.name ? record.name.charAt(0).toUpperCase() : '?'}</div>
+                            <div>
+                                <div class="user-detail-name">${record.name || 'Unknown'}</div>
+                                <div class="user-detail-class">${record.className || '-'}</div>
+                            </div>
+                        </div>
+                        <div class="user-detail-info">
+                            <div class="user-detail-info-item">
+                                <div class="user-detail-info-label">Status</div>
+                                <div class="user-detail-info-value">${statusBadge}</div>
+                            </div>
+                            <div class="user-detail-info-item">
+                                <div class="user-detail-info-label">Method</div>
+                                <div class="user-detail-info-value">${methodBadge}</div>
+                            </div>
+                            <div class="user-detail-info-item">
+                                <div class="user-detail-info-label">Mobile</div>
+                                <div class="user-detail-info-value">•••• ${record.mobileLast4 || '----'}</div>
+                            </div>
+                            <div class="user-detail-info-item">
+                                <div class="user-detail-info-label">Amount</div>
+                                <div class="user-detail-info-value">${formatCurrency(record.amount || 0)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // Admin Search and Filters
@@ -1557,22 +2068,10 @@
         }
 
         // ============ ADD RECORD FUNCTIONS ============
-        function toggleUtiField(prefix) {
-            const method = document.getElementById(prefix + 'PaymentMethod').value;
-            const utiField = document.getElementById(prefix + 'UtiField');
-            
-            if (method === 'online') {
-                utiField.style.display = 'block';
-            } else {
-                utiField.style.display = 'none';
-            }
-        }
-
         async function handleAddRecord(e) {
             e.preventDefault();
             
-            // Clear errors
-            ['addName', 'addClass', 'addMobile', 'addAmount', 'addUtiId'].forEach(id => {
+            ['addName', 'addClass', 'addMobile', 'addAmount', 'addUtrId'].forEach(id => {
                 document.getElementById(id + 'Error').textContent = '';
             });
             
@@ -1582,26 +2081,21 @@
             const amount = document.getElementById('addAmount').value;
             const paymentStatus = document.getElementById('addPaymentStatus').value;
             const paymentMethod = document.getElementById('addPaymentMethod').value;
-            const utiId = document.getElementById('addUtiId').value;
+            const utrId = document.getElementById('addUtrId').value;
             
-            // Validation
             let isValid = true;
             
             if (!name) { document.getElementById('addNameError').textContent = 'Name is required'; isValid = false; }
             if (!className) { document.getElementById('addClassError').textContent = 'Class is required'; isValid = false; }
             if (!/^\d{4}$/.test(mobileLast4)) { document.getElementById('addMobileError').textContent = 'Enter exactly 4 digits'; isValid = false; }
             if (!amount || amount <= 0) { document.getElementById('addAmountError').textContent = 'Enter valid amount'; isValid = false; }
-            if (paymentMethod === 'online' && !utiId) { document.getElementById('addUtiIdError').textContent = 'UTI ID is required for online payments'; isValid = false; }
+            if (paymentStatus === 'paid' && paymentMethod === 'online' && !utrId) { document.getElementById('addUtrIdError').textContent = 'UTR ID is required for online payments'; isValid = false; }
             
-            // Check duplicate UTI ID for online payments
-            if (paymentMethod === 'online' && utiId) {
-                const duplicateQuery = await db.collection('teacherDayCollection')
-                    .where('utiId', '==', utiId)
-                    .get();
-                
+            if (paymentStatus === 'paid' && paymentMethod === 'online' && utrId) {
+                const duplicateQuery = await db.collection('teacherDayCollection').where('utrId', '==', utrId).get();
                 if (!duplicateQuery.empty) {
-                    document.getElementById('addUtiIdError').textContent = 'This UTI ID already exists';
-                    showToast('This UTI ID already exists. Please verify the payment details.', 'error');
+                    document.getElementById('addUtrIdError').textContent = 'This UTR ID already exists';
+                    showToast('This UTR ID already exists. Please verify the payment details.', 'error');
                     isValid = false;
                 }
             }
@@ -1620,17 +2114,17 @@
                     mobileLast4,
                     amount: parseFloat(amount),
                     paymentStatus,
-                    paymentMethod,
-                    utiId: paymentMethod === 'online' ? utiId : null,
+                    paymentMethod: paymentStatus === 'paid' ? paymentMethod : null,
+                    utrId: paymentStatus === 'paid' && paymentMethod === 'online' ? utrId : null,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
                     createdBy: auth.currentUser.uid,
                     updatedBy: auth.currentUser.uid
                 });
                 
-                // Reset form
                 document.getElementById('addRecordForm').reset();
-                document.getElementById('addUtiField').style.display = 'none';
+                document.getElementById('addPaymentMethodField').style.display = 'none';
+                document.getElementById('addUtrField').style.display = 'none';
                 
                 showToast('Record added successfully.', 'success');
                 loadAdminData();
@@ -1658,9 +2152,10 @@
                 document.getElementById('editAmount').value = record.amount || '';
                 document.getElementById('editPaymentStatus').value = record.paymentStatus || 'pending';
                 document.getElementById('editPaymentMethod').value = record.paymentMethod || 'cash';
-                document.getElementById('editUtiId').value = record.utiId || '';
+                document.getElementById('editUtrId').value = record.utrId || '';
                 
-                toggleUtiField('edit');
+                togglePaymentMethodField('edit');
+                toggleUtrField('edit');
                 openModal('editRecordModal');
                 
             } catch (error) {
@@ -1672,8 +2167,7 @@
         async function handleEditRecord(e) {
             e.preventDefault();
             
-            // Clear errors
-            ['editName', 'editClass', 'editMobile', 'editAmount', 'editUtiId'].forEach(id => {
+            ['editName', 'editClass', 'editMobile', 'editAmount', 'editUtrId'].forEach(id => {
                 document.getElementById(id + 'Error').textContent = '';
             });
             
@@ -1684,28 +2178,23 @@
             const amount = document.getElementById('editAmount').value;
             const paymentStatus = document.getElementById('editPaymentStatus').value;
             const paymentMethod = document.getElementById('editPaymentMethod').value;
-            const utiId = document.getElementById('editUtiId').value;
+            const utrId = document.getElementById('editUtrId').value;
             
-            // Validation
             let isValid = true;
             
             if (!name) { document.getElementById('editNameError').textContent = 'Name is required'; isValid = false; }
             if (!className) { document.getElementById('editClassError').textContent = 'Class is required'; isValid = false; }
             if (!/^\d{4}$/.test(mobileLast4)) { document.getElementById('editMobileError').textContent = 'Enter exactly 4 digits'; isValid = false; }
             if (!amount || amount <= 0) { document.getElementById('editAmountError').textContent = 'Enter valid amount'; isValid = false; }
-            if (paymentMethod === 'online' && !utiId) { document.getElementById('editUtiIdError').textContent = 'UTI ID is required for online payments'; isValid = false; }
+            if (paymentStatus === 'paid' && paymentMethod === 'online' && !utrId) { document.getElementById('editUtrIdError').textContent = 'UTR ID is required for online payments'; isValid = false; }
             
-            // Check duplicate UTI ID for online payments
-            if (paymentMethod === 'online' && utiId) {
-                const duplicateQuery = await db.collection('teacherDayCollection')
-                    .where('utiId', '==', utiId)
-                    .get();
-                
+            if (paymentStatus === 'paid' && paymentMethod === 'online' && utrId) {
+                const duplicateQuery = await db.collection('teacherDayCollection').where('utrId', '==', utrId).get();
                 const isDuplicate = duplicateQuery.docs.some(doc => doc.id !== recordId);
                 
                 if (isDuplicate) {
-                    document.getElementById('editUtiIdError').textContent = 'This UTI ID already exists';
-                    showToast('This UTI ID already exists. Please verify the payment details.', 'error');
+                    document.getElementById('editUtrIdError').textContent = 'This UTR ID already exists';
+                    showToast('This UTR ID already exists. Please verify the payment details.', 'error');
                     isValid = false;
                 }
             }
@@ -1724,8 +2213,8 @@
                     mobileLast4,
                     amount: parseFloat(amount),
                     paymentStatus,
-                    paymentMethod,
-                    utiId: paymentMethod === 'online' ? utiId : null,
+                    paymentMethod: paymentStatus === 'paid' ? paymentMethod : null,
+                    utrId: paymentStatus === 'paid' && paymentMethod === 'online' ? utrId : null,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
                     updatedBy: auth.currentUser.uid
                 });
@@ -1773,7 +2262,6 @@
         async function handleAddAdmin(e) {
             e.preventDefault();
             
-            // Clear errors
             ['newAdminName', 'newAdminEmail', 'newAdminPassword'].forEach(id => {
                 document.getElementById(id + 'Error').textContent = '';
             });
@@ -1782,7 +2270,6 @@
             const email = document.getElementById('newAdminEmail').value;
             const password = document.getElementById('newAdminPassword').value;
             
-            // Validation
             let isValid = true;
             
             if (!name) { document.getElementById('newAdminNameError').textContent = 'Name is required'; isValid = false; }
@@ -1797,11 +2284,9 @@
             try {
                 showLoading();
                 
-                // Create admin user in Firebase Auth
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
                 
-                // Create user document with admin role
                 await db.collection('users').doc(user.uid).set({
                     uid: user.uid,
                     name: name,
@@ -1812,7 +2297,6 @@
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
-                // Reset form
                 document.getElementById('addAdminForm').reset();
                 
                 showToast('Admin created successfully.', 'success');
@@ -1832,8 +2316,6 @@
         // ============ AUTH STATE LISTENER ============
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                currentUser = user;
-                
                 try {
                     const userDoc = await db.collection('users').doc(user.uid).get();
                     const userData = userDoc.data();
@@ -1848,7 +2330,6 @@
                     console.error('Auth state error:', error);
                 }
             } else {
-                currentUser = null;
                 document.getElementById('adminDashboard').style.display = 'none';
                 document.getElementById('publicPage').style.display = 'block';
                 loadPublicData();
@@ -1856,10 +2337,8 @@
         });
 
         // ============ INITIALIZATION ============
-        // Load public data on page load
         loadPublicData();
 
-        // Real-time listener for public data
         db.collection('teacherDayCollection').onSnapshot(() => {
             loadPublicData();
         });
