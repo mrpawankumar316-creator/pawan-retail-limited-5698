@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher's Day Collection - Premium Management System</title>
+    <title>Teacher's Day Collection - Premium Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -123,10 +123,6 @@
             border-color: var(--accent);
             outline: none;
             box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.1);
-        }
-
-        .form-group input::placeholder {
-            color: var(--gray-500);
         }
 
         .btn {
@@ -271,6 +267,7 @@
             gap: 8px;
             transition: all 0.3s;
             z-index: 1000;
+            cursor: pointer;
         }
 
         .admin-login-btn:hover {
@@ -701,6 +698,13 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .add-record-form {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .admin-sidebar {
@@ -894,6 +898,10 @@
                     <i class="fas fa-edit"></i>
                     Manage Records
                 </button>
+                <button class="admin-menu-item" onclick="adminNavigate('addAdmin')">
+                    <i class="fas fa-user-shield"></i>
+                    Add Admin
+                </button>
             </div>
             
             <div style="padding: 20px; border-top: 1px solid var(--glass-border);">
@@ -910,6 +918,9 @@
                 <h3 id="adminPageTitle">Dashboard</h3>
                 <div style="display:flex; align-items:center; gap:15px;">
                     <span style="color:var(--gray-400); font-size:13px;">👋 <span id="adminName"></span></span>
+                    <button class="btn btn-danger btn-sm" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </div>
             </div>
 
@@ -951,7 +962,7 @@
 
             <!-- Add Record Section -->
             <div class="admin-section" id="addRecordSection">
-                <div class="card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:30px;">
+                <div class="add-record-form">
                     <h3 style="margin-bottom:20px; color:var(--white);">Add New Record</h3>
                     
                     <form id="addRecordForm">
@@ -1048,6 +1059,37 @@
                         <i class="fas fa-inbox"></i>
                         <h3>No records found</h3>
                     </div>
+                </div>
+            </div>
+
+            <!-- Add Admin Section -->
+            <div class="admin-section" id="addAdminSection">
+                <div class="add-record-form">
+                    <h3 style="margin-bottom:20px; color:var(--white);">Add New Admin</h3>
+                    
+                    <form id="addAdminForm">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="newAdminName" placeholder="Admin name">
+                            <div class="error-message" id="newAdminNameError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="newAdminEmail" placeholder="Admin email">
+                            <div class="error-message" id="newAdminEmailError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Password *</label>
+                            <input type="password" id="newAdminPassword" placeholder="Create password">
+                            <div class="error-message" id="newAdminPasswordError"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-shield"></i> Create Admin
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1157,6 +1199,7 @@
 
         // Global State
         let currentUser = null;
+        let currentUserData = null;
         let allRecords = [];
         let deleteRecordId = null;
 
@@ -1231,10 +1274,22 @@
                 .filter(r => r.paymentStatus === 'paid')
                 .reduce((sum, r) => sum + (r.amount || 0), 0);
             
+            // Public stats
             document.getElementById('totalParticipants').textContent = totalParticipants;
             document.getElementById('paidCount').textContent = paidCount;
             document.getElementById('pendingCount').textContent = pendingCount;
             document.getElementById('totalCollection').textContent = formatCurrency(totalCollection);
+            
+            // Admin stats
+            const cashCount = allRecords.filter(r => r.paymentMethod === 'cash').length;
+            const onlineCount = allRecords.filter(r => r.paymentMethod === 'online').length;
+            
+            document.getElementById('adminTotalParticipants').textContent = totalParticipants;
+            document.getElementById('adminPaidCount').textContent = paidCount;
+            document.getElementById('adminPendingCount').textContent = pendingCount;
+            document.getElementById('adminCashCount').textContent = cashCount;
+            document.getElementById('adminOnlineCount').textContent = onlineCount;
+            document.getElementById('adminTotalAmount').textContent = formatCurrency(totalCollection);
         }
 
         function populateClassFilter() {
@@ -1257,19 +1312,13 @@
             const methodFilter = document.getElementById('methodFilter').value;
             
             let filtered = allRecords.filter(record => {
-                // Search
                 if (searchTerm) {
                     const searchable = `${record.name} ${record.className} ${record.mobileLast4} ${record.utiId || ''}`.toLowerCase();
                     if (!searchable.includes(searchTerm)) return false;
                 }
                 
-                // Class filter
                 if (classFilter && record.className !== classFilter) return false;
-                
-                // Status filter
                 if (statusFilter && record.paymentStatus !== statusFilter) return false;
-                
-                // Method filter
                 if (methodFilter && record.paymentMethod !== methodFilter) return false;
                 
                 return true;
@@ -1412,7 +1461,8 @@
             const titles = {
                 dashboard: 'Dashboard',
                 addRecord: 'Add Record',
-                manageRecords: 'Manage Records'
+                manageRecords: 'Manage Records',
+                addAdmin: 'Add Admin'
             };
             
             document.getElementById('adminPageTitle').textContent = titles[section] || 'Dashboard';
@@ -1430,23 +1480,7 @@
                 const snapshot = await db.collection('teacherDayCollection').orderBy('createdAt', 'desc').get();
                 allRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
-                // Update admin stats
-                const totalParticipants = allRecords.length;
-                const paidCount = allRecords.filter(r => r.paymentStatus === 'paid').length;
-                const pendingCount = allRecords.filter(r => r.paymentStatus === 'pending').length;
-                const cashCount = allRecords.filter(r => r.paymentMethod === 'cash').length;
-                const onlineCount = allRecords.filter(r => r.paymentMethod === 'online').length;
-                const totalAmount = allRecords
-                    .filter(r => r.paymentStatus === 'paid')
-                    .reduce((sum, r) => sum + (r.amount || 0), 0);
-                
-                document.getElementById('adminTotalParticipants').textContent = totalParticipants;
-                document.getElementById('adminPaidCount').textContent = paidCount;
-                document.getElementById('adminPendingCount').textContent = pendingCount;
-                document.getElementById('adminCashCount').textContent = cashCount;
-                document.getElementById('adminOnlineCount').textContent = onlineCount;
-                document.getElementById('adminTotalAmount').textContent = formatCurrency(totalAmount);
-                
+                updateStats();
                 loadAdminTable();
                 
             } catch (error) {
@@ -1735,9 +1769,71 @@
             }
         }
 
+        // ============ ADD ADMIN FUNCTIONS ============
+        async function handleAddAdmin(e) {
+            e.preventDefault();
+            
+            // Clear errors
+            ['newAdminName', 'newAdminEmail', 'newAdminPassword'].forEach(id => {
+                document.getElementById(id + 'Error').textContent = '';
+            });
+            
+            const name = document.getElementById('newAdminName').value;
+            const email = document.getElementById('newAdminEmail').value;
+            const password = document.getElementById('newAdminPassword').value;
+            
+            // Validation
+            let isValid = true;
+            
+            if (!name) { document.getElementById('newAdminNameError').textContent = 'Name is required'; isValid = false; }
+            if (!email) { document.getElementById('newAdminEmailError').textContent = 'Email is required'; isValid = false; }
+            if (password.length < 8) { document.getElementById('newAdminPasswordError').textContent = 'Password must be at least 8 characters'; isValid = false; }
+            
+            if (!isValid) {
+                showToast('Please fix the errors', 'warning');
+                return;
+            }
+            
+            try {
+                showLoading();
+                
+                // Create admin user in Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Create user document with admin role
+                await db.collection('users').doc(user.uid).set({
+                    uid: user.uid,
+                    name: name,
+                    email: email,
+                    role: 'admin',
+                    status: 'active',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Reset form
+                document.getElementById('addAdminForm').reset();
+                
+                showToast('Admin created successfully.', 'success');
+                
+            } catch (error) {
+                console.error('Add admin error:', error);
+                let message = 'Failed to create admin.';
+                if (error.code === 'auth/email-already-in-use') message = 'Email already exists.';
+                showToast(message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        document.getElementById('addAdminForm').addEventListener('submit', handleAddAdmin);
+
         // ============ AUTH STATE LISTENER ============
         auth.onAuthStateChanged(async (user) => {
             if (user) {
+                currentUser = user;
+                
                 try {
                     const userDoc = await db.collection('users').doc(user.uid).get();
                     const userData = userDoc.data();
@@ -1751,6 +1847,11 @@
                 } catch (error) {
                     console.error('Auth state error:', error);
                 }
+            } else {
+                currentUser = null;
+                document.getElementById('adminDashboard').style.display = 'none';
+                document.getElementById('publicPage').style.display = 'block';
+                loadPublicData();
             }
         });
 
