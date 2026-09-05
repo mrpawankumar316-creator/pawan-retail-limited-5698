@@ -379,17 +379,17 @@
         <div class="stats-grid fade-in-up delay-2">
             <div class="stat-card">
                 <i class="fas fa-users"></i>
-                <div class="stat-value" id="totalParticipants">0</div>
+                <div class="stat-value" id="totalParticipants">Loading...</div>
                 <div class="stat-label">Total Participants</div>
             </div>
             <div class="stat-card">
                 <i class="fas fa-check-circle"></i>
-                <div class="stat-value" id="totalPaid">0</div>
+                <div class="stat-value" id="totalPaid">Loading...</div>
                 <div class="stat-label">Paid</div>
             </div>
             <div class="stat-card">
                 <i class="fas fa-rupee-sign"></i>
-                <div class="stat-value" id="totalCollection">₹0</div>
+                <div class="stat-value" id="totalCollection">Loading...</div>
                 <div class="stat-label">Total Collection</div>
             </div>
         </div>
@@ -440,9 +440,26 @@
         </div>
     </div>
 
-    <!-- Confetti Animation Script -->
+    <!-- Firebase SDKs (Only Once) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script>
-        // Confetti Animation
+        // ============ FIREBASE CONFIGURATION ============
+        const firebaseConfig = {
+            apiKey: "AIzaSyDnBnw0rkduTZe2_Y7E67j2EWMJVBSAhH0",
+            authDomain: "pawan-retail-limited-8fee7.firebaseapp.com",
+            projectId: "pawan-retail-limited-8fee7",
+            storageBucket: "pawan-retail-limited-8fee7.firebasestorage.app",
+            messagingSenderId: "567866853876",
+            appId: "1:567866853876:web:96189fe0448b51716011a1"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // ============ CONFUSION: CONFETTI ANIMATION ============
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -478,12 +495,10 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             particles.forEach((particle, index) => {
-                // Move Particle
                 particle.y += particle.speedY;
                 particle.x += particle.speedX;
                 particle.rotation += particle.rotationSpeed;
 
-                // Draw Particle
                 ctx.save();
                 ctx.translate(particle.x, particle.y);
                 ctx.rotate(particle.rotation * Math.PI / 180);
@@ -491,13 +506,11 @@
                 ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
                 ctx.restore();
 
-                // Remove off-screen Particles
                 if (particle.y > canvas.height + 20) {
                     particles.splice(index, 1);
                 }
             });
 
-            // Add New Particles
             if (particles.length < 100) {
                 createParticles(2);
             }
@@ -505,26 +518,20 @@
             requestAnimationFrame(animate);
         }
 
-        // Start Animation
+        // Start Confetti
         createParticles(100);
         animate();
 
         // Replay Celebration
         function replayCelebration() {
-            // Clear Existing Particles
             particles = [];
-            
-            // Create New Particles
             createParticles(150);
-            
-            // Show Alert
-            alert('🎉 Celebration replayed! Enjoy the confetti!');
+            loadStats();
         }
 
-        // Fetch Stats from Firestore
+        // ============ LOAD STATS FROM FIRESTORE ============
         async function loadStats() {
             try {
-                const db = firebase.firestore();
                 const snapshot = await db.collection('teacherDayCollection').get();
                 
                 const totalParticipants = snapshot.size;
@@ -533,39 +540,21 @@
                     .filter(doc => doc.data().paymentStatus === 'paid')
                     .reduce((sum, doc) => sum + (doc.data().amount || 0), 0);
                 
+                // Update DOM
                 document.getElementById('totalParticipants').textContent = totalParticipants;
                 document.getElementById('totalPaid').textContent = totalPaid;
                 document.getElementById('totalCollection').textContent = '₹' + totalCollection.toLocaleString('en-IN');
+                
             } catch (error) {
                 console.error('Error loading stats:', error);
-                // Show default values
-                document.getElementById('totalParticipants').textContent = '0';
-                document.getElementById('totalPaid').textContent = '0';
-                document.getElementById('totalCollection').textContent = '₹0';
+                document.getElementById('totalParticipants').textContent = 'Error';
+                document.getElementById('totalPaid').textContent = 'Error';
+                document.getElementById('totalCollection').textContent = 'Error';
             }
         }
 
-        // Load Stats on Page Load
-        loadStats();
-    </script>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDnBnw0rkduTZe2_Y7E67j2EWMJVBSAhH0",
-            authDomain: "pawan-retail-limited-8fee7.firebaseapp.com",
-            projectId: "pawan-retail-limited-8fee7",
-            storageBucket: "pawan-retail-limited-8fee7.firebasestorage.app",
-            messagingSenderId: "567866853876",
-            appId: "1:567866853876:web:96189fe0448b51716011a1"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        // ============ INITIAL LOAD ============
+        document.addEventListener('DOMContentLoaded', loadStats);
     </script>
 </body>
 </html>
