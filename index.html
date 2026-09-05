@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎉 Celebration Complete - Teacher's Day Collection</title>
+    <title>🎓 Teacher's Day Collection - Complete</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -31,41 +31,346 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--bg) 0%, #EEF2FF 50%, #F5F3FF 100%);
+            background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
         }
 
-        /* Confetti Canvas */
-        #confetti-canvas {
+        /* ============ NAVIGATION ============ */
+        .nav-bar {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .nav-brand i {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-btn:hover {
+            background: var(--card);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+        }
+
+        /* ============ PAGES ============ */
+        .page {
+            display: none;
+            min-height: calc(100vh - 60px);
+            padding: 20px;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============ HOME PAGE ============ */
+        .public-header {
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .public-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 50%);
+            pointer-events: none;
+        }
+
+        .public-header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .public-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .collection-complete-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .public-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .stat-card i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 8px 0;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Data Table */
+        .data-table-wrapper {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .data-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: var(--bg);
+            padding: 15px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 15px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .data-table tr:hover {
+            background: var(--bg);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            gap: 5px;
+        }
+
+        .badge-paid { background: #ECFDF5; color: var(--success); }
+        .badge-pending { background: #FEF3C7; color: var(--warning); }
+        .badge-not-paid { background: #FEE2E2; color: var(--danger); }
+        .badge-cash { background: #EFF6FF; color: #3B82F6; }
+        .badge-online { background: #F5F3FF; color: var(--secondary); }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            color: var(--border);
+            margin-bottom: 15px;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10001;
+        }
+
+        .toast {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 250px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: slideInRight 0.3s ease;
+            border-left: 4px solid var(--info);
+        }
+
+        .toast-success { border-left-color: var(--success); }
+        .toast-error { border-left-color: var(--danger); }
+        .toast-warning { border-left-color: var(--warning); }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10000;
+            right: 0;
+            bottom: 0;
+            background: rgba(246, 248, 252, 0.8);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10002;
         }
 
-        /* Main Container */
+        .loading-spinner.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============ CELEBRATION PAGE ============ */
         .celebration-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px 20px;
             text-align: center;
+            position: relative;
         }
 
-        /* Hero Section */
         .hero-section {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 24px;
             padding: 60px 40px;
             margin-bottom: 30px;
             color: white;
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(99,102,241,0.3);
             position: relative;
             overflow: hidden;
         }
@@ -85,6 +390,8 @@
             font-size: 80px;
             margin-bottom: 20px;
             animation: bounce 2s infinite;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes bounce {
@@ -96,7 +403,6 @@
             font-size: 42px;
             font-weight: 800;
             margin-bottom: 10px;
-            letter-spacing: -1px;
             position: relative;
             z-index: 1;
         }
@@ -109,66 +415,8 @@
             z-index: 1;
         }
 
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        }
-
-        .stat-card i {
-            font-size: 28px;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--text);
-            margin: 8px 0;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        /* Thank You Section */
         .thank-you-section {
             background: var(--card);
-            border: 1px solid var(--border);
             border-radius: 20px;
             padding: 40px;
             margin-bottom: 30px;
@@ -178,7 +426,6 @@
         .thank-you-section h2 {
             font-size: 28px;
             font-weight: 700;
-            color: var(--text);
             margin-bottom: 15px;
         }
 
@@ -189,22 +436,9 @@
             margin-bottom: 20px;
         }
 
-        .thank-you-icon {
-            font-size: 60px;
-            color: var(--success);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        /* Head Members Section */
+        /* Head Members */
         .head-members-section {
             background: var(--card);
-            border: 1px solid var(--border);
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 30px;
@@ -214,7 +448,6 @@
         .head-members-section h3 {
             font-size: 20px;
             font-weight: 700;
-            color: var(--text);
             margin-bottom: 20px;
         }
 
@@ -254,7 +487,6 @@
         .head-member-name {
             font-size: 16px;
             font-weight: 600;
-            color: var(--text);
             margin-bottom: 5px;
         }
 
@@ -263,189 +495,848 @@
             color: var(--text-secondary);
         }
 
-        /* Buttons */
-        .action-buttons {
+        /* ============ PARTICIPANTS PAGE ============ */
+        .participants-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .participants-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .participants-header h2 {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .stats-row {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: center;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            margin-top: 30px;
+        }
+
+        .stat-pill {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-pill i { font-size: 14px; }
+        .stat-pill.paid i { color: var(--success); }
+        .stat-pill.pending i { color: var(--warning); }
+        .stat-pill.not-paid i { color: var(--danger); }
+
+        .stat-pill .label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .stat-pill .value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+        }
+
+        .participant-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .participant-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .participant-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .participant-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .participant-info {
+            flex: 1;
+        }
+
+        .participant-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .participant-class {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .participant-status {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.paid { background: #ECFDF5; color: var(--success); }
+        .status-badge.pending { background: #FEF3C7; color: var(--warning); }
+        .status-badge.not-paid { background: #FEE2E2; color: var(--danger); }
+
+        /* ============ ADMIN LOGIN MODAL ============ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15,23,42,0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 15px 30px;
+            gap: 8px;
+            padding: 12px 24px;
             border: none;
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             font-family: 'Inter', sans-serif;
-            text-decoration: none;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            width: 100%;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 5px 15px rgba(99,102,241,0.3);
         }
 
         .btn-secondary {
-            background: var(--card);
+            background: var(--border);
             color: var(--text);
-            border: 1px solid var(--border);
         }
 
-        .btn-secondary:hover {
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        /* ============ ADMIN DASHBOARD ============ */
+        .admin-layout {
+            display: none;
+            min-height: 100vh;
             background: var(--bg);
+            padding: 20px;
+        }
+
+        .admin-header {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .admin-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .admin-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-action-btn {
+            flex: 1;
+            min-width: 120px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .admin-action-btn i {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .admin-action-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* Animation Classes */
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease both;
+        .admin-section {
+            display: none;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
+        .admin-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .admin-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .admin-card-name {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .admin-card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .admin-card-detail {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .admin-card-detail-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+
+        .admin-card-detail-value {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .admin-card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .admin-card-action-btn {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .admin-card-action-btn.verify { color: var(--success); }
+        .admin-card-action-btn.reject { color: var(--danger); }
+        .admin-card-action-btn.edit { color: var(--primary); }
+        .admin-card-action-btn.delete { color: var(--danger); }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero-section {
-                padding: 40px 20px;
+            .nav-bar {
+                padding: 10px 15px;
             }
 
-            .hero-section h1 {
-                font-size: 28px;
+            .nav-brand {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                gap: 5px;
+            }
+
+            .nav-btn {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+
+            .nav-btn i {
+                display: none;
+            }
+
+            .public-header h1 {
+                font-size: 24px;
             }
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .action-buttons {
-                flex-direction: column;
+            .data-table {
+                min-width: 550px;
             }
 
-            .btn {
-                width: 100%;
+            .admin-actions {
+                gap: 6px;
+            }
+
+            .admin-action-btn {
+                min-width: 100px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-brand span {
+                display: none;
+            }
+
+            .nav-btn {
+                font-size: 10px;
+                padding: 6px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Confetti Canvas -->
-    <canvas id="confetti-canvas"></canvas>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loading">
+        <div class="spinner"></div>
+    </div>
 
-    <!-- Main Container -->
-    <div class="celebration-container">
-        <!-- Hero Section -->
-        <div class="hero-section fade-in-up">
-            <div class="hero-icon">
-                <i class="fas fa-trophy"></i>
-            </div>
-            <h1>🎉 Celebration Complete!</h1>
-            <p>Teacher's Day Collection successfully completed!</p>
-            <div class="hero-badge">
-                <i class="fas fa-check-circle"></i>
-                Thank You for your contribution
-            </div>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-brand" onclick="showPage('home')">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Teacher's Day</span>
         </div>
-
-        <!-- Stats Section -->
-        <div class="stats-grid fade-in-up delay-2">
-            <div class="stat-card">
-                <i class="fas fa-users"></i>
-                <div class="stat-value" id="totalParticipants">Loading...</div>
-                <div class="stat-label">Total Participants</div>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-check-circle"></i>
-                <div class="stat-value" id="totalPaid">Loading...</div>
-                <div class="stat-label">Paid</div>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-rupee-sign"></i>
-                <div class="stat-value" id="totalCollection">Loading...</div>
-                <div class="stat-label">Total Collection</div>
-            </div>
-        </div>
-
-        <!-- Thank You Section -->
-        <div class="thank-you-section fade-in-up delay-3">
-            <div class="thank-you-icon">
-                <i class="fas fa-heart"></i>
-            </div>
-            <h2>🙏 Thank You!</h2>
-            <p>
-                Aap sabne Teacher's Day collection mein bharosa aur support dikhaya. 
-                Is collection ko successful banane ke liye hum sabne milkar kaam kiya. 
-                Aapka contribution isse yaadgaar banane mein madad karega.
-            </p>
-            <p style="font-weight: 600; color: var(--primary);">
-                "Shiksha ek aisa upahaar hai jo kabhi khatam nahi hota."
-            </p>
-        </div>
-
-        <!-- Head Members Section -->
-        <div class="head-members-section fade-in-up delay-4">
-            <h3>👑 Head Members</h3>
-            <div class="head-members-grid">
-                <div class="head-member-card">
-                    <div class="head-member-avatar">B</div>
-                    <div class="head-member-name">Bhumika</div>
-                    <div class="head-member-role">Head Member</div>
-                </div>
-                <div class="head-member-card">
-                    <div class="head-member-avatar">F</div>
-                    <div class="head-member-name">Faizan</div>
-                    <div class="head-member-role">Head Member</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Actions -->
-        <div class="action-buttons fade-in-up delay-5">
-            <a href="index.html" class="btn btn-primary">
-                <i class="fas fa-home"></i>
-                Back to Home
-            </a>
-            <a href="#" class="btn btn-secondary" onclick="replayCelebration()">
-                <i class="fas fa-redo"></i>
-                Replay Celebration
-            </a>
+        <div class="nav-links">
+            <button class="nav-btn active" id="nav-home" onclick="showPage('home')">
+                <i class="fas fa-home"></i> Home
+            </button>
+            <button class="nav-btn" id="nav-celebration" onclick="showPage('celebration')">
+                <i class="fas fa-trophy"></i> Complete
+            </button>
+            <button class="nav-btn" id="nav-participants" onclick="showPage('participants')">
+                <i class="fas fa-users"></i> List
+            </button>
+            <button class="nav-btn" onclick="showAdminLogin()">
+                <i class="fas fa-shield-alt"></i> Admin
+            </button>
         </div>
     </div>
 
-    <!-- Firebase SDKs (Only Once) -->
+    <!-- ============ HOME PAGE ============ -->
+    <div class="page active" id="homePage">
+        <!-- Header -->
+        <div class="public-header">
+            <h1>🎓 Teacher's Day Collection</h1>
+            <p>एक पारदर्शी, सरल और सुरक्षित तरीका हमारे Teacher's Day collection को manage करने का।</p>
+            
+            <div class="collection-complete-badge">
+                <i class="fas fa-check-circle"></i>
+                Collection Complete
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="public-container">
+            <!-- Head Members Section -->
+            <div class="head-members-section">
+                <h2 style="text-align:center; font-size:24px; font-weight:700; margin-bottom:10px;">👑 Head Members</h2>
+                <p style="text-align:center; color:var(--text-secondary); margin-bottom:30px;">इस collection को संभालने वाले प्रमुख सदस्य</p>
+                
+                <div class="head-members-grid" id="publicHeadMembers">
+                    <!-- Head members will be populated -->
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid" id="publicStats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-value" id="totalParticipants">0</div>
+                    <div class="stat-label">Total Participants</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="stat-value" id="paidCount">0</div>
+                    <div class="stat-label">Paid</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-value" id="pendingCount">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-times-circle"></i>
+                    <div class="stat-value" id="notPaidCount">0</div>
+                    <div class="stat-label">Not Paid Yet</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-rupee-sign"></i>
+                    <div class="stat-value" id="totalCollection">₹0</div>
+                    <div class="stat-label">Total Collection</div>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="search-filter-section" style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; margin-bottom:30px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <input type="text" class="search-input" id="publicSearch" placeholder="Search by name, class, mobile last 4, UTR ID..." style="width:100%; padding:12px 15px; background:var(--bg); border:1px solid var(--border); border-radius:12px; font-size:14px; margin-bottom:15px; font-family:'Inter',sans-serif;">
+                
+                <div class="filters-row" style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <div class="filter-group" style="flex:1; min-width:100px;">
+                        <label class="filter-label" style="font-size:12px; color:var(--text-secondary); margin-bottom:5px; display:block;">Class</label>
+                        <select class="filter-select" id="classFilter" style="width:100%; padding:10px; background:var(--bg); border:1px solid var(--border); border-radius:12px; font-size:13px;">
+                            <option value="">All Classes</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" style="flex:1; min-width:100px;">
+                        <label class="filter-label" style="font-size:12px; color:var(--text-secondary); margin-bottom:5px; display:block;">Status</label>
+                        <select class="filter-select" id="statusFilter" style="width:100%; padding:10px; background:var(--bg); border:1px solid var(--border); border-radius:12px; font-size:13px;">
+                            <option value="">All</option>
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                            <option value="not_paid">Not Paid Yet</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" style="flex:1; min-width:100px;">
+                        <label class="filter-label" style="font-size:12px; color:var(--text-secondary); margin-bottom:5px; display:block;">Method</label>
+                        <select class="filter-select" id="methodFilter" style="width:100%; padding:10px; background:var(--bg); border:1px solid var(--border); border-radius:12px; font-size:13px;">
+                            <option value="">All</option>
+                            <option value="cash">Cash</option>
+                            <option value="online">Online</option>
+                        </select>
+                    </div>
+                    <button class="clear-filters-btn" onclick="clearFilters()" style="background:transparent; border:1px solid var(--border); color:var(--text-secondary); padding:8px 16px; border-radius:12px; cursor:pointer; font-size:13px;">
+                        <i class="fas fa-filter"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="data-table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>Status</th>
+                            <th>Method</th>
+                            <th>Mobile</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="publicTableBody">
+                        <!-- Data will be populated -->
+                    </tbody>
+                </table>
+                
+                <div id="publicEmptyState" class="empty-state" style="display:none;">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No records found</h3>
+                    <p>Try adjusting your search or filters</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ CELEBRATION PAGE ============ -->
+    <div class="page" id="celebrationPage">
+        <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10000;"></canvas>
+        
+        <div class="celebration-container">
+            <div class="hero-section">
+                <div class="hero-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h1>🎉 Celebration Complete!</h1>
+                <p>Teacher's Day Collection successfully completed!</p>
+                <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.3); padding:8px 20px; border-radius:30px; font-size:14px; font-weight:600;">
+                    <i class="fas fa-check-circle"></i>
+                    Thank You for your contribution
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-value" id="celebrationTotalParticipants">0</div>
+                    <div class="stat-label">Total Participants</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="stat-value" id="celebrationTotalPaid">0</div>
+                    <div class="stat-label">Paid</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-rupee-sign"></i>
+                    <div class="stat-value" id="celebrationTotalCollection">₹0</div>
+                    <div class="stat-label">Total Collection</div>
+                </div>
+            </div>
+            
+            <div class="thank-you-section">
+                <div style="font-size:60px; margin-bottom:20px; animation:pulse 2s infinite;">
+                    <i class="fas fa-heart" style="color:var(--success);"></i>
+                </div>
+                <h2>🙏 Thank You!</h2>
+                <p>
+                    Aap sabne Teacher's Day collection mein bharosa aur support dikhaya. 
+                    Is collection ko successful banane ke liye hum sabne milkar kaam kiya. 
+                    Aapka contribution isse yaadgaar banane mein madad karega.
+                </p>
+                <p style="font-weight:600; color:var(--primary);">
+                    "Shiksha ek aisa upahaar hai jo kabhi khatam nahi hota."
+                </p>
+            </div>
+            
+            <div class="head-members-section">
+                <h3>👑 Head Members</h3>
+                <div class="head-members-grid">
+                    <div class="head-member-card">
+                        <div class="head-member-avatar">B</div>
+                        <div class="head-member-name">Bhumika</div>
+                        <div class="head-member-role">Head Member</div>
+                    </div>
+                    <div class="head-member-card">
+                        <div class="head-member-avatar">F</div>
+                        <div class="head-member-name">Faizan</div>
+                        <div class="head-member-role">Head Member</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ PARTICIPANTS PAGE ============ -->
+    <div class="page" id="participantsPage">
+        <div class="participants-container">
+            <div class="participants-header">
+                <h2>🎓 All Participants</h2>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-pill paid">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="label">Paid:</span>
+                    <span class="value" id="participantsPaidCount">0</span>
+                </div>
+                <div class="stat-pill pending">
+                    <i class="fas fa-clock"></i>
+                    <span class="label">Pending:</span>
+                    <span class="value" id="participantsPendingCount">0</span>
+                </div>
+                <div class="stat-pill not-paid">
+                    <i class="fas fa-times-circle"></i>
+                    <span class="label">Not Paid:</span>
+                    <span class="value" id="participantsNotPaidCount">0</span>
+                </div>
+            </div>
+            
+            <input type="text" class="search-input" id="participantsSearch" placeholder="Search by name or class...">
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterParticipants('all')">All</button>
+                <button class="filter-tab" onclick="filterParticipants('paid')">✅ Paid</button>
+                <button class="filter-tab" onclick="filterParticipants('pending')">⏳ Pending</button>
+                <button class="filter-tab" onclick="filterParticipants('not_paid')">❌ Not Paid</button>
+            </div>
+            
+            <div id="participantsList"></div>
+            
+            <div id="participantsEmptyState" style="display:none; text-align:center; padding:40px;">
+                <i class="fas fa-users" style="font-size:50px; color:var(--border); margin-bottom:15px;"></i>
+                <h3>No participants found</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ ADMIN LOGIN MODAL ============ -->
+    <div class="modal-overlay" id="adminLoginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Admin Login</h3>
+                <button class="modal-close" onclick="closeModal('adminLoginModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="adminLoginEmail" placeholder="Admin email">
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="adminLoginPassword" placeholder="Password">
+            </div>
+            
+            <button class="btn btn-primary" onclick="handleAdminLogin()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            
+            <p style="text-align:center; margin-top:10px; font-size:13px; color:var(--text-secondary);">
+                <a onclick="closeModal('adminLoginModal')" style="color:var(--primary); text-decoration:none; font-weight:600; cursor:pointer;">Cancel</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ============ ADMIN DASHBOARD ============ -->
+    <div class="admin-layout" id="adminDashboard">
+        <div class="admin-header">
+            <h3>Admin Dashboard</h3>
+            <div class="admin-header-right">
+                <span>👋 <span id="adminName"></span></span>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-actions">
+            <button class="admin-action-btn" onclick="showAdminSection('verifyPayments')">
+                <i class="fas fa-check-circle"></i>
+                Verify Payments
+            </button>
+            <button class="admin-action-btn" onclick="showAdminSection('manageRecords')">
+                <i class="fas fa-edit"></i>
+                Manage Records
+            </button>
+            <button class="admin-action-btn" onclick="showAdminSection('headMembers')">
+                <i class="fas fa-users"></i>
+                Head Members
+            </button>
+            <button class="admin-action-btn" onclick="showAdminSection('addAdmin')">
+                <i class="fas fa-user-shield"></i>
+                Add Admin
+            </button>
+        </div>
+
+        <div class="admin-section active" id="verifyPaymentsSection">
+            <h3 style="margin-bottom:15px;">Payment Verification</h3>
+            <div id="paymentVerificationList"></div>
+        </div>
+
+        <div class="admin-section" id="manageRecordsSection">
+            <h3 style="margin-bottom:15px;">Manage Records</h3>
+            <div id="adminRecordsList"></div>
+        </div>
+
+        <div class="admin-section" id="headMembersSection">
+            <h3 style="margin-bottom:15px;">Manage Head Members</h3>
+            <button class="btn btn-primary btn-sm" onclick="showAddHeadMemberForm()">
+                <i class="fas fa-plus"></i> Add Head Member
+            </button>
+            <div id="adminHeadMembersList"></div>
+        </div>
+
+        <div class="admin-section" id="addAdminSection">
+            <div class="admin-card">
+                <h3 style="margin-bottom:15px;">Add New Admin</h3>
+                <form id="addAdminForm">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="newAdminName" placeholder="Admin name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="newAdminEmail" placeholder="Admin email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password *</label>
+                        <input type="password" id="newAdminPassword" placeholder="Create password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-shield"></i> Create Admin
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // ============ FIREBASE CONFIGURATION ============
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDnBnw0rkduTZe2_Y7E67j2EWMJVBSAhH0",
             authDomain: "pawan-retail-limited-8fee7.firebaseapp.com",
@@ -457,80 +1348,292 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // ============ CONFUSION: CONFETTI ANIMATION ============
-        const canvas = document.getElementById('confetti-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const colors = ['#6366F1', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#38BDF8', '#EC4899'];
+        // Global State
+        let allRecords = [];
+        let headMembers = [];
+        let allParticipants = [];
 
-        // Resize Canvas
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // ============ NAVIGATION ============
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page + 'Page').classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('nav-' + page).classList.add('active');
+            
+            if (page === 'celebration') {
+                startConfetti();
+                loadCelebrationStats();
+            }
+            
+            if (page === 'participants') {
+                loadParticipants();
+            }
         }
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        // ============ CONFETTI ============
+        let confettiCanvas, confettiCtx, confettiParticles = [];
+        const confettiColors = ['#6366F1', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#38BDF8', '#EC4899'];
 
-        // Create Particles
-        function createParticles(count) {
-            for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: -20 - Math.random() * canvas.height,
+        function startConfetti() {
+            confettiCanvas = document.getElementById('confetti-canvas');
+            confettiCtx = confettiCanvas.getContext('2d');
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            
+            confettiParticles = [];
+            
+            for (let i = 0; i < 100; i++) {
+                confettiParticles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: -20 - Math.random() * confettiCanvas.height,
                     size: Math.random() * 10 + 5,
-                    color: colors[Math.floor(Math.random() * colors.length)],
+                    color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
                     speedY: Math.random() * 5 + 2,
                     speedX: Math.random() * 3 - 1.5,
                     rotation: Math.random() * 360,
                     rotationSpeed: Math.random() * 5 - 2.5
                 });
             }
+            
+            animateConfetti();
         }
 
-        // Update and Draw Particles
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach((particle, index) => {
+        function animateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            
+            confettiParticles.forEach((particle, index) => {
                 particle.y += particle.speedY;
                 particle.x += particle.speedX;
                 particle.rotation += particle.rotationSpeed;
-
-                ctx.save();
-                ctx.translate(particle.x, particle.y);
-                ctx.rotate(particle.rotation * Math.PI / 180);
-                ctx.fillStyle = particle.color;
-                ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
-                ctx.restore();
-
-                if (particle.y > canvas.height + 20) {
-                    particles.splice(index, 1);
+                
+                confettiCtx.save();
+                confettiCtx.translate(particle.x, particle.y);
+                confettiCtx.rotate(particle.rotation * Math.PI / 180);
+                confettiCtx.fillStyle = particle.color;
+                confettiCtx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+                confettiCtx.restore();
+                
+                if (particle.y > confettiCanvas.height + 20) {
+                    confettiParticles.splice(index, 1);
                 }
             });
-
-            if (particles.length < 100) {
-                createParticles(2);
+            
+            if (confettiParticles.length < 50) {
+                for (let i = 0; i < 2; i++) {
+                    confettiParticles.push({
+                        x: Math.random() * confettiCanvas.width,
+                        y: -20,
+                        size: Math.random() * 10 + 5,
+                        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+                        speedY: Math.random() * 5 + 2,
+                        speedX: Math.random() * 3 - 1.5,
+                        rotation: Math.random() * 360,
+                        rotationSpeed: Math.random() * 5 - 2.5
+                    });
+                }
             }
-
-            requestAnimationFrame(animate);
+            
+            requestAnimationFrame(animateConfetti);
         }
 
-        // Start Confetti
-        createParticles(100);
-        animate();
-
-        // Replay Celebration
-        function replayCelebration() {
-            particles = [];
-            createParticles(150);
-            loadStats();
+        // ============ TOAST ============
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            let icon = 'fa-info-circle';
+            if (type === 'success') icon = 'fa-check-circle';
+            else if (type === 'error') icon = 'fa-exclamation-circle';
+            else if (type === 'warning') icon = 'fa-exclamation-triangle';
+            
+            toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 5000);
         }
 
-        // ============ LOAD STATS FROM FIRESTORE ============
-        async function loadStats() {
+        // ============ UTILITIES ============
+        function formatCurrency(amount) {
+            return '₹' + Number(amount).toLocaleString('en-IN');
+        }
+
+        function formatDate(date) {
+            if (!date) return '-';
+            const d = date.toDate ? date.toDate() : new Date(date);
+            return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // ============ PUBLIC DATA ============
+        async function loadPublicData() {
+            try {
+                const snapshot = await db.collection('teacherDayCollection').get();
+                allRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                const headMembersSnapshot = await db.collection('headMembers').get();
+                headMembers = headMembersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                updateStats();
+                populateClassFilter();
+                renderPublicTable();
+                renderPublicHeadMembers();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showToast('Failed to load data', 'error');
+            }
+        }
+
+        function updateStats() {
+            const totalParticipants = allRecords.length;
+            const paidCount = allRecords.filter(r => r.paymentStatus === 'paid').length;
+            const pendingCount = allRecords.filter(r => r.paymentStatus === 'pending').length;
+            const notPaidCount = allRecords.filter(r => r.paymentStatus === 'not_paid').length;
+            const totalCollection = allRecords
+                .filter(r => r.paymentStatus === 'paid')
+                .reduce((sum, r) => sum + (r.amount || 0), 0);
+            
+            document.getElementById('totalParticipants').textContent = totalParticipants;
+            document.getElementById('paidCount').textContent = paidCount;
+            document.getElementById('pendingCount').textContent = pendingCount;
+            document.getElementById('notPaidCount').textContent = notPaidCount;
+            document.getElementById('totalCollection').textContent = formatCurrency(totalCollection);
+        }
+
+        function populateClassFilter() {
+            const classes = [...new Set(allRecords.map(r => r.className).filter(Boolean))].sort();
+            const select = document.getElementById('classFilter');
+            const currentValue = select.value;
+            
+            select.innerHTML = '<option value="">All Classes</option>';
+            classes.forEach(cls => {
+                select.innerHTML += `<option value="${cls}">${cls}</option>`;
+            });
+            
+            select.value = currentValue;
+        }
+
+        function renderPublicTable() {
+            const searchTerm = document.getElementById('publicSearch').value.toLowerCase();
+            const classFilter = document.getElementById('classFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const methodFilter = document.getElementById('methodFilter').value;
+            
+            let filtered = allRecords.filter(record => {
+                if (searchTerm) {
+                    const searchable = `${record.name} ${record.className} ${record.mobileLast4} ${record.utrId || ''}`.toLowerCase();
+                    if (!searchable.includes(searchTerm)) return false;
+                }
+                
+                if (classFilter && record.className !== classFilter) return false;
+                if (statusFilter && record.paymentStatus !== statusFilter) return false;
+                if (methodFilter && record.paymentMethod !== methodFilter) return false;
+                
+                return true;
+            });
+            
+            const tableBody = document.getElementById('publicTableBody');
+            const emptyState = document.getElementById('publicEmptyState');
+            
+            if (filtered.length === 0) {
+                tableBody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            tableBody.innerHTML = filtered.map(record => {
+                let statusBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    statusBadge = '<span class="badge badge-paid"><i class="fas fa-check"></i> PAID</span>';
+                } else if (record.paymentStatus === 'pending') {
+                    statusBadge = '<span class="badge badge-pending"><i class="fas fa-clock"></i> PENDING</span>';
+                } else if (record.paymentStatus === 'rejected') {
+                    statusBadge = '<span class="badge badge-rejected"><i class="fas fa-times"></i> REJECTED</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-not-paid"><i class="fas fa-times"></i> NOT PAID YET</span>';
+                }
+                
+                let methodBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    methodBadge = record.paymentMethod === 'cash' 
+                        ? '<span class="badge badge-cash"><i class="fas fa-money-bill"></i> CASH</span>' 
+                        : '<span class="badge badge-online"><i class="fas fa-globe"></i> ONLINE</span>';
+                } else {
+                    methodBadge = '-';
+                }
+                
+                return `
+                    <tr>
+                        <td><strong>${record.name || '-'}</strong></td>
+                        <td>${record.className || '-'}</td>
+                        <td>${statusBadge}</td>
+                        <td>${methodBadge}</td>
+                        <td>•••• ${record.mobileLast4 || '----'}</td>
+                        <td style="color:var(--primary); font-weight:600;">${formatCurrency(record.amount || 0)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderPublicHeadMembers() {
+            const headMembersDiv = document.getElementById('publicHeadMembers');
+            
+            if (headMembers.length === 0) {
+                headMembersDiv.innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding:15px;">No head members added yet</p>';
+                return;
+            }
+            
+            headMembersDiv.innerHTML = headMembers.map(member => `
+                <div class="head-member-card">
+                    <div class="head-member-avatar">${member.name ? member.name.charAt(0).toUpperCase() : '?'}</div>
+                    <div class="head-member-name">${member.name || 'Unknown'}</div>
+                    <div class="head-member-role">${member.role || 'Head Member'}</div>
+                </div>
+            `).join('');
+        }
+
+        // ============ SEARCH AND FILTERS ============
+        document.getElementById('publicSearch').addEventListener('input', debounce(renderPublicTable, 300));
+        document.getElementById('classFilter').addEventListener('change', renderPublicTable);
+        document.getElementById('statusFilter').addEventListener('change', renderPublicTable);
+        document.getElementById('methodFilter').addEventListener('change', renderPublicTable);
+
+        function clearFilters() {
+            document.getElementById('publicSearch').value = '';
+            document.getElementById('classFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('methodFilter').value = '';
+            renderPublicTable();
+        }
+
+        // ============ CELEBRATION STATS ============
+        async function loadCelebrationStats() {
             try {
                 const snapshot = await db.collection('teacherDayCollection').get();
                 
@@ -540,21 +1643,445 @@
                     .filter(doc => doc.data().paymentStatus === 'paid')
                     .reduce((sum, doc) => sum + (doc.data().amount || 0), 0);
                 
-                // Update DOM
-                document.getElementById('totalParticipants').textContent = totalParticipants;
-                document.getElementById('totalPaid').textContent = totalPaid;
-                document.getElementById('totalCollection').textContent = '₹' + totalCollection.toLocaleString('en-IN');
+                document.getElementById('celebrationTotalParticipants').textContent = totalParticipants;
+                document.getElementById('celebrationTotalPaid').textContent = totalPaid;
+                document.getElementById('celebrationTotalCollection').textContent = formatCurrency(totalCollection);
                 
             } catch (error) {
-                console.error('Error loading stats:', error);
-                document.getElementById('totalParticipants').textContent = 'Error';
-                document.getElementById('totalPaid').textContent = 'Error';
-                document.getElementById('totalCollection').textContent = 'Error';
+                console.error('Error loading celebration stats:', error);
             }
         }
 
-        // ============ INITIAL LOAD ============
-        document.addEventListener('DOMContentLoaded', loadStats);
+        // ============ PARTICIPANTS ============
+        let currentParticipantFilter = 'all';
+
+        async function loadParticipants() {
+            try {
+                const snapshot = await db.collection('teacherDayCollection').get();
+                allParticipants = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                updateParticipantStats();
+                renderParticipants();
+                
+            } catch (error) {
+                console.error('Error loading participants:', error);
+            }
+        }
+
+        function updateParticipantStats() {
+            const paidCount = allParticipants.filter(p => p.paymentStatus === 'paid').length;
+            const pendingCount = allParticipants.filter(p => p.paymentStatus === 'pending').length;
+            const notPaidCount = allParticipants.filter(p => p.paymentStatus === 'not_paid').length;
+            
+            document.getElementById('participantsPaidCount').textContent = paidCount;
+            document.getElementById('participantsPendingCount').textContent = pendingCount;
+            document.getElementById('participantsNotPaidCount').textContent = notPaidCount;
+        }
+
+        function renderParticipants() {
+            const searchTerm = document.getElementById('participantsSearch').value.toLowerCase();
+            const listContainer = document.getElementById('participantsList');
+            const emptyState = document.getElementById('participantsEmptyState');
+            
+            let filtered = allParticipants.filter(participant => {
+                const searchable = `${participant.name} ${participant.className}`.toLowerCase();
+                return searchable.includes(searchTerm);
+            });
+            
+            if (currentParticipantFilter !== 'all') {
+                filtered = filtered.filter(p => p.paymentStatus === currentParticipantFilter);
+            }
+            
+            if (filtered.length === 0) {
+                listContainer.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            listContainer.innerHTML = filtered.map(participant => {
+                let statusBadge = '';
+                
+                if (participant.paymentStatus === 'paid') {
+                    statusBadge = '<span class="status-badge paid"><i class="fas fa-check"></i> Paid</span>';
+                } else if (participant.paymentStatus === 'pending') {
+                    statusBadge = '<span class="status-badge pending"><i class="fas fa-clock"></i> Pending</span>';
+                } else {
+                    statusBadge = '<span class="status-badge not-paid"><i class="fas fa-times"></i> Not Paid Yet</span>';
+                }
+                
+                let methodBadge = '';
+                if (participant.paymentStatus === 'paid') {
+                    methodBadge = participant.paymentMethod === 'cash' 
+                        ? '<span style="background:#EFF6FF;color:#3B82F6;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;"><i class="fas fa-money-bill"></i> Cash</span>'
+                        : '<span style="background:#F5F3FF;color:#8B5CF6;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;"><i class="fas fa-globe"></i> Online</span>';
+                }
+                
+                const amount = participant.amount ? '₹' + participant.amount : '₹0';
+                const mobile = participant.mobileLast4 ? '•••• ' + participant.mobileLast4 : '----';
+                
+                return `
+                    <div class="participant-card">
+                        <div class="participant-header">
+                            <div class="participant-avatar">${participant.name ? participant.name.charAt(0).toUpperCase() : '?'}</div>
+                            <div class="participant-info">
+                                <div class="participant-name">${participant.name || 'Unknown'}</div>
+                                <div class="participant-class">${participant.className || '-'}</div>
+                            </div>
+                            <div style="font-weight:700;color:var(--primary);">${amount}</div>
+                        </div>
+                        <div class="participant-status">
+                            ${statusBadge}
+                            ${methodBadge}
+                            <span style="background:#F1F5F9;color:#64748B;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;"><i class="fas fa-phone"></i> ${mobile}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterParticipants(filter) {
+            currentParticipantFilter = filter;
+            
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            const tabs = document.querySelectorAll('.filter-tab');
+            tabs.forEach(tab => {
+                if (tab.textContent.includes(filter === 'all' ? 'All' : filter === 'paid' ? 'Paid' : filter === 'pending' ? 'Pending' : 'Not Paid')) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            renderParticipants();
+        }
+
+        document.getElementById('participantsSearch').addEventListener('input', debounce(renderParticipants, 300));
+
+        // ============ ADMIN AUTH ============
+        function showAdminLogin() {
+            document.getElementById('adminLoginModal').classList.add('active');
+        }
+
+        async function handleAdminLogin() {
+            const email = document.getElementById('adminLoginEmail').value;
+            const password = document.getElementById('adminLoginPassword').value;
+
+            if (!email || !password) {
+                showToast('Please fill all fields', 'warning');
+                return;
+            }
+
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                
+                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+                const userData = userDoc.data();
+                
+                if (!userData || userData.role !== 'admin') {
+                    await auth.signOut();
+                    showToast('Access denied. Admin only.', 'error');
+                    return;
+                }
+                
+                document.getElementById('adminLoginModal').classList.remove('active');
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById('adminDashboard').style.display = 'block';
+                document.getElementById('adminName').textContent = userData.name || 'Admin';
+                
+                loadAdminData();
+                showToast('Welcome back, Admin!', 'success');
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                let message = 'Login failed. Please try again.';
+                if (error.code === 'auth/user-not-found') message = 'No account found with this email.';
+                else if (error.code === 'auth/wrong-password') message = 'Invalid password.';
+                showToast(message, 'error');
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await auth.signOut();
+                document.getElementById('adminDashboard').style.display = 'none';
+                showPage('home');
+                showToast('Logged out successfully', 'success');
+            } catch (error) {
+                showToast('Failed to logout', 'error');
+            }
+        }
+
+        // ============ ADMIN FUNCTIONS ============
+        function showAdminSection(section) {
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+            
+            const targetSection = document.getElementById(section + 'Section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            if (section === 'verifyPayments') {
+                loadPaymentVerificationList();
+            }
+            
+            if (section === 'manageRecords') {
+                loadAdminRecords();
+            }
+            
+            if (section === 'headMembers') {
+                renderAdminHeadMembers();
+            }
+        }
+
+        async function loadAdminData() {
+            try {
+                const snapshot = await db.collection('teacherDayCollection').get();
+                allRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                const headMembersSnapshot = await db.collection('headMembers').get();
+                headMembers = headMembersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                const totalParticipants = allRecords.length;
+                const paidCount = allRecords.filter(r => r.paymentStatus === 'paid').length;
+                const pendingCount = allRecords.filter(r => r.paymentStatus === 'pending').length;
+                const notPaidCount = allRecords.filter(r => r.paymentStatus === 'not_paid').length;
+                const totalAmount = allRecords
+                    .filter(r => r.paymentStatus === 'paid')
+                    .reduce((sum, r) => sum + (r.amount || 0), 0);
+                
+                document.getElementById('adminStats').innerHTML = `
+                    <div class="stat-card"><i class="fas fa-users"></i><div class="stat-value">${totalParticipants}</div><div class="stat-label">Total</div></div>
+                    <div class="stat-card"><i class="fas fa-check-circle"></i><div class="stat-value">${paidCount}</div><div class="stat-label">Paid</div></div>
+                    <div class="stat-card"><i class="fas fa-clock"></i><div class="stat-value">${pendingCount}</div><div class="stat-label">Pending</div></div>
+                    <div class="stat-card"><i class="fas fa-times-circle"></i><div class="stat-value">${notPaidCount}</div><div class="stat-label">Not Paid</div></div>
+                    <div class="stat-card"><i class="fas fa-rupee-sign"></i><div class="stat-value">${formatCurrency(totalAmount)}</div><div class="stat-label">Total Collection</div></div>
+                `;
+                
+                loadPaymentVerificationList();
+                renderAdminHeadMembers();
+                loadAdminRecords();
+                
+            } catch (error) {
+                console.error('Admin data error:', error);
+                showToast('Failed to load data', 'error');
+            }
+        }
+
+        // ============ PAYMENT VERIFICATION ============
+        async function loadPaymentVerificationList() {
+            const verificationList = document.getElementById('paymentVerificationList');
+            
+            try {
+                const requestsSnapshot = await db.collection('paymentRequests').get();
+                
+                if (requestsSnapshot.empty) {
+                    verificationList.innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding:15px;">No payment requests</p>';
+                    return;
+                }
+                
+                verificationList.innerHTML = requestsSnapshot.docs.map(doc => {
+                    const request = doc.data();
+                    
+                    const record = allRecords.find(r => r.id === request.recordId);
+                    const userName = record ? record.name : 'Unknown';
+                    const userClass = record ? record.className : '-';
+                    
+                    let statusBadge = '';
+                    if (request.status === 'paid') {
+                        statusBadge = '<span class="badge badge-paid">PAID</span>';
+                    } else if (request.status === 'rejected') {
+                        statusBadge = '<span class="badge badge-rejected">REJECTED</span>';
+                    } else {
+                        statusBadge = '<span class="badge badge-pending">PENDING</span>';
+                    }
+                    
+                    return `<div class="admin-card"><div class="admin-card-header"><div><div class="admin-card-name">${userName}</div><div class="admin-card-class">${userClass}</div></div><div>${statusBadge}</div></div><div class="admin-card-details"><div class="admin-card-detail"><div class="admin-card-detail-label">Amount</div><div class="admin-card-detail-value">₹${request.amount}</div></div><div class="admin-card-detail"><div class="admin-card-detail-label">UTR ID</div><div class="admin-card-detail-value">${request.utrId || '-'}</div></div><div class="admin-card-detail"><div class="admin-card-detail-label">Date</div><div class="admin-card-detail-value">${formatDate(request.createdAt)}</div></div><div class="admin-card-detail"><div class="admin-card-detail-label">Time</div><div class="admin-card-detail-value">${formatTime(request.createdAt)}</div></div></div>${request.status === 'pending' ? `<div class="admin-card-actions"><button class="admin-card-action-btn verify" onclick="verifyPayment('${doc.id}')"><i class="fas fa-check"></i> Verify</button><button class="admin-card-action-btn reject" onclick="rejectPayment('${doc.id}')"><i class="fas fa-times"></i> Reject</button></div>` : ''}</div>`;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Load payment verification list error:', error);
+                verificationList.innerHTML = '<p style="color:var(--danger); text-align:center; padding:15px;">Failed to load payment requests</p>';
+            }
+        }
+
+        async function verifyPayment(requestId) {
+            try {
+                const requestDoc = await db.collection('paymentRequests').doc(requestId).get();
+                const request = requestDoc.data();
+                
+                await db.collection('paymentRequests').doc(requestId).update({
+                    status: 'paid',
+                    verifiedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    verifiedBy: auth.currentUser.uid
+                });
+                
+                await db.collection('teacherDayCollection').doc(request.recordId).update({
+                    paymentStatus: 'paid',
+                    paymentMethod: 'online',
+                    utrId: request.utrId,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedBy: auth.currentUser.uid
+                });
+                
+                showToast('Payment verified successfully.', 'success');
+                loadAdminData();
+                
+            } catch (error) {
+                console.error('Verify payment error:', error);
+                showToast('Failed to verify payment', 'error');
+            }
+        }
+
+        async function rejectPayment(requestId) {
+            try {
+                const requestDoc = await db.collection('paymentRequests').doc(requestId).get();
+                const request = requestDoc.data();
+                
+                const reason = prompt('Enter rejection reason (Fraud/Wrong/Not Received):');
+                if (!reason) return;
+                
+                await db.collection('paymentRequests').doc(requestId).update({
+                    status: 'rejected',
+                    rejectReason: reason,
+                    rejectedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    rejectedBy: auth.currentUser.uid
+                });
+                
+                await db.collection('teacherDayCollection').doc(request.recordId).update({
+                    paymentStatus: 'not_paid',
+                    paymentMethod: null,
+                    utrId: null,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedBy: auth.currentUser.uid
+                });
+                
+                showToast('Payment rejected. Status changed to Not Paid Yet.', 'success');
+                loadAdminData();
+                
+            } catch (error) {
+                console.error('Reject payment error:', error);
+                showToast('Failed to reject payment', 'error');
+            }
+        }
+
+        // ============ ADMIN RECORDS ============
+        function loadAdminRecords() {
+            const recordsList = document.getElementById('adminRecordsList');
+            
+            if (allRecords.length === 0) {
+                recordsList.innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding:15px;">No records found</p>';
+                return;
+            }
+            
+            recordsList.innerHTML = allRecords.map(record => {
+                let statusBadge = '';
+                if (record.paymentStatus === 'paid') {
+                    statusBadge = '<span class="badge badge-paid">PAID</span>';
+                } else if (record.paymentStatus === 'pending') {
+                    statusBadge = '<span class="badge badge-pending">PENDING</span>';
+                } else if (record.paymentStatus === 'rejected') {
+                    statusBadge = '<span class="badge badge-rejected">REJECTED</span>';
+                } else {
+                    statusBadge = '<span class="badge badge-not-paid">NOT PAID YET</span>';
+                }
+                
+                let methodBadge = '-';
+                if (record.paymentStatus === 'paid') {
+                    methodBadge = record.paymentMethod === 'cash' 
+                        ? '<span class="badge badge-cash">CASH</span>' 
+                        : '<span class="badge badge-online">ONLINE</span>';
+                }
+                
+                return `<div class="admin-card"><div class="admin-card-header"><div><div class="admin-card-name">${record.name || 'Unknown'}</div><div class="admin-card-class">${record.className || '-'}</div></div><div>${statusBadge}</div></div><div class="admin-card-details"><div class="admin-card-detail"><div class="admin-card-detail-label">Method</div><div class="admin-card-detail-value">${methodBadge}</div></div><div class="admin-card-detail"><div class="admin-card-detail-label">Amount</div><div class="admin-card-detail-value">${formatCurrency(record.amount || 0)}</div></div></div><div class="admin-card-actions"><button class="admin-card-action-btn edit" onclick="openEditModal('${record.id}')"><i class="fas fa-edit"></i> Edit</button><button class="admin-card-action-btn delete" onclick="openDeleteModal('${record.id}')"><i class="fas fa-trash"></i> Delete</button></div></div>`;
+            }).join('');
+        }
+
+        // ============ ADD ADMIN ============
+        async function handleAddAdmin(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('newAdminName').value;
+            const email = document.getElementById('newAdminEmail').value;
+            const password = document.getElementById('newAdminPassword').value;
+            
+            if (!name || !email || !password) {
+                showToast('Please fill all fields', 'warning');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showToast('Password must be at least 8 characters', 'warning');
+                return;
+            }
+            
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                await db.collection('users').doc(user.uid).set({
+                    uid: user.uid,
+                    name: name,
+                    email: email,
+                    role: 'admin',
+                    status: 'active',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                document.getElementById('addAdminForm').reset();
+                
+                showToast('Admin created successfully.', 'success');
+                
+            } catch (error) {
+                console.error('Add admin error:', error);
+                let message = 'Failed to create admin.';
+                if (error.code === 'auth/email-already-in-use') message = 'Email already exists.';
+                showToast(message, 'error');
+            }
+        }
+
+        document.getElementById('addAdminForm').addEventListener('submit', handleAddAdmin);
+
+        // ============ AUTH STATE ============
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    const userData = userDoc.data();
+                    
+                    if (userData && userData.role === 'admin') {
+                        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                        document.getElementById('adminDashboard').style.display = 'block';
+                        document.getElementById('adminName').textContent = userData.name || 'Admin';
+                        loadAdminData();
+                    }
+                } catch (error) {
+                    console.error('Auth state error:', error);
+                }
+            } else {
+                document.getElementById('adminDashboard').style.display = 'none';
+                showPage('home');
+                loadPublicData();
+            }
+        });
+
+        // ============ INITIALIZATION ============
+        loadPublicData();
+
+        db.collection('teacherDayCollection').onSnapshot(() => {
+            loadPublicData();
+        });
+        
+        db.collection('headMembers').onSnapshot(() => {
+            loadPublicData();
+        });
+        
+        db.collection('paymentRequests').onSnapshot(() => {
+            loadPublicData();
+        });
     </script>
 </body>
 </html>
