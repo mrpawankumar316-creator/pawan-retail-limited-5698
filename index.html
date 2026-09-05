@@ -2,8 +2,8 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Teacher's Day Collection - Complete Premium Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Celebration Complete - Teacher's Day Collection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -15,1425 +15,542 @@
         }
 
         :root {
-            --primary: #1a1a2e;
-            --primary-light: #16213e;
-            --accent: #c9a96e;
-            --accent-light: #d4af7a;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --bg: #0f0f1a;
-            --white: #ffffff;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
-            
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary: #6366F1;
+            --secondary: #8B5CF6;
+            --dark: #0B1220;
+            --bg: #F6F8FC;
+            --card: #FFFFFF;
+            --text: #0F172A;
+            --text-secondary: #64748B;
+            --border: #E2E8F0;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #38BDF8;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--gray-100);
+            background: linear-gradient(135deg, var(--bg) 0%, #EEF2FF 50%, #F5F3FF 100%);
+            color: var(--text);
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
 
-        /* ============ AUTH PAGE ============ */
-        .auth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-            padding: 20px;
-        }
-
-        .auth-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 450px;
-            padding: 40px;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
         }
 
-        .auth-logo {
+        /* Main Container */
+        .celebration-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
             text-align: center;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 24px;
+            padding: 60px 40px;
+            margin-bottom: 30px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hero-section h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
             margin-bottom: 30px;
         }
 
-        .auth-logo i {
-            font-size: 50px;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .auth-logo h1 {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--white);
-            letter-spacing: 1px;
-        }
-
-        .auth-logo p {
-            color: var(--gray-400);
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--gray-300);
-            margin-bottom: 8px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            font-size: 14px;
-            color: var(--white);
-            font-family: 'Inter', sans-serif;
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             transition: all 0.3s;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.1);
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        .stat-card i {
+            font-size: 28px;
             color: var(--primary);
-            width: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(201, 169, 110, 0.3);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: var(--gray-700);
-            color: var(--gray-100);
-        }
-
-        .btn-sm {
-            padding: 8px 16px;
-            font-size: 13px;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid var(--glass-border);
-            color: var(--gray-300);
-        }
-
-        .auth-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: var(--gray-400);
-        }
-
-        .auth-link a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .error-message {
-            color: var(--danger);
-            font-size: 13px;
-            margin-top: 8px;
-        }
-
-        /* ============ PUBLIC PAGE ============ */
-        .public-page {
-            min-height: 100vh;
-            background: var(--bg);
-        }
-
-        .public-header {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .public-header h1 {
-            font-size: 42px;
-            font-weight: 800;
-            color: var(--white);
             margin-bottom: 10px;
-            letter-spacing: -1px;
         }
 
-        .public-header p {
-            color: var(--gray-400);
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text);
+            margin: 8px 0;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Thank You Section */
+        .thank-you-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .thank-you-section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 15px;
+        }
+
+        .thank-you-section p {
+            color: var(--text-secondary);
             font-size: 16px;
+            line-height: 1.6;
             margin-bottom: 20px;
         }
 
-        .live-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
+        .thank-you-icon {
+            font-size: 60px;
             color: var(--success);
-        }
-
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--success);
+            margin-bottom: 20px;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
-        .admin-login-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--gray-300);
-            padding: 10px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-            z-index: 1000;
-            cursor: pointer;
-        }
-
-        .admin-login-btn:hover {
-            background: var(--accent);
-            color: var(--primary);
-        }
-
-        .public-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* ============ HEAD MEMBERS SECTION ============ */
+        /* Head Members Section */
         .head-members-section {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: var(--card);
+            border: 1px solid var(--border);
             border-radius: 20px;
             padding: 30px;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .head-members-section h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--white);
             margin-bottom: 30px;
-            position: relative;
-            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        .head-members-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 3px;
+        .head-members-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 20px;
         }
 
         .head-members-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
-            margin-top: 30px;
         }
 
         .head-member-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
+            background: var(--bg);
+            border-radius: 12px;
             padding: 20px;
             text-align: center;
             transition: all 0.3s;
         }
 
         .head-member-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .head-member-avatar {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            font-weight: 800;
-            color: var(--primary);
+            font-weight: 700;
+            color: white;
             margin: 0 auto 10px;
         }
 
         .head-member-name {
             font-size: 16px;
-            font-weight: 700;
-            color: var(--white);
+            font-weight: 600;
+            color: var(--text);
             margin-bottom: 5px;
         }
 
         .head-member-role {
             font-size: 12px;
-            color: var(--accent);
-            font-weight: 500;
+            color: var(--text-secondary);
         }
 
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent);
-        }
-
-        .stat-card i {
-            font-size: 24px;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .stat-value {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--white);
-            margin: 8px 0;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--gray-400);
-        }
-
-        /* Search and Filters */
-        .search-filter-section {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            font-size: 14px;
-            color: var(--white);
-            margin-bottom: 15px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .search-input:focus {
-            border-color: var(--accent);
-            outline: none;
-        }
-
-        .filters-row {
+        /* Buttons */
+        .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
+            justify-content: center;
             flex-wrap: wrap;
+            margin-top: 30px;
         }
 
-        .filter-group {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .filter-label {
-            font-size: 11px;
-            color: var(--gray-400);
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        .filter-select {
-            width: 100%;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            font-size: 13px;
-            color: var(--white);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .clear-filters-btn {
-            background: transparent;
-            border: 1px solid var(--gray-600);
-            color: var(--gray-400);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-
-        .clear-filters-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* Table */
-        .data-table-wrapper {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .data-table {
-            width: 100%;
-            min-width: 600px;
-            border-collapse: collapse;
-        }
-
-        .data-table th {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--gray-400);
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-        }
-
-        .data-table td {
-            padding: 15px;
-            font-size: 14px;
-            border-bottom: 1px solid var(--glass-border);
-            color: var(--gray-200);
-        }
-
-        .data-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        /* Badges */
-        .badge {
+        .btn {
             display: inline-flex;
             align-items: center;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            gap: 5px;
-        }
-
-        .badge-paid {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .badge-pending {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .badge-not-paid {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .badge-cash {
-            background: rgba(59, 130, 246, 0.15);
-            color: var(--info);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .badge-online {
-            background: rgba(139, 92, 246, 0.15);
-            color: #8b5cf6;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .empty-state i {
-            font-size: 50px;
-            color: var(--gray-600);
-            margin-bottom: 15px;
-        }
-
-        .empty-state h3 {
-            font-size: 18px;
-            color: var(--gray-300);
-            margin-bottom: 8px;
-        }
-
-        .empty-state p {
-            font-size: 14px;
-            color: var(--gray-500);
-        }
-
-        /* Toast */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10001;
-        }
-
-        .toast {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
+            justify-content: center;
             gap: 10px;
-            min-width: 250px;
-            animation: slideInRight 0.3s ease;
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
-        .toast-success {
-            border-left: 4px solid var(--success);
-        }
-
-        .toast-error {
-            border-left: 4px solid var(--danger);
-        }
-
-        .toast-info {
-            border-left: 4px solid var(--info);
-        }
-
-        .toast-warning {
-            border-left: 4px solid var(--warning);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--primary-light);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 30px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h3 {
-            font-size: 20px;
-            color: var(--white);
-        }
-
-        .modal-close {
-            background: none;
+            padding: 15px 30px;
             border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--gray-400);
-        }
-
-        /* Loading Spinner */
-        .loading-spinner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10002;
-        }
-
-        .loading-spinner.active {
-            display: flex;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--gray-700);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Admin Layout */
-        .admin-layout {
-            display: none;
-            min-height: 100vh;
-        }
-
-        .admin-sidebar {
-            width: 250px;
-            background: var(--primary);
-            border-right: 1px solid var(--glass-border);
-            position: fixed;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
-        }
-
-        .admin-sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--glass-border);
-            text-align: center;
-        }
-
-        .admin-sidebar-header i {
-            font-size: 36px;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .admin-sidebar-header h2 {
-            font-size: 16px;
-            color: var(--white);
-        }
-
-        .admin-menu {
-            flex: 1;
-            padding: 20px 0;
-        }
-
-        .admin-menu-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--gray-400);
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 100%;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .admin-menu-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--white);
-        }
-
-        .admin-menu-item.active {
-            background: rgba(201, 169, 110, 0.1);
-            color: var(--accent);
-            border-right: 3px solid var(--accent);
-        }
-
-        .admin-menu-item i {
-            margin-right: 12px;
-            width: 20px;
-        }
-
-        .admin-main {
-            margin-left: 250px;
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        .admin-topbar {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-topbar h3 {
-            font-size: 18px;
-            color: var(--white);
-        }
-
-        .admin-section {
-            display: none;
-        }
-
-        .admin-section.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* User Profile Page */
-        .user-profile-page {
-            display: none;
-            min-height: 100vh;
-            background: var(--bg);
-        }
-
-        .user-profile-header {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--glass-border);
-            position: relative;
-        }
-
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--gray-300);
-            padding: 8px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .user-profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--primary);
-            margin: 0 auto 15px;
-        }
-
-        .user-profile-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .user-profile-class {
-            font-size: 14px;
-            color: var(--gray-400);
-            margin-top: 5px;
-        }
-
-        .user-profile-content {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .user-profile-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .user-profile-card h3 {
-            font-size: 18px;
-            color: var(--white);
-            margin-bottom: 15px;
-        }
-
-        .user-profile-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .user-profile-info-item {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .user-profile-info-label {
-            font-size: 12px;
-            color: var(--gray-500);
-            margin-bottom: 5px;
-        }
-
-        .user-profile-info-value {
-            font-size: 16px;
+            border-radius: 12px;
+            font-size: 15px;
             font-weight: 600;
-            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
         }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg);
+            transform: translateY(-2px);
+        }
+
+        /* Animation Classes */
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .admin-sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s;
+            .hero-section {
+                padding: 40px 20px;
             }
 
-            .admin-sidebar.open {
-                transform: translateX(0);
-            }
-
-            .admin-main {
-                margin-left: 0;
-                padding: 10px;
+            .hero-section h1 {
+                font-size: 28px;
             }
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .data-table {
-                min-width: 550px;
+            .action-buttons {
+                flex-direction: column;
             }
 
-            .public-header h1 {
-                font-size: 24px;
-            }
-
-            .head-members-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .user-profile-info {
-                grid-template-columns: 1fr;
+            .btn {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Spinner -->
-    <div class="loading-spinner" id="loading">
-        <div class="spinner"></div>
-    </div>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
 
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Public Page -->
-    <div class="public-page" id="publicPage">
-        <!-- Admin Login Button -->
-        <a href="#" class="admin-login-btn" onclick="showAdminLogin()">
-            <i class="fas fa-shield-alt"></i>
-            Admin Login
-        </a>
-
-        <!-- Header -->
-        <div class="public-header">
-            <h1>🎓 Teacher's Day Collection</h1>
-            <p>एक पारदर्शी, सरल और सुरक्षित तरीका हमारे Teacher's Day collection को manage करने का।</p>
-            
-            <div class="live-indicator">
-                <span class="live-dot"></span>
-                Live Collection
+    <!-- Main Container -->
+    <div class="celebration-container">
+        <!-- Hero Section -->
+        <div class="hero-section fade-in-up">
+            <div class="hero-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h1>🎉 Celebration Complete!</h1>
+            <p>Teacher's Day Collection successfully completed!</p>
+            <div class="hero-badge">
+                <i class="fas fa-check-circle"></i>
+                Thank You for your contribution
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="public-container">
-            <!-- Head Members Section -->
-            <div class="head-members-section">
-                <h2>👑 Head Members</h2>
-                <p style="color:var(--gray-400); margin-top:15px;">इस collection को संभालने वाले प्रमुख सदस्य</p>
-                
-                <div class="head-members-grid">
-                    <div class="head-member-card">
-                        <div class="head-member-avatar">B</div>
-                        <div class="head-member-name">Bhumika</div>
-                        <div class="head-member-role">Head Member</div>
-                    </div>
-                    
-                    <div class="head-member-card">
-                        <div class="head-member-avatar">F</div>
-                        <div class="head-member-name">Faizan</div>
-                        <div class="head-member-role">Head Member</div>
-                    </div>
-                </div>
+        <!-- Stats Section -->
+        <div class="stats-grid fade-in-up delay-2">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <div class="stat-value" id="totalParticipants">0</div>
+                <div class="stat-label">Total Participants</div>
             </div>
-
-            <!-- Stats -->
-            <div class="stats-grid" id="publicStats">
-                <div class="stat-card">
-                    <i class="fas fa-users"></i>
-                    <div class="stat-value" id="totalParticipants">0</div>
-                    <div class="stat-label">Total Participants</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-check-circle"></i>
-                    <div class="stat-value" id="paidCount">0</div>
-                    <div class="stat-label">Paid</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-clock"></i>
-                    <div class="stat-value" id="pendingCount">0</div>
-                    <div class="stat-label">Pending</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-times-circle"></i>
-                    <div class="stat-value" id="notPaidCount">0</div>
-                    <div class="stat-label">Not Paid Yet</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-rupee-sign"></i>
-                    <div class="stat-value" id="totalCollection">₹0</div>
-                    <div class="stat-label">Total Collection</div>
-                </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <div class="stat-value" id="totalPaid">0</div>
+                <div class="stat-label">Paid</div>
             </div>
-
-            <!-- Search and Filters -->
-            <div class="search-filter-section">
-                <input type="text" class="search-input" id="publicSearch" placeholder="Search by name, class, mobile last 4, UTR ID...">
-                
-                <div class="filters-row">
-                    <div class="filter-group">
-                        <label class="filter-label">Class</label>
-                        <select class="filter-select" id="classFilter">
-                            <option value="">All Classes</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Payment Status</label>
-                        <select class="filter-select" id="statusFilter">
-                            <option value="">All</option>
-                            <option value="paid">Paid</option>
-                            <option value="pending">Pending</option>
-                            <option value="not_paid">Not Paid Yet</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Payment Method</label>
-                        <select class="filter-select" id="methodFilter">
-                            <option value="">All</option>
-                            <option value="cash">Cash</option>
-                            <option value="online">Online</option>
-                        </select>
-                    </div>
-                    <button class="clear-filters-btn" onclick="clearFilters()">
-                        <i class="fas fa-filter"></i> Clear Filters
-                    </button>
-                </div>
-            </div>
-
-            <!-- Data Table -->
-            <div class="data-table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Class</th>
-                            <th>Status</th>
-                            <th>Method</th>
-                            <th>Mobile</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody id="publicTableBody">
-                        <!-- Data will be populated -->
-                    </tbody>
-                </table>
-                
-                <div id="publicEmptyState" class="empty-state" style="display:none;">
-                    <i class="fas fa-inbox"></i>
-                    <h3>No records found</h3>
-                    <p>Try adjusting your search or filters</p>
-                </div>
+            <div class="stat-card">
+                <i class="fas fa-rupee-sign"></i>
+                <div class="stat-value" id="totalCollection">₹0</div>
+                <div class="stat-label">Total Collection</div>
             </div>
         </div>
-    </div>
 
-    <!-- User Profile Page -->
-    <div class="user-profile-page" id="userProfilePage">
-        <div class="user-profile-header">
-            <button class="back-btn" onclick="goBackToHome()">
-                <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <div class="user-profile-avatar" id="profileAvatar">?</div>
-            <div class="user-profile-name" id="profileName">User</div>
-            <div class="user-profile-class" id="profileClass">Class</div>
-        </div>
-        
-        <div class="user-profile-content">
-            <!-- Payment Status Card -->
-            <div class="user-profile-card">
-                <h3>💳 Payment Information</h3>
-                <div class="user-profile-info">
-                    <div class="user-profile-info-item">
-                        <div class="user-profile-info-label">Payment Status</div>
-                        <div class="user-profile-info-value" id="profileStatus">-</div>
-                    </div>
-                    <div class="user-profile-info-item">
-                        <div class="user-profile-info-label">Payment Method</div>
-                        <div class="user-profile-info-value" id="profileMethod">-</div>
-                    </div>
-                    <div class="user-profile-info-item">
-                        <div class="user-profile-info-label">Mobile</div>
-                        <div class="user-profile-info-value" id="profileMobile">-</div>
-                    </div>
-                    <div class="user-profile-info-item">
-                        <div class="user-profile-info-label">Amount</div>
-                        <div class="user-profile-info-value" id="profileAmount">₹0</div>
-                    </div>
-                </div>
+        <!-- Thank You Section -->
+        <div class="thank-you-section fade-in-up delay-3">
+            <div class="thank-you-icon">
+                <i class="fas fa-heart"></i>
             </div>
-            
-            <!-- UTR ID Card -->
-            <div class="user-profile-card" id="profileUtrCard" style="display:none;">
-                <h3>🔒 UTR ID</h3>
-                <div style="text-align:center; padding:15px;">
-                    <div style="font-size:24px; font-weight:700; color:var(--accent);" id="profileUtrId">-</div>
-                </div>
-            </div>
-            
-            <!-- Transaction Info Card -->
-            <div class="user-profile-card">
-                <h3>📅 Transaction Details</h3>
-                <div class="user-profile-info">
-                    <div class="user-profile-info-item">
-                        <div class="user-profile-info-label">Created</div>
-                        <div class="user-profile-info-value" id="profileCreated">-</div>
-                    </div>
-                    <div class="user-profile-info-item">
-                        <div class="user-profile-info-label">Updated</div>
-                        <div class="user-profile-info-value" id="profileUpdated">-</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Login Modal -->
-    <div class="modal-overlay" id="adminLoginModal">
-        <div class="modal-content" style="max-width:400px;">
-            <div class="modal-header">
-                <h3>Admin Login</h3>
-                <button class="modal-close" onclick="closeModal('adminLoginModal')">×</button>
-            </div>
-            
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="adminLoginEmail" placeholder="Admin email">
-            </div>
-            
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="adminLoginPassword" placeholder="Password">
-            </div>
-            
-            <button class="btn btn-primary" onclick="handleAdminLogin()">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-            
-            <p class="auth-link" style="margin-top:15px;">
-                <a onclick="closeModal('adminLoginModal')">Cancel</a>
+            <h2>🙏 Thank You!</h2>
+            <p>
+                Aap sabne Teacher's Day collection mein bharosa aur support dikhaya. 
+                Is collection ko successful banane ke liye hum sabne milkar kaam kiya. 
+                Aapka contribution isse yaadgaar banane mein madad karega.
+            </p>
+            <p style="font-weight: 600; color: var(--primary);">
+                "Shiksha ek aisa upahaar hai jo kabhi khatam nahi hota."
             </p>
         </div>
-    </div>
 
-    <!-- Admin Dashboard -->
-    <div class="admin-layout" id="adminDashboard">
-        <!-- Sidebar -->
-        <div class="admin-sidebar" id="adminSidebar">
-            <div class="admin-sidebar-header">
-                <i class="fas fa-shield-alt"></i>
-                <h2>Admin Panel</h2>
-            </div>
-            
-            <div class="admin-menu">
-                <button class="admin-menu-item active" onclick="adminNavigate('dashboard')">
-                    <i class="fas fa-tachometer-alt"></i>
-                    Dashboard
-                </button>
-                <button class="admin-menu-item" onclick="adminNavigate('addRecord')">
-                    <i class="fas fa-plus-circle"></i>
-                    Add Record
-                </button>
-                <button class="admin-menu-item" onclick="adminNavigate('manageRecords')">
-                    <i class="fas fa-edit"></i>
-                    Manage Records
-                </button>
-                <button class="admin-menu-item" onclick="adminNavigate('addAdmin')">
-                    <i class="fas fa-user-shield"></i>
-                    Add Admin
-                </button>
-            </div>
-            
-            <div style="padding: 20px; border-top: 1px solid var(--glass-border);">
-                <button class="btn btn-danger btn-sm" style="width:100%" onclick="handleLogout()">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
+        <!-- Head Members Section -->
+        <div class="head-members-section fade-in-up delay-4">
+            <h3>👑 Head Members</h3>
+            <div class="head-members-grid">
+                <div class="head-member-card">
+                    <div class="head-member-avatar">B</div>
+                    <div class="head-member-name">Bhumika</div>
+                    <div class="head-member-role">Head Member</div>
+                </div>
+                <div class="head-member-card">
+                    <div class="head-member-avatar">F</div>
+                    <div class="head-member-name">Faizan</div>
+                    <div class="head-member-role">Head Member</div>
+                </div>
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="admin-main">
-            <!-- Topbar -->
-            <div class="admin-topbar">
-                <h3 id="adminPageTitle">Dashboard</h3>
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <span style="color:var(--gray-400); font-size:13px;">👋 <span id="adminName"></span></span>
-                    <button class="btn btn-danger btn-sm" onclick="handleLogout()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
-                </div>
-            </div>
-
-            <!-- Dashboard Section -->
-            <div class="admin-section active" id="dashboardSection">
-                <div class="stats-grid" id="adminStats">
-                    <!-- Stats will be populated -->
-                </div>
-            </div>
-
-            <!-- Add Record Section -->
-            <div class="admin-section" id="addRecordSection">
-                <div class="card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:30px;">
-                    <h3 style="margin-bottom:20px; color:var(--white);">Add New Record</h3>
-                    
-                    <form id="addRecordForm">
-                        <div class="form-group">
-                            <label>Name *</label>
-                            <input type="text" id="addName" placeholder="Enter name">
-                            <div class="error-message" id="addNameError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Class *</label>
-                            <input type="text" id="addClass" placeholder="e.g., 10A">
-                            <div class="error-message" id="addClassError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Mobile Last 4 Digits *</label>
-                            <input type="text" id="addMobile" placeholder="e.g., 4821" maxlength="4">
-                            <div class="error-message" id="addMobileError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Amount (₹) *</label>
-                            <input type="number" id="addAmount" placeholder="e.g., 100">
-                            <div class="error-message" id="addAmountError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Payment Status *</label>
-                            <select id="addPaymentStatus" onchange="togglePaymentMethodField('add')">
-                                <option value="paid">Paid</option>
-                                <option value="pending">Pending</option>
-                                <option value="not_paid">Not Paid Yet</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group" id="addPaymentMethodField" style="display:none;">
-                            <label>Payment Method *</label>
-                            <select id="addPaymentMethod" onchange="toggleUtrField('add')">
-                                <option value="cash">Cash</option>
-                                <option value="online">Online</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group" id="addUtrField" style="display:none;">
-                            <label>UTR ID (12 digits) *</label>
-                            <input type="text" id="addUtrId" placeholder="Enter 12-digit UTR ID" maxlength="12">
-                            <div class="error-message" id="addUtrIdError"></div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Save Record
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Manage Records Section -->
-            <div class="admin-section" id="manageRecordsSection">
-                <div class="data-table-wrapper" style="margin-top:20px;">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Class</th>
-                                <th>Status</th>
-                                <th>Method</th>
-                                <th>Amount</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminTableBody">
-                            <!-- Data will be populated -->
-                        </tbody>
-                    </table>
-                    
-                    <div id="adminEmptyState" class="empty-state" style="display:none;">
-                        <i class="fas fa-inbox"></i>
-                        <h3>No records found</h3>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Add Admin Section -->
-            <div class="admin-section" id="addAdminSection">
-                <div class="card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:30px;">
-                    <h3 style="margin-bottom:20px; color:var(--white);">Add New Admin</h3>
-                    
-                    <form id="addAdminForm">
-                        <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" id="newAdminName" placeholder="Admin name">
-                            <div class="error-message" id="newAdminNameError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Email *</label>
-                            <input type="email" id="newAdminEmail" placeholder="Admin email">
-                            <div class="error-message" id="newAdminEmailError"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Password *</label>
-                            <input type="password" id="newAdminPassword" placeholder="Create password">
-                            <div class="error-message" id="newAdminPasswordError"></div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-user-shield"></i> Create Admin
-                        </button>
-                    </form>
-                </div>
-            </div>
+        <!-- Actions -->
+        <div class="action-buttons fade-in-up delay-5">
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                Back to Home
+            </a>
+            <a href="#" class="btn btn-secondary" onclick="replayCelebration()">
+                <i class="fas fa-redo"></i>
+                Replay Celebration
+            </a>
         </div>
     </div>
 
-    <!-- Edit Record Modal -->
-    <div class="modal-overlay" id="editRecordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Edit Record</h3>
-                <button class="modal-close" onclick="closeModal('editRecordModal')">×</button>
-            </div>
-            
-            <form id="editRecordForm">
-                <input type="hidden" id="editRecordId">
-                
-                <div class="form-group">
-                    <label>Name *</label>
-                    <input type="text" id="editName" placeholder="Enter name">
-                    <div class="error-message" id="editNameError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Class *</label>
-                    <input type="text" id="editClass" placeholder="e.g., 10A">
-                    <div class="error-message" id="editClassError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Mobile Last 4 Digits *</label>
-                    <input type="text" id="editMobile" placeholder="e.g., 4821" maxlength="4">
-                    <div class="error-message" id="editMobileError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Amount (₹) *</label>
-                    <input type="number" id="editAmount" placeholder="e.g., 100">
-                    <div class="error-message" id="editAmountError"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Payment Status *</label>
-                    <select id="editPaymentStatus" onchange="togglePaymentMethodField('edit')">
-                        <option value="paid">Paid</option>
-                        <option value="pending">Pending</option>
-                        <option value="not_paid">Not Paid Yet</option>
-                    </select>
-                </div>
-                
-                <div class="form-group" id="editPaymentMethodField" style="display:none;">
-                    <label>Payment Method *</label>
-                    <select id="editPaymentMethod" onchange="toggleUtrField('edit')">
-                        <option value="cash">Cash</option>
-                        <option value="online">Online</option>
-                    </select>
-                </div>
-                
-                <div class="form-group" id="editUtrField" style="display:none;">
-                    <label>UTR ID (12 digits) *</label>
-                    <input type="text" id="editUtrId" placeholder="Enter 12-digit UTR ID" maxlength="12">
-                    <div class="error-message" id="editUtrIdError"></div>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Update Record
-                </button>
-            </form>
-        </div>
-    </div>
+    <!-- Confetti Animation Script -->
+    <script>
+        // Confetti Animation
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const colors = ['#6366F1', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#38BDF8', '#EC4899'];
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal-overlay" id="deleteModal">
-        <div class="modal-content" style="max-width:400px;">
-            <div class="modal-header">
-                <h3>Delete Record</h3>
-                <button class="modal-close" onclick="closeModal('deleteModal')">×</button>
-            </div>
+        // Resize Canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Create Particles
+        function createParticles(count) {
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: -20 - Math.random() * canvas.height,
+                    size: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 5 + 2,
+                    speedX: Math.random() * 3 - 1.5,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 5 - 2.5
+                });
+            }
+        }
+
+        // Update and Draw Particles
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, index) => {
+                // Move Particle
+                particle.y += particle.speedY;
+                particle.x += particle.speedX;
+                particle.rotation += particle.rotationSpeed;
+
+                // Draw Particle
+                ctx.save();
+                ctx.translate(particle.x, particle.y);
+                ctx.rotate(particle.rotation * Math.PI / 180);
+                ctx.fillStyle = particle.color;
+                ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+                ctx.restore();
+
+                // Remove off-screen Particles
+                if (particle.y > canvas.height + 20) {
+                    particles.splice(index, 1);
+                }
+            });
+
+            // Add New Particles
+            if (particles.length < 100) {
+                createParticles(2);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start Animation
+        createParticles(100);
+        animate();
+
+        // Replay Celebration
+        function replayCelebration() {
+            // Clear Existing Particles
+            particles = [];
             
-            <p style="color:var(--gray-300); margin-bottom:20px;">Are you sure you want to delete this record?</p>
+            // Create New Particles
+            createParticles(150);
             
-            <div style="display:flex; gap:10px;">
-                <button class="btn btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
-                <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
-            </div>
-        </div>
-    </div>
+            // Show Alert
+            alert('🎉 Celebration replayed! Enjoy the confetti!');
+        }
+
+        // Fetch Stats from Firestore
+        async function loadStats() {
+            try {
+                const db = firebase.firestore();
+                const snapshot = await db.collection('teacherDayCollection').get();
+                
+                const totalParticipants = snapshot.size;
+                const totalPaid = snapshot.docs.filter(doc => doc.data().paymentStatus === 'paid').length;
+                const totalCollection = snapshot.docs
+                    .filter(doc => doc.data().paymentStatus === 'paid')
+                    .reduce((sum, doc) => sum + (doc.data().amount || 0), 0);
+                
+                document.getElementById('totalParticipants').textContent = totalParticipants;
+                document.getElementById('totalPaid').textContent = totalPaid;
+                document.getElementById('totalCollection').textContent = '₹' + totalCollection.toLocaleString('en-IN');
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                // Show default values
+                document.getElementById('totalParticipants').textContent = '0';
+                document.getElementById('totalPaid').textContent = '0';
+                document.getElementById('totalCollection').textContent = '₹0';
+            }
+        }
+
+        // Load Stats on Page Load
+        loadStats();
+    </script>
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
@@ -1449,745 +566,6 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // Global State
-        let currentUser = null;
-        let allRecords = [];
-        let deleteRecordId = null;
-        let currentUserRecord = null;
-
-        // Utility Functions
-        function showLoading() {
-            document.getElementById('loading').classList.add('active');
-        }
-
-        function hideLoading() {
-            document.getElementById('loading').classList.remove('active');
-        }
-
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            
-            let icon = 'fa-info-circle';
-            if (type === 'success') icon = 'fa-check-circle';
-            else if (type === 'error') icon = 'fa-exclamation-circle';
-            else if (type === 'warning') icon = 'fa-exclamation-triangle';
-            
-            toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
-            container.appendChild(toast);
-            
-            setTimeout(() => toast.remove(), 5000);
-        }
-
-        function formatCurrency(amount) {
-            return '₹' + Number(amount).toLocaleString('en-IN');
-        }
-
-        function maskUtrId(utrId) {
-            if (!utrId) return '-';
-            if (utrId.length <= 4) return utrId;
-            return '••••••' + utrId.slice(-4);
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-
-        // ============ PAYMENT STATUS FUNCTIONS ============
-        function togglePaymentMethodField(prefix) {
-            const status = document.getElementById(prefix + 'PaymentStatus').value;
-            const methodField = document.getElementById(prefix + 'PaymentMethodField');
-            const utrField = document.getElementById(prefix + 'UtrField');
-            
-            if (status === 'paid') {
-                methodField.style.display = 'block';
-            } else {
-                methodField.style.display = 'none';
-                utrField.style.display = 'none';
-            }
-        }
-
-        function toggleUtrField(prefix) {
-            const method = document.getElementById(prefix + 'PaymentMethod').value;
-            const utrField = document.getElementById(prefix + 'UtrField');
-            
-            if (method === 'online') {
-                utrField.style.display = 'block';
-            } else {
-                utrField.style.display = 'none';
-            }
-        }
-
-        // ============ PUBLIC FUNCTIONS ============
-        async function loadPublicData() {
-            showLoading();
-            
-            try {
-                const snapshot = await db.collection('teacherDayCollection').orderBy('createdAt', 'desc').get();
-                allRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                
-                updateStats();
-                populateClassFilter();
-                renderPublicTable();
-                
-            } catch (error) {
-                console.error('Error loading public data:', error);
-                showToast('Failed to load data. Please try again.', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        function updateStats() {
-            const totalParticipants = allRecords.length;
-            const paidCount = allRecords.filter(r => r.paymentStatus === 'paid').length;
-            const pendingCount = allRecords.filter(r => r.paymentStatus === 'pending').length;
-            const notPaidCount = allRecords.filter(r => r.paymentStatus === 'not_paid').length;
-            const totalCollection = allRecords
-                .filter(r => r.paymentStatus === 'paid')
-                .reduce((sum, r) => sum + (r.amount || 0), 0);
-            
-            document.getElementById('totalParticipants').textContent = totalParticipants;
-            document.getElementById('paidCount').textContent = paidCount;
-            document.getElementById('pendingCount').textContent = pendingCount;
-            document.getElementById('notPaidCount').textContent = notPaidCount;
-            document.getElementById('totalCollection').textContent = formatCurrency(totalCollection);
-        }
-
-        function populateClassFilter() {
-            const classes = [...new Set(allRecords.map(r => r.className).filter(Boolean))].sort();
-            const select = document.getElementById('classFilter');
-            const currentValue = select.value;
-            
-            select.innerHTML = '<option value="">All Classes</option>';
-            classes.forEach(cls => {
-                select.innerHTML += `<option value="${cls}">${cls}</option>`;
-            });
-            
-            select.value = currentValue;
-        }
-
-        function renderPublicTable() {
-            const searchTerm = document.getElementById('publicSearch').value.toLowerCase();
-            const classFilter = document.getElementById('classFilter').value;
-            const statusFilter = document.getElementById('statusFilter').value;
-            const methodFilter = document.getElementById('methodFilter').value;
-            
-            let filtered = allRecords.filter(record => {
-                if (searchTerm) {
-                    const searchable = `${record.name} ${record.className} ${record.mobileLast4} ${record.utrId || ''}`.toLowerCase();
-                    if (!searchable.includes(searchTerm)) return false;
-                }
-                
-                if (classFilter && record.className !== classFilter) return false;
-                if (statusFilter && record.paymentStatus !== statusFilter) return false;
-                if (methodFilter && record.paymentMethod !== methodFilter) return false;
-                
-                return true;
-            });
-            
-            const tableBody = document.getElementById('publicTableBody');
-            const emptyState = document.getElementById('publicEmptyState');
-            
-            if (filtered.length === 0) {
-                tableBody.innerHTML = '';
-                emptyState.style.display = 'block';
-                return;
-            }
-            
-            emptyState.style.display = 'none';
-            
-            tableBody.innerHTML = filtered.map(record => {
-                let statusBadge = '';
-                if (record.paymentStatus === 'paid') {
-                    statusBadge = '<span class="badge badge-paid"><i class="fas fa-check"></i> PAID</span>';
-                } else if (record.paymentStatus === 'pending') {
-                    statusBadge = '<span class="badge badge-pending"><i class="fas fa-clock"></i> PENDING</span>';
-                } else {
-                    statusBadge = '<span class="badge badge-not-paid"><i class="fas fa-times"></i> NOT PAID YET</span>';
-                }
-                
-                let methodBadge = '';
-                if (record.paymentStatus === 'paid') {
-                    methodBadge = record.paymentMethod === 'cash' 
-                        ? '<span class="badge badge-cash"><i class="fas fa-money-bill"></i> CASH</span>' 
-                        : '<span class="badge badge-online"><i class="fas fa-globe"></i> ONLINE</span>';
-                } else {
-                    methodBadge = '-';
-                }
-                
-                return `
-                    <tr onclick="openUserProfile('${record.id}')" style="cursor:pointer;">
-                        <td><strong>${record.name || '-'}</strong></td>
-                        <td>${record.className || '-'}</td>
-                        <td>${statusBadge}</td>
-                        <td>${methodBadge}</td>
-                        <td>•••• ${record.mobileLast4 || '----'}</td>
-                        <td style="color:var(--accent); font-weight:600;">${formatCurrency(record.amount || 0)}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // ============ USER PROFILE PAGE ============
-        function openUserProfile(recordId) {
-            const record = allRecords.find(r => r.id === recordId);
-            if (!record) return;
-            
-            currentUserRecord = record;
-            
-            document.getElementById('profileAvatar').textContent = record.name ? record.name.charAt(0).toUpperCase() : '?';
-            document.getElementById('profileName').textContent = record.name || 'Unknown';
-            document.getElementById('profileClass').textContent = record.className || 'Class not specified';
-            
-            let statusText = '';
-            if (record.paymentStatus === 'paid') {
-                statusText = '<span class="badge badge-paid">PAID</span>';
-            } else if (record.paymentStatus === 'pending') {
-                statusText = '<span class="badge badge-pending">PENDING</span>';
-            } else {
-                statusText = '<span class="badge badge-not-paid">NOT PAID YET</span>';
-            }
-            document.getElementById('profileStatus').innerHTML = statusText;
-            
-            let methodText = '-';
-            if (record.paymentStatus === 'paid') {
-                methodText = record.paymentMethod === 'cash' 
-                    ? '<span class="badge badge-cash">CASH</span>' 
-                    : '<span class="badge badge-online">ONLINE</span>';
-            }
-            document.getElementById('profileMethod').innerHTML = methodText;
-            
-            document.getElementById('profileMobile').textContent = record.mobileLast4 ? '•••• ' + record.mobileLast4 : '-';
-            document.getElementById('profileAmount').textContent = formatCurrency(record.amount || 0);
-            
-            const utrCard = document.getElementById('profileUtrCard');
-            if (record.paymentStatus === 'paid' && record.paymentMethod === 'online' && record.utrId) {
-                utrCard.style.display = 'block';
-                document.getElementById('profileUtrId').textContent = record.utrId;
-            } else {
-                utrCard.style.display = 'none';
-            }
-            
-            document.getElementById('profileCreated').textContent = record.createdAt ? record.createdAt.toDate().toLocaleDateString('hi-IN') : '-';
-            document.getElementById('profileUpdated').textContent = record.updatedAt ? record.updatedAt.toDate().toLocaleDateString('hi-IN') : '-';
-            
-            document.getElementById('publicPage').style.display = 'none';
-            document.getElementById('userProfilePage').style.display = 'block';
-        }
-
-        function goBackToHome() {
-            document.getElementById('userProfilePage').style.display = 'none';
-            document.getElementById('publicPage').style.display = 'block';
-        }
-
-        // ============ SEARCH AND FILTERS ============
-        document.getElementById('publicSearch').addEventListener('input', debounce(renderPublicTable, 300));
-        document.getElementById('classFilter').addEventListener('change', renderPublicTable);
-        document.getElementById('statusFilter').addEventListener('change', renderPublicTable);
-        document.getElementById('methodFilter').addEventListener('change', renderPublicTable);
-
-        function clearFilters() {
-            document.getElementById('publicSearch').value = '';
-            document.getElementById('classFilter').value = '';
-            document.getElementById('statusFilter').value = '';
-            document.getElementById('methodFilter').value = '';
-            renderPublicTable();
-        }
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // ============ ADMIN AUTH FUNCTIONS ============
-        function showAdminLogin() {
-            document.getElementById('adminLoginModal').classList.add('active');
-        }
-
-        async function handleAdminLogin() {
-            const email = document.getElementById('adminLoginEmail').value;
-            const password = document.getElementById('adminLoginPassword').value;
-
-            if (!email || !password) {
-                showToast('Please fill all fields', 'warning');
-                return;
-            }
-
-            try {
-                showLoading();
-                await auth.signInWithEmailAndPassword(email, password);
-                
-                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
-                const userData = userDoc.data();
-                
-                if (!userData || userData.role !== 'admin') {
-                    await auth.signOut();
-                    showToast('Access denied. Admin only.', 'error');
-                    return;
-                }
-                
-                document.getElementById('adminLoginModal').classList.remove('active');
-                document.getElementById('publicPage').style.display = 'none';
-                document.getElementById('userProfilePage').style.display = 'none';
-                document.getElementById('adminDashboard').style.display = 'block';
-                document.getElementById('adminName').textContent = userData.name || 'Admin';
-                
-                loadAdminData();
-                showToast('Welcome back, Admin!', 'success');
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                let message = 'Login failed. Please try again.';
-                if (error.code === 'auth/user-not-found') message = 'No account found with this email.';
-                else if (error.code === 'auth/wrong-password') message = 'Invalid password.';
-                showToast(message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        async function handleLogout() {
-            try {
-                await auth.signOut();
-                document.getElementById('adminDashboard').style.display = 'none';
-                document.getElementById('userProfilePage').style.display = 'none';
-                document.getElementById('publicPage').style.display = 'block';
-                showToast('Logged out successfully', 'success');
-            } catch (error) {
-                showToast('Failed to logout', 'error');
-            }
-        }
-
-        // ============ ADMIN NAVIGATION ============
-        function adminNavigate(section) {
-            document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
-            
-            const targetSection = document.getElementById(section + 'Section');
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-
-            document.querySelectorAll('.admin-menu-item').forEach(m => m.classList.remove('active'));
-            const targetMenu = document.querySelector(`.admin-menu-item[onclick="adminNavigate('${section}')"]`);
-            if (targetMenu) {
-                targetMenu.classList.add('active');
-            }
-
-            const titles = {
-                dashboard: 'Dashboard',
-                addRecord: 'Add Record',
-                manageRecords: 'Manage Records',
-                addAdmin: 'Add Admin'
-            };
-            
-            document.getElementById('adminPageTitle').textContent = titles[section] || 'Dashboard';
-
-            if (section === 'manageRecords') {
-                loadAdminTable();
-            }
-        }
-
-        // ============ ADMIN DATA FUNCTIONS ============
-        async function loadAdminData() {
-            showLoading();
-            
-            try {
-                const snapshot = await db.collection('teacherDayCollection').orderBy('createdAt', 'desc').get();
-                allRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                
-                // Update admin stats
-                const totalParticipants = allRecords.length;
-                const paidCount = allRecords.filter(r => r.paymentStatus === 'paid').length;
-                const pendingCount = allRecords.filter(r => r.paymentStatus === 'pending').length;
-                const notPaidCount = allRecords.filter(r => r.paymentStatus === 'not_paid').length;
-                const cashCount = allRecords.filter(r => r.paymentStatus === 'paid' && r.paymentMethod === 'cash').length;
-                const onlineCount = allRecords.filter(r => r.paymentStatus === 'paid' && r.paymentMethod === 'online').length;
-                const totalAmount = allRecords
-                    .filter(r => r.paymentStatus === 'paid')
-                    .reduce((sum, r) => sum + (r.amount || 0), 0);
-                
-                document.getElementById('adminStats').innerHTML = `
-                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
-                        <i class="fas fa-users" style="font-size:24px; color:var(--accent);"></i>
-                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${totalParticipants}</div>
-                        <div style="font-size:13px; color:var(--gray-400);">Total Participants</div>
-                    </div>
-                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
-                        <i class="fas fa-check-circle" style="font-size:24px; color:var(--success);"></i>
-                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${paidCount}</div>
-                        <div style="font-size:13px; color:var(--gray-400);">Paid</div>
-                    </div>
-                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
-                        <i class="fas fa-clock" style="font-size:24px; color:var(--warning);"></i>
-                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${pendingCount}</div>
-                        <div style="font-size:13px; color:var(--gray-400);">Pending</div>
-                    </div>
-                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
-                        <i class="fas fa-times-circle" style="font-size:24px; color:var(--danger);"></i>
-                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${notPaidCount}</div>
-                        <div style="font-size:13px; color:var(--gray-400);">Not Paid Yet</div>
-                    </div>
-                    <div class="stat-card" style="background:var(--glass-bg); border:1px solid var(--glass-border); border-radius:15px; padding:20px; text-align:center;">
-                        <i class="fas fa-rupee-sign" style="font-size:24px; color:var(--accent);"></i>
-                        <div style="font-size:28px; font-weight:800; color:var(--white); margin:8px 0;">${formatCurrency(totalAmount)}</div>
-                        <div style="font-size:13px; color:var(--gray-400);">Total Collection</div>
-                    </div>
-                `;
-                
-                loadAdminTable();
-                
-            } catch (error) {
-                console.error('Admin data error:', error);
-                showToast('Failed to load data', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        function loadAdminTable() {
-            const tableBody = document.getElementById('adminTableBody');
-            const emptyState = document.getElementById('adminEmptyState');
-            
-            if (allRecords.length === 0) {
-                tableBody.innerHTML = '';
-                emptyState.style.display = 'block';
-                return;
-            }
-            
-            emptyState.style.display = 'none';
-            
-            tableBody.innerHTML = allRecords.map(record => {
-                let statusBadge = '';
-                if (record.paymentStatus === 'paid') {
-                    statusBadge = '<span class="badge badge-paid">PAID</span>';
-                } else if (record.paymentStatus === 'pending') {
-                    statusBadge = '<span class="badge badge-pending">PENDING</span>';
-                } else {
-                    statusBadge = '<span class="badge badge-not-paid">NOT PAID YET</span>';
-                }
-                
-                let methodBadge = '';
-                if (record.paymentStatus === 'paid') {
-                    methodBadge = record.paymentMethod === 'cash' 
-                        ? '<span class="badge badge-cash">CASH</span>' 
-                        : '<span class="badge badge-online">ONLINE</span>';
-                } else {
-                    methodBadge = '-';
-                }
-                
-                return `
-                    <tr>
-                        <td><strong>${record.name || '-'}</strong></td>
-                        <td>${record.className || '-'}</td>
-                        <td>${statusBadge}</td>
-                        <td>${methodBadge}</td>
-                        <td style="color:var(--accent); font-weight:600;">${formatCurrency(record.amount || 0)}</td>
-                        <td>
-                            <button class="btn btn-sm btn-ghost" onclick="openEditModal('${record.id}')">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-ghost" onclick="openDeleteModal('${record.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // ============ ADD RECORD FUNCTIONS ============
-        async function handleAddRecord(e) {
-            e.preventDefault();
-            
-            ['addName', 'addClass', 'addMobile', 'addAmount', 'addUtrId'].forEach(id => {
-                document.getElementById(id + 'Error').textContent = '';
-            });
-            
-            const name = document.getElementById('addName').value;
-            const className = document.getElementById('addClass').value;
-            const mobileLast4 = document.getElementById('addMobile').value;
-            const amount = document.getElementById('addAmount').value;
-            const paymentStatus = document.getElementById('addPaymentStatus').value;
-            const paymentMethod = document.getElementById('addPaymentMethod').value;
-            const utrId = document.getElementById('addUtrId').value;
-            
-            let isValid = true;
-            
-            if (!name) { document.getElementById('addNameError').textContent = 'Name is required'; isValid = false; }
-            if (!className) { document.getElementById('addClassError').textContent = 'Class is required'; isValid = false; }
-            if (!/^\d{4}$/.test(mobileLast4)) { document.getElementById('addMobileError').textContent = 'Enter exactly 4 digits'; isValid = false; }
-            if (!amount || amount <= 0) { document.getElementById('addAmountError').textContent = 'Enter valid amount'; isValid = false; }
-            if (paymentStatus === 'paid' && paymentMethod === 'online' && !utrId) { document.getElementById('addUtrIdError').textContent = 'UTR ID is required for online payments'; isValid = false; }
-            
-            if (paymentStatus === 'paid' && paymentMethod === 'online' && utrId) {
-                const duplicateQuery = await db.collection('teacherDayCollection').where('utrId', '==', utrId).get();
-                if (!duplicateQuery.empty) {
-                    document.getElementById('addUtrIdError').textContent = 'This UTR ID already exists';
-                    showToast('This UTR ID already exists. Please verify the payment details.', 'error');
-                    isValid = false;
-                }
-            }
-            
-            if (!isValid) {
-                showToast('Please fix the errors', 'warning');
-                return;
-            }
-            
-            try {
-                showLoading();
-                
-                await db.collection('teacherDayCollection').add({
-                    name,
-                    className,
-                    mobileLast4,
-                    amount: parseFloat(amount),
-                    paymentStatus,
-                    paymentMethod: paymentStatus === 'paid' ? paymentMethod : null,
-                    utrId: paymentStatus === 'paid' && paymentMethod === 'online' ? utrId : null,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    createdBy: auth.currentUser.uid,
-                    updatedBy: auth.currentUser.uid
-                });
-                
-                document.getElementById('addRecordForm').reset();
-                document.getElementById('addPaymentMethodField').style.display = 'none';
-                document.getElementById('addUtrField').style.display = 'none';
-                
-                showToast('Record added successfully.', 'success');
-                loadAdminData();
-                
-            } catch (error) {
-                console.error('Add record error:', error);
-                showToast('Failed to add record', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        document.getElementById('addRecordForm').addEventListener('submit', handleAddRecord);
-
-        // ============ EDIT RECORD FUNCTIONS ============
-        async function openEditModal(recordId) {
-            try {
-                const doc = await db.collection('teacherDayCollection').doc(recordId).get();
-                const record = doc.data();
-                
-                document.getElementById('editRecordId').value = recordId;
-                document.getElementById('editName').value = record.name || '';
-                document.getElementById('editClass').value = record.className || '';
-                document.getElementById('editMobile').value = record.mobileLast4 || '';
-                document.getElementById('editAmount').value = record.amount || '';
-                document.getElementById('editPaymentStatus').value = record.paymentStatus || 'pending';
-                document.getElementById('editPaymentMethod').value = record.paymentMethod || 'cash';
-                document.getElementById('editUtrId').value = record.utrId || '';
-                
-                togglePaymentMethodField('edit');
-                toggleUtrField('edit');
-                openModal('editRecordModal');
-                
-            } catch (error) {
-                console.error('Edit modal error:', error);
-                showToast('Failed to load record', 'error');
-            }
-        }
-
-        async function handleEditRecord(e) {
-            e.preventDefault();
-            
-            ['editName', 'editClass', 'editMobile', 'editAmount', 'editUtrId'].forEach(id => {
-                document.getElementById(id + 'Error').textContent = '';
-            });
-            
-            const recordId = document.getElementById('editRecordId').value;
-            const name = document.getElementById('editName').value;
-            const className = document.getElementById('editClass').value;
-            const mobileLast4 = document.getElementById('editMobile').value;
-            const amount = document.getElementById('editAmount').value;
-            const paymentStatus = document.getElementById('editPaymentStatus').value;
-            const paymentMethod = document.getElementById('editPaymentMethod').value;
-            const utrId = document.getElementById('editUtrId').value;
-            
-            let isValid = true;
-            
-            if (!name) { document.getElementById('editNameError').textContent = 'Name is required'; isValid = false; }
-            if (!className) { document.getElementById('editClassError').textContent = 'Class is required'; isValid = false; }
-            if (!/^\d{4}$/.test(mobileLast4)) { document.getElementById('editMobileError').textContent = 'Enter exactly 4 digits'; isValid = false; }
-            if (!amount || amount <= 0) { document.getElementById('editAmountError').textContent = 'Enter valid amount'; isValid = false; }
-            if (paymentStatus === 'paid' && paymentMethod === 'online' && !utrId) { document.getElementById('editUtrIdError').textContent = 'UTR ID is required for online payments'; isValid = false; }
-            
-            if (paymentStatus === 'paid' && paymentMethod === 'online' && utrId) {
-                const duplicateQuery = await db.collection('teacherDayCollection').where('utrId', '==', utrId).get();
-                const isDuplicate = duplicateQuery.docs.some(doc => doc.id !== recordId);
-                
-                if (isDuplicate) {
-                    document.getElementById('editUtrIdError').textContent = 'This UTR ID already exists';
-                    showToast('This UTR ID already exists. Please verify the payment details.', 'error');
-                    isValid = false;
-                }
-            }
-            
-            if (!isValid) {
-                showToast('Please fix the errors', 'warning');
-                return;
-            }
-            
-            try {
-                showLoading();
-                
-                await db.collection('teacherDayCollection').doc(recordId).update({
-                    name,
-                    className,
-                    mobileLast4,
-                    amount: parseFloat(amount),
-                    paymentStatus,
-                    paymentMethod: paymentStatus === 'paid' ? paymentMethod : null,
-                    utrId: paymentStatus === 'paid' && paymentMethod === 'online' ? utrId : null,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    updatedBy: auth.currentUser.uid
-                });
-                
-                closeModal('editRecordModal');
-                showToast('Record updated successfully.', 'success');
-                loadAdminData();
-                
-            } catch (error) {
-                console.error('Update record error:', error);
-                showToast('Failed to update record', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        document.getElementById('editRecordForm').addEventListener('submit', handleEditRecord);
-
-        // ============ DELETE RECORD FUNCTIONS ============
-        function openDeleteModal(recordId) {
-            deleteRecordId = recordId;
-            openModal('deleteModal');
-        }
-
-        async function confirmDelete() {
-            if (!deleteRecordId) return;
-            
-            try {
-                showLoading();
-                await db.collection('teacherDayCollection').doc(deleteRecordId).delete();
-                
-                closeModal('deleteModal');
-                showToast('Record deleted successfully.', 'success');
-                loadAdminData();
-                
-            } catch (error) {
-                console.error('Delete record error:', error);
-                showToast('Failed to delete record', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        // ============ ADD ADMIN FUNCTIONS ============
-        async function handleAddAdmin(e) {
-            e.preventDefault();
-            
-            ['newAdminName', 'newAdminEmail', 'newAdminPassword'].forEach(id => {
-                document.getElementById(id + 'Error').textContent = '';
-            });
-            
-            const name = document.getElementById('newAdminName').value;
-            const email = document.getElementById('newAdminEmail').value;
-            const password = document.getElementById('newAdminPassword').value;
-            
-            let isValid = true;
-            
-            if (!name) { document.getElementById('newAdminNameError').textContent = 'Name is required'; isValid = false; }
-            if (!email) { document.getElementById('newAdminEmailError').textContent = 'Email is required'; isValid = false; }
-            if (password.length < 8) { document.getElementById('newAdminPasswordError').textContent = 'Password must be at least 8 characters'; isValid = false; }
-            
-            if (!isValid) {
-                showToast('Please fix the errors', 'warning');
-                return;
-            }
-            
-            try {
-                showLoading();
-                
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                await db.collection('users').doc(user.uid).set({
-                    uid: user.uid,
-                    name: name,
-                    email: email,
-                    role: 'admin',
-                    status: 'active',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                document.getElementById('addAdminForm').reset();
-                
-                showToast('Admin created successfully.', 'success');
-                
-            } catch (error) {
-                console.error('Add admin error:', error);
-                let message = 'Failed to create admin.';
-                if (error.code === 'auth/email-already-in-use') message = 'Email already exists.';
-                showToast(message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        document.getElementById('addAdminForm').addEventListener('submit', handleAddAdmin);
-
-        // ============ AUTH STATE LISTENER ============
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                try {
-                    const userDoc = await db.collection('users').doc(user.uid).get();
-                    const userData = userDoc.data();
-                    
-                    if (userData && userData.role === 'admin') {
-                        document.getElementById('publicPage').style.display = 'none';
-                        document.getElementById('userProfilePage').style.display = 'none';
-                        document.getElementById('adminDashboard').style.display = 'block';
-                        document.getElementById('adminName').textContent = userData.name || 'Admin';
-                        loadAdminData();
-                    }
-                } catch (error) {
-                    console.error('Auth state error:', error);
-                }
-            } else {
-                document.getElementById('adminDashboard').style.display = 'none';
-                document.getElementById('userProfilePage').style.display = 'none';
-                document.getElementById('publicPage').style.display = 'block';
-                loadPublicData();
-            }
-        });
-
-        // ============ INITIALIZATION ============
-        loadPublicData();
-
-        db.collection('teacherDayCollection').onSnapshot(() => {
-            loadPublicData();
-        });
     </script>
 </body>
 </html>
