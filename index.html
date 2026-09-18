@@ -54,21 +54,16 @@ input, select { font-family: inherit; outline: none; }
 .hidden { display: none !important; }
 img { max-width: 100%; display: block; }
 
-/* ============ APP SHELL ============ */
-#appView {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+/* APP SHELL */
+#appView { min-height: 100vh; display: flex; flex-direction: column; }
 
-/* ============ HEADER ============ */
+/* HEADER */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 40;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  height: var(--header-h);
   padding: 0 14px;
   display: flex;
   align-items: center;
@@ -76,123 +71,64 @@ img { max-width: 100%; display: block; }
   padding-top: env(safe-area-inset-top);
   height: calc(var(--header-h) + env(safe-area-inset-top));
 }
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
+.header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .brand-mark {
-  width: 32px;
-  height: 32px;
+  width: 32px; height: 32px;
   border-radius: 8px;
   background: var(--accent);
   color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: -.5px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px; letter-spacing: -.5px;
   flex-shrink: 0;
 }
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-.brand-text .b1 {
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: .2px;
-}
-.brand-text .b2 {
-  font-size: 9px;
-  color: var(--text-3);
-  font-weight: 600;
-  letter-spacing: 1.2px;
-  margin-top: 2px;
-}
-.header-status {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  justify-content: center;
-}
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-text .b1 { font-size: 13px; font-weight: 800; letter-spacing: .2px; }
+.brand-text .b2 { font-size: 9px; color: var(--text-3); font-weight: 600; letter-spacing: 1.2px; margin-top: 2px; }
+.header-status { flex: 1; min-width: 0; display: flex; justify-content: center; }
 .status-chip {
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: .3px;
-  padding: 4px 9px;
-  border-radius: 6px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .3px;
+  padding: 4px 9px; border-radius: 6px;
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text-2);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   max-width: 100%;
 }
-.status-chip .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-3);
-  flex-shrink: 0;
-}
+.status-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); flex-shrink: 0; }
 .status-chip.live { color: var(--success); border-color: rgba(34,197,94,.35); }
 .status-chip.live .dot { background: var(--success); animation: pulse 2s infinite; }
 .status-chip.closed { color: var(--warning); border-color: rgba(245,158,11,.35); }
 .status-chip.closed .dot { background: var(--warning); }
 .status-chip.done { color: var(--text-3); }
-@keyframes pulse {
-  0%,100% { opacity: 1; }
-  50% { opacity: .4; }
-}
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+.header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .balance-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: flex; align-items: center; gap: 6px;
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 5px 9px;
-  font-size: 12.5px;
-  font-weight: 700;
+  font-size: 12.5px; font-weight: 700;
 }
 .balance-pill .coin {
-  width: 14px; height: 14px;
-  border-radius: 50%;
+  width: 14px; height: 14px; border-radius: 50%;
   background: var(--warning);
-  display: inline-block;
-  flex-shrink: 0;
+  display: inline-block; flex-shrink: 0;
   position: relative;
 }
 .balance-pill .coin::after {
-  content: '₹';
-  position: absolute;
-  inset: 0;
+  content: '$';
+  position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: 900;
-  color: rgba(0,0,0,.5);
+  font-size: 8px; font-weight: 900;
+  color: rgba(0,0,0,.55);
 }
 .balance-pill .val { font-variant-numeric: tabular-nums; }
 .icon-btn {
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   color: var(--text-2);
   transition: background .15s;
   flex-shrink: 0;
@@ -200,7 +136,7 @@ img { max-width: 100%; display: block; }
 .icon-btn:active { background: var(--surface-2); }
 .icon-btn svg { width: 18px; height: 18px; stroke-width: 1.8; }
 
-/* ============ MAIN ============ */
+/* MAIN */
 .app-main {
   flex: 1;
   padding: 14px 14px calc(var(--nav-h) + 16px + env(safe-area-inset-bottom));
@@ -209,12 +145,10 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
 }
 
-/* ============ BOTTOM NAV ============ */
+/* BOTTOM NAV */
 .bottom-nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   z-index: 45;
   background: var(--surface);
   border-top: 1px solid var(--border);
@@ -224,55 +158,28 @@ img { max-width: 100%; display: block; }
 }
 .nav-item {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   gap: 2px;
   color: var(--text-3);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .2px;
+  font-size: 10px; font-weight: 600; letter-spacing: .2px;
   position: relative;
   transition: color .15s;
   min-width: 0;
 }
-.nav-item svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 1.8;
-}
-.nav-item.active {
-  color: var(--accent);
-}
+.nav-item svg { width: 20px; height: 20px; stroke-width: 1.8; }
+.nav-item.active { color: var(--accent); }
 .nav-item.active::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 50%;
+  top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 22px;
-  height: 2px;
+  width: 22px; height: 2px;
   background: var(--accent);
   border-radius: 0 0 2px 2px;
 }
-.nav-item .nav-badge {
-  position: absolute;
-  top: 6px;
-  right: 50%;
-  transform: translateX(14px);
-  background: var(--danger);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 800;
-  padding: 1px 5px;
-  border-radius: 8px;
-  min-width: 16px;
-  text-align: center;
-  line-height: 1.3;
-}
 
-/* ============ CARDS ============ */
+/* CARDS */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -281,177 +188,85 @@ img { max-width: 100%; display: block; }
   margin-bottom: 10px;
 }
 .card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  gap: 8px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
 }
 .card-title {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .6px;
-  color: var(--text-3);
-  text-transform: uppercase;
+  font-size: 12px; font-weight: 700; letter-spacing: .6px;
+  color: var(--text-3); text-transform: uppercase;
 }
 .card-title-lg {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -.2px;
-  color: var(--text);
+  font-size: 15px; font-weight: 700; letter-spacing: -.2px; color: var(--text);
 }
 
-/* ============ BALANCE CARD ============ */
+/* BALANCE CARD */
 .balance-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
-.balance-info .bl {
-  font-size: 11px;
-  color: var(--text-3);
-  font-weight: 600;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.balance-info .bv {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -.8px;
-  margin-top: 2px;
-  font-variant-numeric: tabular-nums;
-  color: var(--text);
-}
-.balance-info .bn {
-  font-size: 10px;
-  color: var(--text-3);
-  font-weight: 600;
-  letter-spacing: .4px;
-  margin-top: 4px;
-}
+.balance-info .bl { font-size: 11px; color: var(--text-3); font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
+.balance-info .bv { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-top: 2px; font-variant-numeric: tabular-nums; color: var(--text); }
+.balance-info .bn { font-size: 10px; color: var(--text-3); font-weight: 600; letter-spacing: .4px; margin-top: 4px; }
 .balance-right { text-align: right; }
-.balance-right .rate {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: -.3px;
-  font-variant-numeric: tabular-nums;
-}
-.balance-right .lbl {
-  font-size: 10px;
-  color: var(--text-3);
-  letter-spacing: .6px;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
+.balance-right .rate { font-size: 20px; font-weight: 800; color: var(--accent); letter-spacing: -.3px; font-variant-numeric: tabular-nums; }
+.balance-right .lbl { font-size: 10px; color: var(--text-3); letter-spacing: .6px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
 
-/* ============ STATUS PANEL ============ */
-.status-panel {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
-}
+/* STATUS PANEL */
+.status-panel { display: flex; gap: 8px; margin-bottom: 10px; }
 .status-tile {
   flex: 1;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 10px 12px;
-  min-width: 0;
+  padding: 10px 12px; min-width: 0;
 }
-.status-tile .k {
-  font-size: 10px;
-  color: var(--text-3);
-  font-weight: 700;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.status-tile .v {
-  font-size: 15px;
-  font-weight: 800;
-  margin-top: 3px;
-  letter-spacing: -.2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+.status-tile .k { font-size: 10px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+.status-tile .v { font-size: 15px; font-weight: 800; margin-top: 3px; letter-spacing: -.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .status-tile .v.accent { color: var(--accent); }
 .status-tile .v.success { color: var(--success); }
 .status-tile .v.warning { color: var(--warning); }
 
-/* ============ LIVE ROUND ============ */
+/* LIVE ROUND BANNER */
 .live-round {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 14px;
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  overflow: hidden;
+  display: flex; align-items: center; gap: 12px;
+  position: relative; overflow: hidden;
 }
 .live-round::before {
   content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--success);
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--success);
 }
 .live-round.warn::before { background: var(--warning); }
 .live-round.done::before { background: var(--text-3); }
 .live-round .lr-icon {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   border-radius: 10px;
   background: rgba(34,197,94,.12);
   color: var(--success);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 .live-round.warn .lr-icon { background: rgba(245,158,11,.12); color: var(--warning); }
 .live-round.done .lr-icon { background: var(--surface-2); color: var(--text-3); }
 .live-round .lr-icon svg { width: 20px; height: 20px; stroke-width: 2; }
 .live-round .lr-info { flex: 1; min-width: 0; }
-.live-round .lr-status {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--success);
-}
+.live-round .lr-status { font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--success); }
 .live-round.warn .lr-status { color: var(--warning); }
 .live-round.done .lr-status { color: var(--text-3); }
-.live-round .lr-title {
-  font-size: 15px;
-  font-weight: 800;
-  margin-top: 2px;
-  letter-spacing: -.2px;
-}
-.live-round .lr-sub {
-  font-size: 11.5px;
-  color: var(--text-3);
-  margin-top: 2px;
-  font-weight: 500;
-}
+.live-round .lr-title { font-size: 15px; font-weight: 800; margin-top: 2px; letter-spacing: -.2px; }
+.live-round .lr-sub { font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500; }
 
-/* ============ ROUND TIMELINE ============ */
-.timeline {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 4px;
-  margin-top: 4px;
-}
+/* TIMELINE */
+.timeline { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-top: 4px; }
 .tl-chip {
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -460,20 +275,8 @@ img { max-width: 100%; display: block; }
   text-align: center;
   min-width: 0;
 }
-.tl-chip .tln {
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .3px;
-  color: var(--text-3);
-  line-height: 1;
-}
-.tl-chip .tls {
-  font-size: 9px;
-  font-weight: 700;
-  margin-top: 4px;
-  letter-spacing: -.1px;
-  line-height: 1;
-}
+.tl-chip .tln { font-size: 9px; font-weight: 800; letter-spacing: .3px; color: var(--text-3); line-height: 1; }
+.tl-chip .tls { font-size: 9px; font-weight: 700; margin-top: 4px; letter-spacing: -.1px; line-height: 1; }
 .tl-chip.live { border-color: var(--success); background: rgba(34,197,94,.08); }
 .tl-chip.live .tls { color: var(--success); }
 .tl-chip.live .tln { color: var(--success); }
@@ -485,13 +288,8 @@ img { max-width: 100%; display: block; }
 .tl-chip.closed .tls { color: var(--warning); }
 .tl-chip.done { opacity: .55; }
 
-/* ============ TEAM PANELS ============ */
-.teams-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 10px;
-}
+/* TEAM PANELS */
+.teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 .team-panel {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -505,36 +303,13 @@ img { max-width: 100%; display: block; }
 .team-panel.selected-a { border-color: var(--accent); background: rgba(59,130,246,.05); }
 .team-panel.selected-b { border-color: var(--warning); background: rgba(245,158,11,.05); }
 .team-panel.dead { opacity: .55; }
-.tp-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  gap: 6px;
-}
-.tp-name {
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: .3px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
-}
-.tp-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-}
+.tp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 6px; }
+.tp-name { font-size: 13px; font-weight: 800; letter-spacing: .3px; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.tp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 .team-panel.team-B .tp-dot { background: var(--warning); }
 .tp-badge {
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .5px;
-  padding: 2px 6px;
-  border-radius: 4px;
+  font-size: 9px; font-weight: 800; letter-spacing: .5px;
+  padding: 2px 6px; border-radius: 4px;
   background: var(--surface-2);
   color: var(--text-2);
   border: 1px solid var(--border);
@@ -542,98 +317,49 @@ img { max-width: 100%; display: block; }
 }
 .tp-badge.alive { color: var(--success); border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.08); }
 .tp-badge.dead { color: var(--danger); border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.08); }
-.tp-stat {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11.5px;
-  padding: 3px 0;
-}
+.tp-stat { display: flex; justify-content: space-between; font-size: 11.5px; padding: 3px 0; }
 .tp-stat .k { color: var(--text-3); font-weight: 600; }
 .tp-stat .v { font-weight: 700; font-variant-numeric: tabular-nums; }
 .tp-rate {
-  margin-top: 8px;
-  padding-top: 8px;
+  margin-top: 8px; padding-top: 8px;
   border-top: 1px solid var(--border);
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  display: flex; align-items: baseline; justify-content: space-between;
 }
-.tp-rate .lbl {
-  font-size: 9px;
-  color: var(--text-3);
-  letter-spacing: .6px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-.tp-rate .val {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -.5px;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
+.tp-rate .lbl { font-size: 9px; color: var(--text-3); letter-spacing: .6px; font-weight: 800; text-transform: uppercase; }
+.tp-rate .val { font-size: 18px; font-weight: 800; letter-spacing: -.5px; color: var(--accent); font-variant-numeric: tabular-nums; }
 .team-panel.team-B .tp-rate .val { color: var(--warning); }
 
-/* ============ PRIMARY BUTTON ============ */
+/* BUTTONS */
 .btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  min-height: 46px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 46px;
   padding: 12px 16px;
   border-radius: var(--radius);
-  font-size: 14.5px;
-  font-weight: 700;
-  letter-spacing: .1px;
+  font-size: 14.5px; font-weight: 700; letter-spacing: .1px;
   background: var(--accent);
   color: #fff;
   transition: background .15s, opacity .15s;
 }
 .btn:active { background: var(--accent-press); }
-.btn:disabled {
-  opacity: .45;
-  cursor: not-allowed;
-  background: var(--surface-3);
-  color: var(--text-3);
-}
-.btn:disabled:active { background: var(--surface-3); }
-.btn-secondary {
-  background: var(--surface-2);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
+.btn:disabled { opacity: .45; cursor: not-allowed; background: var(--surface-3); color: var(--text-3); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
 .btn-secondary:active { background: var(--surface-3); }
-.btn-secondary:disabled { background: var(--surface-2); color: var(--text-3); }
 .btn-danger { background: var(--danger); }
-.btn-danger:active { background: #dc2626; }
 .btn-success { background: var(--success); }
-.btn-success:active { background: #16a34a; }
 .btn-warning { background: var(--warning); color: #1a1a1a; }
-.btn-warning:active { background: #d97706; }
-.btn-sm {
-  min-height: 36px;
-  padding: 8px 12px;
-  font-size: 13px;
-  border-radius: var(--radius-sm);
-  width: auto;
-}
+.btn-sm { min-height: 36px; padding: 8px 12px; font-size: 13px; border-radius: var(--radius-sm); width: auto; }
 
-/* ============ PREDICT SCREEN ============ */
+/* PREDICT */
 .round-banner {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 14px;
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex; align-items: center; gap: 12px;
 }
 .round-banner .rb-icon {
-  width: 38px; height: 38px;
-  border-radius: 10px;
+  width: 38px; height: 38px; border-radius: 10px;
   background: rgba(34,197,94,.1);
   color: var(--success);
   display: flex; align-items: center; justify-content: center;
@@ -643,32 +369,14 @@ img { max-width: 100%; display: block; }
 .round-banner.done .rb-icon { background: var(--surface-2); color: var(--text-3); }
 .round-banner .rb-icon svg { width: 20px; height: 20px; stroke-width: 2; }
 .round-banner .rb-txt { flex: 1; min-width: 0; }
-.round-banner .rb-k {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: var(--success);
-  text-transform: uppercase;
-}
+.round-banner .rb-k { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--success); text-transform: uppercase; }
 .round-banner.warn .rb-k { color: var(--warning); }
 .round-banner.done .rb-k { color: var(--text-3); }
-.round-banner .rb-t {
-  font-size: 16px;
-  font-weight: 800;
-  margin-top: 2px;
-  letter-spacing: -.2px;
-}
-.round-banner .rb-s {
-  font-size: 11.5px;
-  color: var(--text-3);
-  margin-top: 2px;
-  font-weight: 500;
-}
+.round-banner .rb-t { font-size: 16px; font-weight: 800; margin-top: 2px; letter-spacing: -.2px; }
+.round-banner .rb-s { font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500; }
 
 .stake-input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items: center; gap: 8px;
   background: var(--surface);
   border: 1.5px solid var(--border-2);
   border-radius: var(--radius);
@@ -678,52 +386,31 @@ img { max-width: 100%; display: block; }
 }
 .stake-input-wrap:focus-within { border-color: var(--accent); }
 .stake-input-wrap input {
-  flex: 1;
-  border: none;
-  background: transparent;
+  flex: 1; border: none; background: transparent;
   color: var(--text);
-  font-size: 20px;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -.5px;
-  width: 100%;
-  min-width: 0;
-  padding: 10px 0;
+  font-size: 20px; font-weight: 800; font-variant-numeric: tabular-nums;
+  letter-spacing: -.5px; width: 100%; min-width: 0; padding: 10px 0;
 }
 .stake-input-wrap input::placeholder { color: var(--text-3); font-weight: 600; }
 .stake-input-wrap .unit {
-  font-size: 12px;
-  color: var(--text-3);
-  font-weight: 700;
-  letter-spacing: .3px;
+  font-size: 12px; color: var(--text-3); font-weight: 700; letter-spacing: .3px;
   padding: 0 12px;
   border-left: 1px solid var(--border);
 }
 
-.preset-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-  margin-bottom: 12px;
-}
+.preset-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
 .preset-btn {
   padding: 8px 4px;
   border-radius: 8px;
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
-  font-size: 12px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums;
   transition: all .12s;
   min-height: 36px;
 }
 .preset-btn:active { background: var(--surface-3); }
-.preset-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
+.preset-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 .summary-list {
   background: var(--surface);
@@ -733,13 +420,10 @@ img { max-width: 100%; display: block; }
   margin-bottom: 12px;
 }
 .summary-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   padding: 11px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 13.5px;
-  gap: 12px;
+  font-size: 13.5px; gap: 12px;
 }
 .summary-row:last-child { border-bottom: none; }
 .summary-row .k { color: var(--text-3); font-weight: 600; }
@@ -749,13 +433,9 @@ img { max-width: 100%; display: block; }
 .summary-row .v.accent { color: var(--accent); }
 
 .available-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; justify-content: space-between; align-items: center;
   padding: 0 4px 10px;
-  font-size: 12px;
-  color: var(--text-3);
-  font-weight: 600;
+  font-size: 12px; color: var(--text-3); font-weight: 600;
 }
 .available-row b { color: var(--accent); font-weight: 800; font-variant-numeric: tabular-nums; }
 
@@ -763,28 +443,23 @@ img { max-width: 100%; display: block; }
   position: sticky;
   bottom: calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));
   background: var(--bg);
-  padding: 10px 0 4px;
-  margin: 0 -14px 0;
-  padding-left: 14px;
-  padding-right: 14px;
+  padding: 10px 14px 4px;
+  margin: 0 -14px;
   z-index: 20;
 }
 .sticky-action::before {
   content: '';
   position: absolute;
-  left: 0; right: 0;
-  top: -20px;
+  left: 0; right: 0; top: -20px;
   height: 20px;
   background: linear-gradient(180deg, transparent, var(--bg));
   pointer-events: none;
 }
 
-/* ============ LIST ROWS ============ */
+/* LIST */
 .list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .list-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex; align-items: center; gap: 12px;
   padding: 12px 14px;
   border-bottom: 1px solid var(--border);
   transition: background .12s;
@@ -793,18 +468,11 @@ img { max-width: 100%; display: block; }
 .list-row:last-child { border-bottom: none; }
 .list-row:active { background: var(--surface-2); }
 .list-row .avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: var(--surface-3);
-  color: var(--text-2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 13px;
-  flex-shrink: 0;
-  letter-spacing: -.3px;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--surface-3); color: var(--text-2);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px;
+  flex-shrink: 0; letter-spacing: -.3px;
 }
 .list-row .avatar.team-a { background: rgba(59,130,246,.15); color: var(--accent); }
 .list-row .avatar.team-b { background: rgba(245,158,11,.15); color: var(--warning); }
@@ -812,48 +480,25 @@ img { max-width: 100%; display: block; }
 .list-row .avatar.lost { background: rgba(239,68,68,.15); color: var(--danger); }
 .list-row .lr-body { flex: 1; min-width: 0; }
 .list-row .lr-title {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -.1px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  font-size: 14px; font-weight: 700; letter-spacing: -.1px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
 .list-row .lr-sub {
-  font-size: 11.5px;
-  color: var(--text-3);
-  margin-top: 2px;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .list-row .lr-right { text-align: right; flex-shrink: 0; }
-.list-row .lr-amount {
-  font-size: 14px;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-}
+.list-row .lr-amount { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .list-row .lr-amount.up { color: var(--success); }
 .list-row .lr-amount.down { color: var(--danger); }
 .list-row .lr-amount.pending { color: var(--warning); }
-.list-row .lr-meta {
-  font-size: 10.5px;
-  color: var(--text-3);
-  margin-top: 2px;
-  font-weight: 600;
-  letter-spacing: .3px;
-}
+.list-row .lr-meta { font-size: 10.5px; color: var(--text-3); margin-top: 2px; font-weight: 600; letter-spacing: .3px; }
 
-/* ============ BADGE ============ */
+/* BADGES */
 .badge {
   display: inline-block;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .5px;
-  padding: 2px 7px;
-  border-radius: 4px;
+  font-size: 10px; font-weight: 800; letter-spacing: .5px;
+  padding: 2px 7px; border-radius: 4px;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -869,33 +514,18 @@ img { max-width: 100%; display: block; }
 .badge.blocked { color: var(--danger); background: rgba(239,68,68,.12); }
 .badge.admin { color: var(--warning); background: rgba(245,158,11,.12); }
 
-/* ============ PLAYER ROW ============ */
+/* PLAYER ROW */
 .player-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
   padding: 10px 14px;
   border-bottom: 1px solid var(--border);
   min-width: 0;
 }
 .player-row:last-child { border-bottom: none; }
-.player-row .pr-name {
-  flex: 1;
-  font-size: 13.5px;
-  font-weight: 700;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.player-row .pr-sub {
-  font-size: 10.5px;
-  color: var(--text-3);
-  font-weight: 600;
-  margin-top: 1px;
-}
+.player-row .pr-name { flex: 1; font-size: 13.5px; font-weight: 700; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.player-row .pr-sub { font-size: 10.5px; color: var(--text-3); font-weight: 600; margin-top: 1px; }
 
-/* ============ TEAM SUMMARY ============ */
+/* TEAM SUMMARY */
 .team-summary {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -903,179 +533,82 @@ img { max-width: 100%; display: block; }
   padding: 14px;
   margin-bottom: 10px;
 }
-.team-summary .ts-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.team-summary .ts-name {
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -.2px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.team-summary .ts-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 10px;
-}
-.team-summary .ts-cell {
-  background: var(--surface-2);
-  border-radius: 8px;
-  padding: 8px 10px;
-}
-.team-summary .ts-cell .k {
-  font-size: 9.5px;
-  color: var(--text-3);
-  font-weight: 700;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.team-summary .ts-cell .v {
-  font-size: 15px;
-  font-weight: 800;
-  margin-top: 2px;
-  letter-spacing: -.2px;
-  font-variant-numeric: tabular-nums;
-}
+.team-summary .ts-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.team-summary .ts-name { font-size: 15px; font-weight: 800; letter-spacing: -.2px; display: flex; align-items: center; gap: 8px; }
+.team-summary .ts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+.team-summary .ts-cell { background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
+.team-summary .ts-cell .k { font-size: 9.5px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+.team-summary .ts-cell .v { font-size: 15px; font-weight: 800; margin-top: 2px; letter-spacing: -.2px; font-variant-numeric: tabular-nums; }
 .team-summary .ts-cell .v.accent { color: var(--accent); }
 
-/* ============ PROFILE ============ */
+/* PROFILE */
 .profile-header {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px 14px;
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  display: flex; align-items: center; gap: 14px;
 }
 .profile-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 20px;
-  letter-spacing: -.5px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 20px; letter-spacing: -.5px;
   flex-shrink: 0;
 }
 .profile-info { flex: 1; min-width: 0; }
-.profile-info .pi-name {
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -.3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.profile-info .pi-email {
-  font-size: 12px;
-  color: var(--text-3);
-  margin-top: 2px;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.profile-info .pi-role {
-  margin-top: 6px;
-}
+.profile-info .pi-name { font-size: 17px; font-weight: 800; letter-spacing: -.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.profile-info .pi-email { font-size: 12px; color: var(--text-3); margin-top: 2px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.profile-info .pi-role { margin-top: 6px; }
 
-/* ============ ADMIN KPI ============ */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-.kpi-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px;
-}
-.kpi-card .kk {
-  font-size: 10px;
-  color: var(--text-3);
-  font-weight: 700;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.kpi-card .kv {
-  font-size: 22px;
-  font-weight: 800;
-  margin-top: 4px;
-  letter-spacing: -.6px;
-  font-variant-numeric: tabular-nums;
-}
+/* KPI */
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+.kpi-card .kk { font-size: 10px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+.kpi-card .kv { font-size: 22px; font-weight: 800; margin-top: 4px; letter-spacing: -.6px; font-variant-numeric: tabular-nums; }
 .kpi-card .kv.accent { color: var(--accent); }
 .kpi-card .kv.success { color: var(--success); }
 .kpi-card .kv.warning { color: var(--warning); }
 
-/* ============ FORMS ============ */
+/* FORMS */
 .form-field { margin-bottom: 12px; }
 .form-field label {
   display: block;
-  font-size: 11px;
-  color: var(--text-3);
-  font-weight: 700;
-  letter-spacing: .6px;
+  font-size: 11px; color: var(--text-3); font-weight: 700; letter-spacing: .6px;
   text-transform: uppercase;
   margin-bottom: 6px;
 }
-.form-field input,
-.form-field select {
+.form-field input, .form-field select {
   width: 100%;
   padding: 12px 14px;
   background: var(--surface);
   border: 1.5px solid var(--border-2);
   color: var(--text);
   border-radius: var(--radius);
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 15px; font-weight: 500;
   transition: border-color .15s;
   min-height: 46px;
 }
-.form-field input:focus,
-.form-field select:focus {
-  border-color: var(--accent);
-}
+.form-field input:focus, .form-field select:focus { border-color: var(--accent); }
 .form-field input::placeholder { color: var(--text-3); }
 
-/* ============ EMPTY ============ */
+/* EMPTY */
 .empty {
   padding: 32px 20px;
   text-align: center;
   color: var(--text-3);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 13px; font-weight: 500;
 }
-.empty .ico {
-  font-size: 28px;
-  opacity: .4;
-  margin-bottom: 8px;
-}
+.empty .ico { font-size: 28px; opacity: .4; margin-bottom: 8px; }
 
-/* ============ MODAL / BOTTOM SHEET ============ */
+/* SHEET */
 .sheet-backdrop {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,.55);
   z-index: 100;
   animation: fadeIn .18s ease-out;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  display: flex; align-items: flex-end; justify-content: center;
 }
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
 .sheet {
@@ -1089,45 +622,26 @@ img { max-width: 100%; display: block; }
   padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
 }
 @keyframes slideUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
-.sheet-handle {
-  width: 36px;
-  height: 4px;
-  background: var(--border-2);
-  border-radius: 2px;
-  margin: 10px auto 6px;
-}
+.sheet-handle { width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 10px auto 6px; }
 .sheet-head {
   padding: 6px 16px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   border-bottom: 1px solid var(--border);
   gap: 12px;
 }
-.sheet-head h3 {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -.2px;
-}
+.sheet-head h3 { font-size: 16px; font-weight: 800; letter-spacing: -.2px; }
 .sheet-body { padding: 16px; }
 .sheet-close {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 50%;
   background: var(--surface-2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-2);
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-2); flex-shrink: 0;
 }
-.sheet-close:active { background: var(--surface-3); }
 .sheet-close svg { width: 16px; height: 16px; }
 
-/* ============ TOAST ============ */
+/* TOAST */
 .toast {
-  position: fixed;
-  left: 50%;
+  position: fixed; left: 50%;
   bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));
   transform: translateX(-50%) translateY(120px);
   background: var(--surface-3);
@@ -1135,8 +649,7 @@ img { max-width: 100%; display: block; }
   border: 1px solid var(--border-2);
   padding: 12px 18px;
   border-radius: 10px;
-  font-size: 13.5px;
-  font-weight: 600;
+  font-size: 13.5px; font-weight: 600;
   z-index: 200;
   box-shadow: 0 8px 24px rgba(0,0,0,.35);
   max-width: calc(100% - 32px);
@@ -1148,90 +661,34 @@ img { max-width: 100%; display: block; }
 .toast.ok { border-color: rgba(34,197,94,.5); }
 .toast.err { border-color: rgba(239,68,68,.5); }
 
-/* ============ LOGIN ============ */
+/* LOGIN */
 .login-view {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: flex; flex-direction: column;
   padding: 24px 20px;
   background: var(--bg);
 }
-.login-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 40px;
-  margin-top: 12px;
-}
+.login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; margin-top: 12px; }
 .login-brand .bm {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 44px; height: 44px; border-radius: 12px;
   background: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  color: #fff;
-  font-size: 15px;
-  letter-spacing: -.5px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; color: #fff; font-size: 15px; letter-spacing: -.5px;
 }
-.login-brand .bt .bt1 {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -.2px;
-}
-.login-brand .bt .bt2 {
-  font-size: 10px;
-  color: var(--text-3);
-  letter-spacing: 1.5px;
-  font-weight: 600;
-  margin-top: 2px;
-}
-.login-title {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -.8px;
-  margin-bottom: 6px;
-}
-.login-sub {
-  font-size: 14px;
-  color: var(--text-3);
-  margin-bottom: 26px;
-  font-weight: 500;
-}
+.login-brand .bt .bt1 { font-size: 16px; font-weight: 800; letter-spacing: -.2px; }
+.login-brand .bt .bt2 { font-size: 10px; color: var(--text-3); letter-spacing: 1.5px; font-weight: 600; margin-top: 2px; }
+.login-title { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-bottom: 6px; }
+.login-sub { font-size: 14px; color: var(--text-3); margin-bottom: 26px; font-weight: 500; }
 .login-form { max-width: 400px; width: 100%; margin: 0 auto; flex: 1; }
-.login-footer {
-  text-align: center;
-  padding: 20px 0 12px;
-  font-size: 13px;
-  color: var(--text-3);
-  font-weight: 500;
-}
-.login-footer .link {
-  color: var(--accent);
-  font-weight: 700;
-  margin-left: 4px;
-  cursor: pointer;
-}
-.login-footer .link:active { opacity: .7; }
-.login-legal {
-  text-align: center;
-  font-size: 10.5px;
-  color: var(--text-3);
-  letter-spacing: .4px;
-  padding: 8px 0 4px;
-  font-weight: 500;
-}
+.login-footer { text-align: center; padding: 20px 0 12px; font-size: 13px; color: var(--text-3); font-weight: 500; }
+.login-footer .link { color: var(--accent); font-weight: 700; margin-left: 4px; cursor: pointer; }
+.login-legal { text-align: center; font-size: 10.5px; color: var(--text-3); letter-spacing: .4px; padding: 8px 0 4px; font-weight: 500; }
 
-/* ============ HELPERS ============ */
+/* HELPERS */
 .row-flex { display: flex; align-items: center; gap: 8px; }
 .row-flex.gap-lg { gap: 12px; }
-.gap-sm { gap: 6px; }
 .mt-8 { margin-top: 8px; }
 .mt-12 { margin-top: 12px; }
-.mt-16 { margin-top: 16px; }
-.mb-8 { margin-bottom: 8px; }
 .mb-12 { margin-bottom: 12px; }
 .txt-2 { color: var(--text-2); }
 .txt-3 { color: var(--text-3); }
@@ -1242,50 +699,26 @@ img { max-width: 100%; display: block; }
 .fw-8 { font-weight: 800; }
 .tabular { font-variant-numeric: tabular-nums; }
 
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 18px 0;
-  color: var(--text-3);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-.divider::before, .divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-/* Search */
-.search-wrap {
-  position: relative;
-  margin-bottom: 10px;
-}
+/* SEARCH */
+.search-wrap { position: relative; margin-bottom: 10px; }
 .search-wrap input {
   width: 100%;
   padding: 11px 14px 11px 40px;
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  color: var(--text);
-  font-size: 14px;
+  color: var(--text); font-size: 14px;
   min-height: 44px;
 }
 .search-wrap input:focus { border-color: var(--accent); }
 .search-wrap svg {
-  position: absolute;
-  left: 13px;
-  top: 50%;
+  position: absolute; left: 13px; top: 50%;
   transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
+  width: 16px; height: 16px;
   color: var(--text-3);
 }
 
-/* Match card */
+/* MATCH CARD */
 .match-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1296,53 +729,20 @@ img { max-width: 100%; display: block; }
 .match-card.active { border-color: var(--success); }
 .match-card.finished { opacity: .75; }
 .mc-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  gap: 8px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 8px;
 }
-.mc-title {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -.2px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.mc-body {
-  display: flex;
-  gap: 8px;
-}
-.mc-team {
-  flex: 1;
-  background: var(--surface-2);
-  border-radius: 8px;
-  padding: 8px 10px;
-  text-align: center;
-}
-.mc-team .t {
-  font-size: 10px;
-  color: var(--text-3);
-  font-weight: 800;
-  letter-spacing: .5px;
-}
-.mc-team .n {
-  font-size: 17px;
-  font-weight: 800;
-  margin-top: 2px;
-  font-variant-numeric: tabular-nums;
-}
+.mc-title { font-size: 14px; font-weight: 800; letter-spacing: -.2px; display: flex; align-items: center; gap: 8px; }
+.mc-body { display: flex; gap: 8px; }
+.mc-team { flex: 1; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; text-align: center; }
+.mc-team .t { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: .5px; }
+.mc-team .n { font-size: 17px; font-weight: 800; margin-top: 2px; font-variant-numeric: tabular-nums; }
 
-/* Responsive adjustments */
 @media (min-width: 720px) {
   .app-main { padding-left: 20px; padding-right: 20px; }
   .bottom-nav { left: 50%; right: auto; transform: translateX(-50%); max-width: 640px; border-radius: 14px 14px 0 0; border: 1px solid var(--border); border-bottom: none; }
-  .teams-grid { grid-template-columns: 1fr 1fr; }
   .kpi-grid { grid-template-columns: repeat(4, 1fr); }
 }
-
-/* Very small screens */
 @media (max-width: 360px) {
   .header-brand .brand-text .b2 { display: none; }
   .balance-pill { font-size: 11.5px; padding: 5px 7px; }
@@ -1354,7 +754,7 @@ img { max-width: 100%; display: block; }
 </head>
 <body>
 
-<!-- ============ LOGIN / REGISTER ============ -->
+<!-- LOGIN / REGISTER -->
 <div id="loginView" class="login-view">
   <div class="login-brand">
     <div class="bm">PRL</div>
@@ -1364,13 +764,10 @@ img { max-width: 100%; display: block; }
     </div>
   </div>
 
-  <!-- Sign in -->
   <div id="loginForm" class="login-form">
     <h1 class="login-title">Welcome back</h1>
     <p class="login-sub">Sign in to continue</p>
-
     <div id="loginMsg"></div>
-
     <div class="form-field">
       <label>Email</label>
       <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" />
@@ -1379,9 +776,7 @@ img { max-width: 100%; display: block; }
       <label>Password</label>
       <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
     </div>
-
     <button class="btn" onclick="doLogin()" id="loginBtn">Sign In</button>
-
     <div class="login-footer">
       Don't have an account?
       <span class="link" onclick="showRegister()">Create account</span>
@@ -1389,13 +784,10 @@ img { max-width: 100%; display: block; }
     <div class="login-legal">DEMO POINTS • NO CASH VALUE</div>
   </div>
 
-  <!-- Register -->
   <div id="registerForm" class="login-form hidden">
     <h1 class="login-title">Create your account</h1>
     <p class="login-sub">Get 1,000 demo points free</p>
-
     <div id="registerMsg"></div>
-
     <div class="form-field">
       <label>Name</label>
       <input type="text" id="regName" placeholder="Your name" maxlength="30" />
@@ -1408,9 +800,7 @@ img { max-width: 100%; display: block; }
       <label>Password (min 6)</label>
       <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password" />
     </div>
-
     <button class="btn" onclick="doRegister()" id="regBtn">Create Account</button>
-
     <div class="login-footer">
       Already have an account?
       <span class="link" onclick="showLogin()">Sign In</span>
@@ -1419,7 +809,7 @@ img { max-width: 100%; display: block; }
   </div>
 </div>
 
-<!-- ============ APP ============ -->
+<!-- APP -->
 <div id="appView" class="hidden">
   <header class="app-header">
     <div class="header-brand">
@@ -1449,7 +839,6 @@ img { max-width: 100%; display: block; }
   </header>
 
   <main class="app-main" id="appMain"></main>
-
   <nav class="bottom-nav" id="bottomNav"></nav>
 </div>
 
@@ -1463,7 +852,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
   collection, addDoc, onSnapshot, query, where, orderBy, serverTimestamp,
-  limit, getDocs }
+  limit }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -1480,25 +869,14 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ============================================================
-   STATE
-   ============================================================ */
+/* STATE */
 const state = {
-  user: null,
-  profile: null,
-  isAdmin: false,
+  user: null, profile: null, isAdmin: false,
   settings: null,
-  matches: [],
-  currentMatchId: null,
-  rounds: [],
-  players: [],
-  predictions: [],
-  users: [],
-  history: [],
-  currentPage: 'home',
-  unsub: [],
-  bet: { teamId: null, stake: 100 },
-  adminSub: 'dashboard'
+  matches: [], currentMatchId: null,
+  rounds: [], players: [], predictions: [], users: [], history: [],
+  currentPage: 'home', unsub: [],
+  bet: { teamId: null, stake: 100 }
 };
 
 function unsubAll() {
@@ -1516,6 +894,7 @@ window.toggleTheme = () => {
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('prl-theme', next);
   updateThemeIcon();
+  render();
 };
 function updateThemeIcon() {
   const cur = document.documentElement.getAttribute('data-theme');
@@ -1547,7 +926,12 @@ window.showLogin = () => {
 };
 function loginMsg(text, type='err', which='login') {
   const el = document.getElementById(which === 'login' ? 'loginMsg' : 'registerMsg');
-  if (el) el.innerHTML = text ? `<div class="msg ${type}" style="padding:10px 12px;border-radius:8px;font-size:12.5px;font-weight:600;margin-bottom:12px;${type==='err'?'background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.35)':'background:rgba(34,197,94,.12);color:#86efac;border:1px solid rgba(34,197,94,.35)'}">${text}</div>` : '';
+  if (!el) return;
+  if (!text) { el.innerHTML = ''; return; }
+  const bg = type === 'err' ? 'rgba(239,68,68,.12)' : 'rgba(34,197,94,.12)';
+  const fg = type === 'err' ? '#fca5a5' : '#86efac';
+  const bd = type === 'err' ? 'rgba(239,68,68,.35)' : 'rgba(34,197,94,.35)';
+  el.innerHTML = `<div style="padding:10px 12px;border-radius:8px;font-size:12.5px;font-weight:600;margin-bottom:12px;background:${bg};color:${fg};border:1px solid ${bd}">${text}</div>`;
 }
 
 window.doLogin = async () => {
@@ -1600,6 +984,7 @@ onAuthStateChanged(auth, async (user) => {
     state.user = null; state.profile = null; state.isAdmin = false;
     state.matches = []; state.players = []; state.predictions = [];
     state.users = []; state.rounds = []; state.history = [];
+    state.currentMatchId = null;
     document.getElementById('loginView').classList.remove('hidden');
     document.getElementById('appView').classList.add('hidden');
     return;
@@ -1641,9 +1026,12 @@ onAuthStateChanged(auth, async (user) => {
   attachMatchesListener();
   attachPlayersListener();
   attachPredictionsListener();
-  if (isAdmin) attachUsersListener();
+  if (isAdmin) {
+    attachUsersListener();
+    attachHistoryListener();
+  }
 
-  state.currentPage = 'home';
+  state.currentPage = isAdmin ? 'admin_home' : 'home';
   renderNav();
   render();
 });
@@ -1687,10 +1075,10 @@ function attachMatchesListener() {
 }
 
 function attachRoundsListener() {
-  if (!state.currentMatchId) return;
+  if (state._roundsListenerActive) return;
+  state._roundsListenerActive = true;
   const un = onSnapshot(collection(db, 'rounds'), snap => {
     state.rounds = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .filter(r => r.matchId === state.currentMatchId)
       .sort((a, b) => (a.roundNumber || 0) - (b.roundNumber || 0));
     render();
   });
@@ -1699,8 +1087,7 @@ function attachRoundsListener() {
 
 function attachPlayersListener() {
   const un = onSnapshot(collection(db, 'players'), snap => {
-    state.players = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    render();
+    state.players = snap.docs.map(d => ({ id: d.id, ...d.data() })); render();
   });
   state.unsub.push(un);
 }
@@ -1740,11 +1127,11 @@ function attachHistoryListener() {
 function navItems() {
   if (state.isAdmin) {
     return [
-      { id: 'admin_home',  label: 'Home',      icon: 'home' },
-      { id: 'admin_users', label: 'Users',     icon: 'users' },
-      { id: 'admin_teams', label: 'Teams',     icon: 'shield' },
-      { id: 'admin_rounds',label: 'Rounds',    icon: 'play' },
-      { id: 'admin_bets',  label: 'Bets',      icon: 'list' },
+      { id: 'admin_home',     label: 'Home',     icon: 'home' },
+      { id: 'admin_users',    label: 'Users',    icon: 'users' },
+      { id: 'admin_teams',    label: 'Teams',    icon: 'shield' },
+      { id: 'admin_rounds',   label: 'Rounds',   icon: 'play' },
+      { id: 'admin_bets',     label: 'Bets',     icon: 'list' },
       { id: 'admin_settings', label: 'Settings', icon: 'cog' }
     ];
   }
@@ -1770,7 +1157,6 @@ function svgIcon(name) {
     close: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
     search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
     check: '<polyline points="20 6 9 17 4 12"/>',
-    x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
     clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'
   };
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${icons[name] || ''}</svg>`;
@@ -1780,7 +1166,6 @@ function renderNav() {
   const items = navItems();
   const el = document.getElementById('bottomNav');
   if (items.length > 5) {
-    // collapse to 5 with More menu for admin
     const shown = items.slice(0, 4);
     const more = items.slice(4);
     const isMoreActive = more.some(m => m.id === state.currentPage);
@@ -1812,10 +1197,7 @@ window.nav = (page) => {
   renderNav();
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Attach rounds listener for current match when entering admin rounds
-  if (page === 'admin_rounds') {
-    attachRoundsListener();
-  }
+  attachRoundsListener();
 };
 
 window.openMoreMenu = () => {
@@ -1834,9 +1216,7 @@ window.openMoreMenu = () => {
   `);
 };
 
-/* ============================================================
-   MATH
-   ============================================================ */
+/* MATH */
 function currentMatch() {
   if (!state.currentMatchId) return null;
   return state.matches.find(m => m.id === state.currentMatchId) || null;
@@ -1845,12 +1225,18 @@ function currentMatch() {
 function teamStats(teamId, matchId = null) {
   const s = state.settings || { baseWinRate: 25, baseRate: 2 };
   const mid = matchId || state.currentMatchId;
-  const all = state.players.filter(p => p.teamId === teamId && (!mid || !p.matchId || p.matchId === mid));
+  const all = state.players.filter(p =>
+    p.teamId === teamId && (!mid || !p.matchId || p.matchId === mid)
+  );
   const alive = all.filter(p => p.status === 'ACTIVE').length;
   const dead = all.filter(p => p.status === 'ELIMINATED').length;
 
   const otherId = teamId === 'A' ? 'B' : 'A';
-  const otherAlive = state.players.filter(p => p.teamId === otherId && (!mid || !p.matchId || p.matchId === mid) && p.status === 'ACTIVE').length;
+  const otherAlive = state.players.filter(p =>
+    p.teamId === otherId &&
+    (!mid || !p.matchId || p.matchId === mid) &&
+    p.status === 'ACTIVE'
+  ).length;
   const totalAlive = alive + otherAlive;
   const isDead = all.length > 0 && alive === 0;
 
@@ -1861,21 +1247,20 @@ function teamStats(teamId, matchId = null) {
   if (alive > 0 && totalAlive > 0) rate = s.baseRate * (totalAlive / (2 * alive));
   rate = Math.min(99.99, Math.max(1.01, rate));
 
-  return { teamId, activeCount: alive, eliminatedCount: dead, totalPlayers: all.length, totalAlive, winRate, rate, isDead };
+  return {
+    teamId, activeCount: alive, eliminatedCount: dead,
+    totalPlayers: all.length, totalAlive, winRate, rate, isDead
+  };
 }
 
-function currentRound(matchId = null) {
-  const m = matchId ? state.matches.find(x => x.id === matchId) : currentMatch();
-  if (!m || !m.currentRound) return null;
-  return state.rounds.find(r => r.roundNumber === m.currentRound && r.matchId === m.id) || null;
-}
-
-function roundStatus() {
-  const m = currentMatch();
+function roundStatusForMatch(m) {
   if (!m) return { code: 'NO_MATCH', msg: 'No match' };
   if (m.status === 'FINISHED') return { code: 'FINISHED', msg: `Match #${m.matchNumber} finished`, winner: m.winner };
-  if (m.status === 'WAITING') return { code: 'WAITING', msg: 'Waiting for admin' };
-  const r = currentRound();
+  if (m.status === 'WAITING') return { code: 'WAITING', msg: 'Match is starting soon' };
+
+  const r = state.rounds.find(x =>
+    x.roundNumber === m.currentRound && x.matchId === m.id);
+
   if (!r) return { code: 'NO_ROUND', msg: 'Waiting for next round' };
   if (r.status === 'OPEN') return { code: 'OPEN', msg: `Round ${r.roundNumber} — Betting open`, round: r };
   if (r.status === 'CLOSED') return { code: 'CLOSED', msg: `Round ${r.roundNumber} — Betting closed`, round: r };
@@ -1886,25 +1271,21 @@ function roundStatus() {
 function fmt(n, d = 2) { return Number(n || 0).toFixed(d); }
 function fmtRate(n) { return fmt(n, 2) + 'X'; }
 
-/* ============================================================
-   RENDER
-   ============================================================ */
+/* RENDER */
 function render() {
   if (!state.user || !state.profile) return;
 
-  // header balance
   const bal = document.getElementById('balanceVal');
   if (bal) bal.textContent = (state.profile.demoPoints || 0).toLocaleString();
 
-  // header status
   const m = currentMatch();
-  const rs = roundStatus();
+  const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH' };
   const chip = document.getElementById('statusChip');
   const txt = document.getElementById('statusText');
   if (chip && txt) {
     chip.className = 'status-chip';
-    if (rs.code === 'OPEN') { chip.classList.add('live'); txt.textContent = `R${currentRound()?.roundNumber || '?'} • Live`; }
-    else if (rs.code === 'CLOSED') { chip.classList.add('closed'); txt.textContent = `R${currentRound()?.roundNumber || '?'} • Closed`; }
+    if (rs.code === 'OPEN') { chip.classList.add('live'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Live`; }
+    else if (rs.code === 'CLOSED') { chip.classList.add('closed'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Closed`; }
     else if (rs.code === 'FINISHED') { chip.classList.add('done'); txt.textContent = `M#${m?.matchNumber || '?'} • Finished`; }
     else { txt.textContent = m ? `M#${m.matchNumber}` : 'No Match'; }
   }
@@ -1923,21 +1304,70 @@ function render() {
     case 'admin_rounds':  html = viewAdminRounds(); break;
     case 'admin_bets':    html = viewAdminBets(); break;
     case 'admin_settings':html = viewAdminSettings(); break;
-    default:              html = viewHome();
+    default:              html = state.isAdmin ? viewAdminHome() : viewHome();
   }
   root.innerHTML = html;
   if (state.currentPage === 'predict') bindPredictInputs();
 }
 
-/* ============================================================
-   HOME (CUSTOMER)
-   ============================================================ */
+/* ============ CUSTOMER HOME ============ */
 function viewHome() {
-  const m = currentMatch();
-  const rs = roundStatus();
-  const A = teamStats('A'), B = teamStats('B');
+  const liveMatches = state.matches.filter(m =>
+    m.status === 'LIVE' || m.status === 'WAITING'
+  ).sort((a, b) => {
+    const order = { LIVE: 0, WAITING: 1 };
+    const aO = order[a.status] ?? 2;
+    const bO = order[b.status] ?? 2;
+    if (aO !== bO) return aO - bO;
+    return (b.matchNumber || 0) - (a.matchNumber || 0);
+  });
+
+  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
+  const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH', msg: 'No match available' };
+  const A = teamStats('A', m?.id);
+  const B = teamStats('B', m?.id);
   const myPreds = state.predictions.slice(0, 5);
-  const recentRounds = state.rounds.slice(-8);
+
+  if (!m) {
+    return `
+      <div class="balance-card">
+        <div class="balance-info">
+          <div class="bl">Available Points</div>
+          <div class="bv">${(state.profile.demoPoints || 0).toLocaleString()}</div>
+          <div class="bn">Demo points • no cash value</div>
+        </div>
+        <div class="balance-right">
+          <div class="lbl">Base Rate</div>
+          <div class="rate">${fmtRate(state.settings?.baseRate || 2)}</div>
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center;padding:36px 20px">
+        <div style="font-size:38px;margin-bottom:10px;opacity:.5">🏟️</div>
+        <div style="font-size:16px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px">
+          No Match Available
+        </div>
+        <div class="txt-sm txt-3" style="line-height:1.6">
+          There is no live match at the moment.<br/>
+          Please check back later.
+        </div>
+      </div>
+
+      ${myPreds.length ? `
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title-lg">Recent Activity</div>
+            <div class="txt-xs txt-3">${state.predictions.length} total</div>
+          </div>
+          <div class="list" style="margin:0 -14px -14px;border:none;border-radius:0;background:transparent">
+            ${myPreds.map(p => predRowCompact(p)).join('')}
+          </div>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  const bannerHtml = liveBannerHtml(m, rs);
 
   return `
     <div class="balance-card">
@@ -1952,77 +1382,33 @@ function viewHome() {
       </div>
     </div>
 
-    ${m ? `
-      <div class="status-panel">
-        <div class="status-tile">
-          <div class="k">Match</div>
-          <div class="v accent">#${m.matchNumber || 1}</div>
-        </div>
-        <div class="status-tile">
-          <div class="k">Round</div>
-          <div class="v">${m.currentRound || 0} / ${m.maxRounds || 8}</div>
-        </div>
-        <div class="status-tile">
-          <div class="k">Status</div>
-          <div class="v ${rs.code === 'OPEN' ? 'success' : rs.code === 'CLOSED' ? 'warning' : ''}">${rs.code === 'OPEN' ? 'LIVE' : rs.code === 'CLOSED' ? 'LOCKED' : rs.code === 'FINISHED' ? 'DONE' : 'IDLE'}</div>
-        </div>
-      </div>
-    ` : ''}
+    ${bannerHtml}
 
-    ${rs.code === 'OPEN' ? `
-      <div class="live-round">
-        <div class="lr-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg>
-        </div>
-        <div class="lr-info">
-          <div class="lr-status">● Live</div>
-          <div class="lr-title">Round ${rs.round?.roundNumber}</div>
-          <div class="lr-sub">Betting is open — place your prediction</div>
+    <div class="status-panel">
+      <div class="status-tile">
+        <div class="k">Match</div>
+        <div class="v accent">#${m.matchNumber || 1}</div>
+      </div>
+      <div class="status-tile">
+        <div class="k">Round</div>
+        <div class="v">${m.currentRound || 0} / ${m.maxRounds || 8}</div>
+      </div>
+      <div class="status-tile">
+        <div class="k">Status</div>
+        <div class="v ${rs.code === 'OPEN' ? 'success' : rs.code === 'CLOSED' ? 'warning' : ''}">
+          ${rs.code === 'OPEN' ? 'LIVE' : rs.code === 'CLOSED' ? 'LOCKED' : rs.code === 'WAITING' ? 'IDLE' : 'ACTIVE'}
         </div>
       </div>
-    ` : rs.code === 'CLOSED' ? `
-      <div class="live-round warn">
-        <div class="lr-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="lr-info">
-          <div class="lr-status">Closed</div>
-          <div class="lr-title">Round ${rs.round?.roundNumber}</div>
-          <div class="lr-sub">Waiting for result declaration</div>
-        </div>
-      </div>
-    ` : rs.code === 'FINISHED' ? `
-      <div class="live-round done">
-        <div class="lr-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="lr-info">
-          <div class="lr-status">Finished</div>
-          <div class="lr-title">Winner: Team ${rs.winner || '—'}</div>
-          <div class="lr-sub">Match #${m?.matchNumber}</div>
-        </div>
-      </div>
-    ` : `
-      <div class="live-round done">
-        <div class="lr-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="lr-info">
-          <div class="lr-status">Idle</div>
-          <div class="lr-title">Waiting</div>
-          <div class="lr-sub">No active round</div>
-        </div>
-      </div>
-    `}
+    </div>
 
     <div class="card">
       <div class="card-head">
         <div class="card-title">Round Timeline</div>
       </div>
       <div class="timeline">
-        ${Array.from({length: m?.maxRounds || 8}, (_, i) => {
+        ${Array.from({length: m.maxRounds || 8}, (_, i) => {
           const rn = i + 1;
-          const r = recentRounds.find(x => x.roundNumber === rn);
+          const r = state.rounds.find(x => x.roundNumber === rn && x.matchId === m.id);
           let cls = '', label = '—';
           if (!r) { label = '—'; }
           else if (r.status === 'OPEN') { cls = 'live'; label = 'LIVE'; }
@@ -2039,9 +1425,34 @@ function viewHome() {
       ${teamPanel(B, false)}
     </div>
 
-    <button class="btn" onclick="nav('predict')" style="margin-bottom:10px">
-      Predict Now
+    <button class="btn" onclick="nav('predict')" style="margin-bottom:10px"
+      ${rs.code === 'OPEN' ? '' : 'disabled'}>
+      ${rs.code === 'OPEN' ? 'Predict Now' : rs.code === 'CLOSED' ? 'Betting Closed' : 'Waiting for Round'}
     </button>
+
+    ${liveMatches.length > 1 ? `
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Other Live Matches (${liveMatches.length - 1})</div>
+        </div>
+        <div class="list" style="margin:0 -14px -14px;border:none;border-radius:0;background:transparent">
+          ${liveMatches.filter(x => x.id !== m.id).map(x => `
+            <div class="list-row" onclick="selectMatch('${x.id}')" style="cursor:pointer">
+              <div class="avatar ${x.status === 'LIVE' ? 'team-a' : ''}">M#${x.matchNumber || '?'}</div>
+              <div class="lr-body">
+                <div class="lr-title">Match #${x.matchNumber || 1}
+                  <span class="badge ${x.status === 'LIVE' ? 'live' : 'pending'}">${x.status}</span>
+                </div>
+                <div class="lr-sub">Round ${x.currentRound || 0} / ${x.maxRounds || 8}</div>
+              </div>
+              <div class="lr-right">
+                <div class="lr-meta">Tap to view</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
 
     <div class="card">
       <div class="card-head">
@@ -2051,6 +1462,64 @@ function viewHome() {
       ${myPreds.length ? `<div class="list" style="margin:0 -14px -14px;border:none;border-radius:0;background:transparent">
         ${myPreds.map(p => predRowCompact(p)).join('')}
       </div>` : `<div class="empty"><div class="ico">📭</div>No predictions yet</div>`}
+    </div>
+  `;
+}
+
+function liveBannerHtml(m, rs) {
+  if (!m) return '';
+  if (rs.code === 'OPEN') {
+    return `
+      <div class="live-round">
+        <div class="lr-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+        </div>
+        <div class="lr-info">
+          <div class="lr-status">● LIVE • BETTING OPEN</div>
+          <div class="lr-title">Match #${m.matchNumber} — Round ${rs.round?.roundNumber}</div>
+          <div class="lr-sub">Place your prediction now</div>
+        </div>
+      </div>
+    `;
+  }
+  if (rs.code === 'CLOSED') {
+    return `
+      <div class="live-round warn">
+        <div class="lr-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="lr-info">
+          <div class="lr-status">BETTING CLOSED</div>
+          <div class="lr-title">Match #${m.matchNumber} — Round ${rs.round?.roundNumber}</div>
+          <div class="lr-sub">Waiting for result declaration</div>
+        </div>
+      </div>
+    `;
+  }
+  if (rs.code === 'WAITING') {
+    return `
+      <div class="live-round warn">
+        <div class="lr-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="lr-info">
+          <div class="lr-status">STARTING SOON</div>
+          <div class="lr-title">Match #${m.matchNumber}</div>
+          <div class="lr-sub">Waiting for admin to open round 1</div>
+        </div>
+      </div>
+    `;
+  }
+  return `
+    <div class="live-round done">
+      <div class="lr-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="lr-info">
+        <div class="lr-status">INACTIVE</div>
+        <div class="lr-title">Match #${m.matchNumber}</div>
+        <div class="lr-sub">${rs.msg}</div>
+      </div>
     </div>
   `;
 }
@@ -2083,7 +1552,8 @@ function teamPanel(t, selectable, selected = false) {
 function predRowCompact(p) {
   const st = p.status || 'PENDING';
   const badgeCls = st === 'WON' ? 'won' : st === 'LOST' ? 'lost' : 'pending';
-  const amt = st === 'WON' ? `+${fmt(p.returnAmount || p.potentialReturn || 0, 2)}` : st === 'LOST' ? `-${p.stake}` : `${p.stake}`;
+  const amt = st === 'WON' ? `+${fmt(p.returnAmount || p.potentialReturn || 0, 2)}`
+    : st === 'LOST' ? `−${p.stake}` : `${p.stake}`;
   const amtCls = st === 'WON' ? 'up' : st === 'LOST' ? 'down' : 'pending';
   return `
     <div class="list-row">
@@ -2099,9 +1569,12 @@ function predRowCompact(p) {
   `;
 }
 
-/* ============================================================
-   TEAMS (CUSTOMER)
-   ============================================================ */
+window.selectMatch = (id) => {
+  state.currentMatchId = id;
+  render();
+};
+
+/* ============ TEAMS (CUSTOMER) ============ */
 function viewTeams() {
   return `
     ${teamSummaryCard('A')}
@@ -2111,7 +1584,7 @@ function viewTeams() {
 
 function teamSummaryCard(teamId) {
   const t = teamStats(teamId);
-  const players = state.players.filter(p => p.teamId === teamId);
+  const players = state.players.filter(p => p.teamId === teamId && (!state.currentMatchId || !p.matchId || p.matchId === state.currentMatchId));
   return `
     <div class="team-summary">
       <div class="ts-head">
@@ -2143,23 +1616,51 @@ function teamSummaryCard(teamId) {
   `;
 }
 
-/* ============================================================
-   PREDICT
-   ============================================================ */
+/* ============ PREDICT ============ */
 function viewPredict() {
-  const rs = roundStatus();
-  const A = teamStats('A'), B = teamStats('B');
+  const liveMatches = state.matches.filter(m =>
+    m.status === 'LIVE' || m.status === 'WAITING'
+  ).sort((a, b) => {
+    const order = { LIVE: 0, WAITING: 1 };
+    const aO = order[a.status] ?? 2;
+    const bO = order[b.status] ?? 2;
+    if (aO !== bO) return aO - bO;
+    return (b.matchNumber || 0) - (a.matchNumber || 0);
+  });
+
+  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
+
+  if (!m) {
+    return `
+      <div class="card" style="text-align:center;padding:48px 20px">
+        <div style="font-size:42px;margin-bottom:14px;opacity:.5">🎯</div>
+        <div style="font-size:17px;font-weight:800;letter-spacing:-.2px;margin-bottom:6px">
+          No Match Available
+        </div>
+        <div class="txt-sm txt-3" style="line-height:1.6;margin-bottom:18px">
+          Prediction is not available because<br/>there is no live match right now.
+        </div>
+        <button class="btn btn-secondary" style="max-width:200px;margin:0 auto" onclick="nav('home')">
+          Back to Home
+        </button>
+      </div>
+    `;
+  }
+
+  const rs = roundStatusForMatch(m);
+  const A = teamStats('A', m.id);
+  const B = teamStats('B', m.id);
   const pts = state.profile.demoPoints || 0;
   const r = rs.round;
   const sel = state.bet.teamId;
-  const selStats = sel ? teamStats(sel) : null;
+  const selStats = sel ? teamStats(sel, m.id) : null;
   const stake = Number(state.bet.stake) || 0;
   const rate = selStats ? selStats.rate : 0;
   const ret = stake * rate;
   const profit = ret - stake;
 
   const alreadyBet = r && state.predictions.find(p =>
-    p.roundNumber === r.roundNumber && p.status === 'PENDING');
+    p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
 
   const canBet = rs.code === 'OPEN' && !alreadyBet;
   const canConfirm = canBet && sel && !selStats?.isDead && stake > 0 && stake <= pts;
@@ -2170,24 +1671,36 @@ function viewPredict() {
         ${rs.code === 'OPEN' ? svgIcon('play') : rs.code === 'CLOSED' ? svgIcon('clock') : svgIcon('check')}
       </div>
       <div class="rb-txt">
-        <div class="rb-k">${rs.code === 'OPEN' ? 'Betting Open' : rs.code === 'CLOSED' ? 'Betting Closed' : rs.code === 'FINISHED' ? 'Finished' : 'Inactive'}</div>
-        <div class="rb-t">Round ${r?.roundNumber || '—'}</div>
-        <div class="rb-s">${alreadyBet ? `You already bet on Team ${alreadyBet.teamId}` : rs.code === 'OPEN' ? 'Select a team to place your bet' : rs.msg}</div>
+        <div class="rb-k">
+          ${rs.code === 'OPEN' ? 'Betting Open'
+            : rs.code === 'CLOSED' ? 'Betting Closed'
+            : rs.code === 'WAITING' ? 'Starting Soon'
+            : 'Inactive'}
+        </div>
+        <div class="rb-t">Round ${r?.roundNumber || '—'} • Match #${m.matchNumber}</div>
+        <div class="rb-s">
+          ${alreadyBet ? `You already bet on Team ${alreadyBet.teamId}`
+            : rs.code === 'OPEN' ? 'Select a team to place your bet'
+            : rs.msg}
+        </div>
       </div>
     </div>
 
     ${!canBet && !alreadyBet ? `
       <div class="empty" style="padding:60px 20px">
-        <div class="ico">${rs.code === 'FINISHED' ? '🏁' : '⏳'}</div>
+        <div class="ico">${rs.code === 'WAITING' ? '⏳' : rs.code === 'CLOSED' ? '🔒' : '⏸️'}</div>
         ${rs.msg}
       </div>
     ` : alreadyBet ? `
       <div class="card">
         <div class="row-flex gap-lg" style="padding:8px 0">
-          <div class="avatar ${alreadyBet.teamId === 'A' ? 'team-a' : 'team-b'}" style="width:48px;height:48px;border-radius:12px;font-size:16px">T${alreadyBet.teamId}</div>
+          <div class="avatar ${alreadyBet.teamId === 'A' ? 'team-a' : 'team-b'}"
+            style="width:48px;height:48px;border-radius:12px;font-size:16px">T${alreadyBet.teamId}</div>
           <div style="flex:1">
             <div class="fw-8" style="font-size:15px">Bet placed</div>
-            <div class="txt-sm txt-3" style="margin-top:2px">Team ${alreadyBet.teamId} • ${alreadyBet.stake} pts • ${fmtRate(alreadyBet.rate)}</div>
+            <div class="txt-sm txt-3" style="margin-top:2px">
+              Team ${alreadyBet.teamId} • ${alreadyBet.stake} pts • ${fmtRate(alreadyBet.rate)}
+            </div>
           </div>
           <span class="badge pending">Pending</span>
         </div>
@@ -2196,7 +1709,8 @@ function viewPredict() {
     ` : `
       <div class="card-title" style="padding:0 2px 8px">Choose Team</div>
       <div class="teams-grid">
-        <div onclick="${A.isDead ? '' : "selectTeam('A')"}" class="${['team-panel', A.isDead ? 'dead' : 'selectable', sel === 'A' ? 'selected-a' : ''].filter(Boolean).join(' ')}">
+        <div onclick="${A.isDead ? '' : "selectTeam('A')"}"
+          class="${['team-panel', A.isDead ? 'dead' : 'selectable', sel === 'A' ? 'selected-a' : ''].filter(Boolean).join(' ')}">
           <div class="tp-head">
             <div class="tp-name"><span class="tp-dot"></span>Team A</div>
             <div class="tp-badge ${A.isDead ? 'dead' : 'alive'}">${A.isDead ? 'DEAD' : 'LIVE'}</div>
@@ -2205,7 +1719,8 @@ function viewPredict() {
           <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(A.winRate, 1)}%</span></div>
           <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(A.rate)}</span></div>
         </div>
-        <div onclick="${B.isDead ? '' : "selectTeam('B')"}" class="${['team-panel', 'team-B', B.isDead ? 'dead' : 'selectable', sel === 'B' ? 'selected-b' : ''].filter(Boolean).join(' ')}">
+        <div onclick="${B.isDead ? '' : "selectTeam('B')"}"
+          class="${['team-panel', 'team-B', B.isDead ? 'dead' : 'selectable', sel === 'B' ? 'selected-b' : ''].filter(Boolean).join(' ')}">
           <div class="tp-head">
             <div class="tp-name"><span class="tp-dot"></span>Team B</div>
             <div class="tp-badge ${B.isDead ? 'dead' : 'alive'}">${B.isDead ? 'DEAD' : 'LIVE'}</div>
@@ -2238,13 +1753,17 @@ function viewPredict() {
           <div class="summary-row"><span class="k">Stake</span><span class="v down">−${stake} pts</span></div>
           <div class="summary-row"><span class="k">Rate</span><span class="v accent">${fmtRate(rate)}</span></div>
           <div class="summary-row"><span class="k">Potential Return</span><span class="v up">+${fmt(ret, 2)} pts</span></div>
-          <div class="summary-row"><span class="k">Potential Profit</span><span class="v ${profit >= 0 ? 'up' : 'down'}">${profit >= 0 ? '+' : ''}${fmt(profit, 2)} pts</span></div>
+          <div class="summary-row"><span class="k">Potential Profit</span>
+            <span class="v ${profit >= 0 ? 'up' : 'down'}">${profit >= 0 ? '+' : ''}${fmt(profit, 2)} pts</span></div>
         </div>
       ` : ''}
 
       <div class="sticky-action">
         <button class="btn" ${canConfirm ? '' : 'disabled'} onclick="confirmPrediction()">
-          ${!sel ? 'Select a Team' : stake <= 0 ? 'Enter Amount' : stake > pts ? 'Insufficient Points' : 'Confirm Prediction'}
+          ${!sel ? 'Select a Team'
+            : stake <= 0 ? 'Enter Amount'
+            : stake > pts ? 'Insufficient Points'
+            : 'Confirm Prediction'}
         </button>
       </div>
     `}
@@ -2270,15 +1789,20 @@ window.selectTeam = (tid) => { state.bet.teamId = tid; render(); };
 window.setStake = (v) => { state.bet.stake = v; render(); };
 
 window.confirmPrediction = async () => {
-  const rs = roundStatus();
+  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING');
+  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
+  if (!m) return toast('No match available', 'err');
+
+  const rs = roundStatusForMatch(m);
   if (rs.code !== 'OPEN') return toast('Betting not open', 'err');
   const r = rs.round;
   const tid = state.bet.teamId;
   if (!tid) return toast('Select a team', 'err');
-  const t = teamStats(tid);
+  const t = teamStats(tid, m.id);
   if (t.isDead) return toast('Team eliminated', 'err');
 
-  const existing = state.predictions.find(p => p.roundNumber === r.roundNumber && p.status === 'PENDING');
+  const existing = state.predictions.find(p =>
+    p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
   if (existing) return toast('Already bet this round', 'err');
 
   const stake = Number(state.bet.stake) || 0;
@@ -2291,8 +1815,8 @@ window.confirmPrediction = async () => {
     await addDoc(collection(db, 'predictions'), {
       userId: state.user.uid,
       userName: state.profile.name || state.profile.email,
-      matchId: state.currentMatchId,
-      matchNumber: currentMatch()?.matchNumber || 1,
+      matchId: m.id,
+      matchNumber: m.matchNumber || 1,
       roundNumber: r.roundNumber,
       teamId: tid,
       stake,
@@ -2312,9 +1836,7 @@ window.confirmPrediction = async () => {
   }
 };
 
-/* ============================================================
-   HISTORY
-   ============================================================ */
+/* ============ HISTORY ============ */
 function viewHistory() {
   const list = state.predictions;
   if (!list.length) return `<div class="card"><div class="empty"><div class="ico">📭</div>No predictions yet</div></div>`;
@@ -2330,7 +1852,7 @@ function viewHistory() {
 function historyRow(p) {
   const st = p.status || 'PENDING';
   const badgeCls = st === 'WON' ? 'won' : st === 'LOST' ? 'lost' : 'pending';
-  const amt = st === 'WON' ? `+${fmt(p.returnAmount || p.potentialReturn || 0, 2)}` : st === 'LOST' ? `−${p.stake}` : `−${p.stake}`;
+  const amt = st === 'WON' ? `+${fmt(p.returnAmount || p.potentialReturn || 0, 2)}` : `−${p.stake}`;
   const amtCls = st === 'WON' ? 'up' : st === 'LOST' ? 'down' : 'pending';
   return `
     <div class="list-row">
@@ -2347,9 +1869,7 @@ function historyRow(p) {
   `;
 }
 
-/* ============================================================
-   PROFILE
-   ============================================================ */
+/* ============ PROFILE ============ */
 function viewProfile() {
   const u = state.profile;
   const initial = (u.name || u.email || '?')[0].toUpperCase();
@@ -2394,16 +1914,14 @@ function viewProfile() {
   `;
 }
 
-/* ============================================================
-   ADMIN HOME
-   ============================================================ */
+/* ============ ADMIN HOME ============ */
 function viewAdminHome() {
   const m = currentMatch();
-  const rs = roundStatus();
+  const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH' };
   const totalUsers = state.users.length;
   const activePlayers = state.players.filter(p => p.status === 'ACTIVE').length;
   const pendingBets = state.predictions.filter(p => p.status === 'PENDING').length;
-  const A = teamStats('A'), B = teamStats('B');
+  const A = teamStats('A', m?.id), B = teamStats('B', m?.id);
 
   return `
     <div class="kpi-grid">
@@ -2465,20 +1983,6 @@ function matchCard(m) {
   `;
 }
 
-window.selectMatch = (id) => {
-  state.currentMatchId = id;
-  unsubAll();
-  attachProfileListener();
-  attachSettingsListener();
-  attachMatchesListener();
-  attachPlayersListener();
-  attachPredictionsListener();
-  attachRoundsListener();
-  attachHistoryListener();
-  if (state.isAdmin) attachUsersListener();
-  render();
-};
-
 window.openNewMatchSheet = () => {
   openSheet('Start New Match', `
     <div class="form-field">
@@ -2489,8 +1993,8 @@ window.openNewMatchSheet = () => {
       <label>Max Rounds (6-8)</label>
       <input type="number" id="newMatchRounds" value="${state.settings?.maxRounds || 8}" min="6" max="8" />
     </div>
-    <div class="help-box" style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;color:var(--text-3);margin-bottom:12px;line-height:1.6">
-      Players will be reset to ACTIVE. All rounds cleared.
+    <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;color:var(--text-3);margin-bottom:12px;line-height:1.6">
+      Players will be reset to ACTIVE. Match will start in WAITING state.
     </div>
     <button class="btn" onclick="createNewMatch()">Create Match</button>
   `);
@@ -2500,13 +2004,11 @@ window.createNewMatch = async () => {
   const num = Number(document.getElementById('newMatchNum').value) || 1;
   const rounds = Math.min(8, Math.max(6, Number(document.getElementById('newMatchRounds').value) || 8));
   try {
-    // Reset all players
     for (const p of state.players) {
       await updateDoc(doc(db, 'players', p.id), {
         status: 'ACTIVE', eliminatedInRound: null, updatedAt: serverTimestamp()
       });
     }
-    // Create new match doc
     const ref = await addDoc(collection(db, 'matches'), {
       matchNumber: num,
       status: 'WAITING',
@@ -2520,17 +2022,13 @@ window.createNewMatch = async () => {
     state.currentMatchId = ref.id;
     closeSheet();
     toast('Match created', 'ok');
-    // Attach rounds listener for new match
-    setTimeout(() => attachRoundsListener(), 400);
   } catch (e) {
     console.error(e);
     toast('Failed to create match', 'err');
   }
 };
 
-/* ============================================================
-   ADMIN: USERS
-   ============================================================ */
+/* ============ ADMIN USERS ============ */
 let usersSearch = '';
 function viewAdminUsers() {
   const list = state.users.filter(u => {
@@ -2546,21 +2044,23 @@ function viewAdminUsers() {
     </div>
     <div class="list">
       ${list.length ? list.map(u => `
-        <div class="list-row">
-          <div class="avatar">${(u.name || u.email || '?')[0].toUpperCase()}</div>
-          <div class="lr-body">
-            <div class="lr-title">${escapeHtml(u.name || '—')} ${u.blocked ? '<span class="badge blocked">BLOCKED</span>' : ''}</div>
-            <div class="lr-sub">${escapeHtml(u.email || '—')}</div>
+        <div>
+          <div class="list-row">
+            <div class="avatar">${(u.name || u.email || '?')[0].toUpperCase()}</div>
+            <div class="lr-body">
+              <div class="lr-title">${escapeHtml(u.name || '—')} ${u.blocked ? '<span class="badge blocked">BLOCKED</span>' : ''}</div>
+              <div class="lr-sub">${escapeHtml(u.email || '—')}</div>
+            </div>
+            <div class="lr-right">
+              <div class="lr-amount ${u.demoPoints ? 'up' : ''}">${(u.demoPoints || 0).toLocaleString()}</div>
+              <div class="lr-meta">pts</div>
+            </div>
           </div>
-          <div class="lr-right">
-            <div class="lr-amount ${u.demoPoints ? 'up' : ''}">${(u.demoPoints || 0).toLocaleString()}</div>
-            <div class="lr-meta">pts</div>
+          <div style="display:flex;gap:6px;padding:0 14px 12px;border-bottom:1px solid var(--border)">
+            <button class="btn btn-secondary btn-sm" style="flex:1" onclick="openEditUser('${u.id}')">Edit</button>
+            <button class="btn btn-sm ${u.blocked ? 'btn-success' : 'btn-danger'}" style="flex:1"
+              onclick="toggleBlock('${u.id}',${!u.blocked})">${u.blocked ? 'Unblock' : 'Block'}</button>
           </div>
-        </div>
-        <div style="display:flex;gap:6px;padding:0 14px 12px;border-bottom:1px solid var(--border)">
-          <button class="btn btn-secondary btn-sm" style="flex:1" onclick="openEditUser('${u.id}')">Edit Points</button>
-          <button class="btn btn-sm ${u.blocked ? 'btn-success' : 'btn-danger'}" style="flex:1"
-            onclick="toggleBlock('${u.id}',${!u.blocked})">${u.blocked ? 'Unblock' : 'Block'}</button>
         </div>
       `).join('') : '<div class="empty">No users found</div>'}
     </div>
@@ -2600,9 +2100,7 @@ window.toggleBlock = async (uid, blocked) => {
   } catch (e) { toast('Failed', 'err'); }
 };
 
-/* ============================================================
-   ADMIN: TEAMS
-   ============================================================ */
+/* ============ ADMIN TEAMS ============ */
 function viewAdminTeams() {
   return `
     <div class="card">
@@ -2654,7 +2152,7 @@ function renderAdminTeamBlock(teamId) {
                 <option value="B" ${p.teamId === 'B' ? 'selected' : ''}>Team B</option>
               </select>
               ${p.status === 'ACTIVE'
-                ? `<button class="btn btn-sm btn-danger" onclick="eliminate('${p.id}')">Eliminate</button>`
+                ? `<button class="btn btn-sm btn-danger" onclick="eliminate('${p.id}')">Elim</button>`
                 : `<button class="btn btn-sm btn-success" onclick="restore('${p.id}')">Restore</button>`}
               <button class="btn btn-sm btn-secondary" onclick="removePlayer('${p.id}')">✕</button>
             </div>
@@ -2710,15 +2208,13 @@ window.removePlayer = async (id) => {
   catch (e) { toast('Failed', 'err'); }
 };
 
-/* ============================================================
-   ADMIN: ROUNDS
-   ============================================================ */
+/* ============ ADMIN ROUNDS ============ */
 function viewAdminRounds() {
   const m = currentMatch();
   if (!m) return '<div class="card"><div class="empty">No match selected</div></div>';
-  const rs = roundStatus();
+  const rs = roundStatusForMatch(m);
   const r = rs.round;
-  const A = teamStats('A'), B = teamStats('B');
+  const A = teamStats('A', m.id), B = teamStats('B', m.id);
   const pending = state.predictions.filter(p => p.status === 'PENDING' && p.matchId === m.id);
 
   return `
@@ -2738,13 +2234,11 @@ function viewAdminRounds() {
     </div>
 
     <div class="card">
-      <div class="card-head">
-        <div class="card-title">Round Timeline</div>
-      </div>
+      <div class="card-head"><div class="card-title">Round Timeline</div></div>
       <div class="timeline">
         ${Array.from({length: m.maxRounds || 8}, (_, i) => {
           const rn = i + 1;
-          const rr = state.rounds.find(x => x.roundNumber === rn);
+          const rr = state.rounds.find(x => x.roundNumber === rn && x.matchId === m.id);
           let cls = '', label = '—';
           if (!rr) { label = '—'; }
           else if (rr.status === 'OPEN') { cls = 'live'; label = 'LIVE'; }
@@ -2779,7 +2273,7 @@ function viewAdminRounds() {
           </div>
           <button class="btn btn-warning mt-12" onclick="closeRoundConfirm()">Close Betting</button>
         ` : r.status === 'CLOSED' ? `
-          <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} closed. ${pending.filter(p=>p.roundNumber===r.roundNumber).length} bet(s) pending settlement.</div>
+          <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} closed. ${pending.filter(p=>p.roundNumber===r.roundNumber).length} bet(s) pending.</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <button class="btn btn-success" onclick="declareRoundConfirm('A')">Team A Won</button>
             <button class="btn btn-warning" onclick="declareRoundConfirm('B')">Team B Won</button>
@@ -2796,9 +2290,7 @@ function viewAdminRounds() {
       </div>
 
       <div class="card">
-        <div class="card-head">
-          <div class="card-title-lg">Team Rates</div>
-        </div>
+        <div class="card-head"><div class="card-title-lg">Team Rates</div></div>
         <div class="teams-grid" style="margin:0">
           ${teamPanel(A, false)}
           ${teamPanel(B, false)}
@@ -2811,11 +2303,11 @@ function viewAdminRounds() {
 window.openRound = async (num) => {
   const m = currentMatch();
   if (!m) return;
-  const A = teamStats('A'), B = teamStats('B');
+  const A = teamStats('A', m.id), B = teamStats('B', m.id);
   if (A.activeCount === 0 || B.activeCount === 0) return toast('Both teams need alive players', 'err');
   if (num > (m.maxRounds || 8)) return toast('Max rounds reached', 'err');
   if (num > 1) {
-    const prev = state.rounds.find(r => r.roundNumber === num - 1);
+    const prev = state.rounds.find(r => r.roundNumber === num - 1 && r.matchId === m.id);
     if (prev && prev.status !== 'RESULT_DECLARED' && prev.status !== 'COMPLETED') {
       return toast('Previous round must be settled', 'err');
     }
@@ -2837,7 +2329,6 @@ window.openRound = async (num) => {
       status: 'LIVE',
       currentRound: num
     });
-    attachRoundsListener();
     toast(`Round ${num} opened`, 'ok');
   } catch (e) { console.error(e); toast('Failed', 'err'); }
 };
@@ -2882,7 +2373,6 @@ window.declareRoundDo = async (winner) => {
   const m = currentMatch();
   if (!r || !m) return;
   try {
-    // Settle bets
     const pending = state.predictions.filter(p => p.status === 'PENDING' && p.roundNumber === r.roundNumber && p.matchId === m.id);
     for (const p of pending) {
       const isWinner = p.teamId === winner;
@@ -2903,7 +2393,6 @@ window.declareRoundDo = async (winner) => {
       });
     }
 
-    // Eliminate 1 player from losing team
     const losingTeam = winner === 'A' ? 'B' : 'A';
     const losing = state.players.filter(p => p.teamId === losingTeam && p.status === 'ACTIVE');
     if (losing.length > 0) {
@@ -2912,14 +2401,12 @@ window.declareRoundDo = async (winner) => {
       });
     }
 
-    // Update round
     await updateDoc(doc(db, 'rounds', r.id), {
       status: 'RESULT_DECLARED',
       winner,
       resultTime: serverTimestamp()
     });
 
-    // Update match round wins
     const newAWins = (m.teamARoundsWon || 0) + (winner === 'A' ? 1 : 0);
     const newBWins = (m.teamBRoundsWon || 0) + (winner === 'B' ? 1 : 0);
     await updateDoc(doc(db, 'matches', m.id), {
@@ -2930,23 +2417,15 @@ window.declareRoundDo = async (winner) => {
     closeSheet();
     toast(`Round ${r.roundNumber} — Team ${winner} won`, 'ok');
 
-    // Check if match should end (a team fully eliminated OR max rounds done)
-    const newA = teamStats('A'), newB = teamStats('B');
+    const newA = teamStats('A', m.id), newB = teamStats('B', m.id);
     const maxRounds = m.maxRounds || 8;
     const roundsComplete = r.roundNumber >= maxRounds;
     let autoEnd = false;
 
-    if (newA.isDead && newB.isDead) {
-      await endMatchAuto('DRAW');
-      autoEnd = true;
-    } else if (newA.isDead) {
-      await endMatchAuto('B');
-      autoEnd = true;
-    } else if (newB.isDead) {
-      await endMatchAuto('A');
-      autoEnd = true;
-    } else if (roundsComplete) {
-      // End by rounds won
+    if (newA.isDead && newB.isDead) { await endMatchAuto('DRAW'); autoEnd = true; }
+    else if (newA.isDead) { await endMatchAuto('B'); autoEnd = true; }
+    else if (newB.isDead) { await endMatchAuto('A'); autoEnd = true; }
+    else if (roundsComplete) {
       if (newAWins > newBWins) await endMatchAuto('A');
       else if (newBWins > newAWins) await endMatchAuto('B');
       else await endMatchAuto('DRAW');
@@ -2964,7 +2443,6 @@ window.endMatchAuto = async (winner) => {
   const m = currentMatch();
   if (!m) return;
   try {
-    // Save to history
     const matchData = {
       matchNumber: m.matchNumber,
       winner,
@@ -2973,12 +2451,11 @@ window.endMatchAuto = async (winner) => {
       maxRounds: m.maxRounds,
       totalRounds: m.currentRound,
       finishedAt: serverTimestamp(),
-      players: state.players.map(p => ({ name: p.name, teamId: p.teamId, status: p.status, eliminatedInRound: p.eliminatedInRound || null })),
-      rounds: state.rounds.map(r => ({ roundNumber: r.roundNumber, winner: r.winner, status: r.status }))
+      players: state.players.filter(p => !p.matchId || p.matchId === m.id).map(p => ({ name: p.name, teamId: p.teamId, status: p.status, eliminatedInRound: p.eliminatedInRound || null })),
+      rounds: state.rounds.filter(r => r.matchId === m.id).map(r => ({ roundNumber: r.roundNumber, winner: r.winner, status: r.status }))
     };
     await addDoc(collection(db, 'match_history'), matchData);
 
-    // Settle any remaining pending bets
     const pending = state.predictions.filter(p => p.status === 'PENDING' && p.matchId === m.id);
     for (const p of pending) {
       const isWinner = winner !== 'DRAW' && p.teamId === winner;
@@ -2999,7 +2476,6 @@ window.endMatchAuto = async (winner) => {
       });
     }
 
-    // Update match
     await updateDoc(doc(db, 'matches', m.id), {
       status: 'FINISHED',
       winner,
@@ -3035,9 +2511,7 @@ window.endMatchConfirm = async (winner) => {
   await endMatchAuto(winner);
 };
 
-/* ============================================================
-   ADMIN: BETS
-   ============================================================ */
+/* ============ ADMIN BETS ============ */
 function viewAdminBets() {
   const list = state.predictions;
   const stats = {
@@ -3075,16 +2549,12 @@ function viewAdminBets() {
   `;
 }
 
-/* ============================================================
-   ADMIN: SETTINGS
-   ============================================================ */
+/* ============ ADMIN SETTINGS ============ */
 function viewAdminSettings() {
   const s = state.settings || { baseWinRate: 25, baseRate: 2, maxRounds: 8 };
   return `
     <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">Global Settings</div>
-      </div>
+      <div class="card-head"><div class="card-title-lg">Global Settings</div></div>
       <div class="form-field">
         <label>Base Win Rate (%)</label>
         <input id="setWin" type="number" min="0" max="100" step="0.5" value="${s.baseWinRate}" />
@@ -3102,9 +2572,11 @@ function viewAdminSettings() {
     </div>
 
     <div class="card">
-      <div class="card-head"><div class="card-title-lg">Firestore Info</div></div>
+      <div class="card-head"><div class="card-title-lg">About</div></div>
       <div class="txt-sm txt-3" style="line-height:1.8">
-        Collections: users, players, matches, rounds, predictions, match_history, settings, admins.
+        PRL Rate X Survivor<br/>
+        Pawan Retail Limited<br/>
+        Demo points only. No cash value.
       </div>
     </div>
   `;
@@ -3122,9 +2594,7 @@ window.saveSettings = async () => {
   } catch (e) { toast('Failed', 'err'); }
 };
 
-/* ============================================================
-   MODAL / SHEET
-   ============================================================ */
+/* ============ SHEET ============ */
 window.openSheet = (title, bodyHtml) => {
   const root = document.getElementById('modalRoot');
   root.innerHTML = `
@@ -3145,9 +2615,13 @@ window.closeSheet = () => {
   document.getElementById('modalRoot').innerHTML = '';
 };
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
+/* ============ HELPERS ============ */
+function currentRound() {
+  const m = currentMatch();
+  if (!m || !m.currentRound) return null;
+  return state.rounds.find(r => r.roundNumber === m.currentRound && r.matchId === m.id) || null;
+}
+
 function escapeHtml(s) {
   return String(s || '').replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -3163,7 +2637,6 @@ function timeAgo(ts) {
   return Math.floor(diff / 86400) + 'd';
 }
 
-/* Init theme icon */
 setTimeout(updateThemeIcon, 100);
 </script>
 </body>
