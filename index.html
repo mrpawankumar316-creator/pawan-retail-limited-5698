@@ -42,44 +42,31 @@
 html, body { height: 100%; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 14px;
-  line-height: 1.45;
+  background: var(--bg); color: var(--text);
+  font-size: 14px; line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior-y: none;
 }
 button { font-family: inherit; cursor: pointer; border: none; outline: none; background: none; color: inherit; }
 input, select { font-family: inherit; outline: none; }
 .hidden { display: none !important; }
-img { max-width: 100%; display: block; }
 
-/* APP SHELL */
 #appView { min-height: 100vh; display: flex; flex-direction: column; }
 
 /* HEADER */
 .app-header {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  position: sticky; top: 0; z-index: 40;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 0 14px; display: flex; align-items: center; gap: 12px;
   padding-top: env(safe-area-inset-top);
   height: calc(var(--header-h) + env(safe-area-inset-top));
 }
 .header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .brand-mark {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  background: var(--accent);
-  color: #fff;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--accent); color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 13px; letter-spacing: -.5px;
-  flex-shrink: 0;
+  font-weight: 800; font-size: 13px; letter-spacing: -.5px; flex-shrink: 0;
 }
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
 .brand-text .b1 { font-size: 13px; font-weight: 800; letter-spacing: .2px; }
@@ -88,12 +75,10 @@ img { max-width: 100%; display: block; }
 .status-chip {
   font-size: 10.5px; font-weight: 700; letter-spacing: .3px;
   padding: 4px 9px; border-radius: 6px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  background: var(--surface-2); border: 1px solid var(--border);
   color: var(--text-2);
   display: inline-flex; align-items: center; gap: 6px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  max-width: 100%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
 }
 .status-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); flex-shrink: 0; }
 .status-chip.live { color: var(--success); border-color: rgba(34,197,94,.35); }
@@ -105,107 +90,71 @@ img { max-width: 100%; display: block; }
 .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .balance-pill {
   display: flex; align-items: center; gap: 6px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 5px 9px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 5px 9px;
   font-size: 12.5px; font-weight: 700;
 }
 .balance-pill .coin {
   width: 14px; height: 14px; border-radius: 50%;
-  background: var(--warning);
-  display: inline-block; flex-shrink: 0;
+  background: var(--warning); display: inline-block; flex-shrink: 0;
   position: relative;
 }
 .balance-pill .coin::after {
-  content: '$';
-  position: absolute; inset: 0;
+  content: '$'; position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 8px; font-weight: 900;
-  color: rgba(0,0,0,.55);
+  font-size: 8px; font-weight: 900; color: rgba(0,0,0,.55);
 }
 .balance-pill .val { font-variant-numeric: tabular-nums; }
 .icon-btn {
-  width: 36px; height: 36px;
-  border-radius: 8px;
+  width: 36px; height: 36px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  color: var(--text-2);
-  transition: background .15s;
-  flex-shrink: 0;
+  color: var(--text-2); transition: background .15s; flex-shrink: 0;
 }
 .icon-btn:active { background: var(--surface-2); }
 .icon-btn svg { width: 18px; height: 18px; stroke-width: 1.8; }
 
-/* MAIN */
 .app-main {
   flex: 1;
   padding: 14px 14px calc(var(--nav-h) + 16px + env(safe-area-inset-bottom));
-  max-width: 640px;
-  width: 100%;
-  margin: 0 auto;
+  max-width: 640px; width: 100%; margin: 0 auto;
 }
 
 /* BOTTOM NAV */
 .bottom-nav {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 45;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  display: flex;
-  padding-bottom: env(safe-area-inset-bottom);
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 45;
+  background: var(--surface); border-top: 1px solid var(--border);
+  display: flex; padding-bottom: env(safe-area-inset-bottom);
   height: calc(var(--nav-h) + env(safe-area-inset-bottom));
 }
 .nav-item {
-  flex: 1;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 2px;
-  color: var(--text-3);
-  font-size: 10px; font-weight: 600; letter-spacing: .2px;
-  position: relative;
-  transition: color .15s;
-  min-width: 0;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px;
+  color: var(--text-3); font-size: 10px; font-weight: 600; letter-spacing: .2px;
+  position: relative; transition: color .15s; min-width: 0;
 }
 .nav-item svg { width: 20px; height: 20px; stroke-width: 1.8; }
 .nav-item.active { color: var(--accent); }
 .nav-item.active::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 22px; height: 2px;
-  background: var(--accent);
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 22px; height: 2px; background: var(--accent);
   border-radius: 0 0 2px 2px;
 }
 
 /* CARDS */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
 }
 .card-head {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 10px; gap: 8px;
 }
-.card-title {
-  font-size: 12px; font-weight: 700; letter-spacing: .6px;
-  color: var(--text-3); text-transform: uppercase;
-}
-.card-title-lg {
-  font-size: 15px; font-weight: 700; letter-spacing: -.2px; color: var(--text);
-}
+.card-title { font-size: 12px; font-weight: 700; letter-spacing: .6px; color: var(--text-3); text-transform: uppercase; }
+.card-title-lg { font-size: 15px; font-weight: 700; letter-spacing: -.2px; color: var(--text); }
 
-/* BALANCE CARD */
 .balance-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 10px;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 .balance-info .bl { font-size: 11px; color: var(--text-3); font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
@@ -215,14 +164,10 @@ img { max-width: 100%; display: block; }
 .balance-right .rate { font-size: 20px; font-weight: 800; color: var(--accent); letter-spacing: -.3px; font-variant-numeric: tabular-nums; }
 .balance-right .lbl { font-size: 10px; color: var(--text-3); letter-spacing: .6px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
 
-/* STATUS PANEL */
 .status-panel { display: flex; gap: 8px; margin-bottom: 10px; }
 .status-tile {
-  flex: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 12px; min-width: 0;
+  flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 12px; min-width: 0;
 }
 .status-tile .k { font-size: 10px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
 .status-tile .v { font-size: 15px; font-weight: 800; margin-top: 3px; letter-spacing: -.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -230,30 +175,22 @@ img { max-width: 100%; display: block; }
 .status-tile .v.success { color: var(--success); }
 .status-tile .v.warning { color: var(--warning); }
 
-/* LIVE ROUND BANNER */
 .live-round {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
   display: flex; align-items: center; gap: 12px;
   position: relative; overflow: hidden;
 }
 .live-round::before {
-  content: '';
-  position: absolute; left: 0; top: 0; bottom: 0;
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
   width: 3px; background: var(--success);
 }
 .live-round.warn::before { background: var(--warning); }
 .live-round.done::before { background: var(--text-3); }
 .live-round .lr-icon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  background: rgba(34,197,94,.12);
-  color: var(--success);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(34,197,94,.12); color: var(--success);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .live-round.warn .lr-icon { background: rgba(245,158,11,.12); color: var(--warning); }
 .live-round.done .lr-icon { background: var(--surface-2); color: var(--text-3); }
@@ -265,15 +202,10 @@ img { max-width: 100%; display: block; }
 .live-round .lr-title { font-size: 15px; font-weight: 800; margin-top: 2px; letter-spacing: -.2px; }
 .live-round .lr-sub { font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500; }
 
-/* TIMELINE */
 .timeline { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-top: 4px; }
 .tl-chip {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 2px 4px;
-  text-align: center;
-  min-width: 0;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 2px 4px; text-align: center; min-width: 0;
 }
 .tl-chip .tln { font-size: 9px; font-weight: 800; letter-spacing: .3px; color: var(--text-3); line-height: 1; }
 .tl-chip .tls { font-size: 9px; font-weight: 700; margin-top: 4px; letter-spacing: -.1px; line-height: 1; }
@@ -288,15 +220,11 @@ img { max-width: 100%; display: block; }
 .tl-chip.closed .tls { color: var(--warning); }
 .tl-chip.done { opacity: .55; }
 
-/* TEAM PANELS */
 .teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 .team-panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px;
-  transition: border-color .15s, background .15s;
-  position: relative;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px;
+  transition: border-color .15s, background .15s; position: relative;
 }
 .team-panel.selectable { cursor: pointer; }
 .team-panel.selectable:active { background: var(--surface-2); }
@@ -310,10 +238,8 @@ img { max-width: 100%; display: block; }
 .tp-badge {
   font-size: 9px; font-weight: 800; letter-spacing: .5px;
   padding: 2px 6px; border-radius: 4px;
-  background: var(--surface-2);
-  color: var(--text-2);
-  border: 1px solid var(--border);
-  white-space: nowrap;
+  background: var(--surface-2); color: var(--text-2);
+  border: 1px solid var(--border); white-space: nowrap;
 }
 .tp-badge.alive { color: var(--success); border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.08); }
 .tp-badge.dead { color: var(--danger); border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.08); }
@@ -329,15 +255,12 @@ img { max-width: 100%; display: block; }
 .tp-rate .val { font-size: 18px; font-weight: 800; letter-spacing: -.5px; color: var(--accent); font-variant-numeric: tabular-nums; }
 .team-panel.team-B .tp-rate .val { color: var(--warning); }
 
-/* BUTTONS */
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; min-height: 46px;
-  padding: 12px 16px;
+  width: 100%; min-height: 46px; padding: 12px 16px;
   border-radius: var(--radius);
   font-size: 14.5px; font-weight: 700; letter-spacing: .1px;
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent); color: #fff;
   transition: background .15s, opacity .15s;
 }
 .btn:active { background: var(--accent-press); }
@@ -349,21 +272,15 @@ img { max-width: 100%; display: block; }
 .btn-warning { background: var(--warning); color: #1a1a1a; }
 .btn-sm { min-height: 36px; padding: 8px 12px; font-size: 13px; border-radius: var(--radius-sm); width: auto; }
 
-/* PREDICT */
 .round-banner {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
   display: flex; align-items: center; gap: 12px;
 }
 .round-banner .rb-icon {
   width: 38px; height: 38px; border-radius: 10px;
-  background: rgba(34,197,94,.1);
-  color: var(--success);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  background: rgba(34,197,94,.1); color: var(--success);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .round-banner.warn .rb-icon { background: rgba(245,158,11,.1); color: var(--warning); }
 .round-banner.done .rb-icon { background: var(--surface-2); color: var(--text-3); }
@@ -377,52 +294,40 @@ img { max-width: 100%; display: block; }
 
 .stake-input-wrap {
   display: flex; align-items: center; gap: 8px;
-  background: var(--surface);
-  border: 1.5px solid var(--border-2);
-  border-radius: var(--radius);
-  padding: 4px 4px 4px 14px;
-  margin-bottom: 8px;
-  transition: border-color .15s;
+  background: var(--surface); border: 1.5px solid var(--border-2);
+  border-radius: var(--radius); padding: 4px 4px 4px 14px;
+  margin-bottom: 8px; transition: border-color .15s;
 }
 .stake-input-wrap:focus-within { border-color: var(--accent); }
 .stake-input-wrap input {
   flex: 1; border: none; background: transparent;
-  color: var(--text);
-  font-size: 20px; font-weight: 800; font-variant-numeric: tabular-nums;
-  letter-spacing: -.5px; width: 100%; min-width: 0; padding: 10px 0;
+  color: var(--text); font-size: 20px; font-weight: 800;
+  font-variant-numeric: tabular-nums; letter-spacing: -.5px;
+  width: 100%; min-width: 0; padding: 10px 0;
 }
 .stake-input-wrap input::placeholder { color: var(--text-3); font-weight: 600; }
 .stake-input-wrap .unit {
   font-size: 12px; color: var(--text-3); font-weight: 700; letter-spacing: .3px;
-  padding: 0 12px;
-  border-left: 1px solid var(--border);
+  padding: 0 12px; border-left: 1px solid var(--border);
 }
 
 .preset-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
 .preset-btn {
-  padding: 8px 4px;
-  border-radius: 8px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums;
-  transition: all .12s;
-  min-height: 36px;
+  padding: 8px 4px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums; transition: all .12s; min-height: 36px;
 }
 .preset-btn:active { background: var(--surface-3); }
 .preset-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 .summary-list {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 4px 14px;
-  margin-bottom: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 4px 14px; margin-bottom: 12px;
 }
 .summary-row {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 11px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 11px 0; border-bottom: 1px solid var(--border);
   font-size: 13.5px; gap: 12px;
 }
 .summary-row:last-child { border-bottom: none; }
@@ -434,36 +339,26 @@ img { max-width: 100%; display: block; }
 
 .available-row {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 0 4px 10px;
-  font-size: 12px; color: var(--text-3); font-weight: 600;
+  padding: 0 4px 10px; font-size: 12px; color: var(--text-3); font-weight: 600;
 }
 .available-row b { color: var(--accent); font-weight: 800; font-variant-numeric: tabular-nums; }
 
 .sticky-action {
-  position: sticky;
-  bottom: calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));
-  background: var(--bg);
-  padding: 10px 14px 4px;
-  margin: 0 -14px;
-  z-index: 20;
+  position: sticky; bottom: calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));
+  background: var(--bg); padding: 10px 14px 4px;
+  margin: 0 -14px; z-index: 20;
 }
 .sticky-action::before {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; top: -20px;
-  height: 20px;
-  background: linear-gradient(180deg, transparent, var(--bg));
+  content: ''; position: absolute; left: 0; right: 0; top: -20px;
+  height: 20px; background: linear-gradient(180deg, transparent, var(--bg));
   pointer-events: none;
 }
 
-/* LIST */
 .list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .list-row {
   display: flex; align-items: center; gap: 12px;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border);
-  transition: background .12s;
-  min-width: 0;
+  padding: 12px 14px; border-bottom: 1px solid var(--border);
+  transition: background .12s; min-width: 0;
 }
 .list-row:last-child { border-bottom: none; }
 .list-row:active { background: var(--surface-2); }
@@ -471,8 +366,7 @@ img { max-width: 100%; display: block; }
   width: 36px; height: 36px; border-radius: 10px;
   background: var(--surface-3); color: var(--text-2);
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 13px;
-  flex-shrink: 0; letter-spacing: -.3px;
+  font-weight: 800; font-size: 13px; flex-shrink: 0; letter-spacing: -.3px;
 }
 .list-row .avatar.team-a { background: rgba(59,130,246,.15); color: var(--accent); }
 .list-row .avatar.team-b { background: rgba(245,158,11,.15); color: var(--warning); }
@@ -494,13 +388,10 @@ img { max-width: 100%; display: block; }
 .list-row .lr-amount.pending { color: var(--warning); }
 .list-row .lr-meta { font-size: 10.5px; color: var(--text-3); margin-top: 2px; font-weight: 600; letter-spacing: .3px; }
 
-/* BADGES */
 .badge {
-  display: inline-block;
-  font-size: 10px; font-weight: 800; letter-spacing: .5px;
-  padding: 2px 7px; border-radius: 4px;
-  text-transform: uppercase;
-  white-space: nowrap;
+  display: inline-block; font-size: 10px; font-weight: 800;
+  letter-spacing: .5px; padding: 2px 7px; border-radius: 4px;
+  text-transform: uppercase; white-space: nowrap;
 }
 .badge.live { color: var(--success); background: rgba(34,197,94,.12); }
 .badge.open { color: var(--success); background: rgba(34,197,94,.12); }
@@ -514,24 +405,17 @@ img { max-width: 100%; display: block; }
 .badge.blocked { color: var(--danger); background: rgba(239,68,68,.12); }
 .badge.admin { color: var(--warning); background: rgba(245,158,11,.12); }
 
-/* PLAYER ROW */
 .player-row {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-  min-width: 0;
+  padding: 10px 14px; border-bottom: 1px solid var(--border); min-width: 0;
 }
 .player-row:last-child { border-bottom: none; }
 .player-row .pr-name { flex: 1; font-size: 13.5px; font-weight: 700; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .player-row .pr-sub { font-size: 10.5px; color: var(--text-3); font-weight: 600; margin-top: 1px; }
 
-/* TEAM SUMMARY */
 .team-summary {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
 }
 .team-summary .ts-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .team-summary .ts-name { font-size: 15px; font-weight: 800; letter-spacing: -.2px; display: flex; align-items: center; gap: 8px; }
@@ -541,28 +425,22 @@ img { max-width: 100%; display: block; }
 .team-summary .ts-cell .v { font-size: 15px; font-weight: 800; margin-top: 2px; letter-spacing: -.2px; font-variant-numeric: tabular-nums; }
 .team-summary .ts-cell .v.accent { color: var(--accent); }
 
-/* PROFILE */
 .profile-header {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 14px;
-  margin-bottom: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 14px; margin-bottom: 10px;
   display: flex; align-items: center; gap: 14px;
 }
 .profile-avatar {
   width: 56px; height: 56px; border-radius: 50%;
   background: var(--accent); color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 20px; letter-spacing: -.5px;
-  flex-shrink: 0;
+  font-weight: 800; font-size: 20px; letter-spacing: -.5px; flex-shrink: 0;
 }
 .profile-info { flex: 1; min-width: 0; }
 .profile-info .pi-name { font-size: 17px; font-weight: 800; letter-spacing: -.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .profile-info .pi-email { font-size: 12px; color: var(--text-3); margin-top: 2px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .profile-info .pi-role { margin-top: 6px; }
 
-/* KPI */
 .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
 .kpi-card .kk { font-size: 10px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
@@ -571,42 +449,31 @@ img { max-width: 100%; display: block; }
 .kpi-card .kv.success { color: var(--success); }
 .kpi-card .kv.warning { color: var(--warning); }
 
-/* FORMS */
 .form-field { margin-bottom: 12px; }
 .form-field label {
-  display: block;
-  font-size: 11px; color: var(--text-3); font-weight: 700; letter-spacing: .6px;
-  text-transform: uppercase;
+  display: block; font-size: 11px; color: var(--text-3);
+  font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
   margin-bottom: 6px;
 }
 .form-field input, .form-field select {
-  width: 100%;
-  padding: 12px 14px;
-  background: var(--surface);
-  border: 1.5px solid var(--border-2);
-  color: var(--text);
-  border-radius: var(--radius);
+  width: 100%; padding: 12px 14px;
+  background: var(--surface); border: 1.5px solid var(--border-2);
+  color: var(--text); border-radius: var(--radius);
   font-size: 15px; font-weight: 500;
-  transition: border-color .15s;
-  min-height: 46px;
+  transition: border-color .15s; min-height: 46px;
 }
 .form-field input:focus, .form-field select:focus { border-color: var(--accent); }
 .form-field input::placeholder { color: var(--text-3); }
 
-/* EMPTY */
 .empty {
-  padding: 32px 20px;
-  text-align: center;
-  color: var(--text-3);
-  font-size: 13px; font-weight: 500;
+  padding: 32px 20px; text-align: center;
+  color: var(--text-3); font-size: 13px; font-weight: 500;
 }
 .empty .ico { font-size: 28px; opacity: .4; margin-bottom: 8px; }
 
-/* SHEET */
 .sheet-backdrop {
   position: fixed; inset: 0;
-  background: rgba(0,0,0,.55);
-  z-index: 100;
+  background: rgba(0,0,0,.55); z-index: 100;
   animation: fadeIn .18s ease-out;
   display: flex; align-items: flex-end; justify-content: center;
 }
@@ -614,9 +481,7 @@ img { max-width: 100%; display: block; }
 .sheet {
   background: var(--surface);
   border-radius: 16px 16px 0 0;
-  width: 100%;
-  max-width: 640px;
-  max-height: 90vh;
+  width: 100%; max-width: 640px; max-height: 90vh;
   overflow-y: auto;
   animation: slideUp .22s cubic-bezier(.2,.9,.3,1);
   padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
@@ -626,8 +491,7 @@ img { max-width: 100%; display: block; }
 .sheet-head {
   padding: 6px 16px 14px;
   display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  gap: 12px;
+  border-bottom: 1px solid var(--border); gap: 12px;
 }
 .sheet-head h3 { font-size: 16px; font-weight: 800; letter-spacing: -.2px; }
 .sheet-body { padding: 16px; }
@@ -639,21 +503,17 @@ img { max-width: 100%; display: block; }
 }
 .sheet-close svg { width: 16px; height: 16px; }
 
-/* TOAST */
 .toast {
   position: fixed; left: 50%;
   bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));
   transform: translateX(-50%) translateY(120px);
-  background: var(--surface-3);
-  color: var(--text);
+  background: var(--surface-3); color: var(--text);
   border: 1px solid var(--border-2);
-  padding: 12px 18px;
-  border-radius: 10px;
+  padding: 12px 18px; border-radius: 10px;
   font-size: 13.5px; font-weight: 600;
   z-index: 200;
   box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  max-width: calc(100% - 32px);
-  text-align: center;
+  max-width: calc(100% - 32px); text-align: center;
   transition: transform .25s cubic-bezier(.2,.9,.3,1.2);
   pointer-events: none;
 }
@@ -661,12 +521,9 @@ img { max-width: 100%; display: block; }
 .toast.ok { border-color: rgba(34,197,94,.5); }
 .toast.err { border-color: rgba(239,68,68,.5); }
 
-/* LOGIN */
 .login-view {
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  padding: 24px 20px;
-  background: var(--bg);
+  min-height: 100vh; display: flex; flex-direction: column;
+  padding: 24px 20px; background: var(--bg);
 }
 .login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; margin-top: 12px; }
 .login-brand .bm {
@@ -684,7 +541,6 @@ img { max-width: 100%; display: block; }
 .login-footer .link { color: var(--accent); font-weight: 700; margin-left: 4px; cursor: pointer; }
 .login-legal { text-align: center; font-size: 10.5px; color: var(--text-3); letter-spacing: .4px; padding: 8px 0 4px; font-weight: 500; }
 
-/* HELPERS */
 .row-flex { display: flex; align-items: center; gap: 8px; }
 .row-flex.gap-lg { gap: 12px; }
 .mt-8 { margin-top: 8px; }
@@ -699,32 +555,23 @@ img { max-width: 100%; display: block; }
 .fw-8 { font-weight: 800; }
 .tabular { font-variant-numeric: tabular-nums; }
 
-/* SEARCH */
 .search-wrap { position: relative; margin-bottom: 10px; }
 .search-wrap input {
-  width: 100%;
-  padding: 11px 14px 11px 40px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--text); font-size: 14px;
+  width: 100%; padding: 11px 14px 11px 40px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius); color: var(--text); font-size: 14px;
   min-height: 44px;
 }
 .search-wrap input:focus { border-color: var(--accent); }
 .search-wrap svg {
   position: absolute; left: 13px; top: 50%;
   transform: translateY(-50%);
-  width: 16px; height: 16px;
-  color: var(--text-3);
+  width: 16px; height: 16px; color: var(--text-3);
 }
 
-/* MATCH CARD */
 .match-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px;
-  margin-bottom: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px; margin-bottom: 8px;
 }
 .match-card.active { border-color: var(--success); }
 .match-card.finished { opacity: .75; }
@@ -737,6 +584,28 @@ img { max-width: 100%; display: block; }
 .mc-team { flex: 1; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; text-align: center; }
 .mc-team .t { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: .5px; }
 .mc-team .n { font-size: 17px; font-weight: 800; margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+/* CONFIRMATION SHEET */
+.confirm-sheet-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(245,158,11,.12);
+  color: var(--warning);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+  font-size: 24px;
+}
+.confirm-sheet-icon.danger {
+  background: rgba(239,68,68,.12); color: var(--danger);
+}
+.confirm-sheet-title {
+  text-align: center; font-size: 17px; font-weight: 800;
+  margin-bottom: 6px; letter-spacing: -.2px;
+}
+.confirm-sheet-desc {
+  text-align: center; font-size: 13.5px; color: var(--text-3);
+  margin-bottom: 18px; line-height: 1.6;
+}
 
 @media (min-width: 720px) {
   .app-main { padding-left: 20px; padding-right: 20px; }
@@ -876,7 +745,8 @@ const state = {
   matches: [], currentMatchId: null,
   rounds: [], players: [], predictions: [], users: [], history: [],
   currentPage: 'home', unsub: [],
-  bet: { teamId: null, stake: 100 }
+  bet: { teamId: null, stake: 100 },
+  adminTab: 'live' // 'live' | 'history' for admin home
 };
 
 function unsubAll() {
@@ -912,7 +782,7 @@ window.toast = (msg, type='ok') => {
   t.textContent = msg;
   t.className = 'toast show ' + (type === 'err' ? 'err' : 'ok');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.className = 'toast', 3200);
+  toastTimer = setTimeout(() => t.className = 'toast', 3500);
 };
 
 /* AUTH UI */
@@ -1026,10 +896,9 @@ onAuthStateChanged(auth, async (user) => {
   attachMatchesListener();
   attachPlayersListener();
   attachPredictionsListener();
-  if (isAdmin) {
-    attachUsersListener();
-    attachHistoryListener();
-  }
+  attachRoundsListener();
+  if (isAdmin) attachUsersListener();
+  attachHistoryListener();
 
   state.currentPage = isAdmin ? 'admin_home' : 'home';
   renderNav();
@@ -1065,9 +934,10 @@ function attachMatchesListener() {
   const un = onSnapshot(collection(db, 'matches'), snap => {
     state.matches = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .sort((a, b) => (b.matchNumber || 0) - (a.matchNumber || 0));
-    if (!state.currentMatchId && state.matches.length) {
+    // Auto-select a live/waiting match if none
+    if (!state.currentMatchId || !state.matches.find(m => m.id === state.currentMatchId)) {
       const live = state.matches.find(m => m.status === 'LIVE' || m.status === 'WAITING');
-      state.currentMatchId = (live || state.matches[0]).id;
+      state.currentMatchId = live ? live.id : (state.matches[0]?.id || null);
     }
     render();
   });
@@ -1075,8 +945,6 @@ function attachMatchesListener() {
 }
 
 function attachRoundsListener() {
-  if (state._roundsListenerActive) return;
-  state._roundsListenerActive = true;
   const un = onSnapshot(collection(db, 'rounds'), snap => {
     state.rounds = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .sort((a, b) => (a.roundNumber || 0) - (b.roundNumber || 0));
@@ -1117,7 +985,7 @@ function attachUsersListener() {
 function attachHistoryListener() {
   const un = onSnapshot(collection(db, 'match_history'), snap => {
     state.history = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (b.matchNumber || 0) - (a.matchNumber || 0));
+      .sort((a, b) => (b.finishedAt?.seconds || 0) - (a.finishedAt?.seconds || 0));
     render();
   });
   state.unsub.push(un);
@@ -1131,8 +999,7 @@ function navItems() {
       { id: 'admin_users',    label: 'Users',    icon: 'users' },
       { id: 'admin_teams',    label: 'Teams',    icon: 'shield' },
       { id: 'admin_rounds',   label: 'Rounds',   icon: 'play' },
-      { id: 'admin_bets',     label: 'Bets',     icon: 'list' },
-      { id: 'admin_settings', label: 'Settings', icon: 'cog' }
+      { id: 'admin_history',  label: 'History',  icon: 'list' }
     ];
   }
   return [
@@ -1153,11 +1020,11 @@ function svgIcon(name) {
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/>',
     shield: '<path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z"/>',
     play: '<polygon points="6 4 20 12 6 20 6 4"/>',
-    cog: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
     close: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
     search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
     check: '<polyline points="20 6 9 17 4 12"/>',
-    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'
+    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    archive: '<polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/>'
   };
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${icons[name] || ''}</svg>`;
 }
@@ -1165,31 +1032,12 @@ function svgIcon(name) {
 function renderNav() {
   const items = navItems();
   const el = document.getElementById('bottomNav');
-  if (items.length > 5) {
-    const shown = items.slice(0, 4);
-    const more = items.slice(4);
-    const isMoreActive = more.some(m => m.id === state.currentPage);
-    el.innerHTML = shown.map(t => `
-      <button class="nav-item ${state.currentPage === t.id ? 'active' : ''}" onclick="nav('${t.id}')">
-        ${svgIcon(t.icon)}
-        <span>${t.label}</span>
-      </button>
-    `).join('') + `
-      <button class="nav-item ${isMoreActive ? 'active' : ''}" onclick="openMoreMenu()">
-        ${svgIcon('list')}
-        <span>More</span>
-      </button>
-    `;
-    el._moreItems = more;
-  } else {
-    el.innerHTML = items.map(t => `
-      <button class="nav-item ${state.currentPage === t.id ? 'active' : ''}" onclick="nav('${t.id}')">
-        ${svgIcon(t.icon)}
-        <span>${t.label}</span>
-      </button>
-    `).join('');
-    el._moreItems = null;
-  }
+  el.innerHTML = items.map(t => `
+    <button class="nav-item ${state.currentPage === t.id ? 'active' : ''}" onclick="nav('${t.id}')">
+      ${svgIcon(t.icon)}
+      <span>${t.label}</span>
+    </button>
+  `).join('');
 }
 
 window.nav = (page) => {
@@ -1197,26 +1045,11 @@ window.nav = (page) => {
   renderNav();
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  attachRoundsListener();
 };
 
-window.openMoreMenu = () => {
-  const items = document.getElementById('bottomNav')._moreItems || [];
-  openSheet('More', `
-    <div class="list">
-      ${items.map(it => `
-        <button class="list-row" style="width:100%;text-align:left" onclick="closeSheet();nav('${it.id}')">
-          <div class="avatar">${svgIcon(it.icon)}</div>
-          <div class="lr-body">
-            <div class="lr-title">${it.label}</div>
-          </div>
-        </button>
-      `).join('')}
-    </div>
-  `);
-};
-
-/* MATH */
+/* ═══════════════════════════════════════════════════
+   MATH  — MAX RATE = 100.00X
+   ═══════════════════════════════════════════════════ */
 function currentMatch() {
   if (!state.currentMatchId) return null;
   return state.matches.find(m => m.id === state.currentMatchId) || null;
@@ -1244,8 +1077,11 @@ function teamStats(teamId, matchId = null) {
   if (totalAlive > 0) winRate = (s.baseWinRate * alive) / totalAlive;
 
   let rate = s.baseRate;
-  if (alive > 0 && totalAlive > 0) rate = s.baseRate * (totalAlive / (2 * alive));
-  rate = Math.min(99.99, Math.max(1.01, rate));
+  if (alive > 0 && totalAlive > 0) {
+    rate = s.baseRate * (totalAlive / (2 * alive));
+  }
+  // 🔥 MAX RATE CAP = 100.00X
+  rate = Math.min(100, Math.max(1.01, rate));
 
   return {
     teamId, activeCount: alive, eliminatedCount: dead,
@@ -1264,14 +1100,19 @@ function roundStatusForMatch(m) {
   if (!r) return { code: 'NO_ROUND', msg: 'Waiting for next round' };
   if (r.status === 'OPEN') return { code: 'OPEN', msg: `Round ${r.roundNumber} — Betting open`, round: r };
   if (r.status === 'CLOSED') return { code: 'CLOSED', msg: `Round ${r.roundNumber} — Betting closed`, round: r };
-  if (r.status === 'RESULT_DECLARED') return { code: 'RESULT_DECLARED', msg: `Round ${r.roundNumber} — Team ${r.winner} won`, round: r };
+  if (r.status === 'RESULT_DECLARED') {
+    if (!r.eliminationDone) {
+      return { code: 'ELIMINATING', msg: `Round ${r.roundNumber} — awaiting elimination`, round: r };
+    }
+    return { code: 'COMPLETED', msg: `Round ${r.roundNumber} — Team ${r.winner} won`, round: r };
+  }
   return { code: 'UNKNOWN', msg: 'Unknown' };
 }
 
 function fmt(n, d = 2) { return Number(n || 0).toFixed(d); }
 function fmtRate(n) { return fmt(n, 2) + 'X'; }
 
-/* RENDER */
+/* RENDER ROUTER */
 function render() {
   if (!state.user || !state.profile) return;
 
@@ -1293,24 +1134,25 @@ function render() {
   const root = document.getElementById('appMain');
   let html = '';
   switch (state.currentPage) {
-    case 'home':          html = viewHome(); break;
-    case 'teams':         html = viewTeams(); break;
-    case 'predict':       html = viewPredict(); break;
-    case 'history':       html = viewHistory(); break;
-    case 'profile':       html = viewProfile(); break;
-    case 'admin_home':    html = viewAdminHome(); break;
-    case 'admin_users':   html = viewAdminUsers(); break;
-    case 'admin_teams':   html = viewAdminTeams(); break;
-    case 'admin_rounds':  html = viewAdminRounds(); break;
-    case 'admin_bets':    html = viewAdminBets(); break;
-    case 'admin_settings':html = viewAdminSettings(); break;
-    default:              html = state.isAdmin ? viewAdminHome() : viewHome();
+    case 'home':           html = viewHome(); break;
+    case 'teams':          html = viewTeams(); break;
+    case 'predict':        html = viewPredict(); break;
+    case 'history':        html = viewHistory(); break;
+    case 'profile':        html = viewProfile(); break;
+    case 'admin_home':     html = viewAdminHome(); break;
+    case 'admin_users':    html = viewAdminUsers(); break;
+    case 'admin_teams':    html = viewAdminTeams(); break;
+    case 'admin_rounds':   html = viewAdminRounds(); break;
+    case 'admin_history':  html = viewAdminHistory(); break;
+    default:               html = state.isAdmin ? viewAdminHome() : viewHome();
   }
   root.innerHTML = html;
   if (state.currentPage === 'predict') bindPredictInputs();
 }
 
-/* ============ CUSTOMER HOME ============ */
+/* ═══════════════════════════════════════════════════
+   CUSTOMER: HOME
+   ═══════════════════════════════════════════════════ */
 function viewHome() {
   const liveMatches = state.matches.filter(m =>
     m.status === 'LIVE' || m.status === 'WAITING'
@@ -1367,8 +1209,6 @@ function viewHome() {
     `;
   }
 
-  const bannerHtml = liveBannerHtml(m, rs);
-
   return `
     <div class="balance-card">
       <div class="balance-info">
@@ -1382,7 +1222,7 @@ function viewHome() {
       </div>
     </div>
 
-    ${bannerHtml}
+    ${liveBannerHtml(m, rs)}
 
     <div class="status-panel">
       <div class="status-tile">
@@ -1402,9 +1242,7 @@ function viewHome() {
     </div>
 
     <div class="card">
-      <div class="card-head">
-        <div class="card-title">Round Timeline</div>
-      </div>
+      <div class="card-head"><div class="card-title">Round Timeline</div></div>
       <div class="timeline">
         ${Array.from({length: m.maxRounds || 8}, (_, i) => {
           const rn = i + 1;
@@ -1445,9 +1283,7 @@ function viewHome() {
                 </div>
                 <div class="lr-sub">Round ${x.currentRound || 0} / ${x.maxRounds || 8}</div>
               </div>
-              <div class="lr-right">
-                <div class="lr-meta">Tap to view</div>
-              </div>
+              <div class="lr-right"><div class="lr-meta">Tap to view</div></div>
             </div>
           `).join('')}
         </div>
@@ -1482,16 +1318,16 @@ function liveBannerHtml(m, rs) {
       </div>
     `;
   }
-  if (rs.code === 'CLOSED') {
+  if (rs.code === 'CLOSED' || rs.code === 'ELIMINATING') {
     return `
       <div class="live-round warn">
         <div class="lr-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <div class="lr-info">
-          <div class="lr-status">BETTING CLOSED</div>
+          <div class="lr-status">${rs.code === 'ELIMINATING' ? 'AWAITING RESULT' : 'BETTING CLOSED'}</div>
           <div class="lr-title">Match #${m.matchNumber} — Round ${rs.round?.roundNumber}</div>
-          <div class="lr-sub">Waiting for result declaration</div>
+          <div class="lr-sub">${rs.code === 'ELIMINATING' ? 'Team ' + rs.round.winner + ' won — updating' : 'Waiting for result declaration'}</div>
         </div>
       </div>
     `;
@@ -1562,9 +1398,7 @@ function predRowCompact(p) {
         <div class="lr-title">Round ${p.roundNumber || '-'} <span class="badge ${badgeCls}">${st}</span></div>
         <div class="lr-sub">${p.stake} pts • ${fmtRate(p.rate)} • ${timeAgo(p.createdAt)}</div>
       </div>
-      <div class="lr-right">
-        <div class="lr-amount ${amtCls}">${amt}</div>
-      </div>
+      <div class="lr-right"><div class="lr-amount ${amtCls}">${amt}</div></div>
     </div>
   `;
 }
@@ -1574,17 +1408,17 @@ window.selectMatch = (id) => {
   render();
 };
 
-/* ============ TEAMS (CUSTOMER) ============ */
+/* CUSTOMER: TEAMS */
 function viewTeams() {
-  return `
-    ${teamSummaryCard('A')}
-    ${teamSummaryCard('B')}
-  `;
+  return `${teamSummaryCard('A')}${teamSummaryCard('B')}`;
 }
 
 function teamSummaryCard(teamId) {
   const t = teamStats(teamId);
-  const players = state.players.filter(p => p.teamId === teamId && (!state.currentMatchId || !p.matchId || p.matchId === state.currentMatchId));
+  const players = state.players.filter(p =>
+    p.teamId === teamId &&
+    (!state.currentMatchId || !p.matchId || p.matchId === state.currentMatchId)
+  );
   return `
     <div class="team-summary">
       <div class="ts-head">
@@ -1603,7 +1437,7 @@ function teamSummaryCard(teamId) {
       <div class="list" style="margin:12px -14px -14px;border:none;border-radius:0;background:transparent">
         ${players.length ? players.map(p => `
           <div class="player-row">
-            <div class="avatar ${teamId === 'A' ? 'team-a' : 'team-b'}" style="width:32px;height:32px;border-radius:8px;font-size:12px">${escapeHtml((p.name||'?')[0]).toUpperCase()}</div>
+            <div class="avatar ${teamId === 'A' ? 'team-a' : 'team-b'}" style="width:32px;height:32px;border-radius:8px;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:800">${escapeHtml((p.name||'?')[0]).toUpperCase()}</div>
             <div style="flex:1;min-width:0">
               <div class="pr-name">${escapeHtml(p.name)}</div>
               <div class="pr-sub">Team ${p.teamId}${p.eliminatedInRound ? ` • Out R${p.eliminatedInRound}` : ''}</div>
@@ -1616,7 +1450,7 @@ function teamSummaryCard(teamId) {
   `;
 }
 
-/* ============ PREDICT ============ */
+/* CUSTOMER: PREDICT */
 function viewPredict() {
   const liveMatches = state.matches.filter(m =>
     m.status === 'LIVE' || m.status === 'WAITING'
@@ -1666,14 +1500,14 @@ function viewPredict() {
   const canConfirm = canBet && sel && !selStats?.isDead && stake > 0 && stake <= pts;
 
   return `
-    <div class="round-banner ${rs.code === 'CLOSED' ? 'warn' : rs.code === 'OPEN' ? '' : 'done'}">
+    <div class="round-banner ${rs.code === 'CLOSED' || rs.code === 'ELIMINATING' ? 'warn' : rs.code === 'OPEN' ? '' : 'done'}">
       <div class="rb-icon">
-        ${rs.code === 'OPEN' ? svgIcon('play') : rs.code === 'CLOSED' ? svgIcon('clock') : svgIcon('check')}
+        ${rs.code === 'OPEN' ? svgIcon('play') : (rs.code === 'CLOSED' || rs.code === 'ELIMINATING') ? svgIcon('clock') : svgIcon('check')}
       </div>
       <div class="rb-txt">
         <div class="rb-k">
           ${rs.code === 'OPEN' ? 'Betting Open'
-            : rs.code === 'CLOSED' ? 'Betting Closed'
+            : (rs.code === 'CLOSED' || rs.code === 'ELIMINATING') ? 'Betting Closed'
             : rs.code === 'WAITING' ? 'Starting Soon'
             : 'Inactive'}
         </div>
@@ -1688,14 +1522,14 @@ function viewPredict() {
 
     ${!canBet && !alreadyBet ? `
       <div class="empty" style="padding:60px 20px">
-        <div class="ico">${rs.code === 'WAITING' ? '⏳' : rs.code === 'CLOSED' ? '🔒' : '⏸️'}</div>
+        <div class="ico">${rs.code === 'WAITING' ? '⏳' : (rs.code === 'CLOSED' || rs.code === 'ELIMINATING') ? '🔒' : '⏸️'}</div>
         ${rs.msg}
       </div>
     ` : alreadyBet ? `
       <div class="card">
         <div class="row-flex gap-lg" style="padding:8px 0">
           <div class="avatar ${alreadyBet.teamId === 'A' ? 'team-a' : 'team-b'}"
-            style="width:48px;height:48px;border-radius:12px;font-size:16px">T${alreadyBet.teamId}</div>
+            style="width:48px;height:48px;border-radius:12px;font-size:16px;display:flex;align-items:center;justify-content:center;font-weight:800">T${alreadyBet.teamId}</div>
           <div style="flex:1">
             <div class="fw-8" style="font-size:15px">Bet placed</div>
             <div class="txt-sm txt-3" style="margin-top:2px">
@@ -1836,16 +1670,13 @@ window.confirmPrediction = async () => {
   }
 };
 
-/* ============ HISTORY ============ */
+/* CUSTOMER: HISTORY */
 function viewHistory() {
   const list = state.predictions;
   if (!list.length) return `<div class="card"><div class="empty"><div class="ico">📭</div>No predictions yet</div></div>`;
-
   return `
-    <div class="card-title" style="padding:0 2px 8px">${state.isAdmin ? 'All Bets' : 'My History'} (${list.length})</div>
-    <div class="list">
-      ${list.map(p => historyRow(p)).join('')}
-    </div>
+    <div class="card-title" style="padding:0 2px 8px">My History (${list.length})</div>
+    <div class="list">${list.map(p => historyRow(p)).join('')}</div>
   `;
 }
 
@@ -1859,7 +1690,7 @@ function historyRow(p) {
       <div class="avatar ${st === 'WON' ? 'won' : st === 'LOST' ? 'lost' : (p.teamId === 'A' ? 'team-a' : 'team-b')}">${st === 'WON' ? '✓' : st === 'LOST' ? '✗' : 'T' + p.teamId}</div>
       <div class="lr-body">
         <div class="lr-title">Round ${p.roundNumber || '-'} <span class="badge ${badgeCls}">${st}</span></div>
-        <div class="lr-sub">${state.isAdmin ? (p.userName || p.userId?.slice(0,6)) + ' • ' : ''}Team ${p.teamId} • ${p.stake} pts • ${fmtRate(p.rate)}</div>
+        <div class="lr-sub">Team ${p.teamId} • ${p.stake} pts • ${fmtRate(p.rate)}</div>
       </div>
       <div class="lr-right">
         <div class="lr-amount ${amtCls}">${amt}</div>
@@ -1869,7 +1700,7 @@ function historyRow(p) {
   `;
 }
 
-/* ============ PROFILE ============ */
+/* CUSTOMER: PROFILE */
 function viewProfile() {
   const u = state.profile;
   const initial = (u.name || u.email || '?')[0].toUpperCase();
@@ -1914,52 +1745,51 @@ function viewProfile() {
   `;
 }
 
-/* ============ ADMIN HOME ============ */
+/* ═══════════════════════════════════════════════════
+   ADMIN: HOME
+   ═══════════════════════════════════════════════════ */
 function viewAdminHome() {
-  const m = currentMatch();
-  const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH' };
+  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING');
+  const finishedMatches = state.matches.filter(m => m.status === 'FINISHED');
   const totalUsers = state.users.length;
   const activePlayers = state.players.filter(p => p.status === 'ACTIVE').length;
   const pendingBets = state.predictions.filter(p => p.status === 'PENDING').length;
-  const A = teamStats('A', m?.id), B = teamStats('B', m?.id);
 
   return `
     <div class="kpi-grid">
       <div class="kpi-card"><div class="kk">Total Users</div><div class="kv">${totalUsers}</div></div>
       <div class="kpi-card"><div class="kk">Active Players</div><div class="kv success">${activePlayers}</div></div>
-      <div class="kpi-card"><div class="kk">Current Round</div><div class="kv accent">${m?.currentRound || 0}</div></div>
+      <div class="kpi-card"><div class="kk">Live Matches</div><div class="kv accent">${liveMatches.length}</div></div>
       <div class="kpi-card"><div class="kk">Pending Bets</div><div class="kv warning">${pendingBets}</div></div>
     </div>
 
     <div class="card">
       <div class="card-head">
-        <div class="card-title-lg">Live Matches</div>
+        <div class="card-title-lg">Live Matches (${liveMatches.length})</div>
         <button class="btn btn-sm btn-success" onclick="openNewMatchSheet()">+ New</button>
       </div>
-      ${state.matches.length ? state.matches.map(mx => matchCard(mx)).join('') : '<div class="empty">No matches yet</div>'}
+      ${liveMatches.length ? liveMatches.map(mx => matchCard(mx)).join('') : '<div class="empty">No live matches</div>'}
     </div>
 
-    ${m ? `
+    ${finishedMatches.length ? `
       <div class="card">
         <div class="card-head">
-          <div class="card-title-lg">Match Control</div>
-          <span class="badge ${m.status === 'LIVE' ? 'live' : m.status === 'FINISHED' ? 'done' : 'pending'}">${m.status}</span>
+          <div class="card-title-lg">Recent Finished (${finishedMatches.length})</div>
+          <button class="btn btn-sm btn-secondary" onclick="nav('admin_history')">View All →</button>
         </div>
-        <div class="ts-grid">
-          <div class="ts-cell"><div class="k">Match</div><div class="v">#${m.matchNumber}</div></div>
-          <div class="ts-cell"><div class="k">Round</div><div class="v">${m.currentRound || 0}/${m.maxRounds || 8}</div></div>
-          <div class="ts-cell"><div class="k">Status</div><div class="v">${rs.code}</div></div>
-        </div>
-        <div class="mt-12" style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-secondary btn-sm" style="flex:1" onclick="nav('admin_rounds')">Open Round Control</button>
-        </div>
-      </div>
-
-      <div class="teams-grid">
-        ${teamPanel(A, false)}
-        ${teamPanel(B, false)}
+        ${finishedMatches.slice(0, 3).map(mx => matchCard(mx)).join('')}
       </div>
     ` : ''}
+
+    <div class="card">
+      <div class="card-head"><div class="card-title-lg">Quick Links</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button class="btn btn-secondary" onclick="nav('admin_users')">👥 Users</button>
+        <button class="btn btn-secondary" onclick="nav('admin_teams')">👤 Teams</button>
+        <button class="btn btn-secondary" onclick="nav('admin_rounds')">🎮 Rounds</button>
+        <button class="btn btn-secondary" onclick="nav('admin_history')">📚 History</button>
+      </div>
+    </div>
   `;
 }
 
@@ -2028,7 +1858,9 @@ window.createNewMatch = async () => {
   }
 };
 
-/* ============ ADMIN USERS ============ */
+/* ═══════════════════════════════════════════════════
+   ADMIN: USERS
+   ═══════════════════════════════════════════════════ */
 let usersSearch = '';
 function viewAdminUsers() {
   const list = state.users.filter(u => {
@@ -2100,7 +1932,9 @@ window.toggleBlock = async (uid, blocked) => {
   } catch (e) { toast('Failed', 'err'); }
 };
 
-/* ============ ADMIN TEAMS ============ */
+/* ═══════════════════════════════════════════════════
+   ADMIN: TEAMS
+   ═══════════════════════════════════════════════════ */
 function viewAdminTeams() {
   return `
     <div class="card">
@@ -2208,7 +2042,9 @@ window.removePlayer = async (id) => {
   catch (e) { toast('Failed', 'err'); }
 };
 
-/* ============ ADMIN ROUNDS ============ */
+/* ═══════════════════════════════════════════════════
+   ADMIN: ROUNDS
+   ═══════════════════════════════════════════════════ */
 function viewAdminRounds() {
   const m = currentMatch();
   if (!m) return '<div class="card"><div class="empty">No match selected</div></div>';
@@ -2216,6 +2052,10 @@ function viewAdminRounds() {
   const r = rs.round;
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
   const pending = state.predictions.filter(p => p.status === 'PENDING' && p.matchId === m.id);
+
+  const needsElimination = r && r.status === 'RESULT_DECLARED' && !r.eliminationDone;
+  const aliveA = state.players.filter(p => p.teamId === 'A' && (!p.matchId || p.matchId === m.id) && p.status === 'ACTIVE');
+  const aliveB = state.players.filter(p => p.teamId === 'B' && (!p.matchId || p.matchId === m.id) && p.status === 'ACTIVE');
 
   return `
     <div class="card">
@@ -2243,17 +2083,75 @@ function viewAdminRounds() {
           if (!rr) { label = '—'; }
           else if (rr.status === 'OPEN') { cls = 'live'; label = 'LIVE'; }
           else if (rr.status === 'CLOSED') { cls = 'closed'; label = 'LOCK'; }
-          else if (rr.status === 'RESULT_DECLARED') { cls = rr.winner === 'A' ? 'won-a' : 'won-b'; label = 'T' + rr.winner; }
+          else if (rr.status === 'RESULT_DECLARED') {
+            cls = rr.winner === 'A' ? 'won-a' : 'won-b';
+            label = rr.eliminationDone ? 'T' + rr.winner : 'T' + rr.winner + '!';
+          }
           return `<div class="tl-chip ${cls}"><div class="tln">R${rn}</div><div class="tls">${label}</div></div>`;
         }).join('')}
       </div>
     </div>
 
     ${m.status === 'FINISHED' ? `
-      <div class="card">
-        <div class="empty">Match finished. Winner: Team ${m.winner}</div>
-      </div>
+      <div class="card"><div class="empty">Match finished. Winner: Team ${m.winner}</div></div>
     ` : `
+      ${needsElimination ? `
+        <div class="card" style="border-color:var(--danger)">
+          <div class="card-head">
+            <div class="card-title-lg" style="color:var(--danger)">⚠️ Elimination Required</div>
+          </div>
+          <div class="txt-sm txt-3 mb-12" style="line-height:1.6">
+            Round ${r.roundNumber} result: <b>Team ${r.winner} won</b><br/>
+            Choose <b>1 player to eliminate</b> from ANY team.
+          </div>
+
+          <div style="margin-bottom:14px">
+            <div class="txt-xs txt-3" style="font-weight:800;letter-spacing:.6px;margin-bottom:8px;text-transform:uppercase">
+              Team A — Alive (${aliveA.length})
+            </div>
+            <div class="list" style="margin:0">
+              ${aliveA.length ? aliveA.map(p => `
+                <div class="list-row" onclick="eliminatePlayer('${p.id}', 'A')" style="cursor:pointer">
+                  <div class="avatar team-a">${escapeHtml((p.name||'?')[0]).toUpperCase()}</div>
+                  <div class="lr-body">
+                    <div class="lr-title">${escapeHtml(p.name)}</div>
+                    <div class="lr-sub">Team A · Active</div>
+                  </div>
+                  <div class="lr-right">
+                    <div class="lr-meta" style="color:var(--danger);font-weight:800;font-size:11px">ELIMINATE</div>
+                  </div>
+                </div>
+              `).join('') : '<div class="empty" style="padding:14px">No alive players</div>'}
+            </div>
+          </div>
+
+          <div>
+            <div class="txt-xs txt-3" style="font-weight:800;letter-spacing:.6px;margin-bottom:8px;text-transform:uppercase">
+              Team B — Alive (${aliveB.length})
+            </div>
+            <div class="list" style="margin:0">
+              ${aliveB.length ? aliveB.map(p => `
+                <div class="list-row" onclick="eliminatePlayer('${p.id}', 'B')" style="cursor:pointer">
+                  <div class="avatar team-b">${escapeHtml((p.name||'?')[0]).toUpperCase()}</div>
+                  <div class="lr-body">
+                    <div class="lr-title">${escapeHtml(p.name)}</div>
+                    <div class="lr-sub">Team B · Active</div>
+                  </div>
+                  <div class="lr-right">
+                    <div class="lr-meta" style="color:var(--danger);font-weight:800;font-size:11px">ELIMINATE</div>
+                  </div>
+                </div>
+              `).join('') : '<div class="empty" style="padding:14px">No alive players</div>'}
+            </div>
+          </div>
+
+          <div class="txt-xs txt-3 mt-12" style="text-align:center;padding:10px;background:var(--surface-2);border-radius:8px;line-height:1.5">
+            ⓘ Rate updates automatically after elimination.<br/>
+            <b>Max rate: 100.00X</b>
+          </div>
+        </div>
+      ` : ''}
+
       <div class="card">
         <div class="card-head">
           <div class="card-title-lg">Round Control</div>
@@ -2265,10 +2163,10 @@ function viewAdminRounds() {
             Open Round 1
           </button>
         ` : r.status === 'OPEN' ? `
-          <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} is live. Bets are being accepted.</div>
+          <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} is live. Bets accepted.</div>
           <div class="ts-grid">
-            <div class="ts-cell"><div class="k">Team A Rate</div><div class="v accent">${fmtRate(r.teamARate || A.rate)}</div></div>
-            <div class="ts-cell"><div class="k">Team B Rate</div><div class="v">${fmtRate(r.teamBRate || B.rate)}</div></div>
+            <div class="ts-cell"><div class="k">Team A Rate</div><div class="v accent">${fmtRate(A.rate)}</div></div>
+            <div class="ts-cell"><div class="k">Team B Rate</div><div class="v">${fmtRate(B.rate)}</div></div>
             <div class="ts-cell"><div class="k">Bets</div><div class="v">${pending.length}</div></div>
           </div>
           <button class="btn btn-warning mt-12" onclick="closeRoundConfirm()">Close Betting</button>
@@ -2278,8 +2176,20 @@ function viewAdminRounds() {
             <button class="btn btn-success" onclick="declareRoundConfirm('A')">Team A Won</button>
             <button class="btn btn-warning" onclick="declareRoundConfirm('B')">Team B Won</button>
           </div>
+        ` : r.status === 'RESULT_DECLARED' && !r.eliminationDone ? `
+          <div class="txt-sm txt-3 mb-12">
+            Round ${r.roundNumber} result: <b>Team ${r.winner} won</b>
+          </div>
+          <div style="padding:12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:8px;text-align:center;font-size:12px;color:#fca5a5;font-weight:700">
+            ⚠️ Eliminate a player above to continue
+          </div>
+          <button class="btn btn-success mt-12" disabled>Open Round ${m.currentRound + 1}</button>
         ` : `
-          <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} result: <b>Team ${r.winner} won</b></div>
+          <div class="txt-sm txt-3 mb-12">
+            ✅ Round ${r.roundNumber} complete<br/>
+            Winner: <b>Team ${r.winner}</b>
+            ${r.eliminatedPlayerName ? `<br/>Eliminated: <b>${escapeHtml(r.eliminatedPlayerName)}</b> (Team ${r.eliminatedPlayerTeam})` : ''}
+          </div>
           ${m.currentRound < (m.maxRounds || 8) ? `
             <button class="btn btn-success" onclick="openRound(${m.currentRound + 1})">Open Round ${m.currentRound + 1}</button>
           ` : `
@@ -2290,10 +2200,16 @@ function viewAdminRounds() {
       </div>
 
       <div class="card">
-        <div class="card-head"><div class="card-title-lg">Team Rates</div></div>
+        <div class="card-head">
+          <div class="card-title-lg">Live Rates</div>
+          <div class="txt-xs txt-3">Max 100X</div>
+        </div>
         <div class="teams-grid" style="margin:0">
           ${teamPanel(A, false)}
           ${teamPanel(B, false)}
+        </div>
+        <div class="txt-xs txt-3 mt-8" style="text-align:center;line-height:1.6">
+          Fewer players = Higher rate (max 100X)
         </div>
       </div>
     `}
@@ -2306,12 +2222,17 @@ window.openRound = async (num) => {
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
   if (A.activeCount === 0 || B.activeCount === 0) return toast('Both teams need alive players', 'err');
   if (num > (m.maxRounds || 8)) return toast('Max rounds reached', 'err');
+
   if (num > 1) {
     const prev = state.rounds.find(r => r.roundNumber === num - 1 && r.matchId === m.id);
-    if (prev && prev.status !== 'RESULT_DECLARED' && prev.status !== 'COMPLETED') {
+    if (!prev || prev.status !== 'RESULT_DECLARED') {
       return toast('Previous round must be settled', 'err');
     }
+    if (!prev.eliminationDone) {
+      return toast('⚠️ Eliminate a player first', 'err');
+    }
   }
+
   try {
     const roundRef = doc(collection(db, 'rounds'));
     await setDoc(roundRef, {
@@ -2323,13 +2244,14 @@ window.openRound = async (num) => {
       teamBRate: B.rate,
       teamAAlive: A.activeCount,
       teamBAlive: B.activeCount,
+      eliminationDone: false,
       startTime: serverTimestamp()
     });
     await updateDoc(doc(db, 'matches', m.id), {
       status: 'LIVE',
       currentRound: num
     });
-    toast(`Round ${num} opened`, 'ok');
+    toast(`Round ${num} opened — A=${fmtRate(A.rate)} B=${fmtRate(B.rate)}`, 'ok');
   } catch (e) { console.error(e); toast('Failed', 'err'); }
 };
 
@@ -2359,8 +2281,7 @@ window.declareRoundConfirm = (winner) => {
   openSheet('Declare Result', `
     <div class="txt-sm txt-3 mb-12">
       Declare <b>Team ${winner}</b> as winner of Round ${r.roundNumber}?<br/>
-      ${pending.length} pending bet(s) will be settled automatically.<br/><br/>
-      Losing team will lose 1 player.
+      ${pending.length} pending bet(s) will be settled.
     </div>
     <button class="btn ${winner === 'A' ? 'btn-success' : 'btn-warning'}" onclick="declareRoundDo('${winner}')">
       Confirm — Team ${winner} Won
@@ -2373,7 +2294,9 @@ window.declareRoundDo = async (winner) => {
   const m = currentMatch();
   if (!r || !m) return;
   try {
-    const pending = state.predictions.filter(p => p.status === 'PENDING' && p.roundNumber === r.roundNumber && p.matchId === m.id);
+    const pending = state.predictions.filter(p =>
+      p.status === 'PENDING' && p.roundNumber === r.roundNumber && p.matchId === m.id);
+
     for (const p of pending) {
       const isWinner = p.teamId === winner;
       if (isWinner) {
@@ -2393,17 +2316,10 @@ window.declareRoundDo = async (winner) => {
       });
     }
 
-    const losingTeam = winner === 'A' ? 'B' : 'A';
-    const losing = state.players.filter(p => p.teamId === losingTeam && p.status === 'ACTIVE');
-    if (losing.length > 0) {
-      await updateDoc(doc(db, 'players', losing[0].id), {
-        status: 'ELIMINATED', eliminatedInRound: r.roundNumber, updatedAt: serverTimestamp()
-      });
-    }
-
     await updateDoc(doc(db, 'rounds', r.id), {
       status: 'RESULT_DECLARED',
       winner,
+      eliminationDone: false,
       resultTime: serverTimestamp()
     });
 
@@ -2415,77 +2331,60 @@ window.declareRoundDo = async (winner) => {
     });
 
     closeSheet();
-    toast(`Round ${r.roundNumber} — Team ${winner} won`, 'ok');
-
-    const newA = teamStats('A', m.id), newB = teamStats('B', m.id);
-    const maxRounds = m.maxRounds || 8;
-    const roundsComplete = r.roundNumber >= maxRounds;
-    let autoEnd = false;
-
-    if (newA.isDead && newB.isDead) { await endMatchAuto('DRAW'); autoEnd = true; }
-    else if (newA.isDead) { await endMatchAuto('B'); autoEnd = true; }
-    else if (newB.isDead) { await endMatchAuto('A'); autoEnd = true; }
-    else if (roundsComplete) {
-      if (newAWins > newBWins) await endMatchAuto('A');
-      else if (newBWins > newAWins) await endMatchAuto('B');
-      else await endMatchAuto('DRAW');
-      autoEnd = true;
-    }
-
-    if (!autoEnd) toast('Round settled. Open next round.', 'ok');
+    toast(`Round ${r.roundNumber} — Team ${winner} won. Ab player eliminate karo.`, 'ok');
   } catch (e) {
     console.error(e);
     toast('Failed to declare result', 'err');
   }
 };
 
-window.endMatchAuto = async (winner) => {
+window.eliminatePlayer = async (playerId, teamId) => {
   const m = currentMatch();
-  if (!m) return;
+  const r = currentRound();
+  if (!m || !r) return;
+
+  const player = state.players.find(p => p.id === playerId);
+  if (!player || player.status !== 'ACTIVE') {
+    return toast('Player not available', 'err');
+  }
+
+  if (!confirm(`Eliminate "${player.name}" (Team ${teamId})?\n\nTeam rate will update.`)) return;
+
   try {
-    const matchData = {
-      matchNumber: m.matchNumber,
-      winner,
-      teamARoundsWon: m.teamARoundsWon || 0,
-      teamBRoundsWon: m.teamBRoundsWon || 0,
-      maxRounds: m.maxRounds,
-      totalRounds: m.currentRound,
-      finishedAt: serverTimestamp(),
-      players: state.players.filter(p => !p.matchId || p.matchId === m.id).map(p => ({ name: p.name, teamId: p.teamId, status: p.status, eliminatedInRound: p.eliminatedInRound || null })),
-      rounds: state.rounds.filter(r => r.matchId === m.id).map(r => ({ roundNumber: r.roundNumber, winner: r.winner, status: r.status }))
-    };
-    await addDoc(collection(db, 'match_history'), matchData);
-
-    const pending = state.predictions.filter(p => p.status === 'PENDING' && p.matchId === m.id);
-    for (const p of pending) {
-      const isWinner = winner !== 'DRAW' && p.teamId === winner;
-      if (isWinner) {
-        const uSnap = await getDoc(doc(db, 'users', p.userId));
-        if (uSnap.exists()) {
-          await updateDoc(doc(db, 'users', p.userId), {
-            demoPoints: (uSnap.data().demoPoints || 0) + (p.potentialReturn || 0)
-          });
-        }
-      }
-      await updateDoc(doc(db, 'predictions', p.id), {
-        status: isWinner ? 'WON' : 'LOST',
-        returnAmount: isWinner ? (p.potentialReturn || 0) : 0,
-        profitAmount: isWinner ? (p.potentialProfit || 0) : -p.stake,
-        settledAt: serverTimestamp(),
-        winnerTeam: winner
-      });
-    }
-
-    await updateDoc(doc(db, 'matches', m.id), {
-      status: 'FINISHED',
-      winner,
-      finishedAt: serverTimestamp()
+    await updateDoc(doc(db, 'players', playerId), {
+      status: 'ELIMINATED',
+      eliminatedInRound: r.roundNumber,
+      updatedAt: serverTimestamp()
     });
 
-    toast(`🏆 Match finished — ${winner === 'DRAW' ? 'Draw' : 'Team ' + winner + ' wins'}`, 'ok');
+    await updateDoc(doc(db, 'rounds', r.id), {
+      eliminationDone: true,
+      eliminatedPlayerId: playerId,
+      eliminatedPlayerName: player.name,
+      eliminatedPlayerTeam: teamId,
+      eliminationTime: serverTimestamp()
+    });
+
+    // Recalculate for toast
+    const newA = teamStats('A', m.id);
+    const newB = teamStats('B', m.id);
+
+    // Check if match should end
+    if (newA.isDead && !newB.isDead) {
+      await endMatchAuto('B');
+      return;
+    } else if (newB.isDead && !newA.isDead) {
+      await endMatchAuto('A');
+      return;
+    } else if (newA.isDead && newB.isDead) {
+      await endMatchAuto('DRAW');
+      return;
+    }
+
+    toast(`✅ ${player.name} eliminated. A=${fmtRate(newA.rate)} B=${fmtRate(newB.rate)}`, 'ok');
   } catch (e) {
     console.error(e);
-    toast('Failed to finish match', 'err');
+    toast('Failed to eliminate', 'err');
   }
 };
 
@@ -2511,90 +2410,112 @@ window.endMatchConfirm = async (winner) => {
   await endMatchAuto(winner);
 };
 
-/* ============ ADMIN BETS ============ */
-function viewAdminBets() {
-  const list = state.predictions;
-  const stats = {
-    total: list.length,
-    pending: list.filter(p => p.status === 'PENDING').length,
-    won: list.filter(p => p.status === 'WON').length,
-    lost: list.filter(p => p.status === 'LOST').length
-  };
-  return `
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kk">Total</div><div class="kv">${stats.total}</div></div>
-      <div class="kpi-card"><div class="kk">Pending</div><div class="kv warning">${stats.pending}</div></div>
-      <div class="kpi-card"><div class="kk">Won</div><div class="kv success">${stats.won}</div></div>
-      <div class="kpi-card"><div class="kk">Lost</div><div class="kv">${stats.lost}</div></div>
-    </div>
-    <div class="card-title" style="padding:0 2px 8px">Recent Bets (${list.length})</div>
-    <div class="list">
-      ${list.length ? list.slice(0, 200).map(p => historyRow(p)).join('') : '<div class="empty">No bets yet</div>'}
-    </div>
-
-    ${state.history.length ? `
-      <div class="card-title" style="padding:16px 2px 8px">Match History (${state.history.length})</div>
-      <div class="list">
-        ${state.history.slice(0, 20).map(h => `
-          <div class="list-row">
-            <div class="avatar ${h.winner === 'A' ? 'team-a' : h.winner === 'B' ? 'team-b' : ''}">M#${h.matchNumber}</div>
-            <div class="lr-body">
-              <div class="lr-title">Match #${h.matchNumber} ${h.winner ? `— Team ${h.winner} won` : '— Draw'}</div>
-              <div class="lr-sub">A: ${h.teamARoundsWon || 0} | B: ${h.teamBRoundsWon || 0} • ${timeAgo(h.finishedAt)}</div>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    ` : ''}
-  `;
-}
-
-/* ============ ADMIN SETTINGS ============ */
-function viewAdminSettings() {
-  const s = state.settings || { baseWinRate: 25, baseRate: 2, maxRounds: 8 };
-  return `
-    <div class="card">
-      <div class="card-head"><div class="card-title-lg">Global Settings</div></div>
-      <div class="form-field">
-        <label>Base Win Rate (%)</label>
-        <input id="setWin" type="number" min="0" max="100" step="0.5" value="${s.baseWinRate}" />
-      </div>
-      <div class="form-field">
-        <label>Base Rate (X)</label>
-        <input id="setRate" type="number" min="1.01" max="99.99" step="0.01" value="${s.baseRate}" />
-      </div>
-      <div class="form-field">
-        <label>Max Rounds (6-8)</label>
-        <input id="setMaxR" type="number" min="6" max="8" step="1" value="${s.maxRounds || 8}" />
-      </div>
-      <button class="btn" onclick="saveSettings()">Save Settings</button>
-      <div class="txt-xs txt-3 txt-center mt-12">Last updated ${timeAgo(s.updatedAt)}</div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="card-title-lg">About</div></div>
-      <div class="txt-sm txt-3" style="line-height:1.8">
-        PRL Rate X Survivor<br/>
-        Pawan Retail Limited<br/>
-        Demo points only. No cash value.
-      </div>
-    </div>
-  `;
-}
-
-window.saveSettings = async () => {
-  const w = Math.max(0, Math.min(100, Number(document.getElementById('setWin').value) || 0));
-  const r = Math.max(1.01, Math.min(99.99, Number(document.getElementById('setRate').value) || 2));
-  const m = Math.max(6, Math.min(8, Number(document.getElementById('setMaxR').value) || 8));
+/* ═══════════════════════════════════════════════════
+   END MATCH → Save to history & mark as FINISHED
+   ═══════════════════════════════════════════════════ */
+window.endMatchAuto = async (winner) => {
+  const m = currentMatch();
+  if (!m) return;
   try {
-    await setDoc(doc(db, 'settings', 'app'), {
-      baseWinRate: w, baseRate: r, maxRounds: m, updatedAt: serverTimestamp()
-    }, { merge: true });
-    toast('Settings saved', 'ok');
-  } catch (e) { toast('Failed', 'err'); }
+    // Save to match_history
+    const matchData = {
+      matchNumber: m.matchNumber,
+      winner,
+      teamARoundsWon: m.teamARoundsWon || 0,
+      teamBRoundsWon: m.teamBRoundsWon || 0,
+      maxRounds: m.maxRounds,
+      totalRounds: m.currentRound,
+      startedAt: m.createdAt || null,
+      finishedAt: serverTimestamp(),
+      players: state.players
+        .filter(p => !p.matchId || p.matchId === m.id)
+        .map(p => ({
+          name: p.name, teamId: p.teamId, status: p.status,
+          eliminatedInRound: p.eliminatedInRound || null
+        })),
+      rounds: state.rounds
+        .filter(r => r.matchId === m.id)
+        .map(r => ({
+          roundNumber: r.roundNumber,
+          winner: r.winner,
+          status: r.status,
+          eliminatedPlayerName: r.eliminatedPlayerName || null,
+          eliminatedPlayerTeam: r.eliminatedPlayerTeam || null
+        }))
+    };
+    await addDoc(collection(db, 'match_history'), matchData);
+
+    // Settle any remaining pending bets
+    const pending = state.predictions.filter(p => p.status === 'PENDING' && p.matchId === m.id);
+    for (const p of pending) {
+      const isWinner = winner !== 'DRAW' && p.teamId === winner;
+      if (isWinner) {
+        const uSnap = await getDoc(doc(db, 'users', p.userId));
+        if (uSnap.exists()) {
+          await updateDoc(doc(db, 'users', p.userId), {
+            demoPoints: (uSnap.data().demoPoints || 0) + (p.potentialReturn || 0)
+          });
+        }
+      }
+      await updateDoc(doc(db, 'predictions', p.id), {
+        status: isWinner ? 'WON' : 'LOST',
+        returnAmount: isWinner ? (p.potentialReturn || 0) : 0,
+        profitAmount: isWinner ? (p.potentialProfit || 0) : -p.stake,
+        settledAt: serverTimestamp(),
+        winnerTeam: winner
+      });
+    }
+
+    // 🔥 Mark match as FINISHED → it will disappear from live view and appear in history
+    await updateDoc(doc(db, 'matches', m.id), {
+      status: 'FINISHED',
+      winner,
+      finishedAt: serverTimestamp()
+    });
+
+    toast(`🏆 Match finished — ${winner === 'DRAW' ? 'Draw' : 'Team ' + winner + ' wins'}`, 'ok');
+  } catch (e) {
+    console.error(e);
+    toast('Failed to finish match', 'err');
+  }
 };
 
-/* ============ SHEET ============ */
+/* ═══════════════════════════════════════════════════
+   ADMIN: HISTORY (finished matches)
+   ═══════════════════════════════════════════════════ */
+function viewAdminHistory() {
+  const list = state.history;
+  return `
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">Match History (${list.length})</div>
+      </div>
+      ${list.length ? list.map(h => `
+        <div class="match-card finished" style="margin-bottom:8px">
+          <div class="mc-head">
+            <div class="mc-title">Match #${h.matchNumber}
+              <span class="badge ${h.winner === 'A' ? 'won' : h.winner === 'B' ? 'won' : 'done'}">
+                ${h.winner ? 'Team ' + h.winner + ' won' : 'Draw'}
+              </span>
+            </div>
+            <div class="txt-xs txt-3">${timeAgo(h.finishedAt)}</div>
+          </div>
+          <div class="mc-body">
+            <div class="mc-team"><div class="t">TEAM A</div><div class="n">${h.teamARoundsWon || 0}</div></div>
+            <div class="mc-team"><div class="t">TEAM B</div><div class="n">${h.teamBRoundsWon || 0}</div></div>
+          </div>
+          <div class="txt-xs txt-3 mt-8">
+            ${h.totalRounds || 0} of ${h.maxRounds || 8} rounds played
+          </div>
+        </div>
+      `).join('') : '<div class="empty"><div class="ico">📚</div>No finished matches yet</div>'}
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════
+   MODAL / SHEET
+   ═══════════════════════════════════════════════════ */
 window.openSheet = (title, bodyHtml) => {
   const root = document.getElementById('modalRoot');
   root.innerHTML = `
@@ -2615,7 +2536,9 @@ window.closeSheet = () => {
   document.getElementById('modalRoot').innerHTML = '';
 };
 
-/* ============ HELPERS ============ */
+/* ═══════════════════════════════════════════════════
+   HELPERS
+   ═══════════════════════════════════════════════════ */
 function currentRound() {
   const m = currentMatch();
   if (!m || !m.currentRound) return null;
