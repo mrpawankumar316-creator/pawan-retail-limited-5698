@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#0d0f14" />
-<title>PRL Rate X Survivor</title>
+<title>PRL Gaming Hub</title>
 <style>
 :root {
   --bg: #0d0f14;
@@ -21,6 +21,7 @@
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
+  --gold: #f59e0b;
   --radius: 10px;
   --radius-sm: 8px;
   --radius-lg: 14px;
@@ -28,15 +29,9 @@
   --nav-h: 60px;
 }
 [data-theme="light"] {
-  --bg: #f4f5f7;
-  --surface: #ffffff;
-  --surface-2: #f7f8fa;
-  --surface-3: #eef0f4;
-  --border: #e2e5ea;
-  --border-2: #d3d7de;
-  --text: #111418;
-  --text-2: #5a6373;
-  --text-3: #8b95a5;
+  --bg: #f4f5f7; --surface: #fff; --surface-2: #f7f8fa; --surface-3: #eef0f4;
+  --border: #e2e5ea; --border-2: #d3d7de; --text: #111418;
+  --text-2: #5a6373; --text-3: #8b95a5;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; }
@@ -51,17 +46,37 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; bac
 input, select { font-family: inherit; outline: none; }
 .hidden { display: none !important; }
 
-#appView { min-height: 100vh; display: flex; flex-direction: column; }
+/* LOGIN */
+.login-view {
+  min-height: 100vh; display: flex; flex-direction: column;
+  padding: 24px 20px; background: var(--bg);
+}
+.login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; margin-top: 12px; }
+.login-brand .bm {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 15px; letter-spacing: -.5px;
+}
+.login-brand .bt .bt1 { font-size: 16px; font-weight: 800; letter-spacing: -.2px; }
+.login-brand .bt .bt2 { font-size: 10px; color: var(--text-3); letter-spacing: 1.5px; font-weight: 600; margin-top: 2px; }
+.login-title { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-bottom: 6px; }
+.login-sub { font-size: 14px; color: var(--text-3); margin-bottom: 26px; font-weight: 500; }
+.login-form { max-width: 400px; width: 100%; margin: 0 auto; flex: 1; }
+.login-footer { text-align: center; padding: 20px 0 12px; font-size: 13px; color: var(--text-3); font-weight: 500; }
+.login-footer .link { color: var(--accent); font-weight: 700; margin-left: 4px; cursor: pointer; }
+.login-legal { text-align: center; font-size: 10.5px; color: var(--text-3); letter-spacing: .4px; padding: 8px 0 4px; font-weight: 500; }
 
 /* HEADER */
 .app-header {
   position: sticky; top: 0; z-index: 40;
   background: var(--surface); border-bottom: 1px solid var(--border);
-  padding: 0 14px; display: flex; align-items: center; gap: 12px;
+  padding: 0 14px;
+  display: flex; align-items: center; gap: 12px;
   padding-top: env(safe-area-inset-top);
   height: calc(var(--header-h) + env(safe-area-inset-top));
 }
-.header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; cursor: pointer; }
 .brand-mark {
   width: 32px; height: 32px; border-radius: 8px;
   background: var(--accent); color: #fff;
@@ -80,20 +95,15 @@ input, select { font-family: inherit; outline: none; }
   display: inline-flex; align-items: center; gap: 6px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
 }
-.status-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); flex-shrink: 0; }
 .status-chip.live { color: var(--success); border-color: rgba(34,197,94,.35); }
-.status-chip.live .dot { background: var(--success); animation: pulse 2s infinite; }
-.status-chip.closed { color: var(--warning); border-color: rgba(245,158,11,.35); }
-.status-chip.closed .dot { background: var(--warning); }
-.status-chip.done { color: var(--text-3); }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
 .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .balance-pill {
   display: flex; align-items: center; gap: 6px;
   background: var(--surface-2); border: 1px solid var(--border);
   border-radius: 8px; padding: 5px 9px;
-  font-size: 12.5px; font-weight: 700;
+  font-size: 12.5px; font-weight: 700; transition: transform .2s;
 }
+.balance-pill.bump { transform: scale(1.1); }
 .balance-pill .coin {
   width: 14px; height: 14px; border-radius: 50%;
   background: var(--warning); display: inline-block; flex-shrink: 0;
@@ -104,11 +114,10 @@ input, select { font-family: inherit; outline: none; }
   display: flex; align-items: center; justify-content: center;
   font-size: 8px; font-weight: 900; color: rgba(0,0,0,.55);
 }
-.balance-pill .val { font-variant-numeric: tabular-nums; }
 .icon-btn {
   width: 36px; height: 36px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  color: var(--text-2); transition: background .15s; flex-shrink: 0;
+  color: var(--text-2); flex-shrink: 0;
 }
 .icon-btn:active { background: var(--surface-2); }
 .icon-btn svg { width: 18px; height: 18px; stroke-width: 1.8; }
@@ -130,7 +139,7 @@ input, select { font-family: inherit; outline: none; }
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 2px;
   color: var(--text-3); font-size: 10px; font-weight: 600; letter-spacing: .2px;
-  position: relative; transition: color .15s; min-width: 0;
+  position: relative; min-width: 0;
 }
 .nav-item svg { width: 20px; height: 20px; stroke-width: 1.8; }
 .nav-item.active { color: var(--accent); }
@@ -164,201 +173,58 @@ input, select { font-family: inherit; outline: none; }
 .balance-right .rate { font-size: 20px; font-weight: 800; color: var(--accent); letter-spacing: -.3px; font-variant-numeric: tabular-nums; }
 .balance-right .lbl { font-size: 10px; color: var(--text-3); letter-spacing: .6px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
 
-.status-panel { display: flex; gap: 8px; margin-bottom: 10px; }
-.status-tile {
-  flex: 1; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 10px 12px; min-width: 0;
-}
-.status-tile .k { font-size: 10px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
-.status-tile .v { font-size: 15px; font-weight: 800; margin-top: 3px; letter-spacing: -.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.status-tile .v.accent { color: var(--accent); }
-.status-tile .v.success { color: var(--success); }
-.status-tile .v.warning { color: var(--warning); }
-
-.live-round {
+/* GAME CARDS (Home) */
+.game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.game-card {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 12px;
-  position: relative; overflow: hidden;
+  border-radius: var(--radius); padding: 16px;
+  cursor: pointer; transition: all .2s;
+  display: flex; flex-direction: column; gap: 8px;
+  min-height: 140px;
 }
-.live-round::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 3px; background: var(--success);
+.game-card:active { transform: scale(.97); }
+.game-card.gc-mines { border-color: rgba(245,158,11,.4); }
+.game-card.gc-mines:active { background: rgba(245,158,11,.05); }
+.game-card.gc-survivor { border-color: rgba(59,130,246,.4); }
+.game-card.gc-survivor:active { background: rgba(59,130,246,.05); }
+.game-card .gc-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
 }
-.live-round.warn::before { background: var(--warning); }
-.live-round.done::before { background: var(--text-3); }
-.live-round .lr-icon {
-  width: 40px; height: 40px; border-radius: 10px;
-  background: rgba(34,197,94,.12); color: var(--success);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+.gc-mines .gc-icon { background: rgba(245,158,11,.15); }
+.gc-survivor .gc-icon { background: rgba(59,130,246,.15); }
+.game-card .gc-name { font-size: 15px; font-weight: 800; letter-spacing: -.2px; }
+.game-card .gc-desc { font-size: 11px; color: var(--text-3); font-weight: 500; line-height: 1.4; }
+.game-card .gc-play {
+  font-size: 11px; color: var(--accent); font-weight: 800;
+  letter-spacing: .5px; margin-top: auto;
 }
-.live-round.warn .lr-icon { background: rgba(245,158,11,.12); color: var(--warning); }
-.live-round.done .lr-icon { background: var(--surface-2); color: var(--text-3); }
-.live-round .lr-icon svg { width: 20px; height: 20px; stroke-width: 2; }
-.live-round .lr-info { flex: 1; min-width: 0; }
-.live-round .lr-status { font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--success); }
-.live-round.warn .lr-status { color: var(--warning); }
-.live-round.done .lr-status { color: var(--text-3); }
-.live-round .lr-title { font-size: 15px; font-weight: 800; margin-top: 2px; letter-spacing: -.2px; }
-.live-round .lr-sub { font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500; }
 
-.timeline { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-top: 4px; }
-.tl-chip {
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 6px; padding: 6px 2px 4px; text-align: center; min-width: 0;
-}
-.tl-chip .tln { font-size: 9px; font-weight: 800; letter-spacing: .3px; color: var(--text-3); line-height: 1; }
-.tl-chip .tls { font-size: 9px; font-weight: 700; margin-top: 4px; letter-spacing: -.1px; line-height: 1; }
-.tl-chip.live { border-color: var(--success); background: rgba(34,197,94,.08); }
-.tl-chip.live .tls { color: var(--success); }
-.tl-chip.live .tln { color: var(--success); }
-.tl-chip.won-a { border-color: rgba(59,130,246,.4); }
-.tl-chip.won-a .tls { color: var(--accent); }
-.tl-chip.won-b { border-color: rgba(245,158,11,.4); }
-.tl-chip.won-b .tls { color: var(--warning); }
-.tl-chip.closed { border-color: var(--warning); background: rgba(245,158,11,.06); }
-.tl-chip.closed .tls { color: var(--warning); }
-.tl-chip.done { opacity: .55; }
-
-.teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.team-panel {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 12px;
-  transition: border-color .15s, background .15s; position: relative;
-}
-.team-panel.selectable { cursor: pointer; }
-.team-panel.selectable:active { background: var(--surface-2); }
-.team-panel.selected-a { border-color: var(--accent); background: rgba(59,130,246,.05); }
-.team-panel.selected-b { border-color: var(--warning); background: rgba(245,158,11,.05); }
-.team-panel.dead { opacity: .55; }
-.tp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 6px; }
-.tp-name { font-size: 13px; font-weight: 800; letter-spacing: .3px; display: flex; align-items: center; gap: 6px; min-width: 0; }
-.tp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-.team-panel.team-B .tp-dot { background: var(--warning); }
-.tp-badge {
-  font-size: 9px; font-weight: 800; letter-spacing: .5px;
-  padding: 2px 6px; border-radius: 4px;
-  background: var(--surface-2); color: var(--text-2);
-  border: 1px solid var(--border); white-space: nowrap;
-}
-.tp-badge.alive { color: var(--success); border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.08); }
-.tp-badge.dead { color: var(--danger); border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.08); }
-.tp-stat { display: flex; justify-content: space-between; font-size: 11.5px; padding: 3px 0; }
-.tp-stat .k { color: var(--text-3); font-weight: 600; }
-.tp-stat .v { font-weight: 700; font-variant-numeric: tabular-nums; }
-.tp-rate {
-  margin-top: 8px; padding-top: 8px;
-  border-top: 1px solid var(--border);
-  display: flex; align-items: baseline; justify-content: space-between;
-}
-.tp-rate .lbl { font-size: 9px; color: var(--text-3); letter-spacing: .6px; font-weight: 800; text-transform: uppercase; }
-.tp-rate .val { font-size: 18px; font-weight: 800; letter-spacing: -.5px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.team-panel.team-B .tp-rate .val { color: var(--warning); }
-
+/* BUTTONS */
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; min-height: 46px; padding: 12px 16px;
   border-radius: var(--radius);
-  font-size: 14.5px; font-weight: 700; letter-spacing: .1px;
+  font-size: 14.5px; font-weight: 700;
   background: var(--accent); color: #fff;
-  transition: background .15s, opacity .15s;
+  transition: background .15s, opacity .15s, transform .1s;
 }
-.btn:active { background: var(--accent-press); }
+.btn:active { transform: scale(.98); }
 .btn:disabled { opacity: .45; cursor: not-allowed; background: var(--surface-3); color: var(--text-3); }
 .btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
-.btn-secondary:active { background: var(--surface-3); }
 .btn-danger { background: var(--danger); }
 .btn-success { background: var(--success); }
 .btn-warning { background: var(--warning); color: #1a1a1a; }
+.btn-gold { background: var(--gold); color: #1a1a1a; }
 .btn-sm { min-height: 36px; padding: 8px 12px; font-size: 13px; border-radius: var(--radius-sm); width: auto; }
 
-.round-banner {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 12px;
-}
-.round-banner .rb-icon {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: rgba(34,197,94,.1); color: var(--success);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.round-banner.warn .rb-icon { background: rgba(245,158,11,.1); color: var(--warning); }
-.round-banner.done .rb-icon { background: var(--surface-2); color: var(--text-3); }
-.round-banner .rb-icon svg { width: 20px; height: 20px; stroke-width: 2; }
-.round-banner .rb-txt { flex: 1; min-width: 0; }
-.round-banner .rb-k { font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--success); text-transform: uppercase; }
-.round-banner.warn .rb-k { color: var(--warning); }
-.round-banner.done .rb-k { color: var(--text-3); }
-.round-banner .rb-t { font-size: 16px; font-weight: 800; margin-top: 2px; letter-spacing: -.2px; }
-.round-banner .rb-s { font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500; }
-
-.stake-input-wrap {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--surface); border: 1.5px solid var(--border-2);
-  border-radius: var(--radius); padding: 4px 4px 4px 14px;
-  margin-bottom: 8px; transition: border-color .15s;
-}
-.stake-input-wrap:focus-within { border-color: var(--accent); }
-.stake-input-wrap input {
-  flex: 1; border: none; background: transparent;
-  color: var(--text); font-size: 20px; font-weight: 800;
-  font-variant-numeric: tabular-nums; letter-spacing: -.5px;
-  width: 100%; min-width: 0; padding: 10px 0;
-}
-.stake-input-wrap input::placeholder { color: var(--text-3); font-weight: 600; }
-.stake-input-wrap .unit {
-  font-size: 12px; color: var(--text-3); font-weight: 700; letter-spacing: .3px;
-  padding: 0 12px; border-left: 1px solid var(--border);
-}
-
-.preset-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
-.preset-btn {
-  padding: 8px 4px; border-radius: 8px;
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--text); font-size: 12px; font-weight: 700;
-  font-variant-numeric: tabular-nums; transition: all .12s; min-height: 36px;
-}
-.preset-btn:active { background: var(--surface-3); }
-.preset-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-.summary-list {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 4px 14px; margin-bottom: 12px;
-}
-.summary-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 11px 0; border-bottom: 1px solid var(--border);
-  font-size: 13.5px; gap: 12px;
-}
-.summary-row:last-child { border-bottom: none; }
-.summary-row .k { color: var(--text-3); font-weight: 600; }
-.summary-row .v { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
-.summary-row .v.up { color: var(--success); }
-.summary-row .v.down { color: var(--danger); }
-.summary-row .v.accent { color: var(--accent); }
-
-.available-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 0 4px 10px; font-size: 12px; color: var(--text-3); font-weight: 600;
-}
-.available-row b { color: var(--accent); font-weight: 800; font-variant-numeric: tabular-nums; }
-
-.sticky-action {
-  position: sticky; bottom: calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));
-  background: var(--bg); padding: 10px 14px 4px;
-  margin: 0 -14px; z-index: 20;
-}
-.sticky-action::before {
-  content: ''; position: absolute; left: 0; right: 0; top: -20px;
-  height: 20px; background: linear-gradient(180deg, transparent, var(--bg));
-  pointer-events: none;
-}
-
+/* LIST */
 .list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .list-row {
   display: flex; align-items: center; gap: 12px;
   padding: 12px 14px; border-bottom: 1px solid var(--border);
-  transition: background .12s; min-width: 0;
+  min-width: 0; transition: background .12s;
 }
 .list-row:last-child { border-bottom: none; }
 .list-row:active { background: var(--surface-2); }
@@ -366,7 +232,7 @@ input, select { font-family: inherit; outline: none; }
   width: 36px; height: 36px; border-radius: 10px;
   background: var(--surface-3); color: var(--text-2);
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 13px; flex-shrink: 0; letter-spacing: -.3px;
+  font-weight: 800; font-size: 13px; flex-shrink: 0;
 }
 .list-row .avatar.team-a { background: rgba(59,130,246,.15); color: var(--accent); }
 .list-row .avatar.team-b { background: rgba(245,158,11,.15); color: var(--warning); }
@@ -374,7 +240,7 @@ input, select { font-family: inherit; outline: none; }
 .list-row .avatar.lost { background: rgba(239,68,68,.15); color: var(--danger); }
 .list-row .lr-body { flex: 1; min-width: 0; }
 .list-row .lr-title {
-  font-size: 14px; font-weight: 700; letter-spacing: -.1px;
+  font-size: 14px; font-weight: 700;
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
 .list-row .lr-sub {
@@ -386,96 +252,185 @@ input, select { font-family: inherit; outline: none; }
 .list-row .lr-amount.up { color: var(--success); }
 .list-row .lr-amount.down { color: var(--danger); }
 .list-row .lr-amount.pending { color: var(--warning); }
-.list-row .lr-meta { font-size: 10.5px; color: var(--text-3); margin-top: 2px; font-weight: 600; letter-spacing: .3px; }
+.list-row .lr-meta { font-size: 10.5px; color: var(--text-3); margin-top: 2px; font-weight: 600; }
 
+/* BADGES */
 .badge {
   display: inline-block; font-size: 10px; font-weight: 800;
   letter-spacing: .5px; padding: 2px 7px; border-radius: 4px;
   text-transform: uppercase; white-space: nowrap;
 }
-.badge.live { color: var(--success); background: rgba(34,197,94,.12); }
-.badge.open { color: var(--success); background: rgba(34,197,94,.12); }
-.badge.closed { color: var(--warning); background: rgba(245,158,11,.12); }
-.badge.done { color: var(--text-3); background: var(--surface-3); }
-.badge.pending { color: var(--warning); background: rgba(245,158,11,.12); }
-.badge.won { color: var(--success); background: rgba(34,197,94,.12); }
-.badge.lost { color: var(--danger); background: rgba(239,68,68,.12); }
-.badge.active { color: var(--success); background: rgba(34,197,94,.12); }
-.badge.eliminated { color: var(--danger); background: rgba(239,68,68,.12); }
-.badge.blocked { color: var(--danger); background: rgba(239,68,68,.12); }
+.badge.live, .badge.won, .badge.active { color: var(--success); background: rgba(34,197,94,.12); }
+.badge.closed, .badge.pending { color: var(--warning); background: rgba(245,158,11,.12); }
+.badge.done, .badge.cancelled { color: var(--text-3); background: var(--surface-3); }
+.badge.lost, .badge.eliminated, .badge.blocked { color: var(--danger); background: rgba(239,68,68,.12); }
 .badge.admin { color: var(--warning); background: rgba(245,158,11,.12); }
 
-.player-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px; border-bottom: 1px solid var(--border); min-width: 0;
+/* MINES BOARD */
+.mines-board-wrap {
+  position: relative; width: 100%; aspect-ratio: 1 / 1;
+  margin: 14px 0;
 }
-.player-row:last-child { border-bottom: none; }
-.player-row .pr-name { flex: 1; font-size: 13.5px; font-weight: 700; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.player-row .pr-sub { font-size: 10.5px; color: var(--text-3); font-weight: 600; margin-top: 1px; }
-
-.team-summary {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
+.mines-board {
+  display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr);
+  gap: 6px; width: 100%; height: 100%;
 }
-.team-summary .ts-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.team-summary .ts-name { font-size: 15px; font-weight: 800; letter-spacing: -.2px; display: flex; align-items: center; gap: 8px; }
-.team-summary .ts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
-.team-summary .ts-cell { background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
-.team-summary .ts-cell .k { font-size: 9.5px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
-.team-summary .ts-cell .v { font-size: 15px; font-weight: 800; margin-top: 2px; letter-spacing: -.2px; font-variant-numeric: tabular-nums; }
-.team-summary .ts-cell .v.accent { color: var(--accent); }
-
-.profile-header {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px 14px; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 14px;
-}
-.profile-avatar {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--accent); color: #fff;
+.tile {
+  position: relative;
+  background: linear-gradient(180deg, var(--surface-3), var(--surface-2));
+  border: 1px solid var(--border-2); border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 20px; letter-spacing: -.5px; flex-shrink: 0;
+  cursor: pointer; transition: transform .12s, background .2s, border-color .15s;
+  user-select: none; -webkit-user-select: none;
 }
-.profile-info { flex: 1; min-width: 0; }
-.profile-info .pi-name { font-size: 17px; font-weight: 800; letter-spacing: -.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.profile-info .pi-email { font-size: 12px; color: var(--text-3); margin-top: 2px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.profile-info .pi-role { margin-top: 6px; }
-
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
-.kpi-card .kk { font-size: 10px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
-.kpi-card .kv { font-size: 22px; font-weight: 800; margin-top: 4px; letter-spacing: -.6px; font-variant-numeric: tabular-nums; }
-.kpi-card .kv.accent { color: var(--accent); }
-.kpi-card .kv.success { color: var(--success); }
-.kpi-card .kv.warning { color: var(--warning); }
-
-.form-field { margin-bottom: 12px; }
-.form-field label {
-  display: block; font-size: 11px; color: var(--text-3);
-  font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
-  margin-bottom: 6px;
+.tile:not(.revealed):not(.disabled):active { transform: scale(.94); }
+.tile.disabled { cursor: not-allowed; }
+.tile .gem, .tile .bomb {
+  width: 55%; height: 55%;
+  opacity: 0; transform: scale(.5);
+  transition: opacity .25s, transform .3s cubic-bezier(.2,.9,.3,1.3);
 }
-.form-field input, .form-field select {
-  width: 100%; padding: 12px 14px;
-  background: var(--surface); border: 1.5px solid var(--border-2);
-  color: var(--text); border-radius: var(--radius);
-  font-size: 15px; font-weight: 500;
-  transition: border-color .15s; min-height: 46px;
+.tile.revealed .gem, .tile.revealed .bomb { opacity: 1; transform: scale(1); }
+.tile .gem { color: var(--gold); }
+.tile .bomb { color: var(--danger); }
+.tile.revealed.safe { background: rgba(245,158,11,.12); border-color: rgba(245,158,11,.5); }
+.tile.revealed.mine { background: rgba(239,68,68,.15); border-color: rgba(239,68,68,.6); }
+.tile.revealed.mine.boom { animation: boom .5s ease-out; }
+@keyframes boom {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(239,68,68,.7); }
+  100% { transform: scale(1); }
 }
-.form-field input:focus, .form-field select:focus { border-color: var(--accent); }
-.form-field input::placeholder { color: var(--text-3); }
-
-.empty {
-  padding: 32px 20px; text-align: center;
-  color: var(--text-3); font-size: 13px; font-weight: 500;
+.tile .idx {
+  position: absolute; top: 4px; left: 6px;
+  font-size: 8px; color: var(--text-3); font-weight: 700; opacity: .5;
 }
-.empty .ico { font-size: 28px; opacity: .4; margin-bottom: 8px; }
 
+/* MULTIPLIER */
+.multiplier-display {
+  background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.03));
+  border: 1px solid rgba(245,158,11,.3);
+  border-radius: var(--radius); padding: 14px; text-align: center; margin-bottom: 10px;
+}
+.multiplier-display .lbl { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+.multiplier-display .val { font-size: 32px; font-weight: 900; letter-spacing: -1.5px; color: var(--gold); margin-top: 4px; }
+.multiplier-display .potential { font-size: 12px; color: var(--text-3); font-weight: 700; margin-top: 4px; }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+.stat-cell { background: var(--surface-2); border-radius: 8px; padding: 10px; text-align: center; }
+.stat-cell .k { font-size: 9px; color: var(--text-3); font-weight: 800; letter-spacing: .6px; text-transform: uppercase; }
+.stat-cell .v { font-size: 15px; font-weight: 800; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.stat-cell .v.success { color: var(--success); }
+.stat-cell .v.danger { color: var(--danger); }
+.stat-cell .v.accent { color: var(--accent); }
+
+/* MINES CHIPS */
+.chip-row { display: grid; gap: 5px; }
+.chip-row.mines { grid-template-columns: repeat(3, 1fr); }
+.chip-row.stake { grid-template-columns: repeat(5, 1fr); }
+.chip {
+  padding: 8px 4px; border-radius: 8px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text); font-size: 12px; font-weight: 800;
+  font-variant-numeric: tabular-nums; min-height: 36px; text-align: center;
+}
+.chip.active {
+  background: var(--gold); border-color: var(--gold); color: #1a1a1a;
+}
+.stake-input {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface-2); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 4px 12px; margin-top: 8px;
+}
+.stake-input:focus-within { border-color: var(--gold); }
+.stake-input input {
+  flex: 1; border: none; background: transparent; color: var(--text);
+  font-size: 16px; font-weight: 800; padding: 8px 0; width: 100%; min-width: 0;
+}
+.stake-input .u { font-size: 11px; color: var(--text-3); font-weight: 800; letter-spacing: .5px; }
+
+/* RESULT BANNER */
+.result-banner { padding: 16px; border-radius: var(--radius); margin-bottom: 10px; text-align: center; animation: popIn .35s; }
+.result-banner.win { background: linear-gradient(135deg, rgba(34,197,94,.15), rgba(34,197,94,.05)); border: 1px solid rgba(34,197,94,.4); }
+.result-banner.loss { background: linear-gradient(135deg, rgba(239,68,68,.15), rgba(239,68,68,.05)); border: 1px solid rgba(239,68,68,.4); }
+.result-banner .ico { font-size: 32px; margin-bottom: 6px; }
+.result-banner .title { font-size: 18px; font-weight: 800; letter-spacing: -.3px; }
+.result-banner .sub { font-size: 12.5px; color: var(--text-3); margin-top: 4px; font-weight: 600; }
+.result-banner .amt { font-size: 22px; font-weight: 900; margin-top: 8px; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+.result-banner.win .amt { color: var(--success); }
+.result-banner.loss .amt { color: var(--danger); }
+@keyframes popIn { 0% { opacity: 0; transform: scale(.9) } 100% { opacity: 1; transform: scale(1) } }
+
+/* GAME ID BAR */
+.gameid-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 10px; gap: 8px;
+}
+.gameid-bar .lbl { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: 1px; }
+.gameid-bar .val { font-size: 12px; font-weight: 800; font-family: ui-monospace, monospace; }
+.gameid-bar .copy { color: var(--gold); font-size: 11px; font-weight: 800; cursor: pointer; }
+
+/* STICKY ACTION */
+.sticky-action {
+  position: sticky; bottom: calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));
+  background: var(--bg); padding: 10px 14px 4px; margin: 0 -14px; z-index: 20;
+}
+
+/* TEAM PANEL */
+.teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.team-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px; transition: all .15s;
+}
+.team-panel.selectable { cursor: pointer; }
+.team-panel.selectable:active { background: var(--surface-2); }
+.team-panel.selected-a { border-color: var(--accent); background: rgba(59,130,246,.05); }
+.team-panel.selected-b { border-color: var(--warning); background: rgba(245,158,11,.05); }
+.team-panel.dead { opacity: .55; }
+.tp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 6px; }
+.tp-name { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.tp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.team-panel.team-B .tp-dot { background: var(--warning); }
+.tp-badge {
+  font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
+  background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border);
+}
+.tp-badge.alive { color: var(--success); border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.08); }
+.tp-badge.dead { color: var(--danger); border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.08); }
+.tp-stat { display: flex; justify-content: space-between; font-size: 11.5px; padding: 3px 0; }
+.tp-stat .k { color: var(--text-3); font-weight: 600; }
+.tp-stat .v { font-weight: 700; }
+.tp-rate {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.tp-rate .lbl { font-size: 9px; color: var(--text-3); font-weight: 800; text-transform: uppercase; }
+.tp-rate .val { font-size: 18px; font-weight: 800; color: var(--accent); }
+.team-panel.team-B .tp-rate .val { color: var(--warning); }
+
+/* 404 */
+.not-found {
+  min-height: 60vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px 20px; text-align: center;
+}
+.not-found .nf-code {
+  font-size: 72px; font-weight: 900; letter-spacing: -3px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-press));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  line-height: 1;
+}
+.not-found .nf-title { font-size: 18px; font-weight: 800; margin-top: 12px; }
+.not-found .nf-sub { font-size: 13px; color: var(--text-3); margin-top: 6px; max-width: 280px; }
+
+/* SHEET */
 .sheet-backdrop {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.55); z-index: 100;
-  animation: fadeIn .18s ease-out;
-  display: flex; align-items: flex-end; justify-content: center;
+  position: fixed; inset: 0; background: rgba(0,0,0,.55);
+  z-index: 100; display: flex; align-items: flex-end; justify-content: center;
+  animation: fadeIn .18s;
 }
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
 .sheet {
@@ -493,7 +448,7 @@ input, select { font-family: inherit; outline: none; }
   display: flex; align-items: center; justify-content: space-between;
   border-bottom: 1px solid var(--border); gap: 12px;
 }
-.sheet-head h3 { font-size: 16px; font-weight: 800; letter-spacing: -.2px; }
+.sheet-head h3 { font-size: 16px; font-weight: 800; }
 .sheet-body { padding: 16px; }
 .sheet-close {
   width: 32px; height: 32px; border-radius: 50%;
@@ -503,6 +458,22 @@ input, select { font-family: inherit; outline: none; }
 }
 .sheet-close svg { width: 16px; height: 16px; }
 
+/* FORM */
+.form-field { margin-bottom: 12px; }
+.form-field label {
+  display: block; font-size: 11px; color: var(--text-3);
+  font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-field input, .form-field select {
+  width: 100%; padding: 12px 14px;
+  background: var(--surface); border: 1.5px solid var(--border-2);
+  color: var(--text); border-radius: var(--radius);
+  font-size: 15px; min-height: 46px;
+}
+.form-field input:focus, .form-field select:focus { border-color: var(--accent); }
+
+/* TOAST */
 .toast {
   position: fixed; left: 50%;
   bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));
@@ -511,50 +482,57 @@ input, select { font-family: inherit; outline: none; }
   border: 1px solid var(--border-2);
   padding: 12px 18px; border-radius: 10px;
   font-size: 13.5px; font-weight: 600;
-  z-index: 200;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,.35);
   max-width: calc(100% - 32px); text-align: center;
   transition: transform .25s cubic-bezier(.2,.9,.3,1.2);
   pointer-events: none;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-.toast.ok { border-color: rgba(34,197,94,.5); }
 .toast.err { border-color: rgba(239,68,68,.5); }
+.toast.ok { border-color: rgba(34,197,94,.5); }
 
-.login-view {
-  min-height: 100vh; display: flex; flex-direction: column;
-  padding: 24px 20px; background: var(--bg);
+/* KPI */
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+.kpi-card .kk { font-size: 10px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+.kpi-card .kv { font-size: 22px; font-weight: 800; margin-top: 4px; letter-spacing: -.6px; }
+.kpi-card .kv.accent { color: var(--accent); }
+.kpi-card .kv.success { color: var(--success); }
+.kpi-card .kv.warning { color: var(--warning); }
+
+/* PROFILE */
+.profile-header {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 14px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 14px;
 }
-.login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; margin-top: 12px; }
-.login-brand .bm {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: var(--accent);
+.profile-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--accent); color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; color: #fff; font-size: 15px; letter-spacing: -.5px;
+  font-weight: 800; font-size: 20px; flex-shrink: 0;
 }
-.login-brand .bt .bt1 { font-size: 16px; font-weight: 800; letter-spacing: -.2px; }
-.login-brand .bt .bt2 { font-size: 10px; color: var(--text-3); letter-spacing: 1.5px; font-weight: 600; margin-top: 2px; }
-.login-title { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-bottom: 6px; }
-.login-sub { font-size: 14px; color: var(--text-3); margin-bottom: 26px; font-weight: 500; }
-.login-form { max-width: 400px; width: 100%; margin: 0 auto; flex: 1; }
-.login-footer { text-align: center; padding: 20px 0 12px; font-size: 13px; color: var(--text-3); font-weight: 500; }
-.login-footer .link { color: var(--accent); font-weight: 700; margin-left: 4px; cursor: pointer; }
-.login-legal { text-align: center; font-size: 10.5px; color: var(--text-3); letter-spacing: .4px; padding: 8px 0 4px; font-weight: 500; }
+.profile-info { flex: 1; min-width: 0; }
+.profile-info .pi-name { font-size: 17px; font-weight: 800; }
+.profile-info .pi-email { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.profile-info .pi-role { margin-top: 6px; }
 
-.row-flex { display: flex; align-items: center; gap: 8px; }
-.row-flex.gap-lg { gap: 12px; }
-.mt-8 { margin-top: 8px; }
-.mt-12 { margin-top: 12px; }
-.mb-12 { margin-bottom: 12px; }
-.txt-2 { color: var(--text-2); }
-.txt-3 { color: var(--text-3); }
-.txt-sm { font-size: 12px; }
-.txt-xs { font-size: 11px; }
-.txt-center { text-align: center; }
-.fw-7 { font-weight: 700; }
-.fw-8 { font-weight: 800; }
-.tabular { font-variant-numeric: tabular-nums; }
+/* SPINNER */
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg) } }
 
+/* EMPTY */
+.empty { padding: 32px 20px; text-align: center; color: var(--text-3); font-size: 13px; }
+.empty .ico { font-size: 28px; opacity: .4; margin-bottom: 8px; }
+
+/* SEARCH */
 .search-wrap { position: relative; margin-bottom: 10px; }
 .search-wrap input {
   width: 100%; padding: 11px 14px 11px 40px;
@@ -562,130 +540,80 @@ input, select { font-family: inherit; outline: none; }
   border-radius: var(--radius); color: var(--text); font-size: 14px;
   min-height: 44px;
 }
-.search-wrap input:focus { border-color: var(--accent); }
 .search-wrap svg {
   position: absolute; left: 13px; top: 50%;
   transform: translateY(-50%);
   width: 16px; height: 16px; color: var(--text-3);
 }
 
-.match-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 12px; margin-bottom: 8px;
-}
-.match-card.active { border-color: var(--success); }
-.match-card.finished { opacity: .75; }
-.mc-head {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px; gap: 8px;
-}
-.mc-title { font-size: 14px; font-weight: 800; letter-spacing: -.2px; display: flex; align-items: center; gap: 8px; }
-.mc-body { display: flex; gap: 8px; }
-.mc-team { flex: 1; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; text-align: center; }
-.mc-team .t { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: .5px; }
-.mc-team .n { font-size: 17px; font-weight: 800; margin-top: 2px; font-variant-numeric: tabular-nums; }
-
-/* CONFIRMATION SHEET */
-.confirm-sheet-icon {
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: rgba(245,158,11,.12);
-  color: var(--warning);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 14px;
-  font-size: 24px;
-}
-.confirm-sheet-icon.danger {
-  background: rgba(239,68,68,.12); color: var(--danger);
-}
-.confirm-sheet-title {
-  text-align: center; font-size: 17px; font-weight: 800;
-  margin-bottom: 6px; letter-spacing: -.2px;
-}
-.confirm-sheet-desc {
-  text-align: center; font-size: 13.5px; color: var(--text-3);
-  margin-bottom: 18px; line-height: 1.6;
-}
+.row-flex { display: flex; align-items: center; gap: 8px; }
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mb-12 { margin-bottom: 12px; }
+.txt-3 { color: var(--text-3); }
+.txt-sm { font-size: 12px; }
+.txt-xs { font-size: 11px; }
+.txt-center { text-align: center; }
+.fw-8 { font-weight: 800; }
 
 @media (min-width: 720px) {
-  .app-main { padding-left: 20px; padding-right: 20px; }
-  .bottom-nav { left: 50%; right: auto; transform: translateX(-50%); max-width: 640px; border-radius: 14px 14px 0 0; border: 1px solid var(--border); border-bottom: none; }
   .kpi-grid { grid-template-columns: repeat(4, 1fr); }
-}
-@media (max-width: 360px) {
-  .header-brand .brand-text .b2 { display: none; }
-  .balance-pill { font-size: 11.5px; padding: 5px 7px; }
-  .kpi-card .kv { font-size: 20px; }
-  .preset-grid { gap: 4px; }
-  .preset-btn { font-size: 11px; }
 }
 </style>
 </head>
 <body>
 
-<!-- LOGIN / REGISTER -->
+<!-- LOGIN VIEW -->
 <div id="loginView" class="login-view">
   <div class="login-brand">
     <div class="bm">PRL</div>
     <div class="bt">
-      <div class="bt1">RATE X</div>
-      <div class="bt2">PAWAN RETAIL LIMITED</div>
+      <div class="bt1">PAWAN GAMING</div>
+      <div class="bt2">RETAIL LIMITED</div>
     </div>
   </div>
 
   <div id="loginForm" class="login-form">
     <h1 class="login-title">Welcome back</h1>
-    <p class="login-sub">Sign in to continue</p>
+    <p class="login-sub">Sign in to play</p>
     <div id="loginMsg"></div>
-    <div class="form-field">
-      <label>Email</label>
-      <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" />
-    </div>
-    <div class="form-field">
-      <label>Password</label>
-      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
-    </div>
+    <div class="form-field"><label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" /></div>
+    <div class="form-field"><label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" /></div>
     <button class="btn" onclick="doLogin()" id="loginBtn">Sign In</button>
     <div class="login-footer">
-      Don't have an account?
-      <span class="link" onclick="showRegister()">Create account</span>
+      Don't have an account? <span class="link" onclick="showRegister()">Create account</span>
     </div>
     <div class="login-legal">DEMO POINTS • NO CASH VALUE</div>
   </div>
 
   <div id="registerForm" class="login-form hidden">
-    <h1 class="login-title">Create your account</h1>
+    <h1 class="login-title">Create account</h1>
     <p class="login-sub">Get 1,000 demo points free</p>
     <div id="registerMsg"></div>
-    <div class="form-field">
-      <label>Name</label>
-      <input type="text" id="regName" placeholder="Your name" maxlength="30" />
-    </div>
-    <div class="form-field">
-      <label>Email</label>
-      <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email" />
-    </div>
-    <div class="form-field">
-      <label>Password (min 6)</label>
-      <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password" />
-    </div>
+    <div class="form-field"><label>Name</label>
+      <input type="text" id="regName" placeholder="Your name" maxlength="30" /></div>
+    <div class="form-field"><label>Email</label>
+      <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email" /></div>
+    <div class="form-field"><label>Password (min 6)</label>
+      <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password" /></div>
     <button class="btn" onclick="doRegister()" id="regBtn">Create Account</button>
     <div class="login-footer">
-      Already have an account?
-      <span class="link" onclick="showLogin()">Sign In</span>
+      Already registered? <span class="link" onclick="showLogin()">Sign In</span>
     </div>
     <div class="login-legal">DEMO POINTS • NO CASH VALUE</div>
   </div>
 </div>
 
-<!-- APP -->
+<!-- APP VIEW -->
 <div id="appView" class="hidden">
   <header class="app-header">
-    <div class="header-brand">
+    <div class="header-brand" onclick="nav('home')">
       <div class="brand-mark">PRL</div>
       <div class="brand-text">
-        <div class="b1">RATE X</div>
-        <div class="b2">SURVIVOR</div>
+        <div class="b1" id="brandTitle">PAWAN GAMING</div>
+        <div class="b2" id="brandSub">SURVIVOR + MINES</div>
       </div>
     </div>
     <div class="header-status">
@@ -695,11 +623,11 @@ input, select { font-family: inherit; outline: none; }
       </div>
     </div>
     <div class="header-right">
-      <div class="balance-pill">
+      <div class="balance-pill" id="balancePill">
         <span class="coin"></span>
-        <span class="val" id="balanceVal">0</span>
+        <span id="balanceVal">0</span>
       </div>
-      <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">
+      <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
           <path id="themeIcon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
@@ -720,8 +648,8 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signOut, onAuthStateChanged, updateProfile }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
-  collection, addDoc, onSnapshot, query, where, orderBy, serverTimestamp,
-  limit }
+  collection, addDoc, onSnapshot, query, where, orderBy, limit, getDocs,
+  runTransaction, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -738,15 +666,26 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* STATE */
+/* ═══════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════ */
 const state = {
   user: null, profile: null, isAdmin: false,
   settings: null,
   matches: [], currentMatchId: null,
   rounds: [], players: [], predictions: [], users: [], history: [],
+  minesGames: [],
   currentPage: 'home', unsub: [],
   bet: { teamId: null, stake: 100 },
-  adminTab: 'live' // 'live' | 'history' for admin home
+  // Mines state
+  mines: {
+    gameId: null, mineCount: 5, stake: 100, status: 'IDLE',
+    revealedTiles: [], revealedSafe: [], minePositions: null,
+    multiplier: 1, payout: 0, busy: false, view: 'game',
+    historyFilter: 'ALL', history: [], historyLoading: false
+  },
+  // Route guard
+  route404: null
 };
 
 function unsubAll() {
@@ -757,7 +696,6 @@ function unsubAll() {
 /* THEME */
 const savedTheme = localStorage.getItem('prl-theme') || 'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
-
 window.toggleTheme = () => {
   const cur = document.documentElement.getAttribute('data-theme');
   const next = cur === 'dark' ? 'light' : 'dark';
@@ -782,7 +720,7 @@ window.toast = (msg, type='ok') => {
   t.textContent = msg;
   t.className = 'toast show ' + (type === 'err' ? 'err' : 'ok');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.className = 'toast', 3500);
+  toastTimer = setTimeout(() => t.className = 'toast', 3200);
 };
 
 /* AUTH UI */
@@ -813,7 +751,7 @@ window.doLogin = async () => {
   try {
     await signInWithEmailAndPassword(auth, email, pass);
   } catch (e) {
-    loginMsg((e.message || '').replace('Firebase: ', '') || 'Sign in failed');
+    loginMsg((e.message||'').replace('Firebase: ','')||'Sign in failed');
     btn.disabled = false; btn.textContent = 'Sign In';
   }
 };
@@ -822,11 +760,11 @@ window.doRegister = async () => {
   const name = document.getElementById('regName').value.trim();
   const email = document.getElementById('regEmail').value.trim();
   const pass = document.getElementById('regPass').value;
-  if (!name) return loginMsg('Enter your name','err','reg');
+  if (!name) return loginMsg('Enter name','err','reg');
   if (!email) return loginMsg('Enter email','err','reg');
-  if (!pass || pass.length < 6) return loginMsg('Password min 6 chars','err','reg');
+  if (!pass || pass.length < 6) return loginMsg('Password min 6','err','reg');
   const btn = document.getElementById('regBtn');
-  btn.disabled = true; btn.textContent = 'Creating…'; loginMsg('','ok','reg');
+  btn.disabled = true; btn.textContent = 'Creating…';
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await updateProfile(cred.user, { displayName: name });
@@ -834,9 +772,9 @@ window.doRegister = async () => {
       email, name, demoPoints: 1000, blocked: false,
       role: 'customer', createdAt: serverTimestamp()
     });
-    toast('Welcome! 1,000 demo points added', 'ok');
+    toast('Welcome! 1,000 demo points', 'ok');
   } catch (e) {
-    loginMsg((e.message || '').replace('Firebase: ', '') || 'Registration failed','err','reg');
+    loginMsg((e.message||'').replace('Firebase: ','')||'Registration failed','err','reg');
     btn.disabled = false; btn.textContent = 'Create Account';
   }
 };
@@ -847,14 +785,16 @@ window.doLogout = async () => {
   await signOut(auth);
 };
 
-/* AUTH STATE */
+/* ═══════════════════════════════════════════════════
+   AUTH OBSERVER
+   ═══════════════════════════════════════════════════ */
 onAuthStateChanged(auth, async (user) => {
   unsubAll();
   if (!user) {
     state.user = null; state.profile = null; state.isAdmin = false;
     state.matches = []; state.players = []; state.predictions = [];
     state.users = []; state.rounds = []; state.history = [];
-    state.currentMatchId = null;
+    state.minesGames = []; state.currentMatchId = null;
     document.getElementById('loginView').classList.remove('hidden');
     document.getElementById('appView').classList.add('hidden');
     return;
@@ -863,9 +803,9 @@ onAuthStateChanged(auth, async (user) => {
 
   let isAdmin = false;
   try {
-    const adminSnap = await getDoc(doc(db, 'admins', user.uid));
-    isAdmin = adminSnap.exists();
-  } catch (e) {}
+    const aSnap = await getDoc(doc(db, 'admins', user.uid));
+    isAdmin = aSnap.exists();
+  } catch(e) {}
   state.isAdmin = isAdmin;
 
   const profRef = doc(db, 'users', user.uid);
@@ -874,12 +814,12 @@ onAuthStateChanged(auth, async (user) => {
     try {
       await setDoc(profRef, {
         email: user.email,
-        name: user.displayName || (user.email || '').split('@')[0],
+        name: user.displayName || (user.email||'').split('@')[0],
         demoPoints: 1000, blocked: false, role: 'customer',
         createdAt: serverTimestamp()
       });
       profSnap = await getDoc(profRef);
-    } catch (e) {}
+    } catch(e) {}
   }
   if (profSnap.exists() && profSnap.data().blocked) {
     toast('Account blocked.', 'err');
@@ -897,10 +837,12 @@ onAuthStateChanged(auth, async (user) => {
   attachPlayersListener();
   attachPredictionsListener();
   attachRoundsListener();
-  if (isAdmin) attachUsersListener();
-  attachHistoryListener();
+  if (isAdmin) {
+    attachUsersListener();
+    attachHistoryListener();
+  }
 
-  state.currentPage = isAdmin ? 'admin_home' : 'home';
+  state.currentPage = 'home';
   renderNav();
   render();
 });
@@ -911,7 +853,12 @@ function attachProfileListener() {
     if (!snap.exists()) return;
     const d = snap.data();
     if (d.blocked) { toast('Account blocked', 'err'); setTimeout(() => signOut(auth), 1200); return; }
+    const prev = state.profile?.demoPoints;
     state.profile = d; render();
+    if (prev !== d.demoPoints) {
+      const pill = document.getElementById('balancePill');
+      if (pill) { pill.classList.add('bump'); setTimeout(()=>pill.classList.remove('bump'),200); }
+    }
   });
   state.unsub.push(un);
 }
@@ -933,8 +880,7 @@ function attachSettingsListener() {
 function attachMatchesListener() {
   const un = onSnapshot(collection(db, 'matches'), snap => {
     state.matches = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (b.matchNumber || 0) - (a.matchNumber || 0));
-    // Auto-select a live/waiting match if none
+      .sort((a,b) => (b.matchNumber||0) - (a.matchNumber||0));
     if (!state.currentMatchId || !state.matches.find(m => m.id === state.currentMatchId)) {
       const live = state.matches.find(m => m.status === 'LIVE' || m.status === 'WAITING');
       state.currentMatchId = live ? live.id : (state.matches[0]?.id || null);
@@ -947,7 +893,7 @@ function attachMatchesListener() {
 function attachRoundsListener() {
   const un = onSnapshot(collection(db, 'rounds'), snap => {
     state.rounds = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (a.roundNumber || 0) - (b.roundNumber || 0));
+      .sort((a,b) => (a.roundNumber||0) - (b.roundNumber||0));
     render();
   });
   state.unsub.push(un);
@@ -955,7 +901,8 @@ function attachRoundsListener() {
 
 function attachPlayersListener() {
   const un = onSnapshot(collection(db, 'players'), snap => {
-    state.players = snap.docs.map(d => ({ id: d.id, ...d.data() })); render();
+    state.players = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    render();
   });
   state.unsub.push(un);
 }
@@ -969,7 +916,7 @@ function attachPredictionsListener() {
   }
   const un = onSnapshot(q, snap => {
     let list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    if (!state.isAdmin) list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    if (!state.isAdmin) list.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
     state.predictions = list; render();
   });
   state.unsub.push(un);
@@ -985,31 +932,31 @@ function attachUsersListener() {
 function attachHistoryListener() {
   const un = onSnapshot(collection(db, 'match_history'), snap => {
     state.history = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (b.finishedAt?.seconds || 0) - (a.finishedAt?.seconds || 0));
+      .sort((a,b) => (b.finishedAt?.seconds||0) - (a.finishedAt?.seconds||0));
     render();
   });
   state.unsub.push(un);
 }
 
-/* NAV */
-function navItems() {
-  if (state.isAdmin) {
-    return [
-      { id: 'admin_home',     label: 'Home',     icon: 'home' },
-      { id: 'admin_users',    label: 'Users',    icon: 'users' },
-      { id: 'admin_teams',    label: 'Teams',    icon: 'shield' },
-      { id: 'admin_rounds',   label: 'Rounds',   icon: 'play' },
-      { id: 'admin_history',  label: 'History',  icon: 'list' }
-    ];
-  }
-  return [
-    { id: 'home',    label: 'Home',    icon: 'home' },
-    { id: 'teams',   label: 'Teams',   icon: 'users' },
-    { id: 'predict', label: 'Predict', icon: 'target' },
-    { id: 'history', label: 'History', icon: 'list' },
-    { id: 'profile', label: 'Profile', icon: 'user' }
-  ];
-}
+/* ═══════════════════════════════════════════════════
+   NAV — Customer & Admin
+   ═══════════════════════════════════════════════════ */
+const CUSTOMER_NAV = [
+  { id: 'home',    label: 'Home',    icon: 'home' },
+  { id: 'mines',   label: 'Mines',   icon: 'gem' },
+  { id: 'survivor',label: 'Survivor',icon: 'target' },
+  { id: 'history', label: 'History', icon: 'list' },
+  { id: 'profile', label: 'Profile', icon: 'user' }
+];
+const ADMIN_NAV = [
+  { id: 'admin_home',     label: 'Home',     icon: 'home' },
+  { id: 'admin_users',    label: 'Users',    icon: 'users' },
+  { id: 'admin_rounds',   label: 'Rounds',   icon: 'play' },
+  { id: 'admin_mines',    label: 'Mines',    icon: 'gem' },
+  { id: 'admin_settings', label: 'Settings', icon: 'cog' }
+];
+
+function navItems() { return state.isAdmin ? ADMIN_NAV : CUSTOMER_NAV; }
 
 function svgIcon(name) {
   const icons = {
@@ -1020,11 +967,12 @@ function svgIcon(name) {
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/>',
     shield: '<path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z"/>',
     play: '<polygon points="6 4 20 12 6 20 6 4"/>',
+    cog: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
     close: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
     search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
     check: '<polyline points="20 6 9 17 4 12"/>',
     clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
-    archive: '<polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/>'
+    gem: '<path d="M6 3h12l4 6-10 12L2 9z"/>'
   };
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${icons[name] || ''}</svg>`;
 }
@@ -1040,15 +988,36 @@ function renderNav() {
   `).join('');
 }
 
+/* ROUTER with 404 */
+const VALID_ROUTES = [
+  'home','mines','survivor','history','profile',
+  'teams','predict',
+  'admin_home','admin_users','admin_teams','admin_rounds','admin_mines','admin_history','admin_settings',
+  '404'
+];
+
 window.nav = (page) => {
-  state.currentPage = page;
+  if (!VALID_ROUTES.includes(page)) {
+    state.route404 = page;
+    state.currentPage = '404';
+  } else {
+    state.route404 = null;
+    state.currentPage = page;
+  }
   renderNav();
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+/* ROUTE ALIASES */
+function routeTo(page) {
+  // Handle aliases
+  if (page === 'survivor') return 'survivor';
+  return page;
+}
+
 /* ═══════════════════════════════════════════════════
-   MATH  — MAX RATE = 100.00X
+   MATH (Rate X Survivor)
    ═══════════════════════════════════════════════════ */
 function currentMatch() {
   if (!state.currentMatchId) return null;
@@ -1059,161 +1028,119 @@ function teamStats(teamId, matchId = null) {
   const s = state.settings || { baseWinRate: 25, baseRate: 2 };
   const mid = matchId || state.currentMatchId;
   const all = state.players.filter(p =>
-    p.teamId === teamId && (!mid || !p.matchId || p.matchId === mid)
-  );
+    p.teamId === teamId && (!mid || !p.matchId || p.matchId === mid));
   const alive = all.filter(p => p.status === 'ACTIVE').length;
   const dead = all.filter(p => p.status === 'ELIMINATED').length;
-
   const otherId = teamId === 'A' ? 'B' : 'A';
   const otherAlive = state.players.filter(p =>
-    p.teamId === otherId &&
-    (!mid || !p.matchId || p.matchId === mid) &&
-    p.status === 'ACTIVE'
-  ).length;
+    p.teamId === otherId && (!mid || !p.matchId || p.matchId === mid) && p.status === 'ACTIVE').length;
   const totalAlive = alive + otherAlive;
   const isDead = all.length > 0 && alive === 0;
-
   let winRate = 0;
   if (totalAlive > 0) winRate = (s.baseWinRate * alive) / totalAlive;
-
   let rate = s.baseRate;
-  if (alive > 0 && totalAlive > 0) {
-    rate = s.baseRate * (totalAlive / (2 * alive));
-  }
-  // 🔥 MAX RATE CAP = 100.00X
+  if (alive > 0 && totalAlive > 0) rate = s.baseRate * (totalAlive / (2 * alive));
   rate = Math.min(100, Math.max(1.01, rate));
-
-  return {
-    teamId, activeCount: alive, eliminatedCount: dead,
-    totalPlayers: all.length, totalAlive, winRate, rate, isDead
-  };
+  return { teamId, activeCount: alive, eliminatedCount: dead, totalPlayers: all.length, totalAlive, winRate, rate, isDead };
 }
 
 function roundStatusForMatch(m) {
   if (!m) return { code: 'NO_MATCH', msg: 'No match' };
   if (m.status === 'FINISHED') return { code: 'FINISHED', msg: `Match #${m.matchNumber} finished`, winner: m.winner };
-  if (m.status === 'WAITING') return { code: 'WAITING', msg: 'Match is starting soon' };
-
-  const r = state.rounds.find(x =>
-    x.roundNumber === m.currentRound && x.matchId === m.id);
-
+  if (m.status === 'WAITING') return { code: 'WAITING', msg: 'Match starting soon' };
+  const r = state.rounds.find(x => x.roundNumber === m.currentRound && x.matchId === m.id);
   if (!r) return { code: 'NO_ROUND', msg: 'Waiting for next round' };
   if (r.status === 'OPEN') return { code: 'OPEN', msg: `Round ${r.roundNumber} — Betting open`, round: r };
   if (r.status === 'CLOSED') return { code: 'CLOSED', msg: `Round ${r.roundNumber} — Betting closed`, round: r };
   if (r.status === 'RESULT_DECLARED') {
-    if (!r.eliminationDone) {
-      return { code: 'ELIMINATING', msg: `Round ${r.roundNumber} — awaiting elimination`, round: r };
-    }
-    return { code: 'COMPLETED', msg: `Round ${r.roundNumber} — Team ${r.winner} won`, round: r };
+    if (!r.eliminationDone) return { code: 'ELIMINATING', msg: `Awaiting elimination`, round: r };
+    return { code: 'COMPLETED', msg: `Team ${r.winner} won round ${r.roundNumber}`, round: r };
   }
   return { code: 'UNKNOWN', msg: 'Unknown' };
 }
 
 function fmt(n, d = 2) { return Number(n || 0).toFixed(d); }
+function fmtInt(n) { return Math.floor(Number(n || 0)).toLocaleString(); }
 function fmtRate(n) { return fmt(n, 2) + 'X'; }
+function timeAgo(ts) {
+  if (!ts) return '—';
+  const d = ts.seconds ? new Date(ts.seconds * 1000) : new Date(ts);
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 60) return 'now';
+  if (diff < 3600) return Math.floor(diff / 60) + 'm';
+  if (diff < 86400) return Math.floor(diff / 3600) + 'h';
+  return Math.floor(diff / 86400) + 'd';
+}
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
 
-/* RENDER ROUTER */
+/* ═══════════════════════════════════════════════════
+   RENDER
+   ═══════════════════════════════════════════════════ */
 function render() {
   if (!state.user || !state.profile) return;
-
   const bal = document.getElementById('balanceVal');
-  if (bal) bal.textContent = (state.profile.demoPoints || 0).toLocaleString();
+  if (bal) bal.textContent = fmtInt(state.profile.demoPoints || 0);
 
-  const m = currentMatch();
-  const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH' };
+  // Header status
   const chip = document.getElementById('statusChip');
   const txt = document.getElementById('statusText');
   if (chip && txt) {
-    chip.className = 'status-chip';
-    if (rs.code === 'OPEN') { chip.classList.add('live'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Live`; }
-    else if (rs.code === 'CLOSED') { chip.classList.add('closed'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Closed`; }
-    else if (rs.code === 'FINISHED') { chip.classList.add('done'); txt.textContent = `M#${m?.matchNumber || '?'} • Finished`; }
-    else { txt.textContent = m ? `M#${m.matchNumber}` : 'No Match'; }
+    const isMinesView = ['mines','admin_mines'].includes(state.currentPage);
+    if (isMinesView) {
+      chip.className = 'status-chip';
+      if (state.mines.status === 'ACTIVE') { chip.className += ' live'; txt.textContent = 'Mines • Live'; }
+      else { txt.textContent = 'Mines'; }
+    } else {
+      const m = currentMatch();
+      const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH' };
+      chip.className = 'status-chip';
+      if (rs.code === 'OPEN') { chip.classList.add('live'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Live`; }
+      else if (rs.code === 'CLOSED') { chip.classList.add('closed'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Closed`; }
+      else if (rs.code === 'FINISHED') { chip.classList.add('done'); txt.textContent = `M#${m?.matchNumber || '?'} • Done`; }
+      else { txt.textContent = m ? `M#${m.matchNumber}` : 'Rate X'; }
+    }
   }
 
   const root = document.getElementById('appMain');
   let html = '';
   switch (state.currentPage) {
     case 'home':           html = viewHome(); break;
-    case 'teams':          html = viewTeams(); break;
-    case 'predict':        html = viewPredict(); break;
+    case 'mines':          html = viewMines(); break;
+    case 'survivor':       html = viewSurvivor(); break;
     case 'history':        html = viewHistory(); break;
     case 'profile':        html = viewProfile(); break;
     case 'admin_home':     html = viewAdminHome(); break;
     case 'admin_users':    html = viewAdminUsers(); break;
-    case 'admin_teams':    html = viewAdminTeams(); break;
     case 'admin_rounds':   html = viewAdminRounds(); break;
-    case 'admin_history':  html = viewAdminHistory(); break;
+    case 'admin_mines':    html = viewAdminMines(); break;
+    case 'admin_settings': html = viewAdminSettings(); break;
+    case '404':            html = view404(); break;
     default:               html = state.isAdmin ? viewAdminHome() : viewHome();
   }
   root.innerHTML = html;
-  if (state.currentPage === 'predict') bindPredictInputs();
+  if (state.currentPage === 'survivor') bindPredictInputs();
 }
 
 /* ═══════════════════════════════════════════════════
-   CUSTOMER: HOME
+   HOME (with game selection)
    ═══════════════════════════════════════════════════ */
 function viewHome() {
-  const liveMatches = state.matches.filter(m =>
-    m.status === 'LIVE' || m.status === 'WAITING'
-  ).sort((a, b) => {
-    const order = { LIVE: 0, WAITING: 1 };
-    const aO = order[a.status] ?? 2;
-    const bO = order[b.status] ?? 2;
-    if (aO !== bO) return aO - bO;
-    return (b.matchNumber || 0) - (a.matchNumber || 0);
-  });
-
-  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
-  const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH', msg: 'No match available' };
-  const A = teamStats('A', m?.id);
-  const B = teamStats('B', m?.id);
-  const myPreds = state.predictions.slice(0, 5);
-
-  if (!m) {
-    return `
-      <div class="balance-card">
-        <div class="balance-info">
-          <div class="bl">Available Points</div>
-          <div class="bv">${(state.profile.demoPoints || 0).toLocaleString()}</div>
-          <div class="bn">Demo points • no cash value</div>
-        </div>
-        <div class="balance-right">
-          <div class="lbl">Base Rate</div>
-          <div class="rate">${fmtRate(state.settings?.baseRate || 2)}</div>
-        </div>
-      </div>
-
-      <div class="card" style="text-align:center;padding:36px 20px">
-        <div style="font-size:38px;margin-bottom:10px;opacity:.5">🏟️</div>
-        <div style="font-size:16px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px">
-          No Match Available
-        </div>
-        <div class="txt-sm txt-3" style="line-height:1.6">
-          There is no live match at the moment.<br/>
-          Please check back later.
-        </div>
-      </div>
-
-      ${myPreds.length ? `
-        <div class="card">
-          <div class="card-head">
-            <div class="card-title-lg">Recent Activity</div>
-            <div class="txt-xs txt-3">${state.predictions.length} total</div>
-          </div>
-          <div class="list" style="margin:0 -14px -14px;border:none;border-radius:0;background:transparent">
-            ${myPreds.map(p => predRowCompact(p)).join('')}
-          </div>
-        </div>
-      ` : ''}
-    `;
-  }
+  const pts = state.profile.demoPoints || 0;
+  const A = teamStats('A'), B = teamStats('B');
+  const liveMatch = state.matches.find(m => m.status === 'LIVE' || m.status === 'WAITING');
+  const rs = liveMatch ? roundStatusForMatch(liveMatch) : { code: 'NO_MATCH' };
+  const myPreds = state.predictions.slice(0, 3);
+  const activeMinesGame = state.mines.status === 'ACTIVE';
 
   return `
     <div class="balance-card">
       <div class="balance-info">
         <div class="bl">Available Points</div>
-        <div class="bv">${(state.profile.demoPoints || 0).toLocaleString()}</div>
+        <div class="bv">${pts.toLocaleString()}</div>
         <div class="bn">Demo points • no cash value</div>
       </div>
       <div class="balance-right">
@@ -1222,165 +1149,73 @@ function viewHome() {
       </div>
     </div>
 
-    ${liveBannerHtml(m, rs)}
-
-    <div class="status-panel">
-      <div class="status-tile">
-        <div class="k">Match</div>
-        <div class="v accent">#${m.matchNumber || 1}</div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">🎮 Choose a Game</div>
       </div>
-      <div class="status-tile">
-        <div class="k">Round</div>
-        <div class="v">${m.currentRound || 0} / ${m.maxRounds || 8}</div>
-      </div>
-      <div class="status-tile">
-        <div class="k">Status</div>
-        <div class="v ${rs.code === 'OPEN' ? 'success' : rs.code === 'CLOSED' ? 'warning' : ''}">
-          ${rs.code === 'OPEN' ? 'LIVE' : rs.code === 'CLOSED' ? 'LOCKED' : rs.code === 'WAITING' ? 'IDLE' : 'ACTIVE'}
+      <div class="game-grid">
+        <div class="game-card gc-survivor" onclick="nav('survivor')">
+          <div class="gc-icon">⚔️</div>
+          <div class="gc-name">Rate X Survivor</div>
+          <div class="gc-desc">Team prediction. ${liveMatch ? 'Live now!' : 'Check back later'}</div>
+          <div class="gc-play">▶ Play</div>
+        </div>
+        <div class="game-card gc-mines" onclick="nav('mines')">
+          <div class="gc-icon">💎</div>
+          <div class="gc-name">Pawan Mines</div>
+          <div class="gc-desc">Reveal safe tiles, avoid mines. ${activeMinesGame ? 'Game active!' : 'Start a new round'}</div>
+          <div class="gc-play">▶ Play</div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-head"><div class="card-title">Round Timeline</div></div>
-      <div class="timeline">
-        ${Array.from({length: m.maxRounds || 8}, (_, i) => {
-          const rn = i + 1;
-          const r = state.rounds.find(x => x.roundNumber === rn && x.matchId === m.id);
-          let cls = '', label = '—';
-          if (!r) { label = '—'; }
-          else if (r.status === 'OPEN') { cls = 'live'; label = 'LIVE'; }
-          else if (r.status === 'CLOSED') { cls = 'closed'; label = 'LOCK'; }
-          else if (r.status === 'RESULT_DECLARED') { cls = r.winner === 'A' ? 'won-a' : 'won-b'; label = 'T' + r.winner; }
-          else if (r.status === 'COMPLETED') { cls = 'done'; label = '✓'; }
-          return `<div class="tl-chip ${cls}"><div class="tln">R${rn}</div><div class="tls">${label}</div></div>`;
-        }).join('')}
-      </div>
-    </div>
-
-    <div class="teams-grid">
-      ${teamPanel(A, false)}
-      ${teamPanel(B, false)}
-    </div>
-
-    <button class="btn" onclick="nav('predict')" style="margin-bottom:10px"
-      ${rs.code === 'OPEN' ? '' : 'disabled'}>
-      ${rs.code === 'OPEN' ? 'Predict Now' : rs.code === 'CLOSED' ? 'Betting Closed' : 'Waiting for Round'}
-    </button>
-
-    ${liveMatches.length > 1 ? `
+    ${liveMatch ? `
       <div class="card">
         <div class="card-head">
-          <div class="card-title">Other Live Matches (${liveMatches.length - 1})</div>
+          <div class="card-title-lg">⚔️ Survivor — Live</div>
+          <span class="badge ${rs.code === 'OPEN' ? 'live' : 'closed'}">${rs.code === 'OPEN' ? 'LIVE' : rs.code === 'CLOSED' ? 'LOCKED' : 'IDLE'}</span>
         </div>
-        <div class="list" style="margin:0 -14px -14px;border:none;border-radius:0;background:transparent">
-          ${liveMatches.filter(x => x.id !== m.id).map(x => `
-            <div class="list-row" onclick="selectMatch('${x.id}')" style="cursor:pointer">
-              <div class="avatar ${x.status === 'LIVE' ? 'team-a' : ''}">M#${x.matchNumber || '?'}</div>
-              <div class="lr-body">
-                <div class="lr-title">Match #${x.matchNumber || 1}
-                  <span class="badge ${x.status === 'LIVE' ? 'live' : 'pending'}">${x.status}</span>
-                </div>
-                <div class="lr-sub">Round ${x.currentRound || 0} / ${x.maxRounds || 8}</div>
-              </div>
-              <div class="lr-right"><div class="lr-meta">Tap to view</div></div>
-            </div>
-          `).join('')}
+        <div class="status-panel">
+          <div class="status-tile"><div class="k">Match</div><div class="v accent">#${liveMatch.matchNumber || 1}</div></div>
+          <div class="status-tile"><div class="k">Round</div><div class="v">${liveMatch.currentRound || 0}/${liveMatch.maxRounds || 8}</div></div>
+          <div class="status-tile"><div class="k">Status</div><div class="v ${rs.code === 'OPEN' ? 'success' : 'warning'}">${rs.code === 'OPEN' ? 'LIVE' : 'LOCKED'}</div></div>
         </div>
+        <button class="btn" onclick="nav('survivor')" style="margin-top:8px" ${rs.code !== 'OPEN' ? 'disabled' : ''}>
+          ${rs.code === 'OPEN' ? '🎯 Predict Now' : 'Betting Closed'}
+        </button>
+      </div>
+    ` : `
+      <div class="card">
+        <div class="empty">
+          <div class="ico">⚔️</div>
+          No Survivor match available right now
+        </div>
+      </div>
+    `}
+
+    ${activeMinesGame ? `
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title-lg">💎 Mines — Active</div>
+          <span class="badge live">ACTIVE</span>
+        </div>
+        <div class="status-panel">
+          <div class="status-tile"><div class="k">Mines</div><div class="v danger">${state.mines.mineCount}</div></div>
+          <div class="status-tile"><div class="k">Safe</div><div class="v success">${state.mines.revealedSafe.length}</div></div>
+          <div class="status-tile"><div class="k">Mult</div><div class="v accent">${fmt(state.mines.multiplier, 2)}X</div></div>
+        </div>
+        <button class="btn btn-gold" onclick="nav('mines')" style="margin-top:8px">▶ Resume Game</button>
       </div>
     ` : ''}
 
     <div class="card">
       <div class="card-head">
-        <div class="card-title-lg">Recent Activity</div>
+        <div class="card-title-lg">📜 Recent Activity</div>
         <div class="txt-xs txt-3">${state.predictions.length} total</div>
       </div>
-      ${myPreds.length ? `<div class="list" style="margin:0 -14px -14px;border:none;border-radius:0;background:transparent">
+      ${myPreds.length ? `<div class="list" style="margin:0 -14px -14px;border:none;background:transparent">
         ${myPreds.map(p => predRowCompact(p)).join('')}
-      </div>` : `<div class="empty"><div class="ico">📭</div>No predictions yet</div>`}
-    </div>
-  `;
-}
-
-function liveBannerHtml(m, rs) {
-  if (!m) return '';
-  if (rs.code === 'OPEN') {
-    return `
-      <div class="live-round">
-        <div class="lr-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg>
-        </div>
-        <div class="lr-info">
-          <div class="lr-status">● LIVE • BETTING OPEN</div>
-          <div class="lr-title">Match #${m.matchNumber} — Round ${rs.round?.roundNumber}</div>
-          <div class="lr-sub">Place your prediction now</div>
-        </div>
-      </div>
-    `;
-  }
-  if (rs.code === 'CLOSED' || rs.code === 'ELIMINATING') {
-    return `
-      <div class="live-round warn">
-        <div class="lr-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="lr-info">
-          <div class="lr-status">${rs.code === 'ELIMINATING' ? 'AWAITING RESULT' : 'BETTING CLOSED'}</div>
-          <div class="lr-title">Match #${m.matchNumber} — Round ${rs.round?.roundNumber}</div>
-          <div class="lr-sub">${rs.code === 'ELIMINATING' ? 'Team ' + rs.round.winner + ' won — updating' : 'Waiting for result declaration'}</div>
-        </div>
-      </div>
-    `;
-  }
-  if (rs.code === 'WAITING') {
-    return `
-      <div class="live-round warn">
-        <div class="lr-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="lr-info">
-          <div class="lr-status">STARTING SOON</div>
-          <div class="lr-title">Match #${m.matchNumber}</div>
-          <div class="lr-sub">Waiting for admin to open round 1</div>
-        </div>
-      </div>
-    `;
-  }
-  return `
-    <div class="live-round done">
-      <div class="lr-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      </div>
-      <div class="lr-info">
-        <div class="lr-status">INACTIVE</div>
-        <div class="lr-title">Match #${m.matchNumber}</div>
-        <div class="lr-sub">${rs.msg}</div>
-      </div>
-    </div>
-  `;
-}
-
-function teamPanel(t, selectable, selected = false) {
-  const cls = [
-    'team-panel',
-    t.teamId === 'B' ? 'team-B' : '',
-    t.isDead ? 'dead' : '',
-    selectable ? 'selectable' : '',
-    selected ? (t.teamId === 'A' ? 'selected-a' : 'selected-b') : ''
-  ].filter(Boolean).join(' ');
-  return `
-    <div class="${cls}">
-      <div class="tp-head">
-        <div class="tp-name"><span class="tp-dot"></span>Team ${t.teamId}</div>
-        <div class="tp-badge ${t.isDead ? 'dead' : 'alive'}">${t.isDead ? 'DEAD' : `${t.activeCount}/4`}</div>
-      </div>
-      <div class="tp-stat"><span class="k">Alive</span><span class="v">${t.activeCount}</span></div>
-      <div class="tp-stat"><span class="k">Out</span><span class="v">${t.eliminatedCount}</span></div>
-      <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(t.winRate, 1)}%</span></div>
-      <div class="tp-rate">
-        <span class="lbl">Rate</span>
-        <span class="val">${fmtRate(t.rate)}</span>
-      </div>
+      </div>` : `<div class="empty"><div class="ico">📭</div>No activity yet</div>`}
     </div>
   `;
 }
@@ -1396,94 +1231,34 @@ function predRowCompact(p) {
       <div class="avatar ${p.teamId === 'A' ? 'team-a' : 'team-b'}">T${p.teamId}</div>
       <div class="lr-body">
         <div class="lr-title">Round ${p.roundNumber || '-'} <span class="badge ${badgeCls}">${st}</span></div>
-        <div class="lr-sub">${p.stake} pts • ${fmtRate(p.rate)} • ${timeAgo(p.createdAt)}</div>
+        <div class="lr-sub">${p.stake} pts • ${fmtRate(p.rate)}</div>
       </div>
       <div class="lr-right"><div class="lr-amount ${amtCls}">${amt}</div></div>
     </div>
   `;
 }
 
-window.selectMatch = (id) => {
-  state.currentMatchId = id;
-  render();
-};
-
-/* CUSTOMER: TEAMS */
-function viewTeams() {
-  return `${teamSummaryCard('A')}${teamSummaryCard('B')}`;
-}
-
-function teamSummaryCard(teamId) {
-  const t = teamStats(teamId);
-  const players = state.players.filter(p =>
-    p.teamId === teamId &&
-    (!state.currentMatchId || !p.matchId || p.matchId === state.currentMatchId)
-  );
-  return `
-    <div class="team-summary">
-      <div class="ts-head">
-        <div class="ts-name"><span class="tp-dot" style="${teamId === 'B' ? 'background:var(--warning)' : ''}"></span>Team ${teamId}</div>
-        <div class="tp-badge ${t.isDead ? 'dead' : 'alive'}">${t.isDead ? 'ELIMINATED' : 'ACTIVE'}</div>
-      </div>
-      <div class="ts-grid">
-        <div class="ts-cell"><div class="k">Alive</div><div class="v">${t.activeCount}</div></div>
-        <div class="ts-cell"><div class="k">Out</div><div class="v">${t.eliminatedCount}</div></div>
-        <div class="ts-cell"><div class="k">Win %</div><div class="v">${fmt(t.winRate, 1)}%</div></div>
-      </div>
-      <div class="ts-cell" style="display:flex;justify-content:space-between;align-items:center">
-        <span class="k" style="font-size:10px;color:var(--text-3);font-weight:800;letter-spacing:.5px">CURRENT RATE</span>
-        <span class="v accent" style="font-size:18px;font-weight:800;color:${teamId === 'B' ? 'var(--warning)' : 'var(--accent)'}">${fmtRate(t.rate)}</span>
-      </div>
-      <div class="list" style="margin:12px -14px -14px;border:none;border-radius:0;background:transparent">
-        ${players.length ? players.map(p => `
-          <div class="player-row">
-            <div class="avatar ${teamId === 'A' ? 'team-a' : 'team-b'}" style="width:32px;height:32px;border-radius:8px;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:800">${escapeHtml((p.name||'?')[0]).toUpperCase()}</div>
-            <div style="flex:1;min-width:0">
-              <div class="pr-name">${escapeHtml(p.name)}</div>
-              <div class="pr-sub">Team ${p.teamId}${p.eliminatedInRound ? ` • Out R${p.eliminatedInRound}` : ''}</div>
-            </div>
-            <span class="badge ${p.status === 'ACTIVE' ? 'active' : 'eliminated'}">${p.status}</span>
-          </div>
-        `).join('') : '<div class="empty">No players</div>'}
-      </div>
-    </div>
-  `;
-}
-
-/* CUSTOMER: PREDICT */
-function viewPredict() {
-  const liveMatches = state.matches.filter(m =>
-    m.status === 'LIVE' || m.status === 'WAITING'
-  ).sort((a, b) => {
-    const order = { LIVE: 0, WAITING: 1 };
-    const aO = order[a.status] ?? 2;
-    const bO = order[b.status] ?? 2;
-    if (aO !== bO) return aO - bO;
-    return (b.matchNumber || 0) - (a.matchNumber || 0);
-  });
-
+/* ═══════════════════════════════════════════════════
+   SURVIVOR (Rate X game)
+   ═══════════════════════════════════════════════════ */
+function viewSurvivor() {
+  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING')
+    .sort((a,b) => (b.matchNumber||0) - (a.matchNumber||0));
   const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
 
   if (!m) {
     return `
-      <div class="card" style="text-align:center;padding:48px 20px">
-        <div style="font-size:42px;margin-bottom:14px;opacity:.5">🎯</div>
-        <div style="font-size:17px;font-weight:800;letter-spacing:-.2px;margin-bottom:6px">
-          No Match Available
-        </div>
-        <div class="txt-sm txt-3" style="line-height:1.6;margin-bottom:18px">
-          Prediction is not available because<br/>there is no live match right now.
-        </div>
-        <button class="btn btn-secondary" style="max-width:200px;margin:0 auto" onclick="nav('home')">
-          Back to Home
-        </button>
+      <div class="card" style="text-align:center;padding:40px 20px">
+        <div style="font-size:38px;margin-bottom:10px;opacity:.5">⚔️</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:4px">No Match Available</div>
+        <div class="txt-sm txt-3" style="margin-bottom:16px">No Survivor match is live right now</div>
+        <button class="btn btn-secondary" onclick="nav('home')">Back to Home</button>
       </div>
     `;
   }
 
   const rs = roundStatusForMatch(m);
-  const A = teamStats('A', m.id);
-  const B = teamStats('B', m.id);
+  const A = teamStats('A', m.id), B = teamStats('B', m.id);
   const pts = state.profile.demoPoints || 0;
   const r = rs.round;
   const sel = state.bet.teamId;
@@ -1500,104 +1275,91 @@ function viewPredict() {
   const canConfirm = canBet && sel && !selStats?.isDead && stake > 0 && stake <= pts;
 
   return `
-    <div class="round-banner ${rs.code === 'CLOSED' || rs.code === 'ELIMINATING' ? 'warn' : rs.code === 'OPEN' ? '' : 'done'}">
-      <div class="rb-icon">
-        ${rs.code === 'OPEN' ? svgIcon('play') : (rs.code === 'CLOSED' || rs.code === 'ELIMINATING') ? svgIcon('clock') : svgIcon('check')}
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">⚔️ Rate X Survivor</div>
+        <span class="badge ${rs.code === 'OPEN' ? 'live' : rs.code === 'CLOSED' ? 'closed' : 'pending'}">
+          ${rs.code === 'OPEN' ? 'LIVE' : rs.code === 'CLOSED' ? 'LOCKED' : 'IDLE'}
+        </span>
       </div>
-      <div class="rb-txt">
-        <div class="rb-k">
-          ${rs.code === 'OPEN' ? 'Betting Open'
-            : (rs.code === 'CLOSED' || rs.code === 'ELIMINATING') ? 'Betting Closed'
-            : rs.code === 'WAITING' ? 'Starting Soon'
-            : 'Inactive'}
-        </div>
-        <div class="rb-t">Round ${r?.roundNumber || '—'} • Match #${m.matchNumber}</div>
-        <div class="rb-s">
-          ${alreadyBet ? `You already bet on Team ${alreadyBet.teamId}`
-            : rs.code === 'OPEN' ? 'Select a team to place your bet'
-            : rs.msg}
-        </div>
+      <div class="status-panel" style="margin:0">
+        <div class="status-tile"><div class="k">Match</div><div class="v accent">#${m.matchNumber}</div></div>
+        <div class="status-tile"><div class="k">Round</div><div class="v">${m.currentRound || 0}/${m.maxRounds || 8}</div></div>
+        <div class="status-tile"><div class="k">Status</div><div class="v ${rs.code === 'OPEN' ? 'success' : 'warning'}">${rs.code}</div></div>
       </div>
     </div>
 
     ${!canBet && !alreadyBet ? `
-      <div class="empty" style="padding:60px 20px">
-        <div class="ico">${rs.code === 'WAITING' ? '⏳' : (rs.code === 'CLOSED' || rs.code === 'ELIMINATING') ? '🔒' : '⏸️'}</div>
+      <div class="empty" style="padding:40px 20px">
+        <div class="ico">${rs.code === 'WAITING' ? '⏳' : '🔒'}</div>
         ${rs.msg}
       </div>
     ` : alreadyBet ? `
       <div class="card">
-        <div class="row-flex gap-lg" style="padding:8px 0">
+        <div class="row-flex" style="padding:8px 0">
           <div class="avatar ${alreadyBet.teamId === 'A' ? 'team-a' : 'team-b'}"
-            style="width:48px;height:48px;border-radius:12px;font-size:16px;display:flex;align-items:center;justify-content:center;font-weight:800">T${alreadyBet.teamId}</div>
+            style="width:44px;height:44px;border-radius:10px;font-size:15px;font-weight:800">T${alreadyBet.teamId}</div>
           <div style="flex:1">
-            <div class="fw-8" style="font-size:15px">Bet placed</div>
-            <div class="txt-sm txt-3" style="margin-top:2px">
-              Team ${alreadyBet.teamId} • ${alreadyBet.stake} pts • ${fmtRate(alreadyBet.rate)}
-            </div>
+            <div class="fw-8" style="font-size:14px">Bet placed</div>
+            <div class="txt-sm txt-3">Team ${alreadyBet.teamId} • ${alreadyBet.stake} pts • ${fmtRate(alreadyBet.rate)}</div>
           </div>
-          <span class="badge pending">Pending</span>
+          <span class="badge pending">PENDING</span>
         </div>
       </div>
-      <div class="empty">Wait for Round ${r.roundNumber} result</div>
+      <div class="empty">Waiting for Round ${r.roundNumber} result</div>
     ` : `
       <div class="card-title" style="padding:0 2px 8px">Choose Team</div>
       <div class="teams-grid">
         <div onclick="${A.isDead ? '' : "selectTeam('A')"}"
-          class="${['team-panel', A.isDead ? 'dead' : 'selectable', sel === 'A' ? 'selected-a' : ''].filter(Boolean).join(' ')}">
+          class="team-panel ${A.isDead ? 'dead' : 'selectable'} ${sel === 'A' ? 'selected-a' : ''}">
           <div class="tp-head">
             <div class="tp-name"><span class="tp-dot"></span>Team A</div>
-            <div class="tp-badge ${A.isDead ? 'dead' : 'alive'}">${A.isDead ? 'DEAD' : 'LIVE'}</div>
+            <div class="tp-badge ${A.isDead ? 'dead' : 'alive'}">${A.isDead ? 'DEAD' : `${A.activeCount}/4`}</div>
           </div>
           <div class="tp-stat"><span class="k">Alive</span><span class="v">${A.activeCount}</span></div>
-          <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(A.winRate, 1)}%</span></div>
+          <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(A.winRate,1)}%</span></div>
           <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(A.rate)}</span></div>
         </div>
         <div onclick="${B.isDead ? '' : "selectTeam('B')"}"
-          class="${['team-panel', 'team-B', B.isDead ? 'dead' : 'selectable', sel === 'B' ? 'selected-b' : ''].filter(Boolean).join(' ')}">
+          class="team-panel team-B ${B.isDead ? 'dead' : 'selectable'} ${sel === 'B' ? 'selected-b' : ''}">
           <div class="tp-head">
             <div class="tp-name"><span class="tp-dot"></span>Team B</div>
-            <div class="tp-badge ${B.isDead ? 'dead' : 'alive'}">${B.isDead ? 'DEAD' : 'LIVE'}</div>
+            <div class="tp-badge ${B.isDead ? 'dead' : 'alive'}">${B.isDead ? 'DEAD' : `${B.activeCount}/4`}</div>
           </div>
           <div class="tp-stat"><span class="k">Alive</span><span class="v">${B.activeCount}</span></div>
-          <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(B.winRate, 1)}%</span></div>
+          <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(B.winRate,1)}%</span></div>
           <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(B.rate)}</span></div>
         </div>
       </div>
 
-      <div class="card-title" style="padding:8px 2px 8px">Enter Points</div>
-      <div class="stake-input-wrap">
-        <input id="stakeInput" type="number" min="1" value="${state.bet.stake}" placeholder="0" inputmode="numeric" />
-        <span class="unit">PTS</span>
-      </div>
-      <div class="preset-grid">
-        ${[100, 250, 500, 1000].map(v => `
-          <button class="preset-btn ${stake === v ? 'active' : ''}" onclick="setStake(${v})">${v}</button>
-        `).join('')}
-        <button class="preset-btn" onclick="setStake(${pts})">MAX</button>
-      </div>
-      <div class="available-row">
-        <span>Available</span>
-        <b>${pts.toLocaleString()} pts</b>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:8px">Stake</div>
+        <div class="stake-input">
+          <input id="stakeInput" type="number" min="1" value="${state.bet.stake}" inputmode="numeric" />
+          <span class="u">PTS</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px">
+          ${[100, 250, 500, 1000].map(v => `
+            <button class="chip ${stake === v ? 'active' : ''}" onclick="setStake(${v})">${v}</button>
+          `).join('')}
+          <button class="chip" onclick="setStake(${pts})">MAX</button>
+        </div>
+        <div class="txt-xs txt-3 mt-8">Available: <b style="color:var(--accent)">${pts.toLocaleString()} pts</b></div>
       </div>
 
       ${sel ? `
-        <div class="summary-list">
-          <div class="summary-row"><span class="k">Selected</span><span class="v">Team ${sel}</span></div>
-          <div class="summary-row"><span class="k">Stake</span><span class="v down">−${stake} pts</span></div>
-          <div class="summary-row"><span class="k">Rate</span><span class="v accent">${fmtRate(rate)}</span></div>
-          <div class="summary-row"><span class="k">Potential Return</span><span class="v up">+${fmt(ret, 2)} pts</span></div>
-          <div class="summary-row"><span class="k">Potential Profit</span>
-            <span class="v ${profit >= 0 ? 'up' : 'down'}">${profit >= 0 ? '+' : ''}${fmt(profit, 2)} pts</span></div>
+        <div class="card">
+          <div class="tp-stat"><span class="k">Selected</span><span class="v">Team ${sel}</span></div>
+          <div class="tp-stat"><span class="k">Rate</span><span class="v" style="color:var(--accent)">${fmtRate(rate)}</span></div>
+          <div class="tp-stat"><span class="k">Stake</span><span class="v" style="color:var(--danger)">−${stake}</span></div>
+          <div class="tp-stat"><span class="k">Return</span><span class="v" style="color:var(--success)">+${fmt(ret,2)}</span></div>
+          <div class="tp-stat"><span class="k">Profit</span><span class="v ${profit>=0?'':'down'}" style="color:${profit>=0?'var(--success)':'var(--danger)'}">${profit>=0?'+':''}${fmt(profit,2)}</span></div>
         </div>
       ` : ''}
 
       <div class="sticky-action">
         <button class="btn" ${canConfirm ? '' : 'disabled'} onclick="confirmPrediction()">
-          ${!sel ? 'Select a Team'
-            : stake <= 0 ? 'Enter Amount'
-            : stake > pts ? 'Insufficient Points'
-            : 'Confirm Prediction'}
+          ${!sel ? 'Select a Team' : stake <= 0 ? 'Enter Amount' : stake > pts ? 'Insufficient Points' : 'Confirm Prediction'}
         </button>
       </div>
     `}
@@ -1624,9 +1386,8 @@ window.setStake = (v) => { state.bet.stake = v; render(); };
 
 window.confirmPrediction = async () => {
   const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING');
-  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
-  if (!m) return toast('No match available', 'err');
-
+  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0];
+  if (!m) return toast('No match', 'err');
   const rs = roundStatusForMatch(m);
   if (rs.code !== 'OPEN') return toast('Betting not open', 'err');
   const r = rs.round;
@@ -1634,28 +1395,21 @@ window.confirmPrediction = async () => {
   if (!tid) return toast('Select a team', 'err');
   const t = teamStats(tid, m.id);
   if (t.isDead) return toast('Team eliminated', 'err');
-
   const existing = state.predictions.find(p =>
     p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
   if (existing) return toast('Already bet this round', 'err');
-
   const stake = Number(state.bet.stake) || 0;
   const pts = state.profile.demoPoints || 0;
   if (stake <= 0) return toast('Enter valid amount', 'err');
   if (stake > pts) return toast('Insufficient points', 'err');
-
   try {
     await updateDoc(doc(db, 'users', state.user.uid), { demoPoints: pts - stake });
     await addDoc(collection(db, 'predictions'), {
       userId: state.user.uid,
       userName: state.profile.name || state.profile.email,
-      matchId: m.id,
-      matchNumber: m.matchNumber || 1,
-      roundNumber: r.roundNumber,
-      teamId: tid,
-      stake,
-      rate: t.rate,
-      winRate: t.winRate,
+      matchId: m.id, matchNumber: m.matchNumber || 1,
+      roundNumber: r.roundNumber, teamId: tid, stake,
+      rate: t.rate, winRate: t.winRate,
       potentialReturn: stake * t.rate,
       potentialProfit: stake * t.rate - stake,
       status: 'PENDING',
@@ -1670,231 +1424,631 @@ window.confirmPrediction = async () => {
   }
 };
 
-/* CUSTOMER: HISTORY */
-function viewHistory() {
-  const list = state.predictions;
-  if (!list.length) return `<div class="card"><div class="empty"><div class="ico">📭</div>No predictions yet</div></div>`;
-  return `
-    <div class="card-title" style="padding:0 2px 8px">My History (${list.length})</div>
-    <div class="list">${list.map(p => historyRow(p)).join('')}</div>
-  `;
+/* ═══════════════════════════════════════════════════
+   MINES GAME (embedded)
+   ═══════════════════════════════════════════════════ */
+function generateGameId() {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  const dd = String(now.getDate()).padStart(2,'0');
+  const rand = crypto.getRandomValues(new Uint8Array(4));
+  const hex = Array.from(rand).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase().slice(0,6);
+  return `MINES-${yyyy}${mm}${dd}-${hex}`;
+}
+function secureRandomInt(max) {
+  const a = new Uint32Array(1);
+  crypto.getRandomValues(a);
+  return a[0] % max;
+}
+function pickMines(count) {
+  const positions = [];
+  const used = new Set();
+  while (positions.length < count) {
+    const v = secureRandomInt(25);
+    if (!used.has(v)) { used.add(v); positions.push(v); }
+  }
+  return positions.sort((a,b)=>a-b);
+}
+function calcMultiplier(safeRevealed, mineCount) {
+  const total = 25, safeTotal = total - mineCount;
+  if (safeRevealed <= 0) return 1;
+  let m = 1;
+  for (let i = 0; i < safeRevealed; i++) m *= (total - i) / (safeTotal - i);
+  return Math.max(1, m * 0.97);
 }
 
-function historyRow(p) {
-  const st = p.status || 'PENDING';
-  const badgeCls = st === 'WON' ? 'won' : st === 'LOST' ? 'lost' : 'pending';
-  const amt = st === 'WON' ? `+${fmt(p.returnAmount || p.potentialReturn || 0, 2)}` : `−${p.stake}`;
-  const amtCls = st === 'WON' ? 'up' : st === 'LOST' ? 'down' : 'pending';
+function viewMines() {
+  const mg = state.mines;
+  if (mg.view === 'history') return renderMinesHistory();
+
+  const pts = state.profile.demoPoints || 0;
+  const isActive = mg.status === 'ACTIVE';
+  const isFinished = mg.status === 'WON' || mg.status === 'LOST';
+  const isIdle = mg.status === 'IDLE';
+
   return `
-    <div class="list-row">
-      <div class="avatar ${st === 'WON' ? 'won' : st === 'LOST' ? 'lost' : (p.teamId === 'A' ? 'team-a' : 'team-b')}">${st === 'WON' ? '✓' : st === 'LOST' ? '✗' : 'T' + p.teamId}</div>
-      <div class="lr-body">
-        <div class="lr-title">Round ${p.roundNumber || '-'} <span class="badge ${badgeCls}">${st}</span></div>
-        <div class="lr-sub">Team ${p.teamId} • ${p.stake} pts • ${fmtRate(p.rate)}</div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">💎 Pawan Mines</div>
+        ${mg.gameId ? `<div class="txt-xs txt-3" style="font-family:ui-monospace,monospace">${mg.gameId}</div>` : ''}
       </div>
-      <div class="lr-right">
-        <div class="lr-amount ${amtCls}">${amt}</div>
-        <div class="lr-meta">${timeAgo(p.createdAt)}</div>
-      </div>
+      <div class="txt-xs txt-3">Balance: <b style="color:var(--gold)">🪙 ${pts.toLocaleString()}</b></div>
     </div>
-  `;
-}
 
-/* CUSTOMER: PROFILE */
-function viewProfile() {
-  const u = state.profile;
-  const initial = (u.name || u.email || '?')[0].toUpperCase();
-  const totalBets = state.predictions.length;
-  const won = state.predictions.filter(p => p.status === 'WON').length;
-  const lost = state.predictions.filter(p => p.status === 'LOST').length;
-  const pending = state.predictions.filter(p => p.status === 'PENDING').length;
+    ${isFinished ? `
+      <div class="result-banner ${mg.status === 'WON' ? 'win' : 'loss'}">
+        <div class="ico">${mg.status === 'WON' ? '🏆' : '💥'}</div>
+        <div class="title">${mg.status === 'WON' ? 'You Won!' : 'Boom! Hit a mine'}</div>
+        <div class="sub">${mg.status === 'WON' ? `Multiplier: ${fmt(mg.multiplier,2)}X` : `Safe tiles: ${mg.revealedSafe.length}`}</div>
+        <div class="amt">${mg.status === 'WON' ? '+' : '−'} 🪙 ${fmtInt(mg.status === 'WON' ? mg.payout : mg.stake)}</div>
+      </div>
+    ` : ''}
 
-  return `
-    <div class="profile-header">
-      <div class="profile-avatar">${initial}</div>
-      <div class="profile-info">
-        <div class="pi-name">${escapeHtml(u.name || '—')}</div>
-        <div class="pi-email">${escapeHtml(u.email || '—')}</div>
-        <div class="pi-role">
-          ${state.isAdmin ? '<span class="badge admin">ADMIN</span>' : '<span class="badge active">CUSTOMER</span>'}
-          ${u.blocked ? '<span class="badge blocked" style="margin-left:6px">BLOCKED</span>' : ''}
+    ${isActive ? `
+      <div class="multiplier-display">
+        <div class="lbl">CURRENT MULTIPLIER</div>
+        <div class="val">${fmt(mg.multiplier,2)}X</div>
+        <div class="potential">Potential: 🪙 ${fmtInt(mg.stake * mg.multiplier)}</div>
+      </div>
+    ` : ''}
+
+    ${isIdle ? `
+      <div class="card">
+        <div class="card-title">Mines</div>
+        <div class="chip-row mines">
+          ${[1,3,5,10,15,24].map(m => `
+            <button class="chip ${mg.mineCount === m ? 'active' : ''}" onclick="minesSetMines(${m})">${m}</button>
+          `).join('')}
+        </div>
+        <div class="card-title" style="margin-top:14px">Stake</div>
+        <div class="chip-row stake">
+          ${[50,100,250,500,1000].map(s => `
+            <button class="chip ${mg.stake === s ? 'active' : ''}" onclick="minesSetStake(${s})">${s}</button>
+          `).join('')}
+        </div>
+        <div class="stake-input">
+          <input id="minesStakeInput" type="number" min="10" max="100000" inputmode="numeric" value="${mg.stake}" />
+          <span class="u">COINS</span>
         </div>
       </div>
+    ` : ''}
+
+    <div class="mines-board-wrap">
+      <div class="mines-board">
+        ${renderMinesBoard()}
+      </div>
     </div>
 
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kk">Points</div><div class="kv accent">${(u.demoPoints || 0).toLocaleString()}</div></div>
-      <div class="kpi-card"><div class="kk">Total Bets</div><div class="kv">${totalBets}</div></div>
-      <div class="kpi-card"><div class="kk">Won</div><div class="kv success">${won}</div></div>
-      <div class="kpi-card"><div class="kk">Lost</div><div class="kv">${lost}</div></div>
+    ${isActive ? `
+      <div class="stats-row">
+        <div class="stat-cell"><div class="k">SAFE</div><div class="v success">${mg.revealedSafe.length}</div></div>
+        <div class="stat-cell"><div class="k">MINES</div><div class="v danger">${mg.mineCount}</div></div>
+        <div class="stat-cell"><div class="k">STAKE</div><div class="v">${fmtInt(mg.stake)}</div></div>
+      </div>
+    ` : ''}
+
+    <div class="sticky-action">
+      ${isIdle ? `
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary" onclick="minesSetView('history')">📜 History</button>
+          <button class="btn btn-gold" onclick="minesStartGame()" ${pts < mg.stake ? 'disabled' : ''}>
+            ${pts < mg.stake ? 'Insufficient Coins' : `▶ Start · 🪙 ${fmtInt(mg.stake)}`}
+          </button>
+        </div>
+      ` : isActive ? `
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary" onclick="minesAbandon()" ${mg.busy ? 'disabled' : ''}>Abandon</button>
+          <button class="btn btn-success" onclick="minesCashout()" ${mg.revealedSafe.length === 0 || mg.busy ? 'disabled' : ''}>
+            ${mg.busy ? '<span class="spinner"></span>' : `💰 Cashout · 🪙 ${fmtInt(mg.stake * mg.multiplier)}`}
+          </button>
+        </div>
+      ` : `
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary" onclick="minesSetView('history')">📜 History</button>
+          <button class="btn" onclick="minesNewRound()">🎮 New Game</button>
+        </div>
+      `}
+    </div>
+  `;
+}
+
+function renderMinesBoard() {
+  const mg = state.mines;
+  const tiles = [];
+  for (let i = 0; i < 25; i++) {
+    const isRevealed = mg.revealedTiles.includes(i);
+    const isSafe = mg.revealedSafe.includes(i);
+    const isMine = mg.minePositions && mg.minePositions.includes(i);
+    const gameOver = mg.status !== 'ACTIVE' && mg.status !== 'IDLE';
+    const isActive = mg.status === 'ACTIVE';
+
+    let cls = 'tile';
+    let content = '';
+    if (isRevealed) {
+      if (isSafe) {
+        cls += ' revealed safe';
+        content = `<svg class="gem" viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12l4 6-10 12L2 9z"/></svg>`;
+      } else {
+        cls += ' revealed mine';
+        if (gameOver) cls += ' boom';
+        content = `<svg class="bomb" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="14" r="7"/></svg>`;
+      }
+    } else if (gameOver && isMine) {
+      cls += ' revealed mine';
+      content = `<svg class="bomb" viewBox="0 0 24 24" fill="currentColor" opacity=".4"><circle cx="12" cy="14" r="7"/></svg>`;
+    } else {
+      content = `<span class="idx">${i}</span>`;
+      if (!isActive) cls += ' disabled';
+    }
+    if (mg.busy) cls += ' disabled';
+    tiles.push(`<div class="${cls}" data-idx="${i}" onclick="minesTileClick(${i})">${content}</div>`);
+  }
+  return tiles.join('');
+}
+
+function renderMinesHistory() {
+  const mg = state.mines;
+  if (mg.historyLoading) return '<div class="empty"><span class="spinner"></span></div>';
+  return `
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">📜 Mines History</div>
+        <button class="btn btn-sm btn-secondary" onclick="minesSetView('game')">← Back</button>
+      </div>
+      <div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:8px">
+        ${['ALL','WON','LOST','ACTIVE'].map(f => `
+          <button class="chip ${mg.historyFilter === f ? 'active' : ''}" style="padding:6px 12px;min-width:auto" onclick="minesSetFilter('${f}')">${f}</button>
+        `).join('')}
+      </div>
+    </div>
+    ${mg.history.filter(g => mg.historyFilter === 'ALL' || g.status === mg.historyFilter).map(g => `
+      <div class="card">
+        <div class="card-head">
+          <div class="txt-xs" style="font-family:ui-monospace,monospace;font-weight:800">${g.gameId}</div>
+          <span class="badge ${g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : 'active'}">${g.status}</span>
+        </div>
+        <div class="txt-xs txt-3">💣 ${g.mineCount} • 🎯 ${(g.revealedSafe||[]).length} safe • 🪙 ${g.stake} • ${timeAgo(g.createdAt)}</div>
+        <div style="margin-top:6px;font-size:14px;font-weight:800;color:${g.status === 'WON' ? 'var(--success)' : g.status === 'LOST' ? 'var(--danger)' : 'var(--warning)'}">
+          ${g.status === 'WON' ? `+ 🪙 ${fmtInt(g.payout||0)}` : g.status === 'LOST' ? `− 🪙 ${fmtInt(g.stake||0)}` : `🪙 ${fmtInt(g.stake)}`}
+        </div>
+      </div>
+    `).join('') || '<div class="empty"><div class="ico">📭</div>No games yet</div>'}
+  `;
+}
+
+window.minesSetMines = (m) => { if (state.mines.status === 'ACTIVE') return; state.mines.mineCount = m; render(); };
+window.minesSetStake = (s) => { if (state.mines.status === 'ACTIVE') return; state.mines.stake = s; render(); };
+window.minesSetView = (v) => { state.mines.view = v; if (v === 'history') loadMinesHistory(); render(); };
+window.minesSetFilter = (f) => { state.mines.historyFilter = f; render(); };
+window.minesNewRound = () => {
+  Object.assign(state.mines, {
+    gameId: null, status: 'IDLE', revealedTiles: [], revealedSafe: [],
+    minePositions: null, multiplier: 1, payout: 0, busy: false, view: 'game'
+  });
+  render();
+};
+
+window.minesStartGame = async () => {
+  const mg = state.mines;
+  if (mg.busy) return;
+  const pts = state.profile.demoPoints || 0;
+  if (pts < mg.stake) return toast('Insufficient coins', 'err');
+  mg.busy = true; render();
+
+  try {
+    const gameId = generateGameId();
+    const minePositions = pickMines(mg.mineCount);
+    const userRef = doc(db, 'users', state.user.uid);
+    const gameRef = doc(db, 'minesGames', gameId);
+    const privRef = doc(db, 'minesGamesPrivate', gameId);
+    const lockRef = doc(db, 'activeGames', state.user.uid);
+
+    const lockSnap = await getDoc(lockRef);
+    if (lockSnap.exists()) {
+      mg.busy = false;
+      toast('You already have an active game', 'err');
+      render();
+      return;
+    }
+
+    await runTransaction(db, async (tx) => {
+      const uSnap = await tx.get(userRef);
+      if (!uSnap.exists()) throw new Error('User missing');
+      const u = uSnap.data();
+      if (u.blocked) throw new Error('Blocked');
+      const bal = u.demoPoints || 0;
+      if (bal < mg.stake) throw new Error('Insufficient');
+      const newBal = bal - mg.stake;
+
+      tx.update(userRef, { demoPoints: newBal });
+      tx.set(gameRef, {
+        gameId, uid: state.user.uid,
+        userName: u.name || '',
+        mineCount: mg.mineCount, stake: mg.stake,
+        status: 'ACTIVE', revealedTiles: [], revealedSafe: [],
+        result: null, payout: 0, multiplier: 1,
+        createdAt: serverTimestamp(), completedAt: null
+      });
+      tx.set(privRef, {
+        gameId, uid: state.user.uid,
+        minePositions, createdAt: serverTimestamp()
+      });
+      tx.set(lockRef, { gameId, startedAt: serverTimestamp() });
+      tx.set(doc(collection(db, 'coinTransactions')), {
+        uid: state.user.uid, gameId,
+        type: 'GAME_STAKE', amount: -mg.stake,
+        previousBalance: bal, newBalance: newBal,
+        timestamp: serverTimestamp()
+      });
+    });
+
+    mg.gameId = gameId;
+    mg.status = 'ACTIVE';
+    mg.revealedTiles = [];
+    mg.revealedSafe = [];
+    mg.minePositions = minePositions;
+    mg.multiplier = 1;
+    mg.payout = 0;
+    mg.busy = false;
+    toast(`Game started · ${gameId}`, 'ok');
+    render();
+  } catch (e) {
+    mg.busy = false;
+    console.error(e);
+    toast((e?.message||'Failed').replace('Firebase: ',''), 'err');
+    render();
+  }
+};
+
+window.minesTileClick = async (idx) => {
+  const mg = state.mines;
+  if (mg.status !== 'ACTIVE' || mg.busy) return;
+  if (mg.revealedTiles.includes(idx)) return;
+  if (!mg.gameId || !mg.minePositions) return;
+
+  const isMine = mg.minePositions.includes(idx);
+  const newRevealed = [...mg.revealedTiles, idx];
+  mg.busy = true; render();
+
+  try {
+    const gameRef = doc(db, 'minesGames', mg.gameId);
+    const lockRef = doc(db, 'activeGames', state.user.uid);
+    const userRef = doc(db, 'users', state.user.uid);
+
+    if (isMine) {
+      await runTransaction(db, async (tx) => {
+        const gSnap = await tx.get(gameRef);
+        if (!gSnap.exists()) throw new Error('Game missing');
+        if (gSnap.data().status !== 'ACTIVE') throw new Error('Not active');
+        if (gSnap.data().revealedTiles.includes(idx)) throw new Error('Already revealed');
+        tx.update(gameRef, {
+          status: 'LOST', revealedTiles: newRevealed,
+          result: 'MINE', payout: 0, multiplier: 0,
+          completedAt: serverTimestamp()
+        });
+        tx.delete(lockRef);
+        tx.set(doc(collection(db, 'coinTransactions')), {
+          uid: state.user.uid, gameId: mg.gameId,
+          type: 'GAME_LOSS', amount: 0,
+          previousBalance: 0, newBalance: 0,
+          timestamp: serverTimestamp()
+        });
+      });
+      mg.status = 'LOST';
+      mg.revealedTiles = newRevealed;
+      mg.multiplier = 0;
+      mg.busy = false;
+      toast('💥 Mine hit!', 'err');
+      if (navigator.vibrate) navigator.vibrate([100,50,100]);
+      render();
+      return;
+    }
+
+    // SAFE
+    const newSafe = [...mg.revealedSafe, idx];
+    const newMult = calcMultiplier(newSafe.length, mg.mineCount);
+    const safeTotal = 25 - mg.mineCount;
+    const autoWin = newSafe.length === safeTotal;
+    const payout = autoWin ? Math.floor(mg.stake * newMult) : 0;
+
+    await runTransaction(db, async (tx) => {
+      const gSnap = await tx.get(gameRef);
+      if (!gSnap.exists()) throw new Error('Missing');
+      if (gSnap.data().status !== 'ACTIVE') throw new Error('Not active');
+      if (gSnap.data().revealedTiles.includes(idx)) throw new Error('Already revealed');
+
+      if (autoWin) {
+        const uSnap = await tx.get(userRef);
+        const bal = uSnap.data().demoPoints || 0;
+        const newBal = bal + payout;
+        tx.update(userRef, { demoPoints: newBal });
+        tx.update(gameRef, {
+          status: 'WON', revealedTiles: newRevealed,
+          revealedSafe: newSafe, result: 'WIN',
+          payout, multiplier: newMult,
+          completedAt: serverTimestamp()
+        });
+        tx.delete(lockRef);
+        tx.set(doc(collection(db, 'coinTransactions')), {
+          uid: state.user.uid, gameId: mg.gameId,
+          type: 'GAME_REWARD', amount: payout,
+          previousBalance: bal, newBalance: newBal,
+          timestamp: serverTimestamp()
+        });
+      } else {
+        tx.update(gameRef, {
+          revealedTiles: newRevealed,
+          revealedSafe: newSafe,
+          multiplier: newMult
+        });
+      }
+    });
+
+    mg.revealedTiles = newRevealed;
+    mg.revealedSafe = newSafe;
+    mg.multiplier = newMult;
+    if (autoWin) {
+      mg.status = 'WON'; mg.payout = payout;
+      toast(`🎉 All safe! +🪙 ${fmtInt(payout)}`, 'ok');
+    } else {
+      if (navigator.vibrate) navigator.vibrate(20);
+    }
+    mg.busy = false;
+    render();
+  } catch (e) {
+    mg.busy = false;
+    console.error(e);
+    toast((e?.message||'Failed').replace('Firebase: ',''), 'err');
+    render();
+  }
+};
+
+window.minesCashout = async () => {
+  const mg = state.mines;
+  if (mg.busy || mg.status !== 'ACTIVE') return;
+  if (mg.revealedSafe.length === 0) return toast('Reveal at least 1 tile', 'err');
+  mg.busy = true; render();
+
+  try {
+    const mult = calcMultiplier(mg.revealedSafe.length, mg.mineCount);
+    const payout = Math.floor(mg.stake * mult);
+    const gameRef = doc(db, 'minesGames', mg.gameId);
+    const lockRef = doc(db, 'activeGames', state.user.uid);
+    const userRef = doc(db, 'users', state.user.uid);
+
+    await runTransaction(db, async (tx) => {
+      const gSnap = await tx.get(gameRef);
+      if (!gSnap.exists()) throw new Error('Missing');
+      const g = gSnap.data();
+      if (g.status !== 'ACTIVE') throw new Error('Not active');
+      if ((g.revealedSafe||[]).length === 0) throw new Error('No safe tiles');
+      const uSnap = await tx.get(userRef);
+      const bal = uSnap.data().demoPoints || 0;
+      const newBal = bal + payout;
+      tx.update(userRef, { demoPoints: newBal });
+      tx.update(gameRef, {
+        status: 'WON', result: 'CASHOUT',
+        payout, multiplier: mult,
+        completedAt: serverTimestamp()
+      });
+      tx.delete(lockRef);
+      tx.set(doc(collection(db, 'coinTransactions')), {
+        uid: state.user.uid, gameId: mg.gameId,
+        type: 'GAME_REWARD', amount: payout,
+        previousBalance: bal, newBalance: newBal,
+        timestamp: serverTimestamp()
+      });
+    });
+
+    mg.status = 'WON';
+    mg.payout = payout;
+    mg.multiplier = mult;
+    mg.busy = false;
+    toast(`💰 Cashed out! +🪙 ${fmtInt(payout)}`, 'ok');
+    render();
+  } catch (e) {
+    mg.busy = false;
+    toast((e?.message||'Failed').replace('Firebase: ',''), 'err');
+    render();
+  }
+};
+
+window.minesAbandon = async () => {
+  const mg = state.mines;
+  if (mg.status !== 'ACTIVE') return;
+  if (!confirm('Abandon? Stake will be lost.')) return;
+  try {
+    await updateDoc(doc(db, 'minesGames', mg.gameId), {
+      status: 'LOST', result: 'ABANDONED',
+      payout: 0, completedAt: serverTimestamp()
+    });
+    await deleteDoc(doc(db, 'activeGames', state.user.uid));
+    mg.status = 'LOST';
+    mg.payout = 0;
+    toast('Abandoned', 'err');
+    render();
+  } catch(e) { toast('Failed', 'err'); }
+};
+
+async function loadMinesHistory() {
+  const mg = state.mines;
+  mg.historyLoading = true; render();
+  try {
+    const q = query(collection(db, 'minesGames'),
+      where('uid', '==', state.user.uid),
+      orderBy('createdAt', 'desc'), limit(50));
+    const snap = await getDocs(q);
+    mg.history = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch(e) { mg.history = []; }
+  mg.historyLoading = false; render();
+}
+
+/* ═══════════════════════════════════════════════════
+   HISTORY (Survivor + Mines combined)
+   ═══════════════════════════════════════════════════ */
+function viewHistory() {
+  const preds = state.predictions;
+  return `
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">📜 Survivor History</div>
+        <span class="badge active">${preds.length}</span>
+      </div>
+      ${preds.length ? `<div class="list" style="margin:0 -14px -14px;border:none;background:transparent">
+        ${preds.map(p => `
+          <div class="list-row">
+            <div class="avatar ${p.status === 'WON' ? 'won' : p.status === 'LOST' ? 'lost' : (p.teamId==='A'?'team-a':'team-b')}">
+              ${p.status === 'WON' ? '✓' : p.status === 'LOST' ? '✗' : 'T'+p.teamId}
+            </div>
+            <div class="lr-body">
+              <div class="lr-title">Round ${p.roundNumber} <span class="badge ${p.status==='WON'?'won':p.status==='LOST'?'lost':'pending'}">${p.status}</span></div>
+              <div class="lr-sub">Team ${p.teamId} • ${p.stake} pts • ${fmtRate(p.rate)}</div>
+            </div>
+            <div class="lr-right">
+              <div class="lr-amount ${p.status==='WON'?'up':p.status==='LOST'?'down':'pending'}">
+                ${p.status==='WON'?'+':p.status==='LOST'?'−':''}${p.status==='WON'?fmt(p.returnAmount||p.potentialReturn||0,2):p.stake}
+              </div>
+              <div class="lr-meta">${timeAgo(p.createdAt)}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>` : '<div class="empty"><div class="ico">📭</div>No Survivor bets yet</div>'}
     </div>
 
-    <div class="list" style="margin-bottom:10px">
-      <div class="list-row"><div class="lr-body"><div class="lr-title">Total Pending</div></div><div class="lr-right"><div class="lr-amount pending">${pending}</div></div></div>
-    </div>
-
-    <button class="btn btn-secondary" onclick="toggleTheme()" style="margin-bottom:8px">
-      Switch to ${document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark'} mode
-    </button>
-    <button class="btn btn-danger" onclick="doLogout()">Sign Out</button>
-
-    <div class="login-legal" style="margin-top:20px">
-      PRL PAWAN RETAIL LIMITED<br/>
-      DEMO POINTS • NO CASH VALUE
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">💎 Mines</div>
+        <button class="btn btn-sm btn-secondary" onclick="nav('mines');setTimeout(()=>minesSetView('history'),50)">View →</button>
+      </div>
+      <div class="txt-sm txt-3 txt-center" style="padding:12px">
+        Open Mines history from the game page
+      </div>
     </div>
   `;
 }
 
 /* ═══════════════════════════════════════════════════
-   ADMIN: HOME
+   PROFILE
+   ═══════════════════════════════════════════════════ */
+function viewProfile() {
+  const u = state.profile;
+  const initial = (u.name || u.email || '?')[0].toUpperCase();
+  const won = state.predictions.filter(p => p.status === 'WON').length;
+  const lost = state.predictions.filter(p => p.status === 'LOST').length;
+  const pending = state.predictions.filter(p => p.status === 'PENDING').length;
+  return `
+    <div class="profile-header">
+      <div class="profile-avatar">${initial}</div>
+      <div class="profile-info">
+        <div class="pi-name">${escapeHtml(u.name||'—')}</div>
+        <div class="pi-email">${escapeHtml(u.email||'—')}</div>
+        <div class="pi-role">
+          ${state.isAdmin ? '<span class="badge admin">ADMIN</span>' : '<span class="badge active">CUSTOMER</span>'}
+        </div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kk">Points</div><div class="kv accent">${(u.demoPoints||0).toLocaleString()}</div></div>
+      <div class="kpi-card"><div class="kk">Total Bets</div><div class="kv">${state.predictions.length}</div></div>
+      <div class="kpi-card"><div class="kk">Won</div><div class="kv success">${won}</div></div>
+      <div class="kpi-card"><div class="kk">Lost</div><div class="kv">${lost}</div></div>
+    </div>
+    <div class="list" style="margin-bottom:10px">
+      <div class="list-row"><div class="lr-body"><div class="lr-title">Pending</div></div><div class="lr-right"><div class="lr-amount pending">${pending}</div></div></div>
+    </div>
+    <button class="btn btn-secondary" onclick="toggleTheme()" style="margin-bottom:8px">
+      Switch to ${document.documentElement.getAttribute('data-theme')==='dark'?'Light':'Dark'} mode
+    </button>
+    <button class="btn btn-danger" onclick="doLogout()">Sign Out</button>
+    <div class="txt-center txt-xs txt-3" style="margin-top:20px">
+      PRL PAWAN RETAIL LIMITED<br/>DEMO POINTS • NO CASH VALUE
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════
+   ADMIN VIEWS
    ═══════════════════════════════════════════════════ */
 function viewAdminHome() {
-  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING');
-  const finishedMatches = state.matches.filter(m => m.status === 'FINISHED');
   const totalUsers = state.users.length;
   const activePlayers = state.players.filter(p => p.status === 'ACTIVE').length;
   const pendingBets = state.predictions.filter(p => p.status === 'PENDING').length;
+  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING').length;
 
   return `
     <div class="kpi-grid">
-      <div class="kpi-card"><div class="kk">Total Users</div><div class="kv">${totalUsers}</div></div>
+      <div class="kpi-card"><div class="kk">Users</div><div class="kv">${totalUsers}</div></div>
       <div class="kpi-card"><div class="kk">Active Players</div><div class="kv success">${activePlayers}</div></div>
-      <div class="kpi-card"><div class="kk">Live Matches</div><div class="kv accent">${liveMatches.length}</div></div>
+      <div class="kpi-card"><div class="kk">Live Matches</div><div class="kv accent">${liveMatches}</div></div>
       <div class="kpi-card"><div class="kk">Pending Bets</div><div class="kv warning">${pendingBets}</div></div>
     </div>
 
     <div class="card">
       <div class="card-head">
-        <div class="card-title-lg">Live Matches (${liveMatches.length})</div>
+        <div class="card-title-lg">⚔️ Survivor Matches</div>
         <button class="btn btn-sm btn-success" onclick="openNewMatchSheet()">+ New</button>
       </div>
-      ${liveMatches.length ? liveMatches.map(mx => matchCard(mx)).join('') : '<div class="empty">No live matches</div>'}
-    </div>
-
-    ${finishedMatches.length ? `
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title-lg">Recent Finished (${finishedMatches.length})</div>
-          <button class="btn btn-sm btn-secondary" onclick="nav('admin_history')">View All →</button>
+      ${state.matches.filter(m => m.status !== 'FINISHED').map(m => `
+        <div class="card" style="margin-bottom:8px;cursor:pointer" onclick="selectMatch('${m.id}');nav('admin_rounds')">
+          <div class="card-head" style="margin-bottom:6px">
+            <div class="fw-8">Match #${m.matchNumber} <span class="badge ${m.status==='LIVE'?'live':'pending'}">${m.status}</span></div>
+            <div class="txt-xs txt-3">R${m.currentRound||0}/${m.maxRounds||8}</div>
+          </div>
+          <div class="txt-sm txt-3">A won: ${m.teamARoundsWon||0} • B won: ${m.teamBRoundsWon||0}</div>
         </div>
-        ${finishedMatches.slice(0, 3).map(mx => matchCard(mx)).join('')}
-      </div>
-    ` : ''}
+      `).join('') || '<div class="empty">No matches</div>'}
+    </div>
 
     <div class="card">
-      <div class="card-head"><div class="card-title-lg">Quick Links</div></div>
+      <div class="card-head">
+        <div class="card-title-lg">💎 Mines Games</div>
+        <button class="btn btn-sm btn-secondary" onclick="nav('admin_mines')">Open →</button>
+      </div>
+      <div class="txt-sm txt-3">Manage Mines games, view mines positions, game IDs</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="card-title-lg">Quick Actions</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <button class="btn btn-secondary" onclick="nav('admin_users')">👥 Users</button>
-        <button class="btn btn-secondary" onclick="nav('admin_teams')">👤 Teams</button>
         <button class="btn btn-secondary" onclick="nav('admin_rounds')">🎮 Rounds</button>
-        <button class="btn btn-secondary" onclick="nav('admin_history')">📚 History</button>
+        <button class="btn btn-secondary" onclick="nav('admin_mines')">💎 Mines</button>
+        <button class="btn btn-secondary" onclick="nav('admin_settings')">⚙️ Settings</button>
       </div>
     </div>
   `;
 }
 
-function matchCard(m) {
-  const active = m.id === state.currentMatchId;
-  return `
-    <div class="match-card ${active ? 'active' : ''} ${m.status === 'FINISHED' ? 'finished' : ''}" onclick="selectMatch('${m.id}')" style="cursor:pointer">
-      <div class="mc-head">
-        <div class="mc-title">Match #${m.matchNumber || 1}
-          <span class="badge ${m.status === 'LIVE' ? 'live' : m.status === 'FINISHED' ? 'done' : 'pending'}">${m.status}</span>
-        </div>
-        <div class="txt-xs txt-3">R${m.currentRound || 0}/${m.maxRounds || 8}</div>
-      </div>
-      ${m.winner ? `<div class="txt-sm" style="margin-bottom:6px">🏆 Winner: Team ${m.winner}</div>` : ''}
-      <div class="mc-body">
-        <div class="mc-team"><div class="t">TEAM A</div><div class="n">${(m.teamARoundsWon || 0)}</div></div>
-        <div class="mc-team"><div class="t">TEAM B</div><div class="n">${(m.teamBRoundsWon || 0)}</div></div>
-      </div>
-      <div class="txt-xs txt-3 mt-8">Rounds won (max 8)</div>
-    </div>
-  `;
-}
+window.selectMatch = (id) => { state.currentMatchId = id; };
 
-window.openNewMatchSheet = () => {
-  openSheet('Start New Match', `
-    <div class="form-field">
-      <label>Match Number</label>
-      <input type="number" id="newMatchNum" value="${(Math.max(0, ...state.matches.map(m => m.matchNumber || 0)) + 1)}" min="1" />
-    </div>
-    <div class="form-field">
-      <label>Max Rounds (6-8)</label>
-      <input type="number" id="newMatchRounds" value="${state.settings?.maxRounds || 8}" min="6" max="8" />
-    </div>
-    <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;color:var(--text-3);margin-bottom:12px;line-height:1.6">
-      Players will be reset to ACTIVE. Match will start in WAITING state.
-    </div>
-    <button class="btn" onclick="createNewMatch()">Create Match</button>
-  `);
-};
-
-window.createNewMatch = async () => {
-  const num = Number(document.getElementById('newMatchNum').value) || 1;
-  const rounds = Math.min(8, Math.max(6, Number(document.getElementById('newMatchRounds').value) || 8));
-  try {
-    for (const p of state.players) {
-      await updateDoc(doc(db, 'players', p.id), {
-        status: 'ACTIVE', eliminatedInRound: null, updatedAt: serverTimestamp()
-      });
-    }
-    const ref = await addDoc(collection(db, 'matches'), {
-      matchNumber: num,
-      status: 'WAITING',
-      currentRound: 0,
-      maxRounds: rounds,
-      teamARoundsWon: 0,
-      teamBRoundsWon: 0,
-      winner: null,
-      createdAt: serverTimestamp()
-    });
-    state.currentMatchId = ref.id;
-    closeSheet();
-    toast('Match created', 'ok');
-  } catch (e) {
-    console.error(e);
-    toast('Failed to create match', 'err');
-  }
-};
-
-/* ═══════════════════════════════════════════════════
-   ADMIN: USERS
-   ═══════════════════════════════════════════════════ */
-let usersSearch = '';
 function viewAdminUsers() {
-  const list = state.users.filter(u => {
-    if (!usersSearch) return true;
-    const s = usersSearch.toLowerCase();
-    return (u.name || '').toLowerCase().includes(s) || (u.email || '').toLowerCase().includes(s);
-  });
   return `
     <div class="search-wrap">
       ${svgIcon('search')}
-      <input type="text" placeholder="Search users..." value="${escapeHtml(usersSearch)}"
-        oninput="usersSearch = this.value; render();" />
+      <input id="userSearch" type="text" placeholder="Search users..." oninput="render()" />
     </div>
     <div class="list">
-      ${list.length ? list.map(u => `
+      ${state.users.map(u => `
         <div>
           <div class="list-row">
-            <div class="avatar">${(u.name || u.email || '?')[0].toUpperCase()}</div>
+            <div class="avatar">${(u.name||u.email||'?')[0].toUpperCase()}</div>
             <div class="lr-body">
-              <div class="lr-title">${escapeHtml(u.name || '—')} ${u.blocked ? '<span class="badge blocked">BLOCKED</span>' : ''}</div>
-              <div class="lr-sub">${escapeHtml(u.email || '—')}</div>
+              <div class="lr-title">${escapeHtml(u.name||'—')} ${u.blocked ? '<span class="badge blocked">BLOCKED</span>' : ''}</div>
+              <div class="lr-sub">${escapeHtml(u.email||'—')}</div>
             </div>
             <div class="lr-right">
-              <div class="lr-amount ${u.demoPoints ? 'up' : ''}">${(u.demoPoints || 0).toLocaleString()}</div>
+              <div class="lr-amount">${(u.demoPoints||0).toLocaleString()}</div>
               <div class="lr-meta">pts</div>
             </div>
           </div>
           <div style="display:flex;gap:6px;padding:0 14px 12px;border-bottom:1px solid var(--border)">
-            <button class="btn btn-secondary btn-sm" style="flex:1" onclick="openEditUser('${u.id}')">Edit</button>
-            <button class="btn btn-sm ${u.blocked ? 'btn-success' : 'btn-danger'}" style="flex:1"
-              onclick="toggleBlock('${u.id}',${!u.blocked})">${u.blocked ? 'Unblock' : 'Block'}</button>
+            <button class="btn btn-secondary btn-sm" style="flex:1" onclick="openEditUser('${u.id}')">Edit Points</button>
+            <button class="btn btn-sm ${u.blocked?'btn-success':'btn-danger'}" style="flex:1"
+              onclick="toggleBlock('${u.id}',${!u.blocked})">${u.blocked?'Unblock':'Block'}</button>
           </div>
         </div>
-      `).join('') : '<div class="empty">No users found</div>'}
+      `).join('') || '<div class="empty">No users</div>'}
     </div>
   `;
 }
@@ -1903,316 +2057,161 @@ window.openEditUser = (uid) => {
   const u = state.users.find(x => x.id === uid);
   if (!u) return;
   openSheet('Edit User', `
-    <div class="form-field">
-      <label>Name</label>
-      <input type="text" id="edName" value="${escapeHtml(u.name || '')}" />
-    </div>
-    <div class="form-field">
-      <label>Demo Points</label>
-      <input type="number" id="edPoints" value="${u.demoPoints || 0}" min="0" inputmode="numeric" />
-    </div>
+    <div class="form-field"><label>Name</label>
+      <input type="text" id="edName" value="${escapeHtml(u.name||'')}" /></div>
+    <div class="form-field"><label>Demo Points</label>
+      <input type="number" id="edPoints" value="${u.demoPoints||0}" min="0" /></div>
     <button class="btn" onclick="saveUserEdit('${uid}')">Save</button>
   `);
 };
 
 window.saveUserEdit = async (uid) => {
   const name = document.getElementById('edName').value.trim();
-  const pts = Math.max(0, Math.floor(Number(document.getElementById('edPoints').value) || 0));
+  const pts = Math.max(0, Math.floor(Number(document.getElementById('edPoints').value)||0));
   try {
     await updateDoc(doc(db, 'users', uid), { name, demoPoints: pts });
     closeSheet();
-    toast('User updated', 'ok');
-  } catch (e) { toast('Failed', 'err'); }
+    toast('Updated', 'ok');
+  } catch(e) { toast('Failed', 'err'); }
 };
 
 window.toggleBlock = async (uid, blocked) => {
   try {
     await updateDoc(doc(db, 'users', uid), { blocked });
-    toast(blocked ? 'User blocked' : 'Unblocked', 'ok');
-  } catch (e) { toast('Failed', 'err'); }
+    toast(blocked?'Blocked':'Unblocked', 'ok');
+  } catch(e) { toast('Failed', 'err'); }
 };
 
-/* ═══════════════════════════════════════════════════
-   ADMIN: TEAMS
-   ═══════════════════════════════════════════════════ */
-function viewAdminTeams() {
-  return `
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">Add Player</div>
-        <span class="txt-xs txt-3">${state.players.length}/8</span>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <input id="newPName" placeholder="Name" style="flex:2;min-width:120px;padding:11px 14px;background:var(--surface-2);border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius);font-size:14px" />
-        <select id="newPTeam" style="flex:1;padding:11px 14px;background:var(--surface-2);border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius);font-size:14px">
-          <option value="A">Team A</option>
-          <option value="B">Team B</option>
-        </select>
-        <button class="btn btn-sm" onclick="addPlayer()">Add</button>
-      </div>
-    </div>
-    ${renderAdminTeamBlock('A')}
-    ${renderAdminTeamBlock('B')}
-  `;
-}
-
-function renderAdminTeamBlock(teamId) {
-  const players = state.players.filter(p => p.teamId === teamId);
-  const t = teamStats(teamId);
-  return `
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">Team ${teamId}</div>
-        <span class="badge ${t.isDead ? 'eliminated' : 'active'}">${t.activeCount}/4 active</span>
-      </div>
-      <div class="ts-grid">
-        <div class="ts-cell"><div class="k">Win %</div><div class="v">${fmt(t.winRate, 1)}%</div></div>
-        <div class="ts-cell"><div class="k">Rate</div><div class="v accent">${fmtRate(t.rate)}</div></div>
-        <div class="ts-cell"><div class="k">Out</div><div class="v">${t.eliminatedCount}</div></div>
-      </div>
-      <div class="list" style="margin:10px -14px -14px;border:none;border-radius:0;background:transparent">
-        ${players.length ? players.map(p => `
-          <div style="padding:10px 14px;border-bottom:1px solid var(--border)">
-            <div class="row-flex">
-              <input type="text" value="${escapeHtml(p.name)}" maxlength="20"
-                onchange="renamePlayer('${p.id}', this.value)"
-                style="flex:1;padding:8px 10px;background:var(--surface-2);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:13px;font-weight:700;min-width:0" />
-              <span class="badge ${p.status === 'ACTIVE' ? 'active' : 'eliminated'}">${p.status === 'ACTIVE' ? 'ON' : 'OUT'}</span>
-            </div>
-            <div style="display:flex;gap:6px;margin-top:8px">
-              <select onchange="movePlayer('${p.id}', this.value)"
-                style="flex:1;padding:8px;background:var(--surface-2);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:12px;font-weight:700">
-                <option value="A" ${p.teamId === 'A' ? 'selected' : ''}>Team A</option>
-                <option value="B" ${p.teamId === 'B' ? 'selected' : ''}>Team B</option>
-              </select>
-              ${p.status === 'ACTIVE'
-                ? `<button class="btn btn-sm btn-danger" onclick="eliminate('${p.id}')">Elim</button>`
-                : `<button class="btn btn-sm btn-success" onclick="restore('${p.id}')">Restore</button>`}
-              <button class="btn btn-sm btn-secondary" onclick="removePlayer('${p.id}')">✕</button>
-            </div>
-          </div>
-        `).join('') : '<div class="empty">No players</div>'}
-      </div>
-    </div>
-  `;
-}
-
-window.addPlayer = async () => {
-  const name = document.getElementById('newPName').value.trim();
-  const teamId = document.getElementById('newPTeam').value;
-  if (!name) return toast('Enter name', 'err');
-  if (state.players.filter(p => p.teamId === teamId).length >= 4) return toast(`Team ${teamId} full`, 'err');
-  if (state.players.length >= 8) return toast('Max 8 players', 'err');
-  try {
-    await addDoc(collection(db, 'players'), {
-      name, teamId, status: 'ACTIVE',
-      matchId: state.currentMatchId,
-      createdAt: serverTimestamp(), updatedAt: serverTimestamp()
-    });
-    toast(`"${name}" added`, 'ok');
-    document.getElementById('newPName').value = '';
-  } catch (e) { toast('Failed', 'err'); }
-};
-window.renamePlayer = async (id, name) => {
-  name = String(name || '').trim();
-  if (!name) return;
-  try { await updateDoc(doc(db, 'players', id), { name, updatedAt: serverTimestamp() }); }
-  catch (e) { toast('Rename failed', 'err'); }
-};
-window.movePlayer = async (id, teamId) => {
-  const t = state.players.find(p => p.id === id);
-  if (!t || t.teamId === teamId) return;
-  if (state.players.filter(p => p.teamId === teamId).length >= 4) {
-    toast(`Team ${teamId} full`, 'err'); render(); return;
-  }
-  try { await updateDoc(doc(db, 'players', id), { teamId, updatedAt: serverTimestamp() }); }
-  catch (e) { toast('Move failed', 'err'); }
-};
-window.eliminate = async (id) => {
-  try { await updateDoc(doc(db, 'players', id), { status: 'ELIMINATED', updatedAt: serverTimestamp() }); }
-  catch (e) { toast('Failed', 'err'); }
-};
-window.restore = async (id) => {
-  try { await updateDoc(doc(db, 'players', id), { status: 'ACTIVE', eliminatedInRound: null, updatedAt: serverTimestamp() }); }
-  catch (e) { toast('Failed', 'err'); }
-};
-window.removePlayer = async (id) => {
-  if (!confirm('Delete player?')) return;
-  try { await deleteDoc(doc(db, 'players', id)); }
-  catch (e) { toast('Failed', 'err'); }
-};
-
-/* ═══════════════════════════════════════════════════
-   ADMIN: ROUNDS
-   ═══════════════════════════════════════════════════ */
 function viewAdminRounds() {
   const m = currentMatch();
-  if (!m) return '<div class="card"><div class="empty">No match selected</div></div>';
+  if (!m) return '<div class="card"><div class="empty">Select a match from Home</div></div>';
   const rs = roundStatusForMatch(m);
   const r = rs.round;
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
   const pending = state.predictions.filter(p => p.status === 'PENDING' && p.matchId === m.id);
-
-  const needsElimination = r && r.status === 'RESULT_DECLARED' && !r.eliminationDone;
-  const aliveA = state.players.filter(p => p.teamId === 'A' && (!p.matchId || p.matchId === m.id) && p.status === 'ACTIVE');
-  const aliveB = state.players.filter(p => p.teamId === 'B' && (!p.matchId || p.matchId === m.id) && p.status === 'ACTIVE');
+  const needsElim = r && r.status === 'RESULT_DECLARED' && !r.eliminationDone;
+  const aliveA = state.players.filter(p => p.teamId==='A' && (!p.matchId||p.matchId===m.id) && p.status==='ACTIVE');
+  const aliveB = state.players.filter(p => p.teamId==='B' && (!p.matchId||p.matchId===m.id) && p.status==='ACTIVE');
 
   return `
     <div class="card">
       <div class="card-head">
         <div class="card-title-lg">Match #${m.matchNumber}</div>
-        <span class="badge ${m.status === 'LIVE' ? 'live' : m.status === 'FINISHED' ? 'done' : 'pending'}">${m.status}</span>
+        <span class="badge ${m.status==='LIVE'?'live':m.status==='FINISHED'?'done':'pending'}">${m.status}</span>
       </div>
-      <div class="ts-grid">
-        <div class="ts-cell"><div class="k">Round</div><div class="v">${m.currentRound || 0}/${m.maxRounds || 8}</div></div>
-        <div class="ts-cell"><div class="k">A won</div><div class="v accent">${m.teamARoundsWon || 0}</div></div>
-        <div class="ts-cell"><div class="k">B won</div><div class="v">${m.teamBRoundsWon || 0}</div></div>
+      <div class="status-panel" style="margin:0">
+        <div class="status-tile"><div class="k">Round</div><div class="v">${m.currentRound||0}/${m.maxRounds||8}</div></div>
+        <div class="status-tile"><div class="k">A won</div><div class="v accent">${m.teamARoundsWon||0}</div></div>
+        <div class="status-tile"><div class="k">B won</div><div class="v">${m.teamBRoundsWon||0}</div></div>
       </div>
-      ${m.winner ? `<div class="mt-12" style="text-align:center;padding:10px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);border-radius:8px">
-        🏆 Team ${m.winner} WON THE MATCH
-      </div>` : ''}
     </div>
 
     <div class="card">
       <div class="card-head"><div class="card-title">Round Timeline</div></div>
-      <div class="timeline">
-        ${Array.from({length: m.maxRounds || 8}, (_, i) => {
-          const rn = i + 1;
-          const rr = state.rounds.find(x => x.roundNumber === rn && x.matchId === m.id);
-          let cls = '', label = '—';
-          if (!rr) { label = '—'; }
-          else if (rr.status === 'OPEN') { cls = 'live'; label = 'LIVE'; }
-          else if (rr.status === 'CLOSED') { cls = 'closed'; label = 'LOCK'; }
-          else if (rr.status === 'RESULT_DECLARED') {
-            cls = rr.winner === 'A' ? 'won-a' : 'won-b';
-            label = rr.eliminationDone ? 'T' + rr.winner : 'T' + rr.winner + '!';
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px">
+        ${Array.from({length:m.maxRounds||8},(_,i)=>{
+          const rn = i+1;
+          const rr = state.rounds.find(x => x.roundNumber===rn && x.matchId===m.id);
+          let cls = 'tl-chip', label = '—';
+          if (rr) {
+            if (rr.status==='OPEN') { cls += ' live'; label = 'LIVE'; }
+            else if (rr.status==='CLOSED') { cls += ' closed'; label = 'LOCK'; }
+            else if (rr.status==='RESULT_DECLARED') { label = 'T'+rr.winner; }
           }
-          return `<div class="tl-chip ${cls}"><div class="tln">R${rn}</div><div class="tls">${label}</div></div>`;
+          return `<div class="${cls}" style="background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center;font-size:9px;font-weight:800">${rn}<br/>${label}</div>`;
         }).join('')}
       </div>
     </div>
 
-    ${m.status === 'FINISHED' ? `
-      <div class="card"><div class="empty">Match finished. Winner: Team ${m.winner}</div></div>
-    ` : `
-      ${needsElimination ? `
-        <div class="card" style="border-color:var(--danger)">
-          <div class="card-head">
-            <div class="card-title-lg" style="color:var(--danger)">⚠️ Elimination Required</div>
-          </div>
-          <div class="txt-sm txt-3 mb-12" style="line-height:1.6">
-            Round ${r.roundNumber} result: <b>Team ${r.winner} won</b><br/>
-            Choose <b>1 player to eliminate</b> from ANY team.
-          </div>
-
-          <div style="margin-bottom:14px">
-            <div class="txt-xs txt-3" style="font-weight:800;letter-spacing:.6px;margin-bottom:8px;text-transform:uppercase">
-              Team A — Alive (${aliveA.length})
+    ${needsElim ? `
+      <div class="card" style="border-color:var(--danger)">
+        <div class="card-head"><div class="card-title-lg" style="color:var(--danger)">⚠️ Eliminate a Player</div></div>
+        <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber}: Team ${r.winner} won. Choose 1 player to eliminate:</div>
+        <div class="txt-xs txt-3" style="font-weight:800;margin-bottom:6px">TEAM A (${aliveA.length})</div>
+        <div class="list" style="margin-bottom:10px">
+          ${aliveA.map(p => `
+            <div class="list-row" style="cursor:pointer" onclick="eliminatePlayer('${p.id}','A')">
+              <div class="avatar team-a">${(p.name||'?')[0].toUpperCase()}</div>
+              <div class="lr-body"><div class="lr-title">${escapeHtml(p.name)}</div></div>
+              <div class="lr-right"><div class="txt-xs" style="color:var(--danger);font-weight:800">ELIMINATE</div></div>
             </div>
-            <div class="list" style="margin:0">
-              ${aliveA.length ? aliveA.map(p => `
-                <div class="list-row" onclick="eliminatePlayer('${p.id}', 'A')" style="cursor:pointer">
-                  <div class="avatar team-a">${escapeHtml((p.name||'?')[0]).toUpperCase()}</div>
-                  <div class="lr-body">
-                    <div class="lr-title">${escapeHtml(p.name)}</div>
-                    <div class="lr-sub">Team A · Active</div>
-                  </div>
-                  <div class="lr-right">
-                    <div class="lr-meta" style="color:var(--danger);font-weight:800;font-size:11px">ELIMINATE</div>
-                  </div>
-                </div>
-              `).join('') : '<div class="empty" style="padding:14px">No alive players</div>'}
-            </div>
-          </div>
-
-          <div>
-            <div class="txt-xs txt-3" style="font-weight:800;letter-spacing:.6px;margin-bottom:8px;text-transform:uppercase">
-              Team B — Alive (${aliveB.length})
-            </div>
-            <div class="list" style="margin:0">
-              ${aliveB.length ? aliveB.map(p => `
-                <div class="list-row" onclick="eliminatePlayer('${p.id}', 'B')" style="cursor:pointer">
-                  <div class="avatar team-b">${escapeHtml((p.name||'?')[0]).toUpperCase()}</div>
-                  <div class="lr-body">
-                    <div class="lr-title">${escapeHtml(p.name)}</div>
-                    <div class="lr-sub">Team B · Active</div>
-                  </div>
-                  <div class="lr-right">
-                    <div class="lr-meta" style="color:var(--danger);font-weight:800;font-size:11px">ELIMINATE</div>
-                  </div>
-                </div>
-              `).join('') : '<div class="empty" style="padding:14px">No alive players</div>'}
-            </div>
-          </div>
-
-          <div class="txt-xs txt-3 mt-12" style="text-align:center;padding:10px;background:var(--surface-2);border-radius:8px;line-height:1.5">
-            ⓘ Rate updates automatically after elimination.<br/>
-            <b>Max rate: 100.00X</b>
-          </div>
+          `).join('') || '<div class="empty">No alive</div>'}
         </div>
-      ` : ''}
-
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title-lg">Round Control</div>
-          ${r ? `<span class="badge ${r.status === 'OPEN' ? 'open' : r.status === 'CLOSED' ? 'closed' : 'done'}">${r.status.replace('_',' ')}</span>` : ''}
+        <div class="txt-xs txt-3" style="font-weight:800;margin-bottom:6px">TEAM B (${aliveB.length})</div>
+        <div class="list">
+          ${aliveB.map(p => `
+            <div class="list-row" style="cursor:pointer" onclick="eliminatePlayer('${p.id}','B')">
+              <div class="avatar team-b">${(p.name||'?')[0].toUpperCase()}</div>
+              <div class="lr-body"><div class="lr-title">${escapeHtml(p.name)}</div></div>
+              <div class="lr-right"><div class="txt-xs" style="color:var(--danger);font-weight:800">ELIMINATE</div></div>
+            </div>
+          `).join('') || '<div class="empty">No alive</div>'}
         </div>
+      </div>
+    ` : ''}
 
-        ${!r ? `
-          <button class="btn btn-success" onclick="openRound(1)" ${(A.activeCount === 0 || B.activeCount === 0) ? 'disabled' : ''}>
-            Open Round 1
-          </button>
-        ` : r.status === 'OPEN' ? `
-          <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} is live. Bets accepted.</div>
-          <div class="ts-grid">
-            <div class="ts-cell"><div class="k">Team A Rate</div><div class="v accent">${fmtRate(A.rate)}</div></div>
-            <div class="ts-cell"><div class="k">Team B Rate</div><div class="v">${fmtRate(B.rate)}</div></div>
-            <div class="ts-cell"><div class="k">Bets</div><div class="v">${pending.length}</div></div>
-          </div>
-          <button class="btn btn-warning mt-12" onclick="closeRoundConfirm()">Close Betting</button>
-        ` : r.status === 'CLOSED' ? `
-          <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} closed. ${pending.filter(p=>p.roundNumber===r.roundNumber).length} bet(s) pending.</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <button class="btn btn-success" onclick="declareRoundConfirm('A')">Team A Won</button>
-            <button class="btn btn-warning" onclick="declareRoundConfirm('B')">Team B Won</button>
-          </div>
-        ` : r.status === 'RESULT_DECLARED' && !r.eliminationDone ? `
-          <div class="txt-sm txt-3 mb-12">
-            Round ${r.roundNumber} result: <b>Team ${r.winner} won</b>
-          </div>
-          <div style="padding:12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:8px;text-align:center;font-size:12px;color:#fca5a5;font-weight:700">
-            ⚠️ Eliminate a player above to continue
-          </div>
-          <button class="btn btn-success mt-12" disabled>Open Round ${m.currentRound + 1}</button>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">Round Control</div>
+        ${r ? `<span class="badge ${r.status==='OPEN'?'live':r.status==='CLOSED'?'closed':'done'}">${r.status.replace('_',' ')}</span>` : ''}
+      </div>
+      ${!r ? `
+        <button class="btn btn-success" onclick="openRound(1)" ${(A.activeCount===0||B.activeCount===0)?'disabled':''}>Open Round 1</button>
+      ` : r.status==='OPEN' ? `
+        <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} live. ${pending.length} bets pending.</div>
+        <button class="btn btn-warning" onclick="closeRound()">Close Betting</button>
+      ` : r.status==='CLOSED' ? `
+        <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} closed. Declare winner:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button class="btn btn-success" onclick="declareResult('A')">Team A Won</button>
+          <button class="btn btn-warning" onclick="declareResult('B')">Team B Won</button>
+        </div>
+      ` : r.status==='RESULT_DECLARED' && !r.eliminationDone ? `
+        <div class="txt-sm txt-3" style="color:var(--danger);font-weight:700;text-align:center;padding:10px">
+          ⚠️ Eliminate a player above first
+        </div>
+      ` : `
+        <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber}: Team ${r.winner} won</div>
+        ${m.currentRound < (m.maxRounds||8) ? `
+          <button class="btn btn-success" onclick="openRound(${m.currentRound+1})">Open Round ${m.currentRound+1}</button>
         ` : `
-          <div class="txt-sm txt-3 mb-12">
-            ✅ Round ${r.roundNumber} complete<br/>
-            Winner: <b>Team ${r.winner}</b>
-            ${r.eliminatedPlayerName ? `<br/>Eliminated: <b>${escapeHtml(r.eliminatedPlayerName)}</b> (Team ${r.eliminatedPlayerTeam})` : ''}
-          </div>
-          ${m.currentRound < (m.maxRounds || 8) ? `
-            <button class="btn btn-success" onclick="openRound(${m.currentRound + 1})">Open Round ${m.currentRound + 1}</button>
-          ` : `
-            <div class="txt-sm txt-3 mb-12">Max rounds reached (${m.maxRounds}).</div>
-            <button class="btn btn-success" onclick="endMatchByRounds()">End Match by Rounds Won</button>
-          `}
+          <button class="btn btn-success" onclick="endMatchByRounds()">End Match</button>
         `}
-      </div>
+      `}
+    </div>
 
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title-lg">Live Rates</div>
-          <div class="txt-xs txt-3">Max 100X</div>
+    <div class="card">
+      <div class="card-head"><div class="card-title-lg">Live Rates (max 100X)</div></div>
+      <div class="teams-grid" style="margin:0">
+        <div class="team-panel ${A.isDead?'dead':''}">
+          <div class="tp-head"><div class="tp-name"><span class="tp-dot"></span>Team A</div><div class="tp-badge alive">${A.activeCount}/4</div></div>
+          <div class="tp-stat"><span class="k">Rate</span><span class="v" style="color:var(--accent)">${fmtRate(A.rate)}</span></div>
         </div>
-        <div class="teams-grid" style="margin:0">
-          ${teamPanel(A, false)}
-          ${teamPanel(B, false)}
-        </div>
-        <div class="txt-xs txt-3 mt-8" style="text-align:center;line-height:1.6">
-          Fewer players = Higher rate (max 100X)
+        <div class="team-panel team-B ${B.isDead?'dead':''}">
+          <div class="tp-head"><div class="tp-name"><span class="tp-dot"></span>Team B</div><div class="tp-badge alive">${B.activeCount}/4</div></div>
+          <div class="tp-stat"><span class="k">Rate</span><span class="v" style="color:var(--warning)">${fmtRate(B.rate)}</span></div>
         </div>
       </div>
-    `}
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="card-title-lg">Teams Manager</div></div>
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <input id="newPName" placeholder="Player name" style="flex:2;padding:10px;background:var(--surface-2);border:1px solid var(--border);color:var(--text);border-radius:8px;font-size:14px" />
+        <select id="newPTeam" style="flex:1;padding:10px;background:var(--surface-2);border:1px solid var(--border);color:var(--text);border-radius:8px;font-size:14px">
+          <option value="A">A</option><option value="B">B</option>
+        </select>
+        <button class="btn btn-sm" onclick="addPlayer()">Add</button>
+      </div>
+      ${state.players.map(p => `
+        <div class="list-row" style="padding:8px 0">
+          <div class="avatar ${p.teamId==='A'?'team-a':'team-b'}" style="width:28px;height:28px;font-size:11px">${(p.name||'?')[0].toUpperCase()}</div>
+          <div class="lr-body"><div class="lr-title" style="font-size:13px">${escapeHtml(p.name)}</div></div>
+          <span class="badge ${p.status==='ACTIVE'?'active':'eliminated'}">${p.status}</span>
+          <button class="btn btn-sm btn-danger" style="min-height:28px;padding:4px 8px;font-size:11px" onclick="deletePlayer('${p.id}')">✕</button>
+        </div>
+      `).join('')}
+    </div>
   `;
 }
 
@@ -2220,303 +2219,348 @@ window.openRound = async (num) => {
   const m = currentMatch();
   if (!m) return;
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
-  if (A.activeCount === 0 || B.activeCount === 0) return toast('Both teams need alive players', 'err');
-  if (num > (m.maxRounds || 8)) return toast('Max rounds reached', 'err');
-
+  if (A.activeCount===0 || B.activeCount===0) return toast('Need alive players in both teams', 'err');
+  if (num > (m.maxRounds||8)) return toast('Max rounds', 'err');
   if (num > 1) {
-    const prev = state.rounds.find(r => r.roundNumber === num - 1 && r.matchId === m.id);
-    if (!prev || prev.status !== 'RESULT_DECLARED') {
-      return toast('Previous round must be settled', 'err');
-    }
-    if (!prev.eliminationDone) {
-      return toast('⚠️ Eliminate a player first', 'err');
-    }
+    const prev = state.rounds.find(r => r.roundNumber===num-1 && r.matchId===m.id);
+    if (!prev || prev.status !== 'RESULT_DECLARED') return toast('Settle previous round first', 'err');
+    if (!prev.eliminationDone) return toast('Eliminate a player first', 'err');
   }
-
   try {
-    const roundRef = doc(collection(db, 'rounds'));
-    await setDoc(roundRef, {
-      matchId: m.id,
-      roundNumber: num,
-      status: 'OPEN',
-      winner: null,
-      teamARate: A.rate,
-      teamBRate: B.rate,
-      teamAAlive: A.activeCount,
-      teamBAlive: B.activeCount,
-      eliminationDone: false,
-      startTime: serverTimestamp()
+    await addDoc(collection(db, 'rounds'), {
+      matchId: m.id, roundNumber: num, status: 'OPEN', winner: null,
+      teamARate: A.rate, teamBRate: B.rate,
+      teamAAlive: A.activeCount, teamBAlive: B.activeCount,
+      eliminationDone: false, startTime: serverTimestamp()
     });
-    await updateDoc(doc(db, 'matches', m.id), {
-      status: 'LIVE',
-      currentRound: num
-    });
-    toast(`Round ${num} opened — A=${fmtRate(A.rate)} B=${fmtRate(B.rate)}`, 'ok');
-  } catch (e) { console.error(e); toast('Failed', 'err'); }
+    await updateDoc(doc(db, 'matches', m.id), { status: 'LIVE', currentRound: num });
+    toast(`Round ${num} opened`, 'ok');
+  } catch(e) { toast('Failed', 'err'); }
 };
 
-window.closeRoundConfirm = () => {
-  const r = currentRound();
-  if (!r) return;
-  openSheet('Close Round', `
-    <div class="txt-sm txt-3 mb-12">Close betting for Round ${r.roundNumber}? No more bets will be accepted.</div>
-    <button class="btn btn-warning" onclick="closeRoundDo()">Close Round ${r.roundNumber}</button>
-  `);
-};
-
-window.closeRoundDo = async () => {
+window.closeRound = async () => {
   const r = currentRound();
   if (!r) return;
   try {
     await updateDoc(doc(db, 'rounds', r.id), { status: 'CLOSED', closeTime: serverTimestamp() });
-    closeSheet();
-    toast(`Round ${r.roundNumber} closed`, 'ok');
-  } catch (e) { toast('Failed', 'err'); }
+    toast('Round closed', 'ok');
+  } catch(e) { toast('Failed','err'); }
 };
 
-window.declareRoundConfirm = (winner) => {
+window.declareResult = (winner) => {
   const r = currentRound();
   if (!r) return;
-  const pending = state.predictions.filter(p => p.status === 'PENDING' && p.roundNumber === r.roundNumber && p.matchId === currentMatch().id);
   openSheet('Declare Result', `
-    <div class="txt-sm txt-3 mb-12">
-      Declare <b>Team ${winner}</b> as winner of Round ${r.roundNumber}?<br/>
-      ${pending.length} pending bet(s) will be settled.
-    </div>
-    <button class="btn ${winner === 'A' ? 'btn-success' : 'btn-warning'}" onclick="declareRoundDo('${winner}')">
+    <div class="txt-sm txt-3 mb-12">Declare Team ${winner} as winner of Round ${r.roundNumber}?</div>
+    <button class="btn ${winner==='A'?'btn-success':'btn-warning'}" onclick="declareResultDo('${winner}')">
       Confirm — Team ${winner} Won
     </button>
   `);
 };
 
-window.declareRoundDo = async (winner) => {
+window.declareResultDo = async (winner) => {
   const r = currentRound();
   const m = currentMatch();
   if (!r || !m) return;
   try {
-    const pending = state.predictions.filter(p =>
-      p.status === 'PENDING' && p.roundNumber === r.roundNumber && p.matchId === m.id);
-
+    const pending = state.predictions.filter(p => p.status==='PENDING' && p.roundNumber===r.roundNumber && p.matchId===m.id);
     for (const p of pending) {
-      const isWinner = p.teamId === winner;
-      if (isWinner) {
+      const isWin = p.teamId === winner;
+      if (isWin) {
         const uSnap = await getDoc(doc(db, 'users', p.userId));
         if (uSnap.exists()) {
           await updateDoc(doc(db, 'users', p.userId), {
-            demoPoints: (uSnap.data().demoPoints || 0) + (p.potentialReturn || 0)
+            demoPoints: (uSnap.data().demoPoints||0) + (p.potentialReturn||0)
           });
         }
       }
       await updateDoc(doc(db, 'predictions', p.id), {
-        status: isWinner ? 'WON' : 'LOST',
-        returnAmount: isWinner ? (p.potentialReturn || 0) : 0,
-        profitAmount: isWinner ? (p.potentialProfit || 0) : -p.stake,
+        status: isWin?'WON':'LOST',
+        returnAmount: isWin ? (p.potentialReturn||0) : 0,
+        profitAmount: isWin ? (p.potentialProfit||0) : -p.stake,
         settledAt: serverTimestamp(),
         winnerTeam: winner
       });
     }
-
     await updateDoc(doc(db, 'rounds', r.id), {
-      status: 'RESULT_DECLARED',
-      winner,
-      eliminationDone: false,
-      resultTime: serverTimestamp()
+      status: 'RESULT_DECLARED', winner, eliminationDone: false, resultTime: serverTimestamp()
     });
-
-    const newAWins = (m.teamARoundsWon || 0) + (winner === 'A' ? 1 : 0);
-    const newBWins = (m.teamBRoundsWon || 0) + (winner === 'B' ? 1 : 0);
-    await updateDoc(doc(db, 'matches', m.id), {
-      teamARoundsWon: newAWins,
-      teamBRoundsWon: newBWins
-    });
-
+    const nA = (m.teamARoundsWon||0) + (winner==='A'?1:0);
+    const nB = (m.teamBRoundsWon||0) + (winner==='B'?1:0);
+    await updateDoc(doc(db, 'matches', m.id), { teamARoundsWon: nA, teamBRoundsWon: nB });
     closeSheet();
-    toast(`Round ${r.roundNumber} — Team ${winner} won. Ab player eliminate karo.`, 'ok');
-  } catch (e) {
-    console.error(e);
-    toast('Failed to declare result', 'err');
-  }
+    toast(`Round ${r.roundNumber} — Team ${winner} won`, 'ok');
+  } catch(e) { toast('Failed','err'); }
 };
 
-window.eliminatePlayer = async (playerId, teamId) => {
-  const m = currentMatch();
-  const r = currentRound();
+window.eliminatePlayer = async (pid, teamId) => {
+  const m = currentMatch(); const r = currentRound();
   if (!m || !r) return;
-
-  const player = state.players.find(p => p.id === playerId);
-  if (!player || player.status !== 'ACTIVE') {
-    return toast('Player not available', 'err');
-  }
-
-  if (!confirm(`Eliminate "${player.name}" (Team ${teamId})?\n\nTeam rate will update.`)) return;
-
+  const player = state.players.find(p => p.id === pid);
+  if (!player || player.status !== 'ACTIVE') return toast('Not available', 'err');
+  if (!confirm(`Eliminate ${player.name}?`)) return;
   try {
-    await updateDoc(doc(db, 'players', playerId), {
-      status: 'ELIMINATED',
-      eliminatedInRound: r.roundNumber,
-      updatedAt: serverTimestamp()
+    await updateDoc(doc(db, 'players', pid), {
+      status: 'ELIMINATED', eliminatedInRound: r.roundNumber, updatedAt: serverTimestamp()
     });
-
     await updateDoc(doc(db, 'rounds', r.id), {
       eliminationDone: true,
-      eliminatedPlayerId: playerId,
+      eliminatedPlayerId: pid,
       eliminatedPlayerName: player.name,
       eliminatedPlayerTeam: teamId,
       eliminationTime: serverTimestamp()
     });
-
-    // Recalculate for toast
-    const newA = teamStats('A', m.id);
-    const newB = teamStats('B', m.id);
-
-    // Check if match should end
-    if (newA.isDead && !newB.isDead) {
-      await endMatchAuto('B');
-      return;
-    } else if (newB.isDead && !newA.isDead) {
-      await endMatchAuto('A');
-      return;
-    } else if (newA.isDead && newB.isDead) {
-      await endMatchAuto('DRAW');
-      return;
-    }
-
-    toast(`✅ ${player.name} eliminated. A=${fmtRate(newA.rate)} B=${fmtRate(newB.rate)}`, 'ok');
-  } catch (e) {
-    console.error(e);
-    toast('Failed to eliminate', 'err');
-  }
+    const nA = teamStats('A', m.id), nB = teamStats('B', m.id);
+    if (nA.isDead && !nB.isDead) { await endMatchAuto('B'); return; }
+    if (nB.isDead && !nA.isDead) { await endMatchAuto('A'); return; }
+    if (nA.isDead && nB.isDead) { await endMatchAuto('DRAW'); return; }
+    toast(`${player.name} eliminated. A=${fmtRate(nA.rate)} B=${fmtRate(nB.rate)}`, 'ok');
+  } catch(e) { toast('Failed','err'); }
 };
 
 window.endMatchByRounds = async () => {
   const m = currentMatch();
   if (!m) return;
-  const aW = m.teamARoundsWon || 0, bW = m.teamBRoundsWon || 0;
-  let winner = 'DRAW';
-  if (aW > bW) winner = 'A';
-  else if (bW > aW) winner = 'B';
-  openSheet('End Match', `
-    <div class="txt-sm txt-3 mb-12">
-      Team A won <b>${aW}</b> rounds<br/>
-      Team B won <b>${bW}</b> rounds<br/><br/>
-      Winner: <b>${winner === 'DRAW' ? 'Draw' : 'Team ' + winner}</b>
-    </div>
-    <button class="btn btn-success" onclick="endMatchConfirm('${winner}')">End Match</button>
-  `);
+  const aW = m.teamARoundsWon||0, bW = m.teamBRoundsWon||0;
+  let w = 'DRAW';
+  if (aW > bW) w = 'A'; else if (bW > aW) w = 'B';
+  if (!confirm(`End match? Winner: ${w==='DRAW'?'Draw':'Team '+w}`)) return;
+  await endMatchAuto(w);
 };
 
-window.endMatchConfirm = async (winner) => {
-  closeSheet();
-  await endMatchAuto(winner);
-};
-
-/* ═══════════════════════════════════════════════════
-   END MATCH → Save to history & mark as FINISHED
-   ═══════════════════════════════════════════════════ */
 window.endMatchAuto = async (winner) => {
   const m = currentMatch();
   if (!m) return;
   try {
-    // Save to match_history
-    const matchData = {
-      matchNumber: m.matchNumber,
-      winner,
-      teamARoundsWon: m.teamARoundsWon || 0,
-      teamBRoundsWon: m.teamBRoundsWon || 0,
-      maxRounds: m.maxRounds,
-      totalRounds: m.currentRound,
-      startedAt: m.createdAt || null,
+    await addDoc(collection(db, 'match_history'), {
+      matchNumber: m.matchNumber, winner,
+      teamARoundsWon: m.teamARoundsWon||0, teamBRoundsWon: m.teamBRoundsWon||0,
+      maxRounds: m.maxRounds, totalRounds: m.currentRound,
       finishedAt: serverTimestamp(),
-      players: state.players
-        .filter(p => !p.matchId || p.matchId === m.id)
-        .map(p => ({
-          name: p.name, teamId: p.teamId, status: p.status,
-          eliminatedInRound: p.eliminatedInRound || null
-        })),
-      rounds: state.rounds
-        .filter(r => r.matchId === m.id)
-        .map(r => ({
-          roundNumber: r.roundNumber,
-          winner: r.winner,
-          status: r.status,
-          eliminatedPlayerName: r.eliminatedPlayerName || null,
-          eliminatedPlayerTeam: r.eliminatedPlayerTeam || null
-        }))
-    };
-    await addDoc(collection(db, 'match_history'), matchData);
-
-    // Settle any remaining pending bets
-    const pending = state.predictions.filter(p => p.status === 'PENDING' && p.matchId === m.id);
+      players: state.players.map(p => ({ name: p.name, teamId: p.teamId, status: p.status })),
+      rounds: state.rounds.filter(r => r.matchId===m.id).map(r => ({ roundNumber: r.roundNumber, winner: r.winner }))
+    });
+    const pending = state.predictions.filter(p => p.status==='PENDING' && p.matchId===m.id);
     for (const p of pending) {
-      const isWinner = winner !== 'DRAW' && p.teamId === winner;
-      if (isWinner) {
+      const isWin = winner !== 'DRAW' && p.teamId === winner;
+      if (isWin) {
         const uSnap = await getDoc(doc(db, 'users', p.userId));
         if (uSnap.exists()) {
           await updateDoc(doc(db, 'users', p.userId), {
-            demoPoints: (uSnap.data().demoPoints || 0) + (p.potentialReturn || 0)
+            demoPoints: (uSnap.data().demoPoints||0) + (p.potentialReturn||0)
           });
         }
       }
       await updateDoc(doc(db, 'predictions', p.id), {
-        status: isWinner ? 'WON' : 'LOST',
-        returnAmount: isWinner ? (p.potentialReturn || 0) : 0,
-        profitAmount: isWinner ? (p.potentialProfit || 0) : -p.stake,
-        settledAt: serverTimestamp(),
-        winnerTeam: winner
+        status: isWin?'WON':'LOST',
+        returnAmount: isWin ? (p.potentialReturn||0) : 0,
+        profitAmount: isWin ? (p.potentialProfit||0) : -p.stake,
+        settledAt: serverTimestamp(), winnerTeam: winner
       });
     }
-
-    // 🔥 Mark match as FINISHED → it will disappear from live view and appear in history
     await updateDoc(doc(db, 'matches', m.id), {
-      status: 'FINISHED',
-      winner,
-      finishedAt: serverTimestamp()
+      status: 'FINISHED', winner, finishedAt: serverTimestamp()
     });
+    toast(`🏆 Match finished — ${winner==='DRAW'?'Draw':'Team '+winner}`, 'ok');
+  } catch(e) { toast('Failed','err'); }
+};
 
-    toast(`🏆 Match finished — ${winner === 'DRAW' ? 'Draw' : 'Team ' + winner + ' wins'}`, 'ok');
-  } catch (e) {
-    console.error(e);
-    toast('Failed to finish match', 'err');
-  }
+window.addPlayer = async () => {
+  const name = document.getElementById('newPName').value.trim();
+  const teamId = document.getElementById('newPTeam').value;
+  if (!name) return toast('Enter name','err');
+  if (state.players.filter(p => p.teamId===teamId).length >= 4) return toast(`Team ${teamId} full`,'err');
+  if (state.players.length >= 8) return toast('Max 8 players','err');
+  try {
+    await addDoc(collection(db, 'players'), {
+      name, teamId, status: 'ACTIVE',
+      matchId: state.currentMatchId,
+      createdAt: serverTimestamp()
+    });
+    toast(`"${name}" added`,'ok');
+    document.getElementById('newPName').value = '';
+  } catch(e) { toast('Failed','err'); }
+};
+
+window.deletePlayer = async (id) => {
+  if (!confirm('Delete player?')) return;
+  try { await deleteDoc(doc(db, 'players', id)); toast('Deleted','ok'); }
+  catch(e) { toast('Failed','err'); }
+};
+
+window.openNewMatchSheet = () => {
+  openSheet('New Match', `
+    <div class="form-field"><label>Match Number</label>
+      <input type="number" id="newMatchNum" value="${(Math.max(0, ...state.matches.map(m => m.matchNumber||0)) + 1)}" min="1" /></div>
+    <div class="form-field"><label>Max Rounds (6-8)</label>
+      <input type="number" id="newMatchRounds" value="${state.settings?.maxRounds||8}" min="6" max="8" /></div>
+    <button class="btn" onclick="createNewMatch()">Create Match</button>
+  `);
+};
+
+window.createNewMatch = async () => {
+  const num = Number(document.getElementById('newMatchNum').value)||1;
+  const rounds = Math.min(8, Math.max(6, Number(document.getElementById('newMatchRounds').value)||8));
+  try {
+    for (const p of state.players) {
+      await updateDoc(doc(db, 'players', p.id), {
+        status: 'ACTIVE', eliminatedInRound: null, updatedAt: serverTimestamp()
+      });
+    }
+    const ref = await addDoc(collection(db, 'matches'), {
+      matchNumber: num, status: 'WAITING', currentRound: 0, maxRounds: rounds,
+      teamARoundsWon: 0, teamBRoundsWon: 0, winner: null,
+      createdAt: serverTimestamp()
+    });
+    state.currentMatchId = ref.id;
+    closeSheet();
+    toast('Match created','ok');
+  } catch(e) { toast('Failed','err'); }
 };
 
 /* ═══════════════════════════════════════════════════
-   ADMIN: HISTORY (finished matches)
+   ADMIN MINES
    ═══════════════════════════════════════════════════ */
-function viewAdminHistory() {
-  const list = state.history;
+let adminMinesSearch = '';
+async function viewAdminMines() {
+  if (!state.minesGames || state.minesGames.length === 0) {
+    try {
+      const snap = await getDocs(query(collection(db, 'minesGames'), orderBy('createdAt','desc'), limit(100)));
+      state.minesGames = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch(e) { state.minesGames = []; }
+  }
+  const games = state.minesGames;
+  const total = games.length;
+  const active = games.filter(g => g.status === 'ACTIVE').length;
+  const won = games.filter(g => g.status === 'WON').length;
+  const lost = games.filter(g => g.status === 'LOST').length;
+
   return `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kk">Total Games</div><div class="kv">${total}</div></div>
+      <div class="kpi-card"><div class="kk">Active</div><div class="kv warning">${active}</div></div>
+      <div class="kpi-card"><div class="kk">Won</div><div class="kv success">${won}</div></div>
+      <div class="kpi-card"><div class="kk">Lost</div><div class="kv">${lost}</div></div>
+    </div>
+
+    <div class="search-wrap">
+      ${svgIcon('search')}
+      <input type="text" placeholder="Search Game ID (MINES-...)" value="${escapeHtml(adminMinesSearch)}"
+        oninput="adminMinesSearch = this.value.toUpperCase(); render();" />
+    </div>
+
     <div class="card">
       <div class="card-head">
-        <div class="card-title-lg">Match History (${list.length})</div>
+        <div class="card-title-lg">Mines Games</div>
+        <button class="btn btn-sm btn-secondary" onclick="adminRefreshMines()">↻ Refresh</button>
       </div>
-      ${list.length ? list.map(h => `
-        <div class="match-card finished" style="margin-bottom:8px">
-          <div class="mc-head">
-            <div class="mc-title">Match #${h.matchNumber}
-              <span class="badge ${h.winner === 'A' ? 'won' : h.winner === 'B' ? 'won' : 'done'}">
-                ${h.winner ? 'Team ' + h.winner + ' won' : 'Draw'}
-              </span>
+      <div class="list" style="margin:0 -14px -14px;border:none;background:transparent">
+        ${games.filter(g => !adminMinesSearch || g.gameId.includes(adminMinesSearch) || (g.uid||'').includes(adminMinesSearch)).slice(0, 50).map(g => `
+          <div class="list-row" style="cursor:pointer" onclick="adminOpenMines('${g.gameId}')">
+            <div class="avatar ${g.status==='WON'?'won':g.status==='LOST'?'lost':'team-a'}">
+              ${g.status==='WON'?'✓':g.status==='LOST'?'✗':'💎'}
             </div>
-            <div class="txt-xs txt-3">${timeAgo(h.finishedAt)}</div>
+            <div class="lr-body">
+              <div class="lr-title" style="font-family:ui-monospace,monospace;font-size:11px">
+                ${escapeHtml(g.gameId)}
+              </div>
+              <div class="lr-sub">${escapeHtml(g.userName||g.uid?.slice(0,8))} • 💣${g.mineCount} • 🪙${g.stake} • ${(g.revealedSafe||[]).length} safe</div>
+            </div>
+            <div class="lr-right">
+              <span class="badge ${g.status==='WON'?'won':g.status==='LOST'?'lost':'active'}">${g.status}</span>
+              <div class="lr-meta">${timeAgo(g.createdAt)}</div>
+            </div>
           </div>
-          <div class="mc-body">
-            <div class="mc-team"><div class="t">TEAM A</div><div class="n">${h.teamARoundsWon || 0}</div></div>
-            <div class="mc-team"><div class="t">TEAM B</div><div class="n">${h.teamBRoundsWon || 0}</div></div>
-          </div>
-          <div class="txt-xs txt-3 mt-8">
-            ${h.totalRounds || 0} of ${h.maxRounds || 8} rounds played
-          </div>
-        </div>
-      `).join('') : '<div class="empty"><div class="ico">📚</div>No finished matches yet</div>'}
+        `).join('') || '<div class="empty">No games</div>'}
+      </div>
     </div>
   `;
 }
 
-/* ═══════════════════════════════════════════════════
-   MODAL / SHEET
-   ═══════════════════════════════════════════════════ */
-window.openSheet = (title, bodyHtml) => {
+window.adminRefreshMines = async () => {
+  state.minesGames = [];
+  await viewAdminMines();
+  render();
+};
+
+window.adminOpenMines = async (gameId) => {
+  try {
+    const gSnap = await getDoc(doc(db, 'minesGames', gameId));
+    const pSnap = await getDoc(doc(db, 'minesGamesPrivate', gameId));
+    if (!gSnap.exists()) return toast('Game not found', 'err');
+    const g = gSnap.data();
+    const mines = pSnap.exists() ? (pSnap.data().minePositions || []) : [];
+    openSheet(`Game ${g.gameId}`, `
+      <div style="font-family:ui-monospace,monospace;font-size:12px;font-weight:800;margin-bottom:10px;padding:10px;background:var(--surface-2);border-radius:8px">${g.gameId}</div>
+      <div class="list">
+        <div class="list-row"><div class="lr-body"><div class="lr-title">User</div></div><div class="lr-right"><div class="lr-amount">${escapeHtml(g.userName||'—')}</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">UID</div></div><div class="lr-right"><div class="lr-amount" style="font-size:10px">${g.uid}</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">Status</div></div><div class="lr-right"><span class="badge ${g.status==='WON'?'won':g.status==='LOST'?'lost':'active'}">${g.status}</span></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">Mines</div></div><div class="lr-right"><div class="lr-amount">${g.mineCount}</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">Stake</div></div><div class="lr-right"><div class="lr-amount">🪙 ${g.stake}</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">Payout</div></div><div class="lr-right"><div class="lr-amount up">🪙 ${g.payout||0}</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">Multiplier</div></div><div class="lr-right"><div class="lr-amount">${(g.multiplier||0).toFixed(2)}X</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">Safe Tiles</div></div><div class="lr-right"><div class="lr-amount" style="font-size:11px">${(g.revealedSafe||[]).join(', ')||'—'}</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">🎯 Mine Positions</div></div><div class="lr-right"><div class="lr-amount" style="font-size:11px;color:var(--danger)">${mines.join(', ')||'—'}</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">Created</div></div><div class="lr-right"><div class="lr-meta">${timeAgo(g.createdAt)}</div></div></div>
+      </div>
+    `);
+  } catch(e) { toast('Failed','err'); }
+};
+
+/* SETTINGS */
+function viewAdminSettings() {
+  const s = state.settings || { baseWinRate: 25, baseRate: 2, maxRounds: 8 };
+  return `
+    <div class="card">
+      <div class="card-head"><div class="card-title-lg">⚙️ Survivor Settings</div></div>
+      <div class="form-field"><label>Base Win Rate (%)</label>
+        <input id="setWin" type="number" min="0" max="100" value="${s.baseWinRate}" /></div>
+      <div class="form-field"><label>Base Rate (X) — max 100</label>
+        <input id="setRate" type="number" min="1.01" max="100" step="0.01" value="${s.baseRate}" /></div>
+      <div class="form-field"><label>Max Rounds (6-8)</label>
+        <input id="setMaxR" type="number" min="6" max="8" value="${s.maxRounds||8}" /></div>
+      <button class="btn" onclick="saveSettings()">Save Settings</button>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="card-title-lg">💎 Mines Settings</div></div>
+      <div class="txt-sm txt-3">Mines game uses same balance. Config in-game by player.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="card-title-lg">About</div></div>
+      <div class="txt-sm txt-3">PRL Pawan Retail Limited<br/>Demo Points • No Cash Value</div>
+    </div>
+  `;
+}
+
+window.saveSettings = async () => {
+  const w = Math.max(0, Math.min(100, Number(document.getElementById('setWin').value)||0));
+  const r = Math.max(1.01, Math.min(100, Number(document.getElementById('setRate').value)||2));
+  const m = Math.max(6, Math.min(8, Number(document.getElementById('setMaxR').value)||8));
+  try {
+    await setDoc(doc(db, 'settings', 'app'), {
+      baseWinRate: w, baseRate: r, maxRounds: m, updatedAt: serverTimestamp()
+    }, { merge: true });
+    toast('Saved', 'ok');
+  } catch(e) { toast('Failed','err'); }
+};
+
+/* 404 */
+function view404() {
+  return `
+    <div class="not-found">
+      <div class="nf-code">404</div>
+      <div class="nf-title">Page Not Found</div>
+      <div class="nf-sub">The route <b>${escapeHtml(state.route404||'')}</b> doesn't exist in this app.</div>
+      <button class="btn" style="max-width:220px;margin-top:20px" onclick="nav('home')">Go Home</button>
+    </div>
+  `;
+}
+
+/* SHEET */
+window.openSheet = (title, body) => {
   const root = document.getElementById('modalRoot');
   root.innerHTML = `
     <div class="sheet-backdrop" onclick="if(event.target===this)closeSheet()">
@@ -2526,38 +2570,18 @@ window.openSheet = (title, bodyHtml) => {
           <h3>${title}</h3>
           <button class="sheet-close" onclick="closeSheet()">${svgIcon('close')}</button>
         </div>
-        <div class="sheet-body">${bodyHtml}</div>
+        <div class="sheet-body">${body}</div>
       </div>
     </div>
   `;
 };
+window.closeSheet = () => { document.getElementById('modalRoot').innerHTML = ''; };
 
-window.closeSheet = () => {
-  document.getElementById('modalRoot').innerHTML = '';
-};
-
-/* ═══════════════════════════════════════════════════
-   HELPERS
-   ═══════════════════════════════════════════════════ */
+/* currentRound */
 function currentRound() {
   const m = currentMatch();
   if (!m || !m.currentRound) return null;
   return state.rounds.find(r => r.roundNumber === m.currentRound && r.matchId === m.id) || null;
-}
-
-function escapeHtml(s) {
-  return String(s || '').replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[c]));
-}
-function timeAgo(ts) {
-  if (!ts) return '—';
-  const d = ts.seconds ? new Date(ts.seconds * 1000) : new Date(ts);
-  const diff = (Date.now() - d.getTime()) / 1000;
-  if (diff < 60) return 'now';
-  if (diff < 3600) return Math.floor(diff / 60) + 'm';
-  if (diff < 86400) return Math.floor(diff / 3600) + 'h';
-  return Math.floor(diff / 86400) + 'd';
 }
 
 setTimeout(updateThemeIcon, 100);
