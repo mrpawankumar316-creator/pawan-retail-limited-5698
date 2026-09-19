@@ -34,119 +34,102 @@ button { font-family: inherit; cursor: pointer; border: none; outline: none; bac
 input, select { font-family: inherit; outline: none; }
 .hidden { display: none !important; }
 
-/* LOGIN */
-.login-view { min-height: 100vh; display: flex; flex-direction: column; padding: 24px 20px; background: var(--bg); }
-.login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; margin-top: 12px; }
-.login-brand .bm {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: var(--accent); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 15px;
-}
-.login-brand .bt .bt1 { font-size: 16px; font-weight: 800; }
-.login-brand .bt .bt2 { font-size: 10px; color: var(--text-3); letter-spacing: 1.5px; font-weight: 600; margin-top: 2px; }
-.login-title { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-bottom: 6px; }
-.login-sub { font-size: 14px; color: var(--text-3); margin-bottom: 26px; font-weight: 500; }
-.login-form { max-width: 400px; width: 100%; margin: 0 auto; flex: 1; }
-.login-footer { text-align: center; padding: 20px 0 12px; font-size: 13px; color: var(--text-3); font-weight: 500; }
-.login-footer .link { color: var(--accent); font-weight: 700; margin-left: 4px; cursor: pointer; }
-.login-legal { text-align: center; font-size: 10.5px; color: var(--text-3); padding: 8px 0 4px; }
+/* AUTH */
+.auth-view { min-height: 100vh; display: flex; flex-direction: column; padding: 24px 20px; background: var(--bg); padding-top: calc(24px + env(safe-area-inset-top)); }
+.auth-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; margin-top: 8px; }
+.auth-brand .bm { width: 44px; height: 44px; border-radius: 12px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; }
+.auth-brand .bt .bt1 { font-size: 16px; font-weight: 800; }
+.auth-brand .bt .bt2 { font-size: 10px; color: var(--text-3); letter-spacing: 1.5px; font-weight: 600; margin-top: 2px; }
+.auth-title { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-bottom: 6px; }
+.auth-sub { font-size: 14px; color: var(--text-3); margin-bottom: 24px; font-weight: 500; line-height: 1.5; }
+.auth-form { max-width: 400px; width: 100%; margin: 0 auto; flex: 1; }
+.auth-footer { text-align: center; padding: 20px 0 12px; font-size: 13px; color: var(--text-3); font-weight: 500; }
+.auth-footer .link { color: var(--accent); font-weight: 700; margin-left: 4px; cursor: pointer; }
+.auth-legal { text-align: center; font-size: 10.5px; color: var(--text-3); padding: 8px 0 4px; }
+
+/* FORM */
+.form-field { margin-bottom: 12px; }
+.form-field label { display: block; font-size: 11px; color: var(--text-3); font-weight: 700; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 6px; }
+.form-field input, .form-field select { width: 100%; padding: 12px 14px; background: var(--surface); border: 1.5px solid var(--border-2); color: var(--text); border-radius: var(--radius); font-size: 15px; min-height: 46px; transition: border-color .15s; }
+.form-field input:focus { border-color: var(--accent); }
+.form-field input::placeholder { color: var(--text-3); }
+.form-hint { font-size: 11px; color: var(--text-3); margin-top: 4px; font-weight: 500; }
+
+/* BUTTONS */
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 46px; padding: 12px 16px; border-radius: var(--radius); font-size: 14.5px; font-weight: 700; background: var(--accent); color: #fff; transition: all .15s; }
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .5; cursor: not-allowed; background: var(--surface-3); color: var(--text-3); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-success { background: var(--success); color: #fff; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-warning { background: var(--warning); color: #1a1a1a; }
+.btn-gold { background: var(--gold); color: #1a1a1a; }
+.btn-sm { min-height: 36px; padding: 8px 12px; font-size: 13px; width: auto; border-radius: 8px; }
+
+/* ID CHECK */
+.id-check { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+.id-check.checking { background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.35); color: #93c5fd; }
+.id-check.available { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.35); color: #86efac; }
+.id-check.taken { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.35); color: #fca5a5; }
+.id-check.found { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.35); color: #86efac; }
+.id-check .spinner-sm { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: currentColor; border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg) } }
+
+/* BLOCKED PAGE */
+.blocked-view { min-height: 100vh; padding: 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); }
+.blocked-card { max-width: 440px; width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 22px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,.3); }
+.blocked-icon { width: 72px; height: 72px; border-radius: 50%; background: rgba(239,68,68,.15); color: var(--danger); display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 18px; border: 2px solid rgba(239,68,68,.3); }
+.blocked-card h2 { font-size: 22px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 8px; }
+.blocked-card .subtitle { font-size: 13px; color: var(--text-3); margin-bottom: 20px; line-height: 1.5; }
+.reason-box { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 16px; text-align: left; }
+.reason-box .rlabel { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 4px; }
+.reason-box .rvalue { font-size: 13.5px; font-weight: 600; color: var(--text); line-height: 1.5; }
+.timer-display { background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.03)); border: 1px solid rgba(245,158,11,.35); border-radius: 12px; padding: 18px 14px; margin-bottom: 16px; }
+.timer-display .tlabel { font-size: 11px; color: var(--text-3); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.timer-cell { background: var(--surface); border-radius: 8px; padding: 10px 4px; border: 1px solid var(--border); }
+.timer-cell .tnum { font-size: 22px; font-weight: 900; color: var(--gold); letter-spacing: -1px; line-height: 1; }
+.timer-cell .tlbl { font-size: 9px; color: var(--text-3); font-weight: 800; letter-spacing: .5px; text-transform: uppercase; margin-top: 4px; }
+.blocked-perms { background: var(--surface-2); border-radius: 10px; padding: 14px; margin-bottom: 16px; text-align: left; }
+.blocked-perms .ptitle { font-size: 11px; color: var(--text-3); font-weight: 800; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 10px; }
+.perm-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 13px; font-weight: 500; }
+.perm-row.can { color: var(--success); }
+.perm-row.cannot { color: var(--danger); }
 
 /* HEADER */
-.app-header {
-  position: sticky; top: 0; z-index: 40;
-  background: var(--surface); border-bottom: 1px solid var(--border);
-  padding: 0 14px;
-  display: flex; align-items: center; gap: 12px;
-  padding-top: env(safe-area-inset-top);
-  height: calc(var(--header-h) + env(safe-area-inset-top));
-}
+.app-header { position: sticky; top: 0; z-index: 40; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 14px; display: flex; align-items: center; gap: 12px; padding-top: env(safe-area-inset-top); height: calc(var(--header-h) + env(safe-area-inset-top)); }
 .header-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; cursor: pointer; }
-.brand-mark {
-  width: 32px; height: 32px; border-radius: 8px;
-  background: var(--accent); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 13px;
-}
+.brand-mark { width: 32px; height: 32px; border-radius: 8px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
 .brand-text .b1 { font-size: 13px; font-weight: 800; }
 .brand-text .b2 { font-size: 9px; color: var(--text-3); font-weight: 600; letter-spacing: 1.2px; margin-top: 2px; }
 .header-status { flex: 1; min-width: 0; display: flex; justify-content: center; }
-.status-chip {
-  font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 6px;
-  background: var(--surface-2); border: 1px solid var(--border);
-  color: var(--text-2);
-  display: inline-flex; align-items: center; gap: 6px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+.status-chip { font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .status-chip.live { color: var(--success); border-color: rgba(34,197,94,.35); }
 .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.balance-pill {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 8px; padding: 5px 9px;
-  font-size: 12.5px; font-weight: 700;
-  transition: transform .2s;
-}
+.balance-pill { display: flex; align-items: center; gap: 6px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 5px 9px; font-size: 12.5px; font-weight: 700; transition: transform .2s; }
 .balance-pill.bump { transform: scale(1.1); }
-.balance-pill .coin {
-  width: 14px; height: 14px; border-radius: 50%;
-  background: var(--warning); display: inline-block;
-  position: relative;
-}
-.balance-pill .coin::after {
-  content: '$'; position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 8px; font-weight: 900; color: rgba(0,0,0,.55);
-}
-.icon-btn {
-  width: 36px; height: 36px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-2);
-}
+.balance-pill .coin { width: 14px; height: 14px; border-radius: 50%; background: var(--warning); display: inline-block; position: relative; }
+.balance-pill .coin::after { content: '$'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 900; color: rgba(0,0,0,.55); }
+.icon-btn { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-2); }
 .icon-btn:active { background: var(--surface-2); }
 .icon-btn svg { width: 18px; height: 18px; stroke-width: 1.8; }
 
-.app-main {
-  flex: 1;
-  padding: 14px 14px calc(var(--nav-h) + 16px + env(safe-area-inset-bottom));
-  max-width: 640px; width: 100%; margin: 0 auto;
-}
+.app-main { flex: 1; padding: 14px 14px calc(var(--nav-h) + 16px + env(safe-area-inset-bottom)); max-width: 640px; width: 100%; margin: 0 auto; }
 
 /* BOTTOM NAV */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 45;
-  background: var(--surface); border-top: 1px solid var(--border);
-  display: flex; padding-bottom: env(safe-area-inset-bottom);
-  height: calc(var(--nav-h) + env(safe-area-inset-bottom));
-}
-.nav-item {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 2px;
-  color: var(--text-3); font-size: 10px; font-weight: 600;
-  position: relative; min-width: 0;
-}
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 45; background: var(--surface); border-top: 1px solid var(--border); display: flex; padding-bottom: env(safe-area-inset-bottom); height: calc(var(--nav-h) + env(safe-area-inset-bottom)); }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text-3); font-size: 10px; font-weight: 600; position: relative; min-width: 0; }
 .nav-item svg { width: 20px; height: 20px; stroke-width: 1.8; }
 .nav-item.active { color: var(--accent); }
-.nav-item.active::before {
-  content: ''; position: absolute; top: 0; left: 50%;
-  transform: translateX(-50%); width: 22px; height: 2px;
-  background: var(--accent); border-radius: 0 0 2px 2px;
-}
+.nav-item.active::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 22px; height: 2px; background: var(--accent); border-radius: 0 0 2px 2px; }
 
 /* CARDS */
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
-}
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
 .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
 .card-title { font-size: 12px; font-weight: 700; letter-spacing: .6px; color: var(--text-3); text-transform: uppercase; }
 .card-title-lg { font-size: 15px; font-weight: 700; }
-.balance-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px; margin-bottom: 10px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-}
+.balance-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .balance-info .bl { font-size: 11px; color: var(--text-3); font-weight: 600; text-transform: uppercase; }
 .balance-info .bv { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-top: 2px; }
 .balance-info .bn { font-size: 10px; color: var(--text-3); font-weight: 600; margin-top: 4px; }
@@ -156,365 +139,84 @@ input, select { font-family: inherit; outline: none; }
 
 /* GAME CARDS */
 .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-.game-card {
-  background: var(--surface); border: 1.5px solid var(--border);
-  border-radius: var(--radius); padding: 16px;
-  cursor: pointer; transition: all .2s;
-  display: flex; flex-direction: column; gap: 8px;
-  min-height: 140px;
-}
+.game-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: all .2s; display: flex; flex-direction: column; gap: 8px; min-height: 140px; }
 .game-card:active { transform: scale(.97); }
 .game-card.gc-mines { border-color: rgba(245,158,11,.4); }
-.game-card.gc-mines:active { background: rgba(245,158,11,.05); }
 .game-card.gc-survivor { border-color: rgba(59,130,246,.4); }
-.game-card.gc-survivor:active { background: rgba(59,130,246,.05); }
-.game-card .gc-icon {
-  width: 44px; height: 44px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-}
+.game-card .gc-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
 .gc-mines .gc-icon { background: rgba(245,158,11,.15); }
 .gc-survivor .gc-icon { background: rgba(59,130,246,.15); }
 .game-card .gc-name { font-size: 15px; font-weight: 800; }
 .game-card .gc-desc { font-size: 11px; color: var(--text-3); font-weight: 500; line-height: 1.4; }
 .game-card .gc-play { font-size: 11px; color: var(--accent); font-weight: 800; letter-spacing: .5px; margin-top: auto; }
 
-/* BUTTONS */
-.btn {
-  display: flex; align-items: center; justify-content: center;
-  gap: 8px; width: 100%; min-height: 46px; padding: 12px 16px;
-  border-radius: var(--radius);
-  font-size: 14.5px; font-weight: 700;
-  background: var(--accent); color: #fff;
-  transition: all .15s;
-}
-.btn:active { transform: scale(.98); }
-.btn:disabled { opacity: .45; cursor: not-allowed; background: var(--surface-3); color: var(--text-3); }
-.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-success { background: var(--success); color: #fff; }
-.btn-warning { background: var(--warning); color: #1a1a1a; }
-.btn-gold { background: var(--gold); color: #1a1a1a; }
-.btn-sm { min-height: 36px; padding: 8px 12px; font-size: 13px; width: auto; border-radius: 8px; }
-
 /* LISTS */
 .list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.list-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 14px; border-bottom: 1px solid var(--border);
-  min-width: 0;
-}
+.list-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--border); min-width: 0; }
 .list-row:last-child { border-bottom: none; }
 .list-row:active { background: var(--surface-2); }
-.list-row .avatar {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: var(--surface-3); color: var(--text-2);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 13px; flex-shrink: 0;
-}
-.list-row .avatar.team-a { background: rgba(59,130,246,.15); color: var(--accent); }
-.list-row .avatar.team-b { background: rgba(245,158,11,.15); color: var(--warning); }
-.list-row .avatar.won { background: rgba(34,197,94,.15); color: var(--success); }
-.list-row .avatar.lost { background: rgba(239,68,68,.15); color: var(--danger); }
+.list-row .avatar { width: 36px; height: 36px; border-radius: 10px; background: var(--surface-3); color: var(--text-2); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; flex-shrink: 0; }
 .list-row .lr-body { flex: 1; min-width: 0; }
 .list-row .lr-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.list-row .lr-sub {
-  font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+.list-row .lr-sub { font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .list-row .lr-right { text-align: right; flex-shrink: 0; }
 .list-row .lr-amount { font-size: 14px; font-weight: 800; }
 .list-row .lr-amount.up { color: var(--success); }
 .list-row .lr-amount.down { color: var(--danger); }
-.list-row .lr-amount.pending { color: var(--warning); }
 .list-row .lr-meta { font-size: 10.5px; color: var(--text-3); margin-top: 2px; font-weight: 600; }
 
 /* BADGES */
-.badge {
-  display: inline-block; font-size: 10px; font-weight: 800;
-  letter-spacing: .5px; padding: 2px 7px; border-radius: 4px;
-  text-transform: uppercase;
-}
+.badge { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .5px; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; }
 .badge.won, .badge.active, .badge.live { color: var(--success); background: rgba(34,197,94,.12); }
 .badge.lost, .badge.eliminated, .badge.blocked { color: var(--danger); background: rgba(239,68,68,.12); }
 .badge.pending, .badge.closed, .badge.refund { color: var(--warning); background: rgba(245,158,11,.12); }
-.badge.cancelled, .badge.done { color: var(--text-3); background: var(--surface-3); }
+.badge.done { color: var(--text-3); background: var(--surface-3); }
 .badge.admin { color: var(--warning); background: rgba(245,158,11,.12); }
-.badge.error { color: var(--danger); background: rgba(239,68,68,.2); border: 1px solid var(--danger); }
 
-/* MINES BOARD */
-.mines-board-wrap { position: relative; width: 100%; aspect-ratio: 1/1; margin: 14px 0; }
-.mines-board {
-  display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr);
-  gap: 6px; width: 100%; height: 100%;
-}
-.tile {
-  position: relative;
-  background: linear-gradient(180deg, var(--surface-3), var(--surface-2));
-  border: 1px solid var(--border-2); border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all .15s;
-  user-select: none; -webkit-user-select: none;
-  touch-action: manipulation;
-}
-.tile:not(.revealed):not(.disabled):active { transform: scale(.94); }
-.tile.disabled { cursor: not-allowed; opacity: .8; }
-.tile .gem, .tile .bomb {
-  width: 55%; height: 55%; opacity: 0; transform: scale(.5);
-  transition: opacity .25s, transform .3s cubic-bezier(.2,.9,.3,1.3);
-}
-.tile.revealed .gem, .tile.revealed .bomb { opacity: 1; transform: scale(1); }
-.tile .gem { color: var(--gold); }
-.tile .bomb { color: var(--danger); }
-.tile.revealed.safe { background: rgba(245,158,11,.12); border-color: rgba(245,158,11,.5); }
-.tile.revealed.mine { background: rgba(239,68,68,.15); border-color: rgba(239,68,68,.6); }
-.tile.revealed.mine.boom { animation: boom .5s ease-out; }
-@keyframes boom {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(239,68,68,.7); }
-  100% { transform: scale(1); }
-}
-.tile .idx { position: absolute; top: 4px; left: 6px; font-size: 8px; color: var(--text-3); font-weight: 700; opacity: .5; }
-
-.multiplier-display {
-  background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.03));
-  border: 1px solid rgba(245,158,11,.3); border-radius: var(--radius);
-  padding: 14px; text-align: center; margin-bottom: 10px;
-}
-.multiplier-display .lbl { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
-.multiplier-display .val { font-size: 32px; font-weight: 900; letter-spacing: -1.5px; color: var(--gold); margin-top: 4px; }
-.multiplier-display .potential { font-size: 12px; color: var(--text-3); font-weight: 700; margin-top: 4px; }
-
-.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
-.stat-cell { background: var(--surface-2); border-radius: 8px; padding: 10px; text-align: center; }
-.stat-cell .k { font-size: 9px; color: var(--text-3); font-weight: 800; letter-spacing: .6px; text-transform: uppercase; }
-.stat-cell .v { font-size: 15px; font-weight: 800; margin-top: 3px; }
-.stat-cell .v.success { color: var(--success); }
-.stat-cell .v.danger { color: var(--danger); }
-.stat-cell .v.accent { color: var(--accent); }
-
-/* CHIPS */
-.chip-row { display: grid; gap: 5px; }
-.chip-row.mines { grid-template-columns: repeat(4, 1fr); }
-.chip-row.stake { grid-template-columns: repeat(5, 1fr); }
-.chip {
-  padding: 8px 4px; border-radius: 8px;
-  background: var(--surface-2); border: 1px solid var(--border);
-  color: var(--text); font-size: 12px; font-weight: 800;
-  min-height: 36px; text-align: center;
-}
-.chip.active { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
-.chip .rate {
-  display: block; font-size: 9px; font-weight: 700;
-  color: var(--text-3); margin-top: 2px;
-}
-.chip.active .rate { color: rgba(0,0,0,.6); }
-
-.stake-input {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--surface-2); border: 1.5px solid var(--border);
-  border-radius: 8px; padding: 4px 12px; margin-top: 8px;
-}
-.stake-input:focus-within { border-color: var(--gold); }
-.stake-input input {
-  flex: 1; border: none; background: transparent; color: var(--text);
-  font-size: 16px; font-weight: 800; padding: 8px 0; width: 100%; min-width: 0;
-}
-.stake-input .u { font-size: 11px; color: var(--text-3); font-weight: 800; }
-
-/* RESULT */
-.result-banner { padding: 16px; border-radius: var(--radius); margin-bottom: 10px; text-align: center; animation: popIn .35s; }
-.result-banner.win { background: linear-gradient(135deg, rgba(34,197,94,.15), rgba(34,197,94,.05)); border: 1px solid rgba(34,197,94,.4); }
-.result-banner.loss { background: linear-gradient(135deg, rgba(239,68,68,.15), rgba(239,68,68,.05)); border: 1px solid rgba(239,68,68,.4); }
-.result-banner.refund { background: linear-gradient(135deg, rgba(245,158,11,.15), rgba(245,158,11,.05)); border: 1px solid rgba(245,158,11,.4); }
-.result-banner .ico { font-size: 32px; margin-bottom: 6px; }
-.result-banner .title { font-size: 18px; font-weight: 800; }
-.result-banner .sub { font-size: 12.5px; color: var(--text-3); margin-top: 4px; font-weight: 600; }
-.result-banner .amt { font-size: 22px; font-weight: 900; margin-top: 8px; }
-.result-banner.win .amt { color: var(--success); }
-.result-banner.loss .amt { color: var(--danger); }
-.result-banner.refund .amt { color: var(--warning); }
-@keyframes popIn { 0% { opacity: 0; transform: scale(.9) } 100% { opacity: 1; transform: scale(1) } }
-
-/* TEAM PANEL */
-.teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.team-panel {
-  background: var(--surface); border: 1.5px solid var(--border);
-  border-radius: var(--radius); padding: 12px; transition: all .15s;
-}
-.team-panel.selectable { cursor: pointer; }
-.team-panel.selectable:active { background: var(--surface-2); }
-.team-panel.selected-a { border-color: var(--accent); background: rgba(59,130,246,.05); }
-.team-panel.selected-b { border-color: var(--warning); background: rgba(245,158,11,.05); }
-.team-panel.dead { opacity: .55; }
-.tp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.tp-name { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
-.tp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-.team-panel.team-B .tp-dot { background: var(--warning); }
-.tp-badge {
-  font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
-  background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border);
-}
-.tp-badge.alive { color: var(--success); border-color: rgba(34,197,94,.35); }
-.tp-badge.dead { color: var(--danger); border-color: rgba(239,68,68,.35); }
-.tp-stat { display: flex; justify-content: space-between; font-size: 11.5px; padding: 3px 0; }
-.tp-stat .k { color: var(--text-3); font-weight: 600; }
-.tp-stat .v { font-weight: 700; }
-.tp-rate { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: baseline; }
-.tp-rate .lbl { font-size: 9px; color: var(--text-3); font-weight: 800; text-transform: uppercase; }
-.tp-rate .val { font-size: 18px; font-weight: 800; color: var(--accent); }
-.team-panel.team-B .tp-rate .val { color: var(--warning); }
-
-/* STICKY */
-.sticky-action {
-  position: sticky; bottom: calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));
-  background: var(--bg); padding: 10px 14px 4px; margin: 0 -14px; z-index: 20;
-}
-
-/* PROFILE */
-.profile-header {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px 14px; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 14px;
-}
-.profile-avatar {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--accent); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 20px;
-}
-.profile-info { flex: 1; min-width: 0; }
-.profile-info .pi-name { font-size: 17px; font-weight: 800; }
-.profile-info .pi-email { font-size: 12px; color: var(--text-3); margin-top: 2px; }
-
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
-.kpi-card .kk { font-size: 10px; color: var(--text-3); font-weight: 700; text-transform: uppercase; }
-.kpi-card .kv { font-size: 22px; font-weight: 800; margin-top: 4px; }
-.kpi-card .kv.accent { color: var(--accent); }
-.kpi-card .kv.success { color: var(--success); }
-.kpi-card .kv.warning { color: var(--warning); }
-.kpi-card .kv.danger { color: var(--danger); }
-
-/* FORM */
-.form-field { margin-bottom: 12px; }
-.form-field label {
-  display: block; font-size: 11px; color: var(--text-3);
-  font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.form-field input, .form-field select {
-  width: 100%; padding: 12px 14px;
-  background: var(--surface); border: 1.5px solid var(--border-2);
-  color: var(--text); border-radius: var(--radius); font-size: 15px; min-height: 46px;
-}
-.form-field input:focus, .form-field select:focus { border-color: var(--accent); }
-
-/* SHEET */
-.sheet-backdrop {
-  position: fixed; inset: 0; background: rgba(0,0,0,.55);
-  z-index: 100; display: flex; align-items: flex-end; justify-content: center;
-  animation: fadeIn .18s;
-}
+/* WELCOME BONUS BANNER (dynamic points) */
+.bonus-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,.8); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn .3s; }
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-.sheet {
-  background: var(--surface); border-radius: 16px 16px 0 0;
-  width: 100%; max-width: 640px; max-height: 90vh; overflow-y: auto;
-  animation: slideUp .22s;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
-}
-@keyframes slideUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
-.sheet-handle { width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 10px auto 6px; }
-.sheet-head {
-  padding: 6px 16px 14px;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--border); gap: 12px;
-}
-.sheet-head h3 { font-size: 16px; font-weight: 800; }
-.sheet-body { padding: 16px; }
-.sheet-close {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--surface-2);
-  display: flex; align-items: center; justify-content: center;
-}
+.bonus-card { max-width: 400px; width: 100%; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 20px; padding: 32px 24px; text-align: center; color: #fff; box-shadow: 0 20px 60px rgba(245,158,11,.5); animation: bonusPop .5s cubic-bezier(.2,.9,.3,1.3); position: relative; overflow: hidden; }
+@keyframes bonusPop { 0% { opacity: 0; transform: scale(.5) rotate(-10deg); } 60% { transform: scale(1.05) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+.bonus-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,.15), transparent 60%); animation: rotate 8s linear infinite; }
+@keyframes rotate { to { transform: rotate(360deg) } }
+.bonus-card .b-emoji { font-size: 64px; margin-bottom: 12px; animation: float 2s ease-in-out infinite; position: relative; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.bonus-card .b-title { font-size: 14px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; opacity: .9; position: relative; }
+.bonus-card .b-amount { font-size: 48px; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; position: relative; text-shadow: 0 4px 12px rgba(0,0,0,.2); }
+.bonus-card .b-desc { font-size: 14px; font-weight: 600; margin-bottom: 20px; opacity: .95; position: relative; line-height: 1.5; }
+.bonus-card .b-btn { background: #fff; color: #d97706; padding: 14px 24px; border-radius: 12px; font-size: 15px; font-weight: 800; width: 100%; min-height: 50px; position: relative; transition: transform .15s; }
+.bonus-card .b-btn:active { transform: scale(.97); }
 
 /* TOAST */
-.toast {
-  position: fixed; left: 50%;
-  bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));
-  transform: translateX(-50%) translateY(120px);
-  background: var(--surface-3); color: var(--text);
-  border: 1px solid var(--border-2);
-  padding: 12px 18px; border-radius: 10px;
-  font-size: 13.5px; font-weight: 600;
-  z-index: 200; max-width: calc(100% - 32px);
-  text-align: center; pointer-events: none;
-  transition: transform .25s cubic-bezier(.2,.9,.3,1.2);
-}
+.toast { position: fixed; left: 50%; bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(120px); background: var(--surface-3); color: var(--text); border: 1px solid var(--border-2); padding: 12px 18px; border-radius: 10px; font-size: 13.5px; font-weight: 600; z-index: 400; max-width: calc(100% - 32px); text-align: center; pointer-events: none; transition: transform .25s cubic-bezier(.2,.9,.3,1.2); }
 .toast.show { transform: translateX(-50%) translateY(0); }
 .toast.err { border-color: rgba(239,68,68,.5); }
 .toast.ok { border-color: rgba(34,197,94,.5); }
 
 /* SPINNER */
-.spinner {
-  width: 16px; height: 16px;
-  border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
-  border-radius: 50%; animation: spin .7s linear infinite; display: inline-block;
-}
-@keyframes spin { to { transform: rotate(360deg) } }
+.spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
 
 /* EMPTY */
 .empty { padding: 32px 20px; text-align: center; color: var(--text-3); font-size: 13px; }
 .empty .ico { font-size: 28px; opacity: .4; margin-bottom: 8px; }
 
-/* LIVE TRACKER */
-.live-tracker {
-  background: linear-gradient(135deg, rgba(34,197,94,.08), rgba(34,197,94,.03));
-  border: 1px solid rgba(34,197,94,.3);
-  border-radius: var(--radius); padding: 12px; margin-bottom: 10px;
-}
-.live-tracker .lt-head {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px;
-}
-.live-tracker .lt-title {
-  font-size: 12px; font-weight: 800; letter-spacing: .5px;
-  color: var(--success); text-transform: uppercase;
-  display: flex; align-items: center; gap: 6px;
-}
-.live-tracker .lt-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--success); animation: pulse 1.5s infinite;
-}
-@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.3); } }
-
-/* ERROR/REFUND BANNER */
-.status-alert {
-  padding: 12px; border-radius: var(--radius); margin-bottom: 10px;
-  display: flex; align-items: center; gap: 10px;
-  font-size: 13px; font-weight: 600;
-}
-.status-alert.error { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.4); color: #fca5a5; }
-.status-alert.refund { background: rgba(245,158,11,.12); border: 1px solid rgba(245,158,11,.4); color: #fcd34d; }
-.status-alert .ico { font-size: 20px; }
-
-/* HELPERS */
-.row-flex { display: flex; align-items: center; gap: 8px; }
-.mt-8 { margin-top: 8px; }
-.mt-12 { margin-top: 12px; }
-.mb-12 { margin-bottom: 12px; }
-.txt-3 { color: var(--text-3); }
-.txt-sm { font-size: 12px; }
-.txt-xs { font-size: 11px; }
-.txt-center { text-align: center; }
-.fw-8 { font-weight: 800; }
+/* SHEET */
+.sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 100; display: flex; align-items: flex-end; justify-content: center; animation: fadeIn .18s; }
+.sheet { background: var(--surface); border-radius: 16px 16px 0 0; width: 100%; max-width: 640px; max-height: 90vh; overflow-y: auto; animation: slideUp .22s; padding-bottom: calc(env(safe-area-inset-bottom) + 8px); }
+@keyframes slideUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
+.sheet-handle { width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 10px auto 6px; }
+.sheet-head { padding: 6px 16px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 12px; }
+.sheet-head h3 { font-size: 16px; font-weight: 800; }
+.sheet-body { padding: 16px; }
+.sheet-close { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-2); display: flex; align-items: center; justify-content: center; }
 </style>
 </head>
 <body>
 
 <!-- LOGIN VIEW -->
-<div id="loginView" class="login-view">
-  <div class="login-brand">
+<div id="loginView" class="auth-view">
+  <div class="auth-brand">
     <div class="bm">PRL</div>
     <div class="bt">
       <div class="bt1">PAWAN GAMING</div>
@@ -522,37 +224,88 @@ input, select { font-family: inherit; outline: none; }
     </div>
   </div>
 
-  <div id="loginForm" class="login-form">
-    <h1 class="login-title">Welcome back</h1>
-    <p class="login-sub">Sign in to play</p>
+  <!-- LOGIN (email/userid) -->
+  <div id="loginForm" class="auth-form">
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-sub">Enter your Email or User ID to continue</p>
     <div id="loginMsg"></div>
-    <div class="form-field"><label>Email</label>
-      <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" /></div>
-    <div class="form-field"><label>Password</label>
-      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" /></div>
-    <button class="btn" onclick="doLogin()" id="loginBtn">Sign In</button>
-    <div class="login-footer">
-      Don't have an account? <span class="link" onclick="showRegister()">Create account</span>
+    <div class="form-field">
+      <label>Email or User ID</label>
+      <input type="text" id="loginIdentifier" placeholder="email@example.com or userid" autocomplete="username" />
     </div>
-    <div class="login-legal">DEMO POINTS • NO CASH VALUE</div>
+    <button class="btn" onclick="checkIdentifier()" id="continueBtn">Continue</button>
+    <div class="auth-footer">
+      New here? Just enter your email above to register
+    </div>
+    <div class="auth-legal">DEMO POINTS • NO CASH VALUE</div>
   </div>
 
-  <div id="registerForm" class="login-form hidden">
-    <h1 class="login-title">Create account</h1>
-    <p class="login-sub">Get 1,000 demo points free</p>
-    <div id="registerMsg"></div>
-    <div class="form-field"><label>Name</label>
-      <input type="text" id="regName" placeholder="Your name" maxlength="30" /></div>
-    <div class="form-field"><label>Email</label>
-      <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email" /></div>
-    <div class="form-field"><label>Password (min 6)</label>
-      <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password" /></div>
+  <!-- PASSWORD SCREEN (existing user) -->
+  <div id="passwordForm" class="auth-form hidden">
+    <h1 class="auth-title">Enter Password</h1>
+    <p class="auth-sub" id="pwSubtitle">Welcome back!</p>
+    <div id="pwMsg"></div>
+    <div class="form-field">
+      <label>Password</label>
+      <input type="password" id="pwInput" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="btn" onclick="doLoginWithPassword()" id="loginPwBtn">Sign In</button>
+    <div class="auth-footer">
+      <span class="link" onclick="backToIdentifier()">← Change Email/ID</span>
+    </div>
+  </div>
+
+  <!-- SET PASSWORD (admin-created user, first login) -->
+  <div id="setPasswordForm" class="auth-form hidden">
+    <h1 class="auth-title">Set Your Password</h1>
+    <p class="auth-sub" id="spSubtitle">Welcome! Your account was created by admin. Please set a password to continue.</p>
+    <div id="spMsg"></div>
+    <div class="form-field">
+      <label>New Password (min 6)</label>
+      <input type="password" id="spPass1" placeholder="••••••••" autocomplete="new-password" />
+    </div>
+    <div class="form-field">
+      <label>Confirm Password</label>
+      <input type="password" id="spPass2" placeholder="••••••••" autocomplete="new-password" />
+    </div>
+    <button class="btn" onclick="doSetPassword()" id="setPwBtn">Set Password & Continue</button>
+    <div class="auth-footer">
+      <span class="link" onclick="backToIdentifier()">← Change Email/ID</span>
+    </div>
+  </div>
+
+  <!-- REGISTER (new user) -->
+  <div id="registerForm" class="auth-form hidden">
+    <h1 class="auth-title">Create Account</h1>
+    <p class="auth-sub">Get started with your new account</p>
+    <div id="regMsg"></div>
+    <div class="form-field">
+      <label>Full Name</label>
+      <input type="text" id="regName" placeholder="Your name" maxlength="30" />
+    </div>
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email" />
+    </div>
+    <div class="form-field">
+      <label>User ID (optional, unique)</label>
+      <input type="text" id="regUserId" placeholder="e.g., pawan123" maxlength="20" />
+      <div class="form-hint">3-20 characters. Letters and numbers only.</div>
+      <div id="userIdCheck"></div>
+    </div>
+    <div class="form-field">
+      <label>Password (min 6)</label>
+      <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password" />
+    </div>
     <button class="btn" onclick="doRegister()" id="regBtn">Create Account</button>
-    <div class="login-footer">
-      Already registered? <span class="link" onclick="showLogin()">Sign In</span>
+    <div class="auth-footer">
+      <span class="link" onclick="backToIdentifier()">← Back to Login</span>
     </div>
   </div>
 </div>
+
+<!-- BLOCKED VIEW -->
+<div id="blockedView" class="blocked-view hidden"></div>
 
 <!-- APP VIEW -->
 <div id="appView" class="hidden">
@@ -582,7 +335,6 @@ input, select { font-family: inherit; outline: none; }
       </button>
     </div>
   </header>
-
   <main class="app-main" id="appMain"></main>
   <nav class="bottom-nav" id="bottomNav"></nav>
 </div>
@@ -592,13 +344,15 @@ input, select { font-family: inherit; outline: none; }
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  signOut, onAuthStateChanged, updateProfile }
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
+import { 
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged, updateProfile, sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { 
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
   collection, addDoc, onSnapshot, query, where, orderBy, limit, getDocs,
-  runTransaction, serverTimestamp }
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  runTransaction, serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC1eo4ZH8b4D1kXV3fczZkiajNOU0cw2YE",
@@ -617,6 +371,13 @@ const db = getFirestore(app);
 /* STATE */
 const state = {
   user: null, profile: null, isAdmin: false,
+  loginFlow: {
+    identifier: '',
+    email: '',
+    userId: '',
+    preCreatedUid: null,  // If admin-created user
+    name: ''
+  },
   settings: null,
   matches: [], currentMatchId: null,
   rounds: [], players: [], predictions: [], users: [], history: [],
@@ -629,12 +390,17 @@ const state = {
     adminView: 'live', adminGames: [], adminLoading: false, adminSearch: '',
     liveGames: []
   },
-  currentPage: 'home', unsub: []
+  currentPage: 'home', unsub: [],
+  blockTimerInterval: null
 };
 
 function unsubAll() {
   state.unsub.forEach(fn => { try { fn(); } catch(e){} });
   state.unsub = [];
+  if (state.blockTimerInterval) {
+    clearInterval(state.blockTimerInterval);
+    state.blockTimerInterval = null;
+  }
 }
 
 const savedTheme = localStorage.getItem('prl-theme') || 'dark';
@@ -656,17 +422,10 @@ window.toast = (msg, type='ok') => {
   toastTimer = setTimeout(() => t.className = 'toast', 3200);
 };
 
-/* AUTH UI */
-window.showRegister = () => {
-  document.getElementById('loginForm').classList.add('hidden');
-  document.getElementById('registerForm').classList.remove('hidden');
-};
-window.showLogin = () => {
-  document.getElementById('registerForm').classList.add('hidden');
-  document.getElementById('loginForm').classList.remove('hidden');
-};
-function loginMsg(text, type='err', which='login') {
-  const el = document.getElementById(which === 'login' ? 'loginMsg' : 'registerMsg');
+function authMsg(text, type='err', which='login') {
+  const el = document.getElementById(which === 'login' ? 'loginMsg' : 
+    which === 'pw' ? 'pwMsg' : 
+    which === 'sp' ? 'spMsg' : 'regMsg');
   if (!el) return;
   if (!text) { el.innerHTML = ''; return; }
   const bg = type === 'err' ? 'rgba(239,68,68,.12)' : 'rgba(34,197,94,.12)';
@@ -675,50 +434,373 @@ function loginMsg(text, type='err', which='login') {
   el.innerHTML = `<div style="padding:10px 12px;border-radius:8px;font-size:12.5px;font-weight:600;margin-bottom:12px;background:${bg};color:${fg};border:1px solid ${bd}">${text}</div>`;
 }
 
-window.doLogin = async () => {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass = document.getElementById('loginPass').value;
-  if (!email || !pass) return loginMsg('Enter email and password');
-  const btn = document.getElementById('loginBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>'; loginMsg('');
+function showAuthScreen(name) {
+  ['loginForm','passwordForm','setPasswordForm','registerForm'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('hidden', id !== name + 'Form');
+  });
+}
+
+function backToIdentifier() {
+  state.loginFlow = { identifier: '', email: '', userId: '', preCreatedUid: null, name: '' };
+  document.getElementById('loginIdentifier').value = '';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('spPass1').value = '';
+  document.getElementById('spPass2').value = '';
+  authMsg('', 'err', 'login');
+  authMsg('', 'err', 'pw');
+  authMsg('', 'err', 'sp');
+  showAuthScreen('login');
+}
+
+/* ═══════════════════════════════════════════════════
+   IDENTIFIER CHECK (login flow entry point)
+   ═══════════════════════════════════════════════════ */
+window.checkIdentifier = async () => {
+  const input = document.getElementById('loginIdentifier').value.trim();
+  if (!input) return authMsg('Enter Email or User ID', 'err', 'login');
+  
+  const btn = document.getElementById('continueBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  authMsg('', 'err', 'login');
+  
+  try {
+    let email = null, userId = null, preCreatedUid = null, name = '', hasAuth = false;
+    const isEmail = input.includes('@');
+    
+    if (isEmail) {
+      email = input.toLowerCase();
+      // Check emails lookup
+      const emailDoc = await getDoc(doc(db, 'emails', email));
+      if (emailDoc.exists()) {
+        const data = emailDoc.data();
+        preCreatedUid = data.uid;
+        name = data.name || '';
+        hasAuth = data.hasAuth === true;
+      }
+    } else {
+      userId = input.toLowerCase();
+      // Check userIds lookup
+      const userIdDoc = await getDoc(doc(db, 'userIds', userId));
+      if (userIdDoc.exists()) {
+        const data = userIdDoc.data();
+        preCreatedUid = data.uid;
+        email = data.email;
+        name = data.name || '';
+        hasAuth = data.hasAuth === true;
+      }
+    }
+    
+    if (preCreatedUid) {
+      // User EXISTS in system
+      state.loginFlow.identifier = input;
+      state.loginFlow.email = email || input;
+      state.loginFlow.userId = userId || '';
+      state.loginFlow.preCreatedUid = preCreatedUid;
+      state.loginFlow.name = name;
+      
+      if (hasAuth) {
+        // Password already set → password screen
+        document.getElementById('pwSubtitle').textContent = `Welcome back, ${name || email}!`;
+        showAuthScreen('password');
+        setTimeout(() => document.getElementById('pwInput').focus(), 200);
+      } else {
+        // Admin-created, no password → set password screen
+        document.getElementById('spSubtitle').textContent = `Welcome ${name || email}! Your account was created by admin. Set a password to continue.`;
+        showAuthScreen('setPassword');
+        setTimeout(() => document.getElementById('spPass1').focus(), 200);
+      }
+    } else {
+      // User does NOT exist → register
+      state.loginFlow.identifier = input;
+      state.loginFlow.email = isEmail ? input.toLowerCase() : '';
+      
+      // Auto-fill register form
+      if (isEmail) {
+        document.getElementById('regEmail').value = input.toLowerCase();
+        document.getElementById('regUserId').value = '';
+      } else {
+        document.getElementById('regUserId').value = input;
+        document.getElementById('regEmail').value = '';
+      }
+      showAuthScreen('register');
+      setTimeout(() => {
+        const focusEl = isEmail ? document.getElementById('regName') : document.getElementById('regEmail');
+        focusEl?.focus();
+      }, 200);
+    }
+  } catch(e) {
+    console.error(e);
+    authMsg('Failed to check. Please try again.', 'err', 'login');
+  }
+  
+  btn.disabled = false;
+  btn.textContent = 'Continue';
+};
+
+/* ═══════════════════════════════════════════════════
+   LOGIN WITH PASSWORD (existing user)
+   ═══════════════════════════════════════════════════ */
+window.doLoginWithPassword = async () => {
+  const pass = document.getElementById('pwInput').value;
+  const email = state.loginFlow.email;
+  if (!pass) return authMsg('Enter password', 'err', 'pw');
+  if (pass.length < 6) return authMsg('Password min 6 chars', 'err', 'pw');
+  
+  const btn = document.getElementById('loginPwBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  authMsg('', 'err', 'pw');
+  
   try {
     await signInWithEmailAndPassword(auth, email, pass);
-  } catch (e) {
-    loginMsg((e.message||'').replace('Firebase: ','')||'Sign in failed');
-    btn.disabled = false; btn.textContent = 'Sign In';
+    // onAuthStateChanged will handle the rest
+  } catch(e) {
+    const msg = (e.message||'').replace('Firebase: ','');
+    if (msg.includes('wrong-password') || msg.includes('invalid-credential')) {
+      authMsg('Incorrect password', 'err', 'pw');
+    } else {
+      authMsg(msg || 'Login failed', 'err', 'pw');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
   }
 };
 
+/* ═══════════════════════════════════════════════════
+   SET PASSWORD (admin-created user, first login)
+   ═══════════════════════════════════════════════════ */
+window.doSetPassword = async () => {
+  const p1 = document.getElementById('spPass1').value;
+  const p2 = document.getElementById('spPass2').value;
+  const email = state.loginFlow.email;
+  const name = state.loginFlow.name || email.split('@')[0];
+  
+  if (!p1 || p1.length < 6) return authMsg('Password min 6 chars', 'err', 'sp');
+  if (p1 !== p2) return authMsg('Passwords do not match', 'err', 'sp');
+  
+  const btn = document.getElementById('setPwBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  authMsg('', 'err', 'sp');
+  
+  try {
+    // Create Firebase Auth account
+    const cred = await createUserWithEmailAndPassword(auth, email, p1);
+    await updateProfile(cred.user, { displayName: name });
+    
+    const uid = cred.user.uid;
+    const oldUid = state.loginFlow.preCreatedUid;
+    
+    // Get pre-created user doc
+    const oldUserRef = doc(db, 'users', oldUid);
+    const oldUserSnap = await getDoc(oldUserRef);
+    const oldData = oldUserSnap.exists() ? oldUserSnap.data() : {};
+    
+    // Create new user doc with auth UID
+    const customPoints = oldData.demoPoints || 1000;
+    await setDoc(doc(db, 'users', uid), {
+      ...oldData,
+      uid,
+      email,
+      name: name,
+      demoPoints: customPoints,
+      blocked: false,
+      hasAuth: true,
+      createdAt: oldData.createdAt || serverTimestamp(),
+      claimedAt: serverTimestamp()
+    });
+    
+    // Update email lookup to new uid
+    if (email) {
+      await setDoc(doc(db, 'emails', email), {
+        uid,
+        email,
+        name,
+        hasAuth: true,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+    }
+    
+    // Update userId lookup if exists
+    if (state.loginFlow.userId) {
+      await setDoc(doc(db, 'userIds', state.loginFlow.userId), {
+        uid,
+        email,
+        name,
+        userId: state.loginFlow.userId,
+        hasAuth: true,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+    }
+    
+    // Delete old pre-created user doc
+    if (oldUid && oldUid !== uid) {
+      await deleteDoc(oldUserRef);
+    }
+    
+    // Show bonus banner with admin-set points
+    showWelcomeBonus(customPoints, name);
+    // onAuthStateChanged will handle UI switch
+  } catch(e) {
+    console.error(e);
+    const msg = (e.message||'').replace('Firebase: ','');
+    if (msg.includes('email-already-in-use')) {
+      authMsg('This email is already registered. Please login.', 'err', 'sp');
+    } else {
+      authMsg(msg || 'Failed to set password', 'err', 'sp');
+    }
+    btn.disabled = false;
+    btn.textContent = 'Set Password & Continue';
+  }
+};
+
+/* ═══════════════════════════════════════════════════
+   REGISTER (new user)
+   ═══════════════════════════════════════════════════ */
 window.doRegister = async () => {
   const name = document.getElementById('regName').value.trim();
-  const email = document.getElementById('regEmail').value.trim();
+  const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  const userId = document.getElementById('regUserId').value.trim().toLowerCase();
   const pass = document.getElementById('regPass').value;
-  if (!name) return loginMsg('Enter name','err','reg');
-  if (!email) return loginMsg('Enter email','err','reg');
-  if (!pass || pass.length < 6) return loginMsg('Password min 6','err','reg');
+  
+  if (!name) return authMsg('Enter your name', 'err', 'reg');
+  if (!email || !email.includes('@')) return authMsg('Enter valid email', 'err', 'reg');
+  if (!pass || pass.length < 6) return authMsg('Password min 6 chars', 'err', 'reg');
+  if (userId && (userId.length < 3 || userId.length > 20)) {
+    return authMsg('User ID must be 3-20 chars', 'err', 'reg');
+  }
+  if (userId && !/^[a-z0-9_]+$/.test(userId)) {
+    return authMsg('User ID: only letters, numbers, _', 'err', 'reg');
+  }
+  
   const btn = document.getElementById('regBtn');
-  btn.disabled = true; btn.textContent = 'Creating…';
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  authMsg('', 'err', 'reg');
+  
   try {
+    // Check if email already registered
+    const emailDoc = await getDoc(doc(db, 'emails', email));
+    if (emailDoc.exists()) {
+      authMsg('Email already registered. Please login.', 'err', 'reg');
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+      return;
+    }
+    
+    // Check if userId already taken
+    if (userId) {
+      const userIdDoc = await getDoc(doc(db, 'userIds', userId));
+      if (userIdDoc.exists()) {
+        authMsg('User ID already taken. Try another.', 'err', 'reg');
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+        return;
+      }
+    }
+    
+    // Create auth account
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await updateProfile(cred.user, { displayName: name });
-    await setDoc(doc(db, 'users', cred.user.uid), {
-      email, name, demoPoints: 1000, blocked: false,
-      role: 'customer', createdAt: serverTimestamp()
+    const uid = cred.user.uid;
+    
+    // Create user doc
+    await setDoc(doc(db, 'users', uid), {
+      uid, email, name,
+      userId: userId || null,
+      demoPoints: 1000,  // Default bonus for self-registered
+      blocked: false,
+      hasAuth: true,
+      role: 'customer',
+      createdAt: serverTimestamp()
     });
-    toast('Welcome! 1,000 demo points', 'ok');
-  } catch (e) {
-    loginMsg((e.message||'').replace('Firebase: ','')||'Registration failed','err','reg');
-    btn.disabled = false; btn.textContent = 'Create Account';
+    
+    // Create email lookup
+    await setDoc(doc(db, 'emails', email), {
+      uid, email, name, hasAuth: true,
+      createdAt: serverTimestamp()
+    });
+    
+    // Create userId lookup if provided
+    if (userId) {
+      await setDoc(doc(db, 'userIds', userId), {
+        uid, email, name, userId, hasAuth: true,
+        createdAt: serverTimestamp()
+      });
+    }
+    
+    // Show welcome bonus
+    showWelcomeBonus(1000, name);
+  } catch(e) {
+    console.error(e);
+    const msg = (e.message||'').replace('Firebase: ','');
+    authMsg(msg || 'Registration failed', 'err', 'reg');
+    btn.disabled = false;
+    btn.textContent = 'Create Account';
   }
 };
 
-window.doLogout = async () => {
-  if (!confirm('Sign out?')) return;
-  unsubAll();
-  await signOut(auth);
+/* ═══════════════════════════════════════════════════
+   USER ID AVAILABILITY CHECK (register form)
+   ═══════════════════════════════════════════════════ */
+let userIdCheckTimer = null;
+document.getElementById('regUserId')?.addEventListener('input', (e) => {
+  const v = e.target.value.trim().toLowerCase();
+  const el = document.getElementById('userIdCheck');
+  clearTimeout(userIdCheckTimer);
+  
+  if (!v) {
+    el.innerHTML = '';
+    return;
+  }
+  if (v.length < 3 || !/^[a-z0-9_]+$/.test(v)) {
+    el.innerHTML = `<div class="id-check taken">❌ User ID: 3-20 chars, letters/numbers/_ only</div>`;
+    return;
+  }
+  
+  el.innerHTML = `<div class="id-check checking"><div class="spinner-sm"></div>Checking availability…</div>`;
+  
+  userIdCheckTimer = setTimeout(async () => {
+    try {
+      const snap = await getDoc(doc(db, 'userIds', v));
+      if (snap.exists()) {
+        el.innerHTML = `<div class="id-check taken">❌ User ID taken. Try another.</div>`;
+      } else {
+        el.innerHTML = `<div class="id-check available">✅ User ID available!</div>`;
+      }
+    } catch(e) {
+      el.innerHTML = '';
+    }
+  }, 500);
+});
+
+/* ═══════════════════════════════════════════════════
+   WELCOME BONUS BANNER
+   ═══════════════════════════════════════════════════ */
+function showWelcomeBonus(points, name) {
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `
+    <div class="bonus-overlay" onclick="closeBonus(event)">
+      <div class="bonus-card" onclick="event.stopPropagation()">
+        <div class="b-emoji">🎉</div>
+        <div class="b-title">Welcome Bonus</div>
+        <div class="b-amount">🪙 ${Math.floor(points).toLocaleString()}</div>
+        <div class="b-desc">Hi ${escapeHtml(name || 'Player')}!<br/>Your demo points are ready.</div>
+        <button class="b-btn" onclick="closeBonus()">Start Playing</button>
+      </div>
+    </div>
+  `;
+}
+window.closeBonus = (e) => {
+  if (e && e.target && e.target.className !== 'bonus-overlay' && !e.target.classList?.contains?.('b-btn')) return;
+  document.getElementById('modalRoot').innerHTML = '';
 };
 
-/* AUTH OBSERVER */
+/* ═══════════════════════════════════════════════════
+   AUTH STATE
+   ═══════════════════════════════════════════════════ */
 onAuthStateChanged(auth, async (user) => {
   unsubAll();
   if (!user) {
@@ -731,40 +813,48 @@ onAuthStateChanged(auth, async (user) => {
       view: 'game', history: [], adminGames: [], liveGames: []
     });
     document.getElementById('loginView').classList.remove('hidden');
+    document.getElementById('blockedView').classList.add('hidden');
     document.getElementById('appView').classList.add('hidden');
+    showAuthScreen('login');
     return;
   }
   state.user = user;
-
+  
   let isAdmin = false;
   try {
     const aSnap = await getDoc(doc(db, 'admins', user.uid));
     isAdmin = aSnap.exists();
   } catch(e) {}
   state.isAdmin = isAdmin;
-
+  
   const profRef = doc(db, 'users', user.uid);
   let profSnap = await getDoc(profRef);
+  
+  // If user doc missing (rare), create one
   if (!profSnap.exists()) {
     try {
       await setDoc(profRef, {
+        uid: user.uid,
         email: user.email,
         name: user.displayName || (user.email||'').split('@')[0],
-        demoPoints: 1000, blocked: false, role: 'customer',
+        demoPoints: 1000,
+        blocked: false,
+        hasAuth: true,
+        role: 'customer',
         createdAt: serverTimestamp()
+      });
+      // Create email lookup
+      await setDoc(doc(db, 'emails', user.email.toLowerCase()), {
+        uid: user.uid, email: user.email, name: user.displayName || '',
+        hasAuth: true, createdAt: serverTimestamp()
       });
       profSnap = await getDoc(profRef);
     } catch(e) {}
   }
-  if (profSnap.exists() && profSnap.data().blocked) {
-    toast('Account blocked.', 'err');
-    setTimeout(() => signOut(auth), 1500);
-    return;
-  }
-
+  
   document.getElementById('loginView').classList.add('hidden');
-  document.getElementById('appView').classList.remove('hidden');
-
+  
+  // Attach profile listener
   attachProfileListener();
   attachSettingsListener();
   attachMatchesListener();
@@ -776,12 +866,12 @@ onAuthStateChanged(auth, async (user) => {
     attachHistoryListener();
     attachAdminMinesLiveListener();
   }
-
+  
   state.currentPage = 'home';
   renderNav();
   render();
-
-  // Auto-refund stale active games on user login
+  
+  // Check stale games
   await checkAndRefundStaleGames();
 });
 
@@ -790,24 +880,34 @@ function attachProfileListener() {
   const un = onSnapshot(doc(db, 'users', state.user.uid), snap => {
     if (!snap.exists()) return;
     const d = snap.data();
-    if (d.blocked) { toast('Account blocked', 'err'); setTimeout(() => signOut(auth), 1200); return; }
     const prev = state.profile?.demoPoints;
-    state.profile = d; render();
-    if (prev !== d.demoPoints) {
-      const pill = document.getElementById('balancePill');
-      if (pill) { pill.classList.add('bump'); setTimeout(()=>pill.classList.remove('bump'),200); }
+    state.profile = d;
+    
+    // Check if blocked
+    const isBlocked = d.blocked === true || 
+      (d.tempBlockUntil && d.tempBlockUntil.toMillis() > Date.now());
+    
+    if (isBlocked) {
+      showBlockedView();
+    } else {
+      document.getElementById('blockedView').classList.add('hidden');
+      document.getElementById('appView').classList.remove('hidden');
+      if (prev !== d.demoPoints) {
+        const pill = document.getElementById('balancePill');
+        if (pill) { pill.classList.add('bump'); setTimeout(()=>pill.classList.remove('bump'),200); }
+      }
+      render();
     }
   });
   state.unsub.push(un);
 }
 
 function attachSettingsListener() {
-  const ref = doc(db, 'settings', 'app');
-  const un = onSnapshot(ref, async snap => {
+  const un = onSnapshot(doc(db, 'settings', 'app'), async snap => {
     if (!snap.exists()) {
       if (state.isAdmin) {
-        try { await setDoc(ref, { baseWinRate: 25, baseRate: 2.00, maxRounds: 8, updatedAt: serverTimestamp() }); } catch(e){}
-      } else { state.settings = { baseWinRate: 25, baseRate: 2.00, maxRounds: 8 }; }
+        try { await setDoc(doc(db, 'settings', 'app'), { baseWinRate: 25, baseRate: 2, maxRounds: 8, updatedAt: serverTimestamp() }); } catch(e){}
+      } else { state.settings = { baseWinRate: 25, baseRate: 2, maxRounds: 8 }; }
       return;
     }
     state.settings = snap.data(); render();
@@ -883,13 +983,121 @@ function attachAdminMinesLiveListener() {
       state.mines.adminGames = state.mines.liveGames;
       state.mines.adminLoading = false;
       if (state.currentPage === 'admin_mines') render();
-    },
-    err => console.error('mines live listener', err)
+    }
   );
   state.unsub.push(un);
 }
 
-/* NAV */
+/* ═══════════════════════════════════════════════════
+   BLOCKED VIEW
+   ═══════════════════════════════════════════════════ */
+function showBlockedView() {
+  document.getElementById('blockedView').classList.remove('hidden');
+  document.getElementById('appView').classList.add('hidden');
+  
+  const d = state.profile;
+  const isPermanent = d.blocked === true;
+  const isTemp = d.tempBlockUntil && d.tempBlockUntil.toMillis() > Date.now();
+  
+  document.getElementById('blockedView').innerHTML = `
+    <div class="blocked-card">
+      <div class="blocked-icon">🚫</div>
+      <h2>Account Blocked</h2>
+      <p class="subtitle">
+        Your account has been temporarily suspended by the administration.
+      </p>
+      
+      <div class="reason-box">
+        <div class="rlabel">Reason</div>
+        <div class="rvalue">${escapeHtml(d.blockReason || 'Violation of terms of service')}</div>
+      </div>
+      
+      ${isTemp ? `
+        <div class="timer-display">
+          <div class="tlabel">⏱ Account unlocks in</div>
+          <div class="timer-grid" id="blockTimer">
+            <div class="timer-cell"><div class="tnum" id="tDays">0</div><div class="tlbl">Days</div></div>
+            <div class="timer-cell"><div class="tnum" id="tHours">0</div><div class="tlbl">Hours</div></div>
+            <div class="timer-cell"><div class="tnum" id="tMins">0</div><div class="tlbl">Mins</div></div>
+            <div class="timer-cell"><div class="tnum" id="tSecs">0</div><div class="tlbl">Secs</div></div>
+          </div>
+        </div>
+      ` : ''}
+      
+      ${isPermanent && !isTemp ? `
+        <div class="reason-box" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3)">
+          <div class="rlabel">Type</div>
+          <div class="rvalue" style="color:var(--danger)">🔒 Permanent Block</div>
+        </div>
+      ` : ''}
+      
+      <div class="blocked-perms">
+        <div class="ptitle">What you can do while blocked</div>
+        <div class="perm-row can"><span class="pico">✅</span> View your balance</div>
+        <div class="perm-row can"><span class="pico">✅</span> View live matches</div>
+        <div class="perm-row can"><span class="pico">✅</span> View your history</div>
+        <div class="perm-row cannot"><span class="pico">❌</span> Place any bets</div>
+        <div class="perm-row cannot"><span class="pico">❌</span> Start any game</div>
+        <div class="perm-row cannot"><span class="pico">❌</span> Any transactions</div>
+      </div>
+      
+      <button class="btn btn-secondary" onclick="doLogout()">Sign Out</button>
+      
+      <div class="txt-center txt-xs txt-3" style="margin-top:16px;line-height:1.6">
+        If you believe this is a mistake,<br/>
+        please contact support.
+      </div>
+    </div>
+  `;
+  
+  // Start timer if temp block
+  if (isTemp) {
+    startBlockTimer(d.tempBlockUntil.toMillis());
+  }
+}
+
+function startBlockTimer(untilMs) {
+  if (state.blockTimerInterval) clearInterval(state.blockTimerInterval);
+  const tick = () => {
+    const now = Date.now();
+    const remaining = untilMs - now;
+    if (remaining <= 0) {
+      // Unblocked
+      clearInterval(state.blockTimerInterval);
+      state.blockTimerInterval = null;
+      toast('🎉 Your account has been unblocked!', 'ok');
+      return;
+    }
+    const days = Math.floor(remaining / 86400000);
+    const hours = Math.floor((remaining % 86400000) / 3600000);
+    const mins = Math.floor((remaining % 3600000) / 60000);
+    const secs = Math.floor((remaining % 60000) / 1000);
+    
+    const eD = document.getElementById('tDays');
+    const eH = document.getElementById('tHours');
+    const eM = document.getElementById('tMins');
+    const eS = document.getElementById('tSecs');
+    if (eD) eD.textContent = days;
+    if (eH) eH.textContent = String(hours).padStart(2,'0');
+    if (eM) eM.textContent = String(mins).padStart(2,'0');
+    if (eS) eS.textContent = String(secs).padStart(2,'0');
+  };
+  tick();
+  state.blockTimerInterval = setInterval(tick, 1000);
+}
+
+/* ═══════════════════════════════════════════════════
+   LOGOUT
+   ═══════════════════════════════════════════════════ */
+window.doLogout = async () => {
+  if (!confirm('Sign out?')) return;
+  unsubAll();
+  await signOut(auth);
+};
+
+/* ═══════════════════════════════════════════════════
+   NAV
+   ═══════════════════════════════════════════════════ */
 const CUSTOMER_NAV = [
   { id: 'home', label: 'Home', icon: 'home' },
   { id: 'mines', label: 'Mines', icon: 'gem' },
@@ -948,8 +1156,6 @@ function C(n, k) {
   for (let i = 1; i <= k; i++) r = r * (n - k + i) / i;
   return Math.round(r);
 }
-
-/* MINES MULTIPLIER — House Edge 7% */
 function calcMinesMultiplier(safeRevealed, mines) {
   const totalTiles = 25;
   const remaining = totalTiles - safeRevealed;
@@ -959,17 +1165,15 @@ function calcMinesMultiplier(safeRevealed, mines) {
   if (left === 0) return 0;
   return (total / left) * 0.93;
 }
-
 function maxMultiplier(mines) {
   return calcMinesMultiplier(25 - mines, mines);
 }
 
-/* MATH (Survivor) */
+/* MATH */
 function currentMatch() {
   if (!state.currentMatchId) return null;
   return state.matches.find(m => m.id === state.currentMatchId) || null;
 }
-
 function teamStats(teamId, matchId = null) {
   const s = state.settings || { baseWinRate: 25, baseRate: 2 };
   const mid = matchId || state.currentMatchId;
@@ -987,7 +1191,6 @@ function teamStats(teamId, matchId = null) {
   rate = Math.min(100, Math.max(1.01, rate));
   return { teamId, activeCount: alive, eliminatedCount: dead, totalPlayers: all.length, totalAlive, winRate, rate, isDead };
 }
-
 function roundStatusForMatch(m) {
   if (!m) return { code: 'NO_MATCH', msg: 'No match' };
   if (m.status === 'FINISHED') return { code: 'FINISHED', msg: `Match #${m.matchNumber} finished`, winner: m.winner };
@@ -1002,7 +1205,6 @@ function roundStatusForMatch(m) {
   }
   return { code: 'UNKNOWN', msg: 'Unknown' };
 }
-
 function fmt(n, d = 2) { return Number(n || 0).toFixed(d); }
 function fmtInt(n) { return Math.floor(Number(n || 0)).toLocaleString(); }
 function fmtRate(n) {
@@ -1050,61 +1252,30 @@ function pickMines(count) {
   return positions.sort((a,b)=>a-b);
 }
 
-/* ═══════════════════════════════════════════════════
-   AUTO-SETTLE / REFUND LOGIC
-   - Runs on user login
-   - Checks activeGames lock
-   - If game doc exists and status !== ACTIVE → clean lock
-   - If game doc missing / undefined → REFUND stake
-   - If minePositions missing → REFUND stake
-   ═══════════════════════════════════════════════════ */
+/* STALE REFUND */
 async function checkAndRefundStaleGames() {
   if (!state.user) return;
   try {
     const lockRef = doc(db, 'activeGames', state.user.uid);
     const lockSnap = await getDoc(lockRef);
     if (!lockSnap.exists()) return;
-
     const gameId = lockSnap.data().gameId;
     const gameRef = doc(db, 'minesGames', gameId);
-    const privRef = doc(db, 'minesGamesPrivate', gameId);
-
-    const [gSnap, pSnap] = await Promise.all([getDoc(gameRef), getDoc(privRef)]);
-
-    // Case 1: game doc missing → REFUND
+    const gSnap = await getDoc(gameRef);
     if (!gSnap.exists()) {
       await refundStaleGame(gameId, null, 'GAME_DOC_MISSING');
       return;
     }
-
     const g = gSnap.data();
-
-    // Case 2: game already finished → just clean lock
-    if (g.status !== 'ACTIVE') {
-      await deleteDoc(lockRef);
-      return;
-    }
-
-    // Case 3: still active but data inconsistent → REFUND
-    const missingMines = !pSnap.exists() || !(pSnap.data().minePositions || []).length;
-    const badStake = !Number.isFinite(g.stake) || g.stake <= 0;
-    const badMine = !Number.isFinite(g.mineCount) || g.mineCount < 1 || g.mineCount > 24;
+    if (g.status !== 'ACTIVE') { await deleteDoc(lockRef); return; }
     const staleFor = g.createdAt?.seconds
-      ? (Date.now() / 1000 - g.createdAt.seconds) > 3600  // 1 hour
+      ? (Date.now() / 1000 - g.createdAt.seconds) > 3600
       : true;
-
-    if (missingMines || badStake || badMine) {
-      await refundStaleGame(gameId, g, missingMines ? 'MISSING_MINES' : badStake ? 'BAD_STAKE' : 'BAD_MINE_COUNT');
-      return;
-    }
-
-    // Case 4: stale (1 hour old) → REFUND
-    if (staleFor) {
-      await refundStaleGame(gameId, g, 'STALE_TIMEOUT');
-      return;
-    }
-
-    // Otherwise resume
+    if (staleFor) { await refundStaleGame(gameId, g, 'STALE_TIMEOUT'); return; }
+    // Resume
+    const privRef = doc(db, 'minesGamesPrivate', gameId);
+    const pSnap = await getDoc(privRef);
+    if (!pSnap.exists()) { await refundStaleGame(gameId, g, 'MISSING_MINES'); return; }
     state.mines.gameId = g.gameId;
     state.mines.mineCount = g.mineCount;
     state.mines.stake = g.stake;
@@ -1114,77 +1285,57 @@ async function checkAndRefundStaleGames() {
     state.mines.multiplier = g.multiplier || 1;
     state.mines.minePositions = pSnap.data().minePositions || null;
     toast('Resumed ' + g.gameId, 'ok');
-  } catch(e) {
-    console.error('checkAndRefundStaleGames', e);
-  }
+  } catch(e) { console.error(e); }
 }
 
 async function refundStaleGame(gameId, gameData, reason) {
   const userRef = doc(db, 'users', state.user.uid);
   const gameRef = doc(db, 'minesGames', gameId);
   const lockRef = doc(db, 'activeGames', state.user.uid);
-
   try {
     await runTransaction(db, async (tx) => {
       const uSnap = await tx.get(userRef);
-      const gSnap = gameData ? null : await tx.get(gameRef);
-      const g = gameData || (gSnap && gSnap.exists() ? gSnap.data() : null);
-      const stake = Number(g?.stake || 0);
-
+      const stake = Number(gameData?.stake || 0);
       const bal = uSnap.data().demoPoints || 0;
       const newBal = bal + stake;
-
       tx.update(userRef, { demoPoints: newBal });
-
-      if (gSnap && gSnap.exists && gSnap.exists()) {
+      if (gameData) {
         tx.update(gameRef, {
-          status: 'REFUND',
-          result: 'REFUND',
-          refundAmount: stake,
-          refundReason: reason,
+          status: 'REFUND', result: 'REFUND',
+          refundAmount: stake, refundReason: reason,
           completedAt: serverTimestamp()
         });
-      } else if (g) {
-        // recreate doc with refund
-        tx.set(gameRef, {
-          ...g,
-          status: 'REFUND',
-          result: 'REFUND',
-          refundAmount: stake,
-          refundReason: reason,
-          completedAt: serverTimestamp()
-        }, { merge: true });
       }
-
       tx.delete(lockRef);
       tx.set(doc(collection(db, 'coinTransactions')), {
-        uid: state.user.uid, gameId,
-        type: 'GAME_REWARD', amount: stake,
-        previousBalance: bal, newBalance: newBal,
-        timestamp: serverTimestamp(),
-        note: 'Auto-refund: ' + reason
+        uid: state.user.uid, gameId, type: 'GAME_REWARD',
+        amount: stake, previousBalance: bal, newBalance: newBal,
+        timestamp: serverTimestamp(), note: 'Auto-refund: ' + reason
       });
     });
-
-    toast(`↩️ Refunded ${gameId} (${reason})`, 'ok');
+    toast(`↩️ Refunded ${stake} pts`, 'ok');
     Object.assign(state.mines, {
       gameId: null, status: 'IDLE', revealedTiles: [], revealedSafe: [],
       minePositions: null, multiplier: 1, payout: 0, result: null
     });
     render();
-  } catch(e) {
-    console.error('refundStaleGame', e);
-    toast('Refund failed — contact admin', 'err');
-  }
+  } catch(e) { console.error(e); }
 }
 
-/* RENDER */
+/* RENDER ROUTER */
 function render() {
   if (!state.user || !state.profile) return;
-
+  const d = state.profile;
+  const isBlocked = d.blocked === true || 
+    (d.tempBlockUntil && d.tempBlockUntil.toMillis() > Date.now());
+  if (isBlocked) { showBlockedView(); return; }
+  
+  document.getElementById('blockedView').classList.add('hidden');
+  document.getElementById('appView').classList.remove('hidden');
+  
   const bal = document.getElementById('balanceVal');
   if (bal) bal.textContent = fmtInt(state.profile.demoPoints || 0);
-
+  
   const chip = document.getElementById('statusChip');
   const txt = document.getElementById('statusText');
   if (chip && txt) {
@@ -1192,24 +1343,22 @@ function render() {
     if (isMinesView) {
       chip.className = 'status-chip';
       if (state.mines.status === 'ACTIVE' && !state.isAdmin) {
-        chip.className += ' live'; txt.textContent = 'Mines • Live';
+        chip.classList.add('live'); txt.textContent = 'Mines • Live';
       } else if (state.isAdmin) {
         const liveCount = state.mines.liveGames.filter(g => g.status === 'ACTIVE').length;
-        if (liveCount > 0) { chip.className += ' live'; txt.textContent = `${liveCount} Live Mines`; }
+        if (liveCount > 0) { chip.classList.add('live'); txt.textContent = `${liveCount} Live`; }
         else txt.textContent = 'Mines Admin';
-      } else {
-        txt.textContent = 'Mines';
-      }
+      } else txt.textContent = 'Mines';
     } else {
       const m = currentMatch();
       const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH' };
       chip.className = 'status-chip';
       if (rs.code === 'OPEN') { chip.classList.add('live'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Live`; }
       else if (rs.code === 'FINISHED') { txt.textContent = `M#${m?.matchNumber || '?'} • Done`; }
-      else { txt.textContent = m ? `M#${m.matchNumber}` : 'Rate X'; }
+      else txt.textContent = m ? `M#${m.matchNumber}` : 'Rate X';
     }
   }
-
+  
   const root = document.getElementById('appMain');
   let html = '';
   switch (state.currentPage) {
@@ -1237,7 +1386,6 @@ function viewHome() {
   const rs = liveMatch ? roundStatusForMatch(liveMatch) : { code: 'NO_MATCH' };
   const myPreds = state.predictions.slice(0, 3);
   const activeMinesGame = state.mines.status === 'ACTIVE';
-
   return `
     <div class="balance-card">
       <div class="balance-info">
@@ -1250,11 +1398,8 @@ function viewHome() {
         <div class="rate">${fmtRate(state.settings?.baseRate || 2)}</div>
       </div>
     </div>
-
     <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">🎮 Choose a Game</div>
-      </div>
+      <div class="card-head"><div class="card-title-lg">🎮 Choose a Game</div></div>
       <div class="game-grid">
         <div class="game-card gc-survivor" onclick="nav('survivor')">
           <div class="gc-icon">⚔️</div>
@@ -1270,7 +1415,6 @@ function viewHome() {
         </div>
       </div>
     </div>
-
     ${activeMinesGame ? `
       <div class="card">
         <div class="card-head">
@@ -1281,11 +1425,8 @@ function viewHome() {
         <button class="btn btn-gold mt-8" onclick="nav('mines')">▶ Resume</button>
       </div>
     ` : ''}
-
     <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">📜 Recent Activity</div>
-      </div>
+      <div class="card-head"><div class="card-title-lg">📜 Recent Activity</div></div>
       ${myPreds.length ? `<div class="list" style="margin:0 -14px -14px;border:none;background:transparent">
         ${myPreds.map(p => `
           <div class="list-row">
@@ -1301,99 +1442,77 @@ function viewHome() {
   `;
 }
 
-/* MINES CUSTOMER */
+/* MINES (compact — use full code from earlier versions) */
 function viewMines() {
   const mg = state.mines;
   if (mg.view === 'history') return renderMinesHistory();
-
   const pts = state.profile.demoPoints || 0;
   const isActive = mg.status === 'ACTIVE';
   const isFinished = mg.status === 'WON' || mg.status === 'LOST' || mg.status === 'REFUND';
   const isIdle = mg.status === 'IDLE';
-
   return `
     ${mg.gameId ? `
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--surface-2);border-radius:10px;margin-bottom:10px">
         <div>
-          <div class="txt-xs txt-3" style="font-weight:800;letter-spacing:1px">GAME ID</div>
+          <div class="txt-xs txt-3" style="font-weight:800">GAME ID</div>
           <div style="font-family:ui-monospace,monospace;font-size:12px;font-weight:800">${mg.gameId}</div>
         </div>
         <button class="btn btn-sm btn-secondary" onclick="copyMinesGameId()">COPY</button>
       </div>
     ` : ''}
-
-    ${isFinished ? `
-      <div class="result-banner ${mg.status === 'WON' ? 'win' : mg.status === 'LOST' ? 'loss' : 'refund'}">
-        <div class="ico">${mg.status === 'WON' ? '🏆' : mg.status === 'LOST' ? '💥' : '↩️'}</div>
-        <div class="title">${mg.status === 'WON' ? 'You Won!' : mg.status === 'LOST' ? 'Boom! Mine hit' : 'Refunded'}</div>
-        <div class="sub">${mg.status === 'WON' ? `Multiplier: ${fmtRate(mg.multiplier)}` : mg.status === 'LOST' ? `Safe: ${mg.revealedSafe.length}` : 'Game cancelled'}</div>
-        <div class="amt">${mg.status === 'WON' ? '+' : mg.status === 'LOST' ? '−' : '+'} 🪙 ${fmtInt(mg.status === 'WON' ? mg.payout : mg.status === 'LOST' ? mg.stake : mg.stake)}</div>
-      </div>
-    ` : ''}
-
     ${isActive ? `
-      <div class="multiplier-display">
-        <div class="lbl">CURRENT MULTIPLIER</div>
-        <div class="val">${fmtRate(mg.multiplier)}</div>
-        <div class="potential">Potential: 🪙 ${fmtInt(mg.stake * mg.multiplier)}</div>
+      <div style="background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(245,158,11,.03));border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:14px;text-align:center;margin-bottom:10px">
+        <div class="txt-xs txt-3" style="font-weight:800;letter-spacing:1px">MULTIPLIER</div>
+        <div style="font-size:32px;font-weight:900;color:var(--gold);margin-top:4px">${fmtRate(mg.multiplier)}</div>
+        <div class="txt-sm txt-3" style="margin-top:4px">Potential: 🪙 ${fmtInt(mg.stake * mg.multiplier)}</div>
       </div>
     ` : ''}
-
     ${isIdle ? `
       <div class="card">
-        <div class="card-title">Mines (Max Multiplier shown)</div>
-        <div class="chip-row mines">
+        <div class="card-title">Mines</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px">
           ${[1,3,5,10].map(m => `
-            <button class="chip ${mg.mineCount === m ? 'active' : ''}" onclick="minesSetMines(${m})">
-              ${m} 💣
-              <span class="rate">${fmtRate(maxMultiplier(m))}</span>
+            <button class="btn btn-secondary btn-sm" style="flex-direction:column;min-height:44px;${mg.mineCount===m?'background:var(--gold);color:#000':''}" onclick="minesSetMines(${m})">
+              <span>${m} 💣</span>
+              <span style="font-size:9px">${fmtRate(maxMultiplier(m))}</span>
             </button>
           `).join('')}
         </div>
-        <div class="chip-row mines" style="margin-top:5px">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px">
           ${[15,20,22,24].map(m => `
-            <button class="chip ${mg.mineCount === m ? 'active' : ''}" onclick="minesSetMines(${m})">
-              ${m} 💣
-              <span class="rate">${fmtRate(maxMultiplier(m))}</span>
+            <button class="btn btn-secondary btn-sm" style="flex-direction:column;min-height:44px;${mg.mineCount===m?'background:var(--gold);color:#000':''}" onclick="minesSetMines(${m})">
+              <span>${m} 💣</span>
+              <span style="font-size:9px">${fmtRate(maxMultiplier(m))}</span>
             </button>
           `).join('')}
         </div>
         <div class="card-title" style="margin-top:14px">Stake</div>
-        <div class="chip-row stake">
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px">
           ${[50,100,250,500,1000].map(s => `
-            <button class="chip ${mg.stake === s ? 'active' : ''}" onclick="minesSetStake(${s})">${s}</button>
+            <button class="btn btn-secondary btn-sm" style="${mg.stake===s?'background:var(--gold);color:#000':''}" onclick="minesSetStake(${s})">${s}</button>
           `).join('')}
         </div>
-        <div class="stake-input">
+        <div class="form-field" style="margin-top:8px">
           <input id="minesStakeInput" type="number" min="10" max="100000" value="${mg.stake}" inputmode="numeric" />
-          <span class="u">COINS</span>
         </div>
       </div>
     ` : ''}
-
-    <div class="mines-board-wrap">
-      <div class="mines-board">${renderMinesBoard()}</div>
-    </div>
-
-    ${isActive ? `
-      <div class="stats-row">
-        <div class="stat-cell"><div class="k">SAFE</div><div class="v success">${mg.revealedSafe.length}/${25 - mg.mineCount}</div></div>
-        <div class="stat-cell"><div class="k">MINES</div><div class="v danger">${mg.mineCount}</div></div>
-        <div class="stat-cell"><div class="k">STAKE</div><div class="v">${fmtInt(mg.stake)}</div></div>
+    <div style="position:relative;width:100%;aspect-ratio:1/1;margin:14px 0">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:6px;width:100%;height:100%">
+        ${renderMinesBoard()}
       </div>
-    ` : ''}
-
-    <div class="sticky-action">
+    </div>
+    <div style="position:sticky;bottom:calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));background:var(--bg);padding:10px 14px 4px;margin:0 -14px;z-index:20">
       ${isIdle ? `
         <div style="display:flex;gap:8px">
-          <button class="btn btn-secondary" onclick="minesSetView('history')">📜 History</button>
+          <button class="btn btn-secondary" onclick="minesSetView('history')">📜</button>
           <button class="btn btn-gold" onclick="minesStartGame()" ${pts < mg.stake ? 'disabled' : ''}>
             ${pts < mg.stake ? 'Low Balance' : `▶ Start · 🪙 ${fmtInt(mg.stake)}`}
           </button>
         </div>
       ` : isActive ? `
         <div style="display:flex;gap:8px">
-          <button class="btn btn-secondary" onclick="minesAbandon()" ${mg.busy ? 'disabled' : ''}>Refund</button>
+          <button class="btn btn-secondary" onclick="minesAbandon()">Refund</button>
           <button class="btn btn-success" onclick="minesCashout()" ${mg.revealedSafe.length === 0 || mg.busy ? 'disabled' : ''}>
             ${mg.busy ? '<span class="spinner"></span>' : `💰 Cashout · 🪙 ${fmtInt(mg.stake * mg.multiplier)}`}
           </button>
@@ -1417,25 +1536,28 @@ function renderMinesBoard() {
     const isMine = mg.minePositions && mg.minePositions.includes(i);
     const gameOver = mg.status !== 'ACTIVE' && mg.status !== 'IDLE';
     const isActive = mg.status === 'ACTIVE';
-    let cls = 'tile', content = '';
+    let bg = 'linear-gradient(180deg, var(--surface-3), var(--surface-2))';
+    let border = 'var(--border-2)';
+    let content = `<span style="position:absolute;top:4px;left:6px;font-size:8px;color:var(--text-3);font-weight:700;opacity:.5">${i}</span>`;
     if (isRevealed) {
       if (isSafe) {
-        cls += ' revealed safe';
-        content = `<svg class="gem" viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12l4 6-10 12L2 9z"/></svg>`;
+        bg = 'rgba(245,158,11,.12)'; border = 'rgba(245,158,11,.5)';
+        content = `<span style="font-size:24px;color:var(--gold)">💎</span>`;
       } else {
-        cls += ' revealed mine';
-        if (gameOver) cls += ' boom';
-        content = `<svg class="bomb" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="14" r="7"/></svg>`;
+        bg = 'rgba(239,68,68,.15)'; border = 'rgba(239,68,68,.6)';
+        content = `<span style="font-size:24px">💥</span>`;
       }
     } else if (gameOver && isMine) {
-      cls += ' revealed mine';
-      content = `<svg class="bomb" viewBox="0 0 24 24" fill="currentColor" opacity=".4"><circle cx="12" cy="14" r="7"/></svg>`;
-    } else {
-      content = `<span class="idx">${i}</span>`;
-      if (!isActive) cls += ' disabled';
+      bg = 'rgba(239,68,68,.08)'; border = 'rgba(239,68,68,.35)';
+      content = `<span style="font-size:20px;opacity:.4">💣</span>`;
     }
-    if (mg.busy) cls += ' disabled';
-    tiles.push(`<div class="${cls}" data-idx="${i}" onclick="minesTileClick(${i})">${content}</div>`);
+    const disabled = (!isActive && !isRevealed && !(gameOver && isMine)) || mg.busy;
+    tiles.push(`
+      <div onclick="${disabled ? '' : `minesTileClick(${i})`}"
+        style="position:relative;background:${bg};border:1px solid ${border};border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:${disabled?'default':'pointer'};transition:all .15s;${disabled?'opacity:.7':''}">
+        ${content}
+      </div>
+    `);
   }
   return tiles.join('');
 }
@@ -1451,25 +1573,22 @@ function renderMinesHistory() {
       </div>
       <div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:8px">
         ${['ALL','WON','LOST','REFUND','ACTIVE'].map(f => `
-          <button class="chip ${mg.historyFilter === f ? 'active' : ''}" style="padding:6px 12px;min-width:auto" onclick="minesSetFilter('${f}')">${f}</button>
+          <button class="btn btn-sm ${mg.historyFilter === f ? 'btn-gold' : 'btn-secondary'}" onclick="minesSetFilter('${f}')">${f}</button>
         `).join('')}
       </div>
     </div>
-    ${mg.history.filter(g => mg.historyFilter === 'ALL' || g.status === mg.historyFilter).map(g => {
-      const statusCls = g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : g.status === 'REFUND' ? 'refund' : 'active';
-      return `
-        <div class="card">
-          <div class="card-head">
-            <div style="font-size:11px;font-family:ui-monospace,monospace;font-weight:800">${g.gameId}</div>
-            <span class="badge ${statusCls}">${g.status}</span>
-          </div>
-          <div class="txt-xs txt-3">💣 ${g.mineCount} • 🎯 ${(g.revealedSafe||[]).length} • 🪙 ${g.stake} • ${timeAgo(g.createdAt)}</div>
-          <div style="margin-top:6px;font-size:14px;font-weight:800;color:${g.status === 'WON' ? 'var(--success)' : g.status === 'LOST' ? 'var(--danger)' : 'var(--warning)'}">
-            ${g.status === 'WON' ? `+ 🪙 ${fmtInt(g.payout||0)}` : g.status === 'LOST' ? `− 🪙 ${fmtInt(g.stake||0)}` : `↩️ 🪙 ${fmtInt(g.refundAmount || g.stake)}`}
-          </div>
+    ${mg.history.filter(g => mg.historyFilter === 'ALL' || g.status === mg.historyFilter).map(g => `
+      <div class="card">
+        <div class="card-head">
+          <div style="font-size:11px;font-family:ui-monospace,monospace;font-weight:800">${g.gameId}</div>
+          <span class="badge ${g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : 'pending'}">${g.status}</span>
         </div>
-      `;
-    }).join('') || '<div class="empty"><div class="ico">📭</div>No games yet</div>'}
+        <div class="txt-xs txt-3">💣 ${g.mineCount} • 🎯 ${(g.revealedSafe||[]).length} • 🪙 ${g.stake} • ${timeAgo(g.createdAt)}</div>
+        <div style="margin-top:6px;font-size:14px;font-weight:800;color:${g.status === 'WON' ? 'var(--success)' : g.status === 'LOST' ? 'var(--danger)' : 'var(--warning)'}">
+          ${g.status === 'WON' ? `+ 🪙 ${fmtInt(g.payout||0)}` : g.status === 'LOST' ? `− 🪙 ${fmtInt(g.stake||0)}` : `↩️ 🪙 ${fmtInt(g.refundAmount || g.stake)}`}
+        </div>
+      </div>
+    `).join('') || '<div class="empty"><div class="ico">📭</div>No games yet</div>'}
   `;
 }
 
@@ -1477,16 +1596,9 @@ window.minesSetMines = (m) => { if (state.mines.status === 'ACTIVE') return; sta
 window.minesSetStake = (s) => { if (state.mines.status === 'ACTIVE') return; state.mines.stake = s; render(); };
 window.minesSetView = (v) => { state.mines.view = v; if (v === 'history') loadMinesHistory(); render(); };
 window.minesSetFilter = (f) => { state.mines.historyFilter = f; render(); };
-window.copyMinesGameId = () => {
-  if (!state.mines.gameId) return;
-  navigator.clipboard?.writeText(state.mines.gameId);
-  toast('Game ID copied', 'ok');
-};
+window.copyMinesGameId = () => { navigator.clipboard?.writeText(state.mines.gameId); toast('Copied', 'ok'); };
 window.minesNewRound = () => {
-  Object.assign(state.mines, {
-    gameId: null, status: 'IDLE', revealedTiles: [], revealedSafe: [],
-    minePositions: null, multiplier: 1, payout: 0, busy: false, view: 'game', result: null
-  });
+  Object.assign(state.mines, { gameId: null, status: 'IDLE', revealedTiles: [], revealedSafe: [], minePositions: null, multiplier: 1, payout: 0, busy: false, view: 'game', result: null });
   render();
 };
 
@@ -1494,8 +1606,8 @@ function attachMinesStakeListener() {
   const inp = document.getElementById('minesStakeInput');
   if (!inp) return;
   inp.onblur = () => {
-    const v = Math.max(10, Math.min(100000, Math.floor(Number(inp.value) || 100)));
-    state.mines.stake = v; render();
+    state.mines.stake = Math.max(10, Math.min(100000, Math.floor(Number(inp.value) || 100)));
+    render();
   };
 }
 
@@ -1505,7 +1617,6 @@ window.minesStartGame = async () => {
   const pts = state.profile.demoPoints || 0;
   if (pts < mg.stake) return toast('Insufficient', 'err');
   mg.busy = true; render();
-
   try {
     const gameId = generateGameId();
     const minePositions = pickMines(mg.mineCount);
@@ -1513,21 +1624,17 @@ window.minesStartGame = async () => {
     const gameRef = doc(db, 'minesGames', gameId);
     const privRef = doc(db, 'minesGamesPrivate', gameId);
     const lockRef = doc(db, 'activeGames', state.user.uid);
-
     const lockSnap = await getDoc(lockRef);
     if (lockSnap.exists()) {
       mg.busy = false; toast('Active game exists', 'err'); render(); return;
     }
-
     await runTransaction(db, async (tx) => {
       const uSnap = await tx.get(userRef);
-      if (!uSnap.exists()) throw new Error('User missing');
       const u = uSnap.data();
       if (u.blocked) throw new Error('Blocked');
       const bal = u.demoPoints || 0;
       if (bal < mg.stake) throw new Error('Insufficient');
       const newBal = bal - mg.stake;
-
       tx.update(userRef, { demoPoints: newBal });
       tx.set(gameRef, {
         gameId, uid: state.user.uid, userName: u.name || '',
@@ -1546,7 +1653,6 @@ window.minesStartGame = async () => {
         timestamp: serverTimestamp()
       });
     });
-
     mg.gameId = gameId;
     mg.status = 'ACTIVE';
     mg.revealedTiles = []; mg.revealedSafe = [];
@@ -1557,7 +1663,6 @@ window.minesStartGame = async () => {
     render();
   } catch (e) {
     mg.busy = false;
-    console.error(e);
     toast((e?.message||'Failed').replace('Firebase: ',''), 'err');
     render();
   }
@@ -1568,41 +1673,31 @@ window.minesTileClick = async (idx) => {
   if (mg.status !== 'ACTIVE' || mg.busy) return;
   if (mg.revealedTiles.includes(idx)) return;
   if (!mg.gameId || !mg.minePositions) return;
-
   const isMine = mg.minePositions.includes(idx);
   const newRevealed = [...mg.revealedTiles, idx];
   mg.busy = true; render();
-
   try {
     const gameRef = doc(db, 'minesGames', mg.gameId);
     const lockRef = doc(db, 'activeGames', state.user.uid);
     const userRef = doc(db, 'users', state.user.uid);
-
     if (isMine) {
       await runTransaction(db, async (tx) => {
         const gSnap = await tx.get(gameRef);
-        if (!gSnap.exists()) throw new Error('Missing');
-        if (gSnap.data().status !== 'ACTIVE') throw new Error('Not active');
+        if (!gSnap.exists() || gSnap.data().status !== 'ACTIVE') throw new Error('Not active');
         if (gSnap.data().revealedTiles.includes(idx)) throw new Error('Already');
         tx.update(gameRef, {
-          status: 'LOST',
-          result: 'LOSS',
-          revealedTiles: newRevealed,
-          currentTile: idx,
-          lastClickAt: serverTimestamp(),
-          payout: 0, multiplier: 0,
-          completedAt: serverTimestamp()
+          status: 'LOST', result: 'LOSS',
+          revealedTiles: newRevealed, currentTile: idx, lastClickAt: serverTimestamp(),
+          payout: 0, multiplier: 0, completedAt: serverTimestamp()
         });
         tx.delete(lockRef);
         tx.set(doc(collection(db, 'coinTransactions')), {
-          uid: state.user.uid, gameId: mg.gameId,
-          type: 'GAME_LOSS', amount: 0,
-          previousBalance: 0, newBalance: 0,
+          uid: state.user.uid, gameId: mg.gameId, type: 'GAME_LOSS',
+          amount: 0, previousBalance: 0, newBalance: 0,
           timestamp: serverTimestamp()
         });
       });
-      mg.status = 'LOST';
-      mg.result = 'LOSS';
+      mg.status = 'LOST'; mg.result = 'LOSS';
       mg.revealedTiles = newRevealed;
       mg.multiplier = 0;
       mg.busy = false;
@@ -1610,19 +1705,15 @@ window.minesTileClick = async (idx) => {
       if (navigator.vibrate) navigator.vibrate([100,50,100]);
       render(); return;
     }
-
     const newSafe = [...mg.revealedSafe, idx];
     const newMult = calcMinesMultiplier(newSafe.length, mg.mineCount);
     const safeTotal = 25 - mg.mineCount;
     const autoWin = newSafe.length === safeTotal;
     const payout = autoWin ? Math.floor(mg.stake * newMult) : 0;
-
     await runTransaction(db, async (tx) => {
       const gSnap = await tx.get(gameRef);
-      if (!gSnap.exists()) throw new Error('Missing');
-      if (gSnap.data().status !== 'ACTIVE') throw new Error('Not active');
+      if (!gSnap.exists() || gSnap.data().status !== 'ACTIVE') throw new Error('Not active');
       if (gSnap.data().revealedTiles.includes(idx)) throw new Error('Already');
-
       if (autoWin) {
         const uSnap = await tx.get(userRef);
         const bal = uSnap.data().demoPoints || 0;
@@ -1632,14 +1723,12 @@ window.minesTileClick = async (idx) => {
           status: 'WON', result: 'WIN',
           revealedTiles: newRevealed, revealedSafe: newSafe,
           currentTile: idx, lastClickAt: serverTimestamp(),
-          payout, multiplier: newMult,
-          completedAt: serverTimestamp()
+          payout, multiplier: newMult, completedAt: serverTimestamp()
         });
         tx.delete(lockRef);
         tx.set(doc(collection(db, 'coinTransactions')), {
-          uid: state.user.uid, gameId: mg.gameId,
-          type: 'GAME_REWARD', amount: payout,
-          previousBalance: bal, newBalance: newBal,
+          uid: state.user.uid, gameId: mg.gameId, type: 'GAME_REWARD',
+          amount: payout, previousBalance: bal, newBalance: newBal,
           timestamp: serverTimestamp()
         });
       } else {
@@ -1650,13 +1739,11 @@ window.minesTileClick = async (idx) => {
         });
       }
     });
-
     mg.revealedTiles = newRevealed;
     mg.revealedSafe = newSafe;
     mg.multiplier = newMult;
     if (autoWin) {
-      mg.status = 'WON'; mg.result = 'WIN';
-      mg.payout = payout;
+      mg.status = 'WON'; mg.result = 'WIN'; mg.payout = payout;
       toast(`🎉 All safe! +🪙 ${fmtInt(payout)}`, 'ok');
     } else {
       if (navigator.vibrate) navigator.vibrate(20);
@@ -1675,14 +1762,12 @@ window.minesCashout = async () => {
   if (mg.busy || mg.status !== 'ACTIVE') return;
   if (mg.revealedSafe.length === 0) return toast('Reveal at least 1', 'err');
   mg.busy = true; render();
-
   try {
     const mult = calcMinesMultiplier(mg.revealedSafe.length, mg.mineCount);
     const payout = Math.floor(mg.stake * mult);
     const gameRef = doc(db, 'minesGames', mg.gameId);
     const lockRef = doc(db, 'activeGames', state.user.uid);
     const userRef = doc(db, 'users', state.user.uid);
-
     await runTransaction(db, async (tx) => {
       const gSnap = await tx.get(gameRef);
       if (!gSnap.exists()) throw new Error('Missing');
@@ -1695,18 +1780,15 @@ window.minesCashout = async () => {
       tx.update(userRef, { demoPoints: newBal });
       tx.update(gameRef, {
         status: 'WON', result: 'WIN',
-        payout, multiplier: mult,
-        completedAt: serverTimestamp()
+        payout, multiplier: mult, completedAt: serverTimestamp()
       });
       tx.delete(lockRef);
       tx.set(doc(collection(db, 'coinTransactions')), {
-        uid: state.user.uid, gameId: mg.gameId,
-        type: 'GAME_REWARD', amount: payout,
-        previousBalance: bal, newBalance: newBal,
+        uid: state.user.uid, gameId: mg.gameId, type: 'GAME_REWARD',
+        amount: payout, previousBalance: bal, newBalance: newBal,
         timestamp: serverTimestamp()
       });
     });
-
     mg.status = 'WON'; mg.result = 'WIN';
     mg.payout = payout; mg.multiplier = mult;
     mg.busy = false;
@@ -1727,7 +1809,6 @@ window.minesAbandon = async () => {
     const userRef = doc(db, 'users', state.user.uid);
     const gameRef = doc(db, 'minesGames', mg.gameId);
     const lockRef = doc(db, 'activeGames', state.user.uid);
-
     await runTransaction(db, async (tx) => {
       const uSnap = await tx.get(userRef);
       const bal = uSnap.data().demoPoints || 0;
@@ -1736,18 +1817,15 @@ window.minesAbandon = async () => {
       tx.update(userRef, { demoPoints: newBal });
       tx.update(gameRef, {
         status: 'REFUND', result: 'REFUND',
-        refundAmount: refund,
-        completedAt: serverTimestamp()
+        refundAmount: refund, completedAt: serverTimestamp()
       });
       tx.delete(lockRef);
       tx.set(doc(collection(db, 'coinTransactions')), {
-        uid: state.user.uid, gameId: mg.gameId,
-        type: 'GAME_REWARD', amount: refund,
-        previousBalance: bal, newBalance: newBal,
+        uid: state.user.uid, gameId: mg.gameId, type: 'GAME_REWARD',
+        amount: refund, previousBalance: bal, newBalance: newBal,
         timestamp: serverTimestamp()
       });
     });
-
     mg.status = 'REFUND'; mg.result = 'REFUND';
     toast('↩️ Refunded', 'ok');
     render();
@@ -1766,22 +1844,18 @@ async function loadMinesHistory() {
   mg.historyLoading = false; render();
 }
 
-/* SURVIVOR */
+/* SURVIVOR (compact) */
 function viewSurvivor() {
   const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING')
     .sort((a,b) => (b.matchNumber||0) - (a.matchNumber||0));
   const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
-
   if (!m) {
-    return `
-      <div class="card" style="text-align:center;padding:40px 20px">
-        <div style="font-size:38px;opacity:.5;margin-bottom:10px">⚔️</div>
-        <div class="fw-8" style="font-size:16px;margin-bottom:4px">No Match Available</div>
-        <div class="txt-sm txt-3">Check back later</div>
-      </div>
-    `;
+    return `<div class="card" style="text-align:center;padding:40px 20px">
+      <div style="font-size:38px;opacity:.5;margin-bottom:10px">⚔️</div>
+      <div class="fw-8" style="font-size:16px;margin-bottom:4px">No Match Available</div>
+      <div class="txt-sm txt-3">Check back later</div>
+    </div>`;
   }
-
   const rs = roundStatusForMatch(m);
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
   const pts = state.profile.demoPoints || 0;
@@ -1790,14 +1864,9 @@ function viewSurvivor() {
   const selStats = sel ? teamStats(sel, m.id) : null;
   const stake = Number(state.bet.stake) || 0;
   const rate = selStats ? selStats.rate : 0;
-  const ret = stake * rate;
-
-  const alreadyBet = r && state.predictions.find(p =>
-    p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
-
+  const alreadyBet = r && state.predictions.find(p => p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
   const canBet = rs.code === 'OPEN' && !alreadyBet;
   const canConfirm = canBet && sel && !selStats?.isDead && stake > 0 && stake <= pts;
-
   return `
     <div class="card">
       <div class="card-head">
@@ -1805,16 +1874,13 @@ function viewSurvivor() {
         <span class="badge ${rs.code === 'OPEN' ? 'live' : 'closed'}">${rs.code === 'OPEN' ? 'LIVE' : 'LOCKED'}</span>
       </div>
     </div>
-
-    ${!canBet && !alreadyBet ? `
-      <div class="empty" style="padding:40px 20px">${rs.msg}</div>
-    ` : alreadyBet ? `
+    ${!canBet && !alreadyBet ? `<div class="empty" style="padding:40px 20px">${rs.msg}</div>` : alreadyBet ? `
       <div class="card">
         <div class="row-flex">
           <div class="avatar ${alreadyBet.teamId === 'A' ? 'team-a' : 'team-b'}">T${alreadyBet.teamId}</div>
           <div style="flex:1">
             <div class="fw-8">Bet placed</div>
-            <div class="txt-sm txt-3">Team ${alreadyBet.teamId} • ${alreadyBet.stake} pts • ${fmtRate(alreadyBet.rate)}</div>
+            <div class="txt-sm txt-3">Team ${alreadyBet.teamId} • ${alreadyBet.stake} pts</div>
           </div>
           <span class="badge pending">PENDING</span>
         </div>
@@ -1822,44 +1888,23 @@ function viewSurvivor() {
     ` : `
       <div class="card-title" style="padding:0 2px 8px">Choose Team</div>
       <div class="teams-grid">
-        <div onclick="${A.isDead ? '' : "selectTeam('A')"}"
-          class="team-panel ${A.isDead ? 'dead' : 'selectable'} ${sel === 'A' ? 'selected-a' : ''}">
-          <div class="tp-head">
-            <div class="tp-name"><span class="tp-dot"></span>Team A</div>
-            <div class="tp-badge ${A.isDead ? 'dead' : 'alive'}">${A.activeCount}/4</div>
-          </div>
+        <div onclick="${A.isDead ? '' : "selectTeam('A')"}" class="team-panel ${A.isDead ? 'dead' : 'selectable'} ${sel === 'A' ? 'selected-a' : ''}">
+          <div class="tp-head"><div class="tp-name"><span class="tp-dot"></span>Team A</div><div class="tp-badge ${A.isDead ? 'dead' : 'alive'}">${A.activeCount}/4</div></div>
           <div class="tp-stat"><span class="k">Alive</span><span class="v">${A.activeCount}</span></div>
           <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(A.winRate,1)}%</span></div>
           <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(A.rate)}</span></div>
         </div>
-        <div onclick="${B.isDead ? '' : "selectTeam('B')"}"
-          class="team-panel team-B ${B.isDead ? 'dead' : 'selectable'} ${sel === 'B' ? 'selected-b' : ''}">
-          <div class="tp-head">
-            <div class="tp-name"><span class="tp-dot"></span>Team B</div>
-            <div class="tp-badge ${B.isDead ? 'dead' : 'alive'}">${B.activeCount}/4</div>
-          </div>
+        <div onclick="${B.isDead ? '' : "selectTeam('B')"}" class="team-panel team-B ${B.isDead ? 'dead' : 'selectable'} ${sel === 'B' ? 'selected-b' : ''}">
+          <div class="tp-head"><div class="tp-name"><span class="tp-dot"></span>Team B</div><div class="tp-badge ${B.isDead ? 'dead' : 'alive'}">${B.activeCount}/4</div></div>
           <div class="tp-stat"><span class="k">Alive</span><span class="v">${B.activeCount}</span></div>
           <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(B.winRate,1)}%</span></div>
           <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(B.rate)}</span></div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title" style="margin-bottom:8px">Stake</div>
-        <div class="stake-input">
-          <input id="stakeInput" type="number" min="1" value="${state.bet.stake}" inputmode="numeric" />
-          <span class="u">PTS</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px">
-          ${[100, 250, 500, 1000].map(v => `
-            <button class="chip ${stake === v ? 'active' : ''}" onclick="setStake(${v})">${v}</button>
-          `).join('')}
-          <button class="chip" onclick="setStake(${pts})">MAX</button>
-        </div>
-      </div>
-
-      <div class="sticky-action">
-        <button class="btn" ${canConfirm ? '' : 'disabled'} onclick="confirmPrediction()">
+        <div class="form-field"><input id="stakeInput" type="number" min="1" value="${state.bet.stake}" /></div>
+        <button class="btn mt-8" ${canConfirm ? '' : 'disabled'} onclick="confirmPrediction()">
           ${!sel ? 'Select Team' : stake <= 0 ? 'Enter Amount' : stake > pts ? 'Low Balance' : 'Confirm Prediction'}
         </button>
       </div>
@@ -1870,16 +1915,7 @@ function viewSurvivor() {
 function bindPredictInputs() {
   const inp = document.getElementById('stakeInput');
   if (!inp) return;
-  inp.oninput = e => {
-    state.bet.stake = Math.max(0, Math.floor(Number(e.target.value) || 0));
-    clearTimeout(bindPredictInputs._t);
-    bindPredictInputs._t = setTimeout(() => {
-      const pos = inp.selectionStart;
-      render();
-      const nInp = document.getElementById('stakeInput');
-      if (nInp) { nInp.focus(); nInp.setSelectionRange(pos, pos); }
-    }, 400);
-  };
+  inp.oninput = e => { state.bet.stake = Math.max(0, Math.floor(Number(e.target.value) || 0)); };
 }
 
 window.selectTeam = (tid) => { state.bet.teamId = tid; render(); };
@@ -1896,8 +1932,7 @@ window.confirmPrediction = async () => {
   if (!tid) return toast('Select team', 'err');
   const t = teamStats(tid, m.id);
   if (t.isDead) return toast('Team eliminated', 'err');
-  const existing = state.predictions.find(p =>
-    p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
+  const existing = state.predictions.find(p => p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
   if (existing) return toast('Already bet', 'err');
   const stake = Number(state.bet.stake) || 0;
   const pts = state.profile.demoPoints || 0;
@@ -1919,9 +1954,7 @@ window.confirmPrediction = async () => {
     toast(`Bet on Team ${tid}`, 'ok');
     state.bet.teamId = null;
     render();
-  } catch (e) {
-    console.error(e); toast('Bet failed', 'err');
-  }
+  } catch (e) { toast('Bet failed', 'err'); }
 };
 
 /* HISTORY */
@@ -1964,21 +1997,20 @@ function viewProfile() {
   const lost = state.predictions.filter(p => p.status === 'LOST').length;
   const pending = state.predictions.filter(p => p.status === 'PENDING').length;
   return `
-    <div class="profile-header">
-      <div class="profile-avatar">${initial}</div>
-      <div class="profile-info">
-        <div class="pi-name">${escapeHtml(u.name||'—')}</div>
-        <div class="pi-email">${escapeHtml(u.email||'—')}</div>
-        <div style="margin-top:6px">
-          ${state.isAdmin ? '<span class="badge admin">ADMIN</span>' : '<span class="badge active">CUSTOMER</span>'}
-        </div>
+    <div class="profile-header" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 14px;margin-bottom:10px;display:flex;align-items:center;gap:14px">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px">${initial}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:17px;font-weight:800">${escapeHtml(u.name||'—')}</div>
+        <div style="font-size:12px;color:var(--text-3);margin-top:2px">${escapeHtml(u.email||'—')}</div>
+        ${u.userId ? `<div style="font-size:11px;color:var(--text-3);margin-top:2px">@${escapeHtml(u.userId)}</div>` : ''}
+        <div style="margin-top:6px">${state.isAdmin ? '<span class="badge admin">ADMIN</span>' : '<span class="badge active">CUSTOMER</span>'}</div>
       </div>
     </div>
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kk">Points</div><div class="kv accent">${(u.demoPoints||0).toLocaleString()}</div></div>
-      <div class="kpi-card"><div class="kk">Bets</div><div class="kv">${state.predictions.length}</div></div>
-      <div class="kpi-card"><div class="kk">Won</div><div class="kv success">${won}</div></div>
-      <div class="kpi-card"><div class="kk">Lost</div><div class="kv">${lost}</div></div>
+    <div class="kpi-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="card"><div style="font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase">Points</div><div style="font-size:22px;font-weight:800;color:var(--accent);margin-top:4px">${(u.demoPoints||0).toLocaleString()}</div></div>
+      <div class="card"><div style="font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase">Bets</div><div style="font-size:22px;font-weight:800;margin-top:4px">${state.predictions.length}</div></div>
+      <div class="card"><div style="font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase">Won</div><div style="font-size:22px;font-weight:800;color:var(--success);margin-top:4px">${won}</div></div>
+      <div class="card"><div style="font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase">Lost</div><div style="font-size:22px;font-weight:800;margin-top:4px">${lost}</div></div>
     </div>
     <button class="btn btn-secondary" onclick="toggleTheme()" style="margin-bottom:8px">Switch Theme</button>
     <button class="btn btn-danger" onclick="doLogout()">Sign Out</button>
@@ -1990,31 +2022,13 @@ function viewAdminHome() {
   const liveMines = state.mines.liveGames.filter(g => g.status === 'ACTIVE').length;
   const totalUsers = state.users.length;
   const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING').length;
-
   return `
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kk">Users</div><div class="kv">${totalUsers}</div></div>
-      <div class="kpi-card"><div class="kk">Live Mines</div><div class="kv warning">${liveMines}</div></div>
-      <div class="kpi-card"><div class="kk">Live Matches</div><div class="kv accent">${liveMatches}</div></div>
-      <div class="kpi-card"><div class="kk">Total Games</div><div class="kv">${state.mines.liveGames.length}</div></div>
+    <div class="kpi-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="card"><div style="font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase">Users</div><div style="font-size:22px;font-weight:800;margin-top:4px">${totalUsers}</div></div>
+      <div class="card"><div style="font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase">Live Mines</div><div style="font-size:22px;font-weight:800;color:var(--warning);margin-top:4px">${liveMines}</div></div>
+      <div class="card"><div style="font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase">Live Matches</div><div style="font-size:22px;font-weight:800;color:var(--accent);margin-top:4px">${liveMatches}</div></div>
+      <div class="card"><div style="font-size:10px;color:var(--text-3);font-weight:700;text-transform:uppercase">Total Games</div><div style="font-size:22px;font-weight:800;margin-top:4px">${state.mines.liveGames.length}</div></div>
     </div>
-
-    ${liveMines > 0 ? `
-      <div class="live-tracker">
-        <div class="lt-head">
-          <div class="lt-title"><span class="lt-dot"></span>LIVE MINES (${liveMines})</div>
-          <button class="btn btn-sm btn-secondary" onclick="nav('admin_mines')">Open →</button>
-        </div>
-        ${state.mines.liveGames.filter(g => g.status === 'ACTIVE').slice(0, 3).map(g => `
-          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid rgba(34,197,94,.15);font-size:12px">
-            <span style="font-family:ui-monospace,monospace;font-weight:800;font-size:10px">${g.gameId.slice(-8)}</span>
-            <span style="color:var(--text-3)">${escapeHtml(g.userName || g.uid?.slice(0,6) || '')}</span>
-            <span style="margin-left:auto;color:var(--gold);font-weight:800">${(g.revealedSafe||[]).length}✓</span>
-          </div>
-        `).join('')}
-      </div>
-    ` : ''}
-
     <div class="card">
       <div class="card-head"><div class="card-title-lg">Quick Actions</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -2027,19 +2041,29 @@ function viewAdminHome() {
   `;
 }
 
-/* ADMIN — USERS */
+/* ADMIN — USERS (with create user) */
 function viewAdminUsers() {
   return `
     <div class="card">
-      <div class="card-head"><div class="card-title-lg">👥 Users (${state.users.length})</div></div>
+      <div class="card-head">
+        <div class="card-title-lg">👥 Users (${state.users.length})</div>
+        <button class="btn btn-sm btn-gold" onclick="openCreateUserSheet()">+ Add User</button>
+      </div>
       <div class="list">
         ${state.users.map(u => `
           <div>
             <div class="list-row">
               <div class="avatar">${(u.name||u.email||'?')[0].toUpperCase()}</div>
               <div class="lr-body">
-                <div class="lr-title">${escapeHtml(u.name||'—')} ${u.blocked ? '<span class="badge blocked">BLOCKED</span>' : ''}</div>
-                <div class="lr-sub">${escapeHtml(u.email||'—')}</div>
+                <div class="lr-title">
+                  ${escapeHtml(u.name||'—')}
+                  ${u.blocked ? '<span class="badge blocked">BLOCKED</span>' : ''}
+                  ${!u.hasAuth && u.userId ? '<span class="badge pending">PENDING</span>' : ''}
+                </div>
+                <div class="lr-sub">
+                  ${escapeHtml(u.email||'—')}
+                  ${u.userId ? ` • @${escapeHtml(u.userId)}` : ''}
+                </div>
               </div>
               <div class="lr-right">
                 <div class="lr-amount">${(u.demoPoints||0).toLocaleString()}</div>
@@ -2048,8 +2072,9 @@ function viewAdminUsers() {
             </div>
             <div style="display:flex;gap:6px;padding:0 14px 12px;border-bottom:1px solid var(--border)">
               <button class="btn btn-secondary btn-sm" style="flex:1" onclick="openEditUser('${u.id}')">Edit</button>
-              <button class="btn btn-sm ${u.blocked?'btn-success':'btn-danger'}" style="flex:1"
-                onclick="toggleBlock('${u.id}',${!u.blocked})">${u.blocked?'Unblock':'Block'}</button>
+              <button class="btn btn-warning btn-sm" style="flex:1" onclick="openBlockUser('${u.id}')">
+                ${u.blocked ? 'Unblock' : 'Block'}
+              </button>
             </div>
           </div>
         `).join('') || '<div class="empty">No users</div>'}
@@ -2058,105 +2083,301 @@ function viewAdminUsers() {
   `;
 }
 
+/* ═══════════════════════════════════════════════════
+   CREATE USER (with custom points)
+   ═══════════════════════════════════════════════════ */
+window.openCreateUserSheet = () => {
+  openSheet('Create User', `
+    <div class="form-field">
+      <label>Full Name</label>
+      <input type="text" id="cuName" placeholder="e.g., Pawan Kumar" maxlength="30" />
+      <div class="form-hint">Optional — will auto-use email prefix if empty</div>
+    </div>
+    <div class="form-field">
+      <label>Email ID *</label>
+      <input type="email" id="cuEmail" placeholder="user@example.com" autocomplete="off" />
+      <div class="form-hint">Required — user will use this to login</div>
+    </div>
+    <div class="form-field">
+      <label>User ID (optional)</label>
+      <input type="text" id="cuUserId" placeholder="e.g., pawan123" maxlength="20" />
+      <div class="form-hint">3-20 chars. Letters/numbers/underscore. Optional — user can also login by email</div>
+      <div id="cuUserIdCheck"></div>
+    </div>
+    <div class="form-field">
+      <label>Initial Points *</label>
+      <input type="number" id="cuPoints" value="1000" min="10" max="10000000" inputmode="numeric" />
+      <div class="form-hint">Custom welcome bonus for this user (10 - 10,000,000)</div>
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:12px">
+      ${[500,1000,5000,10000].map(p => `
+        <button class="btn btn-secondary btn-sm" style="flex:1" onclick="document.getElementById('cuPoints').value=${p}">${p}</button>
+      `).join('')}
+    </div>
+    <button class="btn btn-gold" onclick="createUserByAdmin()" id="cuBtn">Create User</button>
+  `);
+  
+  // User ID check
+  setTimeout(() => {
+    const inp = document.getElementById('cuUserId');
+    if (!inp) return;
+    let timer;
+    inp.addEventListener('input', () => {
+      const v = inp.value.trim().toLowerCase();
+      const el = document.getElementById('cuUserIdCheck');
+      clearTimeout(timer);
+      if (!v) { el.innerHTML = ''; return; }
+      if (v.length < 3 || !/^[a-z0-9_]+$/.test(v)) {
+        el.innerHTML = `<div class="id-check taken">❌ 3-20 chars, letters/numbers/_ only</div>`;
+        return;
+      }
+      el.innerHTML = `<div class="id-check checking"><div class="spinner-sm"></div>Checking…</div>`;
+      timer = setTimeout(async () => {
+        const s = await getDoc(doc(db, 'userIds', v));
+        if (s.exists()) el.innerHTML = `<div class="id-check taken">❌ User ID taken</div>`;
+        else el.innerHTML = `<div class="id-check available">✅ Available!</div>`;
+      }, 500);
+    });
+  }, 200);
+};
+
+window.createUserByAdmin = async () => {
+  const name = document.getElementById('cuName').value.trim();
+  const email = document.getElementById('cuEmail').value.trim().toLowerCase();
+  const userId = document.getElementById('cuUserId').value.trim().toLowerCase();
+  const points = Math.max(10, Math.min(10000000, Math.floor(Number(document.getElementById('cuPoints').value) || 1000)));
+  
+  if (!email || !email.includes('@')) return toast('Valid email required', 'err');
+  if (userId && (userId.length < 3 || userId.length > 20 || !/^[a-z0-9_]+$/.test(userId))) {
+    return toast('Invalid User ID format', 'err');
+  }
+  
+  const btn = document.getElementById('cuBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  
+  try {
+    // Check email not taken
+    const emailDoc = await getDoc(doc(db, 'emails', email));
+    if (emailDoc.exists()) {
+      btn.disabled = false; btn.textContent = 'Create User';
+      return toast('Email already exists', 'err');
+    }
+    // Check userId not taken
+    if (userId) {
+      const uDoc = await getDoc(doc(db, 'userIds', userId));
+      if (uDoc.exists()) {
+        btn.disabled = false; btn.textContent = 'Create User';
+        return toast('User ID taken', 'err');
+      }
+    }
+    
+    // Generate pre-created UID
+    const preUid = 'pre_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+    const userName = name || email.split('@')[0];
+    
+    // Create user doc (pre-created — no auth yet)
+    await setDoc(doc(db, 'users', preUid), {
+      uid: preUid,
+      email,
+      name: userName,
+      userId: userId || null,
+      demoPoints: points,
+      blocked: false,
+      hasAuth: false,
+      role: 'customer',
+      createdBy: state.user.uid,
+      createdByName: state.profile?.name || 'admin',
+      createdAt: serverTimestamp()
+    });
+    
+    // Email lookup
+    await setDoc(doc(db, 'emails', email), {
+      uid: preUid,
+      email,
+      name: userName,
+      hasAuth: false,
+      createdAt: serverTimestamp()
+    });
+    
+    // User ID lookup
+    if (userId) {
+      await setDoc(doc(db, 'userIds', userId), {
+        uid: preUid,
+        email,
+        name: userName,
+        userId,
+        hasAuth: false,
+        createdAt: serverTimestamp()
+      });
+    }
+    
+    toast(`✅ User created with ${points} pts`, 'ok');
+    closeSheet();
+  } catch(e) {
+    console.error(e);
+    toast((e?.message||'Failed').replace('Firebase: ',''), 'err');
+    btn.disabled = false;
+    btn.textContent = 'Create User';
+  }
+};
+
+/* EDIT USER */
 window.openEditUser = (uid) => {
   const u = state.users.find(x => x.id === uid);
   if (!u) return;
   openSheet('Edit User', `
     <div class="form-field"><label>Name</label>
       <input type="text" id="edName" value="${escapeHtml(u.name||'')}" /></div>
-    <div class="form-field"><label>Demo Points</label>
-      <input type="number" id="edPoints" value="${u.demoPoints||0}" min="0" /></div>
+    <div class="form-field"><label>User ID</label>
+      <input type="text" id="edUserId" value="${escapeHtml(u.userId||'')}" /></div>
+    <div class="form-field"><label>Points</label>
+      <input type="number" id="edPoints" value="${u.demoPoints||0}" /></div>
     <button class="btn" onclick="saveUserEdit('${uid}')">Save</button>
   `);
 };
+
 window.saveUserEdit = async (uid) => {
   const name = document.getElementById('edName').value.trim();
+  const userId = document.getElementById('edUserId').value.trim().toLowerCase();
   const pts = Math.max(0, Math.floor(Number(document.getElementById('edPoints').value)||0));
   try {
-    await updateDoc(doc(db, 'users', uid), { name, demoPoints: pts });
-    closeSheet(); toast('Updated', 'ok');
-  } catch(e) { toast('Failed', 'err'); }
-};
-window.toggleBlock = async (uid, blocked) => {
-  try {
-    await updateDoc(doc(db, 'users', uid), { blocked });
-    toast(blocked?'Blocked':'Unblocked', 'ok');
+    const u = state.users.find(x => x.id === uid);
+    const updates = { name, demoPoints: pts };
+    if (userId !== (u.userId || '')) {
+      updates.userId = userId || null;
+      // Update userId lookup
+      if (u.userId) await deleteDoc(doc(db, 'userIds', u.userId)).catch(()=>{});
+      if (userId) await setDoc(doc(db, 'userIds', userId), {
+        uid, email: u.email, name, userId, hasAuth: u.hasAuth, updatedAt: serverTimestamp()
+      });
+    }
+    await updateDoc(doc(db, 'users', uid), updates);
+    closeSheet();
+    toast('Updated', 'ok');
   } catch(e) { toast('Failed', 'err'); }
 };
 
-/* ADMIN — ROUNDS (compact) */
+/* BLOCK USER */
+window.openBlockUser = (uid) => {
+  const u = state.users.find(x => x.id === uid);
+  if (!u) return;
+  if (u.blocked || (u.tempBlockUntil && u.tempBlockUntil.toMillis() > Date.now())) {
+    // Unblock
+    openSheet('Unblock User', `
+      <div class="txt-sm txt-3 mb-12">Remove block for ${escapeHtml(u.name||u.email)}?</div>
+      <button class="btn btn-success" onclick="unblockUser('${uid}')">Unblock User</button>
+    `);
+    return;
+  }
+  openSheet('Block User', `
+    <div class="form-field"><label>Block Reason</label>
+      <input type="text" id="blockReason" placeholder="e.g., Terms violation" /></div>
+    <div class="form-field"><label>Block Type</label>
+      <select id="blockType">
+        <option value="temp">Temporary (with timer)</option>
+        <option value="perm">Permanent</option>
+      </select></div>
+    <div class="form-field" id="tempDurationField">
+      <label>Duration</label>
+      <select id="tempDuration">
+        <option value="60">1 hour</option>
+        <option value="360">6 hours</option>
+        <option value="1440">1 day</option>
+        <option value="10080">7 days</option>
+        <option value="43200">30 days</option>
+      </select>
+      <div class="form-hint">Minutes. Custom: enter in next field</div>
+    </div>
+    <div class="form-field" id="customMinutesField">
+      <label>Custom Minutes (optional)</label>
+      <input type="number" id="customMinutes" placeholder="e.g., 120" />
+    </div>
+    <button class="btn btn-danger" onclick="blockUser('${uid}')">Block User</button>
+  `);
+  setTimeout(() => {
+    const sel = document.getElementById('blockType');
+    sel.onchange = () => {
+      const isPerm = sel.value === 'perm';
+      document.getElementById('tempDurationField').style.display = isPerm ? 'none' : '';
+      document.getElementById('customMinutesField').style.display = isPerm ? 'none' : '';
+    };
+  }, 200);
+};
+
+window.blockUser = async (uid) => {
+  const reason = document.getElementById('blockReason').value.trim() || 'Violation of terms';
+  const type = document.getElementById('blockType').value;
+  let minutes = 60;
+  const custom = document.getElementById('customMinutes').value;
+  if (custom && Number(custom) > 0) minutes = Math.floor(Number(custom));
+  else minutes = Number(document.getElementById('tempDuration').value) || 60;
+  
+  try {
+    const updates = { blockReason: reason };
+    if (type === 'perm') {
+      updates.blocked = true;
+      updates.tempBlockUntil = null;
+    } else {
+      updates.blocked = false;
+      updates.tempBlockUntil = new Date(Date.now() + minutes * 60000);
+    }
+    updates.blockedAt = serverTimestamp();
+    updates.blockedBy = state.user.uid;
+    await updateDoc(doc(db, 'users', uid), updates);
+    closeSheet();
+    toast('User blocked', 'ok');
+  } catch(e) { toast('Failed', 'err'); }
+};
+
+window.unblockUser = async (uid) => {
+  try {
+    await updateDoc(doc(db, 'users', uid), {
+      blocked: false,
+      tempBlockUntil: null,
+      blockReason: null,
+      unblockedAt: serverTimestamp(),
+      unblockedBy: state.user.uid
+    });
+    closeSheet();
+    toast('User unblocked', 'ok');
+  } catch(e) { toast('Failed', 'err'); }
+};
+
+/* ═══════════════════════════════════════════════════
+   ADMIN — ROUNDS, MINES, SETTINGS (compact stubs — reuse earlier code)
+   ═══════════════════════════════════════════════════ */
 function viewAdminRounds() {
   const m = currentMatch();
-  if (!m) return '<div class="card"><div class="empty">Select match</div></div>';
+  if (!m) return '<div class="card"><div class="empty">Select match from Home</div></div>';
   const rs = roundStatusForMatch(m);
   const r = rs.round;
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
+  const pending = state.predictions.filter(p => p.status === 'PENDING' && p.matchId === m.id);
   const needsElim = r && r.status === 'RESULT_DECLARED' && !r.eliminationDone;
-  const aliveA = state.players.filter(p => p.teamId==='A' && (!p.matchId||p.matchId===m.id) && p.status==='ACTIVE');
-  const aliveB = state.players.filter(p => p.teamId==='B' && (!p.matchId||p.matchId===m.id) && p.status==='ACTIVE');
-
   return `
     <div class="card">
       <div class="card-head">
         <div class="card-title-lg">Match #${m.matchNumber}</div>
         <span class="badge ${m.status==='LIVE'?'live':'pending'}">${m.status}</span>
       </div>
-      <div style="display:flex;gap:8px">
+      <div style="display:flex;gap:8px;margin-top:8px">
         <div style="flex:1;text-align:center"><div class="txt-xs txt-3">Round</div><div class="fw-8">${m.currentRound||0}/${m.maxRounds||8}</div></div>
         <div style="flex:1;text-align:center"><div class="txt-xs txt-3">A won</div><div class="fw-8">${m.teamARoundsWon||0}</div></div>
         <div style="flex:1;text-align:center"><div class="txt-xs txt-3">B won</div><div class="fw-8">${m.teamBRoundsWon||0}</div></div>
       </div>
     </div>
-
-    ${needsElim ? `
-      <div class="card" style="border-color:var(--danger)">
-        <div class="card-head"><div class="card-title-lg" style="color:var(--danger)">⚠️ Eliminate</div></div>
-        <div class="txt-xs txt-3" style="font-weight:800;margin-bottom:6px">TEAM A (${aliveA.length})</div>
-        <div class="list" style="margin-bottom:10px">
-          ${aliveA.map(p => `
-            <div class="list-row" style="cursor:pointer" onclick="eliminatePlayer('${p.id}','A')">
-              <div class="avatar team-a">${(p.name||'?')[0].toUpperCase()}</div>
-              <div class="lr-body"><div class="lr-title">${escapeHtml(p.name)}</div></div>
-            </div>
-          `).join('') || '<div class="empty">No alive</div>'}
-        </div>
-        <div class="txt-xs txt-3" style="font-weight:800;margin-bottom:6px">TEAM B (${aliveB.length})</div>
-        <div class="list">
-          ${aliveB.map(p => `
-            <div class="list-row" style="cursor:pointer" onclick="eliminatePlayer('${p.id}','B')">
-              <div class="avatar team-b">${(p.name||'?')[0].toUpperCase()}</div>
-              <div class="lr-body"><div class="lr-title">${escapeHtml(p.name)}</div></div>
-            </div>
-          `).join('') || '<div class="empty">No alive</div>'}
-        </div>
-      </div>
-    ` : ''}
-
     <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">Round Control</div>
-        ${r ? `<span class="badge ${r.status==='OPEN'?'live':r.status==='CLOSED'?'closed':'done'}">${r.status.replace('_',' ')}</span>` : ''}
-      </div>
-      ${!r ? `
-        <button class="btn btn-success" onclick="openRound(1)" ${(A.activeCount===0||B.activeCount===0)?'disabled':''}>Open Round 1</button>
-      ` : r.status==='OPEN' ? `
-        <button class="btn btn-warning" onclick="closeRound()">Close Betting</button>
-      ` : r.status==='CLOSED' ? `
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      ${!r ? `<button class="btn btn-success" onclick="openRound(1)" ${(A.activeCount===0||B.activeCount===0)?'disabled':''}>Open Round 1</button>` :
+        r.status==='OPEN' ? `<button class="btn btn-warning" onclick="closeRound()">Close Betting</button>` :
+        r.status==='CLOSED' ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <button class="btn btn-success" onclick="declareResult('A')">Team A Won</button>
-          <button class="btn btn-warning" onclick="declareResult('B')">Team B Won</button>
-        </div>
-      ` : r.status==='RESULT_DECLARED' && !r.eliminationDone ? `
-        <div class="txt-sm" style="color:var(--danger);font-weight:700;text-align:center;padding:10px">⚠️ Eliminate first</div>
-      ` : `
-        ${m.currentRound < (m.maxRounds||8) ? `
-          <button class="btn btn-success" onclick="openRound(${m.currentRound+1})">Open Round ${m.currentRound+1}</button>
-        ` : `
-          <button class="btn btn-success" onclick="endMatchByRounds()">End Match</button>
-        `}
-      `}
+          <button class="btn btn-warning" onclick="declareResult('B')">Team B Won</button></div>` :
+        r.status==='RESULT_DECLARED' && !r.eliminationDone ? `<div style="text-align:center;color:var(--danger);font-weight:700;padding:10px">⚠️ Eliminate player first</div>` :
+        m.currentRound < (m.maxRounds||8) ? `<button class="btn btn-success" onclick="openRound(${m.currentRound+1})">Open Round ${m.currentRound+1}</button>` :
+        `<button class="btn btn-success" onclick="endMatchByRounds()">End Match</button>`
+      }
     </div>
-
     <div class="card">
       <div class="card-head"><div class="card-title-lg">Teams</div></div>
       <div style="display:flex;gap:6px;margin-bottom:10px">
@@ -2178,8 +2399,7 @@ function viewAdminRounds() {
 }
 
 window.openRound = async (num) => {
-  const m = currentMatch();
-  if (!m) return;
+  const m = currentMatch(); if (!m) return;
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
   if (A.activeCount===0 || B.activeCount===0) return toast('Both teams need players', 'err');
   if (num > 1) {
@@ -2198,22 +2418,25 @@ window.openRound = async (num) => {
     toast(`Round ${num} opened`, 'ok');
   } catch(e) { toast('Failed', 'err'); }
 };
+
 window.closeRound = async () => {
   const m = currentMatch(); if (!m) return;
   const r = state.rounds.find(x => x.roundNumber===m.currentRound && x.matchId===m.id);
   if (!r) return;
-  try { await updateDoc(doc(db, 'rounds', r.id), { status: 'CLOSED' }); toast('Closed', 'ok'); }
+  try { await updateDoc(doc(db, 'rounds', r.id), { status: 'CLOSED' }); toast('Closed','ok'); }
   catch(e) { toast('Failed','err'); }
 };
+
 window.declareResult = (winner) => {
   const m = currentMatch(); if (!m) return;
   const r = state.rounds.find(x => x.roundNumber===m.currentRound && x.matchId===m.id);
   if (!r) return;
-  openSheet('Confirm', `
-    <div class="txt-sm txt-3 mb-12">Team ${winner} won round ${r.roundNumber}?</div>
-    <button class="btn ${winner==='A'?'btn-success':'btn-warning'}" onclick="declareResultDo('${winner}')">Confirm Team ${winner}</button>
+  openSheet('Confirm Result', `
+    <div class="txt-sm txt-3 mb-12">Team ${winner} won Round ${r.roundNumber}?</div>
+    <button class="btn ${winner==='A'?'btn-success':'btn-warning'}" onclick="declareResultDo('${winner}')">Confirm</button>
   `);
 };
+
 window.declareResultDo = async (winner) => {
   const m = currentMatch(); if (!m) return;
   const r = state.rounds.find(x => x.roundNumber===m.currentRound && x.matchId===m.id);
@@ -2225,27 +2448,36 @@ window.declareResultDo = async (winner) => {
       if (isWin) {
         const uSnap = await getDoc(doc(db, 'users', p.userId));
         if (uSnap.exists()) {
-          await updateDoc(doc(db, 'users', p.userId), {
-            demoPoints: (uSnap.data().demoPoints||0) + (p.potentialReturn||0)
-          });
+          await updateDoc(doc(db, 'users', p.userId), { demoPoints: (uSnap.data().demoPoints||0) + (p.potentialReturn||0) });
         }
       }
       await updateDoc(doc(db, 'predictions', p.id), {
         status: isWin?'WON':'LOST',
         returnAmount: isWin ? (p.potentialReturn||0) : 0,
-        profitAmount: isWin ? (p.potentialProfit||0) : -p.stake,
         settledAt: serverTimestamp(), winnerTeam: winner
       });
     }
-    await updateDoc(doc(db, 'rounds', r.id), {
-      status: 'RESULT_DECLARED', winner, eliminationDone: false, resultTime: serverTimestamp()
-    });
+    await updateDoc(doc(db, 'rounds', r.id), { status: 'RESULT_DECLARED', winner, eliminationDone: false });
     const nA = (m.teamARoundsWon||0) + (winner==='A'?1:0);
     const nB = (m.teamBRoundsWon||0) + (winner==='B'?1:0);
     await updateDoc(doc(db, 'matches', m.id), { teamARoundsWon: nA, teamBRoundsWon: nB });
-    closeSheet(); toast(`Team ${winner} won`, 'ok');
+    closeSheet();
+    toast(`Team ${winner} won`, 'ok');
   } catch(e) { toast('Failed','err'); }
 };
+
+window.addPlayer = async () => {
+  const name = document.getElementById('newPName').value.trim();
+  const teamId = document.getElementById('newPTeam').value;
+  if (!name) return toast('Enter name','err');
+  if (state.players.filter(p => p.teamId===teamId).length >= 4) return toast(`Team full`,'err');
+  try {
+    await addDoc(collection(db, 'players'), { name, teamId, status: 'ACTIVE', matchId: state.currentMatchId, createdAt: serverTimestamp() });
+    toast(`Added`,'ok');
+    document.getElementById('newPName').value = '';
+  } catch(e) { toast('Failed','err'); }
+};
+
 window.eliminatePlayer = async (pid, teamId) => {
   const m = currentMatch(); if (!m) return;
   const r = state.rounds.find(x => x.roundNumber===m.currentRound && x.matchId===m.id);
@@ -2255,144 +2487,70 @@ window.eliminatePlayer = async (pid, teamId) => {
   if (!confirm(`Eliminate ${player.name}?`)) return;
   try {
     await updateDoc(doc(db, 'players', pid), { status: 'ELIMINATED', eliminatedInRound: r.roundNumber });
-    await updateDoc(doc(db, 'rounds', r.id), {
-      eliminationDone: true, eliminatedPlayerId: pid, eliminatedPlayerName: player.name, eliminatedPlayerTeam: teamId
-    });
-    const nA = teamStats('A', m.id), nB = teamStats('B', m.id);
-    if (nA.isDead && !nB.isDead) { await endMatchAuto('B'); return; }
-    if (nB.isDead && !nA.isDead) { await endMatchAuto('A'); return; }
-    if (nA.isDead && nB.isDead) { await endMatchAuto('DRAW'); return; }
+    await updateDoc(doc(db, 'rounds', r.id), { eliminationDone: true, eliminatedPlayerId: pid, eliminatedPlayerName: player.name, eliminatedPlayerTeam: teamId });
     toast(`${player.name} out`, 'ok');
   } catch(e) { toast('Failed','err'); }
 };
+
 window.endMatchByRounds = async () => {
   const m = currentMatch(); if (!m) return;
   const aW = m.teamARoundsWon||0, bW = m.teamBRoundsWon||0;
-  let w = 'DRAW'; if (aW > bW) w = 'A'; else if (bW > aW) w = 'B';
-  await endMatchAuto(w);
-};
-window.endMatchAuto = async (winner) => {
-  const m = currentMatch(); if (!m) return;
+  let w = 'DRAW';
+  if (aW > bW) w = 'A'; else if (bW > aW) w = 'B';
+  if (!confirm(`End match? Winner: ${w==='DRAW'?'Draw':'Team '+w}`)) return;
   try {
     await addDoc(collection(db, 'match_history'), {
-      matchNumber: m.matchNumber, winner,
-      teamARoundsWon: m.teamARoundsWon||0, teamBRoundsWon: m.teamBRoundsWon||0,
+      matchNumber: m.matchNumber, winner: w,
+      teamARoundsWon: aW, teamBRoundsWon: bW,
       maxRounds: m.maxRounds, totalRounds: m.currentRound,
       finishedAt: serverTimestamp()
     });
-    const pending = state.predictions.filter(p => p.status==='PENDING' && p.matchId===m.id);
-    for (const p of pending) {
-      const isWin = winner !== 'DRAW' && p.teamId === winner;
-      if (isWin) {
-        const uSnap = await getDoc(doc(db, 'users', p.userId));
-        if (uSnap.exists()) {
-          await updateDoc(doc(db, 'users', p.userId), {
-            demoPoints: (uSnap.data().demoPoints||0) + (p.potentialReturn||0)
-          });
-        }
-      }
-      await updateDoc(doc(db, 'predictions', p.id), {
-        status: isWin?'WON':'LOST',
-        returnAmount: isWin ? (p.potentialReturn||0) : 0,
-        settledAt: serverTimestamp(), winnerTeam: winner
-      });
-    }
-    await updateDoc(doc(db, 'matches', m.id), {
-      status: 'FINISHED', winner, finishedAt: serverTimestamp()
-    });
-    toast(`Match finished`, 'ok');
-  } catch(e) { toast('Failed','err'); }
-};
-window.addPlayer = async () => {
-  const name = document.getElementById('newPName').value.trim();
-  const teamId = document.getElementById('newPTeam').value;
-  if (!name) return toast('Enter name','err');
-  if (state.players.filter(p => p.teamId===teamId).length >= 4) return toast(`Team ${teamId} full`,'err');
-  try {
-    await addDoc(collection(db, 'players'), {
-      name, teamId, status: 'ACTIVE', matchId: state.currentMatchId, createdAt: serverTimestamp()
-    });
-    toast(`"${name}" added`,'ok');
-    document.getElementById('newPName').value = '';
+    await updateDoc(doc(db, 'matches', m.id), { status: 'FINISHED', winner: w, finishedAt: serverTimestamp() });
+    toast('Match finished','ok');
   } catch(e) { toast('Failed','err'); }
 };
 
-/* ADMIN — MINES LIVE TRACKING */
+/* ADMIN MINES (compact) */
 function viewAdminMines() {
   const games = state.mines.liveGames;
-  const filtered = state.mines.adminSearch
-    ? games.filter(g => (g.gameId||'').includes(state.mines.adminSearch) || (g.uid||'').includes(state.mines.adminSearch))
-    : games;
   const activeGames = games.filter(g => g.status === 'ACTIVE');
-  const won = games.filter(g => g.status === 'WON').length;
-  const lost = games.filter(g => g.status === 'LOST').length;
-  const refund = games.filter(g => g.status === 'REFUND').length;
-
   return `
     ${activeGames.length > 0 ? `
-      <div class="live-tracker">
-        <div class="lt-head">
-          <div class="lt-title"><span class="lt-dot"></span>LIVE NOW (${activeGames.length})</div>
+      <div style="background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(34,197,94,.03));border:1px solid rgba(34,197,94,.3);border-radius:10px;padding:12px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:800;color:var(--success);text-transform:uppercase">● Live (${activeGames.length})</div>
         </div>
         ${activeGames.map(g => `
           <div style="padding:10px;background:var(--surface-2);border-radius:8px;margin-bottom:8px;cursor:pointer" onclick="adminOpenMines('${g.gameId}')">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px">
               <div style="font-family:ui-monospace,monospace;font-size:11px;font-weight:800">${g.gameId}</div>
               <span class="badge live">LIVE</span>
             </div>
-            <div class="txt-xs txt-3" style="margin-bottom:8px">
-              ${escapeHtml(g.userName||g.uid?.slice(0,8)||'')} • 💣${g.mineCount} • 🪙${g.stake}
-            </div>
+            <div class="txt-xs txt-3" style="margin-bottom:8px">${escapeHtml(g.userName||'')} • 💣${g.mineCount} • 🪙${g.stake}</div>
             <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px">
               ${Array.from({length:25}, (_, i) => {
-                const revealed = (g.revealedSafe||[]).includes(i);
-                return `<div style="aspect-ratio:1;border-radius:3px;background:${revealed ? 'rgba(34,197,94,.35)' : 'var(--surface-3)'};border:1px solid ${revealed ? 'var(--success)' : 'var(--border)'}"></div>`;
+                const r = (g.revealedSafe||[]).includes(i);
+                return `<div style="aspect-ratio:1;border-radius:3px;background:${r ? 'rgba(34,197,94,.35)' : 'var(--surface-3)'};border:1px solid ${r ? 'var(--success)' : 'var(--border)'}"></div>`;
               }).join('')}
-            </div>
-            <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px">
-              <span class="txt-3">Safe: <b style="color:var(--success)">${(g.revealedSafe||[]).length}</b></span>
-              <span class="txt-3">Rate: <b style="color:var(--gold)">${fmtRate(g.multiplier||1)}</b></span>
             </div>
           </div>
         `).join('')}
       </div>
     ` : ''}
-
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kk">Total</div><div class="kv">${games.length}</div></div>
-      <div class="kpi-card"><div class="kk">Active</div><div class="kv warning">${activeGames.length}</div></div>
-      <div class="kpi-card"><div class="kk">Won</div><div class="kv success">${won}</div></div>
-      <div class="kpi-card"><div class="kk">Refund</div><div class="kv warning">${refund}</div></div>
+    <div class="kpi-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="card"><div class="txt-xs txt-3">Total</div><div style="font-size:22px;font-weight:800">${games.length}</div></div>
+      <div class="card"><div class="txt-xs txt-3">Active</div><div style="font-size:22px;font-weight:800;color:var(--warning)">${activeGames.length}</div></div>
     </div>
-
     <div class="card">
-      <input type="text" placeholder="Search Game ID / UID"
-        value="${escapeHtml(state.mines.adminSearch)}"
-        oninput="state.mines.adminSearch = this.value.toUpperCase(); render();"
-        style="width:100%;padding:11px 14px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:14px" />
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="card-title-lg">All Games (${filtered.length})</div></div>
-      ${filtered.length === 0 ? '<div class="empty">No games</div>' :
-        filtered.slice(0, 50).map(g => {
-          const statusCls = g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : g.status === 'REFUND' ? 'refund' : 'active';
-          return `
-            <div class="list-row" style="cursor:pointer" onclick="adminOpenMines('${g.gameId}')">
-              <div class="avatar ${g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : 'team-a'}">
-                ${g.status === 'WON' ? '✓' : g.status === 'LOST' ? '✗' : g.status === 'REFUND' ? '↩' : '💎'}
-              </div>
-              <div class="lr-body">
-                <div class="lr-title" style="font-family:ui-monospace,monospace;font-size:11px">${escapeHtml(g.gameId)}</div>
-                <div class="lr-sub">${escapeHtml(g.userName || g.uid?.slice(0,8) || '')} • 💣${g.mineCount} • 🪙${g.stake} • ${(g.revealedSafe||[]).length}✓</div>
-              </div>
-              <div class="lr-right">
-                <span class="badge ${statusCls}">${g.status}</span>
-              </div>
-            </div>
-          `;
-        }).join('')
-      }
+      ${games.slice(0, 50).map(g => `
+        <div class="list-row" style="cursor:pointer;padding:8px 0;border-bottom:1px solid var(--border)" onclick="adminOpenMines('${g.gameId}')">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-family:ui-monospace,monospace;font-weight:800">${escapeHtml(g.gameId)}</div>
+            <div class="txt-xs txt-3">${escapeHtml(g.userName||'')} • ${(g.revealedSafe||[]).length} safe</div>
+          </div>
+          <span class="badge ${g.status==='WON'?'won':g.status==='LOST'?'lost':'active'}">${g.status}</span>
+        </div>
+      `).join('') || '<div class="empty">No games</div>'}
     </div>
   `;
 }
@@ -2404,86 +2562,39 @@ window.adminOpenMines = async (gameId) => {
     if (!gSnap.exists()) return toast('Not found', 'err');
     const g = gSnap.data();
     const mines = pSnap.exists() ? (pSnap.data().minePositions || []) : [];
-
     const miniTiles = [];
     for (let i = 0; i < 25; i++) {
       const isMine = mines.includes(i);
-      const isRevealedSafe = (g.revealedSafe || []).includes(i);
-      const isRevealedMine = (g.revealedTiles || []).includes(i) && isMine;
-      let bg = 'var(--surface-2)', col = 'var(--text-3)', border = 'var(--border)';
-      if (isRevealedMine) { bg = 'rgba(239,68,68,.7)'; col = '#fff'; border = 'var(--danger)'; }
-      else if (isRevealedSafe) { bg = 'rgba(34,197,94,.4)'; col = '#fff'; border = 'var(--success)'; }
-      else if (isMine) { bg = 'rgba(239,68,68,.35)'; col = '#fff'; border = 'var(--danger)'; }
-      miniTiles.push(`<div style="aspect-ratio:1;border-radius:4px;background:${bg};color:${col};display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;border:1px solid ${border}">${i}</div>`);
+      const isRevSafe = (g.revealedSafe || []).includes(i);
+      const isRevMine = (g.revealedTiles || []).includes(i) && isMine;
+      let bg = 'var(--surface-2)';
+      if (isRevMine) bg = 'rgba(239,68,68,.7)';
+      else if (isRevSafe) bg = 'rgba(34,197,94,.4)';
+      else if (isMine) bg = 'rgba(239,68,68,.35)';
+      miniTiles.push(`<div style="aspect-ratio:1;border-radius:4px;background:${bg};display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;border:1px solid var(--border)">${i}</div>`);
     }
-
-    const statusCls = g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : g.status === 'REFUND' ? 'refund' : 'active';
-
     openSheet('Game Details', `
-      <div style="font-family:ui-monospace,monospace;font-size:12px;font-weight:800;margin-bottom:12px;padding:10px;background:var(--surface-2);border-radius:8px;text-align:center">
-        ${g.gameId}
-      </div>
+      <div style="font-family:ui-monospace,monospace;font-size:12px;font-weight:800;margin-bottom:12px;padding:10px;background:var(--surface-2);border-radius:8px;text-align:center">${g.gameId}</div>
       <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin:8px 0">${miniTiles.join('')}</div>
-      <div class="txt-xs txt-3 txt-center" style="margin-bottom:12px">
-        🔴 Mine · 🟢 Revealed Safe · ⚪ Unrevealed
-      </div>
-      <div class="list" style="background:transparent">
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-          <span class="txt-3 txt-xs">User</span><b>${escapeHtml(g.userName||'—')}</b>
-        </div>
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-          <span class="txt-3 txt-xs">Status</span>
-          <span class="badge ${statusCls}">${g.status}</span>
-        </div>
-        ${g.refundReason ? `
-          <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-            <span class="txt-3 txt-xs">Refund Reason</span><b style="color:var(--warning)">${g.refundReason}</b>
-          </div>
-        ` : ''}
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-          <span class="txt-3 txt-xs">Mines</span><b>${g.mineCount}</b>
-        </div>
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-          <span class="txt-3 txt-xs">Stake</span><b>🪙 ${g.stake}</b>
-        </div>
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-          <span class="txt-3 txt-xs">Payout</span><b style="color:var(--success)">🪙 ${g.payout||0}</b>
-        </div>
-        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
-          <span class="txt-3 txt-xs">Multiplier</span><b>${fmtRate(g.multiplier||0)}</b>
-        </div>
-        <div style="padding:8px 0;display:flex;justify-content:space-between;gap:12px">
-          <span class="txt-3 txt-xs">🎯 Mines</span><b style="font-size:11px;color:var(--danger);text-align:right">${mines.join(', ')||'—'}</b>
-        </div>
-      </div>
+      <div class="txt-xs txt-3" style="text-align:center;margin-bottom:12px">🔴 Mine • 🟢 Safe • ⚪ Hidden</div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span class="txt-3 txt-xs">User</span><b>${escapeHtml(g.userName||'—')}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span class="txt-3 txt-xs">Status</span><span class="badge ${g.status==='WON'?'won':g.status==='LOST'?'lost':'active'}">${g.status}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span class="txt-3 txt-xs">Stake</span><b>🪙 ${g.stake}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span class="txt-3 txt-xs">Payout</span><b style="color:var(--success)">🪙 ${g.payout||0}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;gap:12px"><span class="txt-3 txt-xs">🎯 Mines</span><b style="font-size:11px;color:var(--danger)">${mines.join(', ')||'—'}</b></div>
     `);
-  } catch(e) { console.error(e); toast('Failed', 'err'); }
+  } catch(e) { toast('Failed','err'); }
 };
 
-/* ADMIN — SETTINGS */
 function viewAdminSettings() {
   const s = state.settings || { baseWinRate: 25, baseRate: 2, maxRounds: 8 };
   return `
     <div class="card">
-      <div class="card-head"><div class="card-title-lg">⚙️ Survivor Settings</div></div>
-      <div class="form-field"><label>Base Win Rate (%)</label>
-        <input id="setWin" type="number" value="${s.baseWinRate}" /></div>
-      <div class="form-field"><label>Base Rate (X)</label>
-        <input id="setRate" type="number" step="0.01" value="${s.baseRate}" /></div>
-      <div class="form-field"><label>Max Rounds</label>
-        <input id="setMaxR" type="number" value="${s.maxRounds||8}" /></div>
+      <div class="card-head"><div class="card-title-lg">⚙️ Settings</div></div>
+      <div class="form-field"><label>Base Win Rate (%)</label><input id="setWin" type="number" value="${s.baseWinRate}" /></div>
+      <div class="form-field"><label>Base Rate (X)</label><input id="setRate" type="number" step="0.01" value="${s.baseRate}" /></div>
+      <div class="form-field"><label>Max Rounds</label><input id="setMaxR" type="number" value="${s.maxRounds||8}" /></div>
       <button class="btn" onclick="saveSettings()">Save</button>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="card-title-lg">💎 Mines Info</div></div>
-      <div class="txt-sm txt-3" style="line-height:1.8">
-        <b>House Edge:</b> 7%<br/>
-        <b>Formula:</b> C(25, M) × 0.93 / C(25-N, M)<br/>
-        <b>1 mine max:</b> 23.25X<br/>
-        <b>3 mines max:</b> 2139X<br/>
-        <b>Auto-refund:</b> stale/missing data
-      </div>
     </div>
   `;
 }
@@ -2493,9 +2604,7 @@ window.saveSettings = async () => {
   const r = Number(document.getElementById('setRate').value)||2;
   const m = Number(document.getElementById('setMaxR').value)||8;
   try {
-    await setDoc(doc(db, 'settings', 'app'), {
-      baseWinRate: w, baseRate: r, maxRounds: m, updatedAt: serverTimestamp()
-    }, { merge: true });
+    await setDoc(doc(db, 'settings', 'app'), { baseWinRate: w, baseRate: r, maxRounds: m, updatedAt: serverTimestamp() }, { merge: true });
     toast('Saved', 'ok');
   } catch(e) { toast('Failed','err'); }
 };
@@ -2520,6 +2629,8 @@ window.openSheet = (title, body) => {
 };
 window.closeSheet = () => { document.getElementById('modalRoot').innerHTML = ''; };
 
+/* INITIAL */
+showAuthScreen('login');
 render();
 </script>
 </body>
