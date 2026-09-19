@@ -7,26 +7,14 @@
 <title>PRL Gaming Hub</title>
 <style>
 :root {
-  --bg: #0d0f14;
-  --surface: #15181f;
-  --surface-2: #1c2029;
-  --surface-3: #232834;
-  --border: #262b36;
-  --border-2: #333a48;
-  --text: #e8eaed;
-  --text-2: #9aa3b2;
-  --text-3: #6b7280;
-  --accent: #3b82f6;
-  --accent-press: #2563eb;
-  --success: #22c55e;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --gold: #f59e0b;
-  --radius: 10px;
-  --radius-sm: 8px;
-  --radius-lg: 14px;
-  --header-h: 56px;
-  --nav-h: 60px;
+  --bg: #0d0f14; --surface: #15181f; --surface-2: #1c2029; --surface-3: #232834;
+  --border: #262b36; --border-2: #333a48;
+  --text: #e8eaed; --text-2: #9aa3b2; --text-3: #6b7280;
+  --accent: #3b82f6; --accent-press: #2563eb;
+  --gold: #f59e0b; --gold-press: #d97706;
+  --success: #22c55e; --danger: #ef4444; --warning: #f59e0b;
+  --radius: 10px; --radius-sm: 8px; --radius-lg: 14px;
+  --header-h: 56px; --nav-h: 60px;
 }
 [data-theme="light"] {
   --bg: #f4f5f7; --surface: #fff; --surface-2: #f7f8fa; --surface-3: #eef0f4;
@@ -47,10 +35,7 @@ input, select { font-family: inherit; outline: none; }
 .hidden { display: none !important; }
 
 /* LOGIN */
-.login-view {
-  min-height: 100vh; display: flex; flex-direction: column;
-  padding: 24px 20px; background: var(--bg);
-}
+.login-view { min-height: 100vh; display: flex; flex-direction: column; padding: 24px 20px; background: var(--bg); }
 .login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; margin-top: 12px; }
 .login-brand .bm {
   width: 44px; height: 44px; border-radius: 12px;
@@ -58,14 +43,14 @@ input, select { font-family: inherit; outline: none; }
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 15px; letter-spacing: -.5px;
 }
-.login-brand .bt .bt1 { font-size: 16px; font-weight: 800; letter-spacing: -.2px; }
+.login-brand .bt .bt1 { font-size: 16px; font-weight: 800; }
 .login-brand .bt .bt2 { font-size: 10px; color: var(--text-3); letter-spacing: 1.5px; font-weight: 600; margin-top: 2px; }
 .login-title { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-bottom: 6px; }
 .login-sub { font-size: 14px; color: var(--text-3); margin-bottom: 26px; font-weight: 500; }
 .login-form { max-width: 400px; width: 100%; margin: 0 auto; flex: 1; }
 .login-footer { text-align: center; padding: 20px 0 12px; font-size: 13px; color: var(--text-3); font-weight: 500; }
 .login-footer .link { color: var(--accent); font-weight: 700; margin-left: 4px; cursor: pointer; }
-.login-legal { text-align: center; font-size: 10.5px; color: var(--text-3); letter-spacing: .4px; padding: 8px 0 4px; font-weight: 500; }
+.login-legal { text-align: center; font-size: 10.5px; color: var(--text-3); letter-spacing: .4px; padding: 8px 0 4px; }
 
 /* HEADER */
 .app-header {
@@ -81,19 +66,18 @@ input, select { font-family: inherit; outline: none; }
   width: 32px; height: 32px; border-radius: 8px;
   background: var(--accent); color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 13px; letter-spacing: -.5px; flex-shrink: 0;
+  font-weight: 800; font-size: 13px; letter-spacing: -.5px;
 }
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-.brand-text .b1 { font-size: 13px; font-weight: 800; letter-spacing: .2px; }
+.brand-text .b1 { font-size: 13px; font-weight: 800; }
 .brand-text .b2 { font-size: 9px; color: var(--text-3); font-weight: 600; letter-spacing: 1.2px; margin-top: 2px; }
 .header-status { flex: 1; min-width: 0; display: flex; justify-content: center; }
 .status-chip {
-  font-size: 10.5px; font-weight: 700; letter-spacing: .3px;
-  padding: 4px 9px; border-radius: 6px;
+  font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 6px;
   background: var(--surface-2); border: 1px solid var(--border);
   color: var(--text-2);
   display: inline-flex; align-items: center; gap: 6px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .status-chip.live { color: var(--success); border-color: rgba(34,197,94,.35); }
 .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -101,12 +85,13 @@ input, select { font-family: inherit; outline: none; }
   display: flex; align-items: center; gap: 6px;
   background: var(--surface-2); border: 1px solid var(--border);
   border-radius: 8px; padding: 5px 9px;
-  font-size: 12.5px; font-weight: 700; transition: transform .2s;
+  font-size: 12.5px; font-weight: 700;
+  transition: transform .2s;
 }
 .balance-pill.bump { transform: scale(1.1); }
 .balance-pill .coin {
   width: 14px; height: 14px; border-radius: 50%;
-  background: var(--warning); display: inline-block; flex-shrink: 0;
+  background: var(--warning); display: inline-block;
   position: relative;
 }
 .balance-pill .coin::after {
@@ -138,15 +123,15 @@ input, select { font-family: inherit; outline: none; }
 .nav-item {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 2px;
-  color: var(--text-3); font-size: 10px; font-weight: 600; letter-spacing: .2px;
+  color: var(--text-3); font-size: 10px; font-weight: 600;
   position: relative; min-width: 0;
 }
 .nav-item svg { width: 20px; height: 20px; stroke-width: 1.8; }
 .nav-item.active { color: var(--accent); }
 .nav-item.active::before {
-  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 22px; height: 2px; background: var(--accent);
-  border-radius: 0 0 2px 2px;
+  content: ''; position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%); width: 22px; height: 2px;
+  background: var(--accent); border-radius: 0 0 2px 2px;
 }
 
 /* CARDS */
@@ -154,29 +139,25 @@ input, select { font-family: inherit; outline: none; }
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
 }
-.card-head {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px; gap: 8px;
-}
+.card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
 .card-title { font-size: 12px; font-weight: 700; letter-spacing: .6px; color: var(--text-3); text-transform: uppercase; }
-.card-title-lg { font-size: 15px; font-weight: 700; letter-spacing: -.2px; color: var(--text); }
-
+.card-title-lg { font-size: 15px; font-weight: 700; }
 .balance-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 16px; margin-bottom: 10px;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
-.balance-info .bl { font-size: 11px; color: var(--text-3); font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
-.balance-info .bv { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-top: 2px; font-variant-numeric: tabular-nums; color: var(--text); }
-.balance-info .bn { font-size: 10px; color: var(--text-3); font-weight: 600; letter-spacing: .4px; margin-top: 4px; }
+.balance-info .bl { font-size: 11px; color: var(--text-3); font-weight: 600; text-transform: uppercase; }
+.balance-info .bv { font-size: 26px; font-weight: 800; letter-spacing: -.8px; margin-top: 2px; }
+.balance-info .bn { font-size: 10px; color: var(--text-3); font-weight: 600; margin-top: 4px; }
 .balance-right { text-align: right; }
-.balance-right .rate { font-size: 20px; font-weight: 800; color: var(--accent); letter-spacing: -.3px; font-variant-numeric: tabular-nums; }
-.balance-right .lbl { font-size: 10px; color: var(--text-3); letter-spacing: .6px; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+.balance-right .rate { font-size: 20px; font-weight: 800; color: var(--accent); }
+.balance-right .lbl { font-size: 10px; color: var(--text-3); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
 
-/* GAME CARDS (Home) */
+/* GAME CARDS */
 .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
 .game-card {
-  background: var(--surface); border: 1px solid var(--border);
+  background: var(--surface); border: 1.5px solid var(--border);
   border-radius: var(--radius); padding: 16px;
   cursor: pointer; transition: all .2s;
   display: flex; flex-direction: column; gap: 8px;
@@ -196,35 +177,32 @@ input, select { font-family: inherit; outline: none; }
 .gc-survivor .gc-icon { background: rgba(59,130,246,.15); }
 .game-card .gc-name { font-size: 15px; font-weight: 800; letter-spacing: -.2px; }
 .game-card .gc-desc { font-size: 11px; color: var(--text-3); font-weight: 500; line-height: 1.4; }
-.game-card .gc-play {
-  font-size: 11px; color: var(--accent); font-weight: 800;
-  letter-spacing: .5px; margin-top: auto;
-}
+.game-card .gc-play { font-size: 11px; color: var(--accent); font-weight: 800; letter-spacing: .5px; margin-top: auto; }
 
 /* BUTTONS */
 .btn {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; min-height: 46px; padding: 12px 16px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; width: 100%; min-height: 46px; padding: 12px 16px;
   border-radius: var(--radius);
   font-size: 14.5px; font-weight: 700;
   background: var(--accent); color: #fff;
-  transition: background .15s, opacity .15s, transform .1s;
+  transition: all .15s;
 }
 .btn:active { transform: scale(.98); }
 .btn:disabled { opacity: .45; cursor: not-allowed; background: var(--surface-3); color: var(--text-3); }
 .btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
-.btn-danger { background: var(--danger); }
-.btn-success { background: var(--success); }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
 .btn-warning { background: var(--warning); color: #1a1a1a; }
 .btn-gold { background: var(--gold); color: #1a1a1a; }
-.btn-sm { min-height: 36px; padding: 8px 12px; font-size: 13px; border-radius: var(--radius-sm); width: auto; }
+.btn-sm { min-height: 36px; padding: 8px 12px; font-size: 13px; width: auto; border-radius: 8px; }
 
-/* LIST */
+/* LISTS */
 .list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .list-row {
   display: flex; align-items: center; gap: 12px;
   padding: 12px 14px; border-bottom: 1px solid var(--border);
-  min-width: 0; transition: background .12s;
+  min-width: 0;
 }
 .list-row:last-child { border-bottom: none; }
 .list-row:active { background: var(--surface-2); }
@@ -239,16 +217,13 @@ input, select { font-family: inherit; outline: none; }
 .list-row .avatar.won { background: rgba(34,197,94,.15); color: var(--success); }
 .list-row .avatar.lost { background: rgba(239,68,68,.15); color: var(--danger); }
 .list-row .lr-body { flex: 1; min-width: 0; }
-.list-row .lr-title {
-  font-size: 14px; font-weight: 700;
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-}
+.list-row .lr-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .list-row .lr-sub {
   font-size: 11.5px; color: var(--text-3); margin-top: 2px; font-weight: 500;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .list-row .lr-right { text-align: right; flex-shrink: 0; }
-.list-row .lr-amount { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.list-row .lr-amount { font-size: 14px; font-weight: 800; }
 .list-row .lr-amount.up { color: var(--success); }
 .list-row .lr-amount.down { color: var(--danger); }
 .list-row .lr-amount.pending { color: var(--warning); }
@@ -258,19 +233,16 @@ input, select { font-family: inherit; outline: none; }
 .badge {
   display: inline-block; font-size: 10px; font-weight: 800;
   letter-spacing: .5px; padding: 2px 7px; border-radius: 4px;
-  text-transform: uppercase; white-space: nowrap;
+  text-transform: uppercase;
 }
-.badge.live, .badge.won, .badge.active { color: var(--success); background: rgba(34,197,94,.12); }
-.badge.closed, .badge.pending { color: var(--warning); background: rgba(245,158,11,.12); }
-.badge.done, .badge.cancelled { color: var(--text-3); background: var(--surface-3); }
+.badge.won, .badge.active, .badge.live { color: var(--success); background: rgba(34,197,94,.12); }
 .badge.lost, .badge.eliminated, .badge.blocked { color: var(--danger); background: rgba(239,68,68,.12); }
+.badge.pending, .badge.closed, .badge.refund { color: var(--warning); background: rgba(245,158,11,.12); }
+.badge.cancelled, .badge.done { color: var(--text-3); background: var(--surface-3); }
 .badge.admin { color: var(--warning); background: rgba(245,158,11,.12); }
 
 /* MINES BOARD */
-.mines-board-wrap {
-  position: relative; width: 100%; aspect-ratio: 1 / 1;
-  margin: 14px 0;
-}
+.mines-board-wrap { position: relative; width: 100%; aspect-ratio: 1/1; margin: 14px 0; }
 .mines-board {
   display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr);
   gap: 6px; width: 100%; height: 100%;
@@ -280,14 +252,14 @@ input, select { font-family: inherit; outline: none; }
   background: linear-gradient(180deg, var(--surface-3), var(--surface-2));
   border: 1px solid var(--border-2); border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: transform .12s, background .2s, border-color .15s;
+  cursor: pointer; transition: all .15s;
   user-select: none; -webkit-user-select: none;
+  touch-action: manipulation;
 }
 .tile:not(.revealed):not(.disabled):active { transform: scale(.94); }
-.tile.disabled { cursor: not-allowed; }
+.tile.disabled { cursor: not-allowed; opacity: .8; }
 .tile .gem, .tile .bomb {
-  width: 55%; height: 55%;
-  opacity: 0; transform: scale(.5);
+  width: 55%; height: 55%; opacity: 0; transform: scale(.5);
   transition: opacity .25s, transform .3s cubic-bezier(.2,.9,.3,1.3);
 }
 .tile.revealed .gem, .tile.revealed .bomb { opacity: 1; transform: scale(1); }
@@ -301,31 +273,26 @@ input, select { font-family: inherit; outline: none; }
   50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(239,68,68,.7); }
   100% { transform: scale(1); }
 }
-.tile .idx {
-  position: absolute; top: 4px; left: 6px;
-  font-size: 8px; color: var(--text-3); font-weight: 700; opacity: .5;
-}
+.tile .idx { position: absolute; top: 4px; left: 6px; font-size: 8px; color: var(--text-3); font-weight: 700; opacity: .5; }
 
-/* MULTIPLIER */
 .multiplier-display {
   background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.03));
-  border: 1px solid rgba(245,158,11,.3);
-  border-radius: var(--radius); padding: 14px; text-align: center; margin-bottom: 10px;
+  border: 1px solid rgba(245,158,11,.3); border-radius: var(--radius);
+  padding: 14px; text-align: center; margin-bottom: 10px;
 }
 .multiplier-display .lbl { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
 .multiplier-display .val { font-size: 32px; font-weight: 900; letter-spacing: -1.5px; color: var(--gold); margin-top: 4px; }
 .multiplier-display .potential { font-size: 12px; color: var(--text-3); font-weight: 700; margin-top: 4px; }
 
-/* STATS */
 .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
 .stat-cell { background: var(--surface-2); border-radius: 8px; padding: 10px; text-align: center; }
 .stat-cell .k { font-size: 9px; color: var(--text-3); font-weight: 800; letter-spacing: .6px; text-transform: uppercase; }
-.stat-cell .v { font-size: 15px; font-weight: 800; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.stat-cell .v { font-size: 15px; font-weight: 800; margin-top: 3px; }
 .stat-cell .v.success { color: var(--success); }
 .stat-cell .v.danger { color: var(--danger); }
 .stat-cell .v.accent { color: var(--accent); }
 
-/* MINES CHIPS */
+/* CHIPS */
 .chip-row { display: grid; gap: 5px; }
 .chip-row.mines { grid-template-columns: repeat(3, 1fr); }
 .chip-row.stake { grid-template-columns: repeat(5, 1fr); }
@@ -333,11 +300,9 @@ input, select { font-family: inherit; outline: none; }
   padding: 8px 4px; border-radius: 8px;
   background: var(--surface-2); border: 1px solid var(--border);
   color: var(--text); font-size: 12px; font-weight: 800;
-  font-variant-numeric: tabular-nums; min-height: 36px; text-align: center;
+  min-height: 36px; text-align: center;
 }
-.chip.active {
-  background: var(--gold); border-color: var(--gold); color: #1a1a1a;
-}
+.chip.active { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
 .stake-input {
   display: flex; align-items: center; gap: 8px;
   background: var(--surface-2); border: 1.5px solid var(--border);
@@ -348,41 +313,26 @@ input, select { font-family: inherit; outline: none; }
   flex: 1; border: none; background: transparent; color: var(--text);
   font-size: 16px; font-weight: 800; padding: 8px 0; width: 100%; min-width: 0;
 }
-.stake-input .u { font-size: 11px; color: var(--text-3); font-weight: 800; letter-spacing: .5px; }
+.stake-input .u { font-size: 11px; color: var(--text-3); font-weight: 800; }
 
-/* RESULT BANNER */
+/* RESULT */
 .result-banner { padding: 16px; border-radius: var(--radius); margin-bottom: 10px; text-align: center; animation: popIn .35s; }
 .result-banner.win { background: linear-gradient(135deg, rgba(34,197,94,.15), rgba(34,197,94,.05)); border: 1px solid rgba(34,197,94,.4); }
 .result-banner.loss { background: linear-gradient(135deg, rgba(239,68,68,.15), rgba(239,68,68,.05)); border: 1px solid rgba(239,68,68,.4); }
+.result-banner.refund { background: linear-gradient(135deg, rgba(245,158,11,.15), rgba(245,158,11,.05)); border: 1px solid rgba(245,158,11,.4); }
 .result-banner .ico { font-size: 32px; margin-bottom: 6px; }
-.result-banner .title { font-size: 18px; font-weight: 800; letter-spacing: -.3px; }
+.result-banner .title { font-size: 18px; font-weight: 800; }
 .result-banner .sub { font-size: 12.5px; color: var(--text-3); margin-top: 4px; font-weight: 600; }
-.result-banner .amt { font-size: 22px; font-weight: 900; margin-top: 8px; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+.result-banner .amt { font-size: 22px; font-weight: 900; margin-top: 8px; }
 .result-banner.win .amt { color: var(--success); }
 .result-banner.loss .amt { color: var(--danger); }
+.result-banner.refund .amt { color: var(--warning); }
 @keyframes popIn { 0% { opacity: 0; transform: scale(.9) } 100% { opacity: 1; transform: scale(1) } }
-
-/* GAME ID BAR */
-.gameid-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 12px;
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: var(--radius); margin-bottom: 10px; gap: 8px;
-}
-.gameid-bar .lbl { font-size: 10px; color: var(--text-3); font-weight: 800; letter-spacing: 1px; }
-.gameid-bar .val { font-size: 12px; font-weight: 800; font-family: ui-monospace, monospace; }
-.gameid-bar .copy { color: var(--gold); font-size: 11px; font-weight: 800; cursor: pointer; }
-
-/* STICKY ACTION */
-.sticky-action {
-  position: sticky; bottom: calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));
-  background: var(--bg); padding: 10px 14px 4px; margin: 0 -14px; z-index: 20;
-}
 
 /* TEAM PANEL */
 .teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 .team-panel {
-  background: var(--surface); border: 1px solid var(--border);
+  background: var(--surface); border: 1.5px solid var(--border);
   border-radius: var(--radius); padding: 12px; transition: all .15s;
 }
 .team-panel.selectable { cursor: pointer; }
@@ -390,41 +340,68 @@ input, select { font-family: inherit; outline: none; }
 .team-panel.selected-a { border-color: var(--accent); background: rgba(59,130,246,.05); }
 .team-panel.selected-b { border-color: var(--warning); background: rgba(245,158,11,.05); }
 .team-panel.dead { opacity: .55; }
-.tp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 6px; }
-.tp-name { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 6px; min-width: 0; }
-.tp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.tp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.tp-name { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+.tp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
 .team-panel.team-B .tp-dot { background: var(--warning); }
 .tp-badge {
   font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
   background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border);
 }
-.tp-badge.alive { color: var(--success); border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.08); }
-.tp-badge.dead { color: var(--danger); border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.08); }
+.tp-badge.alive { color: var(--success); border-color: rgba(34,197,94,.35); }
+.tp-badge.dead { color: var(--danger); border-color: rgba(239,68,68,.35); }
 .tp-stat { display: flex; justify-content: space-between; font-size: 11.5px; padding: 3px 0; }
 .tp-stat .k { color: var(--text-3); font-weight: 600; }
 .tp-stat .v { font-weight: 700; }
-.tp-rate {
-  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
-  display: flex; align-items: baseline; justify-content: space-between;
-}
+.tp-rate { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: baseline; }
 .tp-rate .lbl { font-size: 9px; color: var(--text-3); font-weight: 800; text-transform: uppercase; }
 .tp-rate .val { font-size: 18px; font-weight: 800; color: var(--accent); }
 .team-panel.team-B .tp-rate .val { color: var(--warning); }
 
-/* 404 */
-.not-found {
-  min-height: 60vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 40px 20px; text-align: center;
+/* STICKY */
+.sticky-action {
+  position: sticky; bottom: calc(var(--nav-h) + 8px + env(safe-area-inset-bottom));
+  background: var(--bg); padding: 10px 14px 4px; margin: 0 -14px; z-index: 20;
 }
-.not-found .nf-code {
-  font-size: 72px; font-weight: 900; letter-spacing: -3px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-press));
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  line-height: 1;
+
+/* PROFILE */
+.profile-header {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 14px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 14px;
 }
-.not-found .nf-title { font-size: 18px; font-weight: 800; margin-top: 12px; }
-.not-found .nf-sub { font-size: 13px; color: var(--text-3); margin-top: 6px; max-width: 280px; }
+.profile-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 20px;
+}
+.profile-info { flex: 1; min-width: 0; }
+.profile-info .pi-name { font-size: 17px; font-weight: 800; }
+.profile-info .pi-email { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+.kpi-card .kk { font-size: 10px; color: var(--text-3); font-weight: 700; text-transform: uppercase; }
+.kpi-card .kv { font-size: 22px; font-weight: 800; margin-top: 4px; }
+.kpi-card .kv.accent { color: var(--accent); }
+.kpi-card .kv.success { color: var(--success); }
+.kpi-card .kv.warning { color: var(--warning); }
+.kpi-card .kv.danger { color: var(--danger); }
+
+/* FORM */
+.form-field { margin-bottom: 12px; }
+.form-field label {
+  display: block; font-size: 11px; color: var(--text-3);
+  font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-field input, .form-field select {
+  width: 100%; padding: 12px 14px;
+  background: var(--surface); border: 1.5px solid var(--border-2);
+  color: var(--text); border-radius: var(--radius); font-size: 15px; min-height: 46px;
+}
+.form-field input:focus, .form-field select:focus { border-color: var(--accent); }
 
 /* SHEET */
 .sheet-backdrop {
@@ -434,11 +411,9 @@ input, select { font-family: inherit; outline: none; }
 }
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
 .sheet {
-  background: var(--surface);
-  border-radius: 16px 16px 0 0;
-  width: 100%; max-width: 640px; max-height: 90vh;
-  overflow-y: auto;
-  animation: slideUp .22s cubic-bezier(.2,.9,.3,1);
+  background: var(--surface); border-radius: 16px 16px 0 0;
+  width: 100%; max-width: 640px; max-height: 90vh; overflow-y: auto;
+  animation: slideUp .22s;
   padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
 }
 @keyframes slideUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
@@ -454,24 +429,7 @@ input, select { font-family: inherit; outline: none; }
   width: 32px; height: 32px; border-radius: 50%;
   background: var(--surface-2);
   display: flex; align-items: center; justify-content: center;
-  color: var(--text-2); flex-shrink: 0;
 }
-.sheet-close svg { width: 16px; height: 16px; }
-
-/* FORM */
-.form-field { margin-bottom: 12px; }
-.form-field label {
-  display: block; font-size: 11px; color: var(--text-3);
-  font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.form-field input, .form-field select {
-  width: 100%; padding: 12px 14px;
-  background: var(--surface); border: 1.5px solid var(--border-2);
-  color: var(--text); border-radius: var(--radius);
-  font-size: 15px; min-height: 46px;
-}
-.form-field input:focus, .form-field select:focus { border-color: var(--accent); }
 
 /* TOAST */
 .toast {
@@ -482,49 +440,19 @@ input, select { font-family: inherit; outline: none; }
   border: 1px solid var(--border-2);
   padding: 12px 18px; border-radius: 10px;
   font-size: 13.5px; font-weight: 600;
-  z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  max-width: calc(100% - 32px); text-align: center;
+  z-index: 200; max-width: calc(100% - 32px);
+  text-align: center; pointer-events: none;
   transition: transform .25s cubic-bezier(.2,.9,.3,1.2);
-  pointer-events: none;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 .toast.err { border-color: rgba(239,68,68,.5); }
 .toast.ok { border-color: rgba(34,197,94,.5); }
 
-/* KPI */
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
-.kpi-card .kk { font-size: 10px; color: var(--text-3); font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
-.kpi-card .kv { font-size: 22px; font-weight: 800; margin-top: 4px; letter-spacing: -.6px; }
-.kpi-card .kv.accent { color: var(--accent); }
-.kpi-card .kv.success { color: var(--success); }
-.kpi-card .kv.warning { color: var(--warning); }
-
-/* PROFILE */
-.profile-header {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px 14px; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 14px;
-}
-.profile-avatar {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--accent); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 20px; flex-shrink: 0;
-}
-.profile-info { flex: 1; min-width: 0; }
-.profile-info .pi-name { font-size: 17px; font-weight: 800; }
-.profile-info .pi-email { font-size: 12px; color: var(--text-3); margin-top: 2px; }
-.profile-info .pi-role { margin-top: 6px; }
-
 /* SPINNER */
 .spinner {
   width: 16px; height: 16px;
-  border: 2px solid rgba(255,255,255,.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-  display: inline-block;
+  border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+  border-radius: 50%; animation: spin .7s linear infinite; display: inline-block;
 }
 @keyframes spin { to { transform: rotate(360deg) } }
 
@@ -532,20 +460,40 @@ input, select { font-family: inherit; outline: none; }
 .empty { padding: 32px 20px; text-align: center; color: var(--text-3); font-size: 13px; }
 .empty .ico { font-size: 28px; opacity: .4; margin-bottom: 8px; }
 
-/* SEARCH */
-.search-wrap { position: relative; margin-bottom: 10px; }
-.search-wrap input {
-  width: 100%; padding: 11px 14px 11px 40px;
-  background: var(--surface); border: 1.5px solid var(--border);
-  border-radius: var(--radius); color: var(--text); font-size: 14px;
-  min-height: 44px;
+/* ADMIN MINI GRID */
+.mini-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin: 8px 0; }
+.mini-tile {
+  aspect-ratio: 1/1; border-radius: 4px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 800; color: var(--text-3);
 }
-.search-wrap svg {
-  position: absolute; left: 13px; top: 50%;
-  transform: translateY(-50%);
-  width: 16px; height: 16px; color: var(--text-3);
-}
+.mini-tile.mine { background: rgba(239,68,68,.3); color: #fff; border-color: var(--danger); }
+.mini-tile.safe { background: rgba(34,197,94,.3); color: #fff; border-color: var(--success); }
+.mini-tile.revealed-mine { background: rgba(239,68,68,.6); color: #fff; border-color: var(--danger); }
 
+/* LIVE TRACKER */
+.live-tracker {
+  background: linear-gradient(135deg, rgba(34,197,94,.08), rgba(34,197,94,.03));
+  border: 1px solid rgba(34,197,94,.3);
+  border-radius: var(--radius); padding: 12px; margin-bottom: 10px;
+}
+.live-tracker .lt-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.live-tracker .lt-title {
+  font-size: 12px; font-weight: 800; letter-spacing: .5px;
+  color: var(--success); text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
+}
+.live-tracker .lt-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--success); animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.3); } }
+
+/* HELPERS */
 .row-flex { display: flex; align-items: center; gap: 8px; }
 .mt-8 { margin-top: 8px; }
 .mt-12 { margin-top: 12px; }
@@ -555,10 +503,6 @@ input, select { font-family: inherit; outline: none; }
 .txt-xs { font-size: 11px; }
 .txt-center { text-align: center; }
 .fw-8 { font-weight: 800; }
-
-@media (min-width: 720px) {
-  .kpi-grid { grid-template-columns: repeat(4, 1fr); }
-}
 </style>
 </head>
 <body>
@@ -602,7 +546,6 @@ input, select { font-family: inherit; outline: none; }
     <div class="login-footer">
       Already registered? <span class="link" onclick="showLogin()">Sign In</span>
     </div>
-    <div class="login-legal">DEMO POINTS • NO CASH VALUE</div>
   </div>
 </div>
 
@@ -618,7 +561,6 @@ input, select { font-family: inherit; outline: none; }
     </div>
     <div class="header-status">
       <div class="status-chip" id="statusChip">
-        <span class="dot"></span>
         <span id="statusText">Loading…</span>
       </div>
     </div>
@@ -627,9 +569,10 @@ input, select { font-family: inherit; outline: none; }
         <span class="coin"></span>
         <span id="balanceVal">0</span>
       </div>
-      <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">
+      <button class="icon-btn" onclick="toggleTheme()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path id="themeIcon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
         </svg>
       </button>
     </div>
@@ -666,26 +609,22 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ═══════════════════════════════════════════════════
-   STATE
-   ═══════════════════════════════════════════════════ */
+/* STATE */
 const state = {
   user: null, profile: null, isAdmin: false,
   settings: null,
   matches: [], currentMatchId: null,
   rounds: [], players: [], predictions: [], users: [], history: [],
-  minesGames: [],
-  currentPage: 'home', unsub: [],
   bet: { teamId: null, stake: 100 },
-  // Mines state
   mines: {
-    gameId: null, mineCount: 5, stake: 100, status: 'IDLE',
+    gameId: null, mineCount: 1, stake: 100, status: 'IDLE',
     revealedTiles: [], revealedSafe: [], minePositions: null,
-    multiplier: 1, payout: 0, busy: false, view: 'game',
-    historyFilter: 'ALL', history: [], historyLoading: false
+    multiplier: 1, payout: 0, busy: false, result: null,
+    view: 'game', historyFilter: 'ALL', history: [], historyLoading: false,
+    adminView: 'live', adminGames: [], adminLoading: false, adminSearch: '',
+    liveGames: []
   },
-  // Route guard
-  route404: null
+  currentPage: 'home', unsub: []
 };
 
 function unsubAll() {
@@ -693,7 +632,6 @@ function unsubAll() {
   state.unsub = [];
 }
 
-/* THEME */
 const savedTheme = localStorage.getItem('prl-theme') || 'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
 window.toggleTheme = () => {
@@ -701,19 +639,9 @@ window.toggleTheme = () => {
   const next = cur === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('prl-theme', next);
-  updateThemeIcon();
   render();
 };
-function updateThemeIcon() {
-  const cur = document.documentElement.getAttribute('data-theme');
-  const icon = document.getElementById('themeIcon');
-  if (!icon) return;
-  icon.setAttribute('d', cur === 'dark'
-    ? 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'
-    : 'M12 3v1M12 20v1M4.22 4.22l.7.7M18.36 18.36l.7.7M1 12h1M22 12h1M4.22 19.78l.7-.7M18.36 5.64l.7-.7M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z');
-}
 
-/* TOAST */
 let toastTimer;
 window.toast = (msg, type='ok') => {
   const t = document.getElementById('toast');
@@ -747,7 +675,7 @@ window.doLogin = async () => {
   const pass = document.getElementById('loginPass').value;
   if (!email || !pass) return loginMsg('Enter email and password');
   const btn = document.getElementById('loginBtn');
-  btn.disabled = true; btn.textContent = 'Signing in…'; loginMsg('');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>'; loginMsg('');
   try {
     await signInWithEmailAndPassword(auth, email, pass);
   } catch (e) {
@@ -785,16 +713,18 @@ window.doLogout = async () => {
   await signOut(auth);
 };
 
-/* ═══════════════════════════════════════════════════
-   AUTH OBSERVER
-   ═══════════════════════════════════════════════════ */
+/* AUTH OBSERVER */
 onAuthStateChanged(auth, async (user) => {
   unsubAll();
   if (!user) {
     state.user = null; state.profile = null; state.isAdmin = false;
     state.matches = []; state.players = []; state.predictions = [];
     state.users = []; state.rounds = []; state.history = [];
-    state.minesGames = []; state.currentMatchId = null;
+    Object.assign(state.mines, {
+      gameId: null, status: 'IDLE', revealedTiles: [], revealedSafe: [],
+      minePositions: null, multiplier: 1, payout: 0, busy: false,
+      view: 'game', history: [], adminGames: [], liveGames: []
+    });
     document.getElementById('loginView').classList.remove('hidden');
     document.getElementById('appView').classList.add('hidden');
     return;
@@ -829,7 +759,6 @@ onAuthStateChanged(auth, async (user) => {
 
   document.getElementById('loginView').classList.add('hidden');
   document.getElementById('appView').classList.remove('hidden');
-  updateThemeIcon();
 
   attachProfileListener();
   attachSettingsListener();
@@ -840,6 +769,7 @@ onAuthStateChanged(auth, async (user) => {
   if (isAdmin) {
     attachUsersListener();
     attachHistoryListener();
+    attachAdminMinesLiveListener();  // 🔥 NEW: Live mines tracking
   }
 
   state.currentPage = 'home';
@@ -901,8 +831,7 @@ function attachRoundsListener() {
 
 function attachPlayersListener() {
   const un = onSnapshot(collection(db, 'players'), snap => {
-    state.players = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    render();
+    state.players = snap.docs.map(d => ({ id: d.id, ...d.data() })); render();
   });
   state.unsub.push(un);
 }
@@ -938,21 +867,34 @@ function attachHistoryListener() {
   state.unsub.push(un);
 }
 
-/* ═══════════════════════════════════════════════════
-   NAV — Customer & Admin
-   ═══════════════════════════════════════════════════ */
+/* 🔥 ADMIN: Live Mines Listener — Real-time tracking */
+function attachAdminMinesLiveListener() {
+  const un = onSnapshot(
+    query(collection(db, 'minesGames'), orderBy('createdAt', 'desc'), limit(100)),
+    snap => {
+      state.mines.liveGames = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      state.mines.adminGames = state.mines.liveGames;
+      state.mines.adminLoading = false;
+      if (state.currentPage === 'admin_mines') render();
+    },
+    err => console.error('mines live listener', err)
+  );
+  state.unsub.push(un);
+}
+
+/* NAV */
 const CUSTOMER_NAV = [
-  { id: 'home',    label: 'Home',    icon: 'home' },
-  { id: 'mines',   label: 'Mines',   icon: 'gem' },
-  { id: 'survivor',label: 'Survivor',icon: 'target' },
+  { id: 'home', label: 'Home', icon: 'home' },
+  { id: 'mines', label: 'Mines', icon: 'gem' },
+  { id: 'survivor', label: 'Survivor', icon: 'target' },
   { id: 'history', label: 'History', icon: 'list' },
   { id: 'profile', label: 'Profile', icon: 'user' }
 ];
 const ADMIN_NAV = [
-  { id: 'admin_home',     label: 'Home',     icon: 'home' },
-  { id: 'admin_users',    label: 'Users',    icon: 'users' },
-  { id: 'admin_rounds',   label: 'Rounds',   icon: 'play' },
-  { id: 'admin_mines',    label: 'Mines',    icon: 'gem' },
+  { id: 'admin_home', label: 'Home', icon: 'home' },
+  { id: 'admin_users', label: 'Users', icon: 'users' },
+  { id: 'admin_rounds', label: 'Rounds', icon: 'play' },
+  { id: 'admin_mines', label: 'Mines', icon: 'gem' },
   { id: 'admin_settings', label: 'Settings', icon: 'cog' }
 ];
 
@@ -965,13 +907,8 @@ function svgIcon(name) {
     target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
     list: '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/>',
-    shield: '<path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z"/>',
     play: '<polygon points="6 4 20 12 6 20 6 4"/>',
-    cog: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
-    close: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
-    search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
-    check: '<polyline points="20 6 9 17 4 12"/>',
-    clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    cog: '<circle cx="12" cy="12" r="3"/>',
     gem: '<path d="M6 3h12l4 6-10 12L2 9z"/>'
   };
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${icons[name] || ''}</svg>`;
@@ -988,37 +925,14 @@ function renderNav() {
   `).join('');
 }
 
-/* ROUTER with 404 */
-const VALID_ROUTES = [
-  'home','mines','survivor','history','profile',
-  'teams','predict',
-  'admin_home','admin_users','admin_teams','admin_rounds','admin_mines','admin_history','admin_settings',
-  '404'
-];
-
 window.nav = (page) => {
-  if (!VALID_ROUTES.includes(page)) {
-    state.route404 = page;
-    state.currentPage = '404';
-  } else {
-    state.route404 = null;
-    state.currentPage = page;
-  }
+  state.currentPage = page;
   renderNav();
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-/* ROUTE ALIASES */
-function routeTo(page) {
-  // Handle aliases
-  if (page === 'survivor') return 'survivor';
-  return page;
-}
-
-/* ═══════════════════════════════════════════════════
-   MATH (Rate X Survivor)
-   ═══════════════════════════════════════════════════ */
+/* MATH */
 function currentMatch() {
   if (!state.currentMatchId) return null;
   return state.matches.find(m => m.id === state.currentMatchId) || null;
@@ -1027,13 +941,11 @@ function currentMatch() {
 function teamStats(teamId, matchId = null) {
   const s = state.settings || { baseWinRate: 25, baseRate: 2 };
   const mid = matchId || state.currentMatchId;
-  const all = state.players.filter(p =>
-    p.teamId === teamId && (!mid || !p.matchId || p.matchId === mid));
+  const all = state.players.filter(p => p.teamId === teamId && (!mid || !p.matchId || p.matchId === mid));
   const alive = all.filter(p => p.status === 'ACTIVE').length;
   const dead = all.filter(p => p.status === 'ELIMINATED').length;
   const otherId = teamId === 'A' ? 'B' : 'A';
-  const otherAlive = state.players.filter(p =>
-    p.teamId === otherId && (!mid || !p.matchId || p.matchId === mid) && p.status === 'ACTIVE').length;
+  const otherAlive = state.players.filter(p => p.teamId === otherId && (!mid || !p.matchId || p.matchId === mid) && p.status === 'ACTIVE').length;
   const totalAlive = alive + otherAlive;
   const isDead = all.length > 0 && alive === 0;
   let winRate = 0;
@@ -1051,7 +963,7 @@ function roundStatusForMatch(m) {
   const r = state.rounds.find(x => x.roundNumber === m.currentRound && x.matchId === m.id);
   if (!r) return { code: 'NO_ROUND', msg: 'Waiting for next round' };
   if (r.status === 'OPEN') return { code: 'OPEN', msg: `Round ${r.roundNumber} — Betting open`, round: r };
-  if (r.status === 'CLOSED') return { code: 'CLOSED', msg: `Round ${r.roundNumber} — Betting closed`, round: r };
+  if (r.status === 'CLOSED') return { code: 'CLOSED', msg: `Round ${r.roundNumber} — Closed`, round: r };
   if (r.status === 'RESULT_DECLARED') {
     if (!r.eliminationDone) return { code: 'ELIMINATING', msg: `Awaiting elimination`, round: r };
     return { code: 'COMPLETED', msg: `Team ${r.winner} won round ${r.roundNumber}`, round: r };
@@ -1077,30 +989,65 @@ function escapeHtml(s) {
   }[c]));
 }
 
-/* ═══════════════════════════════════════════════════
-   RENDER
-   ═══════════════════════════════════════════════════ */
+/* MINES MATH */
+const MAX_RATE = 24;
+function calcMinesMultiplier(safeRevealed, mineCount) {
+  const maxSafeTiles = 25 - mineCount;
+  if (safeRevealed <= 0 || maxSafeTiles <= 0) return 1;
+  return 1 + (safeRevealed / maxSafeTiles) * (MAX_RATE - 1);
+}
+function generateGameId() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const d = String(now.getDate()).padStart(2,'0');
+  const rand = crypto.getRandomValues(new Uint8Array(4));
+  const hex = Array.from(rand).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase().slice(0,6);
+  return `MINES-${y}${m}${d}-${hex}`;
+}
+function secureRandomInt(max) {
+  const a = new Uint32Array(1);
+  crypto.getRandomValues(a);
+  return a[0] % max;
+}
+function pickMines(count) {
+  const positions = [];
+  const used = new Set();
+  while (positions.length < count) {
+    const v = secureRandomInt(25);
+    if (!used.has(v)) { used.add(v); positions.push(v); }
+  }
+  return positions.sort((a,b)=>a-b);
+}
+
+/* RENDER ROUTER */
 function render() {
   if (!state.user || !state.profile) return;
+
   const bal = document.getElementById('balanceVal');
   if (bal) bal.textContent = fmtInt(state.profile.demoPoints || 0);
 
-  // Header status
   const chip = document.getElementById('statusChip');
   const txt = document.getElementById('statusText');
   if (chip && txt) {
     const isMinesView = ['mines','admin_mines'].includes(state.currentPage);
     if (isMinesView) {
       chip.className = 'status-chip';
-      if (state.mines.status === 'ACTIVE') { chip.className += ' live'; txt.textContent = 'Mines • Live'; }
-      else { txt.textContent = 'Mines'; }
+      if (state.mines.status === 'ACTIVE' && !state.isAdmin) {
+        chip.className += ' live'; txt.textContent = 'Mines • Live';
+      } else if (state.isAdmin) {
+        const liveCount = state.mines.liveGames.filter(g => g.status === 'ACTIVE').length;
+        if (liveCount > 0) { chip.className += ' live'; txt.textContent = `${liveCount} Live Mines`; }
+        else txt.textContent = 'Mines Admin';
+      } else {
+        txt.textContent = 'Mines';
+      }
     } else {
       const m = currentMatch();
       const rs = m ? roundStatusForMatch(m) : { code: 'NO_MATCH' };
       chip.className = 'status-chip';
       if (rs.code === 'OPEN') { chip.classList.add('live'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Live`; }
-      else if (rs.code === 'CLOSED') { chip.classList.add('closed'); txt.textContent = `R${rs.round?.roundNumber || '?'} • Closed`; }
-      else if (rs.code === 'FINISHED') { chip.classList.add('done'); txt.textContent = `M#${m?.matchNumber || '?'} • Done`; }
+      else if (rs.code === 'FINISHED') { txt.textContent = `M#${m?.matchNumber || '?'} • Done`; }
       else { txt.textContent = m ? `M#${m.matchNumber}` : 'Rate X'; }
     }
   }
@@ -1108,29 +1055,26 @@ function render() {
   const root = document.getElementById('appMain');
   let html = '';
   switch (state.currentPage) {
-    case 'home':           html = viewHome(); break;
-    case 'mines':          html = viewMines(); break;
-    case 'survivor':       html = viewSurvivor(); break;
-    case 'history':        html = viewHistory(); break;
-    case 'profile':        html = viewProfile(); break;
-    case 'admin_home':     html = viewAdminHome(); break;
-    case 'admin_users':    html = viewAdminUsers(); break;
-    case 'admin_rounds':   html = viewAdminRounds(); break;
-    case 'admin_mines':    html = viewAdminMines(); break;
+    case 'home': html = viewHome(); break;
+    case 'mines': html = viewMines(); break;
+    case 'survivor': html = viewSurvivor(); break;
+    case 'history': html = viewHistory(); break;
+    case 'profile': html = viewProfile(); break;
+    case 'admin_home': html = viewAdminHome(); break;
+    case 'admin_users': html = viewAdminUsers(); break;
+    case 'admin_rounds': html = viewAdminRounds(); break;
+    case 'admin_mines': html = viewAdminMines(); break;
     case 'admin_settings': html = viewAdminSettings(); break;
-    case '404':            html = view404(); break;
-    default:               html = state.isAdmin ? viewAdminHome() : viewHome();
+    default: html = state.isAdmin ? viewAdminHome() : viewHome();
   }
   root.innerHTML = html;
   if (state.currentPage === 'survivor') bindPredictInputs();
+  if (state.currentPage === 'mines') attachMinesStakeListener();
 }
 
-/* ═══════════════════════════════════════════════════
-   HOME (with game selection)
-   ═══════════════════════════════════════════════════ */
+/* HOME */
 function viewHome() {
   const pts = state.profile.demoPoints || 0;
-  const A = teamStats('A'), B = teamStats('B');
   const liveMatch = state.matches.find(m => m.status === 'LIVE' || m.status === 'WAITING');
   const rs = liveMatch ? roundStatusForMatch(liveMatch) : { code: 'NO_MATCH' };
   const myPreds = state.predictions.slice(0, 3);
@@ -1157,13 +1101,13 @@ function viewHome() {
         <div class="game-card gc-survivor" onclick="nav('survivor')">
           <div class="gc-icon">⚔️</div>
           <div class="gc-name">Rate X Survivor</div>
-          <div class="gc-desc">Team prediction. ${liveMatch ? 'Live now!' : 'Check back later'}</div>
+          <div class="gc-desc">Team prediction. ${liveMatch ? 'Live now!' : 'Check later'}</div>
           <div class="gc-play">▶ Play</div>
         </div>
         <div class="game-card gc-mines" onclick="nav('mines')">
           <div class="gc-icon">💎</div>
           <div class="gc-name">Pawan Mines</div>
-          <div class="gc-desc">Reveal safe tiles, avoid mines. ${activeMinesGame ? 'Game active!' : 'Start a new round'}</div>
+          <div class="gc-desc">Reveal safe tiles. ${activeMinesGame ? 'Active!' : 'Max 24X'}</div>
           <div class="gc-play">▶ Play</div>
         </div>
       </div>
@@ -1173,25 +1117,13 @@ function viewHome() {
       <div class="card">
         <div class="card-head">
           <div class="card-title-lg">⚔️ Survivor — Live</div>
-          <span class="badge ${rs.code === 'OPEN' ? 'live' : 'closed'}">${rs.code === 'OPEN' ? 'LIVE' : rs.code === 'CLOSED' ? 'LOCKED' : 'IDLE'}</span>
+          <span class="badge ${rs.code === 'OPEN' ? 'live' : 'closed'}">${rs.code === 'OPEN' ? 'LIVE' : 'LOCKED'}</span>
         </div>
-        <div class="status-panel">
-          <div class="status-tile"><div class="k">Match</div><div class="v accent">#${liveMatch.matchNumber || 1}</div></div>
-          <div class="status-tile"><div class="k">Round</div><div class="v">${liveMatch.currentRound || 0}/${liveMatch.maxRounds || 8}</div></div>
-          <div class="status-tile"><div class="k">Status</div><div class="v ${rs.code === 'OPEN' ? 'success' : 'warning'}">${rs.code === 'OPEN' ? 'LIVE' : 'LOCKED'}</div></div>
-        </div>
-        <button class="btn" onclick="nav('survivor')" style="margin-top:8px" ${rs.code !== 'OPEN' ? 'disabled' : ''}>
+        <button class="btn" onclick="nav('survivor')" ${rs.code !== 'OPEN' ? 'disabled' : ''}>
           ${rs.code === 'OPEN' ? '🎯 Predict Now' : 'Betting Closed'}
         </button>
       </div>
-    ` : `
-      <div class="card">
-        <div class="empty">
-          <div class="ico">⚔️</div>
-          No Survivor match available right now
-        </div>
-      </div>
-    `}
+    ` : ''}
 
     ${activeMinesGame ? `
       <div class="card">
@@ -1199,289 +1131,62 @@ function viewHome() {
           <div class="card-title-lg">💎 Mines — Active</div>
           <span class="badge live">ACTIVE</span>
         </div>
-        <div class="status-panel">
-          <div class="status-tile"><div class="k">Mines</div><div class="v danger">${state.mines.mineCount}</div></div>
-          <div class="status-tile"><div class="k">Safe</div><div class="v success">${state.mines.revealedSafe.length}</div></div>
-          <div class="status-tile"><div class="k">Mult</div><div class="v accent">${fmt(state.mines.multiplier, 2)}X</div></div>
-        </div>
-        <button class="btn btn-gold" onclick="nav('mines')" style="margin-top:8px">▶ Resume Game</button>
+        <div class="txt-sm txt-3">Safe: ${state.mines.revealedSafe.length} • Mult: ${fmt(state.mines.multiplier, 2)}X</div>
+        <button class="btn btn-gold mt-8" onclick="nav('mines')">▶ Resume</button>
       </div>
     ` : ''}
 
     <div class="card">
       <div class="card-head">
         <div class="card-title-lg">📜 Recent Activity</div>
-        <div class="txt-xs txt-3">${state.predictions.length} total</div>
       </div>
       ${myPreds.length ? `<div class="list" style="margin:0 -14px -14px;border:none;background:transparent">
-        ${myPreds.map(p => predRowCompact(p)).join('')}
+        ${myPreds.map(p => `
+          <div class="list-row">
+            <div class="avatar ${p.teamId === 'A' ? 'team-a' : 'team-b'}">T${p.teamId}</div>
+            <div class="lr-body">
+              <div class="lr-title">Round ${p.roundNumber || '-'} <span class="badge ${p.status === 'WON' ? 'won' : p.status === 'LOST' ? 'lost' : 'pending'}">${p.status}</span></div>
+              <div class="lr-sub">${p.stake} pts • ${fmtRate(p.rate)}</div>
+            </div>
+            <div class="lr-right">
+              <div class="lr-amount ${p.status === 'WON' ? 'up' : p.status === 'LOST' ? 'down' : 'pending'}">
+                ${p.status === 'WON' ? '+' : p.status === 'LOST' ? '−' : ''}${p.status === 'WON' ? fmt(p.returnAmount || p.potentialReturn || 0, 2) : p.stake}
+              </div>
+            </div>
+          </div>
+        `).join('')}
       </div>` : `<div class="empty"><div class="ico">📭</div>No activity yet</div>`}
     </div>
   `;
 }
 
-function predRowCompact(p) {
-  const st = p.status || 'PENDING';
-  const badgeCls = st === 'WON' ? 'won' : st === 'LOST' ? 'lost' : 'pending';
-  const amt = st === 'WON' ? `+${fmt(p.returnAmount || p.potentialReturn || 0, 2)}`
-    : st === 'LOST' ? `−${p.stake}` : `${p.stake}`;
-  const amtCls = st === 'WON' ? 'up' : st === 'LOST' ? 'down' : 'pending';
-  return `
-    <div class="list-row">
-      <div class="avatar ${p.teamId === 'A' ? 'team-a' : 'team-b'}">T${p.teamId}</div>
-      <div class="lr-body">
-        <div class="lr-title">Round ${p.roundNumber || '-'} <span class="badge ${badgeCls}">${st}</span></div>
-        <div class="lr-sub">${p.stake} pts • ${fmtRate(p.rate)}</div>
-      </div>
-      <div class="lr-right"><div class="lr-amount ${amtCls}">${amt}</div></div>
-    </div>
-  `;
-}
-
-/* ═══════════════════════════════════════════════════
-   SURVIVOR (Rate X game)
-   ═══════════════════════════════════════════════════ */
-function viewSurvivor() {
-  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING')
-    .sort((a,b) => (b.matchNumber||0) - (a.matchNumber||0));
-  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
-
-  if (!m) {
-    return `
-      <div class="card" style="text-align:center;padding:40px 20px">
-        <div style="font-size:38px;margin-bottom:10px;opacity:.5">⚔️</div>
-        <div style="font-size:16px;font-weight:800;margin-bottom:4px">No Match Available</div>
-        <div class="txt-sm txt-3" style="margin-bottom:16px">No Survivor match is live right now</div>
-        <button class="btn btn-secondary" onclick="nav('home')">Back to Home</button>
-      </div>
-    `;
-  }
-
-  const rs = roundStatusForMatch(m);
-  const A = teamStats('A', m.id), B = teamStats('B', m.id);
-  const pts = state.profile.demoPoints || 0;
-  const r = rs.round;
-  const sel = state.bet.teamId;
-  const selStats = sel ? teamStats(sel, m.id) : null;
-  const stake = Number(state.bet.stake) || 0;
-  const rate = selStats ? selStats.rate : 0;
-  const ret = stake * rate;
-  const profit = ret - stake;
-
-  const alreadyBet = r && state.predictions.find(p =>
-    p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
-
-  const canBet = rs.code === 'OPEN' && !alreadyBet;
-  const canConfirm = canBet && sel && !selStats?.isDead && stake > 0 && stake <= pts;
-
-  return `
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">⚔️ Rate X Survivor</div>
-        <span class="badge ${rs.code === 'OPEN' ? 'live' : rs.code === 'CLOSED' ? 'closed' : 'pending'}">
-          ${rs.code === 'OPEN' ? 'LIVE' : rs.code === 'CLOSED' ? 'LOCKED' : 'IDLE'}
-        </span>
-      </div>
-      <div class="status-panel" style="margin:0">
-        <div class="status-tile"><div class="k">Match</div><div class="v accent">#${m.matchNumber}</div></div>
-        <div class="status-tile"><div class="k">Round</div><div class="v">${m.currentRound || 0}/${m.maxRounds || 8}</div></div>
-        <div class="status-tile"><div class="k">Status</div><div class="v ${rs.code === 'OPEN' ? 'success' : 'warning'}">${rs.code}</div></div>
-      </div>
-    </div>
-
-    ${!canBet && !alreadyBet ? `
-      <div class="empty" style="padding:40px 20px">
-        <div class="ico">${rs.code === 'WAITING' ? '⏳' : '🔒'}</div>
-        ${rs.msg}
-      </div>
-    ` : alreadyBet ? `
-      <div class="card">
-        <div class="row-flex" style="padding:8px 0">
-          <div class="avatar ${alreadyBet.teamId === 'A' ? 'team-a' : 'team-b'}"
-            style="width:44px;height:44px;border-radius:10px;font-size:15px;font-weight:800">T${alreadyBet.teamId}</div>
-          <div style="flex:1">
-            <div class="fw-8" style="font-size:14px">Bet placed</div>
-            <div class="txt-sm txt-3">Team ${alreadyBet.teamId} • ${alreadyBet.stake} pts • ${fmtRate(alreadyBet.rate)}</div>
-          </div>
-          <span class="badge pending">PENDING</span>
-        </div>
-      </div>
-      <div class="empty">Waiting for Round ${r.roundNumber} result</div>
-    ` : `
-      <div class="card-title" style="padding:0 2px 8px">Choose Team</div>
-      <div class="teams-grid">
-        <div onclick="${A.isDead ? '' : "selectTeam('A')"}"
-          class="team-panel ${A.isDead ? 'dead' : 'selectable'} ${sel === 'A' ? 'selected-a' : ''}">
-          <div class="tp-head">
-            <div class="tp-name"><span class="tp-dot"></span>Team A</div>
-            <div class="tp-badge ${A.isDead ? 'dead' : 'alive'}">${A.isDead ? 'DEAD' : `${A.activeCount}/4`}</div>
-          </div>
-          <div class="tp-stat"><span class="k">Alive</span><span class="v">${A.activeCount}</span></div>
-          <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(A.winRate,1)}%</span></div>
-          <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(A.rate)}</span></div>
-        </div>
-        <div onclick="${B.isDead ? '' : "selectTeam('B')"}"
-          class="team-panel team-B ${B.isDead ? 'dead' : 'selectable'} ${sel === 'B' ? 'selected-b' : ''}">
-          <div class="tp-head">
-            <div class="tp-name"><span class="tp-dot"></span>Team B</div>
-            <div class="tp-badge ${B.isDead ? 'dead' : 'alive'}">${B.isDead ? 'DEAD' : `${B.activeCount}/4`}</div>
-          </div>
-          <div class="tp-stat"><span class="k">Alive</span><span class="v">${B.activeCount}</span></div>
-          <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(B.winRate,1)}%</span></div>
-          <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(B.rate)}</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title" style="margin-bottom:8px">Stake</div>
-        <div class="stake-input">
-          <input id="stakeInput" type="number" min="1" value="${state.bet.stake}" inputmode="numeric" />
-          <span class="u">PTS</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px">
-          ${[100, 250, 500, 1000].map(v => `
-            <button class="chip ${stake === v ? 'active' : ''}" onclick="setStake(${v})">${v}</button>
-          `).join('')}
-          <button class="chip" onclick="setStake(${pts})">MAX</button>
-        </div>
-        <div class="txt-xs txt-3 mt-8">Available: <b style="color:var(--accent)">${pts.toLocaleString()} pts</b></div>
-      </div>
-
-      ${sel ? `
-        <div class="card">
-          <div class="tp-stat"><span class="k">Selected</span><span class="v">Team ${sel}</span></div>
-          <div class="tp-stat"><span class="k">Rate</span><span class="v" style="color:var(--accent)">${fmtRate(rate)}</span></div>
-          <div class="tp-stat"><span class="k">Stake</span><span class="v" style="color:var(--danger)">−${stake}</span></div>
-          <div class="tp-stat"><span class="k">Return</span><span class="v" style="color:var(--success)">+${fmt(ret,2)}</span></div>
-          <div class="tp-stat"><span class="k">Profit</span><span class="v ${profit>=0?'':'down'}" style="color:${profit>=0?'var(--success)':'var(--danger)'}">${profit>=0?'+':''}${fmt(profit,2)}</span></div>
-        </div>
-      ` : ''}
-
-      <div class="sticky-action">
-        <button class="btn" ${canConfirm ? '' : 'disabled'} onclick="confirmPrediction()">
-          ${!sel ? 'Select a Team' : stake <= 0 ? 'Enter Amount' : stake > pts ? 'Insufficient Points' : 'Confirm Prediction'}
-        </button>
-      </div>
-    `}
-  `;
-}
-
-function bindPredictInputs() {
-  const inp = document.getElementById('stakeInput');
-  if (!inp) return;
-  inp.oninput = e => {
-    state.bet.stake = Math.max(0, Math.floor(Number(e.target.value) || 0));
-    clearTimeout(bindPredictInputs._t);
-    bindPredictInputs._t = setTimeout(() => {
-      const pos = inp.selectionStart;
-      render();
-      const nInp = document.getElementById('stakeInput');
-      if (nInp) { nInp.focus(); nInp.setSelectionRange(pos, pos); }
-    }, 400);
-  };
-}
-
-window.selectTeam = (tid) => { state.bet.teamId = tid; render(); };
-window.setStake = (v) => { state.bet.stake = v; render(); };
-
-window.confirmPrediction = async () => {
-  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING');
-  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0];
-  if (!m) return toast('No match', 'err');
-  const rs = roundStatusForMatch(m);
-  if (rs.code !== 'OPEN') return toast('Betting not open', 'err');
-  const r = rs.round;
-  const tid = state.bet.teamId;
-  if (!tid) return toast('Select a team', 'err');
-  const t = teamStats(tid, m.id);
-  if (t.isDead) return toast('Team eliminated', 'err');
-  const existing = state.predictions.find(p =>
-    p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
-  if (existing) return toast('Already bet this round', 'err');
-  const stake = Number(state.bet.stake) || 0;
-  const pts = state.profile.demoPoints || 0;
-  if (stake <= 0) return toast('Enter valid amount', 'err');
-  if (stake > pts) return toast('Insufficient points', 'err');
-  try {
-    await updateDoc(doc(db, 'users', state.user.uid), { demoPoints: pts - stake });
-    await addDoc(collection(db, 'predictions'), {
-      userId: state.user.uid,
-      userName: state.profile.name || state.profile.email,
-      matchId: m.id, matchNumber: m.matchNumber || 1,
-      roundNumber: r.roundNumber, teamId: tid, stake,
-      rate: t.rate, winRate: t.winRate,
-      potentialReturn: stake * t.rate,
-      potentialProfit: stake * t.rate - stake,
-      status: 'PENDING',
-      createdAt: serverTimestamp()
-    });
-    toast(`Bet placed — ${stake} pts on Team ${tid}`, 'ok');
-    state.bet.teamId = null;
-    render();
-  } catch (e) {
-    console.error(e);
-    toast('Bet failed', 'err');
-  }
-};
-
-/* ═══════════════════════════════════════════════════
-   MINES GAME (embedded)
-   ═══════════════════════════════════════════════════ */
-function generateGameId() {
-  const now = new Date();
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth()+1).padStart(2,'0');
-  const dd = String(now.getDate()).padStart(2,'0');
-  const rand = crypto.getRandomValues(new Uint8Array(4));
-  const hex = Array.from(rand).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase().slice(0,6);
-  return `MINES-${yyyy}${mm}${dd}-${hex}`;
-}
-function secureRandomInt(max) {
-  const a = new Uint32Array(1);
-  crypto.getRandomValues(a);
-  return a[0] % max;
-}
-function pickMines(count) {
-  const positions = [];
-  const used = new Set();
-  while (positions.length < count) {
-    const v = secureRandomInt(25);
-    if (!used.has(v)) { used.add(v); positions.push(v); }
-  }
-  return positions.sort((a,b)=>a-b);
-}
-function calcMultiplier(safeRevealed, mineCount) {
-  const total = 25, safeTotal = total - mineCount;
-  if (safeRevealed <= 0) return 1;
-  let m = 1;
-  for (let i = 0; i < safeRevealed; i++) m *= (total - i) / (safeTotal - i);
-  return Math.max(1, m * 0.97);
-}
-
+/* MINES CUSTOMER */
 function viewMines() {
   const mg = state.mines;
   if (mg.view === 'history') return renderMinesHistory();
 
   const pts = state.profile.demoPoints || 0;
   const isActive = mg.status === 'ACTIVE';
-  const isFinished = mg.status === 'WON' || mg.status === 'LOST';
+  const isFinished = mg.status === 'WON' || mg.status === 'LOST' || mg.status === 'REFUND';
   const isIdle = mg.status === 'IDLE';
 
   return `
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">💎 Pawan Mines</div>
-        ${mg.gameId ? `<div class="txt-xs txt-3" style="font-family:ui-monospace,monospace">${mg.gameId}</div>` : ''}
+    ${mg.gameId ? `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--surface-2);border-radius:10px;margin-bottom:10px">
+        <div>
+          <div class="txt-xs txt-3" style="font-weight:800;letter-spacing:1px">GAME ID</div>
+          <div style="font-family:ui-monospace,monospace;font-size:12px;font-weight:800">${mg.gameId}</div>
+        </div>
+        <button class="btn btn-sm btn-secondary" onclick="copyMinesGameId()">COPY</button>
       </div>
-      <div class="txt-xs txt-3">Balance: <b style="color:var(--gold)">🪙 ${pts.toLocaleString()}</b></div>
-    </div>
+    ` : ''}
 
     ${isFinished ? `
-      <div class="result-banner ${mg.status === 'WON' ? 'win' : 'loss'}">
-        <div class="ico">${mg.status === 'WON' ? '🏆' : '💥'}</div>
-        <div class="title">${mg.status === 'WON' ? 'You Won!' : 'Boom! Hit a mine'}</div>
-        <div class="sub">${mg.status === 'WON' ? `Multiplier: ${fmt(mg.multiplier,2)}X` : `Safe tiles: ${mg.revealedSafe.length}`}</div>
-        <div class="amt">${mg.status === 'WON' ? '+' : '−'} 🪙 ${fmtInt(mg.status === 'WON' ? mg.payout : mg.stake)}</div>
+      <div class="result-banner ${mg.status === 'WON' ? 'win' : mg.status === 'LOST' ? 'loss' : 'refund'}">
+        <div class="ico">${mg.status === 'WON' ? '🏆' : mg.status === 'LOST' ? '💥' : '↩️'}</div>
+        <div class="title">${mg.status === 'WON' ? 'You Won!' : mg.status === 'LOST' ? 'Boom! Mine hit' : 'Refunded'}</div>
+        <div class="sub">${mg.status === 'WON' ? `Multiplier: ${fmt(mg.multiplier,2)}X` : mg.status === 'LOST' ? `Safe: ${mg.revealedSafe.length}` : 'Game cancelled'}</div>
+        <div class="amt">${mg.status === 'WON' ? '+' : mg.status === 'LOST' ? '−' : '+'} 🪙 ${fmtInt(mg.status === 'WON' ? mg.payout : mg.status === 'LOST' ? mg.stake : mg.stake)}</div>
       </div>
     ` : ''}
 
@@ -1508,21 +1213,19 @@ function viewMines() {
           `).join('')}
         </div>
         <div class="stake-input">
-          <input id="minesStakeInput" type="number" min="10" max="100000" inputmode="numeric" value="${mg.stake}" />
+          <input id="minesStakeInput" type="number" min="10" max="100000" value="${mg.stake}" inputmode="numeric" />
           <span class="u">COINS</span>
         </div>
       </div>
     ` : ''}
 
     <div class="mines-board-wrap">
-      <div class="mines-board">
-        ${renderMinesBoard()}
-      </div>
+      <div class="mines-board">${renderMinesBoard()}</div>
     </div>
 
     ${isActive ? `
       <div class="stats-row">
-        <div class="stat-cell"><div class="k">SAFE</div><div class="v success">${mg.revealedSafe.length}</div></div>
+        <div class="stat-cell"><div class="k">SAFE</div><div class="v success">${mg.revealedSafe.length}/${25 - mg.mineCount}</div></div>
         <div class="stat-cell"><div class="k">MINES</div><div class="v danger">${mg.mineCount}</div></div>
         <div class="stat-cell"><div class="k">STAKE</div><div class="v">${fmtInt(mg.stake)}</div></div>
       </div>
@@ -1533,7 +1236,7 @@ function viewMines() {
         <div style="display:flex;gap:8px">
           <button class="btn btn-secondary" onclick="minesSetView('history')">📜 History</button>
           <button class="btn btn-gold" onclick="minesStartGame()" ${pts < mg.stake ? 'disabled' : ''}>
-            ${pts < mg.stake ? 'Insufficient Coins' : `▶ Start · 🪙 ${fmtInt(mg.stake)}`}
+            ${pts < mg.stake ? 'Low Balance' : `▶ Start · 🪙 ${fmtInt(mg.stake)}`}
           </button>
         </div>
       ` : isActive ? `
@@ -1562,9 +1265,7 @@ function renderMinesBoard() {
     const isMine = mg.minePositions && mg.minePositions.includes(i);
     const gameOver = mg.status !== 'ACTIVE' && mg.status !== 'IDLE';
     const isActive = mg.status === 'ACTIVE';
-
-    let cls = 'tile';
-    let content = '';
+    let cls = 'tile', content = '';
     if (isRevealed) {
       if (isSafe) {
         cls += ' revealed safe';
@@ -1597,7 +1298,7 @@ function renderMinesHistory() {
         <button class="btn btn-sm btn-secondary" onclick="minesSetView('game')">← Back</button>
       </div>
       <div style="display:flex;gap:5px;overflow-x:auto;padding-bottom:8px">
-        ${['ALL','WON','LOST','ACTIVE'].map(f => `
+        ${['ALL','WON','LOST','REFUND','ACTIVE'].map(f => `
           <button class="chip ${mg.historyFilter === f ? 'active' : ''}" style="padding:6px 12px;min-width:auto" onclick="minesSetFilter('${f}')">${f}</button>
         `).join('')}
       </div>
@@ -1605,12 +1306,12 @@ function renderMinesHistory() {
     ${mg.history.filter(g => mg.historyFilter === 'ALL' || g.status === mg.historyFilter).map(g => `
       <div class="card">
         <div class="card-head">
-          <div class="txt-xs" style="font-family:ui-monospace,monospace;font-weight:800">${g.gameId}</div>
-          <span class="badge ${g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : 'active'}">${g.status}</span>
+          <div style="font-size:11px;font-family:ui-monospace,monospace;font-weight:800">${g.gameId}</div>
+          <span class="badge ${g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : g.status === 'REFUND' ? 'refund' : 'active'}">${g.status}</span>
         </div>
-        <div class="txt-xs txt-3">💣 ${g.mineCount} • 🎯 ${(g.revealedSafe||[]).length} safe • 🪙 ${g.stake} • ${timeAgo(g.createdAt)}</div>
+        <div class="txt-xs txt-3">💣 ${g.mineCount} • 🎯 ${(g.revealedSafe||[]).length} • 🪙 ${g.stake} • ${timeAgo(g.createdAt)}</div>
         <div style="margin-top:6px;font-size:14px;font-weight:800;color:${g.status === 'WON' ? 'var(--success)' : g.status === 'LOST' ? 'var(--danger)' : 'var(--warning)'}">
-          ${g.status === 'WON' ? `+ 🪙 ${fmtInt(g.payout||0)}` : g.status === 'LOST' ? `− 🪙 ${fmtInt(g.stake||0)}` : `🪙 ${fmtInt(g.stake)}`}
+          ${g.status === 'WON' ? `+ 🪙 ${fmtInt(g.payout||0)}` : g.status === 'LOST' ? `− 🪙 ${fmtInt(g.stake||0)}` : `↩️ 🪙 ${fmtInt(g.refundAmount || g.stake)}`}
         </div>
       </div>
     `).join('') || '<div class="empty"><div class="ico">📭</div>No games yet</div>'}
@@ -1621,19 +1322,33 @@ window.minesSetMines = (m) => { if (state.mines.status === 'ACTIVE') return; sta
 window.minesSetStake = (s) => { if (state.mines.status === 'ACTIVE') return; state.mines.stake = s; render(); };
 window.minesSetView = (v) => { state.mines.view = v; if (v === 'history') loadMinesHistory(); render(); };
 window.minesSetFilter = (f) => { state.mines.historyFilter = f; render(); };
+window.copyMinesGameId = () => {
+  if (!state.mines.gameId) return;
+  navigator.clipboard?.writeText(state.mines.gameId);
+  toast('Game ID copied', 'ok');
+};
 window.minesNewRound = () => {
   Object.assign(state.mines, {
     gameId: null, status: 'IDLE', revealedTiles: [], revealedSafe: [],
-    minePositions: null, multiplier: 1, payout: 0, busy: false, view: 'game'
+    minePositions: null, multiplier: 1, payout: 0, busy: false, view: 'game', result: null
   });
   render();
 };
+
+function attachMinesStakeListener() {
+  const inp = document.getElementById('minesStakeInput');
+  if (!inp) return;
+  inp.onblur = () => {
+    const v = Math.max(10, Math.min(100000, Math.floor(Number(inp.value) || 100)));
+    state.mines.stake = v; render();
+  };
+}
 
 window.minesStartGame = async () => {
   const mg = state.mines;
   if (mg.busy) return;
   const pts = state.profile.demoPoints || 0;
-  if (pts < mg.stake) return toast('Insufficient coins', 'err');
+  if (pts < mg.stake) return toast('Insufficient', 'err');
   mg.busy = true; render();
 
   try {
@@ -1646,10 +1361,7 @@ window.minesStartGame = async () => {
 
     const lockSnap = await getDoc(lockRef);
     if (lockSnap.exists()) {
-      mg.busy = false;
-      toast('You already have an active game', 'err');
-      render();
-      return;
+      mg.busy = false; toast('Active game exists', 'err'); render(); return;
     }
 
     await runTransaction(db, async (tx) => {
@@ -1663,35 +1375,30 @@ window.minesStartGame = async () => {
 
       tx.update(userRef, { demoPoints: newBal });
       tx.set(gameRef, {
-        gameId, uid: state.user.uid,
-        userName: u.name || '',
+        gameId, uid: state.user.uid, userName: u.name || '',
         mineCount: mg.mineCount, stake: mg.stake,
-        status: 'ACTIVE', revealedTiles: [], revealedSafe: [],
-        result: null, payout: 0, multiplier: 1,
+        status: 'ACTIVE', result: null,
+        revealedTiles: [], revealedSafe: [],
+        currentTile: null, lastClickAt: null,
+        payout: 0, multiplier: 1, refundAmount: 0,
         createdAt: serverTimestamp(), completedAt: null
       });
-      tx.set(privRef, {
-        gameId, uid: state.user.uid,
-        minePositions, createdAt: serverTimestamp()
-      });
+      tx.set(privRef, { gameId, uid: state.user.uid, minePositions, createdAt: serverTimestamp() });
       tx.set(lockRef, { gameId, startedAt: serverTimestamp() });
       tx.set(doc(collection(db, 'coinTransactions')), {
-        uid: state.user.uid, gameId,
-        type: 'GAME_STAKE', amount: -mg.stake,
-        previousBalance: bal, newBalance: newBal,
+        uid: state.user.uid, gameId, type: 'GAME_STAKE',
+        amount: -mg.stake, previousBalance: bal, newBalance: newBal,
         timestamp: serverTimestamp()
       });
     });
 
     mg.gameId = gameId;
     mg.status = 'ACTIVE';
-    mg.revealedTiles = [];
-    mg.revealedSafe = [];
+    mg.revealedTiles = []; mg.revealedSafe = [];
     mg.minePositions = minePositions;
-    mg.multiplier = 1;
-    mg.payout = 0;
+    mg.multiplier = 1; mg.payout = 0;
     mg.busy = false;
-    toast(`Game started · ${gameId}`, 'ok');
+    toast(`Started ${gameId}`, 'ok');
     render();
   } catch (e) {
     mg.busy = false;
@@ -1719,12 +1426,16 @@ window.minesTileClick = async (idx) => {
     if (isMine) {
       await runTransaction(db, async (tx) => {
         const gSnap = await tx.get(gameRef);
-        if (!gSnap.exists()) throw new Error('Game missing');
+        if (!gSnap.exists()) throw new Error('Missing');
         if (gSnap.data().status !== 'ACTIVE') throw new Error('Not active');
-        if (gSnap.data().revealedTiles.includes(idx)) throw new Error('Already revealed');
+        if (gSnap.data().revealedTiles.includes(idx)) throw new Error('Already');
         tx.update(gameRef, {
-          status: 'LOST', revealedTiles: newRevealed,
-          result: 'MINE', payout: 0, multiplier: 0,
+          status: 'LOST',
+          result: 'LOSS',
+          revealedTiles: newRevealed,
+          currentTile: idx,
+          lastClickAt: serverTimestamp(),
+          payout: 0, multiplier: 0,
           completedAt: serverTimestamp()
         });
         tx.delete(lockRef);
@@ -1736,18 +1447,17 @@ window.minesTileClick = async (idx) => {
         });
       });
       mg.status = 'LOST';
+      mg.result = 'LOSS';
       mg.revealedTiles = newRevealed;
       mg.multiplier = 0;
       mg.busy = false;
       toast('💥 Mine hit!', 'err');
       if (navigator.vibrate) navigator.vibrate([100,50,100]);
-      render();
-      return;
+      render(); return;
     }
 
-    // SAFE
     const newSafe = [...mg.revealedSafe, idx];
-    const newMult = calcMultiplier(newSafe.length, mg.mineCount);
+    const newMult = calcMinesMultiplier(newSafe.length, mg.mineCount);
     const safeTotal = 25 - mg.mineCount;
     const autoWin = newSafe.length === safeTotal;
     const payout = autoWin ? Math.floor(mg.stake * newMult) : 0;
@@ -1756,7 +1466,7 @@ window.minesTileClick = async (idx) => {
       const gSnap = await tx.get(gameRef);
       if (!gSnap.exists()) throw new Error('Missing');
       if (gSnap.data().status !== 'ACTIVE') throw new Error('Not active');
-      if (gSnap.data().revealedTiles.includes(idx)) throw new Error('Already revealed');
+      if (gSnap.data().revealedTiles.includes(idx)) throw new Error('Already');
 
       if (autoWin) {
         const uSnap = await tx.get(userRef);
@@ -1764,8 +1474,9 @@ window.minesTileClick = async (idx) => {
         const newBal = bal + payout;
         tx.update(userRef, { demoPoints: newBal });
         tx.update(gameRef, {
-          status: 'WON', revealedTiles: newRevealed,
-          revealedSafe: newSafe, result: 'WIN',
+          status: 'WON', result: 'WIN',
+          revealedTiles: newRevealed, revealedSafe: newSafe,
+          currentTile: idx, lastClickAt: serverTimestamp(),
           payout, multiplier: newMult,
           completedAt: serverTimestamp()
         });
@@ -1778,8 +1489,8 @@ window.minesTileClick = async (idx) => {
         });
       } else {
         tx.update(gameRef, {
-          revealedTiles: newRevealed,
-          revealedSafe: newSafe,
+          revealedTiles: newRevealed, revealedSafe: newSafe,
+          currentTile: idx, lastClickAt: serverTimestamp(),
           multiplier: newMult
         });
       }
@@ -1789,7 +1500,8 @@ window.minesTileClick = async (idx) => {
     mg.revealedSafe = newSafe;
     mg.multiplier = newMult;
     if (autoWin) {
-      mg.status = 'WON'; mg.payout = payout;
+      mg.status = 'WON'; mg.result = 'WIN';
+      mg.payout = payout;
       toast(`🎉 All safe! +🪙 ${fmtInt(payout)}`, 'ok');
     } else {
       if (navigator.vibrate) navigator.vibrate(20);
@@ -1798,7 +1510,6 @@ window.minesTileClick = async (idx) => {
     render();
   } catch (e) {
     mg.busy = false;
-    console.error(e);
     toast((e?.message||'Failed').replace('Firebase: ',''), 'err');
     render();
   }
@@ -1807,11 +1518,11 @@ window.minesTileClick = async (idx) => {
 window.minesCashout = async () => {
   const mg = state.mines;
   if (mg.busy || mg.status !== 'ACTIVE') return;
-  if (mg.revealedSafe.length === 0) return toast('Reveal at least 1 tile', 'err');
+  if (mg.revealedSafe.length === 0) return toast('Reveal at least 1', 'err');
   mg.busy = true; render();
 
   try {
-    const mult = calcMultiplier(mg.revealedSafe.length, mg.mineCount);
+    const mult = calcMinesMultiplier(mg.revealedSafe.length, mg.mineCount);
     const payout = Math.floor(mg.stake * mult);
     const gameRef = doc(db, 'minesGames', mg.gameId);
     const lockRef = doc(db, 'activeGames', state.user.uid);
@@ -1822,13 +1533,13 @@ window.minesCashout = async () => {
       if (!gSnap.exists()) throw new Error('Missing');
       const g = gSnap.data();
       if (g.status !== 'ACTIVE') throw new Error('Not active');
-      if ((g.revealedSafe||[]).length === 0) throw new Error('No safe tiles');
+      if ((g.revealedSafe||[]).length === 0) throw new Error('No safe');
       const uSnap = await tx.get(userRef);
       const bal = uSnap.data().demoPoints || 0;
       const newBal = bal + payout;
       tx.update(userRef, { demoPoints: newBal });
       tx.update(gameRef, {
-        status: 'WON', result: 'CASHOUT',
+        status: 'WON', result: 'WIN',
         payout, multiplier: mult,
         completedAt: serverTimestamp()
       });
@@ -1841,11 +1552,10 @@ window.minesCashout = async () => {
       });
     });
 
-    mg.status = 'WON';
-    mg.payout = payout;
-    mg.multiplier = mult;
+    mg.status = 'WON'; mg.result = 'WIN';
+    mg.payout = payout; mg.multiplier = mult;
     mg.busy = false;
-    toast(`💰 Cashed out! +🪙 ${fmtInt(payout)}`, 'ok');
+    toast(`💰 Cashout! +🪙 ${fmtInt(payout)}`, 'ok');
     render();
   } catch (e) {
     mg.busy = false;
@@ -1857,16 +1567,34 @@ window.minesCashout = async () => {
 window.minesAbandon = async () => {
   const mg = state.mines;
   if (mg.status !== 'ACTIVE') return;
-  if (!confirm('Abandon? Stake will be lost.')) return;
+  if (!confirm('Abandon? You will get a REFUND of your stake.')) return;
   try {
-    await updateDoc(doc(db, 'minesGames', mg.gameId), {
-      status: 'LOST', result: 'ABANDONED',
-      payout: 0, completedAt: serverTimestamp()
+    const userRef = doc(db, 'users', state.user.uid);
+    const gameRef = doc(db, 'minesGames', mg.gameId);
+    const lockRef = doc(db, 'activeGames', state.user.uid);
+
+    await runTransaction(db, async (tx) => {
+      const uSnap = await tx.get(userRef);
+      const bal = uSnap.data().demoPoints || 0;
+      const refund = mg.stake;
+      const newBal = bal + refund;
+      tx.update(userRef, { demoPoints: newBal });
+      tx.update(gameRef, {
+        status: 'REFUND', result: 'REFUND',
+        refundAmount: refund,
+        completedAt: serverTimestamp()
+      });
+      tx.delete(lockRef);
+      tx.set(doc(collection(db, 'coinTransactions')), {
+        uid: state.user.uid, gameId: mg.gameId,
+        type: 'GAME_REWARD', amount: refund,
+        previousBalance: bal, newBalance: newBal,
+        timestamp: serverTimestamp()
+      });
     });
-    await deleteDoc(doc(db, 'activeGames', state.user.uid));
-    mg.status = 'LOST';
-    mg.payout = 0;
-    toast('Abandoned', 'err');
+
+    mg.status = 'REFUND'; mg.result = 'REFUND';
+    toast('↩️ Refunded', 'ok');
     render();
   } catch(e) { toast('Failed', 'err'); }
 };
@@ -1875,8 +1603,7 @@ async function loadMinesHistory() {
   const mg = state.mines;
   mg.historyLoading = true; render();
   try {
-    const q = query(collection(db, 'minesGames'),
-      where('uid', '==', state.user.uid),
+    const q = query(collection(db, 'minesGames'), where('uid', '==', state.user.uid),
       orderBy('createdAt', 'desc'), limit(50));
     const snap = await getDocs(q);
     mg.history = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1884,9 +1611,180 @@ async function loadMinesHistory() {
   mg.historyLoading = false; render();
 }
 
-/* ═══════════════════════════════════════════════════
-   HISTORY (Survivor + Mines combined)
-   ═══════════════════════════════════════════════════ */
+/* SURVIVOR CUSTOMER */
+function viewSurvivor() {
+  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING')
+    .sort((a,b) => (b.matchNumber||0) - (a.matchNumber||0));
+  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0] || null;
+
+  if (!m) {
+    return `
+      <div class="card" style="text-align:center;padding:40px 20px">
+        <div style="font-size:38px;opacity:.5;margin-bottom:10px">⚔️</div>
+        <div class="fw-8" style="font-size:16px;margin-bottom:4px">No Match Available</div>
+        <div class="txt-sm txt-3">Check back later</div>
+      </div>
+    `;
+  }
+
+  const rs = roundStatusForMatch(m);
+  const A = teamStats('A', m.id), B = teamStats('B', m.id);
+  const pts = state.profile.demoPoints || 0;
+  const r = rs.round;
+  const sel = state.bet.teamId;
+  const selStats = sel ? teamStats(sel, m.id) : null;
+  const stake = Number(state.bet.stake) || 0;
+  const rate = selStats ? selStats.rate : 0;
+  const ret = stake * rate;
+
+  const alreadyBet = r && state.predictions.find(p =>
+    p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
+
+  const canBet = rs.code === 'OPEN' && !alreadyBet;
+  const canConfirm = canBet && sel && !selStats?.isDead && stake > 0 && stake <= pts;
+
+  return `
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">⚔️ Rate X Survivor</div>
+        <span class="badge ${rs.code === 'OPEN' ? 'live' : 'closed'}">${rs.code === 'OPEN' ? 'LIVE' : 'LOCKED'}</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;text-align:center"><div class="txt-xs txt-3">Match</div><div class="fw-8">#${m.matchNumber}</div></div>
+        <div style="flex:1;text-align:center"><div class="txt-xs txt-3">Round</div><div class="fw-8">${m.currentRound || 0}/${m.maxRounds || 8}</div></div>
+        <div style="flex:1;text-align:center"><div class="txt-xs txt-3">Status</div><div class="fw-8" style="color:${rs.code === 'OPEN' ? 'var(--success)' : 'var(--warning)'}">${rs.code}</div></div>
+      </div>
+    </div>
+
+    ${!canBet && !alreadyBet ? `
+      <div class="empty" style="padding:40px 20px">${rs.msg}</div>
+    ` : alreadyBet ? `
+      <div class="card">
+        <div class="row-flex">
+          <div class="avatar ${alreadyBet.teamId === 'A' ? 'team-a' : 'team-b'}">T${alreadyBet.teamId}</div>
+          <div style="flex:1">
+            <div class="fw-8">Bet placed</div>
+            <div class="txt-sm txt-3">Team ${alreadyBet.teamId} • ${alreadyBet.stake} pts • ${fmtRate(alreadyBet.rate)}</div>
+          </div>
+          <span class="badge pending">PENDING</span>
+        </div>
+      </div>
+    ` : `
+      <div class="card-title" style="padding:0 2px 8px">Choose Team</div>
+      <div class="teams-grid">
+        <div onclick="${A.isDead ? '' : "selectTeam('A')"}"
+          class="team-panel ${A.isDead ? 'dead' : 'selectable'} ${sel === 'A' ? 'selected-a' : ''}">
+          <div class="tp-head">
+            <div class="tp-name"><span class="tp-dot"></span>Team A</div>
+            <div class="tp-badge ${A.isDead ? 'dead' : 'alive'}">${A.activeCount}/4</div>
+          </div>
+          <div class="tp-stat"><span class="k">Alive</span><span class="v">${A.activeCount}</span></div>
+          <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(A.winRate,1)}%</span></div>
+          <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(A.rate)}</span></div>
+        </div>
+        <div onclick="${B.isDead ? '' : "selectTeam('B')"}"
+          class="team-panel team-B ${B.isDead ? 'dead' : 'selectable'} ${sel === 'B' ? 'selected-b' : ''}">
+          <div class="tp-head">
+            <div class="tp-name"><span class="tp-dot"></span>Team B</div>
+            <div class="tp-badge ${B.isDead ? 'dead' : 'alive'}">${B.activeCount}/4</div>
+          </div>
+          <div class="tp-stat"><span class="k">Alive</span><span class="v">${B.activeCount}</span></div>
+          <div class="tp-stat"><span class="k">Win %</span><span class="v">${fmt(B.winRate,1)}%</span></div>
+          <div class="tp-rate"><span class="lbl">Rate</span><span class="val">${fmtRate(B.rate)}</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="margin-bottom:8px">Stake</div>
+        <div class="stake-input">
+          <input id="stakeInput" type="number" min="1" value="${state.bet.stake}" inputmode="numeric" />
+          <span class="u">PTS</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px">
+          ${[100, 250, 500, 1000].map(v => `
+            <button class="chip ${stake === v ? 'active' : ''}" onclick="setStake(${v})">${v}</button>
+          `).join('')}
+          <button class="chip" onclick="setStake(${pts})">MAX</button>
+        </div>
+        <div class="txt-xs txt-3 mt-8">Available: <b style="color:var(--accent)">${pts.toLocaleString()} pts</b></div>
+      </div>
+
+      ${sel ? `
+        <div class="card">
+          <div class="tp-stat"><span class="k">Selected</span><span class="v">Team ${sel}</span></div>
+          <div class="tp-stat"><span class="k">Rate</span><span class="v" style="color:var(--accent)">${fmtRate(rate)}</span></div>
+          <div class="tp-stat"><span class="k">Stake</span><span class="v" style="color:var(--danger)">−${stake}</span></div>
+          <div class="tp-stat"><span class="k">Return</span><span class="v" style="color:var(--success)">+${fmt(ret,2)}</span></div>
+        </div>
+      ` : ''}
+
+      <div class="sticky-action">
+        <button class="btn" ${canConfirm ? '' : 'disabled'} onclick="confirmPrediction()">
+          ${!sel ? 'Select a Team' : stake <= 0 ? 'Enter Amount' : stake > pts ? 'Low Balance' : 'Confirm Prediction'}
+        </button>
+      </div>
+    `}
+  `;
+}
+
+function bindPredictInputs() {
+  const inp = document.getElementById('stakeInput');
+  if (!inp) return;
+  inp.oninput = e => {
+    state.bet.stake = Math.max(0, Math.floor(Number(e.target.value) || 0));
+    clearTimeout(bindPredictInputs._t);
+    bindPredictInputs._t = setTimeout(() => {
+      const pos = inp.selectionStart;
+      render();
+      const nInp = document.getElementById('stakeInput');
+      if (nInp) { nInp.focus(); nInp.setSelectionRange(pos, pos); }
+    }, 400);
+  };
+}
+
+window.selectTeam = (tid) => { state.bet.teamId = tid; render(); };
+window.setStake = (v) => { state.bet.stake = v; render(); };
+
+window.confirmPrediction = async () => {
+  const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING');
+  const m = liveMatches.find(x => x.id === state.currentMatchId) || liveMatches[0];
+  if (!m) return toast('No match', 'err');
+  const rs = roundStatusForMatch(m);
+  if (rs.code !== 'OPEN') return toast('Betting closed', 'err');
+  const r = rs.round;
+  const tid = state.bet.teamId;
+  if (!tid) return toast('Select team', 'err');
+  const t = teamStats(tid, m.id);
+  if (t.isDead) return toast('Team eliminated', 'err');
+  const existing = state.predictions.find(p =>
+    p.roundNumber === r.roundNumber && p.matchId === m.id && p.status === 'PENDING');
+  if (existing) return toast('Already bet', 'err');
+  const stake = Number(state.bet.stake) || 0;
+  const pts = state.profile.demoPoints || 0;
+  if (stake <= 0) return toast('Invalid stake', 'err');
+  if (stake > pts) return toast('Low balance', 'err');
+  try {
+    await updateDoc(doc(db, 'users', state.user.uid), { demoPoints: pts - stake });
+    await addDoc(collection(db, 'predictions'), {
+      userId: state.user.uid,
+      userName: state.profile.name || state.profile.email,
+      matchId: m.id, matchNumber: m.matchNumber || 1,
+      roundNumber: r.roundNumber, teamId: tid, stake,
+      rate: t.rate, winRate: t.winRate,
+      potentialReturn: stake * t.rate,
+      potentialProfit: stake * t.rate - stake,
+      status: 'PENDING',
+      createdAt: serverTimestamp()
+    });
+    toast(`Bet on Team ${tid}`, 'ok');
+    state.bet.teamId = null;
+    render();
+  } catch (e) {
+    console.error(e); toast('Bet failed', 'err');
+  }
+};
+
+/* HISTORY */
 function viewHistory() {
   const preds = state.predictions;
   return `
@@ -1913,24 +1811,12 @@ function viewHistory() {
             </div>
           </div>
         `).join('')}
-      </div>` : '<div class="empty"><div class="ico">📭</div>No Survivor bets yet</div>'}
-    </div>
-
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">💎 Mines</div>
-        <button class="btn btn-sm btn-secondary" onclick="nav('mines');setTimeout(()=>minesSetView('history'),50)">View →</button>
-      </div>
-      <div class="txt-sm txt-3 txt-center" style="padding:12px">
-        Open Mines history from the game page
-      </div>
+      </div>` : '<div class="empty"><div class="ico">📭</div>No Survivor bets</div>'}
     </div>
   `;
 }
 
-/* ═══════════════════════════════════════════════════
-   PROFILE
-   ═══════════════════════════════════════════════════ */
+/* PROFILE */
 function viewProfile() {
   const u = state.profile;
   const initial = (u.name || u.email || '?')[0].toUpperCase();
@@ -1943,7 +1829,7 @@ function viewProfile() {
       <div class="profile-info">
         <div class="pi-name">${escapeHtml(u.name||'—')}</div>
         <div class="pi-email">${escapeHtml(u.email||'—')}</div>
-        <div class="pi-role">
+        <div style="margin-top:6px">
           ${state.isAdmin ? '<span class="badge admin">ADMIN</span>' : '<span class="badge active">CUSTOMER</span>'}
         </div>
       </div>
@@ -1957,9 +1843,7 @@ function viewProfile() {
     <div class="list" style="margin-bottom:10px">
       <div class="list-row"><div class="lr-body"><div class="lr-title">Pending</div></div><div class="lr-right"><div class="lr-amount pending">${pending}</div></div></div>
     </div>
-    <button class="btn btn-secondary" onclick="toggleTheme()" style="margin-bottom:8px">
-      Switch to ${document.documentElement.getAttribute('data-theme')==='dark'?'Light':'Dark'} mode
-    </button>
+    <button class="btn btn-secondary" onclick="toggleTheme()" style="margin-bottom:8px">Switch Theme</button>
     <button class="btn btn-danger" onclick="doLogout()">Sign Out</button>
     <div class="txt-center txt-xs txt-3" style="margin-top:20px">
       PRL PAWAN RETAIL LIMITED<br/>DEMO POINTS • NO CASH VALUE
@@ -1967,22 +1851,37 @@ function viewProfile() {
   `;
 }
 
-/* ═══════════════════════════════════════════════════
-   ADMIN VIEWS
-   ═══════════════════════════════════════════════════ */
+/* ADMIN — HOME */
 function viewAdminHome() {
   const totalUsers = state.users.length;
   const activePlayers = state.players.filter(p => p.status === 'ACTIVE').length;
   const pendingBets = state.predictions.filter(p => p.status === 'PENDING').length;
   const liveMatches = state.matches.filter(m => m.status === 'LIVE' || m.status === 'WAITING').length;
+  const liveMines = state.mines.liveGames.filter(g => g.status === 'ACTIVE').length;
 
   return `
     <div class="kpi-grid">
       <div class="kpi-card"><div class="kk">Users</div><div class="kv">${totalUsers}</div></div>
-      <div class="kpi-card"><div class="kk">Active Players</div><div class="kv success">${activePlayers}</div></div>
+      <div class="kpi-card"><div class="kk">Live Mines</div><div class="kv warning">${liveMines}</div></div>
       <div class="kpi-card"><div class="kk">Live Matches</div><div class="kv accent">${liveMatches}</div></div>
-      <div class="kpi-card"><div class="kk">Pending Bets</div><div class="kv warning">${pendingBets}</div></div>
+      <div class="kpi-card"><div class="kk">Pending Bets</div><div class="kv">${pendingBets}</div></div>
     </div>
+
+    ${liveMines > 0 ? `
+      <div class="live-tracker">
+        <div class="lt-head">
+          <div class="lt-title"><span class="lt-dot"></span>LIVE MINES (${liveMines})</div>
+          <button class="btn btn-sm btn-secondary" onclick="nav('admin_mines')">Open →</button>
+        </div>
+        ${state.mines.liveGames.filter(g => g.status === 'ACTIVE').slice(0, 3).map(g => `
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid rgba(34,197,94,.15);font-size:12px">
+            <span style="font-family:ui-monospace,monospace;font-weight:800;font-size:10px">${g.gameId.slice(-8)}</span>
+            <span style="color:var(--text-3)">${escapeHtml(g.userName || g.uid?.slice(0,6) || '')}</span>
+            <span style="margin-left:auto;color:var(--gold);font-weight:800">${(g.revealedSafe||[]).length}✓</span>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
 
     <div class="card">
       <div class="card-head">
@@ -1990,7 +1889,7 @@ function viewAdminHome() {
         <button class="btn btn-sm btn-success" onclick="openNewMatchSheet()">+ New</button>
       </div>
       ${state.matches.filter(m => m.status !== 'FINISHED').map(m => `
-        <div class="card" style="margin-bottom:8px;cursor:pointer" onclick="selectMatch('${m.id}');nav('admin_rounds')">
+        <div class="card" style="margin-bottom:8px;cursor:pointer" onclick="state.currentMatchId='${m.id}';nav('admin_rounds')">
           <div class="card-head" style="margin-bottom:6px">
             <div class="fw-8">Match #${m.matchNumber} <span class="badge ${m.status==='LIVE'?'live':'pending'}">${m.status}</span></div>
             <div class="txt-xs txt-3">R${m.currentRound||0}/${m.maxRounds||8}</div>
@@ -1998,14 +1897,6 @@ function viewAdminHome() {
           <div class="txt-sm txt-3">A won: ${m.teamARoundsWon||0} • B won: ${m.teamBRoundsWon||0}</div>
         </div>
       `).join('') || '<div class="empty">No matches</div>'}
-    </div>
-
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title-lg">💎 Mines Games</div>
-        <button class="btn btn-sm btn-secondary" onclick="nav('admin_mines')">Open →</button>
-      </div>
-      <div class="txt-sm txt-3">Manage Mines games, view mines positions, game IDs</div>
     </div>
 
     <div class="card">
@@ -2020,35 +1911,35 @@ function viewAdminHome() {
   `;
 }
 
-window.selectMatch = (id) => { state.currentMatchId = id; };
-
+/* ADMIN — USERS */
 function viewAdminUsers() {
   return `
-    <div class="search-wrap">
-      ${svgIcon('search')}
-      <input id="userSearch" type="text" placeholder="Search users..." oninput="render()" />
-    </div>
-    <div class="list">
-      ${state.users.map(u => `
-        <div>
-          <div class="list-row">
-            <div class="avatar">${(u.name||u.email||'?')[0].toUpperCase()}</div>
-            <div class="lr-body">
-              <div class="lr-title">${escapeHtml(u.name||'—')} ${u.blocked ? '<span class="badge blocked">BLOCKED</span>' : ''}</div>
-              <div class="lr-sub">${escapeHtml(u.email||'—')}</div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">👥 Users (${state.users.length})</div>
+      </div>
+      <div class="list">
+        ${state.users.map(u => `
+          <div>
+            <div class="list-row">
+              <div class="avatar">${(u.name||u.email||'?')[0].toUpperCase()}</div>
+              <div class="lr-body">
+                <div class="lr-title">${escapeHtml(u.name||'—')} ${u.blocked ? '<span class="badge blocked">BLOCKED</span>' : ''}</div>
+                <div class="lr-sub">${escapeHtml(u.email||'—')}</div>
+              </div>
+              <div class="lr-right">
+                <div class="lr-amount">${(u.demoPoints||0).toLocaleString()}</div>
+                <div class="lr-meta">pts</div>
+              </div>
             </div>
-            <div class="lr-right">
-              <div class="lr-amount">${(u.demoPoints||0).toLocaleString()}</div>
-              <div class="lr-meta">pts</div>
+            <div style="display:flex;gap:6px;padding:0 14px 12px;border-bottom:1px solid var(--border)">
+              <button class="btn btn-secondary btn-sm" style="flex:1" onclick="openEditUser('${u.id}')">Edit</button>
+              <button class="btn btn-sm ${u.blocked?'btn-success':'btn-danger'}" style="flex:1"
+                onclick="toggleBlock('${u.id}',${!u.blocked})">${u.blocked?'Unblock':'Block'}</button>
             </div>
           </div>
-          <div style="display:flex;gap:6px;padding:0 14px 12px;border-bottom:1px solid var(--border)">
-            <button class="btn btn-secondary btn-sm" style="flex:1" onclick="openEditUser('${u.id}')">Edit Points</button>
-            <button class="btn btn-sm ${u.blocked?'btn-success':'btn-danger'}" style="flex:1"
-              onclick="toggleBlock('${u.id}',${!u.blocked})">${u.blocked?'Unblock':'Block'}</button>
-          </div>
-        </div>
-      `).join('') || '<div class="empty">No users</div>'}
+        `).join('') || '<div class="empty">No users</div>'}
+      </div>
     </div>
   `;
 }
@@ -2064,17 +1955,14 @@ window.openEditUser = (uid) => {
     <button class="btn" onclick="saveUserEdit('${uid}')">Save</button>
   `);
 };
-
 window.saveUserEdit = async (uid) => {
   const name = document.getElementById('edName').value.trim();
   const pts = Math.max(0, Math.floor(Number(document.getElementById('edPoints').value)||0));
   try {
     await updateDoc(doc(db, 'users', uid), { name, demoPoints: pts });
-    closeSheet();
-    toast('Updated', 'ok');
+    closeSheet(); toast('Updated', 'ok');
   } catch(e) { toast('Failed', 'err'); }
 };
-
 window.toggleBlock = async (uid, blocked) => {
   try {
     await updateDoc(doc(db, 'users', uid), { blocked });
@@ -2082,9 +1970,10 @@ window.toggleBlock = async (uid, blocked) => {
   } catch(e) { toast('Failed', 'err'); }
 };
 
+/* ADMIN — ROUNDS (compact) */
 function viewAdminRounds() {
   const m = currentMatch();
-  if (!m) return '<div class="card"><div class="empty">Select a match from Home</div></div>';
+  if (!m) return '<div class="card"><div class="empty">Select match from Home</div></div>';
   const rs = roundStatusForMatch(m);
   const r = rs.round;
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
@@ -2099,41 +1988,23 @@ function viewAdminRounds() {
         <div class="card-title-lg">Match #${m.matchNumber}</div>
         <span class="badge ${m.status==='LIVE'?'live':m.status==='FINISHED'?'done':'pending'}">${m.status}</span>
       </div>
-      <div class="status-panel" style="margin:0">
-        <div class="status-tile"><div class="k">Round</div><div class="v">${m.currentRound||0}/${m.maxRounds||8}</div></div>
-        <div class="status-tile"><div class="k">A won</div><div class="v accent">${m.teamARoundsWon||0}</div></div>
-        <div class="status-tile"><div class="k">B won</div><div class="v">${m.teamBRoundsWon||0}</div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="card-title">Round Timeline</div></div>
-      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px">
-        ${Array.from({length:m.maxRounds||8},(_,i)=>{
-          const rn = i+1;
-          const rr = state.rounds.find(x => x.roundNumber===rn && x.matchId===m.id);
-          let cls = 'tl-chip', label = '—';
-          if (rr) {
-            if (rr.status==='OPEN') { cls += ' live'; label = 'LIVE'; }
-            else if (rr.status==='CLOSED') { cls += ' closed'; label = 'LOCK'; }
-            else if (rr.status==='RESULT_DECLARED') { label = 'T'+rr.winner; }
-          }
-          return `<div class="${cls}" style="background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center;font-size:9px;font-weight:800">${rn}<br/>${label}</div>`;
-        }).join('')}
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;text-align:center"><div class="txt-xs txt-3">Round</div><div class="fw-8">${m.currentRound||0}/${m.maxRounds||8}</div></div>
+        <div style="flex:1;text-align:center"><div class="txt-xs txt-3">A won</div><div class="fw-8">${m.teamARoundsWon||0}</div></div>
+        <div style="flex:1;text-align:center"><div class="txt-xs txt-3">B won</div><div class="fw-8">${m.teamBRoundsWon||0}</div></div>
       </div>
     </div>
 
     ${needsElim ? `
       <div class="card" style="border-color:var(--danger)">
-        <div class="card-head"><div class="card-title-lg" style="color:var(--danger)">⚠️ Eliminate a Player</div></div>
-        <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber}: Team ${r.winner} won. Choose 1 player to eliminate:</div>
+        <div class="card-head"><div class="card-title-lg" style="color:var(--danger)">⚠️ Eliminate Player</div></div>
         <div class="txt-xs txt-3" style="font-weight:800;margin-bottom:6px">TEAM A (${aliveA.length})</div>
         <div class="list" style="margin-bottom:10px">
           ${aliveA.map(p => `
             <div class="list-row" style="cursor:pointer" onclick="eliminatePlayer('${p.id}','A')">
               <div class="avatar team-a">${(p.name||'?')[0].toUpperCase()}</div>
               <div class="lr-body"><div class="lr-title">${escapeHtml(p.name)}</div></div>
-              <div class="lr-right"><div class="txt-xs" style="color:var(--danger);font-weight:800">ELIMINATE</div></div>
+              <div class="lr-right"><div class="txt-xs" style="color:var(--danger);font-weight:800">OUT</div></div>
             </div>
           `).join('') || '<div class="empty">No alive</div>'}
         </div>
@@ -2143,7 +2014,7 @@ function viewAdminRounds() {
             <div class="list-row" style="cursor:pointer" onclick="eliminatePlayer('${p.id}','B')">
               <div class="avatar team-b">${(p.name||'?')[0].toUpperCase()}</div>
               <div class="lr-body"><div class="lr-title">${escapeHtml(p.name)}</div></div>
-              <div class="lr-right"><div class="txt-xs" style="color:var(--danger);font-weight:800">ELIMINATE</div></div>
+              <div class="lr-right"><div class="txt-xs" style="color:var(--danger);font-weight:800">OUT</div></div>
             </div>
           `).join('') || '<div class="empty">No alive</div>'}
         </div>
@@ -2158,18 +2029,16 @@ function viewAdminRounds() {
       ${!r ? `
         <button class="btn btn-success" onclick="openRound(1)" ${(A.activeCount===0||B.activeCount===0)?'disabled':''}>Open Round 1</button>
       ` : r.status==='OPEN' ? `
-        <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} live. ${pending.length} bets pending.</div>
+        <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} live. ${pending.length} bets.</div>
         <button class="btn btn-warning" onclick="closeRound()">Close Betting</button>
       ` : r.status==='CLOSED' ? `
-        <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber} closed. Declare winner:</div>
+        <div class="txt-sm txt-3 mb-12">Declare winner:</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <button class="btn btn-success" onclick="declareResult('A')">Team A Won</button>
           <button class="btn btn-warning" onclick="declareResult('B')">Team B Won</button>
         </div>
       ` : r.status==='RESULT_DECLARED' && !r.eliminationDone ? `
-        <div class="txt-sm txt-3" style="color:var(--danger);font-weight:700;text-align:center;padding:10px">
-          ⚠️ Eliminate a player above first
-        </div>
+        <div class="txt-sm" style="color:var(--danger);font-weight:700;text-align:center;padding:10px">⚠️ Eliminate player first</div>
       ` : `
         <div class="txt-sm txt-3 mb-12">Round ${r.roundNumber}: Team ${r.winner} won</div>
         ${m.currentRound < (m.maxRounds||8) ? `
@@ -2178,20 +2047,6 @@ function viewAdminRounds() {
           <button class="btn btn-success" onclick="endMatchByRounds()">End Match</button>
         `}
       `}
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="card-title-lg">Live Rates (max 100X)</div></div>
-      <div class="teams-grid" style="margin:0">
-        <div class="team-panel ${A.isDead?'dead':''}">
-          <div class="tp-head"><div class="tp-name"><span class="tp-dot"></span>Team A</div><div class="tp-badge alive">${A.activeCount}/4</div></div>
-          <div class="tp-stat"><span class="k">Rate</span><span class="v" style="color:var(--accent)">${fmtRate(A.rate)}</span></div>
-        </div>
-        <div class="team-panel team-B ${B.isDead?'dead':''}">
-          <div class="tp-head"><div class="tp-name"><span class="tp-dot"></span>Team B</div><div class="tp-badge alive">${B.activeCount}/4</div></div>
-          <div class="tp-stat"><span class="k">Rate</span><span class="v" style="color:var(--warning)">${fmtRate(B.rate)}</span></div>
-        </div>
-      </div>
     </div>
 
     <div class="card">
@@ -2210,7 +2065,7 @@ function viewAdminRounds() {
           <span class="badge ${p.status==='ACTIVE'?'active':'eliminated'}">${p.status}</span>
           <button class="btn btn-sm btn-danger" style="min-height:28px;padding:4px 8px;font-size:11px" onclick="deletePlayer('${p.id}')">✕</button>
         </div>
-      `).join('')}
+      `).join('') || '<div class="empty">No players</div>'}
     </div>
   `;
 }
@@ -2219,12 +2074,12 @@ window.openRound = async (num) => {
   const m = currentMatch();
   if (!m) return;
   const A = teamStats('A', m.id), B = teamStats('B', m.id);
-  if (A.activeCount===0 || B.activeCount===0) return toast('Need alive players in both teams', 'err');
+  if (A.activeCount===0 || B.activeCount===0) return toast('Both teams need players', 'err');
   if (num > (m.maxRounds||8)) return toast('Max rounds', 'err');
   if (num > 1) {
     const prev = state.rounds.find(r => r.roundNumber===num-1 && r.matchId===m.id);
-    if (!prev || prev.status !== 'RESULT_DECLARED') return toast('Settle previous round first', 'err');
-    if (!prev.eliminationDone) return toast('Eliminate a player first', 'err');
+    if (!prev || prev.status !== 'RESULT_DECLARED') return toast('Settle prev round', 'err');
+    if (!prev.eliminationDone) return toast('Eliminate player first', 'err');
   }
   try {
     await addDoc(collection(db, 'rounds'), {
@@ -2239,7 +2094,9 @@ window.openRound = async (num) => {
 };
 
 window.closeRound = async () => {
-  const r = currentRound();
+  const m = currentMatch();
+  if (!m) return;
+  const r = state.rounds.find(x => x.roundNumber===m.currentRound && x.matchId===m.id);
   if (!r) return;
   try {
     await updateDoc(doc(db, 'rounds', r.id), { status: 'CLOSED', closeTime: serverTimestamp() });
@@ -2248,20 +2105,23 @@ window.closeRound = async () => {
 };
 
 window.declareResult = (winner) => {
-  const r = currentRound();
+  const m = currentMatch();
+  if (!m) return;
+  const r = state.rounds.find(x => x.roundNumber===m.currentRound && x.matchId===m.id);
   if (!r) return;
   openSheet('Declare Result', `
-    <div class="txt-sm txt-3 mb-12">Declare Team ${winner} as winner of Round ${r.roundNumber}?</div>
+    <div class="txt-sm txt-3 mb-12">Team ${winner} won Round ${r.roundNumber}?</div>
     <button class="btn ${winner==='A'?'btn-success':'btn-warning'}" onclick="declareResultDo('${winner}')">
-      Confirm — Team ${winner} Won
+      Confirm — Team ${winner}
     </button>
   `);
 };
 
 window.declareResultDo = async (winner) => {
-  const r = currentRound();
   const m = currentMatch();
-  if (!r || !m) return;
+  if (!m) return;
+  const r = state.rounds.find(x => x.roundNumber===m.currentRound && x.matchId===m.id);
+  if (!r) return;
   try {
     const pending = state.predictions.filter(p => p.status==='PENDING' && p.roundNumber===r.roundNumber && p.matchId===m.id);
     for (const p of pending) {
@@ -2289,13 +2149,15 @@ window.declareResultDo = async (winner) => {
     const nB = (m.teamBRoundsWon||0) + (winner==='B'?1:0);
     await updateDoc(doc(db, 'matches', m.id), { teamARoundsWon: nA, teamBRoundsWon: nB });
     closeSheet();
-    toast(`Round ${r.roundNumber} — Team ${winner} won`, 'ok');
+    toast(`Team ${winner} won round ${r.roundNumber}`, 'ok');
   } catch(e) { toast('Failed','err'); }
 };
 
 window.eliminatePlayer = async (pid, teamId) => {
-  const m = currentMatch(); const r = currentRound();
-  if (!m || !r) return;
+  const m = currentMatch();
+  if (!m) return;
+  const r = state.rounds.find(x => x.roundNumber===m.currentRound && x.matchId===m.id);
+  if (!r) return;
   const player = state.players.find(p => p.id === pid);
   if (!player || player.status !== 'ACTIVE') return toast('Not available', 'err');
   if (!confirm(`Eliminate ${player.name}?`)) return;
@@ -2314,7 +2176,7 @@ window.eliminatePlayer = async (pid, teamId) => {
     if (nA.isDead && !nB.isDead) { await endMatchAuto('B'); return; }
     if (nB.isDead && !nA.isDead) { await endMatchAuto('A'); return; }
     if (nA.isDead && nB.isDead) { await endMatchAuto('DRAW'); return; }
-    toast(`${player.name} eliminated. A=${fmtRate(nA.rate)} B=${fmtRate(nB.rate)}`, 'ok');
+    toast(`${player.name} out`, 'ok');
   } catch(e) { toast('Failed','err'); }
 };
 
@@ -2337,8 +2199,7 @@ window.endMatchAuto = async (winner) => {
       teamARoundsWon: m.teamARoundsWon||0, teamBRoundsWon: m.teamBRoundsWon||0,
       maxRounds: m.maxRounds, totalRounds: m.currentRound,
       finishedAt: serverTimestamp(),
-      players: state.players.map(p => ({ name: p.name, teamId: p.teamId, status: p.status })),
-      rounds: state.rounds.filter(r => r.matchId===m.id).map(r => ({ roundNumber: r.roundNumber, winner: r.winner }))
+      players: state.players.map(p => ({ name: p.name, teamId: p.teamId, status: p.status }))
     });
     const pending = state.predictions.filter(p => p.status==='PENDING' && p.matchId===m.id);
     for (const p of pending) {
@@ -2361,7 +2222,7 @@ window.endMatchAuto = async (winner) => {
     await updateDoc(doc(db, 'matches', m.id), {
       status: 'FINISHED', winner, finishedAt: serverTimestamp()
     });
-    toast(`🏆 Match finished — ${winner==='DRAW'?'Draw':'Team '+winner}`, 'ok');
+    toast(`Match finished — ${winner==='DRAW'?'Draw':'Team '+winner}`, 'ok');
   } catch(e) { toast('Failed','err'); }
 };
 
@@ -2373,8 +2234,7 @@ window.addPlayer = async () => {
   if (state.players.length >= 8) return toast('Max 8 players','err');
   try {
     await addDoc(collection(db, 'players'), {
-      name, teamId, status: 'ACTIVE',
-      matchId: state.currentMatchId,
+      name, teamId, status: 'ACTIVE', matchId: state.currentMatchId,
       createdAt: serverTimestamp()
     });
     toast(`"${name}" added`,'ok');
@@ -2418,97 +2278,164 @@ window.createNewMatch = async () => {
   } catch(e) { toast('Failed','err'); }
 };
 
-/* ═══════════════════════════════════════════════════
-   ADMIN MINES
-   ═══════════════════════════════════════════════════ */
-let adminMinesSearch = '';
-async function viewAdminMines() {
-  if (!state.minesGames || state.minesGames.length === 0) {
-    try {
-      const snap = await getDocs(query(collection(db, 'minesGames'), orderBy('createdAt','desc'), limit(100)));
-      state.minesGames = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    } catch(e) { state.minesGames = []; }
-  }
-  const games = state.minesGames;
+/* ADMIN — MINES LIVE TRACKING */
+function viewAdminMines() {
+  const games = state.mines.liveGames;
+  const filtered = state.mines.adminSearch
+    ? games.filter(g => (g.gameId||'').includes(state.mines.adminSearch) || (g.uid||'').includes(state.mines.adminSearch))
+    : games;
+  const activeGames = games.filter(g => g.status === 'ACTIVE');
   const total = games.length;
-  const active = games.filter(g => g.status === 'ACTIVE').length;
   const won = games.filter(g => g.status === 'WON').length;
   const lost = games.filter(g => g.status === 'LOST').length;
+  const refund = games.filter(g => g.status === 'REFUND').length;
 
   return `
+    ${activeGames.length > 0 ? `
+      <div class="live-tracker">
+        <div class="lt-head">
+          <div class="lt-title"><span class="lt-dot"></span>LIVE NOW (${activeGames.length})</div>
+          <div class="txt-xs txt-3">Real-time</div>
+        </div>
+        ${activeGames.map(g => `
+          <div style="padding:10px;background:var(--surface-2);border-radius:8px;margin-bottom:8px;cursor:pointer" onclick="adminOpenMines('${g.gameId}')">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <div style="font-family:ui-monospace,monospace;font-size:11px;font-weight:800">${g.gameId}</div>
+              <span class="badge live">LIVE</span>
+            </div>
+            <div class="txt-xs txt-3" style="margin-bottom:8px">
+              ${escapeHtml(g.userName||g.uid?.slice(0,8)||'')} • 💣${g.mineCount} • 🪙${g.stake}
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:6px">
+              ${Array.from({length:25}, (_, i) => {
+                const revealed = (g.revealedSafe||[]).includes(i);
+                return `<div style="aspect-ratio:1;border-radius:3px;background:${revealed ? 'rgba(34,197,94,.35)' : 'var(--surface-3)'};border:1px solid ${revealed ? 'var(--success)' : 'var(--border)'}"></div>`;
+              }).join('')}
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px">
+              <span class="txt-3">Safe: <b style="color:var(--success)">${(g.revealedSafe||[]).length}</b></span>
+              <span class="txt-3">Rate: <b style="color:var(--gold)">${(g.multiplier||1).toFixed(2)}X</b></span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
     <div class="kpi-grid">
       <div class="kpi-card"><div class="kk">Total Games</div><div class="kv">${total}</div></div>
-      <div class="kpi-card"><div class="kk">Active</div><div class="kv warning">${active}</div></div>
+      <div class="kpi-card"><div class="kk">Active</div><div class="kv warning">${activeGames.length}</div></div>
       <div class="kpi-card"><div class="kk">Won</div><div class="kv success">${won}</div></div>
-      <div class="kpi-card"><div class="kk">Lost</div><div class="kv">${lost}</div></div>
-    </div>
-
-    <div class="search-wrap">
-      ${svgIcon('search')}
-      <input type="text" placeholder="Search Game ID (MINES-...)" value="${escapeHtml(adminMinesSearch)}"
-        oninput="adminMinesSearch = this.value.toUpperCase(); render();" />
+      <div class="kpi-card"><div class="kk">Lost</div><div class="kv danger">${lost}</div></div>
     </div>
 
     <div class="card">
       <div class="card-head">
-        <div class="card-title-lg">Mines Games</div>
-        <button class="btn btn-sm btn-secondary" onclick="adminRefreshMines()">↻ Refresh</button>
+        <div class="card-title-lg">Search Games</div>
+        <button class="btn btn-sm btn-secondary" onclick="refreshAdminMines()">↻</button>
       </div>
-      <div class="list" style="margin:0 -14px -14px;border:none;background:transparent">
-        ${games.filter(g => !adminMinesSearch || g.gameId.includes(adminMinesSearch) || (g.uid||'').includes(adminMinesSearch)).slice(0, 50).map(g => `
-          <div class="list-row" style="cursor:pointer" onclick="adminOpenMines('${g.gameId}')">
-            <div class="avatar ${g.status==='WON'?'won':g.status==='LOST'?'lost':'team-a'}">
-              ${g.status==='WON'?'✓':g.status==='LOST'?'✗':'💎'}
-            </div>
-            <div class="lr-body">
-              <div class="lr-title" style="font-family:ui-monospace,monospace;font-size:11px">
-                ${escapeHtml(g.gameId)}
+      <input type="text" placeholder="Search Game ID / UID"
+        value="${escapeHtml(state.mines.adminSearch)}"
+        oninput="state.mines.adminSearch = this.value.toUpperCase(); render();"
+        style="width:100%;padding:11px 14px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:14px" />
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title-lg">All Games (${filtered.length})</div>
+      </div>
+      ${state.mines.adminLoading ? '<div class="empty"><span class="spinner"></span></div>' :
+        filtered.length === 0 ? '<div class="empty">No games</div>' :
+        filtered.slice(0, 50).map(g => {
+          const statusCls = g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : g.status === 'REFUND' ? 'refund' : 'active';
+          return `
+            <div class="list-row" style="cursor:pointer" onclick="adminOpenMines('${g.gameId}')">
+              <div class="avatar ${g.status === 'WON' ? 'won' : g.status === 'LOST' ? 'lost' : 'team-a'}">
+                ${g.status === 'WON' ? '✓' : g.status === 'LOST' ? '✗' : g.status === 'REFUND' ? '↩' : '💎'}
               </div>
-              <div class="lr-sub">${escapeHtml(g.userName||g.uid?.slice(0,8))} • 💣${g.mineCount} • 🪙${g.stake} • ${(g.revealedSafe||[]).length} safe</div>
+              <div class="lr-body">
+                <div class="lr-title" style="font-family:ui-monospace,monospace;font-size:11px">${escapeHtml(g.gameId)}</div>
+                <div class="lr-sub">${escapeHtml(g.userName || g.uid?.slice(0,8) || '')} • 💣${g.mineCount} • 🪙${g.stake} • ${(g.revealedSafe||[]).length} safe</div>
+              </div>
+              <div class="lr-right">
+                <span class="badge ${statusCls}">${g.status}</span>
+                <div class="lr-meta">${timeAgo(g.createdAt)}</div>
+              </div>
             </div>
-            <div class="lr-right">
-              <span class="badge ${g.status==='WON'?'won':g.status==='LOST'?'lost':'active'}">${g.status}</span>
-              <div class="lr-meta">${timeAgo(g.createdAt)}</div>
-            </div>
-          </div>
-        `).join('') || '<div class="empty">No games</div>'}
-      </div>
+          `;
+        }).join('')
+      }
     </div>
   `;
 }
 
-window.adminRefreshMines = async () => {
-  state.minesGames = [];
-  await viewAdminMines();
-  render();
-};
+window.refreshAdminMines = () => { /* auto via listener */ toast('Auto-updating', 'ok'); };
 
 window.adminOpenMines = async (gameId) => {
   try {
     const gSnap = await getDoc(doc(db, 'minesGames', gameId));
     const pSnap = await getDoc(doc(db, 'minesGamesPrivate', gameId));
-    if (!gSnap.exists()) return toast('Game not found', 'err');
+    if (!gSnap.exists()) return toast('Not found', 'err');
     const g = gSnap.data();
     const mines = pSnap.exists() ? (pSnap.data().minePositions || []) : [];
-    openSheet(`Game ${g.gameId}`, `
-      <div style="font-family:ui-monospace,monospace;font-size:12px;font-weight:800;margin-bottom:10px;padding:10px;background:var(--surface-2);border-radius:8px">${g.gameId}</div>
-      <div class="list">
-        <div class="list-row"><div class="lr-body"><div class="lr-title">User</div></div><div class="lr-right"><div class="lr-amount">${escapeHtml(g.userName||'—')}</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">UID</div></div><div class="lr-right"><div class="lr-amount" style="font-size:10px">${g.uid}</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">Status</div></div><div class="lr-right"><span class="badge ${g.status==='WON'?'won':g.status==='LOST'?'lost':'active'}">${g.status}</span></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">Mines</div></div><div class="lr-right"><div class="lr-amount">${g.mineCount}</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">Stake</div></div><div class="lr-right"><div class="lr-amount">🪙 ${g.stake}</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">Payout</div></div><div class="lr-right"><div class="lr-amount up">🪙 ${g.payout||0}</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">Multiplier</div></div><div class="lr-right"><div class="lr-amount">${(g.multiplier||0).toFixed(2)}X</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">Safe Tiles</div></div><div class="lr-right"><div class="lr-amount" style="font-size:11px">${(g.revealedSafe||[]).join(', ')||'—'}</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">🎯 Mine Positions</div></div><div class="lr-right"><div class="lr-amount" style="font-size:11px;color:var(--danger)">${mines.join(', ')||'—'}</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">Created</div></div><div class="lr-right"><div class="lr-meta">${timeAgo(g.createdAt)}</div></div></div>
+
+    const miniTiles = [];
+    for (let i = 0; i < 25; i++) {
+      const isMine = mines.includes(i);
+      const isRevealedSafe = (g.revealedSafe || []).includes(i);
+      const isRevealedMine = (g.revealedTiles || []).includes(i) && isMine;
+      let bg = 'var(--surface-2)', col = 'var(--text-3)', border = 'var(--border)';
+      if (isRevealedMine) { bg = 'rgba(239,68,68,.7)'; col = '#fff'; border = 'var(--danger)'; }
+      else if (isRevealedSafe) { bg = 'rgba(34,197,94,.4)'; col = '#fff'; border = 'var(--success)'; }
+      else if (isMine) { bg = 'rgba(239,68,68,.35)'; col = '#fff'; border = 'var(--danger)'; }
+      miniTiles.push(`<div style="aspect-ratio:1;border-radius:4px;background:${bg};color:${col};display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;border:1px solid ${border}">${i}</div>`);
+    }
+
+    openSheet('Game ' + g.gameId, `
+      <div style="font-family:ui-monospace,monospace;font-size:12px;font-weight:800;margin-bottom:12px;padding:10px;background:var(--surface-2);border-radius:8px;text-align:center">
+        ${g.gameId}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin:8px 0">${miniTiles.join('')}</div>
+      <div class="txt-xs txt-3 txt-center" style="margin-bottom:12px">
+        🔴 Mine · 🟢 Revealed Safe · ⚪ Unrevealed
+      </div>
+      <div class="list" style="background:transparent">
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <span class="txt-3 txt-xs">User</span><b>${escapeHtml(g.userName||'—')}</b>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <span class="txt-3 txt-xs">UID</span><b style="font-size:10px;font-family:ui-monospace,monospace">${g.uid}</b>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <span class="txt-3 txt-xs">Status</span>
+          <span class="badge ${g.status==='WON'?'won':g.status==='LOST'?'lost':g.status==='REFUND'?'refund':'active'}">${g.status}</span>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <span class="txt-3 txt-xs">Result</span><b>${g.result||'—'}</b>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <span class="txt-3 txt-xs">Mines</span><b>${g.mineCount}</b>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <span class="txt-3 txt-xs">Stake</span><b>🪙 ${g.stake}</b>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <span class="txt-3 txt-xs">Payout</span><b style="color:var(--success)">🪙 ${g.payout||0}</b>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <span class="txt-3 txt-xs">Multiplier</span><b>${(g.multiplier||0).toFixed(2)}X</b>
+        </div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px">
+          <span class="txt-3 txt-xs">Safe Tiles</span><b style="font-size:11px;text-align:right">${(g.revealedSafe||[]).join(', ')||'—'}</b>
+        </div>
+        <div style="padding:8px 0;display:flex;justify-content:space-between;gap:12px">
+          <span class="txt-3 txt-xs">🎯 Mine Positions</span><b style="font-size:11px;color:var(--danger);text-align:right">${mines.join(', ')||'—'}</b>
+        </div>
       </div>
     `);
-  } catch(e) { toast('Failed','err'); }
+  } catch(e) { console.error(e); toast('Failed', 'err'); }
 };
 
-/* SETTINGS */
+/* ADMIN — SETTINGS */
 function viewAdminSettings() {
   const s = state.settings || { baseWinRate: 25, baseRate: 2, maxRounds: 8 };
   return `
@@ -2516,16 +2443,16 @@ function viewAdminSettings() {
       <div class="card-head"><div class="card-title-lg">⚙️ Survivor Settings</div></div>
       <div class="form-field"><label>Base Win Rate (%)</label>
         <input id="setWin" type="number" min="0" max="100" value="${s.baseWinRate}" /></div>
-      <div class="form-field"><label>Base Rate (X) — max 100</label>
+      <div class="form-field"><label>Base Rate (X)</label>
         <input id="setRate" type="number" min="1.01" max="100" step="0.01" value="${s.baseRate}" /></div>
-      <div class="form-field"><label>Max Rounds (6-8)</label>
+      <div class="form-field"><label>Max Rounds</label>
         <input id="setMaxR" type="number" min="6" max="8" value="${s.maxRounds||8}" /></div>
-      <button class="btn" onclick="saveSettings()">Save Settings</button>
+      <button class="btn" onclick="saveSettings()">Save</button>
     </div>
 
     <div class="card">
-      <div class="card-head"><div class="card-title-lg">💎 Mines Settings</div></div>
-      <div class="txt-sm txt-3">Mines game uses same balance. Config in-game by player.</div>
+      <div class="card-head"><div class="card-title-lg">💎 Mines Info</div></div>
+      <div class="txt-sm txt-3">Max 24X per round. 1 mine = 24 safe tiles.</div>
     </div>
 
     <div class="card">
@@ -2547,18 +2474,6 @@ window.saveSettings = async () => {
   } catch(e) { toast('Failed','err'); }
 };
 
-/* 404 */
-function view404() {
-  return `
-    <div class="not-found">
-      <div class="nf-code">404</div>
-      <div class="nf-title">Page Not Found</div>
-      <div class="nf-sub">The route <b>${escapeHtml(state.route404||'')}</b> doesn't exist in this app.</div>
-      <button class="btn" style="max-width:220px;margin-top:20px" onclick="nav('home')">Go Home</button>
-    </div>
-  `;
-}
-
 /* SHEET */
 window.openSheet = (title, body) => {
   const root = document.getElementById('modalRoot');
@@ -2568,7 +2483,9 @@ window.openSheet = (title, body) => {
         <div class="sheet-handle"></div>
         <div class="sheet-head">
           <h3>${title}</h3>
-          <button class="sheet-close" onclick="closeSheet()">${svgIcon('close')}</button>
+          <button class="sheet-close" onclick="closeSheet()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
         </div>
         <div class="sheet-body">${body}</div>
       </div>
@@ -2577,14 +2494,7 @@ window.openSheet = (title, body) => {
 };
 window.closeSheet = () => { document.getElementById('modalRoot').innerHTML = ''; };
 
-/* currentRound */
-function currentRound() {
-  const m = currentMatch();
-  if (!m || !m.currentRound) return null;
-  return state.rounds.find(r => r.roundNumber === m.currentRound && r.matchId === m.id) || null;
-}
-
-setTimeout(updateThemeIcon, 100);
+render();
 </script>
 </body>
 </html>
