@@ -4,442 +4,139 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0B0D10">
-<title>FF 4v4 Custom — Tournament Management</title>
+<title>FF 4v4 Custom — Tournament Hub</title>
 <style>
-/* ============================================================
-   DESIGN TOKENS
-   ============================================================ */
 :root{
-  --bg:#0B0D10;
-  --surface:#11151A;
-  --surface-2:#171C22;
-  --surface-3:#1D242C;
-  --border:#252B33;
-  --border-2:#2E3742;
-  --primary:#FF5A1F;
-  --primary-dim:#CC4818;
-  --primary-soft:rgba(255,90,31,.12);
-  --text:#F2F4F7;
-  --text-2:#929AA6;
-  --text-3:#5D6672;
-  --success:#22C55E;
-  --success-soft:rgba(34,197,94,.12);
-  --danger:#EF4444;
-  --danger-soft:rgba(239,68,68,.12);
-  --warning:#F59E0B;
-  --warning-soft:rgba(245,158,11,.12);
-  --info:#3B82F6;
-  --info-soft:rgba(59,130,246,.12);
-  --r:8px;
-  --r-lg:12px;
-  --r-sm:6px;
-  --shadow-1:0 1px 2px rgba(0,0,0,.4);
-  --shadow-2:0 4px 12px rgba(0,0,0,.35);
-  --shadow-3:0 12px 32px rgba(0,0,0,.5);
-  --header-h:56px;
-  --bottom-nav-h:56px;
+  --bg:#0B0D10; --surface:#11151A; --surface-2:#171C22; --surface-3:#1D242C;
+  --border:#252B33; --border-2:#2E3742;
+  --primary:#FF5A1F; --primary-soft:rgba(255,90,31,.12);
+  --text:#F2F4F7; --text-2:#929AA6; --text-3:#5D6672;
+  --success:#22C55E; --success-soft:rgba(34,197,94,.12);
+  --danger:#EF4444; --danger-soft:rgba(239,68,68,.12);
+  --warning:#F59E0B; --warning-soft:rgba(245,158,11,.12);
+  --info:#3B82F6; --info-soft:rgba(59,130,246,.12);
+  --gold:#F5B400;
+  --r:8px; --r-lg:12px; --r-sm:6px;
+  --header-h:56px; --bottom-nav-h:56px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{
-  background:var(--bg);color:var(--text);
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  font-size:14px;line-height:1.5;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow-x:hidden;
-}
+html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
-a{color:inherit;text-decoration:none}
-input,select,textarea{
-  width:100%;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:var(--r-sm);
-  padding:10px 12px;
-  color:var(--text);
-  font-size:14px;
-  outline:none;
-  transition:border-color .12s,background .12s;
-  min-height:42px;
-}
-input:focus,select:focus,textarea:focus{
-  border-color:var(--primary);
-  background:#0D1116;
-}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-size:14px;outline:none;transition:border-color .12s;min-height:42px}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);background:#0D1116}
 input::placeholder,textarea::placeholder{color:var(--text-3)}
-input:disabled,select:disabled,textarea:disabled{
-  background:var(--surface-2);color:var(--text-2);cursor:not-allowed;
-}
-select{
-  appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23929AA6' d='M0 0h10L5 6z'/></svg>");
-  background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;
-}
+input:disabled{background:var(--surface-2);color:var(--text-2);cursor:not-allowed}
+select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23929AA6' d='M0 0h10L5 6z'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 textarea{resize:vertical;min-height:64px}
-
 .hidden{display:none!important}
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  padding:0 14px;height:38px;
-  border-radius:var(--r-sm);
-  font-size:13px;font-weight:600;
-  border:1px solid transparent;
-  transition:background .12s,border-color .12s,color .12s,opacity .12s;
-  white-space:nowrap;user-select:none;
-  letter-spacing:-.01em;
-}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px;height:38px;border-radius:var(--r-sm);font-size:13px;font-weight:600;border:1px solid transparent;transition:all .12s;white-space:nowrap;user-select:none}
 .btn:active{transform:translateY(1px)}
 .btn:disabled{opacity:.45;pointer-events:none}
 .btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
-.btn-primary:hover{background:#FF6B33;border-color:#FF6B33}
+.btn-primary:hover{background:#FF6B33}
 .btn-ghost{background:transparent;border-color:var(--border);color:var(--text-2)}
 .btn-ghost:hover{border-color:var(--border-2);color:var(--text)}
 .btn-danger{background:var(--danger);color:#fff;border-color:var(--danger)}
-.btn-danger:hover{background:#F15A5A}
 .btn-success{background:var(--success);color:#05130A;border-color:var(--success)}
-.btn-success:hover{background:#2DD169}
-.btn-sm{height:32px;padding:0 10px;font-size:12px;border-radius:var(--r-sm)}
+.btn-sm{height:32px;padding:0 10px;font-size:12px}
 .btn-lg{height:44px;padding:0 18px;font-size:14px}
 .btn-block{width:100%}
-.btn-icon{
-  width:32px;height:32px;padding:0;display:inline-flex;
-  align-items:center;justify-content:center;
-  border:1px solid var(--border);border-radius:var(--r-sm);
-  color:var(--text-2);background:transparent;
-}
-.btn-icon:hover{color:var(--text);border-color:var(--border-2)}
 
-/* ============================================================
-   FORM
-   ============================================================ */
 .field{margin-bottom:12px}
-.field label{
-  display:block;
-  font-size:11px;font-weight:600;
-  color:var(--text-2);
-  text-transform:uppercase;
-  letter-spacing:.05em;
-  margin-bottom:5px;
-}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .field-hint{font-size:11px;color:var(--text-3);margin-top:4px}
 
-/* ============================================================
-   ALERT
-   ============================================================ */
-.alert{
-  padding:10px 12px;
-  border-radius:var(--r-sm);
-  font-size:12.5px;
-  line-height:1.5;
-  border:1px solid;
-  margin-bottom:12px;
-  display:flex;gap:8px;align-items:flex-start;
-}
-.alert-icon{flex-shrink:0;font-size:14px;line-height:1.4}
+.alert{padding:10px 12px;border-radius:var(--r-sm);font-size:12.5px;line-height:1.5;border:1px solid;margin-bottom:12px;display:flex;gap:8px;align-items:flex-start}
 .alert-err{background:var(--danger-soft);border-color:rgba(239,68,68,.28);color:#FCA5A5}
 .alert-ok{background:var(--success-soft);border-color:rgba(34,197,94,.28);color:#86EFAC}
 .alert-info{background:var(--info-soft);border-color:rgba(59,130,246,.28);color:#93C5FD}
 .alert-warn{background:var(--warning-soft);border-color:rgba(245,158,11,.28);color:#FCD34D}
 
-/* ============================================================
-   AUTH SCREEN
-   ============================================================ */
-.auth-screen{
-  min-height:100vh;
-  background:
-    radial-gradient(1200px 600px at 50% -10%, rgba(255,90,31,.06), transparent 60%),
-    var(--bg);
-  display:flex;flex-direction:column;
-  padding:20px 16px calc(20px + env(safe-area-inset-bottom));
-}
-.auth-shell{
-  flex:1;display:flex;align-items:center;justify-content:center;
-}
-.auth-panel{
-  width:100%;max-width:400px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r-lg);
-  padding:24px 22px 22px;
-  box-shadow:var(--shadow-3);
-}
-.auth-brand{
-  display:flex;align-items:center;gap:10px;
-  padding-bottom:18px;
-  border-bottom:1px solid var(--border);
-  margin-bottom:20px;
-}
-.brand-mark{
-  width:34px;height:34px;border-radius:8px;
-  background:linear-gradient(135deg,#FF5A1F,#E0430A);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
+.auth-screen{min-height:100vh;background:radial-gradient(1200px 600px at 50% -10%,rgba(255,90,31,.06),transparent 60%),var(--bg);display:flex;flex-direction:column;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}
+.auth-shell{flex:1;display:flex;align-items:center;justify-content:center}
+.auth-panel{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px 22px 22px;box-shadow:0 12px 32px rgba(0,0,0,.5)}
+.auth-brand{display:flex;align-items:center;gap:10px;padding-bottom:18px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.brand-mark{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#FF5A1F,#E0430A);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .brand-mark svg{width:20px;height:20px}
-.brand-title{font-size:14px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.brand-title{font-size:14px;font-weight:700;letter-spacing:-.01em}
 .brand-subtitle{font-size:11px;color:var(--text-3);letter-spacing:.02em;text-transform:uppercase;font-weight:500;margin-top:2px}
 
-.auth-tabs{
-  display:flex;gap:2px;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:var(--r-sm);
-  padding:3px;margin-bottom:18px;
-}
-.auth-tab{
-  flex:1;padding:8px 6px;
-  background:transparent;color:var(--text-3);
-  font-size:12.5px;font-weight:600;
-  border-radius:5px;
-  transition:all .12s;
-  letter-spacing:-.01em;
-}
-.auth-tab.on{background:var(--surface-3);color:var(--text);box-shadow:var(--shadow-1)}
-.auth-tab:hover:not(.on){color:var(--text-2)}
-
+.auth-tabs{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:3px;margin-bottom:18px}
+.auth-tab{flex:1;padding:8px 6px;background:transparent;color:var(--text-3);font-size:12.5px;font-weight:600;border-radius:5px;transition:all .12s}
+.auth-tab.on{background:var(--surface-3);color:var(--text)}
 .auth-title{font-size:19px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
 .auth-desc{font-size:12.5px;color:var(--text-2);margin-bottom:18px;line-height:1.5}
 
-/* ============================================================
-   APP SHELL
-   ============================================================ */
 .app{display:none;min-height:100vh}
 .app.on{display:block}
-
-/* Mobile header */
-.app-header{
-  position:sticky;top:0;z-index:50;
-  height:var(--header-h);
-  background:rgba(11,13,16,.92);
-  backdrop-filter:saturate(180%) blur(12px);
-  -webkit-backdrop-filter:saturate(180%) blur(12px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;
-  padding:0 14px;gap:10px;
-}
+.app-header{position:sticky;top:0;z-index:50;height:var(--header-h);background:rgba(11,13,16,.92);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:10px}
 .app-header .brand-mark{width:28px;height:28px;border-radius:7px}
 .app-header .brand-mark svg{width:16px;height:16px}
-.app-header-title{font-size:13.5px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.app-header-title{font-size:13.5px;font-weight:700}
 .app-header-sub{font-size:10.5px;color:var(--text-3);letter-spacing:.02em;text-transform:uppercase;font-weight:500}
 .app-header-spacer{flex:1}
-.header-user{
-  display:flex;align-items:center;gap:8px;
-  padding:5px 10px 5px 5px;
-  border:1px solid var(--border);
-  border-radius:100px;
-  background:var(--surface);
-  cursor:pointer;
-  transition:border-color .12s;
-}
-.header-user:hover{border-color:var(--border-2)}
-.header-user-avatar{
-  width:24px;height:24px;border-radius:50%;
-  background:linear-gradient(135deg,#FF5A1F,#E0430A);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:#fff;
-}
+.header-user{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border:1px solid var(--border);border-radius:100px;background:var(--surface);cursor:pointer}
+.header-user-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#FF5A1F,#E0430A);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
 .header-user-name{font-size:12px;font-weight:600;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* Main content */
-.app-main{
-  padding:16px 14px calc(var(--bottom-nav-h) + 20px + env(safe-area-inset-bottom));
-  max-width:100%;
-}
+.app-main{padding:16px 14px calc(var(--bottom-nav-h) + 20px + env(safe-area-inset-bottom));max-width:100%}
 .page-head{margin-bottom:16px}
-.page-head h1{
-  font-size:19px;font-weight:700;letter-spacing:-.02em;
-  line-height:1.2;
-}
+.page-head h1{font-size:19px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
 .page-head p{font-size:12.5px;color:var(--text-2);margin-top:2px}
 .page-head-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 
-/* Bottom nav (mobile) */
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;
-  height:calc(var(--bottom-nav-h) + env(safe-area-inset-bottom));
-  padding-bottom:env(safe-area-inset-bottom);
-  background:rgba(11,13,16,.96);
-  backdrop-filter:saturate(180%) blur(12px);
-  -webkit-backdrop-filter:saturate(180%) blur(12px);
-  border-top:1px solid var(--border);
-  display:flex;z-index:100;
-}
-.bottom-nav-item{
-  flex:1;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:2px;
-  color:var(--text-3);
-  font-size:10px;font-weight:600;
-  letter-spacing:.01em;
-  padding:6px 2px;
-  transition:color .12s;
-  min-width:0;
-}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--bottom-nav-h) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(11,13,16,.96);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-top:1px solid var(--border);display:flex;z-index:100}
+.bottom-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--text-3);font-size:10px;font-weight:600;padding:6px 2px;transition:color .12s;min-width:0}
 .bottom-nav-item svg{width:20px;height:20px;stroke-width:1.8}
 .bottom-nav-item.on{color:var(--primary)}
-.bottom-nav-item .badge-dot{
-  position:absolute;top:6px;right:calc(50% - 14px);
-  width:6px;height:6px;border-radius:50%;
-  background:var(--danger);
-}
 
-/* Desktop sidebar */
-.sidebar{
-  display:none;
-  width:220px;flex-shrink:0;
-  background:var(--surface);
-  border-right:1px solid var(--border);
-  padding:16px 12px;
-  position:sticky;top:0;height:100vh;
-  overflow-y:auto;
-}
-.sidebar-brand{
-  display:flex;align-items:center;gap:10px;
-  padding:4px 6px 16px;
-  border-bottom:1px solid var(--border);
-  margin-bottom:12px;
-}
+.sidebar{display:none;width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:16px 12px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:4px 6px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
 .sidebar-brand .brand-mark{width:30px;height:30px}
-.sidebar-section{
-  font-size:10px;font-weight:700;
-  color:var(--text-3);
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  padding:14px 8px 6px;
-}
-.sidebar-item{
-  display:flex;align-items:center;gap:10px;
-  padding:8px 10px;margin-bottom:1px;
-  border-radius:var(--r-sm);
-  color:var(--text-2);
-  font-size:13px;font-weight:500;
-  letter-spacing:-.01em;
-  transition:background .12s,color .12s;
-  width:100%;text-align:left;
-}
+.sidebar-section{font-size:10px;font-weight:700;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;padding:14px 8px 6px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:1px;border-radius:var(--r-sm);color:var(--text-2);font-size:13px;font-weight:500;transition:all .12s;width:100%;text-align:left}
 .sidebar-item:hover{background:var(--surface-2);color:var(--text)}
 .sidebar-item.on{background:var(--surface-3);color:var(--primary);font-weight:600}
 .sidebar-item svg{width:16px;height:16px;flex-shrink:0;stroke-width:1.8}
-.sidebar-item .badge-count{
-  margin-left:auto;font-size:10px;font-weight:700;
-  background:var(--primary);color:#fff;
-  padding:1px 6px;border-radius:100px;
-  line-height:1.4;
-}
-.sidebar-user{
-  margin-top:auto;
-  border-top:1px solid var(--border);
-  padding-top:10px;
-}
+.sidebar-user{margin-top:auto;border-top:1px solid var(--border);padding-top:10px}
 
-/* Desktop shell */
 @media(min-width:768px){
   .shell{display:flex;min-height:100vh}
   .sidebar{display:flex;flex-direction:column}
   .app-header{display:none}
   .bottom-nav{display:none}
-  .app-main{
-    flex:1;
-    padding:22px 28px 28px;
-    max-width:1400px;
-    margin:0 auto;
-    width:100%;
-  }
+  .app-main{flex:1;padding:22px 28px 28px;max-width:1400px;margin:0 auto;width:100%}
   .page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .page-head h1{font-size:22px}
   .page-head-actions{margin-top:0}
-  .field-row{grid-template-columns:1fr 1fr}
 }
 
-/* ============================================================
-   CARDS
-   ============================================================ */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r-lg);
-  padding:14px;
-}
-.card + .card{margin-top:10px}
-.card-header{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-bottom:12px;
-  padding-bottom:12px;
-  border-bottom:1px solid var(--border);
-}
-.card-header h2{
-  font-size:13.5px;font-weight:700;letter-spacing:-.01em;
-}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px}
+.card+.card{margin-top:10px}
+.card-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.card-header h2{font-size:13.5px;font-weight:700}
 .card-header-sub{font-size:11px;color:var(--text-3);margin-top:2px}
 
-/* Stat grid */
-.stat-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;margin-bottom:14px;
-}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
 @media(min-width:600px){.stat-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:960px){.stat-grid{grid-template-columns:repeat(6,1fr)}}
-
-.stat{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:12px;
-  position:relative;
-  overflow:hidden;
-  transition:border-color .12s;
-}
-.stat:hover{border-color:var(--border-2)}
-.stat-label{
-  font-size:10.5px;font-weight:600;
-  color:var(--text-3);
-  letter-spacing:.05em;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-.stat-value{
-  font-size:22px;font-weight:800;
-  letter-spacing:-.03em;
-  line-height:1;
-  color:var(--text);
-}
-.stat-value.dim{color:var(--text-2)}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px;position:relative;overflow:hidden}
+.stat-label{font-size:10.5px;font-weight:600;color:var(--text-3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.stat-value{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--text)}
 .stat-value.primary{color:var(--primary)}
 .stat-value.success{color:var(--success)}
 .stat-value.warn{color:var(--warning)}
 .stat-value.danger{color:var(--danger)}
-.stat-accent{
-  position:absolute;
-  top:0;left:0;width:2px;height:100%;
-  background:var(--primary);opacity:.85;
-}
+.stat-accent{position:absolute;top:0;left:0;width:2px;height:100%;background:var(--primary)}
 .stat-accent.success{background:var(--success)}
 .stat-accent.warn{background:var(--warning)}
 .stat-accent.info{background:var(--info)}
 
-/* ============================================================
-   STATUS BADGES
-   ============================================================ */
-.badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:2px 8px;height:20px;
-  border-radius:4px;
-  font-size:10.5px;font-weight:700;
-  letter-spacing:.03em;text-transform:uppercase;
-  white-space:nowrap;
-  border:1px solid transparent;
-}
-.badge::before{
-  content:'';width:5px;height:5px;border-radius:50%;
-  background:currentColor;flex-shrink:0;
-}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;height:20px;border-radius:4px;font-size:10.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;border:1px solid transparent}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
 .badge-active{background:var(--success-soft);color:#4ADE80;border-color:rgba(34,197,94,.22)}
 .badge-pending,.badge-pending_approval{background:var(--warning-soft);color:#FBBF24;border-color:rgba(245,158,11,.22)}
 .badge-invited{background:var(--info-soft);color:#60A5FA;border-color:rgba(59,130,246,.22)}
@@ -449,664 +146,195 @@ textarea{resize:vertical;min-height:64px}
 .badge-completed{background:var(--success-soft);color:#4ADE80;border-color:rgba(34,197,94,.22)}
 .badge-cancelled{background:rgba(120,120,120,.12);color:#9CA3AF;border-color:rgba(120,120,120,.2)}
 .badge-approved{background:var(--success-soft);color:#4ADE80;border-color:rgba(34,197,94,.22)}
-.badge-pending{background:var(--warning-soft);color:#FBBF24;border-color:rgba(245,158,11,.22)}
+.badge-won{background:var(--success-soft);color:#4ADE80;border-color:rgba(34,197,94,.22)}
+.badge-lost{background:var(--danger-soft);color:#F87171;border-color:rgba(239,68,68,.22)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
 
-/* ============================================================
-   LIST / ROW
-   ============================================================ */
 .list{display:flex;flex-direction:column}
-.row{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 0;
-  border-bottom:1px solid var(--border);
-}
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .row:last-child{border-bottom:none}
 .row-info{flex:1;min-width:0}
-.row-title{
-  font-size:13.5px;font-weight:600;
-  display:flex;align-items:center;gap:8px;
-  flex-wrap:wrap;
-  letter-spacing:-.01em;
-}
+.row-title{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .row-sub{font-size:11.5px;color:var(--text-2);margin-top:2px;line-height:1.5}
-.row-sub + .row-sub{margin-top:1px}
 .row-meta{font-size:11px;color:var(--text-3);margin-top:2px}
-.row-actions{
-  display:flex;gap:6px;flex-wrap:wrap;
-  align-items:center;flex-shrink:0;
-}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;flex-shrink:0}
 .row-pointer{cursor:pointer;transition:background .12s}
-.row-pointer:hover{background:rgba(255,255,255,.02);margin:0 -8px;padding-left:8px;padding-right:8px}
+.row-pointer:hover{background:rgba(255,255,255,.02)}
 
-/* Empty state */
-.empty{
-  text-align:center;
-  padding:36px 20px;
-  color:var(--text-3);
-}
-.empty svg{
-  width:32px;height:32px;
-  opacity:.35;margin-bottom:10px;
-  stroke-width:1.5;
-}
+.empty{text-align:center;padding:36px 20px;color:var(--text-3)}
+.empty svg{width:32px;height:32px;opacity:.35;margin-bottom:10px;stroke-width:1.5}
 .empty-title{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:4px}
 .empty-sub{font-size:11.5px;color:var(--text-3)}
 
-/* ============================================================
-   FILTER CHIPS
-   ============================================================ */
-.chips{
-  display:flex;gap:6px;
-  overflow-x:auto;
-  padding-bottom:4px;
-  margin-bottom:14px;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{
-  padding:5px 11px;
-  border-radius:100px;
-  background:transparent;
-  border:1px solid var(--border);
-  color:var(--text-2);
-  font-size:12px;font-weight:600;
-  white-space:nowrap;
-  transition:all .12s;
-  letter-spacing:-.01em;
-}
+.chip{padding:5px 11px;border-radius:100px;background:transparent;border:1px solid var(--border);color:var(--text-2);font-size:12px;font-weight:600;white-space:nowrap;transition:all .12s}
 .chip:hover{border-color:var(--border-2);color:var(--text)}
 .chip.on{background:var(--primary);border-color:var(--primary);color:#fff}
 
-/* ============================================================
-   TOAST
-   ============================================================ */
-.toast-container{
-  position:fixed;
-  top:calc(var(--header-h) + 10px);
-  left:50%;transform:translateX(-50%);
-  z-index:9999;
-  display:flex;flex-direction:column;gap:6px;
-  width:calc(100% - 24px);max-width:420px;
-  pointer-events:none;
-}
-@media(min-width:768px){
-  .toast-container{top:16px}
-}
-.toast{
-  background:var(--surface-2);
-  border:1px solid var(--border-2);
-  border-left:3px solid var(--primary);
-  border-radius:var(--r-sm);
-  padding:10px 12px;
-  font-size:12.5px;
-  box-shadow:var(--shadow-2);
-  pointer-events:auto;
-  animation:tIn .18s ease;
-  display:flex;gap:8px;align-items:flex-start;
-  line-height:1.45;
-}
+.toast-container{position:fixed;top:calc(var(--header-h) + 10px);left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:6px;width:calc(100% - 24px);max-width:420px;pointer-events:none}
+@media(min-width:768px){.toast-container{top:16px}}
+.toast{background:var(--surface-2);border:1px solid var(--border-2);border-left:3px solid var(--primary);border-radius:var(--r-sm);padding:10px 12px;font-size:12.5px;box-shadow:0 4px 12px rgba(0,0,0,.35);pointer-events:auto;animation:tIn .18s ease;display:flex;gap:8px;align-items:flex-start;line-height:1.45}
 .toast.ok{border-left-color:var(--success)}
 .toast.err{border-left-color:var(--danger)}
 .toast.info{border-left-color:var(--info)}
 @keyframes tIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 
-/* ============================================================
-   MODAL
-   ============================================================ */
-.modal-mask{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(3px);
-  -webkit-backdrop-filter:blur(3px);
-  display:flex;align-items:flex-end;justify-content:center;
-  z-index:9998;
-  padding:0;
-}
-@media(min-width:600px){
-  .modal-mask{align-items:center;padding:20px}
-}
-.modal{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r-lg) var(--r-lg) 0 0;
-  padding:18px 16px calc(18px + env(safe-area-inset-bottom));
-  width:100%;max-width:520px;
-  max-height:88vh;
-  overflow-y:auto;
-  animation:mUp .2s ease;
-  box-shadow:var(--shadow-3);
-}
-@media(min-width:600px){
-  .modal{border-radius:var(--r-lg);padding-bottom:18px}
-  .modal-lg{max-width:640px}
-}
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;z-index:9998;padding:0}
+@media(min-width:600px){.modal-mask{align-items:center;padding:20px}}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:520px;max-height:88vh;overflow-y:auto;animation:mUp .2s ease;box-shadow:0 -12px 32px rgba(0,0,0,.5)}
+@media(min-width:600px){.modal{border-radius:var(--r-lg);padding-bottom:18px}.modal-lg{max-width:640px}}
 @keyframes mUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal-handle{
-  width:36px;height:3px;
-  background:var(--border-2);
-  border-radius:100px;
-  margin:0 auto 14px;
-  display:block;
-}
+.modal-handle{width:36px;height:3px;background:var(--border-2);border-radius:100px;margin:0 auto 14px;display:block}
 @media(min-width:600px){.modal-handle{display:none}}
-.modal-head{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  gap:10px;margin-bottom:14px;
-}
-.modal-head h3{
-  font-size:15px;font-weight:700;letter-spacing:-.01em;line-height:1.3;
-}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+.modal-head h3{font-size:15px;font-weight:700;line-height:1.3}
 .modal-head p{font-size:12px;color:var(--text-2);margin-top:2px}
-.modal-close{
-  width:28px;height:28px;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:var(--r-sm);
-  color:var(--text-3);
-  flex-shrink:0;
-  transition:all .12s;
-}
+.modal-close{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:var(--r-sm);color:var(--text-3);flex-shrink:0;transition:all .12s}
 .modal-close:hover{background:var(--surface-3);color:var(--text)}
 .modal-close svg{width:16px;height:16px}
-.modal-actions{
-  display:flex;gap:8px;
-  margin-top:16px;
-  justify-content:flex-end;
-  flex-wrap:wrap;
-}
+.modal-actions{display:flex;gap:8px;margin-top:16px;justify-content:flex-end;flex-wrap:wrap}
 
-/* ============================================================
-   LIVE MATCH ARENA
-   ============================================================ */
-.arena{
-  background:
-    linear-gradient(180deg,#0D1116 0%,#101520 100%);
-  border:1px solid var(--border);
-  border-radius:var(--r-lg);
-  overflow:hidden;
-  margin-bottom:12px;
-}
-.arena-head{
-  padding:10px 14px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;background:rgba(255,90,31,.04);
-}
-.arena-title{
-  font-size:11px;font-weight:700;
-  color:var(--primary);
-  letter-spacing:.1em;text-transform:uppercase;
-  display:flex;align-items:center;gap:6px;
-}
-.arena-title::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--danger);
-  animation:pulse 1.6s infinite;
-}
-.arena-id{font-size:10.5px;color:var(--text-3);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-
+.arena{background:linear-gradient(180deg,#0D1116 0%,#101520 100%);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:12px}
+.arena-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,90,31,.04)}
+.arena-title{font-size:11px;font-weight:700;color:var(--primary);letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.arena-title::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--danger);animation:pulse 1.6s infinite}
+.arena-id{font-size:10.5px;color:var(--text-3);font-family:ui-monospace,Menlo,monospace}
 .arena-body{padding:18px 14px}
-.scoreboard{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  align-items:center;
-  gap:10px;
-  margin-bottom:14px;
-}
+.scoreboard{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:14px}
 .team-block{text-align:center;min-width:0}
-.team-block-name{
-  font-size:11px;font-weight:700;
-  color:var(--text-2);
-  letter-spacing:.04em;text-transform:uppercase;
-  margin-bottom:6px;
-  word-break:break-word;
-  line-height:1.3;
-}
-.team-block-score{
-  font-size:36px;font-weight:900;
-  line-height:1;letter-spacing:-.04em;
-  color:var(--text);
-  font-variant-numeric:tabular-nums;
-}
+.team-block-name{font-size:11px;font-weight:700;color:var(--text-2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px;word-break:break-word}
+.team-block-score{font-size:36px;font-weight:900;line-height:1;letter-spacing:-.04em;color:var(--text);font-variant-numeric:tabular-nums}
 .team-block.winner .team-block-score{color:var(--primary)}
-.round-pill{
-  font-size:10.5px;font-weight:700;
-  color:var(--text-3);
-  padding:6px 10px;
-  border:1px solid var(--border);
-  border-radius:100px;
-  background:var(--bg);
-  white-space:nowrap;
-  letter-spacing:.03em;text-transform:uppercase;
-}
-.arena-winner{
-  text-align:center;
-  font-size:12px;
-  padding:8px 12px;
-  background:var(--primary-soft);
-  border:1px solid rgba(255,90,31,.28);
-  color:#FFB48C;
-  border-radius:var(--r-sm);
-  font-weight:600;
-}
-.arena-locked{
-  text-align:center;
-  font-size:11.5px;
-  padding:8px;
-  color:var(--text-3);
-  border-top:1px solid var(--border);
-  background:rgba(255,255,255,.01);
-}
+.round-pill{font-size:10.5px;font-weight:700;color:var(--text-3);padding:6px 10px;border:1px solid var(--border);border-radius:100px;background:var(--bg);white-space:nowrap;letter-spacing:.03em;text-transform:uppercase}
+.arena-winner{text-align:center;font-size:12px;padding:8px 12px;background:var(--primary-soft);border:1px solid rgba(255,90,31,.28);color:#FFB48C;border-radius:var(--r-sm);font-weight:600}
 
-/* Teams columns */
-.teams-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.team-col-head{
-  font-size:11px;font-weight:700;
-  text-align:center;
-  padding:6px 4px;
-  color:var(--text-2);
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  border-bottom:1px solid var(--border);
-  margin-bottom:8px;
-  word-break:break-word;
-}
-.player-slot{
-  background:var(--surface-2);
-  border:1px solid var(--border);
-  border-radius:var(--r-sm);
-  padding:8px 6px;
-  text-align:center;
-  margin-bottom:6px;
-  transition:all .12s;
-}
+.teams-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.team-col-head{font-size:11px;font-weight:700;text-align:center;padding:6px 4px;color:var(--text-2);letter-spacing:.04em;text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:8px;word-break:break-word}
+.player-slot{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 6px;text-align:center;margin-bottom:6px;transition:all .12s}
 .player-slot:last-child{margin-bottom:0}
-.player-slot.elim{
-  opacity:.5;
-  border-color:rgba(239,68,68,.3);
-  background:rgba(239,68,68,.04);
-}
-.player-slot-name{
-  font-size:11.5px;font-weight:600;
-  margin-bottom:3px;
-  word-break:break-word;
-  line-height:1.25;
-}
-.player-slot-status{
-  font-size:9.5px;font-weight:700;
-  letter-spacing:.06em;text-transform:uppercase;
-}
+.player-slot.elim{opacity:.5;border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.04)}
+.player-slot-name{font-size:11.5px;font-weight:600;margin-bottom:3px;word-break:break-word;line-height:1.25}
+.player-slot-status{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .player-slot:not(.elim) .player-slot-status{color:var(--success)}
 .player-slot.elim .player-slot-status{color:var(--danger)}
-.player-slot-btn{
-  margin-top:6px;
-  width:100%;
-  height:26px;
-  font-size:10.5px;
-  font-weight:700;
-  letter-spacing:.03em;
-  text-transform:uppercase;
-  background:var(--danger-soft);
-  color:#F87171;
-  border:1px solid rgba(239,68,68,.3);
-  border-radius:var(--r-sm);
-  transition:all .12s;
-}
+.player-slot-btn{margin-top:6px;width:100%;height:26px;font-size:10.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;background:var(--danger-soft);color:#F87171;border:1px solid rgba(239,68,68,.3);border-radius:var(--r-sm)}
 .player-slot-btn:hover:not(:disabled){background:var(--danger);color:#fff;border-color:var(--danger)}
-.player-slot-btn:disabled{opacity:.35;cursor:not-allowed}
 
-.elim-counter{
-  text-align:center;
-  font-size:11px;
-  color:var(--text-3);
-  margin-top:12px;
-  padding-top:12px;
-  border-top:1px solid var(--border);
-  font-variant-numeric:tabular-nums;
-}
+.elim-counter{text-align:center;font-size:11px;color:var(--text-3);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-variant-numeric:tabular-nums}
 
-/* ============================================================
-   COIN DISPLAY
-   ============================================================ */
-.coin-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(245,158,11,.09);
-  border:1px solid rgba(245,158,11,.24);
-  padding:5px 11px;
-  border-radius:100px;
-  font-weight:700;
-  color:#FBBF24;
-  font-size:12.5px;
-  font-variant-numeric:tabular-nums;
-}
+.coin-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(245,180,0,.09);border:1px solid rgba(245,180,0,.24);padding:5px 11px;border-radius:100px;font-weight:700;color:var(--gold);font-size:12.5px;font-variant-numeric:tabular-nums}
 .coin-pill svg{width:14px;height:14px}
+.coin-pill.lg{font-size:18px;padding:9px 14px}
 
-/* ============================================================
-   TABLE
-   ============================================================ */
-.table-wrap{
-  overflow-x:auto;
-  border:1px solid var(--border);
-  border-radius:var(--r-lg);
-  background:var(--surface);
-}
+.bet-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;margin-bottom:10px}
+.bet-match-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.bet-match-title{font-size:13.5px;font-weight:700;letter-spacing:-.01em}
+.bet-match-sub{font-size:11.5px;color:var(--text-2);margin-top:2px}
+.bet-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bet-option{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center;transition:all .12s;cursor:pointer;position:relative}
+.bet-option:hover{border-color:var(--border-2)}
+.bet-option.selected{border-color:var(--primary);background:var(--primary-soft)}
+.bet-option .team-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;word-break:break-word}
+.bet-option .pool{font-size:11px;color:var(--text-3);margin-bottom:4px}
+.bet-option .odds{font-size:16px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.bet-option .odds-label{font-size:9.5px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.bet-pools{display:flex;justify-content:space-between;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--text-3)}
+.bet-pools strong{color:var(--text-2)}
+
+.my-bet{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.my-bet:last-child{border-bottom:none}
+.my-bet .bet-info{flex:1;min-width:0}
+.my-bet .bet-team{font-weight:700;font-size:12px}
+.my-bet .bet-amount{font-size:11.5px;color:var(--text-3);margin-top:2px}
+.my-bet .bet-payout{text-align:right}
+.my-bet .payout-amount{font-size:14px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.my-bet .payout-label{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-lg);background:var(--surface)}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{
-  text-align:left;
-  padding:10px 12px;
-  color:var(--text-3);
-  font-size:10.5px;font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.05em;
-  background:var(--surface-2);
-  border-bottom:1px solid var(--border);
-  white-space:nowrap;
-}
-td{
-  padding:11px 12px;
-  border-bottom:1px solid var(--border);
-  white-space:nowrap;
-  color:var(--text);
-}
+th{text-align:left;padding:10px 12px;color:var(--text-3);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;background:var(--surface-2);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--border);white-space:nowrap;color:var(--text)}
 tr:last-child td{border-bottom:none}
-.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
 
-/* ============================================================
-   PLAYER MINI CARD (mobile)
-   ============================================================ */
-.player-mini{
-  display:flex;
-  align-items:flex-start;
-  gap:10px;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  background:var(--surface);
-  margin-bottom:8px;
-  transition:border-color .12s;
-}
-.player-mini:hover{border-color:var(--border-2)}
-.player-mini-avatar{
-  width:36px;height:36px;
-  border-radius:8px;
-  background:linear-gradient(135deg,#1E2530,#2A3340);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;color:var(--text-2);
-  flex-shrink:0;
-  border:1px solid var(--border);
-}
+.player-mini{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);margin-bottom:8px}
+.player-mini-avatar{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#1E2530,#2A3340);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--text-2);flex-shrink:0;border:1px solid var(--border)}
 .player-mini-body{flex:1;min-width:0}
-.player-mini-head{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-  margin-bottom:4px;
-}
-.player-mini-name{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
-.player-mini-meta{
-  font-size:11.5px;color:var(--text-2);
-  line-height:1.5;
-}
-.player-mini-meta .mono{color:var(--text-3)}
+.player-mini-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.player-mini-name{font-size:13.5px;font-weight:600}
+.player-mini-meta{font-size:11.5px;color:var(--text-2);line-height:1.5}
 
-/* ============================================================
-   MATCH CARD
-   ============================================================ */
-.match-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:12px;
-  margin-bottom:8px;
-  cursor:pointer;
-  transition:border-color .12s;
-}
+.match-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;cursor:pointer;transition:border-color .12s}
 .match-card:hover{border-color:var(--border-2)}
-.match-card-head{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  gap:10px;margin-bottom:8px;
-}
-.match-card-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;word-break:break-word}
+.match-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.match-card-title{font-size:13.5px;font-weight:600;word-break:break-word}
 .match-card-sub{font-size:11.5px;color:var(--text-2);margin-top:2px}
-.match-card-body{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;
-  padding-top:10px;
-  border-top:1px solid var(--border);
-}
-.match-score{
-  font-size:20px;font-weight:800;
-  letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums;
-  line-height:1;
-}
+.match-card-body{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px;border-top:1px solid var(--border)}
+.match-score{font-size:20px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
 .match-score .sep{color:var(--text-3);font-weight:400;margin:0 4px}
-.match-score-team{
-  font-size:10.5px;color:var(--text-3);
-  text-transform:uppercase;font-weight:600;
-  letter-spacing:.04em;
-  margin-top:4px;
-}
+.match-score-team{font-size:10.5px;color:var(--text-3);text-transform:uppercase;font-weight:600;letter-spacing:.04em;margin-top:4px}
 
-/* ============================================================
-   LOADING SKELETON
-   ============================================================ */
-.skeleton{
-  background:linear-gradient(90deg,var(--surface-2) 0%,var(--surface-3) 50%,var(--surface-2) 100%);
-  background-size:200% 100%;
-  animation:sk 1.4s linear infinite;
-  border-radius:var(--r-sm);
-  height:14px;
-}
-@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skeleton-row{padding:12px 0;border-bottom:1px solid var(--border)}
-.skeleton-row:last-child{border-bottom:none}
-
-/* Spinner */
-.spinner-inline{
-  display:inline-block;
-  width:13px;height:13px;
-  border:2px solid rgba(255,255,255,.3);
-  border-top-color:#fff;
-  border-radius:50%;
-  animation:sp .7s linear infinite;
-  vertical-align:middle;
-}
-.spinner-lg{
-  width:32px;height:32px;
-  border:3px solid var(--border);
-  border-top-color:var(--primary);
-  border-radius:50%;
-  animation:sp .75s linear infinite;
-  margin:0 auto;
-}
+.loading-block{display:flex;flex-direction:column;align-items:center;gap:10px;padding:40px 20px;color:var(--text-3);font-size:12.5px}
+.spinner-lg{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:sp .75s linear infinite}
+.spinner-inline{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-.loading-block{
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  padding:40px 20px;color:var(--text-3);
-  font-size:12.5px;
-}
-
-/* ============================================================
-   TEAM BUILD (Create Match)
-   ============================================================ */
-.team-build{
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:12px;
-  margin-bottom:10px;
-  background:var(--surface-2);
-}
-.team-build-head{
-  display:flex;align-items:center;gap:8px;
-  margin-bottom:10px;
-}
-.team-build-tag{
-  font-size:10px;font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  padding:2px 8px;
-  border-radius:4px;
-  background:var(--primary-soft);
-  color:#FFB48C;
-  border:1px solid rgba(255,90,31,.28);
-}
-.team-build-tag.b{background:var(--info-soft);color:#93C5FD;border-color:rgba(59,130,246,.28)}
-.slot-row{
-  display:grid;
-  grid-template-columns:22px 1fr;
-  gap:8px;align-items:center;
-  margin-bottom:6px;
-}
-.slot-num{
-  font-size:11px;font-weight:700;
-  color:var(--text-3);
-  text-align:center;
-  font-variant-numeric:tabular-nums;
-}
-.slot-row select{
-  background:var(--bg);
-  font-size:13px;
-  padding:8px 10px;
-  min-height:38px;
-}
-
-/* vs preview */
-.vs-preview{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  gap:10px;align-items:center;
-  padding:12px;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  margin-top:12px;
-}
-.vs-team{font-size:12.5px;font-weight:700;text-align:center;letter-spacing:-.01em;word-break:break-word}
-.vs-tag{
-  font-size:10px;font-weight:700;
-  color:var(--text-3);
-  letter-spacing:.08em;
-  padding:3px 8px;
-  border:1px solid var(--border);
-  border-radius:100px;
-}
-.vs-preview-players{
-  font-size:10.5px;color:var(--text-3);
-  margin-top:3px;
-  line-height:1.4;
-}
-
-/* ============================================================
-   PROFILE
-   ============================================================ */
-.profile-head{
-  display:flex;align-items:center;gap:14px;
-  padding:16px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r-lg);
-  margin-bottom:12px;
-}
-.profile-avatar{
-  width:56px;height:56px;border-radius:12px;
-  background:linear-gradient(135deg,#FF5A1F,#E0430A);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;font-weight:800;color:#fff;
-  flex-shrink:0;
-  border:1px solid rgba(255,255,255,.08);
-}
+.profile-head{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:12px}
+.profile-avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#FF5A1F,#E0430A);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;flex-shrink:0}
 .profile-info{flex:1;min-width:0}
 .profile-name{font-size:16px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px}
-.profile-handle{font-size:12px;color:var(--text-2);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-.profile-fields{
-  display:grid;gap:1px;
-  background:var(--border);
-  border:1px solid var(--border);
-  border-radius:var(--r-lg);
-  overflow:hidden;
-}
-.profile-field{
-  background:var(--surface);
-  padding:12px 14px;
-  display:flex;justify-content:space-between;align-items:center;gap:12px;
-}
-.profile-field-label{
-  font-size:11.5px;color:var(--text-3);
-  font-weight:600;text-transform:uppercase;letter-spacing:.04em;
-}
-.profile-field-value{
-  font-size:13px;font-weight:500;text-align:right;word-break:break-word;
-  color:var(--text);
-}
-.profile-field-value.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+.profile-handle{font-size:12px;color:var(--text-2);font-family:ui-monospace,Menlo,monospace}
+.profile-fields{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.profile-field{background:var(--surface);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.profile-field-label{font-size:11.5px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.profile-field-value{font-size:13px;font-weight:500;text-align:right;word-break:break-word}
 
-/* ============================================================
-   SECTION HEADINGS
-   ============================================================ */
-.section-head{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin:18px 0 10px;
-}
-.section-head h2{font-size:13.5px;font-weight:700;letter-spacing:-.01em}
-.section-head-sub{font-size:11px;color:var(--text-3)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 10px}
+.section-head h2{font-size:13.5px;font-weight:700}
 
-/* ============================================================
-   SAFE AREA HELPERS
-   ============================================================ */
-@supports(padding:max(0px)){
-  .bottom-nav{padding-bottom:max(env(safe-area-inset-bottom),0px)}
-}
+.team-build{border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:10px;background:var(--surface-2)}
+.team-build-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.team-build-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:4px;background:var(--primary-soft);color:#FFB48C;border:1px solid rgba(255,90,31,.28)}
+.team-build-tag.b{background:var(--info-soft);color:#93C5FD;border-color:rgba(59,130,246,.28)}
+.slot-row{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:center;margin-bottom:6px}
+.slot-num{font-size:11px;font-weight:700;color:var(--text-3);text-align:center;font-variant-numeric:tabular-nums}
 
-/* Keyboard focus */
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--primary);
-  outline-offset:1px;
-}
+.vs-preview{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);margin-top:12px}
+.vs-team{font-size:12.5px;font-weight:700;text-align:center;word-break:break-word}
+.vs-tag{font-size:10px;font-weight:700;color:var(--text-3);letter-spacing:.08em;padding:3px 8px;border:1px solid var(--border);border-radius:100px}
+.vs-preview-players{font-size:10.5px;color:var(--text-3);margin-top:3px;line-height:1.4}
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     BOOT
-     ============================================================ -->
 <div id="boot" style="position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:9999">
   <div class="spinner-lg"></div>
   <div style="font-size:11px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;font-weight:600">Loading</div>
 </div>
 
-<!-- ============================================================
-     AUTH SCREEN
-     ============================================================ -->
+<!-- ============ AUTH ============ -->
 <div id="auth" class="auth-screen hidden">
   <div class="auth-shell">
     <div class="auth-panel">
       <div class="auth-brand">
         <div class="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 2C10.5 6 7 7.5 7 11a5 5 0 0 0 10 0c0-1.5-.5-3-1.5-4.5-.5 1-1.5 1.5-2 1.5-.7 0-1.5-.5-1.5-1.5C12 5 12 3.5 12 2z" fill="#fff" opacity=".95"/>
-            <path d="M9.5 13.5c-.5 1-.5 2.5 1 3.5-.3-1 0-2 .8-2.5.7-.5.7-1.2.2-1.8-.3.5-.8.8-2 .8z" fill="#FFE5D5"/>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C10.5 6 7 7.5 7 11a5 5 0 0 0 10 0c0-1.5-.5-3-1.5-4.5-.5 1-1.5 1.5-2 1.5-.7 0-1.5-.5-1.5-1.5C12 5 12 3.5 12 2z" fill="#fff" opacity=".95"/><path d="M9.5 13.5c-.5 1-.5 2.5 1 3.5-.3-1 0-2 .8-2.5.7-.5.7-1.2.2-1.8-.3.5-.8.8-2 .8z" fill="#FFE5D5"/></svg>
         </div>
         <div>
           <div class="brand-title">FF 4v4 CUSTOM</div>
-          <div class="brand-subtitle">Tournament Management</div>
+          <div class="brand-subtitle">Tournament Hub</div>
         </div>
       </div>
 
       <div class="auth-tabs" role="tablist">
-        <button class="auth-tab on" data-tab="login" role="tab" aria-selected="true">Login</button>
-        <button class="auth-tab" data-tab="register" role="tab" aria-selected="false">Register</button>
-        <button class="auth-tab" data-tab="invite" role="tab" aria-selected="false">By Admin</button>
+        <button class="auth-tab on" data-tab="login">Login</button>
+        <button class="auth-tab" data-tab="register">Register</button>
+        <button class="auth-tab" data-tab="invite">By Admin</button>
       </div>
 
       <div id="auth-msg"></div>
 
-      <!-- LOGIN -->
       <form id="f-login">
         <div class="auth-title">Sign in</div>
         <div class="auth-desc">Access your tournament account.</div>
@@ -1121,7 +349,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
         <button type="submit" class="btn btn-primary btn-block btn-lg" id="l-btn">Sign In</button>
       </form>
 
-      <!-- REGISTER -->
       <form id="f-register" class="hidden">
         <div class="auth-title">Create account</div>
         <div class="auth-desc">Registration requires admin approval.</div>
@@ -1156,7 +383,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
         <div class="field-hint" style="text-align:center;margin-top:10px">You'll be able to login after admin approval.</div>
       </form>
 
-      <!-- BY ADMIN -->
       <form id="f-invite" class="hidden">
         <div class="auth-title">Admin invitation</div>
         <div class="auth-desc">Enter the email the admin invited you with.</div>
@@ -1170,19 +396,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   </div>
 </div>
 
-<!-- ============================================================
-     MAIN APP
-     ============================================================ -->
+<!-- ============ MAIN APP ============ -->
 <div id="app" class="app">
   <div class="shell">
-    <!-- Desktop sidebar -->
-    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <aside class="sidebar" id="sidebar">
       <div class="sidebar-brand">
         <div class="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 2C10.5 6 7 7.5 7 11a5 5 0 0 0 10 0c0-1.5-.5-3-1.5-4.5-.5 1-1.5 1.5-2 1.5-.7 0-1.5-.5-1.5-1.5C12 5 12 3.5 12 2z" fill="#fff" opacity=".95"/>
-            <path d="M9.5 13.5c-.5 1-.5 2.5 1 3.5-.3-1 0-2 .8-2.5.7-.5.7-1.2.2-1.8-.3.5-.8.8-2 .8z" fill="#FFE5D5"/>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C10.5 6 7 7.5 7 11a5 5 0 0 0 10 0c0-1.5-.5-3-1.5-4.5-.5 1-1.5 1.5-2 1.5-.7 0-1.5-.5-1.5-1.5C12 5 12 3.5 12 2z" fill="#fff" opacity=".95"/><path d="M9.5 13.5c-.5 1-.5 2.5 1 3.5-.3-1 0-2 .8-2.5.7-.5.7-1.2.2-1.8-.3.5-.8.8-2 .8z" fill="#FFE5D5"/></svg>
         </div>
         <div>
           <div class="brand-title">FF 4v4 CUSTOM</div>
@@ -1192,27 +412,23 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       <div id="sidebar-nav"></div>
       <div class="sidebar-user">
         <button class="sidebar-item" id="sidebar-logout" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke-linecap="round"/></svg>
           Sign out
         </button>
       </div>
     </aside>
 
-    <!-- Content -->
     <div style="flex:1;min-width:0">
       <header class="app-header">
         <div class="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 2C10.5 6 7 7.5 7 11a5 5 0 0 0 10 0c0-1.5-.5-3-1.5-4.5-.5 1-1.5 1.5-2 1.5-.7 0-1.5-.5-1.5-1.5C12 5 12 3.5 12 2z" fill="#fff" opacity=".95"/>
-            <path d="M9.5 13.5c-.5 1-.5 2.5 1 3.5-.3-1 0-2 .8-2.5.7-.5.7-1.2.2-1.8-.3.5-.8.8-2 .8z" fill="#FFE5D5"/>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C10.5 6 7 7.5 7 11a5 5 0 0 0 10 0c0-1.5-.5-3-1.5-4.5-.5 1-1.5 1.5-2 1.5-.7 0-1.5-.5-1.5-1.5C12 5 12 3.5 12 2z" fill="#fff" opacity=".95"/><path d="M9.5 13.5c-.5 1-.5 2.5 1 3.5-.3-1 0-2 .8-2.5.7-.5.7-1.2.2-1.8-.3.5-.8.8-2 .8z" fill="#FFE5D5"/></svg>
         </div>
         <div>
-          <div class="app-header-title">FF 4v4 CUSTOM</div>
-          <div class="app-header-sub" id="mobile-role">Tournament Hub</div>
+          <div class="app-header-title">FF 4v4</div>
+          <div class="app-header-sub" id="mobile-role">Player</div>
         </div>
         <div class="app-header-spacer"></div>
-        <button class="header-user" id="mobile-user-btn" type="button" aria-label="Account menu">
+        <button class="header-user" id="mobile-user-btn" type="button">
           <div class="header-user-avatar" id="mobile-avatar">P</div>
           <div class="header-user-name" id="mobile-name">Player</div>
         </button>
@@ -1221,9 +437,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       <main class="app-main" id="main" role="main"></main>
     </div>
   </div>
-
-  <!-- Bottom nav -->
-  <nav class="bottom-nav" id="bottom-nav" aria-label="Primary"></nav>
+  <nav class="bottom-nav" id="bottom-nav"></nav>
 </div>
 
 <div class="toast-container" id="toasts" aria-live="polite"></div>
@@ -1253,24 +467,20 @@ try {
 /* ============================================================
    HELPERS
    ============================================================ */
-const $  = (s, p=document) => p.querySelector(s);
-const $$ = (s, p=document) => Array.from(p.querySelectorAll(s));
+const $  = (s,p=document) => p.querySelector(s);
+const $$ = (s,p=document) => Array.from(p.querySelectorAll(s));
 
 function esc(s){
   if(s==null) return '';
-  return String(s).replace(/[&<>"']/g, c => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[c]));
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 function initials(name){
   if(!name) return '?';
-  const parts = name.trim().split(/\s+/);
-  if(parts.length === 1) return parts[0][0].toUpperCase();
-  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+  const p = name.trim().split(/\s+/);
+  return p.length===1 ? p[0][0].toUpperCase() : (p[0][0]+p[p.length-1][0]).toUpperCase();
 }
 function nowTS(){ return firebase.firestore.FieldValue.serverTimestamp(); }
 function toMillis(v){ return v?.toMillis?.() ?? 0; }
-
 function fmtDate(v, withTime=false){
   if(!v) return '—';
   const d = v.toDate ? v.toDate() : new Date(v);
@@ -1304,9 +514,9 @@ function toast(msg, type='info', ms=3200){
 function alertBox(msg, type='err'){
   const el = $('#auth-msg');
   if(!msg){ el.innerHTML=''; return; }
-  const icon = type==='err'?'!':type==='ok'?'✓':type==='warn'?'!':'i';
-  const cls  = type==='err'?'alert-err':type==='ok'?'alert-ok':type==='warn'?'alert-warn':'alert-info';
-  el.innerHTML = `<div class="alert ${cls}"><span class="alert-icon">${icon}</span><span>${esc(msg)}</span></div>`;
+  const icon = type==='err'?'!':type==='ok'?'✓':'i';
+  const cls = type==='err'?'alert-err':type==='ok'?'alert-ok':type==='warn'?'alert-warn':'alert-info';
+  el.innerHTML = `<div class="alert ${cls}"><span>${icon}</span><span>${esc(msg)}</span></div>`;
 }
 
 function errMsg(e){
@@ -1321,12 +531,10 @@ function errMsg(e){
     'auth/email-already-in-use':'An account already exists with this email.',
     'auth/weak-password':'Password must be at least 6 characters.',
     'auth/network-request-failed':'Network error. Check your connection.',
-    'auth/operation-not-allowed':'Email/password sign-in is not enabled.',
     'permission-denied':'Permission denied. Please contact the administrator.',
     'unavailable':'Service unavailable. Please try again.',
     'not-found':'Requested data was not found.',
-    'already-exists':'That record already exists.',
-    'failed-precondition':'Operation failed. Please refresh and try again.'
+    'already-exists':'That record already exists.'
   };
   for(const k in map) if(c.includes(k)) return map[k];
   return e?.message || 'Something went wrong. Please try again.';
@@ -1339,14 +547,9 @@ const state = {
   me: null,
   profile: null,
   subs: [],
-  pCache: [],
-  cacheLoadedAt: 0
+  pCache: []
 };
-
-function unsubAll(){
-  state.subs.forEach(u => { try{ u(); }catch(_){} });
-  state.subs = [];
-}
+function unsubAll(){ state.subs.forEach(u => { try{ u(); }catch(_){} }); state.subs = []; }
 function trackSub(u){ state.subs.push(u); }
 
 /* ============================================================
@@ -1356,7 +559,6 @@ function switchAuthTab(tab){
   $$('.auth-tab').forEach(b => {
     const on = b.dataset.tab === tab;
     b.classList.toggle('on', on);
-    b.setAttribute('aria-selected', on ? 'true' : 'false');
   });
   $('#f-login').classList.toggle('hidden', tab !== 'login');
   $('#f-register').classList.toggle('hidden', tab !== 'register');
@@ -1376,12 +578,10 @@ function showAuth(){
   const rb = $('#r-btn'); if(rb){ rb.disabled=false; rb.textContent='Create Account'; }
   const ib = $('#i-btn'); if(ib){ ib.disabled=false; ib.textContent='Verify Invitation'; }
 }
-
 function showApp(){
   $('#boot').classList.add('hidden');
   $('#auth').classList.add('hidden');
   $('#app').classList.add('on');
-  // Header user
   const nm = state.profile.name || state.profile.username || 'Player';
   $('#mobile-avatar').textContent = initials(nm);
   $('#mobile-name').textContent = nm.split(' ')[0];
@@ -1397,13 +597,12 @@ $('#f-login').addEventListener('submit', async e => {
   e.preventDefault();
   alertBox('');
   const email = $('#l-email').value.trim();
-  const pass  = $('#l-pass').value;
-  const btn   = $('#l-btn');
+  const pass = $('#l-pass').value;
+  const btn = $('#l-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner-inline"></span> Signing in';
   try {
     await auth.signInWithEmailAndPassword(email, pass);
-    // onAuthStateChanged handles routing
   } catch(err){
     alertBox(errMsg(err), 'err');
     btn.disabled = false; btn.textContent = 'Sign In';
@@ -1411,20 +610,19 @@ $('#f-login').addEventListener('submit', async e => {
 });
 
 /* ============================================================
-   REGISTER — Firebase Auth first (no pre-auth Firestore reads)
+   REGISTER
    ============================================================ */
 $('#f-register').addEventListener('submit', async e => {
   e.preventDefault();
   alertBox('');
   const username = $('#r-user').value.trim();
-  const name     = $('#r-name').value.trim();
-  const email    = $('#r-email').value.trim().toLowerCase();
-  const fuid     = $('#r-uid').value.trim();
-  const pass     = $('#r-pass').value;
-  const conf     = $('#r-conf').value;
-  const btn      = $('#r-btn');
+  const name = $('#r-name').value.trim();
+  const email = $('#r-email').value.trim().toLowerCase();
+  const fuid = $('#r-uid').value.trim();
+  const pass = $('#r-pass').value;
+  const conf = $('#r-conf').value;
+  const btn = $('#r-btn');
 
-  // Local validation
   if(!username || !name || !email || !fuid) return alertBox('Please fill in all fields.', 'err');
   if(!/^[a-zA-Z0-9_]{3,20}$/.test(username)) return alertBox('Username must be 3–20 characters using letters, numbers or underscore.', 'err');
   if(!/^\d{5,15}$/.test(fuid)) return alertBox('Free Fire UID must be 5–15 digits.', 'err');
@@ -1432,19 +630,14 @@ $('#f-register').addEventListener('submit', async e => {
   if(pass !== conf) return alertBox('Passwords do not match.', 'err');
 
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner-inline"></span> Creating account';
+  btn.innerHTML = '<span class="spinner-inline"></span> Creating';
 
   let createdUid = null;
   try {
-    // 1. Create Firebase Auth account (this is what enforces unique email)
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
     createdUid = cred.user.uid;
-
-    // 2. Create the user profile document
     await db.collection('users').doc(createdUid).set({
-      username,
-      name,
-      email,
+      username, name, email,
       freeFireUid: fuid,
       role: 'player',
       status: 'pending_approval',
@@ -1453,15 +646,11 @@ $('#f-register').addEventListener('submit', async e => {
       createdAt: nowTS(),
       updatedAt: nowTS()
     });
-
-    // 3. Sign out — user must wait for approval
     await auth.signOut();
-
     alertBox('Account created. Waiting for admin approval.', 'ok');
     $('#f-register').reset();
     setTimeout(() => switchAuthTab('login'), 1500);
   } catch(err){
-    // If Firestore write failed but auth succeeded, try to clean up
     if(createdUid && err.code !== 'auth/email-already-in-use'){
       try { await auth.currentUser?.delete(); } catch(_){}
     }
@@ -1473,15 +662,21 @@ $('#f-register').addEventListener('submit', async e => {
 });
 
 /* ============================================================
-   BY ADMIN — Invitation verification via signed short-lived token approach
-   ------------------------------------------------------------
-   NOTE: This app uses a secure verification method:
-   - The admin creates a doc in `invitations` (admin-only write)
-   - The player can READ a specific doc IF they know its ID (deterministic hash of email)
-   - Rules allow: allow get: if request.path matches; but list/query is denied
-   - This means a player cannot enumerate the invitations collection
-   - The invitation is marked used after consumption
+   INVITE — deterministic hash, public get by ID
    ============================================================ */
+async function emailInviteId(email){
+  const norm = email.trim().toLowerCase();
+  if(window.crypto?.subtle){
+    const buf = new TextEncoder().encode(norm);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2,'0')).join('').slice(0, 32);
+  }
+  let h = 0;
+  for(let i=0;i<norm.length;i++){ h = ((h<<5)-h) + norm.charCodeAt(i); h |= 0; }
+  return 'f' + (h >>> 0).toString(16).padStart(8,'0') + norm.length;
+}
+
 $('#f-invite').addEventListener('submit', async e => {
   e.preventDefault();
   alertBox('');
@@ -1494,7 +689,6 @@ $('#f-invite').addEventListener('submit', async e => {
   btn.innerHTML = '<span class="spinner-inline"></span> Verifying';
 
   try {
-    // Deterministic doc ID (safe: email is what admin used to invite)
     const invId = await emailInviteId(email);
     const invRef = db.collection('invitations').doc(invId);
     const snap = await invRef.get();
@@ -1510,7 +704,6 @@ $('#f-invite').addEventListener('submit', async e => {
       btn.disabled = false; btn.textContent = 'Verify Invitation';
       return;
     }
-
     showSetPasswordForm(email, invId, data);
   } catch(err){
     alertBox(errMsg(err), 'err');
@@ -1518,28 +711,12 @@ $('#f-invite').addEventListener('submit', async e => {
   }
 });
 
-// Deterministic invitation ID — uses a simple hash so rules can verify
-async function emailInviteId(email){
-  const norm = email.trim().toLowerCase();
-  // Use SubtleCrypto SHA-256 for a stable, collision-resistant ID
-  if(window.crypto?.subtle){
-    const buf = new TextEncoder().encode(norm);
-    const hash = await crypto.subtle.digest('SHA-256', buf);
-    return Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2,'0')).join('').slice(0, 32);
-  }
-  // Fallback (older browsers) — still deterministic
-  let h = 0;
-  for(let i=0;i<norm.length;i++){ h = ((h<<5)-h) + norm.charCodeAt(i); h |= 0; }
-  return 'f' + (h >>> 0).toString(16).padStart(8,'0') + norm.length;
-}
-
 function showSetPasswordForm(email, invId, data){
   const form = $('#f-invite');
   form.innerHTML = `
     <div class="auth-title">Set your password</div>
     <div class="auth-desc">Hi <strong>${esc(data.name || data.username || 'player')}</strong>, choose a password for your account.</div>
-    <div class="alert alert-info"><span class="alert-icon">i</span><span>${esc(email)}</span></div>
+    <div class="alert alert-info"><span>i</span><span>${esc(email)}</span></div>
     <div class="field">
       <label for="sp-p">New Password</label>
       <input id="sp-p" type="password" required autocomplete="new-password" placeholder="Min 6 characters">
@@ -1557,22 +734,18 @@ function showSetPasswordForm(email, invId, data){
     const c = $('#sp-c').value;
     if(p.length < 6) return alertBox('Password must be at least 6 characters.', 'err');
     if(p !== c) return alertBox('Passwords do not match.', 'err');
-
     const btn = $('#sp-go');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-inline"></span> Creating';
 
     let createdUid = null;
     try {
-      // 1. Create Firebase Auth account
       const cred = await auth.createUserWithEmailAndPassword(email, p);
       createdUid = cred.user.uid;
-
-      // 2. Create user profile — active immediately since admin invited them
       await db.collection('users').doc(createdUid).set({
         username: data.username || '',
         name: data.name || '',
-        email: email,
+        email,
         freeFireUid: data.freeFireUid || '',
         role: 'player',
         status: 'active',
@@ -1581,16 +754,10 @@ function showSetPasswordForm(email, invId, data){
         createdAt: data.createdAt || nowTS(),
         updatedAt: nowTS()
       });
-
-      // 3. Mark invitation as used (only authenticated player can do this)
       await db.collection('invitations').doc(invId).update({
-        used: true,
-        usedAt: nowTS(),
-        usedBy: createdUid
+        used: true, usedAt: nowTS(), usedBy: createdUid
       });
-
       toast('Password set. Welcome to the arena.', 'ok');
-      // onAuthStateChanged will route
     } catch(err){
       if(createdUid){
         try { await auth.currentUser?.delete(); } catch(_){}
@@ -1616,23 +783,14 @@ auth.onAuthStateChanged(async user => {
   try {
     const doc = await db.collection('users').doc(user.uid).get();
     if(!doc.exists){
-      toast('Profile not found. Please contact the administrator.', 'err');
+      toast('Profile not found. Contact the administrator.', 'err');
       await auth.signOut();
       return;
     }
     state.profile = { uid: user.uid, ...doc.data() };
-    if(state.profile.status === 'disabled'){
-      toast('Your account has been disabled.', 'err');
-      await auth.signOut(); return;
-    }
-    if(state.profile.status === 'pending_approval'){
-      toast('Your account is pending admin approval.', 'err', 5000);
-      await auth.signOut(); return;
-    }
-    if(state.profile.status === 'rejected'){
-      toast('Your registration was rejected.', 'err');
-      await auth.signOut(); return;
-    }
+    if(state.profile.status === 'disabled'){ toast('Your account has been disabled.', 'err'); await auth.signOut(); return; }
+    if(state.profile.status === 'pending_approval'){ toast('Your account is pending admin approval.', 'err', 5000); await auth.signOut(); return; }
+    if(state.profile.status === 'rejected'){ toast('Your registration was rejected.', 'err'); await auth.signOut(); return; }
     showApp();
   } catch(err){
     toast(errMsg(err), 'err');
@@ -1646,44 +804,8 @@ async function logout(){
 }
 
 /* ============================================================
-   NAVIGATION
+   NAV
    ============================================================ */
-const NAV_ADMIN = {
-  desktop: [
-    { id:'dashboard', label:'Dashboard', icon:'grid' },
-    { id:'players',   label:'Players',   icon:'users' },
-    { id:'create',    label:'New Match', icon:'plus' },
-    { id:'matches',   label:'Matches',   icon:'flag' },
-    { id:'requests',  label:'Requests',  icon:'inbox' },
-    { id:'history',   label:'History',   icon:'clock' },
-    { id:'coins',     label:'Coins',     icon:'coin' },
-    { id:'settings',  label:'Settings',  icon:'settings' }
-  ],
-  mobile: [
-    { id:'dashboard', label:'Home',     icon:'grid' },
-    { id:'players',   label:'Players',  icon:'users' },
-    { id:'matches',   label:'Matches',  icon:'flag' },
-    { id:'requests',  label:'Requests', icon:'inbox' },
-    { id:'more',      label:'More',     icon:'more' }
-  ]
-};
-const NAV_PLAYER = {
-  desktop: [
-    { id:'home',         label:'Home',         icon:'grid' },
-    { id:'my-matches',   label:'Matches',      icon:'flag' },
-    { id:'my-requests',  label:'Requests',     icon:'inbox' },
-    { id:'my-coins',     label:'Coins',        icon:'coin' },
-    { id:'me',           label:'Profile',      icon:'user' }
-  ],
-  mobile: [
-    { id:'home',         label:'Home',     icon:'grid' },
-    { id:'my-matches',   label:'Matches',  icon:'flag' },
-    { id:'my-requests',  label:'Requests', icon:'inbox' },
-    { id:'my-coins',     label:'Coins',    icon:'coin' },
-    { id:'me',           label:'Profile',  icon:'user' }
-  ]
-};
-
 const ICONS = {
   grid:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
   users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
@@ -1692,22 +814,61 @@ const ICONS = {
   inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
   clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg>',
   coin:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M9 9h6M9 15h6M12 9v6" stroke-linecap="round"/></svg>',
-  settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+  settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/></svg>',
   user:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-  more:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="19" cy="12" r="1" fill="currentColor"/><circle cx="5" cy="12" r="1" fill="currentColor"/></svg>'
+  more:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="1" fill="currentColor"/><circle cx="19" cy="12" r="1" fill="currentColor"/><circle cx="5" cy="12" r="1" fill="currentColor"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>'
+};
+
+const NAV = {
+  admin: {
+    desktop: [
+      { id:'dashboard', label:'Dashboard', icon:'grid' },
+      { id:'players',   label:'Players',   icon:'users' },
+      { id:'create',    label:'New Match', icon:'plus' },
+      { id:'matches',   label:'Matches',   icon:'flag' },
+      { id:'requests',  label:'Requests',  icon:'inbox' },
+      { id:'history',   label:'History',   icon:'clock' },
+      { id:'coins',     label:'Coins',     icon:'coin' },
+      { id:'settings',  label:'Settings',  icon:'settings' }
+    ],
+    mobile: [
+      { id:'dashboard', label:'Home',     icon:'grid' },
+      { id:'players',   label:'Players',  icon:'users' },
+      { id:'matches',   label:'Matches',  icon:'flag' },
+      { id:'requests',  label:'Requests', icon:'inbox' },
+      { id:'more',      label:'More',     icon:'more' }
+    ]
+  },
+  player: {
+    desktop: [
+      { id:'home',        label:'Home',     icon:'grid' },
+      { id:'bets',        label:'Bets',     icon:'trophy' },
+      { id:'my-matches',  label:'Matches',  icon:'flag' },
+      { id:'my-requests', label:'Requests', icon:'inbox' },
+      { id:'my-coins',    label:'Coins',    icon:'coin' },
+      { id:'me',          label:'Profile',  icon:'user' }
+    ],
+    mobile: [
+      { id:'home',        label:'Home',     icon:'grid' },
+      { id:'bets',        label:'Bets',     icon:'trophy' },
+      { id:'my-matches',  label:'Matches',  icon:'flag' },
+      { id:'my-coins',    label:'Coins',    icon:'coin' },
+      { id:'me',          label:'Profile',  icon:'user' }
+    ]
+  }
 };
 
 function buildNav(){
   const isAdmin = state.profile.role === 'admin';
-  const nav = isAdmin ? NAV_ADMIN : NAV_PLAYER;
+  const nav = isAdmin ? NAV.admin : NAV.player;
 
-  // Sidebar
   const sidebar = $('#sidebar-nav');
   sidebar.innerHTML = '';
-  const sectionLabel = document.createElement('div');
-  sectionLabel.className = 'sidebar-section';
-  sectionLabel.textContent = isAdmin ? 'Admin' : 'Player';
-  sidebar.appendChild(sectionLabel);
+  const label = document.createElement('div');
+  label.className = 'sidebar-section';
+  label.textContent = isAdmin ? 'Admin' : 'Player';
+  sidebar.appendChild(label);
 
   nav.desktop.forEach(item => {
     const b = document.createElement('button');
@@ -1719,7 +880,6 @@ function buildNav(){
     sidebar.appendChild(b);
   });
 
-  // Bottom nav
   const bottom = $('#bottom-nav');
   bottom.innerHTML = '';
   nav.mobile.forEach(item => {
@@ -1727,18 +887,13 @@ function buildNav(){
     b.className = 'bottom-nav-item';
     b.dataset.nav = item.id;
     b.type = 'button';
-    b.setAttribute('aria-label', item.label);
     b.innerHTML = `${ICONS[item.icon] || ''}<span>${esc(item.label)}</span>`;
     b.onclick = () => go(item.id);
     bottom.appendChild(b);
   });
 
-  $('#sidebar-logout').onclick = () => {
-    confirmBox('Sign out?', 'You will need to sign in again.', logout, 'Sign out', 'danger');
-  };
-  $('#mobile-user-btn').onclick = () => {
-    go(isAdmin ? 'settings' : 'me');
-  };
+  $('#sidebar-logout').onclick = () => confirmBox('Sign out?', 'You will need to sign in again.', logout, 'Sign out', 'danger');
+  $('#mobile-user-btn').onclick = () => go(isAdmin ? 'settings' : 'me');
 }
 
 function setActiveNav(id){
@@ -1746,7 +901,7 @@ function setActiveNav(id){
 }
 
 /* ============================================================
-   ROUTING
+   ROUTES
    ============================================================ */
 function go(id){
   unsubAll();
@@ -1755,6 +910,7 @@ function go(id){
   main.innerHTML = '<div class="loading-block"><div class="spinner-lg"></div><div>Loading</div></div>';
 
   const routes = {
+    // Admin
     dashboard:     pageAdminDashboard,
     players:       pageAdminPlayers,
     create:        pageAdminCreateMatch,
@@ -1763,28 +919,27 @@ function go(id){
     history:       pageAdminHistory,
     coins:         pageAdminCoins,
     settings:      pageAdminSettings,
+    more:          pageAdminMore,
+    // Player
     home:          pagePlayerHome,
+    bets:          pagePlayerBets,
     'my-matches':  pagePlayerMatches,
     'my-requests': pagePlayerRequests,
     'my-coins':    pagePlayerCoins,
-    me:            pagePlayerProfile,
-    more:          pageAdminMore
+    me:            pagePlayerProfile
   };
   const fn = routes[id];
   if(fn) fn();
-  else main.innerHTML = `<div class="empty"><div class="empty-title">Page not found</div></div>`;
+  else main.innerHTML = '<div class="empty"><div class="empty-title">Page not found</div></div>';
 }
 
 /* ============================================================
    MODAL / CONFIRM
    ============================================================ */
-function openModal(html, opts = {}){
+function openModal(html, opts={}){
   const m = document.createElement('div');
   m.className = 'modal-mask';
-  m.innerHTML = `<div class="modal ${opts.wide ? 'modal-lg' : ''}" role="dialog" aria-modal="true">
-    <div class="modal-handle"></div>
-    ${html}
-  </div>`;
+  m.innerHTML = `<div class="modal ${opts.wide ? 'modal-lg' : ''}" role="dialog" aria-modal="true"><div class="modal-handle"></div>${html}</div>`;
   document.body.appendChild(m);
   m.addEventListener('click', e => { if(e.target === m) m.remove(); });
   const x = m.querySelector('.modal-close');
@@ -1796,20 +951,15 @@ function confirmBox(title, message, onOk, okLabel='Confirm', variant='primary'){
   const m = openModal(`
     <div class="modal-head">
       <div><h3>${esc(title)}</h3><p>${esc(message)}</p></div>
-      <button class="modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </button>
+      <button class="modal-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" data-cancel type="button">Cancel</button>
-      <button class="btn ${variant === 'danger' ? 'btn-danger' : 'btn-primary'}" data-ok type="button">${esc(okLabel)}</button>
+      <button class="btn ${variant === 'danger' ? 'btn-danger' : variant === 'success' ? 'btn-success' : 'btn-primary'}" data-ok type="button">${esc(okLabel)}</button>
     </div>
   `);
   m.querySelector('[data-cancel]').onclick = () => m.remove();
-  m.querySelector('[data-ok]').onclick = async () => {
-    m.remove();
-    await onOk();
-  };
+  m.querySelector('[data-ok]').onclick = async () => { m.remove(); await onOk(); };
 }
 
 /* ============================================================
@@ -1818,79 +968,50 @@ function confirmBox(title, message, onOk, okLabel='Confirm', variant='primary'){
 async function pageAdminDashboard(){
   const main = $('#main');
   main.innerHTML = `
-    <div class="page-head">
-      <div>
-        <h1>Dashboard</h1>
-        <p>Tournament control center</p>
-      </div>
-    </div>
+    <div class="page-head"><div><h1>Dashboard</h1><p>Tournament control center</p></div></div>
     <div class="stat-grid" id="stats">
-      ${['Total Players','Active Players','Pending','Upcoming','Live','Completed'].map(l => `
-        <div class="stat">
-          <div class="stat-accent"></div>
-          <div class="stat-label">${l}</div>
-          <div class="stat-value dim">—</div>
-        </div>
+      ${['Players','Active','Pending','Upcoming','Live','Completed'].map(l => `
+        <div class="stat"><div class="stat-accent"></div><div class="stat-label">${l}</div><div class="stat-value">—</div></div>
       `).join('')}
     </div>
     <div class="card">
-      <div class="card-header">
-        <div>
-          <h2>Pending approvals</h2>
-          <div class="card-header-sub">Registrations awaiting review</div>
-        </div>
-        <button class="btn btn-ghost btn-sm" id="refresh-pending" type="button">Refresh</button>
-      </div>
+      <div class="card-header"><div><h2>Pending approvals</h2><div class="card-header-sub">Registrations awaiting review</div></div></div>
       <div id="pending-list"><div class="loading-block"><div class="spinner-lg"></div></div></div>
     </div>
     <div class="card">
-      <div class="card-header">
-        <div><h2>Recent matches</h2></div>
-        <button class="btn btn-ghost btn-sm" id="go-matches" type="button">View all</button>
-      </div>
+      <div class="card-header"><div><h2>Recent matches</h2></div><button class="btn btn-ghost btn-sm" id="go-matches">View all</button></div>
       <div id="recent-matches"><div class="loading-block"><div class="spinner-lg"></div></div></div>
     </div>
   `;
   $('#go-matches').onclick = () => go('matches');
-  $('#refresh-pending').onclick = () => pageAdminDashboard();
 
   try {
-    const [usersSnap, matchesSnap, reqSnap, pendingSnap] = await Promise.all([
+    const [usersSnap, matchesSnap, pendingSnap] = await Promise.all([
       db.collection('users').where('role','==','player').get(),
       db.collection('matches').get(),
-      db.collection('requests').where('status','==','pending').get(),
       db.collection('users').where('status','==','pending_approval').get()
     ]);
-
     const players = usersSnap.docs.map(d => d.data());
     const matches = matchesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-    const active  = players.filter(p => p.status === 'active').length;
-    const pending = pendingSnap.size;
 
     const statValues = [
       players.length,
-      active,
-      pending,
+      players.filter(p => p.status === 'active').length,
+      pendingSnap.size,
       matches.filter(m => m.status === 'upcoming').length,
       matches.filter(m => m.status === 'live').length,
       matches.filter(m => m.status === 'completed').length
     ];
     $$('#stats .stat-value').forEach((el, i) => {
       el.textContent = statValues[i];
-      el.classList.remove('dim');
       if(i === 1) el.classList.add('success');
       if(i === 2 && statValues[i] > 0) el.classList.add('warn');
       if(i === 4 && statValues[i] > 0) el.classList.add('danger');
     });
 
-    // Pending list
     const pEl = $('#pending-list');
     if(pendingSnap.empty){
-      pEl.innerHTML = `<div class="empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6 9 17l-5-5" stroke-linecap="round"/></svg>
-        <div class="empty-title">All caught up</div>
-        <div class="empty-sub">No pending approvals</div>
-      </div>`;
+      pEl.innerHTML = '<div class="empty"><div class="empty-title">All caught up</div><div class="empty-sub">No pending approvals</div></div>';
     } else {
       const sorted = pendingSnap.docs.sort((a,b) => toMillis(b.data().createdAt) - toMillis(a.data().createdAt));
       pEl.innerHTML = `<div class="list">${sorted.map(d => {
@@ -1898,52 +1019,39 @@ async function pageAdminDashboard(){
         return `
           <div class="row">
             <div class="row-info">
-              <div class="row-title">${esc(u.name || u.username || 'Unknown')}
-                <span class="badge badge-pending">pending</span>
-              </div>
+              <div class="row-title">${esc(u.name || u.username || 'Unknown')} <span class="badge badge-pending">pending</span></div>
               <div class="row-sub">@${esc(u.username || '—')} · ${esc(u.email || '—')}</div>
               <div class="row-meta">FF UID: ${esc(u.freeFireUid || '—')} · ${fmtDate(u.createdAt)}</div>
             </div>
             <div class="row-actions">
-              <button class="btn btn-success btn-sm" data-approve="${d.id}" type="button">Approve</button>
-              <button class="btn btn-ghost btn-sm" data-reject="${d.id}" type="button">Reject</button>
+              <button class="btn btn-success btn-sm" data-approve="${d.id}">Approve</button>
+              <button class="btn btn-ghost btn-sm" data-reject="${d.id}">Reject</button>
             </div>
-          </div>`;
+          </div>
+        `;
       }).join('')}</div>`;
-
       pEl.querySelectorAll('[data-approve]').forEach(b => b.onclick = () => approvePlayer(b.dataset.approve));
       pEl.querySelectorAll('[data-reject]').forEach(b => b.onclick = () => rejectPlayer(b.dataset.reject));
     }
 
-    // Recent matches
-    const rec = matches.sort((a,b) => toMillis(b.createdAt) - toMillis(a.createdAt)).slice(0, 6);
+    const rec = matches.sort((a,b) => toMillis(b.createdAt) - toMillis(a.createdAt)).slice(0, 5);
     const rEl = $('#recent-matches');
     if(!rec.length){
-      rEl.innerHTML = `<div class="empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
-        <div class="empty-title">No matches yet</div>
-        <div class="empty-sub">Create your first tournament match</div>
-      </div>`;
+      rEl.innerHTML = '<div class="empty"><div class="empty-title">No matches yet</div></div>';
     } else {
       rEl.innerHTML = `<div class="list">${rec.map(m => `
         <div class="row row-pointer" data-open-match="${m.id}">
           <div class="row-info">
-            <div class="row-title">${esc(m.matchName)}
-              <span class="badge badge-${m.status}">${m.status}</span>
-            </div>
+            <div class="row-title">${esc(m.matchName)} <span class="badge badge-${m.status}">${m.status}</span></div>
             <div class="row-sub">${esc(m.teamAName)} vs ${esc(m.teamBName)}</div>
             <div class="row-meta mono">${esc(m.id)} · ${fmtDate(m.matchDate)}</div>
           </div>
         </div>
       `).join('')}</div>`;
-      rEl.querySelectorAll('[data-open-match]').forEach(el => {
-        el.onclick = () => openMatchDetail(el.dataset.openMatch);
-      });
+      rEl.querySelectorAll('[data-open-match]').forEach(el => el.onclick = () => openMatchDetail(el.dataset.openMatch));
     }
   } catch(e){
     toast(errMsg(e), 'err');
-    $('#pending-list').innerHTML = `<div class="empty"><div class="empty-title">Failed to load</div></div>`;
-    $('#recent-matches').innerHTML = `<div class="empty"><div class="empty-title">Failed to load</div></div>`;
   }
 }
 
@@ -1956,6 +1064,7 @@ async function approvePlayer(uid){
     } catch(e){ toast(errMsg(e), 'err'); }
   }, 'Approve', 'success');
 }
+
 async function rejectPlayer(uid){
   confirmBox('Reject player?', 'They will not be able to sign in.', async () => {
     try {
@@ -1973,31 +1082,22 @@ async function pageAdminPlayers(){
   const main = $('#main');
   main.innerHTML = `
     <div class="page-head">
-      <div>
-        <h1>Players</h1>
-        <p>Manage tournament participants</p>
-      </div>
-      <div class="page-head-actions">
-        <button class="btn btn-primary btn-sm" id="invite-btn" type="button">+ Invite Player</button>
-      </div>
+      <div><h1>Players</h1><p>Manage tournament participants</p></div>
+      <div class="page-head-actions"><button class="btn btn-primary btn-sm" id="invite-btn">+ Invite Player</button></div>
     </div>
-    <div class="field" style="margin-bottom:12px">
-      <input id="search-input" type="search" placeholder="Search by name, username, email or UID…" aria-label="Search players">
-    </div>
+    <div class="field" style="margin-bottom:12px"><input id="search-input" type="search" placeholder="Search players…"></div>
     <div class="chips" id="player-filters">
-      <button class="chip on" data-filter="all" type="button">All</button>
-      <button class="chip" data-filter="active" type="button">Active</button>
-      <button class="chip" data-filter="invited" type="button">Invited</button>
-      <button class="chip" data-filter="pending_approval" type="button">Pending</button>
-      <button class="chip" data-filter="disabled" type="button">Disabled</button>
-      <button class="chip" data-filter="rejected" type="button">Rejected</button>
+      <button class="chip on" data-filter="all">All</button>
+      <button class="chip" data-filter="active">Active</button>
+      <button class="chip" data-filter="invited">Invited</button>
+      <button class="chip" data-filter="pending_approval">Pending</button>
+      <button class="chip" data-filter="disabled">Disabled</button>
+      <button class="chip" data-filter="rejected">Rejected</button>
     </div>
     <div id="players-container"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
 
-  let filter = 'all';
-  let query = '';
-
+  let filter = 'all', query = '';
   const render = () => {
     const list = $('#players-container');
     let items = state.pCache.slice();
@@ -2012,16 +1112,33 @@ async function pageAdminPlayers(){
       );
     }
     if(!items.length){
-      list.innerHTML = `<div class="empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-        <div class="empty-title">No players found</div>
-        <div class="empty-sub">${query ? 'Try a different search' : 'Invite your first player'}</div>
-      </div>`;
+      list.innerHTML = '<div class="empty"><div class="empty-title">No players found</div></div>';
       return;
     }
-    list.innerHTML = items.map(p => renderPlayerRow(p)).join('');
+    list.innerHTML = items.map(p => {
+      const status = p.status || 'invited';
+      const actions = [`<button class="btn btn-ghost btn-sm" data-view="${p.uid}">View</button>`];
+      if(status === 'disabled'){
+        actions.push(`<button class="btn btn-success btn-sm" data-enable="${p.uid}">Enable</button>`);
+      } else if(status === 'active'){
+        actions.push(`<button class="btn btn-ghost btn-sm" data-disable="${p.uid}">Disable</button>`);
+      }
+      return `
+        <div class="player-mini">
+          <div class="player-mini-avatar">${esc(initials(p.name || p.username))}</div>
+          <div class="player-mini-body">
+            <div class="player-mini-head">
+              <span class="player-mini-name">${esc(p.name || p.username || 'Unknown')}</span>
+              <span class="badge badge-${status}">${status.replace('_',' ')}</span>
+            </div>
+            <div class="player-mini-meta">@${esc(p.username || '—')} · ${esc(p.email || '—')}</div>
+            <div class="player-mini-meta"><span class="mono">UID ${esc(p.freeFireUid || '—')}</span> · ${p.coins || 0} coins</div>
+            <div class="row-actions" style="margin-top:8px">${actions.join('')}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
     list.querySelectorAll('[data-view]').forEach(b => b.onclick = () => openPlayerView(b.dataset.view));
-    list.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => openPlayerEdit(b.dataset.edit));
     list.querySelectorAll('[data-enable]').forEach(b => b.onclick = () => togglePlayerStatus(b.dataset.enable, 'active'));
     list.querySelectorAll('[data-disable]').forEach(b => b.onclick = () => togglePlayerStatus(b.dataset.disable, 'disabled'));
   };
@@ -2044,44 +1161,15 @@ async function pageAdminPlayers(){
     render();
   } catch(e){
     toast(errMsg(e), 'err');
-    $('#players-container').innerHTML = `<div class="empty"><div class="empty-title">Failed to load players</div></div>`;
+    $('#players-container').innerHTML = '<div class="empty"><div class="empty-title">Failed to load</div></div>';
   }
-}
-
-function renderPlayerRow(p){
-  const status = p.status || 'invited';
-  const actions = [];
-  actions.push(`<button class="btn btn-ghost btn-sm" data-view="${p.uid}" type="button">View</button>`);
-  actions.push(`<button class="btn btn-ghost btn-sm" data-edit="${p.uid}" type="button">Edit</button>`);
-  if(status === 'disabled'){
-    actions.push(`<button class="btn btn-success btn-sm" data-enable="${p.uid}" type="button">Enable</button>`);
-  } else if(status === 'active'){
-    actions.push(`<button class="btn btn-ghost btn-sm" data-disable="${p.uid}" type="button">Disable</button>`);
-  }
-
-  return `
-    <div class="player-mini">
-      <div class="player-mini-avatar">${esc(initials(p.name || p.username || '?'))}</div>
-      <div class="player-mini-body">
-        <div class="player-mini-head">
-          <span class="player-mini-name">${esc(p.name || p.username || 'Unknown')}</span>
-          <span class="badge badge-${status}">${status.replace('_',' ')}</span>
-        </div>
-        <div class="player-mini-meta">@${esc(p.username || '—')} · ${esc(p.email || '—')}</div>
-        <div class="player-mini-meta"><span class="mono">UID ${esc(p.freeFireUid || '—')}</span> · ${p.coins || 0} coins</div>
-        <div class="row-actions" style="margin-top:8px">${actions.join('')}</div>
-      </div>
-    </div>
-  `;
 }
 
 async function togglePlayerStatus(uid, status){
   const label = status === 'active' ? 'Enable' : 'Disable';
   confirmBox(
     `${label} player?`,
-    status === 'disabled'
-      ? 'They will not be able to sign in. Their data will be preserved.'
-      : 'They will be able to sign in again.',
+    status === 'disabled' ? 'They will not be able to sign in.' : 'They will be able to sign in again.',
     async () => {
       try {
         await db.collection('users').doc(uid).update({ status, updatedAt: nowTS() });
@@ -2098,73 +1186,50 @@ function openInviteModal(){
   const m = openModal(`
     <div class="modal-head">
       <div><h3>Invite Player</h3><p>They will set their own password.</p></div>
-      <button class="modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </button>
+      <button class="modal-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
     </div>
-    <div class="field">
-      <label for="iv-user">Username</label>
-      <input id="iv-user" type="text" placeholder="proplayer01" autocapitalize="none">
-    </div>
-    <div class="field">
-      <label for="iv-name">Full Name</label>
-      <input id="iv-name" type="text" placeholder="John Doe">
-    </div>
-    <div class="field">
-      <label for="iv-email">Email</label>
-      <input id="iv-email" type="email" placeholder="player@example.com" inputmode="email">
-    </div>
-    <div class="field">
-      <label for="iv-uid">Free Fire UID</label>
-      <input id="iv-uid" type="text" inputmode="numeric" placeholder="123456789">
-    </div>
+    <div class="field"><label for="iv-user">Username</label><input id="iv-user" type="text" placeholder="proplayer01"></div>
+    <div class="field"><label for="iv-name">Full Name</label><input id="iv-name" type="text" placeholder="John Doe"></div>
+    <div class="field"><label for="iv-email">Email</label><input id="iv-email" type="email" placeholder="player@example.com"></div>
+    <div class="field"><label for="iv-uid">Free Fire UID</label><input id="iv-uid" type="text" inputmode="numeric" placeholder="123456789"></div>
     <button class="btn btn-primary btn-block btn-lg" id="iv-go" type="button">Create Invitation</button>
-    <div class="field-hint" style="text-align:center;margin-top:10px">Player will use the "By Admin" tab to set their password.</div>
+    <div class="field-hint" style="text-align:center;margin-top:10px">Player will use the "By Admin" tab.</div>
   `);
   m.querySelector('#iv-go').onclick = async () => {
     const username = m.querySelector('#iv-user').value.trim();
-    const name     = m.querySelector('#iv-name').value.trim();
-    const email    = m.querySelector('#iv-email').value.trim().toLowerCase();
-    const ffuid    = m.querySelector('#iv-uid').value.trim();
-    const btn      = m.querySelector('#iv-go');
+    const name = m.querySelector('#iv-name').value.trim();
+    const email = m.querySelector('#iv-email').value.trim().toLowerCase();
+    const ffuid = m.querySelector('#iv-uid').value.trim();
+    const btn = m.querySelector('#iv-go');
 
     if(!username || !name || !email || !ffuid) return toast('All fields are required.', 'err');
     if(!/^[a-zA-Z0-9_]{3,20}$/.test(username)) return toast('Username: 3–20 chars, letters/numbers/underscore.', 'err');
     if(!/^\d{5,15}$/.test(ffuid)) return toast('Free Fire UID must be 5–15 digits.', 'err');
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('Invalid email address.', 'err');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('Invalid email.', 'err');
 
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-inline"></span> Creating';
-
     try {
       const invId = await emailInviteId(email);
-
-      // Check duplicate invitation
       const existing = await db.collection('invitations').doc(invId).get();
       if(existing.exists && !existing.data().used){
         toast('An active invitation already exists for this email.', 'err');
         btn.disabled = false; btn.textContent = 'Create Invitation';
         return;
       }
-
-      // Prevent inviting an email that already has an account
       const existingUser = await db.collection('users').where('email','==',email).limit(1).get();
       if(!existingUser.empty){
         toast('A user already exists with this email.', 'err');
         btn.disabled = false; btn.textContent = 'Create Invitation';
         return;
       }
-
       await db.collection('invitations').doc(invId).set({
-        email,
-        username,
-        name,
+        email, username, name,
         freeFireUid: ffuid,
         used: false,
         createdAt: nowTS(),
         createdBy: state.me.uid
       });
-
       toast('Invitation created.', 'ok');
       m.remove();
     } catch(e){
@@ -2178,12 +1243,10 @@ function openInviteModal(){
 function openPlayerView(uid){
   const p = state.pCache.find(x => x.uid === uid);
   if(!p) return;
-  const m = openModal(`
+  openModal(`
     <div class="modal-head">
       <div><h3>${esc(p.name || p.username || 'Player')}</h3><p>@${esc(p.username || '—')}</p></div>
-      <button class="modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </button>
+      <button class="modal-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
     </div>
     <div class="profile-fields">
       <div class="profile-field"><span class="profile-field-label">Name</span><span class="profile-field-value">${esc(p.name || '—')}</span></div>
@@ -2197,173 +1260,61 @@ function openPlayerView(uid){
   `);
 }
 
-function openPlayerEdit(uid){
-  const p = state.pCache.find(x => x.uid === uid);
-  if(!p) return;
-  const m = openModal(`
-    <div class="modal-head">
-      <div><h3>Edit Player</h3><p>@${esc(p.username || '—')}</p></div>
-      <button class="modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-    <div class="field">
-      <label for="ep-user">Username</label>
-      <input id="ep-user" type="text" value="${esc(p.username || '')}">
-    </div>
-    <div class="field">
-      <label for="ep-name">Full Name</label>
-      <input id="ep-name" type="text" value="${esc(p.name || '')}">
-    </div>
-    <div class="field">
-      <label for="ep-uid">Free Fire UID</label>
-      <input id="ep-uid" type="text" inputmode="numeric" value="${esc(p.freeFireUid || '')}">
-    </div>
-    <div class="field">
-      <label for="ep-email">Email (locked)</label>
-      <input id="ep-email" type="email" value="${esc(p.email || '')}" disabled>
-    </div>
-    <div class="field">
-      <label for="ep-coins">Virtual Coins</label>
-      <input id="ep-coins" type="number" min="0" value="${p.coins || 0}">
-      <div class="field-hint">Direct coin edits here do not create transaction records. Use the Coins page for proper adjustments.</div>
-    </div>
-    <button class="btn btn-primary btn-block btn-lg" id="ep-save" type="button">Save Changes</button>
-  `);
-  m.querySelector('#ep-save').onclick = async () => {
-    const username = m.querySelector('#ep-user').value.trim();
-    const name     = m.querySelector('#ep-name').value.trim();
-    const ffuid    = m.querySelector('#ep-uid').value.trim();
-    const coins    = parseInt(m.querySelector('#ep-coins').value, 10);
-    const btn      = m.querySelector('#ep-save');
-
-    if(!username || !name || !ffuid) return toast('All fields are required.', 'err');
-    if(!/^[a-zA-Z0-9_]{3,20}$/.test(username)) return toast('Username: 3–20 chars, letters/numbers/underscore.', 'err');
-    if(!/^\d{5,15}$/.test(ffuid)) return toast('Free Fire UID must be 5–15 digits.', 'err');
-    if(isNaN(coins) || coins < 0) return toast('Coins cannot be negative.', 'err');
-
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-inline"></span> Saving';
-
-    try {
-      // Check FF UID unique
-      const dup = await db.collection('users').where('freeFireUid','==',ffuid).get();
-      if(dup.docs.find(d => d.id !== uid)){
-        toast('This Free Fire UID is already in use.', 'err');
-        btn.disabled = false; btn.textContent = 'Save Changes';
-        return;
-      }
-      await db.collection('users').doc(uid).update({
-        username, name, freeFireUid: ffuid, coins, updatedAt: nowTS()
-      });
-      toast('Player updated.', 'ok');
-      m.remove();
-      pageAdminPlayers();
-    } catch(e){
-      toast(errMsg(e), 'err');
-      btn.disabled = false; btn.textContent = 'Save Changes';
-    }
-  };
-}
-
 /* ============================================================
    ADMIN — CREATE MATCH
    ============================================================ */
 async function pageAdminCreateMatch(){
   const main = $('#main');
   const mid = 'M' + Date.now().toString().slice(-8);
-
   main.innerHTML = `
-    <div class="page-head">
-      <div>
-        <h1>New Match</h1>
-        <p>Set up a 4v4 custom room</p>
-      </div>
-    </div>
+    <div class="page-head"><div><h1>New Match</h1><p>Set up a 4v4 custom room</p></div></div>
     <div class="card">
-      <div class="field">
-        <label for="m-id">Match ID</label>
-        <input id="m-id" type="text" value="${mid}" readonly class="mono">
-      </div>
-      <div class="field">
-        <label for="m-name">Match Name</label>
-        <input id="m-name" type="text" placeholder="Friday Night Showdown">
+      <div class="field"><label for="m-id">Match ID</label><input id="m-id" type="text" value="${mid}" readonly class="mono"></div>
+      <div class="field"><label for="m-name">Match Name</label><input id="m-name" type="text" placeholder="Friday Night Showdown"></div>
+      <div class="field-row">
+        <div class="field"><label for="m-date">Date</label><input id="m-date" type="date"></div>
+        <div class="field"><label for="m-time">Time</label><input id="m-time" type="time"></div>
       </div>
       <div class="field-row">
-        <div class="field">
-          <label for="m-date">Date</label>
-          <input id="m-date" type="date">
-        </div>
-        <div class="field">
-          <label for="m-time">Time</label>
-          <input id="m-time" type="time">
-        </div>
+        <div class="field"><label for="m-teamA">Team A Name</label><input id="m-teamA" type="text" value="Team Alpha"></div>
+        <div class="field"><label for="m-teamB">Team B Name</label><input id="m-teamB" type="text" value="Team Bravo"></div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="m-teamA">Team A Name</label>
-          <input id="m-teamA" type="text" value="Team Alpha">
-        </div>
-        <div class="field">
-          <label for="m-teamB">Team B Name</label>
-          <input id="m-teamB" type="text" value="Team Bravo">
-        </div>
-      </div>
-
       <div class="section-head"><h2>Team A — 4 Players</h2></div>
       <div id="teamA-slots"></div>
-
       <div class="section-head"><h2>Team B — 4 Players</h2></div>
       <div id="teamB-slots"></div>
-
       <div id="vs-preview"></div>
-
       <button class="btn btn-primary btn-block btn-lg" id="create-btn" type="button" style="margin-top:16px">Create Match</button>
     </div>
   `;
 
   try {
-    const snap = await db.collection('users')
-      .where('role','==','player')
-      .where('status','==','active')
-      .get();
+    const snap = await db.collection('users').where('role','==','player').where('status','==','active').get();
     state.pCache = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
-
     if(state.pCache.length < 8){
-      toast('At least 8 active players are required.', 'err');
+      toast('At least 8 active players required.', 'err');
       $('#create-btn').disabled = true;
     }
     buildTeamSlots();
     updatePreview();
-
-    $$('#teamA-slots select, #teamB-slots select').forEach(s => {
-      s.onchange = updatePreview;
-    });
+    $$('#teamA-slots select, #teamB-slots select').forEach(s => s.onchange = updatePreview);
     $('#m-teamA').oninput = updatePreview;
     $('#m-teamB').oninput = updatePreview;
-  } catch(e){
-    toast(errMsg(e), 'err');
-  }
-
+  } catch(e){ toast(errMsg(e), 'err'); }
   $('#create-btn').onclick = createMatch;
 }
 
 function buildTeamSlots(){
   const opts = '<option value="">Select player…</option>' +
-    state.pCache.map(p =>
-      `<option value="${p.uid}">${esc(p.name || p.username)} (@${esc(p.username)})</option>`
-    ).join('');
-
+    state.pCache.map(p => `<option value="${p.uid}">${esc(p.name || p.username)} (@${esc(p.username)})</option>`).join('');
   ['A','B'].forEach(t => {
     const el = $(`#team${t}-slots`);
     el.innerHTML = `<div class="team-build">
-      <div class="team-build-head">
-        <span class="team-build-tag ${t === 'B' ? 'b' : ''}">Team ${t}</span>
-      </div>
+      <div class="team-build-head"><span class="team-build-tag ${t === 'B' ? 'b' : ''}">Team ${t}</span></div>
       ${[1,2,3,4].map(i => `
         <div class="slot-row">
           <div class="slot-num">${i}</div>
-          <select data-team="${t}" data-slot="${i}" aria-label="Team ${t} player ${i}">${opts}</select>
+          <select data-team="${t}" data-slot="${i}">${opts}</select>
         </div>
       `).join('')}
     </div>`;
@@ -2394,10 +1345,10 @@ function updatePreview(){
 }
 
 async function createMatch(){
-  const mid      = $('#m-id').value.trim();
-  const name     = $('#m-name').value.trim();
-  const date     = $('#m-date').value;
-  const time     = $('#m-time').value;
+  const mid = $('#m-id').value.trim();
+  const name = $('#m-name').value.trim();
+  const date = $('#m-date').value;
+  const time = $('#m-time').value;
   const teamAName = $('#m-teamA').value.trim();
   const teamBName = $('#m-teamB').value.trim();
   const btn = $('#create-btn');
@@ -2410,7 +1361,7 @@ async function createMatch(){
 
   const A = $$('select[data-team="A"]').map(s => s.value);
   const B = $$('select[data-team="B"]').map(s => s.value);
-  if(A.some(v => !v) || B.some(v => !v)) return toast('All 8 player slots must be filled.', 'err');
+  if(A.some(v => !v) || B.some(v => !v)) return toast('All 8 slots must be filled.', 'err');
   if(new Set(A).size !== 4) return toast('Team A must have 4 unique players.', 'err');
   if(new Set(B).size !== 4) return toast('Team B must have 4 unique players.', 'err');
   if(new Set([...A, ...B]).size !== 8) return toast('A player cannot be on both teams.', 'err');
@@ -2427,49 +1378,40 @@ async function createMatch(){
   try {
     const ref = db.collection('matches').doc(mid);
     const exists = await ref.get();
-    if(exists.exists){
-      toast('Match ID already exists. Please retry.', 'err');
-      btn.disabled = false; btn.textContent = 'Create Match';
-      return;
-    }
+    if(exists.exists){ toast('Match ID exists. Please retry.', 'err'); btn.disabled = false; btn.textContent = 'Create Match'; return; }
     await ref.set({
-      matchName: name,
-      matchDate: date,
-      matchTime: time,
-      status: 'upcoming',
-      currentRound: 0,
-      teamAName, teamBName,
-      teamAPlayers, teamBPlayers,
+      matchName: name, matchDate: date, matchTime: time,
+      status: 'upcoming', currentRound: 0,
+      teamAName, teamBName, teamAPlayers, teamBPlayers,
       teamAScore: 0, teamBScore: 0,
       winner: null,
+      totalBetPoolA: 0, totalBetPoolB: 0,
+      betsSettled: false,
       createdAt: nowTS(), updatedAt: nowTS(), completedAt: null
     });
-    toast('Match created successfully.', 'ok');
+    toast('Match created.', 'ok');
     go('matches');
   } catch(e){
     toast(errMsg(e), 'err');
-    btn.disabled = false;
-    btn.textContent = 'Create Match';
+    btn.disabled = false; btn.textContent = 'Create Match';
   }
 }
 
 /* ============================================================
-   ADMIN — MATCHES LIST
+   ADMIN — MATCHES
    ============================================================ */
 async function pageAdminMatches(){
   const main = $('#main');
   main.innerHTML = `
     <div class="page-head">
       <div><h1>Matches</h1><p>Manage live and scheduled matches</p></div>
-      <div class="page-head-actions">
-        <button class="btn btn-primary btn-sm" id="new-match-btn" type="button">+ New Match</button>
-      </div>
+      <div class="page-head-actions"><button class="btn btn-primary btn-sm" id="new-match-btn">+ New Match</button></div>
     </div>
     <div class="chips" id="match-filters">
-      <button class="chip on" data-filter="live" type="button">Live</button>
-      <button class="chip" data-filter="upcoming" type="button">Upcoming</button>
-      <button class="chip" data-filter="completed" type="button">Completed</button>
-      <button class="chip" data-filter="cancelled" type="button">Cancelled</button>
+      <button class="chip on" data-filter="live">Live</button>
+      <button class="chip" data-filter="upcoming">Upcoming</button>
+      <button class="chip" data-filter="completed">Completed</button>
+      <button class="chip" data-filter="cancelled">Cancelled</button>
     </div>
     <div id="matches-list"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
@@ -2484,11 +1426,7 @@ async function pageAdminMatches(){
       const arr = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a,b) => toMillis(b.createdAt) - toMillis(a.createdAt));
       if(!arr.length){
-        list.innerHTML = `<div class="empty">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
-          <div class="empty-title">No ${filter} matches</div>
-          <div class="empty-sub">Create a new match to get started</div>
-        </div>`;
+        list.innerHTML = `<div class="empty"><div class="empty-title">No ${filter} matches</div></div>`;
         return;
       }
       list.innerHTML = arr.map(m => renderMatchCard(m, true)).join('');
@@ -2498,7 +1436,7 @@ async function pageAdminMatches(){
       list.querySelectorAll('[data-cancel]').forEach(b => b.onclick = e => { e.stopPropagation(); cancelMatch(b.dataset.cancel); });
     } catch(e){
       toast(errMsg(e), 'err');
-      list.innerHTML = `<div class="empty"><div class="empty-title">Failed to load</div></div>`;
+      list.innerHTML = '<div class="empty"><div class="empty-title">Failed to load</div></div>';
     }
   };
 
@@ -2529,28 +1467,22 @@ function renderMatchCard(m, admin=false){
             <div class="match-score">${m.teamAScore}<span class="sep">—</span>${m.teamBScore}</div>
             ${m.winner ? `<div class="match-score-team">Winner: ${esc(m.winner)}</div>` : `<div class="match-score-team">Round ${m.currentRound || '—'}</div>`}
           </div>
-          ${admin ? `
-            <div class="row-actions">
-              ${m.status === 'live' ? `<button class="btn btn-primary btn-sm" data-control="${m.id}" type="button">Control</button>` : ''}
-            </div>
-          ` : ''}
+          ${admin && m.status === 'live' ? `<div class="row-actions"><button class="btn btn-primary btn-sm" data-control="${m.id}">Control</button></div>` : ''}
         </div>
       ` : ''}
       ${admin && m.status === 'upcoming' ? `
         <div class="match-card-body">
           <div class="row-meta">Round ${m.currentRound || 0}</div>
           <div class="row-actions">
-            <button class="btn btn-success btn-sm" data-start="${m.id}" type="button">Start Match</button>
-            <button class="btn btn-ghost btn-sm" data-cancel="${m.id}" type="button">Cancel</button>
+            <button class="btn btn-success btn-sm" data-start="${m.id}">Start Match</button>
+            <button class="btn btn-ghost btn-sm" data-cancel="${m.id}">Cancel</button>
           </div>
         </div>
       ` : ''}
       ${admin && m.status === 'live' ? `
         <div class="match-card-body">
           <div class="row-meta">Live · Round ${m.currentRound || '—'}</div>
-          <div class="row-actions">
-            <button class="btn btn-ghost btn-sm" data-cancel="${m.id}" type="button">Cancel</button>
-          </div>
+          <div class="row-actions"><button class="btn btn-ghost btn-sm" data-cancel="${m.id}">Cancel</button></div>
         </div>
       ` : ''}
     </div>
@@ -2561,22 +1493,11 @@ async function startMatch(id){
   confirmBox('Start match?', 'The match will go live and Round 1 will begin.', async () => {
     try {
       const ref = db.collection('matches').doc(id);
-      await ref.update({
-        status: 'live',
-        currentRound: 1,
-        teamAScore: 0,
-        teamBScore: 0,
-        updatedAt: nowTS()
-      });
+      await ref.update({ status: 'live', currentRound: 1, teamAScore: 0, teamBScore: 0, updatedAt: nowTS() });
       await ref.collection('rounds').add({
-        roundNumber: 1,
-        teamAEliminated: 0,
-        teamBEliminated: 0,
-        roundWinner: null,
-        status: 'active',
-        eliminatedPlayers: [],
-        createdAt: nowTS(),
-        completedAt: null
+        roundNumber: 1, teamAEliminated: 0, teamBEliminated: 0,
+        roundWinner: null, status: 'active',
+        eliminatedPlayers: [], createdAt: nowTS(), completedAt: null
       });
       toast('Match is live.', 'ok');
       pageAdminMatches();
@@ -2585,7 +1506,7 @@ async function startMatch(id){
 }
 
 async function cancelMatch(id){
-  confirmBox('Cancel match?', 'This action cannot be undone.', async () => {
+  confirmBox('Cancel match?', 'This cannot be undone.', async () => {
     try {
       await db.collection('matches').doc(id).update({ status: 'cancelled', updatedAt: nowTS() });
       toast('Match cancelled.', 'info');
@@ -2595,29 +1516,25 @@ async function cancelMatch(id){
 }
 
 /* ============================================================
-   ADMIN — LIVE CONTROL
+   LIVE CONTROL
    ============================================================ */
 function openLiveControl(matchId){
   const m = openModal(`
     <div class="modal-head">
-      <div><h3>Match Control</h3><p id="ctrl-match-id" class="mono" style="font-size:11px">${esc(matchId)}</p></div>
-      <button class="modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </button>
+      <div><h3>Match Control</h3><p class="mono" style="font-size:11px">${esc(matchId)}</p></div>
+      <button class="modal-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
     </div>
     <div id="ctrl-body"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `, { wide: true });
 
   const unsub = db.collection('matches').doc(matchId).onSnapshot(async doc => {
     const body = m.querySelector('#ctrl-body');
-    if(!body || !m.parentNode) return;
+    if(!body) return;
     if(!doc.exists){ body.innerHTML = '<div class="empty"><div class="empty-title">Match not found</div></div>'; return; }
     const data = { id: doc.id, ...doc.data() };
-
     const roundSnap = await db.collection('matches').doc(matchId).collection('rounds')
       .where('status','==','active').limit(1).get();
     const round = roundSnap.empty ? null : { id: roundSnap.docs[0].id, ...roundSnap.docs[0].data() };
-
     body.innerHTML = renderControlBody(data, round);
     bindControlHandlers(data, round, matchId);
   });
@@ -2640,9 +1557,7 @@ function renderControlBody(m, round){
           <div class="player-slot ${out ? 'elim' : ''}">
             <div class="player-slot-name">${esc(p.name || p.username)}</div>
             <div class="player-slot-status">${out ? 'Eliminated' : 'Alive'}</div>
-            ${(!locked && !out && round) ? `
-              <button class="player-slot-btn" data-elim="${p.uid}" type="button">Eliminate</button>
-            ` : ''}
+            ${(!locked && !out && round) ? `<button class="player-slot-btn" data-elim="${p.uid}">Eliminate</button>` : ''}
           </div>
         `;
       }).join('')}
@@ -2668,7 +1583,6 @@ function renderControlBody(m, round){
           </div>
         </div>
         ${m.winner ? `<div class="arena-winner">Winner: ${esc(m.winner)}</div>` : ''}
-        ${locked ? `<div class="arena-locked" style="margin-top:12px">Match locked — no more changes</div>` : ''}
         <div class="elim-counter">Team A: ${aE}/4 eliminated · Team B: ${bE}/4 eliminated</div>
       </div>
     </div>
@@ -2680,7 +1594,7 @@ function renderControlBody(m, round){
 
     ${!locked && round ? `
       <button class="btn ${ready ? 'btn-primary' : 'btn-ghost'} btn-block btn-lg" id="complete-round" type="button" style="margin-top:14px" ${ready ? '' : 'disabled'}>
-        ${ready ? 'Complete Round' : 'Waiting for 4 eliminations on one team'}
+        ${ready ? 'Complete Round' : 'Waiting for 4 eliminations'}
       </button>
     ` : ''}
   `;
@@ -2689,9 +1603,7 @@ function renderControlBody(m, round){
 function bindControlHandlers(m, round, matchId){
   const body = document.querySelector('#ctrl-body');
   if(!body) return;
-  body.querySelectorAll('[data-elim]').forEach(b => {
-    b.onclick = () => recordElimination(matchId, round.id, b.dataset.elim, m, round);
-  });
+  body.querySelectorAll('[data-elim]').forEach(b => b.onclick = () => recordElimination(matchId, round.id, b.dataset.elim, m, round));
   const cr = body.querySelector('#complete-round');
   if(cr) cr.onclick = () => completeRound(matchId, round, m);
 }
@@ -2706,11 +1618,7 @@ async function recordElimination(matchId, roundId, uid, m, round){
     const next = [...elims, uid];
     const aE = m.teamAPlayers.filter(p => next.includes(p.uid)).length;
     const bE = m.teamBPlayers.filter(p => next.includes(p.uid)).length;
-    await ref.update({
-      eliminatedPlayers: next,
-      teamAEliminated: aE,
-      teamBEliminated: bE
-    });
+    await ref.update({ eliminatedPlayers: next, teamAEliminated: aE, teamBEliminated: bE });
   } catch(e){ toast(errMsg(e), 'err'); }
 }
 
@@ -2722,9 +1630,8 @@ async function completeRound(matchId, round, m){
   let winner = null;
   if(aE === 4 && bE < 4) winner = m.teamBName;
   else if(bE === 4 && aE < 4) winner = m.teamAName;
-  else return toast('Exactly one team must have all 4 players eliminated.', 'err');
-
-  if(m.currentRound >= 15) return toast('Maximum of 15 rounds reached.', 'err');
+  else return toast('Exactly one team must have all 4 eliminated.', 'err');
+  if(m.currentRound >= 15) return toast('Maximum 15 rounds reached.', 'err');
 
   const isA = winner === m.teamAName;
   const newA = isA ? m.teamAScore + 1 : m.teamAScore;
@@ -2733,14 +1640,8 @@ async function completeRound(matchId, round, m){
 
   const mref = db.collection('matches').doc(matchId);
   const rref = mref.collection('rounds').doc(round.id);
-
   try {
-    await rref.update({
-      roundWinner: winner,
-      status: 'completed',
-      completedAt: nowTS()
-    });
-
+    await rref.update({ roundWinner: winner, status: 'completed', completedAt: nowTS() });
     const upd = { teamAScore: newA, teamBScore: newB, updatedAt: nowTS() };
 
     if(newA >= 8 || newB >= 8){
@@ -2748,22 +1649,18 @@ async function completeRound(matchId, round, m){
       upd.winner = newA >= 8 ? m.teamAName : m.teamBName;
       upd.completedAt = nowTS();
       await mref.update(upd);
-      toast(`${upd.winner} wins the match!`, 'ok', 5000);
+      toast(`${upd.winner} wins!`, 'ok');
+      // Settle bets
+      await settleBets(matchId, upd.winner).catch(() => {});
       return;
     }
-
     if(m.currentRound < 15){
       upd.currentRound = m.currentRound + 1;
       await mref.update(upd);
       await mref.collection('rounds').add({
-        roundNumber: m.currentRound + 1,
-        teamAEliminated: 0,
-        teamBEliminated: 0,
-        roundWinner: null,
-        status: 'active',
-        eliminatedPlayers: [],
-        createdAt: nowTS(),
-        completedAt: null
+        roundNumber: m.currentRound + 1, teamAEliminated: 0, teamBEliminated: 0,
+        roundWinner: null, status: 'active', eliminatedPlayers: [],
+        createdAt: nowTS(), completedAt: null
       });
       toast(`Round ${m.currentRound} → ${winner}. Round ${m.currentRound + 1} starting.`, 'ok');
     } else {
@@ -2772,8 +1669,75 @@ async function completeRound(matchId, round, m){
       upd.completedAt = nowTS();
       await mref.update(upd);
       toast('Match completed.', 'ok');
+      await settleBets(matchId, upd.winner).catch(() => {});
     }
   } catch(e){ toast(errMsg(e), 'err'); }
+}
+
+/* ============================================================
+   BET SETTLEMENT (admin triggers on match completion)
+   ============================================================ */
+async function settleBets(matchId, winnerTeamName){
+  try {
+    const betsSnap = await db.collection('bets').where('matchId','==',matchId).get();
+    if(betsSnap.empty) return;
+    // Fetch match for total pools
+    const matchDoc = await db.collection('matches').doc(matchId).get();
+    if(!matchDoc.exists) return;
+    const m = matchDoc.data();
+    if(m.betsSettled) return;
+
+    const totalA = m.totalBetPoolA || 0;
+    const totalB = m.totalBetPoolB || 0;
+    const total = totalA + totalB;
+    const winnerPool = winnerTeamName === m.teamAName ? totalA : totalB;
+
+    if(winnerPool <= 0 || total <= 0){
+      // No winners, just mark settled
+      await db.collection('matches').doc(matchId).update({ betsSettled: true, settledAt: nowTS() });
+      return;
+    }
+
+    for(const betDoc of betsSnap.docs){
+      const bet = betDoc.data();
+      if(bet.status !== 'pending') continue;
+      const won = bet.teamName === winnerTeamName;
+      const payout = won ? Math.floor((bet.amount / winnerPool) * total) : 0;
+
+      if(won && payout > 0){
+        const userRef = db.collection('users').doc(bet.uid);
+        let balanceBefore = 0, balanceAfter = 0;
+        await db.runTransaction(async tx => {
+          const uDoc = await tx.get(userRef);
+          if(!uDoc.exists) throw new Error('User not found');
+          const u = uDoc.data();
+          balanceBefore = u.coins || 0;
+          balanceAfter = balanceBefore + payout;
+          tx.update(userRef, { coins: balanceAfter, updatedAt: nowTS() });
+        });
+        await db.collection('transactions').add({
+          uid: bet.uid,
+          type: 'bet_payout',
+          amount: payout,
+          balanceBefore,
+          balanceAfter,
+          referenceId: matchId,
+          description: `Bet payout for ${winnerTeamName}`,
+          createdAt: nowTS(),
+          createdBy: state.me?.uid || 'system'
+        });
+      }
+      await betDoc.ref.update({
+        status: won ? 'won' : 'lost',
+        payout: won ? payout : 0,
+        settledAt: nowTS()
+      });
+    }
+    await db.collection('matches').doc(matchId).update({ betsSettled: true, settledAt: nowTS() });
+    toast('Bets settled.', 'ok');
+  } catch(e){
+    console.error('Settle bets error:', e);
+  }
 }
 
 /* ============================================================
@@ -2782,18 +1746,15 @@ async function completeRound(matchId, round, m){
 async function pageAdminRequests(){
   const main = $('#main');
   main.innerHTML = `
-    <div class="page-head">
-      <div><h1>Requests</h1><p>Player coin requests</p></div>
-    </div>
+    <div class="page-head"><div><h1>Requests</h1><p>Player coin requests</p></div></div>
     <div class="chips" id="req-filters">
-      <button class="chip on" data-filter="pending" type="button">Pending</button>
-      <button class="chip" data-filter="approved" type="button">Approved</button>
-      <button class="chip" data-filter="rejected" type="button">Rejected</button>
-      <button class="chip" data-filter="all" type="button">All</button>
+      <button class="chip on" data-filter="pending">Pending</button>
+      <button class="chip" data-filter="approved">Approved</button>
+      <button class="chip" data-filter="rejected">Rejected</button>
+      <button class="chip" data-filter="all">All</button>
     </div>
     <div id="requests-list"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
-
   let filter = 'pending';
   const load = async () => {
     const list = $('#requests-list');
@@ -2804,43 +1765,33 @@ async function pageAdminRequests(){
       const snap = await q.get();
       const arr = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a,b) => toMillis(b.createdAt) - toMillis(a.createdAt));
-
       if(!arr.length){
-        list.innerHTML = `<div class="empty">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-          <div class="empty-title">No ${filter} requests</div>
-        </div>`;
+        list.innerHTML = `<div class="empty"><div class="empty-title">No ${filter} requests</div></div>`;
         return;
       }
       list.innerHTML = `<div class="list">${arr.map(r => `
         <div class="row">
           <div class="row-info">
-            <div class="row-title">
-              ${r.type === 'add' ? '＋ Add coins' : '− Withdraw'}
-              <span class="coin-pill">🪙 ${r.amount}</span>
-              <span class="badge badge-${r.status}">${r.status}</span>
-            </div>
+            <div class="row-title">${r.type === 'add' ? '＋ Add' : '− Withdraw'} <span class="coin-pill">🪙 ${r.amount}</span> <span class="badge badge-${r.status}">${r.status}</span></div>
             <div class="row-sub">${esc(r.playerName || '')} (@${esc(r.username || '')})</div>
             <div class="row-meta">UID ${esc(r.freeFireUid || '—')} · ${fmtFullDate(r.createdAt)}</div>
             ${r.note ? `<div class="row-meta">Note: ${esc(r.note)}</div>` : ''}
           </div>
           ${r.status === 'pending' ? `
             <div class="row-actions">
-              <button class="btn btn-success btn-sm" data-approve="${r.id}" type="button">Approve</button>
-              <button class="btn btn-ghost btn-sm" data-reject="${r.id}" type="button">Reject</button>
+              <button class="btn btn-success btn-sm" data-approve="${r.id}">Approve</button>
+              <button class="btn btn-ghost btn-sm" data-reject="${r.id}">Reject</button>
             </div>
           ` : ''}
         </div>
       `).join('')}</div>`;
-
       list.querySelectorAll('[data-approve]').forEach(b => b.onclick = () => handleRequest(b.dataset.approve, true));
       list.querySelectorAll('[data-reject]').forEach(b => b.onclick = () => handleRequest(b.dataset.reject, false));
     } catch(e){
       toast(errMsg(e), 'err');
-      list.innerHTML = `<div class="empty"><div class="empty-title">Failed to load</div></div>`;
+      list.innerHTML = '<div class="empty"><div class="empty-title">Failed to load</div></div>';
     }
   };
-
   $$('#req-filters .chip').forEach(c => c.onclick = () => {
     $$('#req-filters .chip').forEach(x => x.classList.remove('on'));
     c.classList.add('on');
@@ -2852,61 +1803,51 @@ async function pageAdminRequests(){
 
 async function handleRequest(id, approve){
   const label = approve ? 'Approve' : 'Reject';
-  confirmBox(`${label} request?`, `This action will mark the request as ${approve ? 'approved' : 'rejected'}.`, async () => {
+  confirmBox(`${label} request?`, `Mark as ${approve ? 'approved' : 'rejected'}.`, async () => {
     try {
       const reqRef = db.collection('requests').doc(id);
       const doc = await reqRef.get();
       if(!doc.exists) return toast('Request not found.', 'err');
       const r = doc.data();
-      if(r.status !== 'pending') return toast('Request already processed.', 'err');
+      if(r.status !== 'pending') return toast('Already processed.', 'err');
 
       if(approve){
-        // Use Firestore transaction for the balance update
         const userRef = db.collection('users').doc(r.uid);
         let balanceBefore = 0, balanceAfter = 0;
-        let failReason = '';
-
         await db.runTransaction(async tx => {
           const uDoc = await tx.get(userRef);
-          if(!uDoc.exists){ failReason = 'Player not found.'; throw new Error(failReason); }
+          if(!uDoc.exists) throw new Error('Player not found');
           const u = uDoc.data();
           balanceBefore = u.coins || 0;
-          if(r.type === 'add'){
-            balanceAfter = balanceBefore + r.amount;
-          } else if(r.type === 'withdraw'){
-            if(balanceBefore < r.amount){ failReason = 'Insufficient coins.'; throw new Error(failReason); }
+          if(r.type === 'add') balanceAfter = balanceBefore + r.amount;
+          else if(r.type === 'withdraw'){
+            if(balanceBefore < r.amount) throw new Error('Insufficient coins.');
             balanceAfter = balanceBefore - r.amount;
           }
-          if(balanceAfter < 0){ failReason = 'Balance cannot be negative.'; throw new Error(failReason); }
+          if(balanceAfter < 0) throw new Error('Balance cannot be negative.');
           tx.update(userRef, { coins: balanceAfter, updatedAt: nowTS() });
         });
-
-        // Create transaction record
         await db.collection('transactions').add({
           uid: r.uid,
           type: r.type === 'add' ? 'admin_coin_credit' : 'virtual_coin_withdrawal',
           amount: r.amount,
-          balanceBefore,
-          balanceAfter,
+          balanceBefore, balanceAfter,
           referenceId: id,
           description: r.note || (r.type === 'add' ? 'Coin credit' : 'Coin withdrawal'),
           createdAt: nowTS(),
           createdBy: state.me.uid
         });
       }
-
       await reqRef.update({
         status: approve ? 'approved' : 'rejected',
         updatedAt: nowTS(),
         processedBy: state.me.uid,
         processedAt: nowTS()
       });
-
       toast(`Request ${approve ? 'approved' : 'rejected'}.`, 'ok');
       pageAdminRequests();
     } catch(e){
-      toast(e.message === 'Insufficient coins.' || e.message === 'Balance cannot be negative.'
-        ? e.message : errMsg(e), 'err');
+      toast(e.message === 'Insufficient coins.' || e.message === 'Balance cannot be negative.' ? e.message : errMsg(e), 'err');
     }
   }, label, approve ? 'success' : 'danger');
 }
@@ -2917,56 +1858,36 @@ async function handleRequest(id, approve){
 async function pageAdminHistory(){
   const main = $('#main');
   main.innerHTML = `
-    <div class="page-head">
-      <div><h1>Match History</h1><p>Completed and cancelled matches</p></div>
-    </div>
-    <div class="field" style="margin-bottom:12px">
-      <input id="history-search" type="search" placeholder="Search by match name or ID…" aria-label="Search matches">
-    </div>
+    <div class="page-head"><div><h1>Match History</h1><p>Completed and cancelled matches</p></div></div>
+    <div class="field" style="margin-bottom:12px"><input id="history-search" type="search" placeholder="Search by match name or ID…"></div>
     <div class="chips" id="history-filters">
-      <button class="chip on" data-filter="completed" type="button">Completed</button>
-      <button class="chip" data-filter="cancelled" type="button">Cancelled</button>
-      <button class="chip" data-filter="all" type="button">All</button>
+      <button class="chip on" data-filter="completed">Completed</button>
+      <button class="chip" data-filter="cancelled">Cancelled</button>
     </div>
     <div id="history-list"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
-
-  let filter = 'completed';
-  let query = '';
+  let filter = 'completed', query = '';
   const load = async () => {
     const list = $('#history-list');
     list.innerHTML = '<div class="loading-block"><div class="spinner-lg"></div></div>';
     try {
-      let snap;
-      if(filter === 'all'){
-        snap = await db.collection('matches').get();
-      } else {
-        snap = await db.collection('matches').where('status','==',filter).get();
-      }
+      const snap = await db.collection('matches').where('status','==',filter).get();
       let arr = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a,b) => toMillis(b.completedAt || b.updatedAt) - toMillis(a.completedAt || a.updatedAt));
-
-      if(filter === 'all') arr = arr.filter(m => ['completed','cancelled'].includes(m.status));
-
       if(query){
         const q = query.toLowerCase();
         arr = arr.filter(m => (m.matchName||'').toLowerCase().includes(q) || m.id.toLowerCase().includes(q));
       }
       if(!arr.length){
-        list.innerHTML = `<div class="empty">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg>
-          <div class="empty-title">No matches found</div>
-        </div>`;
+        list.innerHTML = '<div class="empty"><div class="empty-title">No matches</div></div>';
         return;
       }
       list.innerHTML = arr.map(m => renderMatchCard(m, false)).join('');
       list.querySelectorAll('[data-open]').forEach(el => el.onclick = () => openMatchDetail(el.dataset.open));
     } catch(e){
       toast(errMsg(e), 'err');
-      list.innerHTML = `<div class="empty"><div class="empty-title">Failed to load</div></div>`;
     }
   };
-
   $('#history-search').oninput = e => { query = e.target.value.trim(); load(); };
   $$('#history-filters .chip').forEach(c => c.onclick = () => {
     $$('#history-filters .chip').forEach(x => x.classList.remove('on'));
@@ -2981,18 +1902,14 @@ async function openMatchDetail(id){
   const m = openModal(`
     <div class="modal-head">
       <div><h3>Match Details</h3><p class="mono" style="font-size:11px">${esc(id)}</p></div>
-      <button class="modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </button>
+      <button class="modal-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
     </div>
     <div id="match-detail-body"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `, { wide: true });
-
   try {
     const doc = await db.collection('matches').doc(id).get();
     if(!doc.exists){ m.querySelector('#match-detail-body').innerHTML = '<div class="empty"><div class="empty-title">Match not found</div></div>'; return; }
     const d = { id: doc.id, ...doc.data() };
-
     const roundsSnap = await db.collection('matches').doc(id).collection('rounds').get();
     const rounds = roundsSnap.docs.map(x => ({ id: x.id, ...x.data() }))
       .sort((a,b) => (a.roundNumber||0) - (b.roundNumber||0));
@@ -3001,7 +1918,7 @@ async function openMatchDetail(id){
     body.innerHTML = `
       <div class="arena" style="margin-bottom:12px">
         <div class="arena-head">
-          <div class="arena-title" style="color:${d.status === 'live' ? '#EF4444' : d.status === 'completed' ? '#22C55E' : '#929AA6'}">${d.status}</div>
+          <div class="arena-title">${d.status}</div>
           <div class="arena-id">${fmtDate(d.matchDate)} ${esc(d.matchTime||'')}</div>
         </div>
         <div class="arena-body">
@@ -3019,11 +1936,8 @@ async function openMatchDetail(id){
           ${d.winner ? `<div class="arena-winner">🏆 ${esc(d.winner)}</div>` : ''}
         </div>
       </div>
-
       <div class="section-head"><h2>Rounds</h2></div>
-      ${rounds.length === 0 ? `
-        <div class="empty" style="padding:20px"><div class="empty-title">No rounds recorded</div></div>
-      ` : `
+      ${rounds.length === 0 ? '<div class="empty" style="padding:20px"><div class="empty-title">No rounds</div></div>' : `
         <div class="list">${rounds.map(r => `
           <div class="row">
             <div class="row-info">
@@ -3034,20 +1948,11 @@ async function openMatchDetail(id){
           </div>
         `).join('')}</div>
       `}
-
       <div class="section-head"><h2>Players</h2></div>
       <div class="profile-fields">
         <div class="profile-field"><span class="profile-field-label">${esc(d.teamAName)}</span><span class="profile-field-value" style="text-align:right;font-size:12px">${(d.teamAPlayers||[]).map(p => esc(p.name || p.username)).join(', ')}</span></div>
         <div class="profile-field"><span class="profile-field-label">${esc(d.teamBName)}</span><span class="profile-field-value" style="text-align:right;font-size:12px">${(d.teamBPlayers||[]).map(p => esc(p.name || p.username)).join(', ')}</span></div>
       </div>
-
-      ${d.completedAt ? `
-        <div class="section-head"><h2>Timeline</h2></div>
-        <div class="profile-fields">
-          <div class="profile-field"><span class="profile-field-label">Created</span><span class="profile-field-value">${fmtFullDate(d.createdAt)}</span></div>
-          <div class="profile-field"><span class="profile-field-label">Completed</span><span class="profile-field-value">${fmtFullDate(d.completedAt)}</span></div>
-        </div>
-      ` : ''}
     `;
   } catch(e){
     toast(errMsg(e), 'err');
@@ -3060,32 +1965,17 @@ async function openMatchDetail(id){
 async function pageAdminCoins(){
   const main = $('#main');
   main.innerHTML = `
-    <div class="page-head">
-      <div><h1>Virtual Coins</h1><p>Player balances and transaction history</p></div>
-    </div>
+    <div class="page-head"><div><h1>Virtual Coins</h1><p>Balances and transactions</p></div></div>
     <div class="stat-grid" style="grid-template-columns:1fr 1fr">
-      <div class="stat">
-        <div class="stat-accent"></div>
-        <div class="stat-label">Total coins in circulation</div>
-        <div class="stat-value primary" id="total-coins">—</div>
-      </div>
-      <div class="stat">
-        <div class="stat-accent info"></div>
-        <div class="stat-label">Transactions logged</div>
-        <div class="stat-value" id="total-txns">—</div>
-      </div>
+      <div class="stat"><div class="stat-accent"></div><div class="stat-label">Total coins</div><div class="stat-value primary" id="total-coins">—</div></div>
+      <div class="stat"><div class="stat-accent info"></div><div class="stat-label">Transactions</div><div class="stat-value" id="total-txns">—</div></div>
     </div>
-
     <div class="section-head"><h2>Player Balances</h2></div>
-    <div class="field" style="margin-bottom:12px">
-      <input id="coin-search" type="search" placeholder="Search player…" aria-label="Search players">
-    </div>
+    <div class="field" style="margin-bottom:12px"><input id="coin-search" type="search" placeholder="Search player…"></div>
     <div id="coins-players"><div class="loading-block"><div class="spinner-lg"></div></div></div>
-
     <div class="section-head"><h2>Recent Transactions</h2></div>
     <div id="coins-txns"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
-
   try {
     const [uSnap, tSnap] = await Promise.all([
       db.collection('users').where('role','==','player').get(),
@@ -3097,8 +1987,7 @@ async function pageAdminCoins(){
       .sort((a,b) => toMillis(b.createdAt) - toMillis(a.createdAt))
       .slice(0, 30);
 
-    const total = players.reduce((s, p) => s + (p.coins || 0), 0);
-    $('#total-coins').textContent = total;
+    $('#total-coins').textContent = players.reduce((s,p) => s + (p.coins || 0), 0);
     $('#total-txns').textContent = tSnap.size;
 
     const renderPlayers = (q='') => {
@@ -3106,15 +1995,9 @@ async function pageAdminCoins(){
       let items = players;
       if(q){
         const ql = q.toLowerCase();
-        items = items.filter(p =>
-          (p.name||'').toLowerCase().includes(ql) ||
-          (p.username||'').toLowerCase().includes(ql)
-        );
+        items = items.filter(p => (p.name||'').toLowerCase().includes(ql) || (p.username||'').toLowerCase().includes(ql));
       }
-      if(!items.length){
-        el.innerHTML = '<div class="empty"><div class="empty-title">No players found</div></div>';
-        return;
-      }
+      if(!items.length){ el.innerHTML = '<div class="empty"><div class="empty-title">No players</div></div>'; return; }
       el.innerHTML = `<div class="list">${items.map(p => `
         <div class="row">
           <div class="row-info">
@@ -3122,7 +2005,7 @@ async function pageAdminCoins(){
             <div class="row-sub">@${esc(p.username || '—')} · UID ${esc(p.freeFireUid || '—')}</div>
           </div>
           <div class="coin-pill">🪙 ${p.coins || 0}</div>
-          <button class="btn btn-ghost btn-sm" data-credit="${p.uid}" type="button">Adjust</button>
+          <button class="btn btn-ghost btn-sm" data-credit="${p.uid}">Adjust</button>
         </div>
       `).join('')}</div>`;
       el.querySelectorAll('[data-credit]').forEach(b => b.onclick = () => openCoinAdjust(b.dataset.credit));
@@ -3131,55 +2014,38 @@ async function pageAdminCoins(){
     $('#coin-search').oninput = e => renderPlayers(e.target.value.trim());
 
     const tEl = $('#coins-txns');
-    if(!txns.length){
-      tEl.innerHTML = '<div class="empty"><div class="empty-title">No transactions yet</div></div>';
-    } else {
-      tEl.innerHTML = `<div class="list">${txns.map(t => `
-        <div class="row">
-          <div class="row-info">
-            <div class="row-title">
-              ${t.type === 'admin_coin_credit' ? '＋ Credit' : '− Withdrawal'}
-              <span class="coin-pill">🪙 ${t.amount}</span>
+    if(!txns.length){ tEl.innerHTML = '<div class="empty"><div class="empty-title">No transactions</div></div>'; }
+    else {
+      tEl.innerHTML = `<div class="list">${txns.map(t => {
+        const typeLabel = t.type === 'bet_payout' ? '🎯 Bet payout' : t.type === 'admin_coin_credit' ? '＋ Credit' : '− Withdrawal';
+        return `
+          <div class="row">
+            <div class="row-info">
+              <div class="row-title">${typeLabel} <span class="coin-pill">🪙 ${t.amount}</span></div>
+              <div class="row-sub">${esc(t.description || '—')}</div>
+              <div class="row-meta">${fmtFullDate(t.createdAt)} · ${t.balanceBefore} → ${t.balanceAfter}</div>
             </div>
-            <div class="row-sub">${esc(t.description || '—')}</div>
-            <div class="row-meta">${fmtFullDate(t.createdAt)} · balance ${t.balanceBefore} → ${t.balanceAfter}</div>
           </div>
-        </div>
-      `).join('')}</div>`;
+        `;
+      }).join('')}</div>`;
     }
-  } catch(e){
-    toast(errMsg(e), 'err');
-  }
+  } catch(e){ toast(errMsg(e), 'err'); }
 }
 
 async function openCoinAdjust(uid){
-  const p = state.pCache.find(x => x.uid === uid) || 
-    (await db.collection('users').doc(uid).get()).data();
-  const user = { uid, ...p };
+  const snap = await db.collection('users').doc(uid).get();
+  if(!snap.exists) return toast('Player not found.', 'err');
+  const user = { uid, ...snap.data() };
   const m = openModal(`
     <div class="modal-head">
       <div><h3>Adjust Coins</h3><p>${esc(user.name || user.username || 'Player')}</p></div>
-      <button class="modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </button>
+      <button class="modal-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
     </div>
-    <div class="alert alert-info"><span class="alert-icon">i</span><span>Current balance: <strong>${user.coins || 0} coins</strong></span></div>
-    <div class="field">
-      <label for="ca-type">Operation</label>
-      <select id="ca-type">
-        <option value="add">Add Coins</option>
-        <option value="subtract">Subtract Coins</option>
-      </select>
-    </div>
-    <div class="field">
-      <label for="ca-amount">Amount</label>
-      <input id="ca-amount" type="number" min="1" placeholder="100">
-    </div>
-    <div class="field">
-      <label for="ca-note">Note</label>
-      <textarea id="ca-note" placeholder="Reason for adjustment"></textarea>
-    </div>
-    <button class="btn btn-primary btn-block btn-lg" id="ca-go" type="button">Apply Adjustment</button>
+    <div class="alert alert-info"><span>i</span><span>Current: <strong>${user.coins || 0} coins</strong></span></div>
+    <div class="field"><label for="ca-type">Operation</label><select id="ca-type"><option value="add">Add Coins</option><option value="subtract">Subtract Coins</option></select></div>
+    <div class="field"><label for="ca-amount">Amount</label><input id="ca-amount" type="number" min="1" placeholder="100"></div>
+    <div class="field"><label for="ca-note">Note</label><textarea id="ca-note" placeholder="Reason"></textarea></div>
+    <button class="btn btn-primary btn-block btn-lg" id="ca-go" type="button">Apply</button>
   `);
   m.querySelector('#ca-go').onclick = async () => {
     const type = m.querySelector('#ca-type').value;
@@ -3188,49 +2054,40 @@ async function openCoinAdjust(uid){
     const btn = m.querySelector('#ca-go');
     if(!amount || amount <= 0) return toast('Enter a valid amount.', 'err');
     if(amount > 1000000) return toast('Amount too large.', 'err');
-
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-inline"></span> Applying';
-
     try {
       const userRef = db.collection('users').doc(uid);
       let before = 0, after = 0;
-      let failMsg = '';
-
       await db.runTransaction(async tx => {
         const uDoc = await tx.get(userRef);
-        if(!uDoc.exists){ failMsg = 'Player not found.'; throw new Error(failMsg); }
+        if(!uDoc.exists) throw new Error('Player not found');
         const u = uDoc.data();
         before = u.coins || 0;
-        if(type === 'add'){
-          after = before + amount;
-        } else {
-          if(before < amount){ failMsg = 'Insufficient coins.'; throw new Error(failMsg); }
+        if(type === 'add') after = before + amount;
+        else {
+          if(before < amount) throw new Error('Insufficient coins.');
           after = before - amount;
         }
-        if(after < 0){ failMsg = 'Balance cannot be negative.'; throw new Error(failMsg); }
+        if(after < 0) throw new Error('Balance cannot be negative.');
         tx.update(userRef, { coins: after, updatedAt: nowTS() });
       });
-
       await db.collection('transactions').add({
         uid,
         type: type === 'add' ? 'admin_coin_credit' : 'virtual_coin_withdrawal',
-        amount,
-        balanceBefore: before,
-        balanceAfter: after,
+        amount, balanceBefore: before, balanceAfter: after,
         referenceId: 'admin-adjust-' + Date.now(),
         description: note,
         createdAt: nowTS(),
         createdBy: state.me.uid
       });
-
       toast('Coins adjusted.', 'ok');
       m.remove();
       pageAdminCoins();
     } catch(e){
       toast(e.message === 'Insufficient coins.' || e.message === 'Balance cannot be negative.' ? e.message : errMsg(e), 'err');
       btn.disabled = false;
-      btn.textContent = 'Apply Adjustment';
+      btn.textContent = 'Apply';
     }
   };
 }
@@ -3238,17 +2095,12 @@ async function openCoinAdjust(uid){
 /* ============================================================
    ADMIN — SETTINGS
    ============================================================ */
-async function pageAdminSettings(){
+function pageAdminSettings(){
   const main = $('#main');
   main.innerHTML = `
-    <div class="page-head">
-      <div><h1>Settings</h1><p>Account and application settings</p></div>
-    </div>
-
+    <div class="page-head"><div><h1>Settings</h1><p>Account details</p></div></div>
     <div class="card">
-      <div class="card-header">
-        <div><h2>Admin Profile</h2></div>
-      </div>
+      <div class="card-header"><div><h2>Admin Profile</h2></div></div>
       <div class="profile-fields">
         <div class="profile-field"><span class="profile-field-label">Name</span><span class="profile-field-value">${esc(state.profile.name || '—')}</span></div>
         <div class="profile-field"><span class="profile-field-label">Username</span><span class="profile-field-value">@${esc(state.profile.username || '—')}</span></div>
@@ -3256,107 +2108,27 @@ async function pageAdminSettings(){
         <div class="profile-field"><span class="profile-field-label">Role</span><span class="profile-field-value"><span class="badge badge-active">admin</span></span></div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div><h2>Tournament Settings</h2><div class="card-header-sub">Stored in Firestore</div></div>
-      </div>
-      <div class="field">
-        <label for="set-name">Tournament Name</label>
-        <input id="set-name" type="text" placeholder="FF 4v4 CUSTOM">
-      </div>
-      <div class="field">
-        <label for="set-sub">Tournament Subtitle</label>
-        <input id="set-sub" type="text" placeholder="Tournament Management">
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="set-teamA">Default Team A Name</label>
-          <input id="set-teamA" type="text" placeholder="Team Alpha">
-        </div>
-        <div class="field">
-          <label for="set-teamB">Default Team B Name</label>
-          <input id="set-teamB" type="text" placeholder="Team Bravo">
-        </div>
-      </div>
-      <button class="btn btn-primary btn-block btn-lg" id="set-save" type="button">Save Settings</button>
-    </div>
-
     <div class="card">
       <div class="card-header"><div><h2>Danger Zone</h2></div></div>
       <button class="btn btn-danger btn-block" id="logout-btn" type="button">Sign Out</button>
     </div>
   `;
-
   $('#logout-btn').onclick = () => confirmBox('Sign out?', 'You will need to sign in again.', logout, 'Sign out', 'danger');
-
-  // Load settings
-  try {
-    const doc = await db.collection('settings').doc('app').get();
-    if(doc.exists){
-      const d = doc.data();
-      $('#set-name').value = d.tournamentName || '';
-      $('#set-sub').value = d.tournamentSubtitle || '';
-      $('#set-teamA').value = d.defaultTeamAName || '';
-      $('#set-teamB').value = d.defaultTeamBName || '';
-    }
-  } catch(_){ /* rules may not allow settings read; ignore */ }
-
-  $('#set-save').onclick = async () => {
-    const btn = $('#set-save');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-inline"></span> Saving';
-    try {
-      await db.collection('settings').doc('app').set({
-        tournamentName: $('#set-name').value.trim() || 'FF 4v4 CUSTOM',
-        tournamentSubtitle: $('#set-sub').value.trim() || 'Tournament Management',
-        defaultTeamAName: $('#set-teamA').value.trim() || 'Team Alpha',
-        defaultTeamBName: $('#set-teamB').value.trim() || 'Team Bravo',
-        updatedAt: nowTS(),
-        updatedBy: state.me.uid
-      }, { merge: true });
-      toast('Settings saved.', 'ok');
-    } catch(e){
-      toast(errMsg(e), 'err');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Save Settings';
-    }
-  };
 }
 
-/* ============================================================
-   ADMIN — MORE (mobile)
-   ============================================================ */
 function pageAdminMore(){
   const main = $('#main');
   main.innerHTML = `
-    <div class="page-head">
-      <div><h1>More</h1><p>Additional tools</p></div>
-    </div>
+    <div class="page-head"><div><h1>More</h1><p>Additional tools</p></div></div>
     <div class="card">
       <div class="list">
-        <button class="row row-pointer" style="width:100%;background:none;text-align:left" onclick="go('create')">
-          <div class="row-info"><div class="row-title">New Match</div><div class="row-sub">Create a 4v4 custom room</div></div>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 18 6-6-6-6" stroke-linecap="round"/></svg>
-        </button>
-        <button class="row row-pointer" style="width:100%;background:none;text-align:left" onclick="go('history')">
-          <div class="row-info"><div class="row-title">Match History</div><div class="row-sub">Completed and cancelled matches</div></div>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 18 6-6-6-6" stroke-linecap="round"/></svg>
-        </button>
-        <button class="row row-pointer" style="width:100%;background:none;text-align:left" onclick="go('coins')">
-          <div class="row-info"><div class="row-title">Virtual Coins</div><div class="row-sub">Balances and transactions</div></div>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 18 6-6-6-6" stroke-linecap="round"/></svg>
-        </button>
-        <button class="row row-pointer" style="width:100%;background:none;text-align:left" onclick="go('settings')">
-          <div class="row-info"><div class="row-title">Settings</div><div class="row-sub">Application settings</div></div>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 18 6-6-6-6" stroke-linecap="round"/></svg>
-        </button>
+        <button class="row row-pointer" style="width:100%;background:none;text-align:left" onclick="go('create')"><div class="row-info"><div class="row-title">New Match</div><div class="row-sub">Create a 4v4 custom room</div></div></button>
+        <button class="row row-pointer" style="width:100%;background:none;text-align:left" onclick="go('history')"><div class="row-info"><div class="row-title">Match History</div><div class="row-sub">Completed and cancelled</div></div></button>
+        <button class="row row-pointer" style="width:100%;background:none;text-align:left" onclick="go('coins')"><div class="row-info"><div class="row-title">Virtual Coins</div><div class="row-sub">Balances and transactions</div></div></button>
+        <button class="row row-pointer" style="width:100%;background:none;text-align:left" onclick="go('settings')"><div class="row-info"><div class="row-title">Settings</div><div class="row-sub">Application settings</div></div></button>
       </div>
     </div>
-    <div class="card">
-      <button class="btn btn-danger btn-block" onclick="logout()">Sign Out</button>
-    </div>
+    <div class="card"><button class="btn btn-danger btn-block" onclick="logout()">Sign Out</button></div>
   `;
 }
 
@@ -3367,39 +2139,26 @@ async function pagePlayerHome(){
   const main = $('#main');
   main.innerHTML = `
     <div class="page-head">
-      <div>
-        <h1>Welcome, ${esc(state.profile.name || state.profile.username)}</h1>
-        <p>FF UID ${esc(state.profile.freeFireUid || '—')}</p>
-      </div>
+      <div><h1>Welcome, ${esc(state.profile.name || state.profile.username)}</h1><p>FF UID ${esc(state.profile.freeFireUid || '—')}</p></div>
     </div>
     <div class="card">
-      <div class="card-header">
-        <div><h2>Your Balance</h2><div class="card-header-sub">Virtual tournament coins</div></div>
-      </div>
+      <div class="card-header"><div><h2>Your Balance</h2><div class="card-header-sub">Virtual tournament coins</div></div></div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-        <div class="coin-pill" id="home-balance" style="font-size:16px;padding:8px 14px">
+        <div class="coin-pill lg" id="home-balance">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M9 9h6M9 15h6M12 9v6" stroke-linecap="round"/></svg>
           <span>${state.profile.coins || 0}</span>
         </div>
         <button class="btn btn-primary btn-sm" id="new-req" type="button">Request Coins</button>
       </div>
     </div>
-
     <div class="section-head"><h2>Live Matches</h2></div>
     <div id="home-live"><div class="loading-block"><div class="spinner-lg"></div></div></div>
-
     <div class="section-head"><h2>Upcoming Matches</h2></div>
     <div id="home-upcoming"><div class="loading-block"><div class="spinner-lg"></div></div></div>
-
-    <div class="section-head"><h2>Recent Results</h2></div>
-    <div id="home-recent"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
-
   $('#new-req').onclick = openPlayerRequestModal;
 
   const uid = state.me.uid;
-
-  // Balance listener
   const balSub = db.collection('users').doc(uid).onSnapshot(d => {
     if(d.exists){
       state.profile = { uid: d.id, ...d.data() };
@@ -3409,46 +2168,30 @@ async function pagePlayerHome(){
   });
   trackSub(balSub);
 
-  // Matches listener
   const matchSub = db.collection('matches').onSnapshot(snap => {
     const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    const mine = all.filter(m =>
-      (m.teamAPlayers||[]).some(p => p.uid === uid) || (m.teamBPlayers||[]).some(p => p.uid === uid)
-    );
-
-    const live = mine.filter(m => m.status === 'live');
-    const upcoming = mine.filter(m => m.status === 'upcoming');
-    const recent = mine.filter(m => m.status === 'completed')
-      .sort((a,b) => toMillis(b.completedAt) - toMillis(a.completedAt))
-      .slice(0, 5);
-
-    renderPlayerMatches($('#home-live'), live, uid, 'No live matches right now');
-    renderPlayerMatches($('#home-upcoming'), upcoming, uid, 'No upcoming matches');
-    renderPlayerMatches($('#home-recent'), recent, uid, 'No recent results');
+    const live = all.filter(m => m.status === 'live');
+    const upcoming = all.filter(m => m.status === 'upcoming');
+    renderMatchList($('#home-live'), live, 'No live matches');
+    renderMatchList($('#home-upcoming'), upcoming, 'No upcoming matches');
   });
   trackSub(matchSub);
 }
 
-function renderPlayerMatches(container, list, uid, emptyMsg){
+function renderMatchList(container, list, emptyMsg){
   if(!container) return;
   if(!list.length){
-    container.innerHTML = `<div class="empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
-      <div class="empty-title">${esc(emptyMsg)}</div>
-    </div>`;
+    container.innerHTML = `<div class="empty"><div class="empty-title">${esc(emptyMsg)}</div></div>`;
     return;
   }
   container.innerHTML = list.map(m => {
-    const inA = (m.teamAPlayers||[]).some(p => p.uid === uid);
-    const myTeam = inA ? m.teamAName : m.teamBName;
-    const oppTeam = inA ? m.teamBName : m.teamAName;
     const showScore = ['live','completed'].includes(m.status);
     return `
       <div class="match-card" data-open-match="${m.id}">
         <div class="match-card-head">
           <div style="min-width:0">
             <div class="match-card-title">${esc(m.matchName)}</div>
-            <div class="match-card-sub">Your team: ${esc(myTeam)} vs ${esc(oppTeam)}</div>
+            <div class="match-card-sub">${esc(m.teamAName)} vs ${esc(m.teamBName)}</div>
             <div class="match-card-sub mono" style="font-size:10.5px">${fmtDate(m.matchDate)} ${esc(m.matchTime||'')}</div>
           </div>
           <span class="badge badge-${m.status}">${m.status}</span>
@@ -3462,10 +2205,245 @@ function renderPlayerMatches(container, list, uid, emptyMsg){
       </div>
     `;
   }).join('');
+  container.querySelectorAll('[data-open-match]').forEach(el => el.onclick = () => openMatchDetail(el.dataset.openMatch));
+}
 
-  container.querySelectorAll('[data-open-match]').forEach(el => {
-    el.onclick = () => openMatchDetail(el.dataset.openMatch);
+/* ============================================================
+   PLAYER — BETS (view + place)
+   ============================================================ */
+async function pagePlayerBets(){
+  const main = $('#main');
+  main.innerHTML = `
+    <div class="page-head"><div><h1>Bets</h1><p>Predict match winners with virtual coins</p></div></div>
+    <div class="alert alert-info"><span>i</span><span>Virtual coins only. No real money involved. Coins have no cash value.</span></div>
+    <div class="chips" id="bet-filters">
+      <button class="chip on" data-filter="open">Open</button>
+      <button class="chip" data-filter="mine">My Bets</button>
+      <button class="chip" data-filter="settled">Settled</button>
+    </div>
+    <div id="bets-container"><div class="loading-block"><div class="spinner-lg"></div></div></div>
+  `;
+  let filter = 'open';
+  const uid = state.me.uid;
+
+  const load = async () => {
+    const c = $('#bets-container');
+    c.innerHTML = '<div class="loading-block"><div class="spinner-lg"></div></div>';
+    try {
+      const [matchSnap, myBetsSnap] = await Promise.all([
+        db.collection('matches').get(),
+        db.collection('bets').where('uid','==',uid).get()
+      ]);
+      const matches = matchSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const myBets = myBetsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      if(filter === 'open'){
+        // Show upcoming matches where user can bet
+        const open = matches.filter(m => m.status === 'upcoming')
+          .sort((a,b) => toMillis(a.matchDate) - toMillis(b.matchDate));
+        if(!open.length){
+          c.innerHTML = '<div class="empty"><div class="empty-title">No open matches</div><div class="empty-sub">Check back later for new matches</div></div>';
+          return;
+        }
+        c.innerHTML = open.map(m => renderBetCard(m, myBets)).join('');
+        c.querySelectorAll('[data-place-bet]').forEach(b => {
+          b.onclick = () => openPlaceBetModal(b.dataset.match, b.dataset.team);
+        });
+      } else if(filter === 'mine'){
+        const active = myBets.filter(b => b.status === 'pending');
+        if(!active.length){
+          c.innerHTML = '<div class="empty"><div class="empty-title">No active bets</div></div>';
+          return;
+        }
+        c.innerHTML = active.map(b => {
+          const match = matches.find(m => m.id === b.matchId) || {};
+          return renderMyBetCard(b, match);
+        }).join('');
+      } else {
+        const settled = myBets.filter(b => b.status !== 'pending')
+          .sort((a,b) => toMillis(b.settledAt) - toMillis(a.settledAt));
+        if(!settled.length){
+          c.innerHTML = '<div class="empty"><div class="empty-title">No settled bets</div></div>';
+          return;
+        }
+        c.innerHTML = settled.map(b => {
+          const match = matches.find(m => m.id === b.matchId) || {};
+          return renderMyBetCard(b, match);
+        }).join('');
+      }
+    } catch(e){
+      toast(errMsg(e), 'err');
+      c.innerHTML = '<div class="empty"><div class="empty-title">Failed to load</div></div>';
+    }
+  };
+
+  $$('#bet-filters .chip').forEach(ch => ch.onclick = () => {
+    $$('#bet-filters .chip').forEach(x => x.classList.remove('on'));
+    ch.classList.add('on');
+    filter = ch.dataset.filter;
+    load();
   });
+  load();
+}
+
+function renderBetCard(m, myBets){
+  const poolA = m.totalBetPoolA || 0;
+  const poolB = m.totalBetPoolB || 0;
+  const total = poolA + poolB;
+  const oddsA = poolA > 0 ? (total / poolA).toFixed(2) : '—';
+  const oddsB = poolB > 0 ? (total / poolB).toFixed(2) : '—';
+  const myBet = myBets.find(b => b.matchId === m.id && b.status === 'pending');
+
+  return `
+    <div class="bet-card">
+      <div class="bet-match-head">
+        <div style="min-width:0">
+          <div class="bet-match-title">${esc(m.matchName)}</div>
+          <div class="bet-match-sub">${fmtDate(m.matchDate)} ${esc(m.matchTime||'')}</div>
+          <div class="bet-match-sub mono" style="font-size:10px">${esc(m.id)}</div>
+        </div>
+        <span class="badge badge-${m.status}">${m.status}</span>
+      </div>
+      <div class="bet-options">
+        <div class="bet-option ${myBet && myBet.teamName === m.teamAName ? 'selected' : ''}">
+          <div class="team-name">${esc(m.teamAName)}</div>
+          <div class="pool">Pool: 🪙 ${poolA}</div>
+          <div class="odds">${oddsA}x</div>
+          <div class="odds-label">Odds</div>
+          ${!myBet ? `<button class="btn btn-primary btn-sm btn-block" style="margin-top:8px" data-place-bet="${m.id}" data-team="${esc(m.teamAName)}">Bet</button>` : ''}
+        </div>
+        <div class="bet-option ${myBet && myBet.teamName === m.teamBName ? 'selected' : ''}">
+          <div class="team-name">${esc(m.teamBName)}</div>
+          <div class="pool">Pool: 🪙 ${poolB}</div>
+          <div class="odds">${oddsB}x</div>
+          <div class="odds-label">Odds</div>
+          ${!myBet ? `<button class="btn btn-primary btn-sm btn-block" style="margin-top:8px" data-place-bet="${m.id}" data-team="${esc(m.teamBName)}">Bet</button>` : ''}
+        </div>
+      </div>
+      <div class="bet-pools">
+        <span>Total pool: <strong>🪙 ${total}</strong></span>
+        ${myBet ? `<span>Your bet: <strong>🪙 ${myBet.amount}</strong> on ${esc(myBet.teamName)}</span>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderMyBetCard(b, m){
+  const statusBadge = b.status === 'won' ? 'badge-won' : b.status === 'lost' ? 'badge-lost' : 'badge-pending';
+  return `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px">
+        <div style="min-width:0">
+          <div class="bet-match-title">${esc(m.matchName || 'Match')}</div>
+          <div class="bet-match-sub mono" style="font-size:10px">${esc(b.matchId)}</div>
+        </div>
+        <span class="badge ${statusBadge}">${b.status}</span>
+      </div>
+      <div class="my-bet">
+        <div class="bet-info">
+          <div class="bet-team">Predicted: ${esc(b.teamName)}</div>
+          <div class="bet-amount">Bet amount: 🪙 ${b.amount}</div>
+        </div>
+        <div class="bet-payout">
+          <div class="payout-amount">🪙 ${b.payout || 0}</div>
+          <div class="payout-label">${b.status === 'won' ? 'Payout' : b.status === 'lost' ? 'Lost' : 'Potential'}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function openPlaceBetModal(matchId, teamName){
+  const snap = await db.collection('matches').doc(matchId).get();
+  if(!snap.exists) return toast('Match not found.', 'err');
+  const m = snap.data();
+  if(m.status !== 'upcoming') return toast('Betting is closed for this match.', 'err');
+
+  const m2 = openModal(`
+    <div class="modal-head">
+      <div><h3>Place Bet</h3><p>${esc(m.matchName)}</p></div>
+      <button class="modal-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="alert alert-info"><span>i</span><span>Virtual coins only. No cash value.</span></div>
+    <div class="field"><label>Team</label><input type="text" value="${esc(teamName)}" disabled></div>
+    <div class="field"><label for="pb-amount">Bet Amount</label><input id="pb-amount" type="number" min="10" placeholder="100"></div>
+    <div class="field-hint">Your balance: 🪙 ${state.profile.coins || 0}</div>
+    <button class="btn btn-primary btn-block btn-lg" id="pb-go" type="button" style="margin-top:12px">Place Bet</button>
+  `);
+
+  m2.querySelector('#pb-go').onclick = async () => {
+    const amount = parseInt(m2.querySelector('#pb-amount').value, 10);
+    const btn = m2.querySelector('#pb-go');
+    if(!amount || amount < 10) return toast('Minimum bet is 10 coins.', 'err');
+    if(amount > 100000) return toast('Amount too large.', 'err');
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-inline"></span> Placing';
+
+    try {
+      const userRef = db.collection('users').doc(state.me.uid);
+      const matchRef = db.collection('matches').doc(matchId);
+      const betRef = db.collection('bets').doc();
+
+      let balanceBefore = 0, balanceAfter = 0;
+
+      await db.runTransaction(async tx => {
+        const [uDoc, mDoc] = await Promise.all([tx.get(userRef), tx.get(matchRef)]);
+        if(!uDoc.exists) throw new Error('User not found');
+        if(!mDoc.exists) throw new Error('Match not found');
+        const u = uDoc.data();
+        const mm = mDoc.data();
+        if(mm.status !== 'upcoming') throw new Error('Betting closed.');
+        balanceBefore = u.coins || 0;
+        if(balanceBefore < amount) throw new Error('Insufficient coins.');
+        balanceAfter = balanceBefore - amount;
+
+        const isTeamA = teamName === mm.teamAName;
+        const currentPoolA = mm.totalBetPoolA || 0;
+        const currentPoolB = mm.totalBetPoolB || 0;
+
+        tx.update(userRef, { coins: balanceAfter, updatedAt: nowTS() });
+        tx.set(betRef, {
+          uid: state.me.uid,
+          username: state.profile.username,
+          playerName: state.profile.name,
+          matchId,
+          matchName: mm.matchName,
+          teamName,
+          amount,
+          status: 'pending',
+          payout: 0,
+          createdAt: nowTS(),
+          settledAt: null
+        });
+        tx.update(matchRef, {
+          totalBetPoolA: isTeamA ? currentPoolA + amount : currentPoolA,
+          totalBetPoolB: !isTeamA ? currentPoolB + amount : currentPoolB,
+          updatedAt: nowTS()
+        });
+      });
+
+      await db.collection('transactions').add({
+        uid: state.me.uid,
+        type: 'bet_place',
+        amount,
+        balanceBefore,
+        balanceAfter,
+        referenceId: betRef.id,
+        description: `Bet on ${teamName}`,
+        createdAt: nowTS(),
+        createdBy: state.me.uid
+      });
+
+      toast(`Bet placed on ${teamName}.`, 'ok');
+      m2.remove();
+      pagePlayerBets();
+    } catch(e){
+      toast(e.message === 'Insufficient coins.' ? 'Insufficient coins.' : e.message === 'Betting closed.' ? 'Betting is closed.' : errMsg(e), 'err');
+      btn.disabled = false;
+      btn.textContent = 'Place Bet';
+    }
+  };
 }
 
 /* ============================================================
@@ -3474,20 +2452,16 @@ function renderPlayerMatches(container, list, uid, emptyMsg){
 async function pagePlayerMatches(){
   const main = $('#main');
   main.innerHTML = `
-    <div class="page-head">
-      <div><h1>My Matches</h1><p>All matches you are part of</p></div>
-    </div>
+    <div class="page-head"><div><h1>My Matches</h1><p>All matches you are part of</p></div></div>
     <div class="chips" id="pm-filters">
-      <button class="chip on" data-filter="live" type="button">Live</button>
-      <button class="chip" data-filter="upcoming" type="button">Upcoming</button>
-      <button class="chip" data-filter="completed" type="button">Completed</button>
+      <button class="chip on" data-filter="live">Live</button>
+      <button class="chip" data-filter="upcoming">Upcoming</button>
+      <button class="chip" data-filter="completed">Completed</button>
     </div>
     <div id="pm-list"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
-
   let filter = 'live';
   const uid = state.me.uid;
-
   const load = async () => {
     const list = $('#pm-list');
     list.innerHTML = '<div class="loading-block"><div class="spinner-lg"></div></div>';
@@ -3496,13 +2470,16 @@ async function pagePlayerMatches(){
       const arr = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .filter(m => (m.teamAPlayers||[]).some(p => p.uid === uid) || (m.teamBPlayers||[]).some(p => p.uid === uid))
         .sort((a,b) => toMillis(b.createdAt) - toMillis(a.createdAt));
-      renderPlayerMatches(list, arr, uid, `No ${filter} matches`);
+      if(!arr.length){
+        list.innerHTML = `<div class="empty"><div class="empty-title">No ${filter} matches</div></div>`;
+        return;
+      }
+      list.innerHTML = arr.map(m => renderMatchCard(m, false)).join('');
+      list.querySelectorAll('[data-open]').forEach(el => el.onclick = () => openMatchDetail(el.dataset.open));
     } catch(e){
       toast(errMsg(e), 'err');
-      list.innerHTML = `<div class="empty"><div class="empty-title">Failed to load</div></div>`;
     }
   };
-
   $$('#pm-filters .chip').forEach(c => c.onclick = () => {
     $$('#pm-filters .chip').forEach(x => x.classList.remove('on'));
     c.classList.add('on');
@@ -3520,9 +2497,7 @@ async function pagePlayerRequests(){
   main.innerHTML = `
     <div class="page-head">
       <div><h1>My Requests</h1><p>Virtual coin requests</p></div>
-      <div class="page-head-actions">
-        <button class="btn btn-primary btn-sm" id="new-req" type="button">+ New Request</button>
-      </div>
+      <div class="page-head-actions"><button class="btn btn-primary btn-sm" id="new-req">+ New Request</button></div>
     </div>
     <div id="my-requests-list"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
@@ -3533,21 +2508,13 @@ async function pagePlayerRequests(){
       .sort((a,b) => toMillis(b.createdAt) - toMillis(a.createdAt));
     const el = $('#my-requests-list');
     if(!arr.length){
-      el.innerHTML = `<div class="empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-        <div class="empty-title">No requests yet</div>
-        <div class="empty-sub">Create your first request</div>
-      </div>`;
+      el.innerHTML = '<div class="empty"><div class="empty-title">No requests yet</div></div>';
       return;
     }
     el.innerHTML = `<div class="list">${arr.map(r => `
       <div class="row">
         <div class="row-info">
-          <div class="row-title">
-            ${r.type === 'add' ? '＋ Add coins' : '− Withdraw'}
-            <span class="coin-pill">🪙 ${r.amount}</span>
-            <span class="badge badge-${r.status}">${r.status}</span>
-          </div>
+          <div class="row-title">${r.type === 'add' ? '＋ Add' : '− Withdraw'} <span class="coin-pill">🪙 ${r.amount}</span> <span class="badge badge-${r.status}">${r.status}</span></div>
           <div class="row-meta">${fmtFullDate(r.createdAt)}</div>
           ${r.note ? `<div class="row-meta">Note: ${esc(r.note)}</div>` : ''}
         </div>
@@ -3561,53 +2528,31 @@ function openPlayerRequestModal(){
   const m = openModal(`
     <div class="modal-head">
       <div><h3>New Request</h3><p>Request virtual coins</p></div>
-      <button class="modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
-      </button>
+      <button class="modal-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg></button>
     </div>
-    <div class="field">
-      <label for="rq-type">Type</label>
-      <select id="rq-type">
-        <option value="add">Add coins</option>
-        <option value="withdraw">Withdraw virtual coins</option>
-      </select>
-    </div>
-    <div class="field">
-      <label for="rq-amount">Amount</label>
-      <input id="rq-amount" type="number" min="1" placeholder="100">
-    </div>
-    <div class="field">
-      <label for="rq-note">Note (optional)</label>
-      <textarea id="rq-note" placeholder="Reason for request"></textarea>
-    </div>
+    <div class="field"><label for="rq-type">Type</label><select id="rq-type"><option value="add">Add coins</option><option value="withdraw">Withdraw virtual coins</option></select></div>
+    <div class="field"><label for="rq-amount">Amount</label><input id="rq-amount" type="number" min="1" placeholder="100"></div>
+    <div class="field"><label for="rq-note">Note (optional)</label><textarea id="rq-note" placeholder="Reason"></textarea></div>
     <button class="btn btn-primary btn-block btn-lg" id="rq-submit" type="button">Submit Request</button>
-    <div class="field-hint" style="text-align:center;margin-top:10px">Your balance will not change until an admin approves.</div>
+    <div class="field-hint" style="text-align:center;margin-top:10px">Balance updates only after admin approval.</div>
   `);
-
   m.querySelector('#rq-submit').onclick = async () => {
     const type = m.querySelector('#rq-type').value;
     const amount = parseInt(m.querySelector('#rq-amount').value, 10);
     const note = m.querySelector('#rq-note').value.trim();
     const btn = m.querySelector('#rq-submit');
-
     if(!amount || amount <= 0) return toast('Enter a valid amount.', 'err');
     if(amount > 100000) return toast('Amount too large.', 'err');
 
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-inline"></span> Submitting';
-
     try {
-      // Check pending limit (client-side; server enforces via rules)
-      const pending = await db.collection('requests')
-        .where('uid','==',state.me.uid)
-        .where('status','==','pending')
-        .get();
+      const pending = await db.collection('requests').where('uid','==',state.me.uid).where('status','==','pending').get();
       if(pending.size >= 3){
         toast('You already have 3 pending requests.', 'err');
         btn.disabled = false; btn.textContent = 'Submit Request';
         return;
       }
-
       await db.collection('requests').add({
         uid: state.me.uid,
         username: state.profile.username,
@@ -3618,8 +2563,7 @@ function openPlayerRequestModal(){
         createdAt: nowTS(),
         updatedAt: nowTS()
       });
-
-      toast('Request submitted. Awaiting admin review.', 'ok');
+      toast('Request submitted.', 'ok');
       m.remove();
     } catch(e){
       toast(errMsg(e), 'err');
@@ -3635,14 +2579,10 @@ function openPlayerRequestModal(){
 async function pagePlayerCoins(){
   const main = $('#main');
   main.innerHTML = `
-    <div class="page-head">
-      <div><h1>Virtual Coins</h1><p>Your balance and history</p></div>
-    </div>
+    <div class="page-head"><div><h1>Virtual Coins</h1><p>Balance and history</p></div></div>
     <div class="card">
-      <div class="card-header">
-        <div><h2>Balance</h2><div class="card-header-sub">Play-only virtual coins</div></div>
-      </div>
-      <div class="coin-pill" id="player-balance" style="font-size:20px;padding:10px 16px">
+      <div class="card-header"><div><h2>Balance</h2><div class="card-header-sub">Play-only virtual coins</div></div></div>
+      <div class="coin-pill lg" id="player-balance">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M9 9h6M9 15h6M12 9v6" stroke-linecap="round"/></svg>
         <span>${state.profile.coins || 0}</span>
       </div>
@@ -3650,7 +2590,6 @@ async function pagePlayerCoins(){
     <div class="section-head"><h2>Transaction History</h2></div>
     <div id="player-txns"><div class="loading-block"><div class="spinner-lg"></div></div></div>
   `;
-
   const balSub = db.collection('users').doc(state.me.uid).onSnapshot(d => {
     if(d.exists){
       state.profile = { uid: d.id, ...d.data() };
@@ -3664,22 +2603,23 @@ async function pagePlayerCoins(){
     const arr = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .sort((a,b) => toMillis(b.createdAt) - toMillis(a.createdAt));
     const el = $('#player-txns');
-    if(!arr.length){
-      el.innerHTML = '<div class="empty"><div class="empty-title">No transactions yet</div></div>';
-      return;
-    }
-    el.innerHTML = `<div class="list">${arr.map(t => `
-      <div class="row">
-        <div class="row-info">
-          <div class="row-title">
-            ${t.type === 'admin_coin_credit' ? '＋ Credit' : '− Withdrawal'}
-            <span class="coin-pill">🪙 ${t.amount}</span>
+    if(!arr.length){ el.innerHTML = '<div class="empty"><div class="empty-title">No transactions yet</div></div>'; return; }
+    el.innerHTML = `<div class="list">${arr.map(t => {
+      const typeLabel =
+        t.type === 'bet_place' ? '🎯 Bet placed' :
+        t.type === 'bet_payout' ? '🏆 Bet payout' :
+        t.type === 'admin_coin_credit' ? '＋ Credit' :
+        '− Withdrawal';
+      return `
+        <div class="row">
+          <div class="row-info">
+            <div class="row-title">${typeLabel} <span class="coin-pill">🪙 ${t.amount}</span></div>
+            <div class="row-sub">${esc(t.description || '—')}</div>
+            <div class="row-meta">${fmtFullDate(t.createdAt)} · ${t.balanceBefore} → ${t.balanceAfter}</div>
           </div>
-          <div class="row-sub">${esc(t.description || '—')}</div>
-          <div class="row-meta">${fmtFullDate(t.createdAt)} · balance ${t.balanceBefore} → ${t.balanceAfter}</div>
         </div>
-      </div>
-    `).join('')}</div>`;
+      `;
+    }).join('')}</div>`;
   });
   trackSub(txSub);
 }
@@ -3691,11 +2631,9 @@ function pagePlayerProfile(){
   const main = $('#main');
   const p = state.profile;
   main.innerHTML = `
-    <div class="page-head">
-      <div><h1>Profile</h1><p>Your account details</p></div>
-    </div>
+    <div class="page-head"><div><h1>Profile</h1><p>Your account details</p></div></div>
     <div class="profile-head">
-      <div class="profile-avatar">${esc(initials(p.name || p.username || '?'))}</div>
+      <div class="profile-avatar">${esc(initials(p.name || p.username))}</div>
       <div class="profile-info">
         <div class="profile-name">${esc(p.name || p.username || 'Player')}</div>
         <div class="profile-handle">@${esc(p.username || '—')}</div>
@@ -3708,9 +2646,7 @@ function pagePlayerProfile(){
       <div class="profile-field"><span class="profile-field-label">Coins</span><span class="profile-field-value">🪙 ${p.coins || 0}</span></div>
       <div class="profile-field"><span class="profile-field-label">Joined</span><span class="profile-field-value">${fmtFullDate(p.createdAt)}</span></div>
     </div>
-    <div class="card" style="margin-top:14px">
-      <button class="btn btn-danger btn-block" id="profile-logout" type="button">Sign Out</button>
-    </div>
+    <div class="card" style="margin-top:14px"><button class="btn btn-danger btn-block" id="profile-logout">Sign Out</button></div>
   `;
   $('#profile-logout').onclick = () => confirmBox('Sign out?', 'You will need to sign in again.', logout, 'Sign out', 'danger');
 }
@@ -3720,13 +2656,9 @@ function pagePlayerProfile(){
    ============================================================ */
 window.addEventListener('load', () => {
   if(!app){
-    document.body.innerHTML = `<div style="padding:40px;text-align:center;color:#F2F4F7;font-family:sans-serif;background:#0B0D10;min-height:100vh">
-      <h2>Firebase failed to initialize</h2>
-      <p style="color:#929AA6;margin-top:8px">Check the firebaseConfig and reload the page.</p>
-    </div>`;
+    document.body.innerHTML = '<div style="padding:40px;text-align:center;color:#F2F4F7;font-family:sans-serif;background:#0B0D10;min-height:100vh"><h2>Firebase failed to initialize</h2><p style="color:#929AA6;margin-top:8px">Check the firebaseConfig and reload.</p></div>';
     return;
   }
-  // Safety timeout
   setTimeout(() => {
     if(!$('#boot').classList.contains('hidden') && !auth.currentUser){
       showAuth();
