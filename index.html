@@ -198,7 +198,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
     <form id="f-invite" class="hide">
       <div class="ttl">Admin invitation</div>
       <div class="dsc">Enter the email that admin registered for you.</div>
-      <div class="ibox">Only emails pre-authorized by the admin can set a password here. Not invited yet? Register normally.</div>
+      <div class="ibox">Only emails pre-authorized by the admin can set a password here.</div>
       <div class="fld"><label>Invited Email</label><input type="email" id="i-email" required placeholder="you@example.com"></div>
       <button type="submit" class="btn bg full" id="i-btn">Continue</button>
     </form>
@@ -275,6 +275,10 @@ function esc(s){
 
 function ts(){ return firebase.firestore.FieldValue.serverTimestamp(); }
 
+function inviteKey(email){
+  return email.toLowerCase().replace(/\./g,'_').replace(/@/g,'_at_').replace(/[^a-z0-9_]/g,'');
+}
+
 function fmtDate(v, withTime=false){
   if(!v) return '—';
   const d = v.toDate ? v.toDate() : new Date(v);
@@ -306,7 +310,7 @@ function errMsg(e){
     'auth/email-already-in-use':'Email already registered.',
     'auth/weak-password':'Password too weak (min 6 chars).',
     'auth/network-request-failed':'Network error.',
-    'permission-denied':'Permission denied.',
+    'permission-denied':'Permission denied. Firestore rules check karo.',
     'unavailable':'Service unavailable.',
     'not-found':'Data not found.'
   };
@@ -372,12 +376,12 @@ $('#f-login').addEventListener('submit', async e=>{
 });
 
 // ============================================================
-// REGISTER
+// REGISTER — SELF SIGNUP
 // ============================================================
 $('#f-register').addEventListener('submit', async e=>{
   e.preventDefault();
   aMsg('');
-  const username = $('#r-user').value.trim().toLowerCase();
+  const username = $('#r-user').value.trim();       // preserve case
   const name = $('#r-name').value.trim();
   const email = $('#r-email').value.trim().toLowerCase();
   const fuid = $('#r-uid').value.trim();
@@ -386,24 +390,26 @@ $('#f-register').addEventListener('submit', async e=>{
   const btn = $('#r-btn');
 
   if(!username || !name || !email || !fuid) return aMsg('Fill all fields.');
-  if(!/^[a-z0-9_]{3,20}$/.test(username)) return aMsg('Username: 3–20 chars, lowercase/numbers/underscore.');
+  if(!/^[a-zA-Z0-9_]{3,20}$/.test(username)) return aMsg('Username: 3–20 chars, letters/numbers/underscore.');
   if(!/^\d{5,15}$/.test(fuid)) return aMsg('Free Fire UID: 5–15 digits.');
   if(pass.length<6) return aMsg('Password min 6 chars.');
   if(pass!==conf) return aMsg('Passwords do not match.');
 
   btn.disabled=true; btn.textContent='Creating…';
   try {
-    const [ed, ud, fd] = await Promise.all([
+    // Duplicate checks — only email & FF UID (unique), username allowed to repeat
+    const [ed, fd] = await Promise.all([
       db.collection('users').where('email','==',email).limit(1).get(),
-      db.collection('users').where('username','==',username).limit(1).get(),
       db.collection('users').where('freeFireUid','==',fuid).limit(1).get()
     ]);
     if(!ed.empty) { aMsg('Email already registered.'); btn.disabled=false; btn.textContent='Create Account'; return; }
-    if(!ud.empty) { aMsg('Username already taken.'); btn.disabled=false; btn.textContent='Create Account'; return; }
     if(!fd.empty) { aMsg('FF UID already registered.'); btn.disabled=false; btn.textContent='Create Account'; return; }
 
+    // Create Firebase Auth user
     const cred = await auth.createUserWithEmailAndPassword(email, pass);
     const uid = cred.user.uid;
+
+    // Create Firestore profile
     await db.collection('users').doc(uid).set({
       username, name, email, freeFireUid: fuid,
       role:'player',
@@ -413,6 +419,7 @@ $('#f-register').addEventListener('submit', async e=>{
       createdAt: ts(),
       updatedAt: ts()
     });
+
     await auth.signOut();
     aMsg('Account created! Awaiting admin approval.', 'ok');
     $('#f-register').reset();
@@ -425,7 +432,7 @@ $('#f-register').addEventListener('submit', async e=>{
 });
 
 // ============================================================
-// INVITE (Set password for admin-invited email)
+// INVITE — SET PASSWORD (uses public invites collection)
 // ============================================================
 $('#f-invite').addEventListener('submit', async e=>{
   e.preventDefault();
@@ -436,19 +443,21 @@ $('#f-invite').addEventListener('submit', async e=>{
   btn.disabled=true; btn.textContent='Checking…';
 
   try {
-    const snap = await db.collection('users').where('email','==',email).limit(1).get();
-    if(snap.empty){
+    const key = inviteKey(email);
+    const snap = await db.collection('invites').doc(key).get();
+
+    if(!snap.exists){
       aMsg('This email has not been authorized by the administrator.');
       btn.disabled=false; btn.textContent='Continue'; return;
     }
-    const doc = snap.docs[0];
-    const data = doc.data();
+    const data = snap.data();
 
-    if(data.role==='admin'){ aMsg('Admin account — use Login tab.'); btn.disabled=false; btn.textContent='Continue'; return; }
-    if(data.passwordSetup===true && data.status==='active'){ aMsg('Password already set. Login normally.'); btn.disabled=false; btn.textContent='Continue'; return; }
-    if(data.status==='disabled'){ aMsg('Account disabled. Contact admin.'); btn.disabled=false; btn.textContent='Continue'; return; }
+    if(data.passwordSetup === true){
+      aMsg('Password already set. Login normally.');
+      btn.disabled=false; btn.textContent='Continue'; return;
+    }
 
-    showSetPass(email, doc.id, data);
+    showSetPass(email, data.userDocId, data);
   } catch(err){
     aMsg(errMsg(err));
     btn.disabled=false; btn.textContent='Continue';
@@ -477,6 +486,8 @@ function showSetPass(email, docId, data){
     try {
       const cred = await auth.createUserWithEmailAndPassword(email, p);
       const uid = cred.user.uid;
+
+      // Create new users doc
       await db.collection('users').doc(uid).set({
         username: data.username||'',
         name: data.name||'',
@@ -489,7 +500,17 @@ function showSetPass(email, docId, data){
         createdAt: data.createdAt||ts(),
         updatedAt: ts()
       });
-      if(docId!==uid){ try{ await db.collection('users').doc(docId).delete(); }catch(_){} }
+
+      // Delete old invited doc (different ID)
+      if(docId && docId!==uid){
+        try{ await db.collection('users').doc(docId).delete(); }catch(_){}
+      }
+
+      // Mark invite as used
+      try {
+        await db.collection('invites').doc(inviteKey(email)).update({ passwordSetup:true });
+      } catch(_) {}
+
       toast('Password set! Welcome.', 'ok');
     } catch(err){
       aMsg(errMsg(err));
@@ -647,7 +668,7 @@ function confirmBox(title, msg, onOk, okLabel='Confirm'){
 }
 
 // ============================================================
-// ADMIN DASHBOARD — no composite index
+// ADMIN DASHBOARD
 // ============================================================
 async function dashAdmin(){
   const main = $('#main');
@@ -755,7 +776,7 @@ async function rejectP(uid){
 }
 
 // ============================================================
-// PLAYERS — no composite index
+// PLAYERS
 // ============================================================
 async function pagePlayers(){
   const main = $('#main');
@@ -830,17 +851,18 @@ function inviteModal(){
     <div class="hint tc mt10">Player will use "By Admin" tab to set password.</div>
   `);
   m.querySelector('#iv-go').onclick = async()=>{
-    const u = m.querySelector('#iv-u').value.trim().toLowerCase();
+    const u = m.querySelector('#iv-u').value.trim();
     const n = m.querySelector('#iv-n').value.trim();
     const e = m.querySelector('#iv-e').value.trim().toLowerCase();
     const f = m.querySelector('#iv-f').value.trim();
     const btn = m.querySelector('#iv-go');
     if(!u||!n||!e||!f) return toast('All fields required.','err');
-    if(!/^[a-z0-9_]{3,20}$/.test(u)) return toast('Username: 3–20 chars lowercase/numbers/underscore.','err');
+    if(!/^[a-zA-Z0-9_]{3,20}$/.test(u)) return toast('Username: 3–20 chars letters/numbers/underscore.','err');
     if(!/^\d{5,15}$/.test(f)) return toast('FF UID: 5–15 digits.','err');
 
     btn.disabled=true; btn.textContent='Saving…';
     try {
+      // Check duplicates — email & FF UID only (username can repeat)
       const [a,b] = await Promise.all([
         db.collection('users').where('email','==',e).limit(1).get(),
         db.collection('users').where('freeFireUid','==',f).limit(1).get()
@@ -848,11 +870,24 @@ function inviteModal(){
       if(!a.empty){ toast('Email already registered.','err'); btn.disabled=false; btn.textContent='Create invitation'; return; }
       if(!b.empty){ toast('FF UID already in use.','err'); btn.disabled=false; btn.textContent='Create invitation'; return; }
 
-      await db.collection('users').add({
+      // Create user invited doc
+      const userRef = await db.collection('users').add({
         username:u, name:n, email:e, freeFireUid:f,
         role:'player', status:'invited', passwordSetup:false,
         coins:0, createdAt:ts(), updatedAt:ts()
       });
+
+      // Also create public invites doc (for By Admin tab lookup)
+      await db.collection('invites').doc(inviteKey(e)).set({
+        email: e,
+        username: u,
+        name: n,
+        freeFireUid: f,
+        userDocId: userRef.id,
+        passwordSetup: false,
+        createdAt: ts()
+      });
+
       toast('Invitation created.','ok');
       m.remove();
       pagePlayers();
@@ -1025,7 +1060,7 @@ async function createMatch(){
 }
 
 // ============================================================
-// MATCHES — single where, no index
+// MATCHES
 // ============================================================
 async function pageMatches(){
   const main = $('#main');
@@ -1269,7 +1304,7 @@ async function completeRound(matchId, round, m){
 }
 
 // ============================================================
-// HISTORY — single where, no index
+// HISTORY
 // ============================================================
 async function pageHistory(){
   const main = $('#main');
@@ -1352,7 +1387,7 @@ async function openDetail(id){
 }
 
 // ============================================================
-// ADMIN REQUESTS — single where, no index
+// ADMIN REQUESTS
 // ============================================================
 async function pageAdminRequests(){
   const main = $('#main');
@@ -1456,7 +1491,7 @@ async function handleReq(id, ok){
 }
 
 // ============================================================
-// ADMIN TRANSACTIONS — no orderBy
+// ADMIN TRANSACTIONS
 // ============================================================
 async function pageAdminTxns(){
   const main = $('#main');
@@ -1718,7 +1753,6 @@ function requestCoinsModal(){
     if(a>100000) return toast('Amount too large.','err');
     btn.disabled=true; btn.textContent='Submitting…';
     try {
-      // Avoid composite index: single where + client filter
       const all = await db.collection('requests').where('uid','==',me.uid).get();
       const pend = all.docs.filter(d=>d.data().status==='pending');
       if(pend.length>=3){ toast('You already have 3 pending requests.','err'); btn.disabled=false; btn.textContent='Submit request'; return; }
