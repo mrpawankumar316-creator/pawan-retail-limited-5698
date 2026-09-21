@@ -150,7 +150,6 @@ td{padding:10px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
   <div class="msm" style="letter-spacing:.06em">LOADING</div>
 </div>
 
-<!-- AUTH -->
 <div id="auth" class="wrap hide">
   <div class="box">
     <div class="brand">
@@ -169,7 +168,6 @@ td{padding:10px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
 
     <div id="amsg"></div>
 
-    <!-- LOGIN -->
     <form id="f-login">
       <div class="ttl">Welcome back</div>
       <div class="dsc">Sign in to enter the arena.</div>
@@ -178,7 +176,6 @@ td{padding:10px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
       <button type="submit" class="btn bf full" id="l-btn">Sign In</button>
     </form>
 
-    <!-- REGISTER -->
     <form id="f-register" class="hide">
       <div class="ttl">Create account</div>
       <div class="dsc">Register now — admin will approve your account.</div>
@@ -198,7 +195,6 @@ td{padding:10px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
       <div class="hint tc mt10">Your account will be reviewed by admin before activation.</div>
     </form>
 
-    <!-- INVITE -->
     <form id="f-invite" class="hide">
       <div class="ttl">Admin invitation</div>
       <div class="dsc">Enter the email that admin registered for you.</div>
@@ -209,7 +205,6 @@ td{padding:10px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
   </div>
 </div>
 
-<!-- APP -->
 <div id="app" class="app">
   <div class="shell">
     <aside class="side">
@@ -229,7 +224,6 @@ td{padding:10px 8px;border-bottom:1px solid var(--ln);white-space:nowrap}
 
 <div id="tst"></div>
 
-<!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -295,6 +289,10 @@ function fmtTime(v){
   const d = v.toDate ? v.toDate() : new Date(v);
   if(isNaN(d)) return '—';
   return d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+}
+
+function toMillis(v){
+  return v?.toMillis?.() || 0;
 }
 
 function errMsg(e){
@@ -649,7 +647,7 @@ function confirmBox(title, msg, onOk, okLabel='Confirm'){
 }
 
 // ============================================================
-// ADMIN DASHBOARD
+// ADMIN DASHBOARD — no composite index
 // ============================================================
 async function dashAdmin(){
   const main = $('#main');
@@ -678,12 +676,15 @@ async function dashAdmin(){
   try {
     const [u, m, r, p] = await Promise.all([
       db.collection('users').where('role','==','player').get(),
-      db.collection('matches').orderBy('createdAt','desc').limit(50).get(),
+      db.collection('matches').get(),
       db.collection('requests').where('status','==','pending').get(),
       db.collection('users').where('status','==','pending_approval').get()
     ]);
     const players = u.docs.map(d=>d.data());
-    const matches = m.docs.map(d=>({id:d.id,...d.data()}));
+    const matches = m.docs.map(d=>({id:d.id,...d.data()}))
+      .sort((a,b)=>toMillis(b.createdAt)-toMillis(a.createdAt))
+      .slice(0,50);
+
     const vs = [
       players.length,
       players.filter(x=>x.status==='active').length,
@@ -754,7 +755,7 @@ async function rejectP(uid){
 }
 
 // ============================================================
-// PLAYERS
+// PLAYERS — no composite index
 // ============================================================
 async function pagePlayers(){
   const main = $('#main');
@@ -770,8 +771,9 @@ async function pagePlayers(){
   $('#pq').oninput = e=>renderPlayers(e.target.value.toLowerCase());
 
   try {
-    const snap = await db.collection('users').where('role','==','player').orderBy('createdAt','desc').get();
-    pCache = snap.docs.map(d=>({uid:d.id,...d.data()}));
+    const snap = await db.collection('users').where('role','==','player').get();
+    pCache = snap.docs.map(d=>({uid:d.id,...d.data()}))
+      .sort((a,b)=>toMillis(b.createdAt)-toMillis(a.createdAt));
     renderPlayers('');
   } catch(e){
     toast(errMsg(e),'err');
@@ -1023,7 +1025,7 @@ async function createMatch(){
 }
 
 // ============================================================
-// MATCHES
+// MATCHES — single where, no index
 // ============================================================
 async function pageMatches(){
   const main = $('#main');
@@ -1042,9 +1044,8 @@ async function pageMatches(){
     $('#mlist').innerHTML = '<div class="tc" style="padding:40px 0"><div class="spn" style="margin:0 auto"></div></div>';
     try {
       const snap = await db.collection('matches').where('status','==',f).get();
-      const arr = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>
-        (b.createdAt?.toMillis?.()||0) - (a.createdAt?.toMillis?.()||0)
-      );
+      const arr = snap.docs.map(d=>({id:d.id,...d.data()}))
+        .sort((a,b)=>toMillis(b.createdAt)-toMillis(a.createdAt));
       const el = $('#mlist');
       if(!arr.length){ el.innerHTML = `<div class="empty"><div class="ic">▶</div><div class="msg">No ${f} matches</div></div>`; return; }
       el.innerHTML = arr.map(m=>matchCard(m,true)).join('');
@@ -1268,7 +1269,7 @@ async function completeRound(matchId, round, m){
 }
 
 // ============================================================
-// HISTORY
+// HISTORY — single where, no index
 // ============================================================
 async function pageHistory(){
   const main = $('#main');
@@ -1280,8 +1281,8 @@ async function pageHistory(){
   const load = async(q='')=>{
     try {
       const snap = await db.collection('matches').where('status','==','completed').get();
-      let arr = snap.docs.map(d=>({id:d.id,...d.data()}));
-      arr.sort((a,b)=>(b.completedAt?.toMillis?.()||0)-(a.completedAt?.toMillis?.()||0));
+      let arr = snap.docs.map(d=>({id:d.id,...d.data()}))
+        .sort((a,b)=>toMillis(b.completedAt)-toMillis(a.completedAt));
       if(q){
         const s = q.toLowerCase();
         arr = arr.filter(m=>(m.matchName||'').toLowerCase().includes(s)||m.id.toLowerCase().includes(s));
@@ -1317,8 +1318,9 @@ async function openDetail(id){
     const doc = await db.collection('matches').doc(id).get();
     if(!doc.exists){ m.querySelector('#dt').innerHTML='<div class="empty"><div class="msg">Not found</div></div>'; return; }
     const d = {id:doc.id,...doc.data()};
-    const snap = await db.collection('matches').doc(id).collection('rounds').orderBy('roundNumber','asc').get();
-    const rounds = snap.docs.map(x=>({id:x.id,...x.data()}));
+    const snap = await db.collection('matches').doc(id).collection('rounds').get();
+    const rounds = snap.docs.map(x=>({id:x.id,...x.data()}))
+      .sort((a,b)=>(a.roundNumber||0)-(b.roundNumber||0));
     m.querySelector('#dt').innerHTML = `
       <div class="arena">
         <div class="atag">FINAL RESULT</div>
@@ -1350,7 +1352,7 @@ async function openDetail(id){
 }
 
 // ============================================================
-// ADMIN REQUESTS
+// ADMIN REQUESTS — single where, no index
 // ============================================================
 async function pageAdminRequests(){
   const main = $('#main');
@@ -1367,10 +1369,11 @@ async function pageAdminRequests(){
   let f = 'pending';
   const load = async()=>{
     try {
-      let q = db.collection('requests').orderBy('createdAt','desc');
+      let q = db.collection('requests');
       if(f!=='all') q = q.where('status','==',f);
       const snap = await q.get();
-      const arr = snap.docs.map(d=>({id:d.id,...d.data()}));
+      const arr = snap.docs.map(d=>({id:d.id,...d.data()}))
+        .sort((a,b)=>toMillis(b.createdAt)-toMillis(a.createdAt));
       const el = $('#rlist');
       if(!arr.length){ el.innerHTML='<div class="empty"><div class="ic">✉</div><div class="msg">No requests</div></div>'; return; }
       el.innerHTML = arr.map(r=>`
@@ -1453,7 +1456,7 @@ async function handleReq(id, ok){
 }
 
 // ============================================================
-// ADMIN TRANSACTIONS
+// ADMIN TRANSACTIONS — no orderBy
 // ============================================================
 async function pageAdminTxns(){
   const main = $('#main');
@@ -1462,8 +1465,10 @@ async function pageAdminTxns(){
     <div id="txl"><div class="tc" style="padding:40px 0"><div class="spn" style="margin:0 auto"></div></div></div>
   `;
   try {
-    const snap = await db.collection('transactions').orderBy('createdAt','desc').limit(200).get();
-    const arr = snap.docs.map(d=>({id:d.id,...d.data()}));
+    const snap = await db.collection('transactions').get();
+    const arr = snap.docs.map(d=>({id:d.id,...d.data()}))
+      .sort((a,b)=>toMillis(b.createdAt)-toMillis(a.createdAt))
+      .slice(0,200);
     const el = $('#txl');
     if(!arr.length){ el.innerHTML='<div class="empty"><div class="ic">◈</div><div class="msg">No transactions</div></div>'; return; }
     el.innerHTML = `<div class="crd tw"><table>
@@ -1643,10 +1648,12 @@ async function pagePlayerMatches(){
   `;
   const uid = me.uid;
   try {
-    const snap = await db.collection('matches').orderBy('createdAt','desc').get();
-    const arr = snap.docs.map(d=>({id:d.id,...d.data()})).filter(m=>
-      (m.teamAPlayers||[]).some(p=>p.uid===uid)||(m.teamBPlayers||[]).some(p=>p.uid===uid)
-    );
+    const snap = await db.collection('matches').get();
+    const arr = snap.docs.map(d=>({id:d.id,...d.data()}))
+      .sort((a,b)=>toMillis(b.createdAt)-toMillis(a.createdAt))
+      .filter(m=>
+        (m.teamAPlayers||[]).some(p=>p.uid===uid)||(m.teamBPlayers||[]).some(p=>p.uid===uid)
+      );
     const el = $('#mm');
     if(!arr.length){ el.innerHTML='<div class="empty"><div class="ic">▶</div><div class="msg">No matches yet</div></div>'; return; }
     el.innerHTML = arr.map(m=>pMatchCard(m,uid,m.status==='live')).join('');
@@ -1668,7 +1675,7 @@ async function pagePlayerRequests(){
   $('#nn').onclick = requestCoinsModal;
   const unsub = db.collection('requests').where('uid','==',me.uid).onSnapshot(snap=>{
     const arr = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>
-      (b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0)
+      toMillis(b.createdAt)-toMillis(a.createdAt)
     );
     const el = $('#rr');
     if(!arr.length){ el.innerHTML='<div class="empty"><div class="ic">✉</div><div class="msg">No requests yet</div></div>'; return; }
@@ -1711,8 +1718,10 @@ function requestCoinsModal(){
     if(a>100000) return toast('Amount too large.','err');
     btn.disabled=true; btn.textContent='Submitting…';
     try {
-      const dup = await db.collection('requests').where('uid','==',me.uid).where('status','==','pending').get();
-      if(dup.size>=3){ toast('You already have 3 pending requests.','err'); btn.disabled=false; btn.textContent='Submit request'; return; }
+      // Avoid composite index: single where + client filter
+      const all = await db.collection('requests').where('uid','==',me.uid).get();
+      const pend = all.docs.filter(d=>d.data().status==='pending');
+      if(pend.length>=3){ toast('You already have 3 pending requests.','err'); btn.disabled=false; btn.textContent='Submit request'; return; }
       await db.collection('requests').add({
         uid:me.uid,
         username:profile.username,
@@ -1746,7 +1755,7 @@ async function pagePlayerTxns(){
   `;
   const unsub = db.collection('transactions').where('uid','==',me.uid).onSnapshot(snap=>{
     const arr = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>
-      (b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0)
+      toMillis(b.createdAt)-toMillis(a.createdAt)
     );
     const el = $('#pt');
     if(!arr.length){ el.innerHTML='<div class="empty"><div class="ic">◈</div><div class="msg">No transactions yet</div></div>'; return; }
