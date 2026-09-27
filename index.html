@@ -1,2020 +1,1611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0B0D10">
-<title>Pawan Retail — Order Confirmation Manager</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pawan Retail Limited — Shop</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{
-  --bg:#f5f6f8; --surface:#fff; --surface-2:#f0f2f5; --border:#e2e5ea;
-  --text:#0d1117; --text-2:#5a6472; --text-3:#8b95a3;
-  --primary:#FF5A1F; --primary-soft:#fff1ea;
-  --success:#16a34a; --success-soft:#e8f5ee;
-  --danger:#dc2626; --danger-soft:#fdeaea;
-  --warning:#f59e0b; --warning-soft:#fef5e7;
-  --info:#2563eb; --info-soft:#eaf1fe;
-  --radius:10px; --radius-sm:8px;
-  --safe-b:env(safe-area-inset-bottom,0px);
+/* ==========================================================
+   GLOBAL RESET & THEME
+   ========================================================== */
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root {
+  --primary: #e91e63;
+  --primary-dark: #c2185b;
+  --primary-light: #fce4ec;
+  --accent: #ff9800;
+  --success: #4caf50;
+  --danger: #f44336;
+  --warning: #ff9800;
+  --info: #2196f3;
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --text: #212121;
+  --text-light: #757575;
+  --border: #e0e0e0;
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
 }
-[data-theme="dark"]{
-  --bg:#0d1117; --surface:#161b22; --surface-2:#1c232c; --border:#2a323d;
-  --text:#e8ecf1; --text-2:#8b95a3; --text-3:#5a6472;
-  --primary:#FF5A1F; --primary-soft:rgba(255,90,31,.14);
-  --success:#22c55e; --success-soft:rgba(34,197,94,.14);
-  --danger:#ef4444; --danger-soft:rgba(239,68,68,.14);
-  --warning:#f59e0b; --warning-soft:rgba(245,158,11,.14);
-  --info:#3b82f6; --info-soft:rgba(59,130,246,.14);
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
-html,body{background:var(--bg);color:var(--text);min-height:100vh;
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
-button{cursor:pointer;border:none;background:none}
-input,select,textarea{width:100%;padding:10px 12px;background:var(--bg);
-  border:1px solid var(--border);border-radius:8px;color:var(--text);
-  font-size:14px;outline:none;transition:border-color .15s;min-height:42px}
-input:focus,select:focus,textarea:focus{border-color:var(--primary);background:var(--surface)}
-input::placeholder,textarea::placeholder{color:var(--text-3)}
-label{display:block;font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:5px}
-.field{margin-bottom:14px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.hidden{display:none!important}
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, textarea, select { font-family: inherit; font-size: 14px; }
+a { color: var(--primary); text-decoration: none; }
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  height:42px;padding:0 16px;border-radius:8px;font-size:14px;font-weight:600;
-  border:1px solid transparent;transition:all .12s;white-space:nowrap;user-select:none}
-.btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.5;pointer-events:none}
-.btn-primary{background:var(--primary);color:#fff}
-.btn-outline{background:transparent;border-color:var(--border);color:var(--text-2)}
-.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-success{background:var(--success);color:#fff}
-.btn-sm{height:32px;padding:0 10px;font-size:12px}
-.btn-block{width:100%}
-.btn-icon{width:36px;height:36px;padding:0;border-radius:8px;
-  background:var(--surface-2);color:var(--text-2);display:inline-flex;
-  align-items:center;justify-content:center}
+/* ==========================================================
+   HEADER
+   ========================================================== */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.header .logo {
+  font-size: 18px; font-weight: 800; color: var(--primary);
+  display: flex; align-items: center; gap: 6px;
+}
+.header .search-bar {
+  flex: 1; max-width: 500px;
+  background: var(--bg);
+  border-radius: 24px;
+  padding: 8px 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.header .search-bar input {
+  flex: 1; border: none; background: transparent; outline: none;
+  font-size: 14px;
+}
+.header-actions { display: flex; gap: 8px; margin-left: auto; align-items: center; }
+.icon-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 20px; position: relative;
+  transition: background 0.2s;
+}
+.icon-btn:hover { background: var(--bg); }
+.badge {
+  position: absolute; top: 2px; right: 2px;
+  background: var(--primary); color: #fff;
+  font-size: 10px; font-weight: 700;
+  min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 9px; display: grid; place-items: center;
+}
 
-.card{background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:14px;margin-bottom:10px}
-.card-head{display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.card-head h3{font-size:15px;font-weight:700}
+/* ==========================================================
+   LAYOUT
+   ========================================================== */
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+.page { display: none; padding-bottom: 80px; }
+.page.active { display: block; }
 
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;
-  border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.02em;
-  text-transform:uppercase}
-.badge-success{background:var(--success-soft);color:var(--success)}
-.badge-warn{background:var(--warning-soft);color:var(--warning)}
-.badge-danger{background:var(--danger-soft);color:var(--danger)}
-.badge-info{background:var(--info-soft);color:var(--info)}
-.badge-primary{background:var(--primary-soft);color:var(--primary)}
+/* ==========================================================
+   BUTTONS
+   ========================================================== */
+.btn {
+  padding: 10px 20px; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all 0.2s; white-space: nowrap;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+.btn-outline:hover { background: var(--primary-light); }
+.btn-ghost { background: var(--bg); color: var(--text); }
+.btn-ghost:hover { background: var(--border); }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-block { width: 100%; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.grid3{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-@media(min-width:600px){.grid3{grid-template-columns:repeat(4,1fr)}}
-.stat{background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:12px;position:relative;overflow:hidden}
-.stat::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;
-  background:var(--primary)}
-.stat-label{font-size:11px;color:var(--text-2);font-weight:600;
-  text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
-.stat-value{font-size:20px;font-weight:800;letter-spacing:-.02em}
+/* ==========================================================
+   FORMS
+   ========================================================== */
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font-size: 13px; font-weight: 600;
+  margin-bottom: 6px; color: var(--text);
+}
+.form-control {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--card); font-size: 14px;
+  transition: border 0.2s;
+}
+.form-control:focus { outline: none; border-color: var(--primary); }
+textarea.form-control { resize: vertical; min-height: 80px; }
 
-.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.platform-card{padding:16px 12px;border:2px solid var(--border);
-  border-radius:10px;text-align:center;cursor:pointer;transition:all .15s;
-  background:var(--surface)}
-.platform-card:hover{border-color:var(--primary)}
-.platform-card.on{border-color:var(--primary);background:var(--primary-soft)}
-.platform-card .pc-icon{font-size:24px;margin-bottom:6px}
-.platform-card .pc-name{font-size:12px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.05em}
+/* ==========================================================
+   CARDS & PRODUCTS
+   ========================================================== */
+.card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 16px; box-shadow: var(--shadow);
+}
+.product-grid {
+  display: grid; gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+.product-card {
+  background: var(--card); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow);
+  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  display: flex; flex-direction: column;
+}
+.product-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.product-card .img-wrap {
+  position: relative; aspect-ratio: 1; background: var(--bg);
+  display: grid; place-items: center; overflow: hidden;
+}
+.product-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.product-card .wish-btn {
+  position: absolute; top: 8px; right: 8px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.9); display: grid; place-items: center;
+  font-size: 16px;
+}
+.product-card .info { padding: 10px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.product-card .name {
+  font-size: 13px; font-weight: 600; line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.product-card .price-row { display: flex; align-items: baseline; gap: 6px; margin-top: auto; }
+.product-card .price { font-size: 15px; font-weight: 700; color: var(--primary); }
+.product-card .mrp { font-size: 12px; color: var(--text-light); text-decoration: line-through; }
+.product-card .discount { font-size: 11px; color: var(--success); font-weight: 600; }
+.product-card .add-btn {
+  margin-top: 6px; padding: 6px; border-radius: 6px;
+  background: var(--primary); color: #fff; font-size: 12px; font-weight: 600;
+}
 
-.empty{text-align:center;padding:40px 20px;color:var(--text-3)}
-.empty-icon{font-size:32px;opacity:.4;margin-bottom:10px}
-.empty-title{font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:4px}
-.empty-sub{font-size:12px;color:var(--text-3);margin-bottom:16px}
+/* ==========================================================
+   AUTH SCREENS
+   ========================================================== */
+.auth-wrap {
+  min-height: 100vh; display: grid; place-items: center;
+  padding: 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+}
+.auth-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 32px 24px; width: 100%; max-width: 400px;
+  box-shadow: var(--shadow-lg);
+}
+.auth-card h1 {
+  font-size: 24px; margin-bottom: 4px; color: var(--primary);
+  text-align: center;
+}
+.auth-card .subtitle {
+  text-align: center; color: var(--text-light); font-size: 13px;
+  margin-bottom: 24px;
+}
+.auth-tabs {
+  display: flex; gap: 4px; background: var(--bg);
+  border-radius: var(--radius-sm); padding: 4px; margin-bottom: 20px;
+}
+.auth-tabs button {
+  flex: 1; padding: 8px; border-radius: 6px;
+  font-size: 13px; font-weight: 600; color: var(--text-light);
+  transition: all 0.2s;
+}
+.auth-tabs button.active { background: var(--card); color: var(--primary); box-shadow: var(--shadow); }
 
-.chip{display:inline-block;padding:6px 12px;border-radius:20px;
-  border:1px solid var(--border);background:var(--surface);
-  font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;
-  white-space:nowrap;transition:all .12s}
-.chip.on{background:var(--primary);border-color:var(--primary);color:#fff}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;
-  margin-bottom:12px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
+/* ==========================================================
+   BOTTOM NAV
+   ========================================================== */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
+  background: var(--card); border-top: 1px solid var(--border);
+  display: flex; padding: 6px 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
+}
+.bottom-nav button {
+  flex: 1; padding: 8px 4px; display: flex; flex-direction: column;
+  align-items: center; gap: 2px; font-size: 10px; font-weight: 600;
+  color: var(--text-light); transition: color 0.2s;
+}
+.bottom-nav button.active { color: var(--primary); }
+.bottom-nav .nav-icon { font-size: 20px; }
 
-.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.55);
-  display:flex;align-items:flex-end;justify-content:center;z-index:1000}
-@media(min-width:640px){.modal-mask{align-items:center;padding:20px}}
-.modal{background:var(--surface);border-radius:16px 16px 0 0;
-  padding:20px 16px calc(20px + var(--safe-b));width:100%;max-width:520px;
-  max-height:88vh;overflow-y:auto}
-@media(min-width:640px){.modal{border-radius:12px;padding-bottom:20px}}
-.modal-head{display:flex;justify-content:space-between;
-  align-items:flex-start;margin-bottom:16px}
-.modal-head h3{font-size:17px;font-weight:700}
-.modal-head p{font-size:13px;color:var(--text-2);margin-top:2px}
-.modal-close{width:32px;height:32px;border-radius:8px;
-  display:inline-flex;align-items:center;justify-content:center;
-  color:var(--text-3);background:none;font-size:22px;line-height:1}
+/* ==========================================================
+   MODAL
+   ========================================================== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.5); display: none;
+  align-items: center; justify-content: center; padding: 16px;
+  animation: fadeIn 0.2s;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--card); border-radius: var(--radius);
+  width: 100%; max-width: 500px; max-height: 90vh;
+  overflow-y: auto; box-shadow: var(--shadow-lg);
+  animation: slideUp 0.25s;
+}
+.modal-header {
+  padding: 16px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  position: sticky; top: 0; background: var(--card); z-index: 1;
+}
+.modal-header h3 { font-size: 16px; }
+.modal-body { padding: 16px; }
+.modal-footer {
+  padding: 16px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; justify-content: flex-end;
+}
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
 
-.toast-container{position:fixed;top:70px;left:50%;transform:translateX(-50%);
-  z-index:2000;display:flex;flex-direction:column;gap:6px;
-  width:calc(100% - 24px);max-width:400px;pointer-events:none}
-.toast{background:var(--surface);border:1px solid var(--border);
-  border-left:3px solid var(--primary);border-radius:8px;padding:10px 14px;
-  font-size:13px;box-shadow:0 6px 24px rgba(0,0,0,.15);pointer-events:auto;
-  animation:ti .2s ease}
-.toast.ok{border-left-color:var(--success)}
-.toast.err{border-left-color:var(--danger)}
-@keyframes ti{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+/* ==========================================================
+   TOAST
+   ========================================================== */
+.toast-container {
+  position: fixed; top: 20px; right: 20px; z-index: 2000;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.toast {
+  padding: 12px 16px; border-radius: var(--radius-sm);
+  background: var(--card); box-shadow: var(--shadow-lg);
+  font-size: 13px; font-weight: 500;
+  border-left: 4px solid var(--primary);
+  min-width: 240px; animation: slideIn 0.3s;
+}
+.toast.success { border-left-color: var(--success); }
+.toast.error { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0 } to { transform: translateX(0); opacity: 1 } }
 
-/* AUTH */
-.auth-wrap{min-height:100vh;display:flex;align-items:center;
-  justify-content:center;padding:20px 16px;
-  background:radial-gradient(1000px 500px at 50% -10%,rgba(255,90,31,.06),transparent 60%),var(--bg)}
-.auth-card{width:100%;max-width:400px;background:var(--surface);
-  border:1px solid var(--border);border-radius:12px;padding:26px 22px;
-  box-shadow:0 12px 32px rgba(0,0,0,.08)}
-.auth-brand{display:flex;align-items:center;gap:10px;
-  padding-bottom:18px;border-bottom:1px solid var(--border);margin-bottom:20px}
-.brand-mark{width:36px;height:36px;border-radius:9px;
-  background:linear-gradient(135deg,#FF5A1F,#c94a17);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:15px;flex-shrink:0}
-.brand-title{font-size:14px;font-weight:700}
-.brand-sub{font-size:11px;color:var(--text-3);text-transform:uppercase;
-  letter-spacing:.03em;font-weight:500;margin-top:1px}
-.auth-title{font-size:20px;font-weight:700;margin-bottom:4px;letter-spacing:-.02em}
-.auth-desc{font-size:13px;color:var(--text-2);margin-bottom:18px}
-.tabs{display:flex;gap:2px;background:var(--bg);border:1px solid var(--border);
-  border-radius:8px;padding:3px;margin-bottom:18px}
-.tab{flex:1;padding:8px 6px;background:transparent;color:var(--text-3);
-  font-size:12.5px;font-weight:600;border-radius:6px;transition:all .12s}
-.tab.on{background:var(--surface);color:var(--text)}
-.alert{padding:10px 12px;border-radius:8px;font-size:12.5px;
-  margin-bottom:14px;border:1px solid;display:flex;gap:8px}
-.alert-err{background:var(--danger-soft);border-color:rgba(239,68,68,.28);color:#FCA5A5}
-.alert-ok{background:var(--success-soft);border-color:rgba(34,197,94,.28);color:#86EFAC}
-.alert-info{background:var(--info-soft);border-color:rgba(59,130,246,.28);color:#93C5FD}
+/* ==========================================================
+   MISC
+   ========================================================== */
+.section-title {
+  font-size: 18px; font-weight: 700; margin: 20px 0 12px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.section-title small { font-size: 12px; color: var(--primary); font-weight: 500; cursor: pointer; }
+.empty {
+  text-align: center; padding: 60px 20px; color: var(--text-light);
+}
+.empty .emoji { font-size: 56px; margin-bottom: 12px; }
+.empty p { font-size: 14px; margin-bottom: 4px; }
+.loading {
+  display: flex; justify-content: center; padding: 40px;
+}
+.spinner {
+  width: 32px; height: 32px; border: 3px solid var(--border);
+  border-top-color: var(--primary); border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg) } }
 
-/* LAYOUT */
-.app-shell{min-height:100vh;padding-bottom:calc(70px + var(--safe-b))}
-.topbar{position:sticky;top:0;z-index:100;
-  background:color-mix(in srgb,var(--bg) 92%,transparent);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--border);padding:12px 16px;
-  display:flex;align-items:center;gap:10px}
-.topbar-title{font-size:15px;font-weight:700;letter-spacing:-.01em}
-.topbar-sub{font-size:10px;color:var(--text-3);text-transform:uppercase;
-  letter-spacing:.03em;font-weight:600}
-.topbar-spacer{flex:1}
-.page{padding:16px;max-width:1000px;margin:0 auto}
-.page-head{margin-bottom:16px}
-.page-head h1{font-size:20px;font-weight:700;letter-spacing:-.02em}
-.page-head p{font-size:13px;color:var(--text-2);margin-top:2px}
+/* Admin panel */
+.admin-sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 240px;
+  background: var(--card); border-right: 1px solid var(--border);
+  padding: 20px 0; overflow-y: auto; z-index: 200;
+  transform: translateX(-100%); transition: transform 0.3s;
+}
+.admin-sidebar.open { transform: translateX(0); }
+.admin-sidebar .brand {
+  padding: 0 20px 20px; font-size: 18px; font-weight: 800;
+  color: var(--primary); border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.admin-sidebar button {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 12px 20px; text-align: left;
+  font-size: 14px; font-weight: 500; color: var(--text);
+  transition: background 0.15s;
+}
+.admin-sidebar button.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+.admin-sidebar button:hover { background: var(--bg); }
+.admin-main { padding: 16px; }
+.admin-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+.admin-header h1 { font-size: 20px; flex: 1; }
+.menu-toggle { font-size: 24px; }
 
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;
-  height:calc(62px + var(--safe-b));padding-bottom:var(--safe-b);
-  background:color-mix(in srgb,var(--surface) 96%,transparent);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border-top:1px solid var(--border);display:flex;z-index:200}
-.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:2px;color:var(--text-3);font-size:10px;
-  font-weight:600;transition:color .12s;background:none}
-.bnav-item.on{color:var(--primary)}
-.bnav-item .icon{font-size:20px;line-height:1}
+/* Dashboard cards */
+.stat-grid {
+  display: grid; gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 16px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.stat-card .label { font-size: 12px; color: var(--text-light); font-weight: 500; }
+.stat-card .value { font-size: 22px; font-weight: 700; color: var(--text); }
+.stat-card .icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: grid; place-items: center; font-size: 18px;
+  background: var(--primary-light); color: var(--primary);
+  margin-bottom: 8px;
+}
 
-.order-card{background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer;
-  transition:border-color .12s}
-.order-card:hover{border-color:var(--primary)}
-.order-card-head{display:flex;justify-content:space-between;
-  align-items:flex-start;margin-bottom:8px;gap:8px}
-.order-card-title{font-size:14px;font-weight:600;word-break:break-word}
-.order-card-sub{font-size:11.5px;color:var(--text-2);margin-top:2px}
-.order-card-body{display:flex;justify-content:space-between;
-  align-items:center;padding-top:8px;border-top:1px solid var(--border)}
-.order-amount{font-size:18px;font-weight:800;letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums}
+/* Table */
+.table-wrap { overflow-x: auto; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+th { background: var(--bg); font-weight: 600; font-size: 12px; color: var(--text-light); text-transform: uppercase; }
+tr:last-child td { border-bottom: none; }
 
-.msg-preview{background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:14px;white-space:pre-wrap;
-  font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12.5px;
-  line-height:1.7;color:var(--text);word-break:break-word;
-  max-height:400px;overflow-y:auto}
-.vars{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
-.var-btn{padding:3px 8px;border-radius:6px;background:var(--primary-soft);
-  color:var(--primary);font-size:11px;font-weight:600;
-  font-family:ui-monospace,monospace;border:none}
-.var-btn:hover{background:var(--primary);color:#fff}
+/* Cart item */
+.cart-item {
+  display: flex; gap: 12px; padding: 12px;
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); margin-bottom: 12px;
+  align-items: center;
+}
+.cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; background: var(--bg); }
+.cart-item .details { flex: 1; min-width: 0; }
+.cart-item .name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.cart-item .price { font-size: 14px; color: var(--primary); font-weight: 700; }
+.qty-controls {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg); border-radius: 6px; padding: 2px;
+}
+.qty-controls button {
+  width: 26px; height: 26px; border-radius: 4px;
+  background: var(--card); font-weight: 700; font-size: 14px;
+  display: grid; place-items: center;
+}
+.qty-controls span { font-weight: 600; min-width: 20px; text-align: center; font-size: 13px; }
 
-.loading-block{text-align:center;padding:40px 20px;color:var(--text-3);font-size:13px}
-.spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border);
-  border-top-color:var(--primary);border-radius:50%;
-  animation:sp .75s linear infinite}
-.spinner-sm{width:14px;height:14px;border-width:2px;vertical-align:middle}
-@keyframes sp{to{transform:rotate(360deg)}}
+/* Order card */
+.order-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 14px; box-shadow: var(--shadow); margin-bottom: 12px;
+}
+.order-card .row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
+.order-card .status {
+  padding: 3px 10px; border-radius: 12px; font-size: 11px;
+  font-weight: 600; text-transform: uppercase;
+}
+.status-Pending { background: #fff3e0; color: #e65100; }
+.status-Confirmed { background: #e3f2fd; color: #0d47a1; }
+.status-Shipped { background: #f3e5f5; color: #4a148c; }
+.status-Delivered { background: #e8f5e9; color: #1b5e20; }
+.status-Cancelled { background: #ffebee; color: #b71c1c; }
+
+/* Upload preview */
+.img-preview {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;
+}
+.img-preview .thumb {
+  position: relative; width: 70px; height: 70px;
+  border-radius: 8px; overflow: hidden;
+}
+.img-preview .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.img-preview .thumb button {
+  position: absolute; top: 2px; right: 2px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(0,0,0,0.6); color: #fff; font-size: 12px;
+  display: grid; place-items: center;
+}
+
+/* Category chips */
+.chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 12px; }
+.chip {
+  padding: 6px 14px; border-radius: 20px; background: var(--card);
+  font-size: 13px; font-weight: 500; white-space: nowrap;
+  border: 1px solid var(--border); transition: all 0.2s;
+}
+.chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* Responsive */
+@media (min-width: 768px) {
+  .product-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .admin-sidebar { transform: translateX(0); }
+  .admin-main { margin-left: 240px; }
+  .menu-toggle { display: none; }
+}
+@media (max-width: 767px) {
+  .header .search-bar { display: none; }
+  .header .logo { font-size: 16px; }
+}
 </style>
 </head>
 <body>
 
-<div id="boot" style="position:fixed;inset:0;background:var(--bg);
-  display:flex;align-items:center;justify-content:center;z-index:9999">
-  <div style="text-align:center">
-    <div class="spinner" style="margin-bottom:12px"></div>
-    <div style="font-size:12px;color:var(--text-3)">Loading</div>
-  </div>
-</div>
+<!-- ==========================================================
+     TOAST CONTAINER
+     ========================================================== -->
+<div class="toast-container" id="toastContainer"></div>
 
-<!-- AUTH -->
-<div id="auth" class="auth-wrap hidden">
+<!-- ==========================================================
+     AUTH SCREEN
+     ========================================================== -->
+<div class="auth-wrap" id="authScreen">
   <div class="auth-card">
-    <div class="auth-brand">
-      <div class="brand-mark">PR</div>
-      <div>
-        <div class="brand-title">Pawan Retail Limited</div>
-        <div class="brand-sub">Order Confirmation</div>
+    <h1>🛒 Pawan Retail</h1>
+    <p class="subtitle">India's premium shopping experience</p>
+
+    <div class="auth-tabs">
+      <button id="tabLogin" class="active" onclick="switchAuthTab('login')">Login</button>
+      <button id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Login form -->
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" id="loginEmail" required placeholder="you@example.com" />
       </div>
-    </div>
-
-    <div class="tabs">
-      <button class="tab on" data-tab="login">Login</button>
-      <button class="tab" data-tab="register">Register</button>
-    </div>
-
-    <div id="auth-msg"></div>
-
-    <form id="f-login">
-      <div class="auth-title">Welcome back</div>
-      <div class="auth-desc">Sign in to manage orders.</div>
-      <div class="field"><label>Email</label>
-        <input id="l-email" type="email" required placeholder="you@example.com" autocomplete="email"></div>
-      <div class="field"><label>Password</label>
-        <input id="l-pass" type="password" required placeholder="••••••••" autocomplete="current-password"></div>
-      <button type="submit" class="btn btn-primary btn-block" id="l-btn">Sign In</button>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" id="loginPassword" required placeholder="••••••••" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Login</button>
+      <p style="text-align:center; margin-top:12px;">
+        <a href="#" onclick="handleForgotPassword(event)" style="font-size:13px;">Forgot password?</a>
+      </p>
     </form>
 
-    <form id="f-register" class="hidden">
-      <div class="auth-title">Create account</div>
-      <div class="auth-desc">Register to start managing orders.</div>
-      <div class="field"><label>Full Name</label>
-        <input id="r-name" type="text" required placeholder="Your Name"></div>
-      <div class="field"><label>Email</label>
-        <input id="r-email" type="email" required placeholder="you@example.com" autocomplete="email"></div>
-      <div class="field"><label>Password</label>
-        <input id="r-pass" type="password" required placeholder="Min 6 characters" autocomplete="new-password"></div>
-      <button type="submit" class="btn btn-primary btn-block" id="r-btn">Create Account</button>
+    <!-- Signup form -->
+    <form id="signupForm" style="display:none" onsubmit="handleSignup(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" class="form-control" id="signupName" required placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" id="signupEmail" required placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" class="form-control" id="signupPhone" placeholder="+91 XXXXXXXXXX" />
+      </div>
+      <div class="form-group">
+        <label>Password (min 6 chars)</label>
+        <input type="password" class="form-control" id="signupPassword" required minlength="6" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="signupBtn">Create Account</button>
     </form>
   </div>
 </div>
 
-<!-- APP -->
-<div id="app" class="app-shell hidden">
-  <div class="topbar">
-    <div class="brand-mark">PR</div>
-    <div>
-      <div class="topbar-title">Pawan Retail</div>
-      <div class="topbar-sub">Order Confirmation</div>
+<!-- ==========================================================
+     CUSTOMER APP
+     ========================================================== -->
+<div id="appScreen" style="display:none">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo" onclick="showPage('home')">🛒 Pawan Retail</div>
+    <div class="search-bar">
+      <span>🔍</span>
+      <input type="search" id="searchInput" placeholder="Search products..." oninput="debounceSearch()" />
     </div>
-    <div class="topbar-spacer"></div>
-    <button class="btn-icon" id="theme-btn" title="Toggle theme">🌙</button>
-    <button class="btn-icon" id="logout-btn" title="Sign out" style="margin-left:6px">↪</button>
-  </div>
-  <main id="main" class="page"></main>
-  <nav class="bottom-nav" id="bottom-nav"></nav>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="openCart()" title="Cart">
+        🛒 <span class="badge" id="cartBadge">0</span>
+      </button>
+      <button class="icon-btn" onclick="openWishlist()" title="Wishlist">
+        ❤️ <span class="badge" id="wishBadge">0</span>
+      </button>
+      <button class="icon-btn" onclick="toggleMenu()" title="Menu">☰</button>
+    </div>
+  </header>
+
+  <!-- HOME PAGE -->
+  <section class="page active container" id="page-home">
+    <div class="section-title">Categories</div>
+    <div class="chips" id="homeCategories"></div>
+
+    <div class="section-title">
+      Featured Products
+      <small onclick="showPage('shop')">View all →</small>
+    </div>
+    <div class="product-grid" id="featuredGrid"></div>
+
+    <div class="section-title">
+      All Products
+      <small onclick="showPage('shop')">View all →</small>
+    </div>
+    <div class="product-grid" id="homeProductsGrid"></div>
+  </section>
+
+  <!-- SHOP PAGE -->
+  <section class="page container" id="page-shop">
+    <div class="section-title">Shop</div>
+    <div class="chips" id="shopCategories"></div>
+    <div class="product-grid" id="shopGrid"></div>
+  </section>
+
+  <!-- WISHLIST PAGE -->
+  <section class="page container" id="page-wishlist">
+    <div class="section-title">My Wishlist</div>
+    <div id="wishlistContent"></div>
+  </section>
+
+  <!-- ORDERS PAGE -->
+  <section class="page container" id="page-orders">
+    <div class="section-title">My Orders</div>
+    <div id="ordersContent"></div>
+  </section>
+
+  <!-- PROFILE PAGE -->
+  <section class="page container" id="page-profile">
+    <div class="section-title">My Profile</div>
+    <div class="card" id="profileCard"></div>
+    <button class="btn btn-outline btn-block" style="margin-top:16px" onclick="handleLogout()">Logout</button>
+  </section>
+
+  <!-- ADMIN PAGE -->
+  <section class="page" id="page-admin">
+    <div class="admin-sidebar" id="adminSidebar">
+      <div class="brand">⚙️ Admin Panel</div>
+      <button class="active" onclick="adminTab('dashboard')">📊 Dashboard</button>
+      <button onclick="adminTab('products')">📦 Products</button>
+      <button onclick="adminTab('categories')">🗂 Categories</button>
+      <button onclick="adminTab('orders')">🧾 Orders</button>
+      <button onclick="adminTab('customers')">👥 Customers</button>
+      <button onclick="showPage('home')">🏠 Back to Shop</button>
+    </div>
+    <div class="admin-main">
+      <div class="admin-header">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <h1 id="adminTitle">Dashboard</h1>
+      </div>
+      <div id="adminContent"></div>
+    </div>
+  </section>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button data-nav="home" onclick="showPage('home')">
+      <span class="nav-icon">🏠</span>Home
+    </button>
+    <button data-nav="shop" onclick="showPage('shop')">
+      <span class="nav-icon">🛍</span>Shop
+    </button>
+    <button data-nav="wishlist" onclick="showPage('wishlist')">
+      <span class="nav-icon">❤️</span>Wishlist
+    </button>
+    <button data-nav="orders" onclick="showPage('orders')">
+      <span class="nav-icon">📦</span>Orders
+    </button>
+    <button data-nav="profile" onclick="showPage('profile')">
+      <span class="nav-icon">👤</span>Profile
+    </button>
+  </nav>
 </div>
 
-<div class="toast-container" id="toasts"></div>
+<!-- ==========================================================
+     MODAL
+     ========================================================== -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="modalTitle">Title</h3>
+      <button class="icon-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<!-- ==========================================================
+     FIREBASE SDK (Modular v10)
+     ========================================================== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged, sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+import {
+  getFirestore, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
+  collection, query, where, orderBy, limit, serverTimestamp, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import {
+  getStorage, ref, uploadBytes, getDownloadURL, deleteObject
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
 
-<script>
-// ============================================================
-// FIREBASE CONFIG — apna config yahan daalo
-// ============================================================
+// ----------------------------------------------------------
+// FIREBASE CONFIG (आपका actual project)
+// ----------------------------------------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyBiSeHAQfLQeQEvddbORc-WDbsFSPweOg8",
   authDomain: "pawan-kumar-82619.firebaseapp.com",
   projectId: "pawan-kumar-82619",
-  appId: "1:613216856721:web:2238338eb3f42bebfbed30"
+  storageBucket: "pawan-kumar-82619.firebasestorage.app",
+  messagingSenderId: "613216856721",
+  appId: "1:613216856721:web:2238338eb3f42bebfbed30",
+  measurementId: "G-HJN1LX2HEW"
 };
 
-let app=null, auth=null, db=null;
-try {
-  app  = firebase.initializeApp(firebaseConfig);
-  auth = firebase.auth();
-  db   = firebase.firestore();
-} catch(e){ console.error("Firebase init failed:", e); }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-// ============================================================
-// HELPERS
-// ============================================================
-const $  = (s,p=document)=>p.querySelector(s);
-const $$ = (s,p=document)=>[...p.querySelectorAll(s)];
+// ----------------------------------------------------------
+// GLOBAL STATE
+// ----------------------------------------------------------
+let currentUser = null;
+let currentUserData = null;
+let allProducts = [];
+let cart = {};       // { productId: {qty, product} }
+let wishlist = {};   // { productId: product }
+let currentCategory = null;
+let searchQuery = "";
+let cartUnsub = null;
+let wishUnsub = null;
 
-function esc(s){
-  if(s==null) return '';
-  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
-function nowTS(){ return firebase.firestore.FieldValue.serverTimestamp(); }
-
-function fmtDateTime(iso){
-  if(!iso) return '';
-  try {
-    const d = new Date(iso);
-    if(isNaN(d)) return '';
-    return d.toLocaleString('en-IN',{
-      day:'2-digit', month:'long', year:'numeric',
-      hour:'2-digit', minute:'2-digit', hour12:true
-    });
-  } catch { return ''; }
-}
-function toLocalInputValue(iso){
-  if(!iso) return '';
-  try {
-    const d = new Date(iso);
-    if(isNaN(d)) return '';
-    const pad = n => String(n).padStart(2,'0');
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  } catch { return ''; }
-}
-function fromLocalInputValue(v){
-  if(!v) return '';
-  try {
-    const d = new Date(v);
-    if(isNaN(d)) return '';
-    return d.toISOString();
-  } catch { return ''; }
-}
-function currency(n){
-  if(n==null || n==='') return '';
-  const num = Number(n);
-  if(isNaN(num)) return '';
-  return `₹${num.toLocaleString('en-IN')}`;
-}
-
-function toast(msg, type='info', ms=3000){
-  const c = $('#toasts');
-  const el = document.createElement('div');
-  el.className = 'toast ' + (type==='ok'?'ok':type==='err'?'err':'');
-  el.textContent = msg;
-  c.appendChild(el);
-  setTimeout(()=>{ el.style.opacity='0'; el.style.transition='.3s';
-    setTimeout(()=>el.remove(),300); }, ms);
-}
-
-function errMsg(e){
-  const c = e?.code || '';
-  const map = {
-    'auth/invalid-email':'Invalid email.',
-    'auth/user-not-found':'No account found.',
-    'auth/wrong-password':'Incorrect password.',
-    'auth/invalid-credential':'Incorrect email or password.',
-    'auth/too-many-requests':'Too many attempts. Try later.',
-    'auth/email-already-in-use':'Email already registered.',
-    'auth/weak-password':'Password must be at least 6 characters.',
-    'auth/network-request-failed':'Network error.',
-    'permission-denied':'Permission denied.'
-  };
-  for(const k in map) if(c.includes(k)) return map[k];
-  return e?.message || 'Something went wrong.';
-}
-
-function alertBox(msg, type='err'){
-  const el = $('#auth-msg');
-  if(!msg){ el.innerHTML=''; return; }
-  const cls = type==='err'?'alert-err':type==='ok'?'alert-ok':'alert-info';
-  el.innerHTML = `<div class="alert ${cls}">${esc(msg)}</div>`;
-}
-
-// ============================================================
-// STATE
-// ============================================================
-const state = {
-  me: null,
-  profile: null,
-  orders: [],
-  templates: [],
-  settings: {},
-  route: 'dashboard',
-  activePlatform: 'Swiggy',
-  offerEnabled: false,
-  showOfferInMessage: true,
-  customFields: [],
-  currentOrderId: null,
-  editingOrder: null,
-  filters: { platform:'all', status:'all', payment:'all', sort:'newest', search:'' }
+// ==========================================================
+// TOAST
+// ==========================================================
+window.showToast = function(message, type = "info") {
+  const container = document.getElementById("toastContainer");
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3500);
 };
 
-const DEFAULT_TEMPLATES = [
-  {
-    id:'tpl-standard', name:'Standard Order Confirmation', isDefault:true,
-    body:`ORDER CONFIRMATION
-
-Dear {customer_name},
-
-Your order has been successfully placed through {platform}.
-
-Order Details:
-Order ID: {order_id}
-Restaurant: {restaurant}
-Items: {items}
-Final Payable Amount: {final_amount}
-Payment Method: {payment_method}
-Order Time: {order_time}
-{delivery_time_line}
-Delivery Address: {address}
-
-{offer_section}
-
-Order Status: {status}
-
-{payment_instruction}
-
-Thank you for choosing
-{company_name}.`
-  },
-  {
-    id:'tpl-cod', name:'COD Order Confirmation', isDefault:false,
-    body:`ORDER CONFIRMATION (Cash on Delivery)
-
-Dear {customer_name},
-
-Your COD order has been placed through {platform}.
-
-Order ID: {order_id}
-Restaurant: {restaurant}
-Items: {items}
-Amount Payable: {final_amount}
-Order Time: {order_time}
-{delivery_time_line}
-Delivery Address: {address}
-
-{offer_section}
-
-Please keep {final_amount} cash ready at the time of delivery.
-
-Order Status: {status}
-
-Thank you for choosing
-{company_name}.`
-  },
-  {
-    id:'tpl-prepaid', name:'Prepaid Order Confirmation', isDefault:false,
-    body:`ORDER CONFIRMATION (Prepaid)
-
-Dear {customer_name},
-
-Your prepaid order has been placed through {platform}.
-
-Order ID: {order_id}
-Restaurant: {restaurant}
-Items: {items}
-Amount Paid: {final_amount}
-Payment Method: {payment_method}
-Order Time: {order_time}
-{delivery_time_line}
-Delivery Address: {address}
-
-{offer_section}
-
-Order Status: {status}
-
-Thank you for choosing
-{company_name}.`
-  },
-  {
-    id:'tpl-offer', name:'Platform Offer Confirmation', isDefault:false,
-    body:`ORDER CONFIRMATION
-
-Dear {customer_name},
-
-Your order has been placed through {platform}.
-
-Order ID: {order_id}
-Restaurant: {restaurant}
-Items: {items}
-Order Time: {order_time}
-{delivery_time_line}
-Delivery Address: {address}
-
-{offer_section}
-
-Order Status: {status}
-
-{payment_instruction}
-
-Thank you for choosing
-{company_name}.`
-  }
-];
-
-const DEFAULT_SETTINGS = {
-  companyName: 'Pawan Retail Limited',
-  phone: '',
-  email: '',
-  address: '',
-  footer: 'Thank you for choosing\nPawan Retail Limited.',
-  defaultPaymentInstruction: 'Please keep {final_amount} cash ready at the time of delivery.',
-  defaultOfferMessage: 'Platform promotional offer applied to this order.'
-};
-
-const VARIABLES = [
-  'customer_name','platform','order_id','restaurant','items',
-  'regular_amount','offer_provider','savings','final_amount',
-  'payment_method','order_time','delivery_time','address','status','company_name'
-];
-
-// ============================================================
-// STORAGE (Firestore)
-// ============================================================
-function userCol(name){
-  return db.collection('users').doc(state.me.uid).collection(name);
-}
-
-async function loadOrders(){
-  const snap = await userCol('orders').get();
-  state.orders = snap.docs.map(d => ({ id:d.id, ...d.data() }))
-    .sort((a,b) => (b.createdAtMs||0) - (a.createdAtMs||0));
-}
-
-async function saveOrder(order){
-  const id = order.id || uid();
-  const now = Date.now();
-  const payload = {
-    ...order,
-    id,
-    createdAtMs: order.createdAtMs || now,
-    updatedAtMs: now,
-    updatedAt: nowTS()
-  };
-  delete payload.id;
-  await userCol('orders').doc(id).set({
-    ...payload,
-    createdAt: order.createdAt || nowTS()
-  }, { merge:true });
-  return id;
-}
-
-async function removeOrder(id){
-  await userCol('orders').doc(id).delete();
-}
-
-async function loadTemplates(){
-  const snap = await userCol('templates').get();
-  if(snap.empty){
-    // seed default templates
-    const batch = db.batch();
-    DEFAULT_TEMPLATES.forEach(t => {
-      const ref = userCol('templates').doc(t.id);
-      batch.set(ref, { ...t, createdAt: nowTS() });
-    });
-    await batch.commit();
-    state.templates = [...DEFAULT_TEMPLATES];
-  } else {
-    state.templates = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-  }
-}
-
-async function saveTemplate(tpl){
-  const id = tpl.id || uid();
-  await userCol('templates').doc(id).set({
-    ...tpl, id, updatedAt: nowTS()
-  }, { merge:true });
-}
-
-async function removeTemplate(id){
-  await userCol('templates').doc(id).delete();
-}
-
-async function loadSettings(){
-  const doc = await userCol('settings').doc('app').get();
-  state.settings = doc.exists
-    ? { ...DEFAULT_SETTINGS, ...doc.data() }
-    : { ...DEFAULT_SETTINGS };
-}
-
-async function saveSettings(s){
-  state.settings = { ...state.settings, ...s };
-  await userCol('settings').doc('app').set(
-    { ...state.settings, updatedAt: nowTS() }, { merge:true });
-}
-
-async function seedDemoOrder(){
-  const seedDoc = await userCol('settings').doc('seeded').get();
-  if(seedDoc.exists) return;
-  const existing = await userCol('orders').limit(1).get();
-  if(!existing.empty){
-    await userCol('settings').doc('seeded').set({ seeded:true, at: nowTS() });
-    return;
-  }
-  const demoId = uid();
-  await userCol('orders').doc(demoId).set({
-    id: demoId,
-    isDemo: true,
-    platform: 'Swiggy',
-    customerName: 'Sujit Nayak',
-    customerMobile: '',
-    address: 'Quantum Electric Sc…',
-    orderId: '249031708190883',
-    restaurant: 'Kaka Chicken Biryani',
-    items: 'Chicken Biryani [HALF] + Free Raita',
-    regularAmount: 190,
-    finalAmount: 61,
-    paymentMethod: 'Cash on Delivery',
-    orderTime: new Date().toISOString(),
-    deliveryTime: '',
-    status: 'Successfully Placed',
-    offerEnabled: true,
-    offerProvider: 'Swiggy',
-    offerDescription: 'Platform promotional offer applied to this order.',
-    showOfferInMessage: true,
-    customFields: [],
-    templateId: 'tpl-standard',
-    createdAtMs: Date.now(),
-    createdAt: nowTS(),
-    updatedAt: nowTS()
-  });
-  await userCol('settings').doc('seeded').set({ seeded:true, at: nowTS() });
-}
-
-// ============================================================
-// MESSAGE GENERATOR
-// ============================================================
-function buildMessage(order, templateOverride){
-  const settings = state.settings;
-  const templates = state.templates;
-  const template = templateOverride
-    || templates.find(t => t.id === order.templateId)
-    || templates.find(t => t.isDefault)
-    || templates[0];
-
-  const customerName = order.customerName || '';
-  const platform = order.platform || '';
-  const orderId = order.orderId || '';
-  const restaurant = order.restaurant || '';
-  const items = order.items || '';
-  const paymentMethod = order.paymentMethod || '';
-  const status = order.status || '';
-  const address = order.address || '';
-  const companyName = settings.companyName || 'Pawan Retail Limited';
-
-  const finalAmount = order.finalAmount != null && order.finalAmount !== ''
-    ? `₹${Number(order.finalAmount).toLocaleString('en-IN')}` : '';
-  const regularAmount = order.regularAmount != null && order.regularAmount !== ''
-    ? `₹${Number(order.regularAmount).toLocaleString('en-IN')}` : '';
-  const savings = (order.regularAmount != null && order.finalAmount != null
-    && order.regularAmount !== '' && order.finalAmount !== '')
-    ? Math.max(0, Number(order.regularAmount) - Number(order.finalAmount)) : 0;
-  const savingsStr = savings > 0 ? `₹${savings.toLocaleString('en-IN')}` : '';
-
-  const orderTime = fmtDateTime(order.orderTime);
-  const deliveryTime = order.deliveryTime ? fmtDateTime(order.deliveryTime) : '';
-
-  let offerSection = '';
-  if(order.offerEnabled && order.showOfferInMessage && order.offerProvider){
-    const lines = [];
-    if(regularAmount) lines.push(`Regular Order Value: ${regularAmount}`);
-    lines.push(`Platform Offer: ${order.offerProvider}`);
-    if(savingsStr) lines.push(`Savings: ${savingsStr}`);
-    if(finalAmount) lines.push(`Final Payable Amount: ${finalAmount}`);
-    lines.push('');
-    lines.push(`The discount shown above is a promotional offer provided by ${order.offerProvider}. The order was placed using the available platform offer.`);
-    offerSection = lines.join('\n');
-  }
-
-  let paymentInstruction = '';
-  const pm = (paymentMethod || '').toLowerCase();
-  if(pm.includes('cash') || pm.includes('cod')){
-    paymentInstruction = `Please keep ${finalAmount || 'the amount'} cash ready at the time of delivery.`;
-  } else if(pm.includes('prepaid')){
-    paymentInstruction = '';
-  } else if(pm.includes('upi')){
-    paymentInstruction = `Payment received via UPI. Thank you.`;
-  }
-
-  const deliveryTimeLine = deliveryTime ? `Estimated Delivery: ${deliveryTime}` : '';
-
-  const vars = {
-    customer_name: customerName,
-    platform: platform,
-    order_id: orderId,
-    restaurant: restaurant,
-    items: items,
-    regular_amount: regularAmount,
-    offer_provider: order.offerProvider || '',
-    savings: savingsStr,
-    final_amount: finalAmount,
-    payment_method: paymentMethod,
-    order_time: orderTime,
-    delivery_time: deliveryTime,
-    address: address,
-    status: status,
-    company_name: companyName,
-    offer_section: offerSection,
-    payment_instruction: paymentInstruction,
-    delivery_time_line: deliveryTimeLine
-  };
-
-  let msg = template.body;
-
-  // Special handling: if offer_section is empty, remove the blank line
-  // If delivery_time_line is empty, remove the whole line
-  // If payment_instruction is empty, remove that too
-  // Process multi-line placeholders first
-  msg = msg.replace(/\{delivery_time_line\}/g, deliveryTimeLine);
-  msg = msg.replace(/\{offer_section\}/g, offerSection);
-  msg = msg.replace(/\{payment_instruction\}/g, paymentInstruction);
-
-  // Now handle standard vars
-  msg = msg.replace(/\{(\w+)\}/g, (m, k) => vars[k] != null ? vars[k] : '');
-
-  // Cleanup: remove empty lines around sections
-  msg = msg
-    .split('\n')
-    .map(l => l.replace(/:\s*$/, ''))   // remove trailing "Label:" with no value
-    .filter(l => l.trim() !== '' || l === '') // keep structure
-    .join('\n');
-
-  // Remove 3+ consecutive newlines
-  msg = msg.replace(/\n{3,}/g, '\n\n').trim();
-
-  return msg;
-}
-
-// ============================================================
-// WHATSAPP / SMS
-// ============================================================
-function normalizePhone(phone){
-  if(!phone) return '';
-  let p = String(phone).replace(/\D/g,'');
-  if(p.length === 10) p = '91' + p;
-  if(p.length === 11 && p.startsWith('0')) p = '91' + p.slice(1);
-  return p;
-}
-
-function sendWhatsApp(phone, message){
-  const num = normalizePhone(phone);
-  if(!num || num.length < 11){
-    toast('Invalid mobile number. Enter a valid Indian number.', 'err');
-    return false;
-  }
-  const url = `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
-  window.open(url, '_blank');
-  toast('WhatsApp opened. Press Send in WhatsApp.', 'ok');
-  return true;
-}
-
-function sendSMS(phone, message){
-  const num = normalizePhone(phone);
-  if(!num || num.length < 11){
-    toast('Invalid mobile number. Enter a valid Indian number.', 'err');
-    return false;
-  }
-  const url = `sms:${num}?body=${encodeURIComponent(message)}`;
-  window.location.href = url;
-  toast('SMS app opened. Press Send in your messaging app.', 'ok');
-  return true;
-}
-
-async function copyToClipboard(text){
-  try {
-    await navigator.clipboard.writeText(text);
-    toast('Message copied to clipboard.', 'ok');
-    return true;
-  } catch {
-    // Fallback for older browsers
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.left = '-9999px';
-    document.body.appendChild(ta);
-    ta.select();
-    try {
-      document.execCommand('copy');
-      toast('Message copied to clipboard.', 'ok');
-      return true;
-    } catch {
-      toast('Could not copy message.', 'err');
-      return false;
-    } finally {
-      ta.remove();
-    }
-  }
-}
-
-// ============================================================
+// ==========================================================
 // AUTH
-// ============================================================
-$$('.tab').forEach(t => t.onclick = () => {
-  $$('.tab').forEach(x => x.classList.remove('on'));
-  t.classList.add('on');
-  $('#f-login').classList.toggle('hidden', t.dataset.tab !== 'login');
-  $('#f-register').classList.toggle('hidden', t.dataset.tab !== 'register');
-  alertBox('');
-});
+// ==========================================================
+window.switchAuthTab = function(tab) {
+  document.getElementById("tabLogin").classList.toggle("active", tab === "login");
+  document.getElementById("tabSignup").classList.toggle("active", tab === "signup");
+  document.getElementById("loginForm").style.display = tab === "login" ? "block" : "none";
+  document.getElementById("signupForm").style.display = tab === "signup" ? "block" : "none";
+};
 
-$('#f-login').addEventListener('submit', async e => {
+window.handleLogin = async function(e) {
   e.preventDefault();
-  alertBox('');
-  const email = $('#l-email').value.trim();
-  const pass = $('#l-pass').value;
-  const btn = $('#l-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner spinner-sm"></span> Signing in';
+  const btn = document.getElementById("loginBtn");
+  btn.disabled = true; btn.textContent = "Logging in...";
   try {
-    await auth.signInWithEmailAndPassword(email, pass);
-  } catch(err){
-    alertBox(errMsg(err), 'err');
-    btn.disabled = false; btn.textContent = 'Sign In';
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    await signInWithEmailAndPassword(auth, email, password);
+    showToast("Login successful!", "success");
+  } catch (err) {
+    console.error(err);
+    showToast(getFriendlyError(err), "error");
+  } finally {
+    btn.disabled = false; btn.textContent = "Login";
   }
-});
+};
 
-$('#f-register').addEventListener('submit', async e => {
+window.handleSignup = async function(e) {
   e.preventDefault();
-  alertBox('');
-  const name = $('#r-name').value.trim();
-  const email = $('#r-email').value.trim().toLowerCase();
-  const pass = $('#r-pass').value;
-  const btn = $('#r-btn');
-  if(!name || !email || !pass) return alertBox('Please fill all fields.', 'err');
-  if(pass.length < 6) return alertBox('Password must be at least 6 characters.', 'err');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner spinner-sm"></span> Creating';
+  const btn = document.getElementById("signupBtn");
+  btn.disabled = true; btn.textContent = "Creating...";
   try {
-    const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    await db.collection('users').doc(cred.user.uid).set({
-      name, email, role:'owner', createdAt: nowTS()
+    const name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const phone = document.getElementById("signupPhone").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await setDoc(doc(db, "users", cred.user.uid), {
+      uid: cred.user.uid,
+      name, email, phone,
+      role: "customer",
+      createdAt: serverTimestamp()
     });
-    alertBox('Account created.', 'ok');
-  } catch(err){
-    alertBox(errMsg(err), 'err');
-    btn.disabled = false; btn.textContent = 'Create Account';
+    showToast("Account created successfully!", "success");
+  } catch (err) {
+    console.error(err);
+    showToast(getFriendlyError(err), "error");
+  } finally {
+    btn.disabled = false; btn.textContent = "Create Account";
+  }
+};
+
+window.handleForgotPassword = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById("loginEmail").value.trim();
+  if (!email) return showToast("Enter your email first", "warning");
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showToast("Reset link sent to your email", "success");
+  } catch (err) {
+    showToast(getFriendlyError(err), "error");
+  }
+};
+
+window.handleLogout = async function() {
+  if (!confirm("Logout?")) return;
+  await signOut(auth);
+  showToast("Logged out", "info");
+};
+
+function getFriendlyError(err) {
+  const map = {
+    "auth/invalid-email": "Invalid email address",
+    "auth/user-not-found": "No account found with this email",
+    "auth/wrong-password": "Incorrect password",
+    "auth/invalid-credential": "Invalid email or password",
+    "auth/email-already-in-use": "This email is already registered",
+    "auth/weak-password": "Password must be at least 6 characters",
+    "permission-denied": "Permission denied"
+  };
+  return map[err.code] || err.message || "Something went wrong";
+}
+
+// ==========================================================
+// AUTH STATE LISTENER
+// ==========================================================
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUser = user;
+    const snap = await getDoc(doc(db, "users", user.uid));
+    currentUserData = snap.exists() ? snap.data() : { uid: user.uid, email: user.email, role: "customer" };
+
+    document.getElementById("authScreen").style.display = "none";
+    document.getElementById("appScreen").style.display = "block";
+
+    attachCartListener();
+    attachWishlistListener();
+    await loadProducts();
+    await loadCategories();
+
+    // Add admin button if admin
+    if (currentUserData.role === "admin") {
+      const headerActions = document.querySelector(".header-actions");
+      if (!document.getElementById("adminBtn")) {
+        const adminBtn = document.createElement("button");
+        adminBtn.id = "adminBtn";
+        adminBtn.className = "icon-btn";
+        adminBtn.textContent = "⚙️";
+        adminBtn.title = "Admin Panel";
+        adminBtn.onclick = () => showPage("admin");
+        headerActions.insertBefore(adminBtn, headerActions.firstChild);
+      }
+    }
+    renderProfile();
+  } else {
+    currentUser = null; currentUserData = null;
+    cart = {}; wishlist = {};
+    if (cartUnsub) cartUnsub();
+    if (wishUnsub) wishUnsub();
+    document.getElementById("authScreen").style.display = "grid";
+    document.getElementById("appScreen").style.display = "none";
   }
 });
 
-function showAuth(){
-  $('#boot').classList.add('hidden');
-  $('#auth').classList.remove('hidden');
-  $('#app').classList.add('hidden');
-  $('#l-btn').disabled = false; $('#l-btn').textContent = 'Sign In';
-  $('#r-btn').disabled = false; $('#r-btn').textContent = 'Create Account';
-}
+// ==========================================================
+// NAVIGATION
+// ==========================================================
+window.showPage = function(pageName) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  const page = document.getElementById("page-" + pageName);
+  if (page) page.classList.add("active");
 
-async function showApp(){
-  $('#boot').classList.add('hidden');
-  $('#auth').classList.add('hidden');
-  $('#app').classList.remove('hidden');
-  buildBottomNav();
-  await reloadAll();
-  route('dashboard');
-}
+  document.querySelectorAll(".bottom-nav button").forEach(b => {
+    b.classList.toggle("active", b.dataset.nav === pageName);
+  });
 
-async function reloadAll(){
+  if (pageName === "wishlist") renderWishlist();
+  if (pageName === "orders") renderOrders();
+  if (pageName === "profile") renderProfile();
+  if (pageName === "admin") renderAdmin("dashboard");
+};
+
+window.toggleMenu = function() {
+  const items = [
+    { label: "🏠 Home", fn: () => showPage("home") },
+    { label: "🛍 Shop", fn: () => showPage("shop") },
+    { label: "❤️ Wishlist", fn: () => showPage("wishlist") },
+    { label: "📦 Orders", fn: () => showPage("orders") },
+    { label: "👤 Profile", fn: () => showPage("profile") }
+  ];
+  if (currentUserData?.role === "admin") {
+    items.push({ label: "⚙️ Admin Panel", fn: () => showPage("admin") });
+  }
+  openModal("Menu", `<div style="display:flex;flex-direction:column;gap:8px">${
+    items.map((it, i) => `<button class="btn btn-ghost btn-block" onclick="window._menuAction(${i})">${it.label}</button>`).join("")
+  }</div>`);
+  window._menuActions = items.map(it => it.fn);
+};
+window._menuAction = (i) => { closeModal(); window._menuActions[i](); };
+
+// ==========================================================
+// PRODUCTS
+// ==========================================================
+async function loadProducts() {
+  showLoading("homeProductsGrid");
+  showLoading("featuredGrid");
+  showLoading("shopGrid");
   try {
-    await Promise.all([loadSettings(), loadTemplates()]);
-    await seedDemoOrder();
-    await loadOrders();
-  } catch(e){
-    toast(errMsg(e), 'err');
+    const q = query(collection(db, "products"), where("active", "==", true));
+    const snap = await getDocs(q);
+    allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderHomeProducts();
+    renderShopProducts();
+  } catch (err) {
+    console.error(err);
+    showToast("Failed to load products", "error");
   }
 }
 
-$('#logout-btn').onclick = async () => {
-  if(!confirm('Sign out?')) return;
-  try { await auth.signOut(); } catch(_){}
-};
+function showLoading(id) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+}
 
-$('#theme-btn').onclick = () => {
-  const cur = document.documentElement.getAttribute('data-theme');
-  if(cur === 'dark'){
-    document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('pr_theme', 'light');
-    $('#theme-btn').textContent = '☀️';
-  } else {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('pr_theme', 'dark');
-    $('#theme-btn').textContent = '🌙';
-  }
-};
-(function initTheme(){
-  const t = localStorage.getItem('pr_theme');
-  if(t === 'dark'){ document.documentElement.setAttribute('data-theme','dark'); $('#theme-btn').textContent='🌙'; }
-  else { $('#theme-btn').textContent = '☀️'; }
+window.debounceSearch = (() => {
+  let t;
+  return () => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      searchQuery = document.getElementById("searchInput").value.toLowerCase().trim();
+      renderShopProducts();
+      renderHomeProducts();
+      if (searchQuery) showPage("shop");
+    }, 350);
+  };
 })();
 
-auth.onAuthStateChanged(async user => {
-  if(user){
-    state.me = user;
-    await showApp();
-  } else {
-    state.me = null;
-    showAuth();
-  }
-});
-
-// ============================================================
-// NAVIGATION
-// ============================================================
-const NAV = [
-  { id:'dashboard', label:'Dashboard', icon:'📊' },
-  { id:'new',       label:'New Order', icon:'➕' },
-  { id:'orders',    label:'Orders',    icon:'📋' },
-  { id:'templates', label:'Templates', icon:'📝' },
-  { id:'settings',  label:'Settings',  icon:'⚙️' }
-];
-
-function buildBottomNav(){
-  const nav = $('#bottom-nav');
-  nav.innerHTML = '';
-  NAV.forEach(item => {
-    const b = document.createElement('button');
-    b.className = 'bnav-item';
-    b.dataset.route = item.id;
-    b.innerHTML = `<span class="icon">${item.icon}</span><span>${item.label}</span>`;
-    b.onclick = () => route(item.id);
-    nav.appendChild(b);
-  });
-}
-
-function setActiveNav(id){
-  $$('.bnav-item').forEach(el => el.classList.toggle('on', el.dataset.route === id));
-}
-
-function route(id){
-  state.route = id;
-  setActiveNav(id);
-  const main = $('#main');
-  main.innerHTML = '<div class="loading-block"><div class="spinner"></div></div>';
-
-  switch(id){
-    case 'dashboard': return renderDashboard();
-    case 'new':       return renderNewOrder();
-    case 'orders':    return renderOrders();
-    case 'templates': return renderTemplates();
-    case 'settings':  return renderSettings();
-    case 'order':     return renderOrderDetail(state.currentOrderId);
-    default:          return renderDashboard();
-  }
-}
-
-// ============================================================
-// DASHBOARD
-// ============================================================
-function renderDashboard(){
-  const main = $('#main');
-  const now = new Date();
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-
-  const todayOrders = state.orders.filter(o => (o.createdAtMs||0) >= startOfDay);
-  const todayValue = todayOrders.reduce((s,o) => s + (Number(o.finalAmount)||0), 0);
-  const cod = todayOrders.filter(o => (o.paymentMethod||'').toLowerCase().includes('cash')).length;
-  const prepaid = todayOrders.filter(o => (o.paymentMethod||'').toLowerCase().includes('prepaid')).length;
-  const swiggy = todayOrders.filter(o => o.platform === 'Swiggy').length;
-  const zomato = todayOrders.filter(o => o.platform === 'Zomato').length;
-  const dominos = todayOrders.filter(o => o.platform === "Domino's").length;
-  const custom = todayOrders.filter(o => o.platform === 'Custom').length;
-
-  const recent = state.orders.slice(0, 5);
-
-  main.innerHTML = `
-    <div class="page-head">
-      <div>
-        <h1>Dashboard</h1>
-        <p>Today's order overview</p>
-      </div>
-    </div>
-
-    <div class="grid3">
-      <div class="stat">
-        <div class="stat-label">Today's Orders</div>
-        <div class="stat-value">${todayOrders.length}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">Today's Value</div>
-        <div class="stat-value" style="color:var(--primary)">${currency(todayValue)}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">COD Orders</div>
-        <div class="stat-value" style="color:var(--warning)">${cod}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">Prepaid</div>
-        <div class="stat-value" style="color:var(--success)">${prepaid}</div>
-      </div>
-    </div>
-
-    <div class="grid3" style="margin-top:10px">
-      <div class="stat"><div class="stat-label">Swiggy</div><div class="stat-value">${swiggy}</div></div>
-      <div class="stat"><div class="stat-label">Zomato</div><div class="stat-value">${zomato}</div></div>
-      <div class="stat"><div class="stat-label">Domino's</div><div class="stat-value">${dominos}</div></div>
-      <div class="stat"><div class="stat-label">Custom</div><div class="stat-value">${custom}</div></div>
-    </div>
-
-    <div class="card" style="margin-top:16px">
-      <div class="card-head">
-        <div>
-          <h3>Recent Orders</h3>
-          <p>Last ${recent.length} orders</p>
-        </div>
-        <button class="btn btn-outline btn-sm" onclick="route('orders')">View All</button>
-      </div>
-      ${recent.length === 0 ? `
-        <div class="empty">
-          <div class="empty-icon">📋</div>
-          <div class="empty-title">No orders yet</div>
-          <div class="empty-sub">Create your first order to get started</div>
-          <button class="btn btn-primary btn-sm" onclick="route('new')">Create Order</button>
-        </div>
-      ` : recent.map(o => orderCardHTML(o)).join('')}
-    </div>
-  `;
-
-  $$('.order-card').forEach(el => el.onclick = () => openOrder(el.dataset.id));
-}
-
-// ============================================================
-// ORDER CARD HTML
-// ============================================================
-function orderCardHTML(o){
-  const badgeCls = o.status === 'Delivered' ? 'badge-success'
-    : o.status === 'Cancelled' ? 'badge-danger'
-    : o.status === 'Out for Delivery' ? 'badge-warn'
-    : o.status === 'Preparing' ? 'badge-info'
-    : 'badge-primary';
+function productCardHTML(p) {
+  const img = (p.images && p.images[0]) || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='%23eee' width='200' height='200'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' font-size='60'>📦</text></svg>";
+  const discountPct = p.mrp && p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+  const isWished = wishlist[p.id] ? "❤️" : "🤍";
   return `
-    <div class="order-card" data-id="${esc(o.id)}">
-      <div class="order-card-head">
-        <div style="min-width:0">
-          <div class="order-card-title">${esc(o.customerName || 'No name')}</div>
-          <div class="order-card-sub">${esc(o.platform||'')} · ${esc(o.restaurant||'')}</div>
-          <div class="order-card-sub mono">${esc(o.orderId||'')} · ${fmtDateTime(o.orderTime)}</div>
-        </div>
-        <span class="badge ${badgeCls}">${esc(o.status||'—')}</span>
+    <div class="product-card" onclick="openProduct('${p.id}')">
+      <div class="img-wrap">
+        <img src="${img}" alt="${p.name || ''}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23eee%22 width=%22200%22 height=%22200%22/></svg>'" />
+        <button class="wish-btn" onclick="event.stopPropagation(); toggleWishlist('${p.id}')">${isWished}</button>
       </div>
-      <div class="order-card-body">
-        <div>
-          <div class="order-card-sub">Payment</div>
-          <div style="font-weight:600;margin-top:2px">${esc(o.paymentMethod||'—')}</div>
+      <div class="info">
+        <div class="name">${p.name || "Untitled Product"}</div>
+        <div class="price-row">
+          <span class="price">₹${p.price || 0}</span>
+          ${p.mrp && p.mrp > p.price ? `<span class="mrp">₹${p.mrp}</span>` : ""}
         </div>
-        <div style="text-align:right">
-          <div class="order-card-sub">Amount</div>
-          <div class="order-amount">${currency(o.finalAmount)}</div>
-        </div>
+        ${discountPct > 0 ? `<div class="discount">${discountPct}% OFF</div>` : ""}
+        <button class="add-btn" onclick="event.stopPropagation(); addToCart('${p.id}')">
+          ${p.stock > 0 ? "Add to Cart" : "Out of Stock"}
+        </button>
       </div>
     </div>
   `;
 }
 
-function openOrder(id){
-  state.currentOrderId = id;
-  route('order');
-}
-
-// ============================================================
-// NEW ORDER
-// ============================================================
-function renderNewOrder(){
-  const main = $('#main');
-  const editing = state.editingOrder;
-
-  // If editing, populate form from existing
-  const o = editing || {
-    platform: 'Swiggy',
-    customerName: '', customerMobile: '', address: '',
-    orderId: '', restaurant: '', items: '',
-    regularAmount: '', finalAmount: '',
-    paymentMethod: 'Cash on Delivery',
-    orderTime: new Date().toISOString(),
-    deliveryTime: '',
-    status: 'Successfully Placed',
-    offerEnabled: false,
-    offerProvider: 'Swiggy',
-    offerDescription: state.settings.defaultOfferMessage || 'Platform promotional offer applied to this order.',
-    showOfferInMessage: true,
-    customFields: [],
-    templateId: 'tpl-standard'
-  };
-
-  state.activePlatform = o.platform || 'Swiggy';
-  state.offerEnabled = !!o.offerEnabled;
-  state.showOfferInMessage = o.showOfferInMessage !== false;
-  state.customFields = o.customFields || [];
-
-  main.innerHTML = `
-    <div class="page-head">
-      <div>
-        <h1>${editing ? 'Edit Order' : 'New Order'}</h1>
-        <p>${editing ? 'Update order details' : 'Create a new order confirmation'}</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Select Platform</h3></div></div>
-      <div class="platform-grid" id="platform-grid">
-        ${['Swiggy','Zomato',"Domino's",'Custom'].map(p => `
-          <div class="platform-card ${state.activePlatform===p?'on':''}" data-p="${p}">
-            <div class="pc-icon">${{Swiggy:'🟠',Zomato:'🔴',"Domino's":'🔵',Custom:'⚪'}[p]}</div>
-            <div class="pc-name">${p}</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Customer Details</h3></div></div>
-      <div class="field">
-        <label>Customer Name *</label>
-        <input id="in-name" value="${esc(o.customerName)}" placeholder="Customer name">
-      </div>
-      <div class="field">
-        <label>Mobile Number</label>
-        <input id="in-mobile" value="${esc(o.customerMobile||'')}" placeholder="10-digit number" inputmode="numeric">
-      </div>
-      <div class="field">
-        <label>Delivery Address *</label>
-        <textarea id="in-address" placeholder="Full address">${esc(o.address)}</textarea>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Order Details</h3></div></div>
-      <div class="field">
-        <label>Order ID *</label>
-        <input id="in-orderid" value="${esc(o.orderId)}" placeholder="e.g. 249031708190883">
-      </div>
-      <div class="field">
-        <label>Restaurant Name *</label>
-        <input id="in-restaurant" value="${esc(o.restaurant)}" placeholder="Restaurant">
-      </div>
-      <div class="field">
-        <label>Order Items *</label>
-        <textarea id="in-items" placeholder="Items ordered">${esc(o.items)}</textarea>
-      </div>
-      <div class="row2">
-        <div class="field">
-          <label>Regular Order Value</label>
-          <input id="in-regular" type="number" inputmode="decimal" value="${o.regularAmount ?? ''}" placeholder="₹ 0">
-        </div>
-        <div class="field">
-          <label>Final Payable *</label>
-          <input id="in-final" type="number" inputmode="decimal" value="${o.finalAmount ?? ''}" placeholder="₹ 0">
-        </div>
-      </div>
-      <div class="field">
-        <label>Payment Method *</label>
-        <select id="in-payment">
-          ${['Cash on Delivery','Prepaid','UPI','Other'].map(p => `<option ${o.paymentMethod===p?'selected':''}>${p}</option>`).join('')}
-        </select>
-      </div>
-      <div class="field">
-        <label>Order Time</label>
-        <input id="in-time" type="datetime-local" value="${toLocalInputValue(o.orderTime)}">
-      </div>
-      <div class="field">
-        <label>Estimated Delivery Time</label>
-        <input id="in-delivery" type="datetime-local" value="${toLocalInputValue(o.deliveryTime)}">
-      </div>
-      <div class="field">
-        <label>Order Status</label>
-        <select id="in-status">
-          ${['Successfully Placed','Preparing','Out for Delivery','Delivered','Cancelled'].map(s => `<option ${o.status===s?'selected':''}>${s}</option>`).join('')}
-        </select>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Platform Offer</h3></div></div>
-      <div class="field">
-        <label class="field-check">
-          <input type="checkbox" id="in-offer-toggle" ${state.offerEnabled?'checked':''}>
-          <span>Platform Offer Applied</span>
-        </label>
-      </div>
-      <div id="offer-fields" class="${state.offerEnabled?'':'hidden'}">
-        <div class="field">
-          <label>Offer Provider</label>
-          <select id="in-offer-provider">
-            ${['Swiggy','Zomato',"Domino's",'Custom'].map(p => `<option ${o.offerProvider===p?'selected':''}>${p}</option>`).join('')}
-          </select>
-        </div>
-        <div class="field">
-          <label>Offer Description</label>
-          <textarea id="in-offer-desc" placeholder="e.g. Platform promotional offer applied">${esc(o.offerDescription || '')}</textarea>
-        </div>
-        <div class="field">
-          <label class="field-check">
-            <input type="checkbox" id="in-show-offer" ${state.showOfferInMessage?'checked':''}>
-            <span>Show offer details in message</span>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    ${state.activePlatform === 'Custom' ? `
-      <div class="card">
-        <div class="card-head">
-          <div><h3>Custom Fields</h3></div>
-          <button class="btn btn-outline btn-sm" id="add-cf">+ Add Field</button>
-        </div>
-        <div id="cf-list"></div>
-      </div>
-    ` : ''}
-
-    <div class="card">
-      <div class="card-head"><div><h3>Message Preview</h3></div></div>
-      <div id="msg-preview" class="msg-preview">Generating…</div>
-      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-        <button class="btn btn-outline btn-sm" id="copy-msg">Copy</button>
-        <button class="btn btn-outline btn-sm" id="reset-msg">Reset Template</button>
-      </div>
-    </div>
-
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="btn btn-outline" id="cancel-btn" style="flex:1">Cancel</button>
-      <button class="btn btn-primary" id="save-btn" style="flex:2">${editing ? 'Update Order' : 'Save Order'}</button>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn btn-success btn-block" id="send-btn">Save & Send</button>
-    </div>
-  `;
-
-  // Platform select
-  $$('#platform-grid .platform-card').forEach(c => {
-    c.onclick = () => {
-      $$('#platform-grid .platform-card').forEach(x => x.classList.remove('on'));
-      c.classList.add('on');
-      state.activePlatform = c.dataset.p;
-      // Re-render to show/hide custom fields
-      const scroll = window.scrollY;
-      renderNewOrder();
-      window.scrollTo(0, scroll);
-    };
-  });
-
-  // Offer toggle
-  $('#in-offer-toggle').onchange = e => {
-    state.offerEnabled = e.target.checked;
-    $('#offer-fields').classList.toggle('hidden', !state.offerEnabled);
-    updatePreview();
-  };
-  $('#in-show-offer') && ($('#in-show-offer').onchange = e => {
-    state.showOfferInMessage = e.target.checked;
-    updatePreview();
-  });
-
-  // Custom fields
-  renderCustomFields();
-  if($('#add-cf')){
-    $('#add-cf').onclick = () => {
-      state.customFields.push({ id: uid(), name:'', value:'' });
-      renderCustomFields();
-    };
-  }
-
-  // Preview updates
-  ['in-name','in-mobile','in-address','in-orderid','in-restaurant','in-items',
-   'in-regular','in-final','in-payment','in-time','in-delivery','in-status',
-   'in-offer-provider','in-offer-desc'].forEach(id => {
-    const el = $('#' + id);
-    if(el) el.addEventListener('input', updatePreview);
-    if(el) el.addEventListener('change', updatePreview);
-  });
-
-  // Actions
-  $('#cancel-btn').onclick = () => {
-    state.editingOrder = null;
-    route('dashboard');
-  };
-  $('#copy-msg').onclick = () => {
-    const msg = buildMessage(collectOrderFromForm(), null);
-    copyToClipboard(msg);
-  };
-  $('#reset-msg').onclick = () => {
-    $('#msg-preview').textContent = buildMessage(collectOrderFromForm(), null);
-    toast('Template reset.', 'info');
-  };
-  $('#save-btn').onclick = () => saveCurrentOrder(false);
-  $('#send-btn').onclick = () => saveCurrentOrder(true);
-
-  updatePreview();
-}
-
-function renderCustomFields(){
-  const el = $('#cf-list');
-  if(!el) return;
-  if(!state.customFields.length){
-    el.innerHTML = '<div class="empty-sub" style="text-align:center;padding:12px">No custom fields yet</div>';
-    return;
-  }
-  el.innerHTML = state.customFields.map((f, i) => `
-    <div class="cf-item" data-i="${i}">
-      <input data-k="name" placeholder="Field name" value="${esc(f.name||'')}">
-      <input data-k="value" placeholder="Field value" value="${esc(f.value||'')}">
-      <div class="cf-actions">
-        <button class="btn-icon" data-act="up" ${i===0?'disabled':''}>↑</button>
-        <button class="btn-icon" data-act="down" ${i===state.customFields.length-1?'disabled':''}>↓</button>
-        <button class="btn-icon" data-act="del">✕</button>
-      </div>
-    </div>
-  `).join('');
-
-  el.querySelectorAll('.cf-item').forEach(row => {
-    const i = Number(row.dataset.i);
-    row.querySelectorAll('input').forEach(inp => {
-      inp.oninput = () => {
-        state.customFields[i][inp.dataset.k] = inp.value;
-        updatePreview();
-      };
-    });
-    row.querySelector('[data-act="up"]')?.addEventListener('click', () => {
-      if(i === 0) return;
-      [state.customFields[i-1], state.customFields[i]] = [state.customFields[i], state.customFields[i-1]];
-      renderCustomFields();
-      updatePreview();
-    });
-    row.querySelector('[data-act="down"]')?.addEventListener('click', () => {
-      if(i === state.customFields.length-1) return;
-      [state.customFields[i+1], state.customFields[i]] = [state.customFields[i], state.customFields[i+1]];
-      renderCustomFields();
-      updatePreview();
-    });
-    row.querySelector('[data-act="del"]')?.addEventListener('click', () => {
-      state.customFields.splice(i, 1);
-      renderCustomFields();
-      updatePreview();
-    });
-  });
-}
-
-function collectOrderFromForm(){
-  return {
-    id: state.editingOrder?.id,
-    isDemo: state.editingOrder?.isDemo,
-    platform: state.activePlatform,
-    customerName: $('#in-name').value.trim(),
-    customerMobile: $('#in-mobile').value.trim(),
-    address: $('#in-address').value.trim(),
-    orderId: $('#in-orderid').value.trim(),
-    restaurant: $('#in-restaurant').value.trim(),
-    items: $('#in-items').value.trim(),
-    regularAmount: $('#in-regular').value === '' ? '' : Number($('#in-regular').value),
-    finalAmount: $('#in-final').value === '' ? '' : Number($('#in-final').value),
-    paymentMethod: $('#in-payment').value,
-    orderTime: fromLocalInputValue($('#in-time').value),
-    deliveryTime: fromLocalInputValue($('#in-delivery').value),
-    status: $('#in-status').value,
-    offerEnabled: state.offerEnabled,
-    offerProvider: $('#in-offer-provider')?.value || 'Swiggy',
-    offerDescription: $('#in-offer-desc')?.value || '',
-    showOfferInMessage: state.showOfferInMessage,
-    customFields: state.customFields.slice(),
-    templateId: state.editingOrder?.templateId || 'tpl-standard',
-    createdAt: state.editingOrder?.createdAt,
-    createdAtMs: state.editingOrder?.createdAtMs
-  };
-}
-
-function updatePreview(){
-  const o = collectOrderFromForm();
-  const el = $('#msg-preview');
-  if(el) el.textContent = buildMessage(o, null);
-}
-
-async function saveCurrentOrder(sendAfter){
-  const o = collectOrderFromForm();
-
-  // Validation
-  if(!o.customerName) return toast('Customer name is required.', 'err');
-  if(!o.address) return toast('Delivery address is required.', 'err');
-  if(!o.orderId) return toast('Order ID is required.', 'err');
-  if(!o.restaurant) return toast('Restaurant name is required.', 'err');
-  if(o.finalAmount === '' || o.finalAmount == null || isNaN(o.finalAmount) || o.finalAmount < 0)
-    return toast('Final payable amount is required.', 'err');
-  if(o.offerEnabled && o.regularAmount !== '' && Number(o.regularAmount) < Number(o.finalAmount))
-    return toast('Final amount cannot be greater than regular amount when offer is applied.', 'err');
-
-  const btn = sendAfter ? $('#send-btn') : $('#save-btn');
-  btn.disabled = true;
-  const orig = btn.textContent;
-  btn.innerHTML = '<span class="spinner spinner-sm"></span> Saving';
-
-  try {
-    const id = await saveOrder(o);
-    o.id = id;
-    toast('Order saved.', 'ok');
-    await loadOrders();
-    state.editingOrder = null;
-    if(sendAfter){
-      openSendSheet(o);
-    } else {
-      route('dashboard');
-    }
-  } catch(e){
-    toast(errMsg(e), 'err');
-    btn.disabled = false; btn.textContent = orig;
-  }
-}
-
-// ============================================================
-// ORDERS LIST
-// ============================================================
-function renderOrders(){
-  const main = $('#main');
-  const f = state.filters;
-
-  let list = state.orders.slice();
-  if(f.platform !== 'all') list = list.filter(o => o.platform === f.platform);
-  if(f.status !== 'all') list = list.filter(o => o.status === f.status);
-  if(f.payment !== 'all') list = list.filter(o => o.paymentMethod === f.payment);
-  if(f.search){
-    const q = f.search.toLowerCase();
-    list = list.filter(o =>
-      (o.customerName||'').toLowerCase().includes(q) ||
-      (o.customerMobile||'').toLowerCase().includes(q) ||
-      (o.orderId||'').toLowerCase().includes(q) ||
-      (o.restaurant||'').toLowerCase().includes(q)
+function renderHomeProducts() {
+  let filtered = allProducts;
+  if (searchQuery) {
+    filtered = filtered.filter(p =>
+      (p.name || "").toLowerCase().includes(searchQuery) ||
+      (p.brand || "").toLowerCase().includes(searchQuery)
     );
   }
-  if(f.sort === 'newest') list.sort((a,b) => (b.createdAtMs||0) - (a.createdAtMs||0));
-  else if(f.sort === 'oldest') list.sort((a,b) => (a.createdAtMs||0) - (b.createdAtMs||0));
-  else if(f.sort === 'highest') list.sort((a,b) => (Number(b.finalAmount)||0) - (Number(a.finalAmount)||0));
-  else if(f.sort === 'lowest') list.sort((a,b) => (Number(a.finalAmount)||0) - (Number(b.finalAmount)||0));
+  const featured = filtered.filter(p => p.isFeatured || p.featured).slice(0, 4);
+  const others = filtered.slice(0, 8);
 
-  main.innerHTML = `
-    <div class="page-head">
-      <div>
-        <h1>Orders</h1>
-        <p>${state.orders.length} order${state.orders.length!==1?'s':''} total</p>
-      </div>
-      <button class="btn btn-primary btn-sm" onclick="route('new')">+ New Order</button>
-    </div>
+  document.getElementById("featuredGrid").innerHTML = featured.length
+    ? featured.map(productCardHTML).join("")
+    : '<div class="empty" style="grid-column:1/-1"><div class="emoji">✨</div><p>No featured products yet</p></div>';
 
-    <div class="field">
-      <input id="search" placeholder="Search name, mobile, order ID, restaurant…" value="${esc(f.search)}">
-    </div>
-
-    <div class="chips" id="filter-platform">
-      ${['all','Swiggy','Zomato',"Domino's",'Custom'].map(p =>
-        `<div class="chip ${f.platform===p?'on':''}" data-k="platform" data-v="${p}">${p==='all'?'All Platforms':p}</div>`
-      ).join('')}
-    </div>
-
-    <div class="chips" id="filter-status">
-      ${['all','Successfully Placed','Preparing','Out for Delivery','Delivered','Cancelled'].map(s =>
-        `<div class="chip ${f.status===s?'on':''}" data-k="status" data-v="${s}">${s==='all'?'All Status':s}</div>`
-      ).join('')}
-    </div>
-
-    <div class="chips" id="filter-payment">
-      ${['all','Cash on Delivery','Prepaid','UPI','Other'].map(p =>
-        `<div class="chip ${f.payment===p?'on':''}" data-k="payment" data-v="${p}">${p==='all'?'All Payments':p}</div>`
-      ).join('')}
-    </div>
-
-    <div class="chips" id="filter-sort">
-      ${[['newest','Newest'],['oldest','Oldest'],['highest','Highest Amount'],['lowest','Lowest Amount']].map(([v,l]) =>
-        `<div class="chip ${f.sort===v?'on':''}" data-k="sort" data-v="${v}">${l}</div>`
-      ).join('')}
-    </div>
-
-    <div id="orders-list">
-      ${list.length === 0 ? `
-        <div class="empty">
-          <div class="empty-icon">📋</div>
-          <div class="empty-title">No orders yet</div>
-          <div class="empty-sub">Create your first order</div>
-          <button class="btn btn-primary" onclick="route('new')">Create Order</button>
-        </div>
-      ` : list.map(o => orderCardHTML(o)).join('')}
-    </div>
-  `;
-
-  $('#search').oninput = e => { state.filters.search = e.target.value; renderOrders(); };
-  $$('.chip').forEach(c => {
-    c.onclick = () => {
-      state.filters[c.dataset.k] = c.dataset.v;
-      renderOrders();
-    };
-  });
-  $$('.order-card').forEach(el => el.onclick = () => openOrder(el.dataset.id));
+  document.getElementById("homeProductsGrid").innerHTML = others.length
+    ? others.map(productCardHTML).join("")
+    : '<div class="empty" style="grid-column:1/-1"><div class="emoji">📦</div><p>No products available</p></div>';
 }
 
-// ============================================================
-// ORDER DETAIL
-// ============================================================
-function renderOrderDetail(id){
-  const main = $('#main');
-  const o = state.orders.find(x => x.id === id);
-  if(!o){
-    main.innerHTML = `<div class="empty">
-      <div class="empty-icon">❓</div>
-      <div class="empty-title">Order not found</div>
-      <button class="btn btn-primary" onclick="route('orders')">Back to Orders</button>
-    </div>`;
+function renderShopProducts() {
+  let filtered = allProducts;
+  if (currentCategory) filtered = filtered.filter(p => p.categoryId === currentCategory);
+  if (searchQuery) {
+    filtered = filtered.filter(p =>
+      (p.name || "").toLowerCase().includes(searchQuery) ||
+      (p.brand || "").toLowerCase().includes(searchQuery) ||
+      (p.description || "").toLowerCase().includes(searchQuery)
+    );
+  }
+  document.getElementById("shopGrid").innerHTML = filtered.length
+    ? filtered.map(productCardHTML).join("")
+    : '<div class="empty" style="grid-column:1/-1"><div class="emoji">🔍</div><p>No products found</p></div>';
+}
+
+window.openProduct = function(id) {
+  const p = allProducts.find(x => x.id === id);
+  if (!p) return;
+  const img = (p.images && p.images[0]) || "";
+  const discountPct = p.mrp && p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+
+  openModal(p.name || "Product", `
+    <div style="text-align:center">
+      ${img ? `<img src="${img}" style="max-height:280px;margin:0 auto;border-radius:12px;object-fit:contain" />` : ""}
+    </div>
+    <h2 style="margin-top:16px;font-size:18px">${p.name || ""}</h2>
+    ${p.brand ? `<div style="color:var(--text-light);font-size:13px">Brand: ${p.brand}</div>` : ""}
+    <div style="display:flex;align-items:baseline;gap:8px;margin:12px 0">
+      <span style="font-size:24px;font-weight:700;color:var(--primary)">₹${p.price || 0}</span>
+      ${p.mrp && p.mrp > p.price ? `<span style="text-decoration:line-through;color:var(--text-light)">₹${p.mrp}</span>` : ""}
+      ${discountPct > 0 ? `<span style="color:var(--success);font-weight:600">${discountPct}% OFF</span>` : ""}
+    </div>
+    <p style="font-size:14px;line-height:1.6">${p.description || p.shortDescription || "No description available."}</p>
+    <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
+      ${p.sku ? `<div>SKU: ${p.sku}</div>` : ""}
+      <div>Stock: ${p.stock > 0 ? p.stock + " available" : "Out of stock"}</div>
+    </div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Close</button>
+    <button class="btn btn-primary" onclick="addToCart('${p.id}'); closeModal()">Add to Cart</button>
+  `);
+};
+
+// ==========================================================
+// CATEGORIES
+// ==========================================================
+async function loadCategories() {
+  try {
+    const snap = await getDocs(collection(db, "categories"));
+    const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const chipsHTML = `
+      <button class="chip ${!currentCategory ? 'active' : ''}" onclick="filterCategory(null)">All</button>
+      ${cats.map(c => `<button class="chip ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.name}</button>`).join("")}
+    `;
+    document.getElementById("homeCategories").innerHTML = chipsHTML;
+    document.getElementById("shopCategories").innerHTML = chipsHTML;
+  } catch (err) {
+    console.error("Categories load error:", err);
+    document.getElementById("homeCategories").innerHTML =
+      '<div style="font-size:12px;color:var(--text-light);padding:8px 0">No categories yet — add from Admin Panel</div>';
+    document.getElementById("shopCategories").innerHTML = "";
+  }
+}
+
+window.filterCategory = function(catId) {
+  currentCategory = catId;
+  loadCategories();
+  renderShopProducts();
+  showPage("shop");
+};
+
+// ==========================================================
+// CART (Firestore-backed)
+// ==========================================================
+function attachCartListener() {
+  if (cartUnsub) cartUnsub();
+  cartUnsub = onSnapshot(doc(db, "carts", currentUser.uid), (snap) => {
+    if (snap.exists()) {
+      cart = snap.data().items || {};
+    } else {
+      cart = {};
+    }
+    updateCartBadge();
+    renderHomeProducts();
+    renderShopProducts();
+  });
+}
+
+function attachWishlistListener() {
+  if (wishUnsub) wishUnsub();
+  wishUnsub = onSnapshot(doc(db, "wishlists", currentUser.uid), (snap) => {
+    if (snap.exists()) {
+      wishlist = snap.data().items || {};
+    } else {
+      wishlist = {};
+    }
+    updateWishBadge();
+    renderHomeProducts();
+    renderShopProducts();
+    if (document.getElementById("page-wishlist").classList.contains("active")) {
+      renderWishlist();
+    }
+  });
+}
+
+function updateCartBadge() {
+  const count = Object.values(cart).reduce((sum, it) => sum + (it.qty || 0), 0);
+  document.getElementById("cartBadge").textContent = count;
+}
+function updateWishBadge() {
+  const count = Object.keys(wishlist).length;
+  document.getElementById("wishBadge").textContent = count;
+}
+
+window.addToCart = async function(productId) {
+  const p = allProducts.find(x => x.id === productId);
+  if (!p) return;
+  if (!p.stock || p.stock <= 0) return showToast("Out of stock", "warning");
+  const existing = cart[productId] || { qty: 0 };
+  const newQty = existing.qty + 1;
+  if (newQty > p.stock) return showToast("Not enough stock", "warning");
+
+  cart[productId] = { qty: newQty, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
+  try {
+    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+    showToast("Added to cart", "success");
+  } catch (err) {
+    console.error(err);
+    showToast("Failed to add to cart", "error");
+  }
+};
+
+window.removeFromCart = async function(productId) {
+  delete cart[productId];
+  try {
+    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+    showToast("Removed from cart", "info");
+    renderCartModal();
+  } catch (err) {
+    showToast("Failed to remove", "error");
+  }
+};
+
+window.updateCartQty = async function(productId, delta) {
+  const item = cart[productId];
+  if (!item) return;
+  const p = allProducts.find(x => x.id === productId);
+  const newQty = item.qty + delta;
+  if (newQty <= 0) return removeFromCart(productId);
+  if (p && newQty > p.stock) return showToast("Not enough stock", "warning");
+  item.qty = newQty;
+  try {
+    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+    renderCartModal();
+  } catch (err) {
+    showToast("Failed to update", "error");
+  }
+};
+
+window.openCart = function() { renderCartModal(); };
+
+function renderCartModal() {
+  const items = Object.entries(cart);
+  if (items.length === 0) {
+    openModal("Cart", '<div class="empty"><div class="emoji">🛒</div><p>Your cart is empty</p></div>');
+    return;
+  }
+  let subtotal = 0;
+  const body = items.map(([id, it]) => {
+    subtotal += it.price * it.qty;
+    return `
+      <div class="cart-item">
+        <img src="${it.image || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22><rect fill=%22%23eee%22 width=%2270%22 height=%2270%22/></svg>'}" />
+        <div class="details">
+          <div class="name">${it.name}</div>
+          <div class="price">₹${it.price} × ${it.qty} = ₹${it.price * it.qty}</div>
+        </div>
+        <div class="qty-controls">
+          <button onclick="updateCartQty('${id}', -1)">−</button>
+          <span>${it.qty}</span>
+          <button onclick="updateCartQty('${id}', 1)">+</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+  const delivery = subtotal > 500 ? 0 : 40;
+  const total = subtotal + delivery;
+
+  openModal("Your Cart", `
+    ${body}
+    <div style="margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;font-size:13px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Subtotal</span><span>₹${subtotal}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Delivery</span><span>${delivery === 0 ? "FREE" : "₹" + delivery}</span></div>
+      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:15px;padding-top:6px;border-top:1px dashed var(--border)"><span>Total</span><span style="color:var(--primary)">₹${total}</span></div>
+    </div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Continue Shopping</button>
+    <button class="btn btn-primary" onclick="placeOrder(${total}, ${delivery})">Place Order (COD)</button>
+  `);
+}
+
+// ==========================================================
+// WISHLIST
+// ==========================================================
+window.toggleWishlist = async function(productId) {
+  const p = allProducts.find(x => x.id === productId);
+  if (!p) return;
+  if (wishlist[productId]) {
+    delete wishlist[productId];
+    showToast("Removed from wishlist", "info");
+  } else {
+    wishlist[productId] = { name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
+    showToast("Added to wishlist", "success");
+  }
+  try {
+    await setDoc(doc(db, "wishlists", currentUser.uid), { items: wishlist }, { merge: true });
+  } catch (err) {
+    showToast("Failed to update wishlist", "error");
+  }
+};
+
+window.openWishlist = function() { showPage("wishlist"); };
+
+function renderWishlist() {
+  const items = Object.entries(wishlist);
+  const el = document.getElementById("wishlistContent");
+  if (items.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="emoji">💔</div><p>Your wishlist is empty</p><p style="font-size:12px">Tap ❤️ on any product to save it</p></div>';
+    return;
+  }
+  el.innerHTML = items.map(([id, it]) => `
+    <div class="cart-item">
+      <img src="${it.image || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22><rect fill=%22%23eee%22 width=%2270%22 height=%2270%22/></svg>'}" />
+      <div class="details">
+        <div class="name">${it.name}</div>
+        <div class="price">₹${it.price}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Add to Cart</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleWishlist('${id}')">Remove</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+// ==========================================================
+// ORDERS
+// ==========================================================
+window.placeOrder = async function(total, delivery) {
+  const items = Object.entries(cart).map(([id, it]) => ({
+    productId: id, name: it.name, price: it.price, qty: it.qty, image: it.image
+  }));
+  if (items.length === 0) return showToast("Cart is empty", "warning");
+
+  const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
+
+  try {
+    await addDoc(collection(db, "orders"), {
+      userId: currentUser.uid,
+      customerName: currentUserData?.name || "",
+      customerEmail: currentUser.email,
+      phone: currentUserData?.phone || "",
+      address: "Update in profile",
+      items,
+      subtotal,
+      discount: 0,
+      coupon: "",
+      deliveryCharge: delivery,
+      totalAmount: total,
+      paymentMethod: "COD",
+      paymentStatus: "Pending",
+      orderStatus: "Pending",
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+    await setDoc(doc(db, "carts", currentUser.uid), { items: {} }, { merge: true });
+    closeModal();
+    showToast("Order placed successfully! 🎉", "success");
+    setTimeout(() => showPage("orders"), 500);
+  } catch (err) {
+    console.error(err);
+    showToast("Failed to place order: " + err.message, "error");
+  }
+};
+
+async function renderOrders() {
+  const el = document.getElementById("ordersContent");
+  el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const q = query(
+      collection(db, "orders"),
+      where("userId", "==", currentUser.uid)
+    );
+    const snap = await getDocs(q);
+    const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    if (orders.length === 0) {
+      el.innerHTML = '<div class="empty"><div class="emoji">📦</div><p>No orders yet</p><p style="font-size:12px">Start shopping to see your orders here</p></div>';
+      return;
+    }
+    el.innerHTML = orders.map(o => `
+      <div class="order-card">
+        <div class="row">
+          <strong>#${o.id.slice(-8).toUpperCase()}</strong>
+          <span class="status status-${o.orderStatus}">${o.orderStatus}</span>
+        </div>
+        <div class="row"><span>${o.items?.length || 0} item(s)</span><strong>₹${o.totalAmount}</strong></div>
+        <div class="row" style="color:var(--text-light);font-size:12px">
+          <span>${o.paymentMethod} • ${o.paymentStatus}</span>
+          <span>${o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleDateString() : ""}</span>
+        </div>
+      </div>
+    `).join("");
+  } catch (err) {
+    console.error(err);
+    el.innerHTML = '<div class="empty"><p>Failed to load orders</p></div>';
+  }
+}
+
+// ==========================================================
+// PROFILE
+// ==========================================================
+function renderProfile() {
+  const el = document.getElementById("profileCard");
+  if (!el) return;
+  const d = currentUserData || {};
+  el.innerHTML = `
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;font-size:32px;font-weight:700;margin:0 auto 8px">
+        ${(d.name || currentUser?.email || "U")[0].toUpperCase()}
+      </div>
+      <h3>${d.name || "User"}</h3>
+      <p style="color:var(--text-light);font-size:13px">${currentUser?.email || ""}</p>
+      ${d.role === "admin" ? '<span style="background:var(--primary);color:#fff;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-top:6px;display:inline-block">ADMIN</span>' : ""}
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:12px;font-size:13px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Phone</span><strong>${d.phone || "Not set"}</strong></div>
+      <div style="display:flex;justify-content:space-between"><span>User ID</span><strong style="font-size:11px">${currentUser?.uid.slice(0, 12)}...</strong></div>
+    </div>
+  `;
+}
+
+// ==========================================================
+// MODAL
+// ==========================================================
+window.openModal = function(title, body, footer = "") {
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalBody").innerHTML = body;
+  document.getElementById("modalFooter").innerHTML = footer;
+  document.getElementById("modalOverlay").classList.add("active");
+};
+window.closeModal = function(e) {
+  if (e && e.target !== e.currentTarget && e.target !== document.getElementById("modalOverlay")) return;
+  document.getElementById("modalOverlay").classList.remove("active");
+};
+
+// ==========================================================
+// ADMIN PANEL
+// ==========================================================
+window.toggleSidebar = function() {
+  document.getElementById("adminSidebar").classList.toggle("open");
+};
+
+window.adminTab = function(tab) {
+  document.querySelectorAll(".admin-sidebar button").forEach(b => b.classList.remove("active"));
+  event?.target?.classList?.add("active");
+  renderAdmin(tab);
+};
+
+async function renderAdmin(tab) {
+  const title = document.getElementById("adminTitle");
+  const content = document.getElementById("adminContent");
+  content.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+  if (currentUserData?.role !== "admin") {
+    content.innerHTML = '<div class="empty"><div class="emoji">🔒</div><p>Admin access required</p></div>';
     return;
   }
 
-  const msg = buildMessage(o, null);
+  if (tab === "dashboard") {
+    title.textContent = "Dashboard";
+    const [productsSnap, ordersSnap, usersSnap] = await Promise.all([
+      getDocs(collection(db, "products")),
+      getDocs(collection(db, "orders")),
+      getDocs(collection(db, "users"))
+    ]);
+    const products = productsSnap.docs.map(d => d.data());
+    const orders = ordersSnap.docs.map(d => d.data());
+    const users = usersSnap.docs.map(d => d.data());
+    const totalSales = orders.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + (o.totalAmount || 0), 0);
+    const pending = orders.filter(o => o.orderStatus === "Pending").length;
+    const delivered = orders.filter(o => o.orderStatus === "Delivered").length;
+    const lowStock = products.filter(p => (p.stock || 0) < 5).length;
 
-  main.innerHTML = `
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-      <button class="btn-icon" onclick="route('orders')">←</button>
-      <div style="flex:1">
-        <h1 style="font-size:18px">${esc(o.customerName)}</h1>
-        <p class="muted-sm">${esc(o.platform)} · ${esc(o.restaurant)}</p>
+    content.innerHTML = `
+      <div class="stat-grid">
+        <div class="stat-card"><div class="icon">💰</div><div class="label">Total Sales</div><div class="value">₹${totalSales}</div></div>
+        <div class="stat-card"><div class="icon">🧾</div><div class="label">Total Orders</div><div class="value">${orders.length}</div></div>
+        <div class="stat-card"><div class="icon">👥</div><div class="label">Customers</div><div class="value">${users.length}</div></div>
+        <div class="stat-card"><div class="icon">📦</div><div class="label">Products</div><div class="value">${products.length}</div></div>
+        <div class="stat-card"><div class="icon">⏳</div><div class="label">Pending</div><div class="value">${pending}</div></div>
+        <div class="stat-card"><div class="icon">✅</div><div class="label">Delivered</div><div class="value">${delivered}</div></div>
+        <div class="stat-card"><div class="icon">⚠️</div><div class="label">Low Stock</div><div class="value">${lowStock}</div></div>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Order Summary</h3></div></div>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div class="muted-sm">Order ID</div>
-          <div class="mono">${esc(o.orderId||'—')}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="muted-sm">Final Payable</div>
-          <div class="order-amount">${currency(o.finalAmount)}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Details</h3></div></div>
-      <div class="row2">
-        <div><div class="muted-sm">Status</div><div>${esc(o.status||'—')}</div></div>
-        <div><div class="muted-sm">Payment</div><div>${esc(o.paymentMethod||'—')}</div></div>
-        <div><div class="muted-sm">Order Time</div><div>${fmtDateTime(o.orderTime)}</div></div>
-        <div><div class="muted-sm">Delivery</div><div>${o.deliveryTime ? fmtDateTime(o.deliveryTime) : '—'}</div></div>
-        <div><div class="muted-sm">Mobile</div><div>${esc(o.customerMobile||'—')}</div></div>
-        <div><div class="muted-sm">Regular Value</div><div>${currency(o.regularAmount)||'—'}</div></div>
-      </div>
-      <div style="margin-top:12px">
-        <div class="muted-sm">Address</div>
-        <div>${esc(o.address||'—')}</div>
-      </div>
-      <div style="margin-top:12px">
-        <div class="muted-sm">Items</div>
-        <div>${esc(o.items||'—')}</div>
-      </div>
-      ${o.offerEnabled ? `
-        <div style="margin-top:12px">
-          <div class="muted-sm">Platform Offer</div>
-          <div>${esc(o.offerProvider||'')} — ${esc(o.offerDescription||'')}</div>
-        </div>
-      ` : ''}
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Message</h3></div></div>
-      <div class="msg-preview">${esc(msg)}</div>
-    </div>
-
-    <div style="display:grid;gap:8px;margin-top:12px">
-      <button class="btn btn-success btn-block" id="send-btn">Send Confirmation</button>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-outline" id="copy-btn" style="flex:1">Copy Message</button>
-        <button class="btn btn-outline" id="edit-btn" style="flex:1">Edit</button>
-        <button class="btn btn-outline" id="dup-btn" style="flex:1">Duplicate</button>
-      </div>
-      <button class="btn btn-danger btn-block" id="del-btn">Delete Order</button>
-    </div>
-  `;
-
-  $('#send-btn').onclick = () => openSendSheet(o, msg);
-  $('#copy-btn').onclick = () => copyToClipboard(msg);
-  $('#edit-btn').onclick = () => { state.editingOrder = o; route('new'); };
-  $('#dup-btn').onclick = async () => {
-    const copy = { ...o };
-    delete copy.id;
-    copy.isDemo = false;
-    copy.orderId = '';
-    copy.createdAtMs = Date.now();
-    state.editingOrder = copy;
-    route('new');
-    toast('Duplicated. Update and save.', 'info');
-  };
-  $('#del-btn').onclick = () => {
-    confirmModal('Delete this order?', 'This cannot be undone.', async () => {
-      try {
-        await removeOrder(o.id);
-        await loadOrders();
-        toast('Order deleted.', 'ok');
-        route('orders');
-      } catch(e){ toast(errMsg(e), 'err'); }
-    });
-  };
-}
-
-// ============================================================
-// SEND SHEET
-// ============================================================
-function openSendSheet(order, message){
-  const msg = message || buildMessage(order, null);
-  const mobile = order.customerMobile || '';
-
-  const mask = document.createElement('div');
-  mask.className = 'modal-mask';
-  mask.innerHTML = `
-    <div class="modal">
-      <div class="modal-head">
-        <div>
-          <h3>Send Confirmation</h3>
-          <p>${mobile ? 'To ' + esc(mobile) : 'No mobile number saved'}</p>
-        </div>
-        <button class="modal-close" id="close">×</button>
-      </div>
-
-      ${!mobile ? `
-        <div class="alert alert-err" style="margin-bottom:14px">
-          <span>!</span>
-          <span>Please add a mobile number to this order before sending.</span>
-        </div>
-      ` : ''}
-
-      <div style="display:grid;gap:10px">
-        <button class="btn btn-success btn-block" id="wa-btn" ${!mobile?'disabled':''}>
-          <span style="font-size:18px">📱</span> WhatsApp
-        </button>
-        <button class="btn btn-outline btn-block" id="sms-btn" ${!mobile?'disabled':''}>
-          <span style="font-size:18px">✉️</span> Message / SMS
-        </button>
-        <button class="btn btn-outline btn-block" id="copy-btn">
-          <span style="font-size:18px">📋</span> Copy Message
-        </button>
-        <button class="btn btn-outline btn-block" id="cancel">
-          Cancel
-        </button>
-      </div>
-
-      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
-        <div class="muted-sm" style="margin-bottom:8px">Preview</div>
-        <div class="msg-preview" style="max-height:200px;font-size:11.5px">${esc(msg)}</div>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(mask);
-  const close = () => mask.remove();
-  mask.addEventListener('click', e => { if(e.target === mask) close(); });
-  mask.querySelector('#close').onclick = close;
-  mask.querySelector('#cancel').onclick = close;
-
-  mask.querySelector('#wa-btn').onclick = () => {
-    if(sendWhatsApp(mobile, msg)) close();
-  };
-  mask.querySelector('#sms-btn').onclick = () => {
-    if(sendSMS(mobile, msg)) close();
-  };
-  mask.querySelector('#copy-btn').onclick = async () => {
-    await copyToClipboard(msg);
-    close();
-  };
-}
-
-// ============================================================
-// CONFIRM MODAL
-// ============================================================
-function confirmModal(title, desc, onConfirm){
-  const mask = document.createElement('div');
-  mask.className = 'modal-mask';
-  mask.innerHTML = `
-    <div class="modal">
-      <div class="modal-head">
-        <div>
-          <h3>${esc(title)}</h3>
-          <p>${esc(desc)}</p>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-outline" id="cancel" style="flex:1">Cancel</button>
-        <button class="btn btn-danger" id="ok" style="flex:1">Delete</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(mask);
-  mask.querySelector('#cancel').onclick = () => mask.remove();
-  mask.querySelector('#ok').onclick = async () => {
-    mask.remove();
-    await onConfirm();
-  };
-}
-
-// ============================================================
-// TEMPLATES
-// ============================================================
-function renderTemplates(){
-  const main = $('#main');
-  main.innerHTML = `
-    <div class="page-head">
-      <div>
-        <h1>Templates</h1>
-        <p>Message templates with variables</p>
-      </div>
-      <button class="btn btn-primary btn-sm" id="add-tpl">+ New</button>
-    </div>
-    <div id="tpl-list">
-      ${state.templates.map(t => `
-        <div class="card">
-          <div class="card-head">
-            <div>
-              <h3>${esc(t.name)}</h3>
-              ${t.isDefault ? '<span class="badge badge-primary" style="margin-top:4px">Default</span>' : ''}
-            </div>
-            <div style="display:flex;gap:6px">
-              <button class="btn btn-outline btn-sm" data-edit="${t.id}">Edit</button>
-              <button class="btn btn-outline btn-sm" data-dup="${t.id}">Duplicate</button>
-              ${!t.isDefault ? `<button class="btn btn-outline btn-sm" data-del="${t.id}">Delete</button>` : ''}
-            </div>
+      <div class="card">
+        <h3 style="margin-bottom:12px;font-size:16px">Recent Orders</h3>
+        ${orders.slice(-5).reverse().map(o => `
+          <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;display:flex;justify-content:space-between">
+            <span>${o.customerName || "Customer"}</span>
+            <strong>₹${o.totalAmount || 0}</strong>
           </div>
-          <div class="msg-preview" style="font-size:11.5px;max-height:120px">${esc(t.body)}</div>
-          ${!t.isDefault ? `<button class="btn btn-outline btn-sm" data-default="${t.id}" style="margin-top:8px">Set as Default</button>` : ''}
-        </div>
-      `).join('')}
-    </div>
-  `;
-
-  $('#add-tpl').onclick = () => editTemplate(null);
-
-  $$('[data-edit]').forEach(b => b.onclick = () => editTemplate(state.templates.find(t => t.id === b.dataset.edit)));
-  $$('[data-dup]').forEach(b => b.onclick = () => {
-    const t = state.templates.find(x => x.id === b.dataset.dup);
-    editTemplate({ ...t, id:null, name: t.name + ' (Copy)', isDefault:false });
-  });
-  $$('[data-del]').forEach(b => b.onclick = () => {
-    confirmModal('Delete template?', 'This cannot be undone.', async () => {
-      try { await removeTemplate(b.dataset.del); await loadTemplates(); toast('Template deleted.','ok'); renderTemplates(); }
-      catch(e){ toast(errMsg(e),'err'); }
-    });
-  });
-  $$('[data-default]').forEach(b => b.onclick = async () => {
-    try {
-      const batch = db.batch();
-      state.templates.forEach(t => {
-        batch.update(userCol('templates').doc(t.id), { isDefault: t.id === b.dataset.default });
-      });
-      await batch.commit();
-      await loadTemplates();
-      toast('Default template set.','ok');
-      renderTemplates();
-    } catch(e){ toast(errMsg(e),'err'); }
-  });
-}
-
-function editTemplate(tpl){
-  const isNew = !tpl?.id;
-  const t = tpl || { id:null, name:'Custom Template', isDefault:false, body:'' };
-
-  const mask = document.createElement('div');
-  mask.className = 'modal-mask';
-  mask.innerHTML = `
-    <div class="modal">
-      <div class="modal-head">
-        <div>
-          <h3>${isNew ? 'New Template' : 'Edit Template'}</h3>
-        </div>
-        <button class="modal-close" id="close">×</button>
+        `).join("") || '<p style="color:var(--text-light);font-size:13px">No orders yet</p>'}
       </div>
-      <div class="field">
-        <label>Template Name</label>
-        <input id="tpl-name" value="${esc(t.name)}">
-      </div>
-      <div class="field">
-        <label>Message Body</label>
-        <textarea id="tpl-body" rows="12" style="min-height:220px;font-family:ui-monospace,monospace;font-size:12.5px">${esc(t.body)}</textarea>
-      </div>
-      <div class="field">
-        <label>Available Variables</label>
-        <div class="vars" id="vars"></div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button class="btn btn-outline" id="cancel" style="flex:1">Cancel</button>
-        <button class="btn btn-primary" id="save" style="flex:2">Save Template</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(mask);
-
-  const varsEl = mask.querySelector('#vars');
-  varsEl.innerHTML = VARIABLES.map(v => `<button class="var-btn" data-v="${v}">{${v}}</button>`).join('');
-  varsEl.querySelectorAll('.var-btn').forEach(b => b.onclick = () => {
-    const ta = mask.querySelector('#tpl-body');
-    const start = ta.selectionStart;
-    const text = ta.value;
-    const insert = `{${b.dataset.v}}`;
-    ta.value = text.slice(0, start) + insert + text.slice(start);
-    ta.focus();
-    ta.selectionStart = ta.selectionEnd = start + insert.length;
-  });
-
-  mask.querySelector('#close').onclick = () => mask.remove();
-  mask.querySelector('#cancel').onclick = () => mask.remove();
-  mask.querySelector('#save').onclick = async () => {
-    const name = mask.querySelector('#tpl-name').value.trim();
-    const body = mask.querySelector('#tpl-body').value;
-    if(!name) return toast('Template name required.','err');
-    if(!body.trim()) return toast('Template body cannot be empty.','err');
-    try {
-      await saveTemplate({ ...t, name, body });
-      await loadTemplates();
-      toast('Template saved.','ok');
-      mask.remove();
-      renderTemplates();
-    } catch(e){ toast(errMsg(e),'err'); }
-  };
-}
-
-// ============================================================
-// SETTINGS
-// ============================================================
-function renderSettings(){
-  const main = $('#main');
-  const s = state.settings;
-
-  main.innerHTML = `
-    <div class="page-head">
-      <div>
-        <h1>Settings</h1>
-        <p>Company & application settings</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Company</h3></div></div>
-      <div class="field"><label>Company Name</label>
-        <input id="s-name" value="${esc(s.companyName)}"></div>
-      <div class="field"><label>Phone</label>
-        <input id="s-phone" value="${esc(s.phone||'')}" placeholder="Optional"></div>
-      <div class="field"><label>Email</label>
-        <input id="s-email" value="${esc(s.email||'')}" placeholder="Optional"></div>
-      <div class="field"><label>Address</label>
-        <textarea id="s-address">${esc(s.address||'')}</textarea></div>
-      <div class="field"><label>Default Footer</label>
-        <textarea id="s-footer">${esc(s.footer||'')}</textarea></div>
-      <div class="field"><label>Default Payment Instruction</label>
-        <textarea id="s-pay">${esc(s.defaultPaymentInstruction||'')}</textarea></div>
-      <div class="field"><label>Default Offer Message</label>
-        <textarea id="s-offer">${esc(s.defaultOfferMessage||'')}</textarea></div>
-      <button class="btn btn-primary btn-block" id="s-save">Save Settings</button>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Appearance</h3></div></div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-outline" style="flex:1" id="th-light">Light</button>
-        <button class="btn btn-outline" style="flex:1" id="th-dark">Dark</button>
-        <button class="btn btn-outline" style="flex:1" id="th-system">System</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Data</h3><p>Local export / import (JSON)</p></div></div>
-      <div style="display:grid;gap:8px">
-        <button class="btn btn-outline btn-block" id="exp-btn">Export Data</button>
-        <button class="btn btn-outline btn-block" id="imp-btn">Import Data</button>
-        <button class="btn btn-outline btn-block" id="demo-btn">Clear Demo Data</button>
-      </div>
-      <input type="file" id="imp-file" accept="application/json" class="hidden">
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>Privacy</h3></div></div>
-      <div class="muted-sm" style="line-height:1.6">
-        This application is designed for order record management and message generation.
-        It does not store platform passwords, OTPs, authentication tokens, card information, or UPI PINs.
-        The user must complete the actual order on the relevant platform manually.
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div><h3>About</h3></div></div>
-      <div class="muted-sm">
-        <div><strong>Pawan Retail Limited</strong></div>
-        <div style="margin-top:4px">Order Confirmation Manager</div>
-        <div style="margin-top:4px">Version 1.0</div>
-      </div>
-    </div>
-  `;
-
-  $('#s-save').onclick = async () => {
-    const btn = $('#s-save');
-    btn.disabled = true; btn.textContent = 'Saving…';
-    try {
-      await saveSettings({
-        companyName: $('#s-name').value.trim() || 'Pawan Retail Limited',
-        phone: $('#s-phone').value.trim(),
-        email: $('#s-email').value.trim(),
-        address: $('#s-address').value.trim(),
-        footer: $('#s-footer').value,
-        defaultPaymentInstruction: $('#s-pay').value,
-        defaultOfferMessage: $('#s-offer').value
-      });
-      toast('Settings saved.','ok');
-    } catch(e){ toast(errMsg(e),'err'); }
-    btn.disabled = false; btn.textContent = 'Save Settings';
-  };
-
-  $('#th-light').onclick = () => { document.documentElement.setAttribute('data-theme','light'); localStorage.setItem('pr_theme','light'); toast('Light mode','info'); };
-  $('#th-dark').onclick = () => { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('pr_theme','dark'); toast('Dark mode','info'); };
-  $('#th-system').onclick = () => {
-    localStorage.removeItem('pr_theme');
-    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if(dark) document.documentElement.removeAttribute('data-theme');
-    else document.documentElement.setAttribute('data-theme','light');
-    toast('System mode','info');
-  };
-
-  $('#exp-btn').onclick = () => {
-    const data = {
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      orders: state.orders,
-      templates: state.templates,
-      settings: state.settings
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `pawan-retail-backup-${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast('Data exported.','ok');
-  };
-
-  $('#imp-btn').onclick = () => $('#imp-file').click();
-  $('#imp-file').onchange = async e => {
-    const file = e.target.files[0];
-    if(!file) return;
-    const text = await file.text();
-    try {
-      const data = JSON.parse(text);
-      if(!confirm('This will merge orders and replace templates/settings. Continue?')) return;
-      // Save orders
-      if(Array.isArray(data.orders)){
-        for(const o of data.orders){
-          await saveOrder(o);
-        }
-      }
-      if(Array.isArray(data.templates)){
-        for(const t of data.templates){
-          await saveTemplate(t);
-        }
-      }
-      if(data.settings){
-        await saveSettings(data.settings);
-      }
-      await reloadAll();
-      toast('Data imported.','ok');
-      renderSettings();
-    } catch(err){
-      toast('Invalid JSON file.', 'err');
-    }
-    e.target.value = '';
-  };
-
-  $('#demo-btn').onclick = async () => {
-    if(!confirm('Remove demo order? This only removes the sample data.')) return;
-    try {
-      const demo = state.orders.filter(o => o.isDemo);
-      for(const o of demo) await removeOrder(o.id);
-      await loadOrders();
-      toast('Demo data cleared.','ok');
-      renderSettings();
-    } catch(e){ toast(errMsg(e),'err'); }
-  };
-}
-
-// ============================================================
-// Expose route globally for inline onclick handlers
-// ============================================================
-window.route = route;
-window.go = route;
-
-// ============================================================
-// BOOT
-// ============================================================
-window.addEventListener('load', () => {
-  if(!app){
-    document.body.innerHTML = '<div style="padding:40px;text-align:center;color:#eee;font-family:sans-serif;background:#0B0D10;min-height:100vh"><h2>Firebase failed</h2><p style="color:#999;margin-top:8px">Check config and reload</p></div>';
-    return;
+    `;
   }
-  setTimeout(() => {
-    if(!$('#boot').classList.contains('hidden') && !auth.currentUser){
-      showAuth();
+
+  else if (tab === "products") {
+    title.textContent = "Products";
+    content.innerHTML = `
+      <button class="btn btn-primary" style="margin-bottom:16px" onclick="openProductForm()">+ Add Product</button>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+          <tbody id="adminProductRows"></tbody>
+        </table>
+      </div>
+    `;
+    const snap = await getDocs(collection(db, "products"));
+    const products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    document.getElementById("adminProductRows").innerHTML = products.map(p => `
+      <tr>
+        <td>${p.images?.[0] ? `<img src="${p.images[0]}" style="width:40px;height:40px;object-fit:cover;border-radius:6px" />` : "📦"}</td>
+        <td>${p.name || "-"}</td>
+        <td>₹${p.price || 0}</td>
+        <td>${p.stock || 0}</td>
+        <td>
+          <button class="btn btn-ghost btn-sm" onclick="openProductForm('${p.id}')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">Del</button>
+        </td>
+      </tr>
+    `).join("") || '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-light)">No products yet</td></tr>';
+  }
+
+  else if (tab === "categories") {
+    title.textContent = "Categories";
+    content.innerHTML = `
+      <button class="btn btn-primary" style="margin-bottom:16px" onclick="openCategoryForm()">+ Add Category</button>
+      <div id="adminCategoryList"></div>
+    `;
+    const snap = await getDocs(collection(db, "categories"));
+    const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    document.getElementById("adminCategoryList").innerHTML = cats.map(c => `
+      <div class="cart-item">
+        <div class="details"><div class="name">${c.name}</div></div>
+        <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">Delete</button>
+      </div>
+    `).join("") || '<div class="empty"><p>No categories yet</p></div>';
+  }
+
+  else if (tab === "orders") {
+    title.textContent = "Orders";
+    const snap = await getDocs(collection(db, "orders"));
+    const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    content.innerHTML = orders.length ? orders.map(o => `
+      <div class="order-card">
+        <div class="row">
+          <strong>#${o.id.slice(-8).toUpperCase()}</strong>
+          <span class="status status-${o.orderStatus}">${o.orderStatus}</span>
+        </div>
+        <div class="row"><span>${o.customerName || o.customerEmail}</span><strong>₹${o.totalAmount}</strong></div>
+        <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+          ${["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"].map(s => 
+            `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}', '${s}')">${s}</button>`
+          ).join("")}
+        </div>
+      </div>
+    `).join("") : '<div class="empty"><p>No orders yet</p></div>';
+  }
+
+  else if (tab === "customers") {
+    title.textContent = "Customers";
+    const snap = await getDocs(collection(db, "users"));
+    const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    content.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead>
+          <tbody>
+            ${users.map(u => `
+              <tr>
+                <td>${u.name || "-"}</td>
+                <td>${u.email || "-"}</td>
+                <td>${u.role || "customer"}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+}
+
+// ---------- Admin: Product form ----------
+window.openProductForm = function(productId = null) {
+  const editing = !!productId;
+  let p = { name: "", price: "", mrp: "", stock: 0, description: "", images: [], categoryId: "", brand: "", sku: "" };
+  if (editing) {
+    const found = allProducts.find(x => x.id === productId);
+    if (found) p = { ...p, ...found };
+    // Also fetch if not in memory (admin products list)
+    if (!found) {
+      getDoc(doc(db, "products", productId)).then(snap => {
+        if (snap.exists()) openProductForm(productId); // retry after loading
+      });
     }
-  }, 3000);
-});
+  }
+
+  openModal(editing ? "Edit Product" : "Add Product", `
+    <div class="form-group">
+      <label>Product Name *</label>
+      <input class="form-control" id="pfName" value="${p.name || ""}" />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" id="pfDescription">${p.description || ""}</textarea>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group">
+        <label>Price (₹) *</label>
+        <input type="number" class="form-control" id="pfPrice" value="${p.price || ""}" />
+      </div>
+      <div class="form-group">
+        <label>MRP (₹)</label>
+        <input type="number" class="form-control" id="pfMrp" value="${p.mrp || ""}" />
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group">
+        <label>Stock</label>
+        <input type="number" class="form-control" id="pfStock" value="${p.stock || 0}" />
+      </div>
+      <div class="form-group">
+        <label>SKU</label>
+        <input class="form-control" id="pfSku" value="${p.sku || ""}" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Brand</label>
+      <input class="form-control" id="pfBrand" value="${p.brand || ""}" />
+    </div>
+    <div class="form-group">
+      <label>Product Image</label>
+      <input type="file" class="form-control" id="pfImage" accept="image/*" />
+      <div id="pfImagePreview" class="img-preview">
+        ${p.images?.[0] ? `<div class="thumb"><img src="${p.images[0]}" /></div>` : ""}
+      </div>
+    </div>
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="pfFeatured" ${p.isFeatured ? "checked" : ""} />
+        Mark as Featured
+      </label>
+    </div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" id="pfSaveBtn" onclick="saveProduct(${editing ? `'${productId}'` : "null"})">
+      ${editing ? "Update" : "Create"}
+    </button>
+  `);
+};
+
+window.saveProduct = async function(productId) {
+  const btn = document.getElementById("pfSaveBtn");
+  btn.disabled = true; btn.textContent = "Saving...";
+
+  const name = document.getElementById("pfName").value.trim();
+  const price = parseFloat(document.getElementById("pfPrice").value) || 0;
+  if (!name || !price) {
+    btn.disabled = false; btn.textContent = productId ? "Update" : "Create";
+    return showToast("Name and Price are required", "warning");
+  }
+
+  const data = {
+    name,
+    description: document.getElementById("pfDescription").value.trim(),
+    price,
+    mrp: parseFloat(document.getElementById("pfMrp").value) || price,
+    stock: parseInt(document.getElementById("pfStock").value) || 0,
+    sku: document.getElementById("pfSku").value.trim(),
+    brand: document.getElementById("pfBrand").value.trim(),
+    isFeatured: document.getElementById("pfFeatured").checked,
+    active: true,
+    updatedAt: serverTimestamp()
+  };
+
+  try {
+    // Upload image if selected
+    const file = document.getElementById("pfImage").files[0];
+    if (file) {
+      const path = `products/${Date.now()}_${file.name}`;
+      const storageRef = ref(storage, path);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      data.images = [url];
+    }
+
+    if (productId) {
+      await updateDoc(doc(db, "products", productId), data);
+      showToast("Product updated", "success");
+    } else {
+      data.createdAt = serverTimestamp();
+      if (!data.images) data.images = [];
+      await addDoc(collection(db, "products"), data);
+      showToast("Product created", "success");
+    }
+    closeModal();
+    await loadProducts();
+    if (document.getElementById("page-admin").classList.contains("active")) renderAdmin("products");
+  } catch (err) {
+    console.error(err);
+    showToast("Save failed: " + err.message, "error");
+  } finally {
+    btn.disabled = false; btn.textContent = productId ? "Update" : "Create";
+  }
+};
+
+window.deleteProduct = async function(productId) {
+  if (!confirm("Delete this product permanently?")) return;
+  try {
+    await deleteDoc(doc(db, "products", productId));
+    showToast("Product deleted", "success");
+    await loadProducts();
+    renderAdmin("products");
+  } catch (err) {
+    showToast("Delete failed: " + err.message, "error");
+  }
+};
+
+// ---------- Admin: Category form ----------
+window.openCategoryForm = function() {
+  openModal("Add Category", `
+    <div class="form-group">
+      <label>Category Name *</label>
+      <input class="form-control" id="cfName" />
+    </div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveCategory()">Create</button>
+  `);
+};
+
+window.saveCategory = async function() {
+  const name = document.getElementById("cfName").value.trim();
+  if (!name) return showToast("Name required", "warning");
+  try {
+    await addDoc(collection(db, "categories"), { name, createdAt: serverTimestamp() });
+    showToast("Category created", "success");
+    closeModal();
+    await loadCategories();
+    renderAdmin("categories");
+  } catch (err) {
+    showToast("Failed: " + err.message, "error");
+  }
+};
+
+window.deleteCategory = async function(id) {
+  if (!confirm("Delete category?")) return;
+  try {
+    await deleteDoc(doc(db, "categories", id));
+    showToast("Category deleted", "success");
+    await loadCategories();
+    renderAdmin("categories");
+  } catch (err) {
+    showToast("Failed: " + err.message, "error");
+  }
+};
+
+// ---------- Admin: Update order status ----------
+window.updateOrderStatus = async function(orderId, status) {
+  try {
+    await updateDoc(doc(db, "orders", orderId), {
+      orderStatus: status,
+      updatedAt: serverTimestamp()
+    });
+    showToast("Order updated to " + status, "success");
+    renderAdmin("orders");
+  } catch (err) {
+    showToast("Failed: " + err.message, "error");
+  }
+};
+
+// ==========================================================
+// INIT
+// ==========================================================
+console.log("%c🛒 Pawan Retail Limited", "color:#e91e63;font-size:20px;font-weight:bold");
+console.log("%cFirebase Project: pawan-kumar-82619", "color:#666;font-size:12px");
+
 </script>
+
 </body>
 </html>
