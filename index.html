@@ -30,10 +30,10 @@ a{color:var(--primary);text-decoration:none}
 .btn-primary{background:var(--gradient-1);color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.35)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.45)}
 .btn-outline{background:transparent;color:var(--primary);border:2px solid var(--primary)}
-.btn-outline:hover{background:var(--primary-light)}
 .btn-ghost{background:#f1f5f9;color:var(--text)}
 .btn-danger{background:var(--danger);color:#fff}
 .btn-success{background:var(--success);color:#fff}
+.btn-warning{background:var(--warning);color:#fff}
 .btn-block{width:100%}
 .btn-sm{padding:8px 14px;font-size:12px;border-radius:8px}
 .btn-lg{padding:16px 28px;font-size:16px;border-radius:14px}
@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:none}
 
 .order-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:14px;border-left:4px solid var(--primary)}
 .order-card .row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px}
-.order-card .status{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase}
+.status{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase}
 .status-Pending{background:#fef3c7;color:#92400e}
 .status-Confirmed{background:#dbeafe;color:#1e40af}
 .status-Shipped{background:#e9d5ff;color:#6b21a8}
@@ -163,9 +163,7 @@ tr:last-child td{border-bottom:none}
 .img-preview .thumb{position:relative;width:80px;height:80px;border-radius:12px;overflow:hidden}
 .img-preview .thumb img{width:100%;height:100%;object-fit:cover}
 
-/* Profile specific */
 .profile-header{background:var(--gradient-1);color:#fff;border-radius:var(--radius);padding:24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
-.profile-header::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.1);top:-80px;right:-80px}
 .profile-avatar{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:36px;font-weight:800;margin:0 auto 12px;border:3px solid rgba(255,255,255,.3);position:relative;z-index:1}
 .profile-info-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)}
 .profile-info-row:last-child{border-bottom:none}
@@ -186,6 +184,12 @@ tr:last-child td{border-bottom:none}
 .device-info{flex:1;min-width:0}
 .device-name{font-size:13px;font-weight:700;margin-bottom:2px}
 .device-meta{font-size:11px;color:var(--text-light)}
+
+/* Suspended overlay */
+.suspended-overlay{position:fixed;inset:0;z-index:900;background:rgba(15,23,42,.92);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.suspended-overlay.active{display:flex}
+.suspended-box{background:#fff;border-radius:24px;padding:32px 24px;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.suspended-icon{width:100px;height:100px;border-radius:50%;background:#fee2e2;color:var(--danger);display:grid;place-items:center;font-size:52px;margin:0 auto 20px}
 
 @media (min-width:768px){
   .product-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
@@ -246,7 +250,48 @@ tr:last-child td{border-bottom:none}
     </div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <button class="btn btn-primary btn-block" onclick="checkEmailVerified()">✅ I've Verified</button>
-      <button class="btn btn-outline btn-block" id="resendBtn" onclick="resendVerification()">🔄 Resend Email</button>
+      <button class="btn btn-outline btn-block" id="resendBtn" onclick="resendVerification()">🔄 Resend</button>
+      <button class="btn btn-ghost btn-block" onclick="handleLogout()">🚪 Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW DEVICE VERIFY -->
+<div class="auth-wrap" id="newDeviceScreen" style="display:none">
+  <div class="verify-card">
+    <div class="verify-icon">🆕</div>
+    <h2>New Device Detected</h2>
+    <p>2nd device से login के लिए email verification ज़रूरी है</p>
+    <div class="email-shown" id="deviceVerifyEmail">—</div>
+    <div class="steps">
+      <ol>
+        <li>आपके email पर verification link भेजी गई है</li>
+        <li>Link पर click करें</li>
+        <li>वापस आकर "Verified" दबाएँ</li>
+      </ol>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-primary btn-block" onclick="verifyNewDevice()">✅ Verified — Continue</button>
+      <button class="btn btn-outline btn-block" onclick="resendVerification()">🔄 Resend Email</button>
+      <button class="btn btn-ghost btn-block" onclick="handleLogout()">🚪 Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUSPENDED SCREEN -->
+<div class="suspended-overlay" id="suspendedScreen">
+  <div class="suspended-box">
+    <div class="suspended-icon">🚫</div>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:8px;color:#991b1b">Account Suspended</h2>
+    <p id="suspendedReason" style="font-size:14px;color:#991b1b;margin-bottom:16px">Your account has been suspended.</p>
+    <div style="background:#f8fafc;border-radius:12px;padding:14px;text-align:left;font-size:12px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-light)">User ID:</span><strong id="suspPublicId">—</strong></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-light)">Suspended:</span><strong id="suspDate">—</strong></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Duration:</span><strong id="suspDuration">—</strong></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-primary btn-block" onclick="openSuspensionAppeal()">📝 Submit Appeal</button>
+      <button class="btn btn-outline btn-block" onclick="checkSuspensionStatus()">🔄 Check Status</button>
       <button class="btn btn-ghost btn-block" onclick="handleLogout()">🚪 Logout</button>
     </div>
   </div>
@@ -254,7 +299,6 @@ tr:last-child td{border-bottom:none}
 
 <!-- MAIN APP -->
 <div id="appScreen" style="display:none">
-
   <header class="header">
     <div class="logo" onclick="showPage('home')">🛒 Pawan Retail</div>
     <div class="header-actions">
@@ -289,10 +333,8 @@ tr:last-child td{border-bottom:none}
     <div id="ordersContent"></div>
   </section>
 
-  <!-- PROFILE PAGE -->
   <section class="page container" id="page-profile">
     <div id="profileAlerts"></div>
-
     <div class="profile-header">
       <div class="profile-avatar" id="profileAvatar">U</div>
       <h3 style="font-size:20px;font-weight:800;margin-bottom:4px" id="profileName">User</h3>
@@ -325,12 +367,6 @@ tr:last-child td{border-bottom:none}
       <div id="profileDevicesList"></div>
     </div>
 
-    <div class="card" id="profileRequestCard" style="display:none">
-      <h4 style="font-size:15px;font-weight:800;margin-bottom:12px">🆘 Admin Support</h4>
-      <button class="btn btn-primary btn-block" onclick="openAdminRequest()">Send Request</button>
-      <div id="pendingRequestsList" style="margin-top:12px"></div>
-    </div>
-
     <button class="btn btn-outline btn-block" onclick="handleLogout()">Logout</button>
   </section>
 
@@ -342,8 +378,9 @@ tr:last-child td{border-bottom:none}
       <button onclick="adminTab('categories', this)">🗂 Categories</button>
       <button onclick="adminTab('orders', this)">🧾 Orders</button>
       <button onclick="adminTab('users', this)">👥 Users</button>
-      <button onclick="adminTab('requests', this)">🆘 Requests</button>
-      <button onclick="showPage('home')">🏠 Back to Shop</button>
+      <button onclick="adminTab('suspensions', this)">🚫 Suspensions</button>
+      <button onclick="adminTab('appeals', this)">📩 Appeals</button>
+      <button onclick="showPage('home')">🏠 Back</button>
     </div>
     <div class="admin-main">
       <div class="admin-header">
@@ -380,7 +417,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
-  collection, query, where, serverTimestamp, onSnapshot
+  collection, query, where, serverTimestamp, onSnapshot, Timestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import {
   getStorage, ref, uploadBytes, getDownloadURL
@@ -404,7 +441,6 @@ let currentUser = null, currentUserData = null;
 let allProducts = [], cart = {}, wishlist = {};
 let currentCategory = null;
 let cartUnsub = null, wishUnsub = null;
-let suspensionTimer = null;
 
 /* TOAST */
 window.showToast = function(msg, type = "info") {
@@ -416,22 +452,46 @@ window.showToast = function(msg, type = "info") {
   setTimeout(() => t.remove(), 3500);
 };
 
-/* SCREEN SWITCH */
+/* SCREENS */
 function showAuthScreen() {
   document.getElementById("authScreen").style.display = "grid";
   document.getElementById("verifyScreen").style.display = "none";
+  document.getElementById("newDeviceScreen").style.display = "none";
   document.getElementById("appScreen").style.display = "none";
+  document.getElementById("suspendedScreen").classList.remove("active");
 }
 function showVerifyScreen() {
   document.getElementById("authScreen").style.display = "none";
   document.getElementById("verifyScreen").style.display = "grid";
+  document.getElementById("newDeviceScreen").style.display = "none";
   document.getElementById("appScreen").style.display = "none";
   document.getElementById("verifyEmail").textContent = currentUser?.email || "—";
+}
+function showNewDeviceScreen() {
+  document.getElementById("authScreen").style.display = "none";
+  document.getElementById("verifyScreen").style.display = "none";
+  document.getElementById("newDeviceScreen").style.display = "grid";
+  document.getElementById("appScreen").style.display = "none";
+  document.getElementById("deviceVerifyEmail").textContent = currentUser?.email || "—";
 }
 function showAppScreen() {
   document.getElementById("authScreen").style.display = "none";
   document.getElementById("verifyScreen").style.display = "none";
+  document.getElementById("newDeviceScreen").style.display = "none";
   document.getElementById("appScreen").style.display = "block";
+}
+function showSuspendedScreen() {
+  document.getElementById("authScreen").style.display = "none";
+  document.getElementById("verifyScreen").style.display = "none";
+  document.getElementById("newDeviceScreen").style.display = "none";
+  document.getElementById("appScreen").style.display = "none";
+  document.getElementById("suspendedScreen").classList.add("active");
+
+  const d = currentUserData || {};
+  document.getElementById("suspendedReason").textContent = d.suspendedReason || "Account suspended by admin";
+  document.getElementById("suspPublicId").textContent = d.publicId || "—";
+  document.getElementById("suspDate").textContent = d.suspendedAt ? new Date(d.suspendedAt.seconds * 1000).toLocaleString() : "—";
+  document.getElementById("suspDuration").textContent = d.suspensionDuration || "Permanent";
 }
 
 /* AUTH */
@@ -467,63 +527,66 @@ window.handleSignup = async function(e) {
   e.preventDefault();
   const btn = document.getElementById("signupBtn");
   btn.disabled = true; btn.textContent = "Creating...";
+
   try {
     const name = document.getElementById("signupName").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
+    const email = document.getElementById("signupEmail").value.trim().toLowerCase();
     const phone = document.getElementById("signupPhone").value.trim().replace(/\s+/g, "");
     const password = document.getElementById("signupPassword").value;
 
     if (!/^\+?\d{10,15}$/.test(phone)) {
-      showToast("Valid mobile required (+91XXXXXXXXXX)", "warning");
-      return;
+      btn.disabled = false; btn.textContent = "Create Account";
+      return showToast("Valid mobile required (+91XXXXXXXXXX)", "warning");
+    }
+
+    // EMAIL UNIQUENESS
+    const emailSnap = await getDoc(doc(db, "uniqueIndex", `email_${email}`));
+    if (emailSnap.exists()) {
+      btn.disabled = false; btn.textContent = "Create Account";
+      return showToast("❌ This email is already registered", "error");
+    }
+
+    // MOBILE UNIQUENESS
+    const mobileSnap = await getDoc(doc(db, "uniqueIndex", `mobile_${phone}`));
+    if (mobileSnap.exists()) {
+      btn.disabled = false; btn.textContent = "Create Account";
+      return showToast("❌ This mobile number is already registered", "error");
     }
 
     const cred = await createUserWithEmailAndPassword(auth, email, password);
 
-    // Generate unique publicId + username + check mobile
     const publicId = await generateUniquePublicId(cred.user.uid);
     const username = await generateUniqueUsername(
       (name || "user").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 12) || "user",
       cred.user.uid
     );
-    const mobileOk = await checkUnique("mobile", phone, cred.user.uid);
 
-    const userData = {
+    await setDoc(doc(db, "users", cred.user.uid), {
       uid: cred.user.uid,
       publicId, username,
       name, email, mobile: phone,
-      role: "customer", emailVerified: false,
+      role: "customer",
+      emailVerified: false,
       gender: "", dob: "",
       address: {},
       coins: 0, totalCoinsEarned: 0, totalCoinsUsed: 0,
-      status: "active", suspended: false,
+      status: "active",
+      suspended: false,
       duplicateIssue: null,
       sessions: [],
       createdAt: serverTimestamp()
-    };
+    });
 
-    if (!mobileOk) {
-      // Mobile already in use — flag issue
-      userData.duplicateIssue = {
-        field: "mobile",
-        value: phone,
-        detectedAt: new Date().toISOString(),
-        deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        resolved: false
-      };
-      userData.status = "pending_update";
-    } else {
-      await setDoc(doc(db, "uniqueIndex", `mobile_${phone}`), {
-        field: "mobile", value: phone,
-        userId: cred.user.uid,
-        createdAt: serverTimestamp()
-      });
-    }
+    await setDoc(doc(db, "uniqueIndex", `email_${email}`), {
+      field: "email", value: email, userId: cred.user.uid, createdAt: serverTimestamp()
+    });
+    await setDoc(doc(db, "uniqueIndex", `mobile_${phone}`), {
+      field: "mobile", value: phone, userId: cred.user.uid, createdAt: serverTimestamp()
+    });
 
-    await setDoc(doc(db, "users", cred.user.uid), userData);
     await sendEmailVerification(cred.user);
-
     showToast("Account created! Check email for verification.", "success");
+
   } catch (err) {
     console.error(err);
     showToast(friendlyError(err), "error");
@@ -545,14 +608,14 @@ window.handleForgotPassword = async function(e) {
 window.resendVerification = async function() {
   if (!auth.currentUser) return;
   const btn = document.getElementById("resendBtn");
-  btn.disabled = true;
+  if (btn) btn.disabled = true;
   try {
     await sendEmailVerification(auth.currentUser);
-    showToast("Resent! Check inbox.", "success");
-    setTimeout(() => btn.disabled = false, 30000);
+    showToast("Email resent! Check inbox.", "success");
+    setTimeout(() => { if (btn) btn.disabled = false; }, 30000);
   } catch (err) {
     showToast(friendlyError(err), "error");
-    btn.disabled = false;
+    if (btn) btn.disabled = false;
   }
 };
 
@@ -562,6 +625,13 @@ window.checkEmailVerified = async function() {
     await reload(auth.currentUser);
     if (auth.currentUser.emailVerified) {
       try { await updateDoc(doc(db, "users", auth.currentUser.uid), { emailVerified: true }); } catch(e){}
+
+      const pendingKey = "pendingDevice_" + auth.currentUser.uid;
+      if (localStorage.getItem(pendingKey)) {
+        showNewDeviceScreen();
+        return;
+      }
+
       showToast("Verified! Welcome 🎉", "success");
       await loadAppForUser(auth.currentUser);
     } else {
@@ -570,9 +640,34 @@ window.checkEmailVerified = async function() {
   } catch (err) { showToast(friendlyError(err), "error"); }
 };
 
+window.verifyNewDevice = async function() {
+  await reload(auth.currentUser);
+  if (!auth.currentUser.emailVerified) {
+    return showToast("Please click verification link in email", "warning");
+  }
+  const pendingStr = localStorage.getItem("pendingDevice_" + auth.currentUser.uid);
+  if (!pendingStr) return showToast("No pending device found", "warning");
+
+  const pending = JSON.parse(pendingStr);
+  const sessions = currentUserData?.sessions || [];
+
+  if (sessions.length >= 2) {
+    showToast("Max 2 devices. Remove one first.", "error");
+    return;
+  }
+
+  const updated = [...sessions, { ...pending, verified: true, needsVerification: false }];
+  try {
+    await updateDoc(doc(db, "users", auth.currentUser.uid), { sessions: updated });
+    currentUserData.sessions = updated;
+    localStorage.removeItem("pendingDevice_" + auth.currentUser.uid);
+    showToast("2nd device verified ✓", "success");
+    await loadAppForUser(auth.currentUser);
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
+
 window.handleLogout = async function() {
   if (!confirm("Logout?")) return;
-  if (suspensionTimer) clearInterval(suspensionTimer);
   await signOut(auth);
   showToast("Logged out", "info");
 };
@@ -585,7 +680,7 @@ function friendlyError(err) {
     "auth/invalid-credential": "Invalid credentials",
     "auth/email-already-in-use": "Email already registered",
     "auth/weak-password": "Password too weak",
-    "permission-denied": "Permission denied — check Firestore Rules"
+    "permission-denied": "Permission denied"
   };
   return map[err.code] || err.message || "Something went wrong";
 }
@@ -597,13 +692,36 @@ onAuthStateChanged(auth, async (user) => {
     cart = {}; wishlist = {};
     if (cartUnsub) cartUnsub();
     if (wishUnsub) wishUnsub();
-    if (suspensionTimer) clearInterval(suspensionTimer);
     showAuthScreen();
     return;
   }
   currentUser = user;
   await reload(user);
   if (!user.emailVerified) { showVerifyScreen(); return; }
+
+  // Load user data
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    currentUserData = snap.exists() ? snap.data() : {
+      uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: []
+    };
+  } catch (err) {
+    currentUserData = { uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: [] };
+  }
+
+  // ✅ CHECK SUSPENSION FIRST
+  if (currentUserData.suspended === true || currentUserData.status === "suspended") {
+    showSuspendedScreen();
+    return;
+  }
+
+  // Check pending device verification
+  const pendingKey = "pendingDevice_" + user.uid;
+  if (localStorage.getItem(pendingKey)) {
+    showNewDeviceScreen();
+    return;
+  }
+
   await loadAppForUser(user);
 });
 
@@ -617,41 +735,35 @@ async function loadAppForUser(user) {
     currentUserData = { uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: [] };
   }
 
-  // Check suspension
-  if (currentUserData.suspended || currentUserData.status === "suspended") {
-    // Allow login but show suspended alert; block shopping?
-    // For now, allow read-only access
+  if (currentUserData.suspended === true || currentUserData.status === "suspended") {
+    showSuspendedScreen();
+    return;
   }
 
   showAppScreen();
 
-  // Ensure publicId + username
-  await ensureUserIdentity();
-  // Register device session
-  await registerSession();
-
-  document.getElementById("adminBtn")?.remove();
   if (currentUserData.role === "admin") {
+    document.getElementById("adminBtn")?.remove();
     const ha = document.querySelector(".header-actions");
     const btn = document.createElement("button");
-    btn.id = "adminBtn";
-    btn.className = "icon-btn";
-    btn.textContent = "⚙️";
+    btn.id = "adminBtn"; btn.className = "icon-btn"; btn.textContent = "⚙️";
     btn.onclick = () => showPage("admin");
     ha.insertBefore(btn, ha.firstChild);
   }
+
+  await ensureUserIdentity();
+  const sessionResult = await registerSession();
+  if (sessionResult.reason === "needs_verification") return;
+  if (!sessionResult.allowed) return;
 
   attachCartListener();
   attachWishlistListener();
   await loadProducts();
   await loadCategories();
   renderProfile();
-  startSuspensionTimer();
 }
 
-/* ============================================================
-   UNIQUE ID GENERATION
-   ============================================================ */
+/* UNIQUE ID GENERATION */
 async function generateUniquePublicId(uid) {
   for (let i = 0; i < 30; i++) {
     const candidate = String(Math.floor(100000 + Math.random() * 900000));
@@ -692,30 +804,22 @@ async function checkUnique(field, value, uid) {
 async function ensureUserIdentity() {
   const updates = {};
   if (!currentUserData.publicId) {
-    try {
-      updates.publicId = await generateUniquePublicId(currentUser.uid);
-    } catch (e) { console.error(e); }
+    try { updates.publicId = await generateUniquePublicId(currentUser.uid); } catch (e) {}
   }
   if (!currentUserData.username) {
     const base = (currentUserData.name || currentUserData.email || "user")
       .toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 12) || "user";
-    try {
-      updates.username = await generateUniqueUsername(base, currentUser.uid);
-    } catch (e) { console.error(e); }
+    try { updates.username = await generateUniqueUsername(base, currentUser.uid); } catch (e) {}
   }
   if (Object.keys(updates).length > 0) {
     try {
-      await updateDoc(doc(db, "users", currentUser.uid), {
-        ...updates, updatedAt: serverTimestamp()
-      });
+      await updateDoc(doc(db, "users", currentUser.uid), { ...updates, updatedAt: serverTimestamp() });
       currentUserData = { ...currentUserData, ...updates };
-    } catch (e) { console.error("Identity update failed:", e); }
+    } catch (e) {}
   }
 }
 
-/* ============================================================
-   DEVICE SESSIONS
-   ============================================================ */
+/* DEVICE SESSIONS */
 async function hashDevice() {
   const data = navigator.userAgent + "|" + screen.width + "x" + screen.height + "|" + navigator.language;
   const buf = new TextEncoder().encode(data);
@@ -734,33 +838,44 @@ async function registerSession() {
         ? { ...s, lastActive: new Date().toISOString() } : s);
       await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
       currentUserData.sessions = updated;
-      return;
+      return { allowed: true };
     }
 
     if (sessions.length >= 2) {
-      showToast("Max 2 devices. Logout from another device.", "error");
-      setTimeout(() => signOut(auth), 2000);
-      return;
+      showToast("Max 2 devices allowed. Remove one first.", "error");
+      setTimeout(() => signOut(auth), 2500);
+      return { allowed: false, reason: "max_devices" };
     }
 
+    if (sessions.length === 1) {
+      // 2nd device — needs verification
+      const pending = {
+        deviceId: deviceHash,
+        userAgent: navigator.userAgent.slice(0, 100),
+        createdAt: new Date().toISOString(),
+        needsVerification: true
+      };
+      localStorage.setItem("pendingDevice_" + currentUser.uid, JSON.stringify(pending));
+      try { await sendEmailVerification(currentUser); } catch (e) {}
+      showNewDeviceScreen();
+      return { allowed: false, reason: "needs_verification" };
+    }
+
+    // 1st device
     const newSession = {
       deviceId: deviceHash,
       userAgent: navigator.userAgent.slice(0, 100),
       createdAt: new Date().toISOString(),
       lastActive: new Date().toISOString(),
-      verified: sessions.length === 0  // first device auto-verified
+      verified: true
     };
-
     const updated = [...sessions, newSession];
     await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
     currentUserData.sessions = updated;
-
-    if (!newSession.verified) {
-      showToast("2nd device — email verify required", "warning");
-      try { await sendEmailVerification(currentUser); } catch (e) {}
-    }
+    return { allowed: true };
   } catch (err) {
-    console.error("Session register failed:", err);
+    console.error("Session failed:", err);
+    return { allowed: true };
   }
 }
 
@@ -775,26 +890,22 @@ window.removeDevice = async function(deviceId) {
   } catch (err) { showToast("Failed", "error"); }
 };
 
-/* ============================================================
-   PROFILE RENDER
-   ============================================================ */
+/* PROFILE */
 function renderProfile() {
   const d = currentUserData || {};
-
-  document.getElementById("profileAvatar").textContent =
-    (d.name || d.email || "U")[0].toUpperCase();
+  document.getElementById("profileAvatar").textContent = (d.name || d.email || "U")[0].toUpperCase();
   document.getElementById("profileName").textContent = d.name || "User";
   document.getElementById("profileUsername").textContent = "@" + (d.username || "username");
   document.getElementById("profilePublicId").textContent = d.publicId || "------";
   document.getElementById("profileCoins").textContent = (d.coins || 0) + " 🪙";
 
   const fields = [
-    { label: "Full Name", key: "name", icon: "👤", required: true, readonly: false },
-    { label: "Username", key: "username", icon: "🔖", required: true, readonly: false },
-    { label: "Email", key: "email", icon: "📧", required: true, readonly: true },
-    { label: "Mobile Number", key: "mobile", icon: "📱", required: true, readonly: false },
-    { label: "Gender", key: "gender", icon: "⚧", required: false, readonly: false },
-    { label: "Date of Birth", key: "dob", icon: "🎂", required: false, readonly: false }
+    { label: "Full Name", key: "name", icon: "👤", required: true },
+    { label: "Username", key: "username", icon: "🔖", required: true },
+    { label: "Email", key: "email", icon: "📧", required: true },
+    { label: "Mobile Number", key: "mobile", icon: "📱", required: true },
+    { label: "Gender", key: "gender", icon: "⚧", required: false },
+    { label: "Date of Birth", key: "dob", icon: "🎂", required: false }
   ];
 
   document.getElementById("profileInfoList").innerHTML = fields.map(f => {
@@ -809,7 +920,6 @@ function renderProfile() {
             ${isEmpty ? "❌ Not set" + (f.required ? " — required" : "") : displayVal}
           </div>
         </div>
-        ${isEmpty && f.required && !f.readonly ? `<button class="btn btn-primary btn-sm" onclick="openProfileEdit()">Add</button>` : ""}
       </div>
     `;
   }).join("");
@@ -818,15 +928,14 @@ function renderProfile() {
   const addr = d.address || {};
   const addrEl = document.getElementById("profileAddressList");
   if (!addr.line1) {
-    addrEl.innerHTML = '<p style="font-size:13px;color:var(--danger);text-align:center;padding:20px">❌ Address not set — click Edit to add</p>';
+    addrEl.innerHTML = '<p style="font-size:13px;color:var(--danger);text-align:center;padding:20px">❌ Address not set</p>';
   } else {
     addrEl.innerHTML = `
       <div style="font-size:13px;line-height:1.7">
         <div style="font-weight:700;font-size:14px">${addr.name || d.name}</div>
         <div>📞 ${addr.phone || d.mobile || "—"}</div>
         <div style="color:var(--text-light)">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}<br>${addr.city || ""}, ${addr.state || ""} - ${addr.pincode || ""}</div>
-      </div>
-    `;
+      </div>`;
   }
 
   // Devices
@@ -839,65 +948,19 @@ function renderProfile() {
       <div class="device-item">
         <div class="device-info">
           <div class="device-name">${s.userAgent.slice(0, 50)}...</div>
-          <div class="device-meta">
-            ${s.deviceId.slice(0, 8)} • Last: ${new Date(s.lastActive).toLocaleDateString()}
-            ${!s.verified ? ' • <span style="color:var(--warning);font-weight:700">⚠️ UNVERIFIED</span>' : ''}
-          </div>
+          <div class="device-meta">${s.deviceId.slice(0, 8)} • Last: ${new Date(s.lastActive).toLocaleDateString()}</div>
         </div>
         <button class="btn btn-danger btn-sm" onclick="removeDevice('${s.deviceId}')">Remove</button>
       </div>
     `).join("");
   }
 
-  // Alerts
   renderAlerts();
-  // Pending requests
-  renderPendingRequests();
 }
 
 function renderAlerts() {
   const d = currentUserData || {};
   const alerts = [];
-  const now = Date.now();
-
-  // Suspended
-  if (d.suspended || d.status === "suspended") {
-    alerts.push(`
-      <div class="alert-card danger">
-        <div class="title" style="color:#991b1b"><span style="font-size:24px">🚫</span> Account Suspended</div>
-        <div class="text" style="color:#991b1b">${d.suspendedReason || "Account suspended. Contact admin."}</div>
-        <div class="actions"><button class="btn btn-primary btn-sm" onclick="openAdminRequest()">Request Admin</button></div>
-      </div>
-    `);
-  }
-
-  // Duplicate issue with timer
-  if (d.duplicateIssue && !d.duplicateIssue.resolved) {
-    const deadline = new Date(d.duplicateIssue.deadline).getTime();
-    const hoursLeft = Math.max(0, (deadline - now) / (1000 * 60 * 60));
-    const minsLeft = Math.max(0, Math.floor(((deadline - now) / (1000 * 60)) % 60));
-
-    if (hoursLeft > 0) {
-      alerts.push(`
-        <div class="alert-card warning">
-          <div class="title" style="color:#92400e"><span style="font-size:24px">⏰</span> Action Required — ${Math.floor(hoursLeft)}h ${minsLeft}m left</div>
-          <div class="text" style="color:#92400e">
-            आपका <strong>${d.duplicateIssue.field}</strong> already किसी और account में registered है।
-            24 घंटे में update नहीं किया तो account suspend हो जाएगा।
-          </div>
-          <div class="actions"><button class="btn btn-primary btn-sm" onclick="openProfileEdit()">Update Now →</button></div>
-        </div>
-      `);
-    } else {
-      alerts.push(`
-        <div class="alert-card danger">
-          <div class="title" style="color:#991b1b"><span style="font-size:24px">🚫</span> Time Expired</div>
-          <div class="text" style="color:#991b1b">24 घंटे बीत गए। Admin से contact करें।</div>
-          <div class="actions"><button class="btn btn-primary btn-sm" onclick="openAdminRequest()">Request Admin</button></div>
-        </div>
-      `);
-    }
-  }
 
   // Missing fields
   const missing = [];
@@ -906,12 +969,12 @@ function renderAlerts() {
   if (!d.mobile) missing.push("Mobile");
   if (!d.address?.line1) missing.push("Address");
 
-  if (missing.length > 0 && !d.suspended) {
+  if (missing.length > 0) {
     alerts.push(`
       <div class="alert-card info">
-        <div class="title" style="color:#1e40af"><span style="font-size:24px">📝</span> Complete Your Profile</div>
+        <div class="title" style="color:#1e40af"><span style="font-size:24px">📝</span> Complete Profile</div>
         <div class="text" style="color:#1e40af">Missing: <strong>${missing.join(", ")}</strong></div>
-        <div class="actions"><button class="btn btn-primary btn-sm" onclick="openProfileEdit()">Complete Now →</button></div>
+        <div class="actions"><button class="btn btn-primary btn-sm" onclick="openProfileEdit()">Complete →</button></div>
       </div>
     `);
   }
@@ -919,22 +982,16 @@ function renderAlerts() {
   document.getElementById("profileAlerts").innerHTML = alerts.join("");
 }
 
-/* ============================================================
-   PROFILE EDIT
-   ============================================================ */
+/* PROFILE EDIT */
 window.openProfileEdit = function() {
   const d = currentUserData || {};
   openModal("✏️ Edit Profile", `
     <div class="form-group"><label>Full Name *</label>
       <input class="form-control" id="peName" value="${d.name || ""}" /></div>
-    <div class="form-group"><label>Username * (lowercase, unique)</label>
-      <input class="form-control" id="peUsername" value="${d.username || ""}" />
-      <small style="font-size:11px;color:var(--text-light);display:block;margin-top:4px">अगर already exists, system बताएगा</small>
-    </div>
-    <div class="form-group"><label>Mobile Number *</label>
-      <input class="form-control" id="peMobile" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" />
-      <small style="font-size:11px;color:var(--text-light);display:block;margin-top:4px">1 number = 1 account</small>
-    </div>
+    <div class="form-group"><label>Username * (unique, lowercase)</label>
+      <input class="form-control" id="peUsername" value="${d.username || ""}" /></div>
+    <div class="form-group"><label>Mobile Number * (1 number = 1 account)</label>
+      <input class="form-control" id="peMobile" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" /></div>
     <div class="form-group"><label>Email (locked)</label>
       <input class="form-control" value="${d.email || ""}" disabled /></div>
     <div class="form-group"><label>Gender</label>
@@ -943,8 +1000,7 @@ window.openProfileEdit = function() {
         <option value="male" ${d.gender === "male" ? "selected" : ""}>Male</option>
         <option value="female" ${d.gender === "female" ? "selected" : ""}>Female</option>
         <option value="other" ${d.gender === "other" ? "selected" : ""}>Other</option>
-      </select>
-    </div>
+      </select></div>
     <div class="form-group"><label>Date of Birth</label>
       <input type="date" class="form-control" id="peDob" value="${d.dob || ""}" /></div>
     <div id="peError" style="display:none;padding:10px;background:#fee2e2;border-radius:8px;font-size:12px;color:#991b1b;margin-top:10px"></div>
@@ -970,43 +1026,22 @@ window.saveProfile = async function() {
 
   if (!updates.name) return peError("Name required");
   if (!updates.username || updates.username.length < 3) return peError("Username min 3 chars");
-  if (!updates.mobile || !/^\+?\d{10,15}$/.test(updates.mobile)) return peError("Valid mobile required (+91XXXXXXXXXX)");
+  if (!updates.mobile || !/^\+?\d{10,15}$/.test(updates.mobile)) return peError("Valid mobile required");
 
   try {
     // Username check
     if (updates.username !== currentUserData.username) {
       const ok = await checkUnique("username", updates.username, currentUser.uid);
-      if (!ok) return peError("❌ Username already taken. Choose another.");
+      if (!ok) return peError("❌ Username already taken");
     }
 
     // Mobile check
     if (updates.mobile !== currentUserData.mobile) {
       const ok = await checkUnique("mobile", updates.mobile, currentUser.uid);
-      if (!ok) {
-        // Duplicate detected — set 24hr timer
-        const deadline = new Date(Date.now() + 24 * 60 * 60 * 1000);
-        const issue = {
-          field: "mobile",
-          value: updates.mobile,
-          detectedAt: new Date().toISOString(),
-          deadline: deadline.toISOString(),
-          resolved: false
-        };
-        await updateDoc(doc(db, "users", currentUser.uid), {
-          duplicateIssue: issue,
-          status: "pending_update",
-          updatedAt: serverTimestamp()
-        });
-        currentUserData.duplicateIssue = issue;
-        currentUserData.status = "pending_update";
-        closeModal();
-        showToast("⚠️ Mobile already in use! Update within 24 hours.", "warning");
-        renderProfile();
-        return;
-      }
+      if (!ok) return peError("❌ Mobile already registered");
     }
 
-    // Update unique indexes if changed
+    // Update indexes
     if (updates.username !== currentUserData.username) {
       if (currentUserData.username) {
         try { await deleteDoc(doc(db, "uniqueIndex", `username_${currentUserData.username}`)); } catch(e){}
@@ -1025,19 +1060,13 @@ window.saveProfile = async function() {
       });
     }
 
-    // Clear duplicate issue if resolved
-    updates.duplicateIssue = null;
-    updates.status = "active";
-    updates.suspended = false;
     updates.updatedAt = serverTimestamp();
-
     await updateDoc(doc(db, "users", currentUser.uid), updates);
     currentUserData = { ...currentUserData, ...updates };
     showToast("Profile updated ✓", "success");
     closeModal();
     renderProfile();
   } catch (err) {
-    console.error(err);
     peError(err.message || "Save failed");
   }
 };
@@ -1050,9 +1079,7 @@ function peError(msg) {
   if (btn) { btn.disabled = false; btn.textContent = "Save"; }
 }
 
-/* ============================================================
-   ADDRESS EDIT
-   ============================================================ */
+/* ADDRESS */
 window.openAddressEdit = function() {
   const a = currentUserData?.address || {};
   openModal("📍 Delivery Address", `
@@ -1061,14 +1088,12 @@ window.openAddressEdit = function() {
     <div class="form-group"><label>Phone</label>
       <input class="form-control" id="adPhone" value="${a.phone || currentUserData.mobile || ""}" /></div>
     <div class="form-group"><label>Address Line 1 *</label>
-      <input class="form-control" id="adLine1" value="${a.line1 || ""}" placeholder="House no, building, street" /></div>
+      <input class="form-control" id="adLine1" value="${a.line1 || ""}" /></div>
     <div class="form-group"><label>Address Line 2</label>
-      <input class="form-control" id="adLine2" value="${a.line2 || ""}" placeholder="Area, landmark (optional)" /></div>
+      <input class="form-control" id="adLine2" value="${a.line2 || ""}" /></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="form-group"><label>City *</label>
-        <input class="form-control" id="adCity" value="${a.city || ""}" /></div>
-      <div class="form-group"><label>State *</label>
-        <input class="form-control" id="adState" value="${a.state || ""}" /></div>
+      <div class="form-group"><label>City *</label><input class="form-control" id="adCity" value="${a.city || ""}" /></div>
+      <div class="form-group"><label>State *</label><input class="form-control" id="adState" value="${a.state || ""}" /></div>
     </div>
     <div class="form-group"><label>Pincode *</label>
       <input class="form-control" id="adPincode" value="${a.pincode || ""}" maxlength="6" /></div>
@@ -1094,9 +1119,7 @@ window.saveAddress = async function() {
   }
 
   try {
-    await updateDoc(doc(db, "users", currentUser.uid), {
-      address, updatedAt: serverTimestamp()
-    });
+    await updateDoc(doc(db, "users", currentUser.uid), { address, updatedAt: serverTimestamp() });
     currentUserData.address = address;
     showToast("Address saved ✓", "success");
     closeModal();
@@ -1104,100 +1127,89 @@ window.saveAddress = async function() {
   } catch (err) { showToast("Failed: " + err.message, "error"); }
 };
 
-/* ============================================================
-   SUSPENSION TIMER
-   ============================================================ */
-function startSuspensionTimer() {
-  if (suspensionTimer) clearInterval(suspensionTimer);
-  suspensionTimer = setInterval(async () => {
-    const d = currentUserData || {};
-    if (!d.duplicateIssue || d.duplicateIssue.resolved) return;
-
-    const deadline = new Date(d.duplicateIssue.deadline).getTime();
-    if (Date.now() >= deadline && !d.suspended) {
-      try {
-        await updateDoc(doc(db, "users", currentUser.uid), {
-          suspended: true,
-          status: "suspended",
-          suspendedReason: "Failed to update duplicate " + d.duplicateIssue.field + " within 24 hours",
-          suspendedAt: serverTimestamp()
-        });
-        currentUserData.suspended = true;
-        currentUserData.status = "suspended";
-        renderProfile();
-        showToast("Account suspended — contact admin", "error");
-      } catch (e) { console.error(e); }
-    } else {
-      renderAlerts();
-    }
-  }, 60000);
-}
-
-/* ============================================================
-   ADMIN REQUEST
-   ============================================================ */
-window.openAdminRequest = function() {
-  openModal("🆘 Admin Support", `
-    <div class="form-group"><label>Request Type</label>
-      <select class="form-control" id="arType">
-        <option value="unsuspend">Account Unblock</option>
-        <option value="data_update">Data Update Help</option>
-        <option value="duplicate">Duplicate Issue</option>
-        <option value="other">Other</option>
-      </select>
+/* SUSPENSION — CUSTOMER */
+window.openSuspensionAppeal = function() {
+  const d = currentUserData || {};
+  openModal("📝 Appeal Suspension", `
+    <div style="padding:14px;background:#fee2e2;border-radius:12px;margin-bottom:16px;font-size:13px;color:#991b1b">
+      <strong>🚫 Account Suspended</strong><br>
+      ${d.suspendedReason || "Reason not provided"}
     </div>
-    <div class="form-group"><label>Message *</label>
-      <textarea class="form-control" id="arMessage" rows="4" placeholder="Explain your issue..."></textarea></div>
+    <div class="form-group">
+      <label>Why should we unblock your account? *</label>
+      <textarea class="form-control" id="appealMsg" rows="5" placeholder="Explain your situation (min 20 chars)..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Contact Number</label>
+      <input class="form-control" id="appealContact" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" />
+    </div>
   `, `
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" onclick="submitAdminRequest()">Send Request</button>
+    <button class="btn btn-primary" id="appealBtn" onclick="submitAppeal()">Submit Appeal</button>
   `);
 };
 
-window.submitAdminRequest = async function() {
-  const type = document.getElementById("arType").value;
-  const message = document.getElementById("arMessage").value.trim();
-  if (!message) return showToast("Message required", "warning");
+window.submitAppeal = async function() {
+  const btn = document.getElementById("appealBtn");
+  btn.disabled = true; btn.textContent = "Submitting...";
+  const message = document.getElementById("appealMsg").value.trim();
+  const contact = document.getElementById("appealContact").value.trim();
+
+  if (!message || message.length < 20) {
+    btn.disabled = false; btn.textContent = "Submit Appeal";
+    return showToast("Message at least 20 characters", "warning");
+  }
 
   try {
-    await addDoc(collection(db, "adminRequests"), {
+    await addDoc(collection(db, "accountAppeals"), {
+      suspensionId: currentUserData.currentSuspensionId || "",
       userId: currentUser.uid,
       userName: currentUserData.name || "",
       userEmail: currentUser.email,
       userPublicId: currentUserData.publicId || "",
-      type, message,
+      message, contact,
       status: "pending",
+      adminResponse: "",
+      respondedBy: null,
+      respondedAt: null,
       createdAt: serverTimestamp()
     });
-    showToast("Request sent ✓", "success");
     closeModal();
-    renderPendingRequests();
+    showToast("Appeal submitted ✓ Admin will review", "success");
+  } catch (err) {
+    showToast("Failed: " + err.message, "error");
+    btn.disabled = false; btn.textContent = "Submit Appeal";
+  }
+};
+
+window.checkSuspensionStatus = async function() {
+  if (!currentUser) return;
+  try {
+    const snap = await getDoc(doc(db, "users", currentUser.uid));
+    if (snap.exists()) {
+      currentUserData = snap.data();
+      if (currentUserData.suspended !== true) {
+        showToast("Account active! 🎉", "success");
+        await loadAppForUser(currentUser);
+        return;
+      }
+    }
+    // Check pending appeal
+    const appealQ = query(
+      collection(db, "accountAppeals"),
+      where("userId", "==", currentUser.uid),
+      where("status", "==", "pending")
+    );
+    const appSnap = await getDocs(appealQ);
+    if (!appSnap.empty) {
+      showToast("⏳ Appeal still under review", "info");
+    } else {
+      showToast("Still suspended. Submit appeal if not done.", "warning");
+    }
   } catch (err) { showToast("Failed: " + err.message, "error"); }
 };
 
-async function renderPendingRequests() {
-  try {
-    const snap = await getDocs(query(collection(db, "adminRequests"), where("userId", "==", currentUser.uid)));
-    const reqs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-    const card = document.getElementById("profileRequestCard");
-    if (reqs.length > 0) card.style.display = "block";
-    document.getElementById("pendingRequestsList").innerHTML = reqs.slice(0, 5).map(r => `
-      <div style="padding:10px;background:#f8fafc;border-radius:8px;margin-bottom:8px;font-size:12px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-          <strong>${r.type}</strong>
-          <span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:${r.status === 'pending' ? '#fef3c7' : r.status === 'approved' ? '#d1fae5' : '#fee2e2'};color:${r.status === 'pending' ? '#92400e' : r.status === 'approved' ? '#065f46' : '#991b1b'}">${r.status.toUpperCase()}</span>
-        </div>
-        <div style="color:var(--text-light)">${r.message.slice(0, 100)}</div>
-        ${r.response ? `<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);color:var(--primary);font-weight:600">💬 ${r.response}</div>` : ""}
-      </div>
-    `).join("");
-  } catch (err) { console.error(err); }
-}
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
+/* NAVIGATION */
 window.showPage = function(pageName) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById("page-" + pageName)?.classList.add("active");
@@ -1227,9 +1239,7 @@ window.toggleMenu = function() {
 };
 window._menuAction = (i) => { closeModal(); window._menuActions[i](); };
 
-/* ============================================================
-   PRODUCTS
-   ============================================================ */
+/* PRODUCTS */
 async function loadProducts() {
   ["homeProductsGrid","featuredGrid","shopGrid"].forEach(showLoading);
   try {
@@ -1280,7 +1290,7 @@ function renderHomeProducts() {
   document.getElementById("featuredGrid").innerHTML = feat.length ? feat.map(productCardHTML).join("") :
     '<div class="empty" style="grid-column:1/-1"><div class="emoji">✨</div><p>No featured</p></div>';
   document.getElementById("homeProductsGrid").innerHTML = allProducts.length ? allProducts.slice(0, 8).map(productCardHTML).join("") :
-    '<div class="empty" style="grid-column:1/-1"><div class="emoji">📦</div><p>No products</p><p>Admin से add करें</p></div>';
+    '<div class="empty" style="grid-column:1/-1"><div class="emoji">📦</div><p>No products</p></div>';
 }
 
 function renderShopProducts() {
@@ -1311,7 +1321,6 @@ window.openProduct = function(id) {
   `, `<button class="btn btn-ghost" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="addToCart('${p.id}');closeModal()">🛒 Add</button>`);
 };
 
-/* CATEGORIES */
 async function loadCategories() {
   try {
     const snap = await getDocs(collection(db, "categories"));
@@ -1335,7 +1344,7 @@ function attachCartListener() {
     cart = snap.exists() ? (snap.data().items || {}) : {};
     updateCartBadge();
     renderHomeProducts(); renderShopProducts();
-  }, (e) => console.error(e));
+  });
 }
 
 function attachWishlistListener() {
@@ -1345,7 +1354,7 @@ function attachWishlistListener() {
     updateWishBadge();
     renderHomeProducts(); renderShopProducts();
     if (document.getElementById("page-wishlist").classList.contains("active")) renderWishlist();
-  }, (e) => console.error(e));
+  });
 }
 
 function updateCartBadge() {
@@ -1488,9 +1497,8 @@ async function renderOrders() {
       <div class="order-card">
         <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
         <div class="row"><span>${o.items?.length || 0} items</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
-        <div class="row" style="font-size:12px;color:var(--text-light)"><span>${o.paymentMethod}</span><span>${o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleDateString() : ""}</span></div>
       </div>`).join("");
-  } catch (err) { el.innerHTML = '<div class="empty"><p>Failed to load</p></div>'; }
+  } catch (err) { el.innerHTML = '<div class="empty"><p>Failed</p></div>'; }
 }
 
 /* MODAL */
@@ -1522,23 +1530,25 @@ async function renderAdmin(tab) {
   content.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
 
   if (currentUserData?.role !== "admin") {
-    content.innerHTML = '<div class="empty"><div class="emoji">🔒</div><p>Admin access required</p></div>';
+    content.innerHTML = '<div class="empty"><div class="emoji">🔒</div><p>Admin only</p></div>';
     return;
   }
 
   if (tab === "dashboard") {
     title.textContent = "Dashboard";
     try {
-      const [pS, oS, uS, rS] = await Promise.all([
+      const [pS, oS, uS, sS, aS] = await Promise.all([
         getDocs(collection(db, "products")),
         getDocs(collection(db, "orders")),
         getDocs(collection(db, "users")),
-        getDocs(collection(db, "adminRequests"))
+        getDocs(collection(db, "accountSuspensions")),
+        getDocs(collection(db, "accountAppeals"))
       ]);
       const ps = pS.docs.map(d => d.data());
       const os = oS.docs.map(d => d.data());
       const us = uS.docs.map(d => d.data());
-      const rs = rS.docs.map(d => d.data());
+      const ss = sS.docs.map(d => d.data());
+      const as = aS.docs.map(d => d.data());
       const sales = os.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + (o.totalAmount || 0), 0);
       content.innerHTML = `
         <div class="stat-grid">
@@ -1546,10 +1556,9 @@ async function renderAdmin(tab) {
           <div class="stat-card"><div class="icon c2">🧾</div><div class="label">Orders</div><div class="value">${os.length}</div></div>
           <div class="stat-card"><div class="icon c3">👥</div><div class="label">Users</div><div class="value">${us.length}</div></div>
           <div class="stat-card"><div class="icon c1">📦</div><div class="label">Products</div><div class="value">${ps.length}</div></div>
-          <div class="stat-card"><div class="icon c2">🆘</div><div class="label">Requests</div><div class="value">${rs.filter(r => r.status === "pending").length}</div></div>
-          <div class="stat-card"><div class="icon c3">🚫</div><div class="label">Suspended</div><div class="value">${us.filter(u => u.suspended).length}</div></div>
-        </div>
-      `;
+          <div class="stat-card"><div class="icon c2">🚫</div><div class="label">Suspended</div><div class="value">${us.filter(u => u.suspended).length}</div></div>
+          <div class="stat-card"><div class="icon c3">📩</div><div class="label">Appeals</div><div class="value">${as.filter(a => a.status === "pending").length}</div></div>
+        </div>`;
     } catch (err) { content.innerHTML = '<div class="empty"><p>Failed</p></div>'; }
   }
 
@@ -1613,93 +1622,316 @@ async function renderAdmin(tab) {
     title.textContent = "Users";
     try {
       const snap = await getDocs(collection(db, "users"));
-      const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const users = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
       content.innerHTML = `
         <div class="table-wrap"><table>
-          <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th>Actions</th></tr></thead>
+          <thead><tr><th>ID</th><th>Name</th><th>Mobile</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody>${users.map(u => `<tr>
             <td><strong>${u.publicId || "-"}</strong></td>
             <td>${u.name || "-"}<br><small style="color:var(--text-light)">@${u.username || "-"}</small></td>
-            <td>${u.email || "-"}</td>
             <td>${u.mobile || "-"}</td>
+            <td>${u.suspended ? '<span style="background:#fee2e2;color:#991b1b;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">🚫 SUSPENDED</span>' : '<span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">✓ ACTIVE</span>'}</td>
             <td>
-              ${u.suspended ? '<span style="background:#fee2e2;color:#991b1b;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">🚫 SUSPENDED</span>' : 
-                u.duplicateIssue && !u.duplicateIssue.resolved ? '<span style="background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">⏰ PENDING</span>' :
-                '<span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">✓ ACTIVE</span>'}
-            </td>
-            <td>
-              ${u.suspended ? `<button class="btn btn-success btn-sm" onclick="unsuspendUser('${u.id}')">Unblock</button>` : ""}
-              ${u.duplicateIssue && !u.duplicateIssue.resolved ? `<button class="btn btn-ghost btn-sm" onclick="clearDuplicate('${u.id}')">Clear Issue</button>` : ""}
+              ${u.suspended 
+                ? `<button class="btn btn-success btn-sm" onclick="adminUnsuspendUser('${u.id}')">Unblock</button>` 
+                : `<button class="btn btn-danger btn-sm" onclick="openSuspendModal('${u.id}', '${u.name}')">Suspend</button>`}
             </td>
           </tr>`).join("")}</tbody>
         </table></div>`;
     } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
   }
 
-  else if (tab === "requests") {
-    title.textContent = "Admin Requests";
+  else if (tab === "suspensions") {
+    title.textContent = "Suspensions";
     try {
-      const snap = await getDocs(collection(db, "adminRequests"));
-      const reqs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      const snap = await getDocs(collection(db, "accountSuspensions"));
+      const suspensions = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = reqs.length ? reqs.map(r => `
-        <div class="order-card">
-          <div class="row"><strong>${r.userName || r.userEmail}</strong>
-            <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:${r.status === 'pending' ? '#fef3c7' : r.status === 'approved' ? '#d1fae5' : '#fee2e2'};color:${r.status === 'pending' ? '#92400e' : r.status === 'approved' ? '#065f46' : '#991b1b'}">${r.status.toUpperCase()}</span>
+      content.innerHTML = suspensions.length ? suspensions.map(s => `
+        <div class="order-card" style="border-left-color:${s.status === 'active' ? 'var(--danger)' : 'var(--success)'}">
+          <div class="row">
+            <strong>${s.userName} (#${s.publicId})</strong>
+            <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;
+              background:${s.status === 'active' ? '#fee2e2' : '#d1fae5'};
+              color:${s.status === 'active' ? '#991b1b' : '#065f46'}">
+              ${s.status.toUpperCase()}
+            </span>
           </div>
-          <div class="row" style="font-size:12px;color:var(--text-light)"><span>Type: ${r.type}</span><span>${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : ""}</span></div>
-          <div style="padding:10px;background:#f8fafc;border-radius:8px;font-size:13px;margin:8px 0">${r.message}</div>
-          ${r.status === "pending" ? `
-            <div style="display:flex;gap:6px;margin-top:8px">
-              <button class="btn btn-success btn-sm" onclick="respondRequest('${r.id}','approved')">✓ Approve</button>
-              <button class="btn btn-danger btn-sm" onclick="respondRequest('${r.id}','rejected')">✗ Reject</button>
+          <div class="row" style="font-size:12px;color:var(--text-light)">
+            <span>${s.userEmail}</span>
+            <span>${s.suspendedAt ? new Date(s.suspendedAt.seconds * 1000).toLocaleString() : ""}</span>
+          </div>
+          <div style="padding:10px;background:#f8fafc;border-radius:8px;font-size:13px;margin:8px 0">
+            <strong>Reason:</strong> ${s.reasonText}
+          </div>
+          <div class="row" style="font-size:12px">
+            <span>Duration: ${s.duration}</span>
+            <span>By: ${s.triggeredBy}</span>
+          </div>
+          ${s.status === "active" ? `
+            <div style="margin-top:10px">
+              <button class="btn btn-success btn-sm" onclick="adminUnsuspend('${s.id}', '${s.userId}')">✓ Unblock User</button>
             </div>
           ` : ""}
-        </div>`).join("") : '<div class="empty"><p>No requests</p></div>';
+        </div>`).join("") : '<div class="empty"><p>No suspensions</p></div>';
+    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
+  }
+
+  else if (tab === "appeals") {
+    title.textContent = "Appeals";
+    try {
+      const snap = await getDocs(collection(db, "accountAppeals"));
+      const appeals = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      content.innerHTML = appeals.length ? appeals.map(a => `
+        <div class="order-card">
+          <div class="row">
+            <strong>${a.userName} (#${a.userPublicId})</strong>
+            <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;
+              background:${a.status === 'pending' ? '#fef3c7' : a.status === 'approved' ? '#d1fae5' : '#fee2e2'};
+              color:${a.status === 'pending' ? '#92400e' : a.status === 'approved' ? '#065f46' : '#991b1b'}">
+              ${a.status.toUpperCase()}
+            </span>
+          </div>
+          <div class="row" style="font-size:12px;color:var(--text-light)">
+            <span>${a.userEmail}</span>
+            <span>${a.createdAt ? new Date(a.createdAt.seconds * 1000).toLocaleString() : ""}</span>
+          </div>
+          <div style="padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;margin:10px 0">
+            ${a.message}
+          </div>
+          ${a.contact ? `<div style="font-size:12px;color:var(--text-light);margin-bottom:8px">📞 ${a.contact}</div>` : ""}
+          ${a.adminResponse ? `<div style="padding:8px;background:#dbeafe;border-radius:8px;font-size:12px;color:#1e40af"><strong>Your response:</strong> ${a.adminResponse}</div>` : ""}
+          ${a.status === "pending" ? `
+            <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+              <button class="btn btn-success btn-sm" onclick="approveAppeal('${a.id}', '${a.suspensionId}')">✓ Approve & Unblock</button>
+              <button class="btn btn-danger btn-sm" onclick="rejectAppeal('${a.id}')">✗ Reject</button>
+            </div>
+          ` : ""}
+        </div>`).join("") : '<div class="empty"><p>No appeals</p></div>';
     } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
   }
 }
 
-/* Admin actions */
-window.unsuspendUser = async function(uid) {
+/* Admin: Suspend Modal */
+window.openSuspendModal = function(userId, userName) {
+  openModal("🚫 Suspend User", `
+    <div style="padding:12px;background:#fee2e2;border-radius:10px;margin-bottom:16px;font-size:13px;color:#991b1b">
+      <strong>User:</strong> ${userName}
+    </div>
+    <div class="form-group">
+      <label>Reason *</label>
+      <select class="form-control" id="suspReason">
+        <option value="Terms violation">Terms violation</option>
+        <option value="Fraud activity">Fraud activity</option>
+        <option value="Fake data">Fake data</option>
+        <option value="Multiple accounts">Multiple accounts</option>
+        <option value="Abusive behavior">Abusive behavior</option>
+        <option value="Payment issue">Payment issue</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Reason Details *</label>
+      <textarea class="form-control" id="suspReasonText" rows="3" placeholder="Explain why you're suspending..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Duration</label>
+      <select class="form-control" id="suspDuration">
+        <option value="24h">24 hours</option>
+        <option value="7d">7 days</option>
+        <option value="30d">30 days</option>
+        <option value="permanent" selected>Permanent</option>
+      </select>
+    </div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-danger" onclick="confirmSuspendUser('${userId}')">🚫 Suspend</button>
+  `);
+};
+
+window.confirmSuspendUser = async function(userId) {
+  const reason = document.getElementById("suspReason").value;
+  const reasonText = document.getElementById("suspReasonText").value.trim();
+  const duration = document.getElementById("suspDuration").value;
+
+  if (!reasonText) return showToast("Reason details required", "warning");
+  if (!confirm("Confirm suspension?")) return;
+
+  try {
+    await suspendUser(userId, {
+      reason,
+      reasonText,
+      triggeredBy: "admin",
+      adminId: currentUser.uid,
+      duration,
+      appealAllowed: true
+    });
+    showToast("User suspended ✓", "success");
+    closeModal();
+    renderAdmin("users");
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
+
+async function suspendUser(userId, options = {}) {
+  const {
+    reason = "admin_action",
+    reasonText = "Suspended by admin",
+    triggeredBy = "admin",
+    adminId = null,
+    duration = "permanent",
+    appealAllowed = true
+  } = options;
+
+  let expiresAt = null;
+  if (duration === "24h") expiresAt = Timestamp.fromDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
+  else if (duration === "7d") expiresAt = Timestamp.fromDate(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+  else if (duration === "30d") expiresAt = Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
+
+  const userSnap = await getDoc(doc(db, "users", userId));
+  if (!userSnap.exists()) throw new Error("User not found");
+  const userData = userSnap.data();
+
+  const suspRef = await addDoc(collection(db, "accountSuspensions"), {
+    userId,
+    publicId: userData.publicId || "",
+    userName: userData.name || "",
+    userEmail: userData.email || "",
+    userMobile: userData.mobile || "",
+    reason,
+    reasonText,
+    triggeredBy,
+    adminId,
+    suspendedAt: serverTimestamp(),
+    expiresAt,
+    duration,
+    appealAllowed,
+    status: "active",
+    liftedAt: null,
+    liftedBy: null,
+    liftedReason: "",
+    createdAt: serverTimestamp()
+  });
+
+  await updateDoc(doc(db, "users", userId), {
+    suspended: true,
+    status: "suspended",
+    suspendedReason: reasonText,
+    suspendedAt: serverTimestamp(),
+    suspensionDuration: duration,
+    currentSuspensionId: suspRef.id,
+    updatedAt: serverTimestamp()
+  });
+
+  await addDoc(collection(db, "suspensionLogs"), {
+    suspensionId: suspRef.id,
+    userId,
+    action: "suspended",
+    performedBy: adminId || "system",
+    details: reasonText,
+    timestamp: serverTimestamp()
+  });
+
+  return suspRef.id;
+}
+
+async function liftSuspension(suspensionId, adminId, liftedReason = "") {
+  const suspSnap = await getDoc(doc(db, "accountSuspensions", suspensionId));
+  if (!suspSnap.exists()) throw new Error("Suspension not found");
+  const susp = suspSnap.data();
+
+  await updateDoc(doc(db, "accountSuspensions", suspensionId), {
+    status: "lifted",
+    liftedAt: serverTimestamp(),
+    liftedBy: adminId,
+    liftedReason
+  });
+
+  await updateDoc(doc(db, "users", susp.userId), {
+    suspended: false,
+    status: "active",
+    suspendedReason: "",
+    currentSuspensionId: null,
+    updatedAt: serverTimestamp()
+  });
+
+  await addDoc(collection(db, "suspensionLogs"), {
+    suspensionId,
+    userId: susp.userId,
+    action: "lifted",
+    performedBy: adminId,
+    details: liftedReason,
+    timestamp: serverTimestamp()
+  });
+}
+
+window.adminUnsuspendUser = async function(userId) {
   if (!confirm("Unblock this user?")) return;
   try {
-    await updateDoc(doc(db, "users", uid), {
-      suspended: false, status: "active",
-      duplicateIssue: null,
-      suspendedReason: "",
-      updatedAt: serverTimestamp()
-    });
+    const userSnap = await getDoc(doc(db, "users", userId));
+    const userData = userSnap.data();
+    if (userData.currentSuspensionId) {
+      await liftSuspension(userData.currentSuspensionId, currentUser.uid, "Admin unblocked");
+    } else {
+      await updateDoc(doc(db, "users", userId), {
+        suspended: false, status: "active",
+        suspendedReason: "", currentSuspensionId: null,
+        updatedAt: serverTimestamp()
+      });
+    }
     showToast("User unblocked ✓", "success");
     renderAdmin("users");
-  } catch (err) { showToast("Failed", "error"); }
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
 };
 
-window.clearDuplicate = async function(uid) {
-  if (!confirm("Clear duplicate issue for this user?")) return;
+window.adminUnsuspend = async function(suspensionId, userId) {
+  if (!confirm("Unblock this user?")) return;
   try {
-    await updateDoc(doc(db, "users", uid), {
-      duplicateIssue: null, status: "active",
-      updatedAt: serverTimestamp()
-    });
-    showToast("Cleared ✓", "success");
-    renderAdmin("users");
-  } catch (err) { showToast("Failed", "error"); }
+    await liftSuspension(suspensionId, currentUser.uid, "Admin unblocked");
+    showToast("User unblocked ✓", "success");
+    renderAdmin("suspensions");
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
 };
 
-window.respondRequest = async function(reqId, status) {
-  const response = prompt("Response message (optional):") || "";
+window.approveAppeal = async function(appealId, suspensionId) {
+  if (!confirm("Approve this appeal and unblock the user?")) return;
+  const response = prompt("Response message to user (optional):") || "Appeal approved";
+
   try {
-    await updateDoc(doc(db, "adminRequests", reqId), {
-      status, response,
+    await updateDoc(doc(db, "accountAppeals", appealId), {
+      status: "approved",
+      adminResponse: response,
+      respondedBy: currentUser.uid,
       respondedAt: serverTimestamp()
     });
-    showToast("Request " + status, "success");
-    renderAdmin("requests");
+
+    if (suspensionId) {
+      await liftSuspension(suspensionId, currentUser.uid, "Appeal approved: " + response);
+    }
+
+    showToast("Appeal approved ✓", "success");
+    renderAdmin("appeals");
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
+
+window.rejectAppeal = async function(appealId) {
+  if (!confirm("Reject this appeal?")) return;
+  const response = prompt("Rejection reason:") || "Appeal rejected";
+
+  try {
+    await updateDoc(doc(db, "accountAppeals", appealId), {
+      status: "rejected",
+      adminResponse: response,
+      respondedBy: currentUser.uid,
+      respondedAt: serverTimestamp()
+    });
+    showToast("Appeal rejected", "info");
+    renderAdmin("appeals");
   } catch (err) { showToast("Failed", "error"); }
 };
 
-/* Product form */
+/* Product / Category CRUD */
 window.openProductForm = async function(productId = null) {
   const editing = !!productId;
   let p = { name: "", price: "", mrp: "", stock: 0, description: "", images: [], brand: "", sku: "", isFeatured: false };
@@ -1755,13 +1987,12 @@ window.saveProduct = async function(productId) {
     }
     if (productId) {
       await updateDoc(doc(db, "products", productId), data);
-      showToast("Updated ✓", "success");
     } else {
       data.createdAt = serverTimestamp();
       if (!data.images) data.images = [];
       await addDoc(collection(db, "products"), data);
-      showToast("Created ✓", "success");
     }
+    showToast("Saved ✓", "success");
     closeModal();
     await loadProducts();
     renderAdmin("products");
@@ -1814,7 +2045,7 @@ window.updateOrderStatus = async function(id, status) {
   } catch (err) { showToast("Failed", "error"); }
 };
 
-console.log("%c🛒 Pawan Retail — Profile System", "color:#7c3aed;font-size:20px;font-weight:bold");
+console.log("%c🛒 Pawan Retail — Full System", "color:#7c3aed;font-size:20px;font-weight:bold");
 </script>
 
 </body>
