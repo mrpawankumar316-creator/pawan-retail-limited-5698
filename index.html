@@ -44,7 +44,21 @@ a{color:var(--primary);text-decoration:none}
 .form-control{width:100%;padding:13px 16px;border:2px solid var(--border);border-radius:12px;background:var(--card);font-size:14px;transition:all .2s;outline:none}
 .form-control:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(124,58,237,.1)}
 .form-control:disabled{background:#f1f5f9;color:var(--text-light);cursor:not-allowed}
+.form-control.available{border-color:var(--success);box-shadow:0 0 0 4px rgba(16,185,129,.1)}
+.form-control.taken{border-color:var(--danger);box-shadow:0 0 0 4px rgba(239,68,68,.1)}
+.form-control.checking{border-color:var(--warning);box-shadow:0 0 0 4px rgba(245,158,11,.1)}
 textarea.form-control{resize:vertical;min-height:80px}
+
+.field-status{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin-top:6px;min-height:18px;flex-wrap:wrap}
+.field-status.checking{color:var(--text-light)}
+.field-status.available{color:var(--success)}
+.field-status.taken{color:var(--danger)}
+.field-status.error{color:var(--warning)}
+.field-status .spinner-mini{width:12px;height:12px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
+.field-status .icon{font-size:14px}
+.suggestion-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.suggestion-chip{padding:4px 10px;background:var(--primary-light);color:var(--primary);border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
+.suggestion-chip:hover{background:var(--primary);color:#fff;transform:translateY(-1px)}
 
 .card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:16px;border:1px solid rgba(124,58,237,.05)}
 
@@ -185,7 +199,6 @@ tr:last-child td{border-bottom:none}
 .device-name{font-size:13px;font-weight:700;margin-bottom:2px}
 .device-meta{font-size:11px;color:var(--text-light)}
 
-/* Suspended overlay */
 .suspended-overlay{position:fixed;inset:0;z-index:900;background:rgba(15,23,42,.92);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
 .suspended-overlay.active{display:flex}
 .suspended-box{background:#fff;border-radius:24px;padding:32px 24px;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.5)}
@@ -196,6 +209,7 @@ tr:last-child td{border-bottom:none}
   .admin-sidebar{transform:translateX(0)}
   .admin-main{margin-left:260px;padding:24px}
   .menu-toggle{display:none}
+  #productLayout{grid-template-columns:1fr 1fr!important;align-items:start}
 }
 @media (max-width:767px){
   .header .logo{font-size:16px}
@@ -220,16 +234,46 @@ tr:last-child td{border-bottom:none}
       <div class="form-group"><label>Email</label><input type="email" class="form-control" id="loginEmail" required /></div>
       <div class="form-group"><label>Password</label><input type="password" class="form-control" id="loginPassword" required /></div>
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="loginBtn">Login</button>
-      <p style="text-align:center;margin-top:14px"><a href="#" onclick="handleForgotPassword(event)" style="font-size:13px;font-weight:600">Forgot password?</a></p>
+      <p style="text-align:center;margin-top:14px">
+        <a href="#" onclick="showForgotPasswordPage();event.preventDefault()" style="font-size:13px;font-weight:600">Forgot password?</a>
+      </p>
     </form>
     <form id="signupForm" style="display:none" onsubmit="handleSignup(event)">
       <div class="form-group"><label>Full Name *</label><input type="text" class="form-control" id="signupName" required /></div>
-      <div class="form-group"><label>Email *</label><input type="email" class="form-control" id="signupEmail" required /></div>
-      <div class="form-group"><label>Mobile Number *</label><input type="tel" class="form-control" id="signupPhone" required placeholder="+91XXXXXXXXXX" /></div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" class="form-control" id="signupEmail" required autocomplete="off" />
+        <div class="field-status" id="signupEmailStatus"></div>
+      </div>
+      <div class="form-group">
+        <label>Mobile Number *</label>
+        <input type="tel" class="form-control" id="signupPhone" required placeholder="+91XXXXXXXXXX" autocomplete="off" />
+        <div class="field-status" id="signupPhoneStatus"></div>
+      </div>
       <div class="form-group"><label>Password * (min 6)</label><input type="password" class="form-control" id="signupPassword" required minlength="6" /></div>
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="signupBtn">Create Account</button>
       <p style="font-size:11px;color:var(--text-light);text-align:center;margin-top:12px">✉️ Email verification ज़रूरी है</p>
     </form>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN SCREEN (Hidden) -->
+<div class="auth-wrap" id="adminLoginScreen" style="display:none;background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%)">
+  <div class="auth-card" style="border:2px solid #f59e0b">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:grid;place-items:center;font-size:40px;margin:0 auto 16px;box-shadow:0 8px 24px rgba(245,158,11,.4)">⚙️</div>
+      <h1 style="font-size:24px;margin-bottom:6px;background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Admin Panel</h1>
+      <p style="color:var(--text-light);font-size:13px">Authorized access only</p>
+    </div>
+    <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+      <div class="form-group"><label>Admin Email</label>
+        <input type="email" class="form-control" id="adminEmail" required autocomplete="off" /></div>
+      <div class="form-group"><label>Password</label>
+        <input type="password" class="form-control" id="adminPassword" required autocomplete="off" /></div>
+      <div id="adminError" style="display:none;padding:10px;background:#fee2e2;border-radius:8px;font-size:12px;color:#991b1b;margin-bottom:12px"></div>
+      <button type="submit" class="btn btn-block btn-lg" id="adminLoginBtn" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.4)">🔐 Admin Login</button>
+    </form>
+    <p style="text-align:center;margin-top:20px;font-size:11px;color:var(--text-light)">🔒 Authorized administrators only</p>
   </div>
 </div>
 
@@ -256,7 +300,7 @@ tr:last-child td{border-bottom:none}
   </div>
 </div>
 
-<!-- NEW DEVICE VERIFY -->
+<!-- NEW DEVICE -->
 <div class="auth-wrap" id="newDeviceScreen" style="display:none">
   <div class="verify-card">
     <div class="verify-icon">🆕</div>
@@ -264,30 +308,51 @@ tr:last-child td{border-bottom:none}
     <p>2nd device से login के लिए email verification ज़रूरी है</p>
     <div class="email-shown" id="deviceVerifyEmail">—</div>
     <div class="steps">
-      <ol>
-        <li>आपके email पर verification link भेजी गई है</li>
-        <li>Link पर click करें</li>
-        <li>वापस आकर "Verified" दबाएँ</li>
-      </ol>
+      <ol><li>Email पर verification link भेजी गई है</li><li>Link पर click करें</li><li>वापस आकर Verified दबाएँ</li></ol>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <button class="btn btn-primary btn-block" onclick="verifyNewDevice()">✅ Verified — Continue</button>
-      <button class="btn btn-outline btn-block" onclick="resendVerification()">🔄 Resend Email</button>
+      <button class="btn btn-outline btn-block" onclick="resendVerification()">🔄 Resend</button>
       <button class="btn btn-ghost btn-block" onclick="handleLogout()">🚪 Logout</button>
     </div>
   </div>
 </div>
 
-<!-- SUSPENDED SCREEN -->
+<!-- FORGOT PASSWORD -->
+<div class="auth-wrap" id="forgotPasswordScreen" style="display:none">
+  <div class="auth-card">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="width:80px;height:80px;border-radius:50%;background:var(--primary-light);display:grid;place-items:center;font-size:36px;margin:0 auto 16px">🔐</div>
+      <h1 style="font-size:24px;margin-bottom:6px">Forgot Password?</h1>
+      <p style="color:var(--text-light);font-size:13px">Enter your email — we'll send a reset link</p>
+    </div>
+    <form id="forgotForm" onsubmit="handleForgotPasswordPage(event)">
+      <div class="form-group">
+        <label>Registered Email</label>
+        <input type="email" class="form-control" id="forgotEmail" required placeholder="you@example.com" autofocus />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="forgotBtn">📧 Send Reset Link</button>
+    </form>
+    <div id="forgotSuccess" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:56px;margin-bottom:12px">✅</div>
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:8px">Email Sent!</h3>
+      <p style="color:var(--text-light);font-size:13px;line-height:1.6">Password reset link भेजी गई है।<br>Inbox और spam folder check करें।</p>
+    </div>
+    <p style="text-align:center;margin-top:24px">
+      <a href="#" onclick="showAuthScreen();event.preventDefault()" style="font-size:13px;font-weight:600">← Back to Login</a>
+    </p>
+  </div>
+</div>
+
+<!-- SUSPENDED -->
 <div class="suspended-overlay" id="suspendedScreen">
   <div class="suspended-box">
     <div class="suspended-icon">🚫</div>
     <h2 style="font-size:22px;font-weight:800;margin-bottom:8px;color:#991b1b">Account Suspended</h2>
-    <p id="suspendedReason" style="font-size:14px;color:#991b1b;margin-bottom:16px">Your account has been suspended.</p>
+    <p id="suspendedReason" style="font-size:14px;color:#991b1b;margin-bottom:16px">Suspended.</p>
     <div style="background:#f8fafc;border-radius:12px;padding:14px;text-align:left;font-size:12px;margin-bottom:16px">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-light)">User ID:</span><strong id="suspPublicId">—</strong></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-light)">Suspended:</span><strong id="suspDate">—</strong></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Duration:</span><strong id="suspDuration">—</strong></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Suspended:</span><strong id="suspDate">—</strong></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <button class="btn btn-primary btn-block" onclick="openSuspensionAppeal()">📝 Submit Appeal</button>
@@ -331,6 +396,14 @@ tr:last-child td{border-bottom:none}
   <section class="page container" id="page-orders">
     <div class="section-title">My Orders</div>
     <div id="ordersContent"></div>
+  </section>
+
+  <section class="page container" id="page-product">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <button class="icon-btn" onclick="showPage('shop')" style="background:#f1f5f9">←</button>
+      <h2 style="font-size:18px;font-weight:800">Product Details</h2>
+    </div>
+    <div id="productDetailContent"></div>
   </section>
 
   <section class="page container" id="page-profile">
@@ -380,7 +453,8 @@ tr:last-child td{border-bottom:none}
       <button onclick="adminTab('users', this)">👥 Users</button>
       <button onclick="adminTab('suspensions', this)">🚫 Suspensions</button>
       <button onclick="adminTab('appeals', this)">📩 Appeals</button>
-      <button onclick="showPage('home')">🏠 Back</button>
+      <button onclick="adminTab('settings', this)">⚙️ Settings</button>
+      <button onclick="handleLogout()">🚪 Logout</button>
     </div>
     <div class="admin-main">
       <div class="admin-header">
@@ -442,7 +516,9 @@ let allProducts = [], cart = {}, wishlist = {};
 let currentCategory = null;
 let cartUnsub = null, wishUnsub = null;
 
-/* TOAST */
+/* ============================================================
+   TOAST
+   ============================================================ */
 window.showToast = function(msg, type = "info") {
   const c = document.getElementById("toastContainer");
   const t = document.createElement("div");
@@ -452,54 +528,71 @@ window.showToast = function(msg, type = "info") {
   setTimeout(() => t.remove(), 3500);
 };
 
-/* SCREENS */
-function showAuthScreen() {
-  document.getElementById("authScreen").style.display = "grid";
+/* ============================================================
+   SCREENS
+   ============================================================ */
+function isAdminURL() {
+  return window.location.search.includes("admin=1") || 
+         window.location.hash === "#admin-login-secret";
+}
+
+function hideAllScreens() {
+  document.getElementById("authScreen").style.display = "none";
+  document.getElementById("adminLoginScreen").style.display = "none";
   document.getElementById("verifyScreen").style.display = "none";
   document.getElementById("newDeviceScreen").style.display = "none";
+  document.getElementById("forgotPasswordScreen").style.display = "none";
   document.getElementById("appScreen").style.display = "none";
   document.getElementById("suspendedScreen").classList.remove("active");
 }
+
+function showAuthScreen() {
+  hideAllScreens();
+  if (isAdminURL()) {
+    document.getElementById("adminLoginScreen").style.display = "grid";
+  } else {
+    document.getElementById("authScreen").style.display = "grid";
+  }
+}
 function showVerifyScreen() {
-  document.getElementById("authScreen").style.display = "none";
+  hideAllScreens();
   document.getElementById("verifyScreen").style.display = "grid";
-  document.getElementById("newDeviceScreen").style.display = "none";
-  document.getElementById("appScreen").style.display = "none";
   document.getElementById("verifyEmail").textContent = currentUser?.email || "—";
 }
 function showNewDeviceScreen() {
-  document.getElementById("authScreen").style.display = "none";
-  document.getElementById("verifyScreen").style.display = "none";
+  hideAllScreens();
   document.getElementById("newDeviceScreen").style.display = "grid";
-  document.getElementById("appScreen").style.display = "none";
   document.getElementById("deviceVerifyEmail").textContent = currentUser?.email || "—";
 }
+function showForgotPasswordPage() {
+  hideAllScreens();
+  document.getElementById("forgotPasswordScreen").style.display = "grid";
+  document.getElementById("forgotForm").style.display = "block";
+  document.getElementById("forgotSuccess").style.display = "none";
+  document.getElementById("forgotEmail").value = "";
+}
 function showAppScreen() {
-  document.getElementById("authScreen").style.display = "none";
-  document.getElementById("verifyScreen").style.display = "none";
-  document.getElementById("newDeviceScreen").style.display = "none";
+  hideAllScreens();
   document.getElementById("appScreen").style.display = "block";
 }
 function showSuspendedScreen() {
-  document.getElementById("authScreen").style.display = "none";
-  document.getElementById("verifyScreen").style.display = "none";
-  document.getElementById("newDeviceScreen").style.display = "none";
-  document.getElementById("appScreen").style.display = "none";
+  hideAllScreens();
   document.getElementById("suspendedScreen").classList.add("active");
-
   const d = currentUserData || {};
-  document.getElementById("suspendedReason").textContent = d.suspendedReason || "Account suspended by admin";
+  document.getElementById("suspendedReason").textContent = d.suspendedReason || "Account suspended";
   document.getElementById("suspPublicId").textContent = d.publicId || "—";
   document.getElementById("suspDate").textContent = d.suspendedAt ? new Date(d.suspendedAt.seconds * 1000).toLocaleString() : "—";
-  document.getElementById("suspDuration").textContent = d.suspensionDuration || "Permanent";
 }
 
-/* AUTH */
+/* ============================================================
+   AUTH — LOGIN
+   ============================================================ */
 window.switchAuthTab = function(tab) {
   document.getElementById("tabLogin").classList.toggle("active", tab === "login");
   document.getElementById("tabSignup").classList.toggle("active", tab === "signup");
   document.getElementById("loginForm").style.display = tab === "login" ? "block" : "none";
   document.getElementById("signupForm").style.display = tab === "signup" ? "block" : "none";
+  if (tab === "signup") setTimeout(attachSignupChecks, 100);
 };
 
 window.handleLogin = async function(e) {
@@ -511,6 +604,11 @@ window.handleLogin = async function(e) {
     const password = document.getElementById("loginPassword").value;
     const cred = await signInWithEmailAndPassword(auth, email, password);
     await reload(cred.user);
+    const userSnap = await getDoc(doc(db, "users", cred.user.uid));
+    if (userSnap.exists() && userSnap.data().role === "admin") {
+      showToast("Admin detected — opening admin panel", "info");
+      return;
+    }
     if (!cred.user.emailVerified) {
       showToast("Please verify your email first", "warning");
       return;
@@ -523,11 +621,40 @@ window.handleLogin = async function(e) {
   }
 };
 
+window.handleAdminLogin = async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById("adminLoginBtn");
+  const errEl = document.getElementById("adminError");
+  btn.disabled = true; btn.textContent = "Verifying...";
+  errEl.style.display = "none";
+  const email = document.getElementById("adminEmail").value.trim();
+  const password = document.getElementById("adminPassword").value;
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    await reload(cred.user);
+    const userSnap = await getDoc(doc(db, "users", cred.user.uid));
+    if (!userSnap.exists() || userSnap.data().role !== "admin") {
+      await signOut(auth);
+      throw new Error("Access denied — not an admin account");
+    }
+    showToast("Welcome, Admin! 🎉", "success");
+    window.history.replaceState({}, "", "/");
+  } catch (err) {
+    let msg = "Login failed";
+    if (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") msg = "Invalid credentials";
+    else if (err.code === "auth/user-not-found") msg = "No account found";
+    else if (err.message) msg = err.message;
+    errEl.style.display = "block";
+    errEl.textContent = "❌ " + msg;
+  } finally {
+    btn.disabled = false; btn.textContent = "🔐 Admin Login";
+  }
+};
+
 window.handleSignup = async function(e) {
   e.preventDefault();
   const btn = document.getElementById("signupBtn");
   btn.disabled = true; btn.textContent = "Creating...";
-
   try {
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim().toLowerCase();
@@ -536,25 +663,21 @@ window.handleSignup = async function(e) {
 
     if (!/^\+?\d{10,15}$/.test(phone)) {
       btn.disabled = false; btn.textContent = "Create Account";
-      return showToast("Valid mobile required (+91XXXXXXXXXX)", "warning");
+      return showToast("Valid mobile required", "warning");
     }
 
-    // EMAIL UNIQUENESS
-    const emailSnap = await getDoc(doc(db, "uniqueIndex", `email_${email}`));
-    if (emailSnap.exists()) {
+    const emailCheck = await checkUniqueStrict("email", email, null);
+    if (!emailCheck.available) {
       btn.disabled = false; btn.textContent = "Create Account";
       return showToast("❌ This email is already registered", "error");
     }
-
-    // MOBILE UNIQUENESS
-    const mobileSnap = await getDoc(doc(db, "uniqueIndex", `mobile_${phone}`));
-    if (mobileSnap.exists()) {
+    const mobileCheck = await checkUniqueStrict("mobile", phone, null);
+    if (!mobileCheck.available) {
       btn.disabled = false; btn.textContent = "Create Account";
-      return showToast("❌ This mobile number is already registered", "error");
+      return showToast("❌ This mobile is already registered", "error");
     }
 
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-
     const publicId = await generateUniquePublicId(cred.user.uid);
     const username = await generateUniqueUsername(
       (name || "user").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 12) || "user",
@@ -562,21 +685,15 @@ window.handleSignup = async function(e) {
     );
 
     await setDoc(doc(db, "users", cred.user.uid), {
-      uid: cred.user.uid,
-      publicId, username,
+      uid: cred.user.uid, publicId, username,
       name, email, mobile: phone,
-      role: "customer",
-      emailVerified: false,
-      gender: "", dob: "",
-      address: {},
+      role: "customer", emailVerified: false,
+      gender: "", dob: "", address: {},
       coins: 0, totalCoinsEarned: 0, totalCoinsUsed: 0,
-      status: "active",
-      suspended: false,
-      duplicateIssue: null,
-      sessions: [],
+      status: "active", suspended: false,
+      duplicateIssue: null, sessions: [],
       createdAt: serverTimestamp()
     });
-
     await setDoc(doc(db, "uniqueIndex", `email_${email}`), {
       field: "email", value: email, userId: cred.user.uid, createdAt: serverTimestamp()
     });
@@ -585,24 +702,30 @@ window.handleSignup = async function(e) {
     });
 
     await sendEmailVerification(cred.user);
-    showToast("Account created! Check email for verification.", "success");
-
+    showToast("Account created! Check email.", "success");
   } catch (err) {
-    console.error(err);
     showToast(friendlyError(err), "error");
   } finally {
     btn.disabled = false; btn.textContent = "Create Account";
   }
 };
 
-window.handleForgotPassword = async function(e) {
+window.handleForgotPasswordPage = async function(e) {
   e.preventDefault();
-  const email = document.getElementById("loginEmail").value.trim();
-  if (!email) return showToast("Enter your email first", "warning");
+  const btn = document.getElementById("forgotBtn");
+  btn.disabled = true; btn.textContent = "Sending...";
+  const email = document.getElementById("forgotEmail").value.trim();
   try {
     await sendPasswordResetEmail(auth, email);
-    showToast("Reset link sent!", "success");
-  } catch (err) { showToast(friendlyError(err), "error"); }
+    document.getElementById("forgotForm").style.display = "none";
+    document.getElementById("forgotSuccess").style.display = "block";
+    showToast("Reset link sent ✓", "success");
+  } catch (err) {
+    if (err.code === "auth/user-not-found") showToast("No account with this email", "error");
+    else showToast(friendlyError(err), "error");
+  } finally {
+    btn.disabled = false; btn.textContent = "📧 Send Reset Link";
+  }
 };
 
 window.resendVerification = async function() {
@@ -611,7 +734,7 @@ window.resendVerification = async function() {
   if (btn) btn.disabled = true;
   try {
     await sendEmailVerification(auth.currentUser);
-    showToast("Email resent! Check inbox.", "success");
+    showToast("Email resent!", "success");
     setTimeout(() => { if (btn) btn.disabled = false; }, 30000);
   } catch (err) {
     showToast(friendlyError(err), "error");
@@ -625,14 +748,9 @@ window.checkEmailVerified = async function() {
     await reload(auth.currentUser);
     if (auth.currentUser.emailVerified) {
       try { await updateDoc(doc(db, "users", auth.currentUser.uid), { emailVerified: true }); } catch(e){}
-
       const pendingKey = "pendingDevice_" + auth.currentUser.uid;
-      if (localStorage.getItem(pendingKey)) {
-        showNewDeviceScreen();
-        return;
-      }
-
-      showToast("Verified! Welcome 🎉", "success");
+      if (localStorage.getItem(pendingKey)) { showNewDeviceScreen(); return; }
+      showToast("Verified! 🎉", "success");
       await loadAppForUser(auth.currentUser);
     } else {
       showToast("Not verified yet.", "warning");
@@ -642,20 +760,12 @@ window.checkEmailVerified = async function() {
 
 window.verifyNewDevice = async function() {
   await reload(auth.currentUser);
-  if (!auth.currentUser.emailVerified) {
-    return showToast("Please click verification link in email", "warning");
-  }
+  if (!auth.currentUser.emailVerified) return showToast("Click verification link first", "warning");
   const pendingStr = localStorage.getItem("pendingDevice_" + auth.currentUser.uid);
-  if (!pendingStr) return showToast("No pending device found", "warning");
-
+  if (!pendingStr) return showToast("No pending device", "warning");
   const pending = JSON.parse(pendingStr);
   const sessions = currentUserData?.sessions || [];
-
-  if (sessions.length >= 2) {
-    showToast("Max 2 devices. Remove one first.", "error");
-    return;
-  }
-
+  if (sessions.length >= 2) return showToast("Max 2 devices", "error");
   const updated = [...sessions, { ...pending, verified: true, needsVerification: false }];
   try {
     await updateDoc(doc(db, "users", auth.currentUser.uid), { sessions: updated });
@@ -685,7 +795,156 @@ function friendlyError(err) {
   return map[err.code] || err.message || "Something went wrong";
 }
 
-/* AUTH STATE */
+/* ============================================================
+   UNIQUE CHECK — STRICT
+   ============================================================ */
+async function checkUniqueStrict(field, value, currentUid) {
+  const clean = String(value).trim().toLowerCase().replace(/\s+/g, "");
+  if (!clean) return { available: false, reason: "empty" };
+  try {
+    const snap = await getDoc(doc(db, "uniqueIndex", `${field}_${clean}`));
+    if (!snap.exists()) return { available: true };
+    const data = snap.data();
+    if (currentUid && data.userId === currentUid) return { available: true, sameUser: true };
+    return { available: false, ownerId: data.userId };
+  } catch (err) {
+    console.error("checkUniqueStrict error:", err);
+    return { available: false, reason: "Check failed" };
+  }
+}
+
+/* ============================================================
+   LIVE AVAILABILITY CHECK
+   ============================================================ */
+function debounce(fn, delay) {
+  let timer = null;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+function generateUsernameSuggestions(base) {
+  const clean = base.replace(/[^a-z0-9]/g, "").slice(0, 10) || "user";
+  const year = new Date().getFullYear();
+  const rand = Math.floor(Math.random() * 99) + 1;
+  return [clean + Math.floor(Math.random() * 9 + 1), clean + "_" + year, clean + rand];
+}
+
+function setFieldStatus(elementId, status, message, extra = "") {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  el.className = `field-status ${status}`;
+  let icon = "";
+  if (status === "checking") icon = '<div class="spinner-mini"></div>';
+  else if (status === "available") icon = '<span class="icon">✅</span>';
+  else if (status === "taken") icon = '<span class="icon">❌</span>';
+  else if (status === "error") icon = '<span class="icon">⚠️</span>';
+  el.innerHTML = `${icon} <span>${message}</span>${extra}`;
+}
+
+function setInputState(inputId, state) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  input.classList.remove("available", "taken", "checking");
+  if (state) input.classList.add(state);
+}
+
+async function performAvailabilityCheck(field, value, inputId, statusId, currentUid) {
+  if (!value || value.trim().length < (field === "mobile" ? 10 : 3)) {
+    setInputState(inputId, null);
+    setFieldStatus(statusId, "checking", "");
+    return;
+  }
+  if (field === "mobile" && !/^\+?\d{10,15}$/.test(value.replace(/\s+/g, ""))) {
+    setInputState(inputId, "taken");
+    setFieldStatus(statusId, "error", "Invalid mobile (+91XXXXXXXXXX)");
+    return;
+  }
+  if (field === "username" && !/^[a-z0-9_]{3,20}$/.test(value)) {
+    setInputState(inputId, "taken");
+    setFieldStatus(statusId, "error", "Only a-z, 0-9, _ (3-20 chars)");
+    return;
+  }
+  if (field === "email" && !/^\S+@\S+\.\S+$/.test(value)) {
+    setInputState(inputId, "taken");
+    setFieldStatus(statusId, "error", "Invalid email");
+    return;
+  }
+  setInputState(inputId, "checking");
+  setFieldStatus(statusId, "checking", "Checking...");
+  try {
+    const result = await checkUniqueStrict(field, value, currentUid);
+    if (result.available) {
+      setInputState(inputId, "available");
+      if (result.sameUser) setFieldStatus(statusId, "available", `Your current ${field} ✓`);
+      else setFieldStatus(statusId, "available", `${capitalize(field)} is available ✓`);
+      return true;
+    } else {
+      setInputState(inputId, "taken");
+      if (field === "username") {
+        const suggestions = generateUsernameSuggestions(value);
+        const chips = `<div class="suggestion-chips">${suggestions.map(s => `<span class="suggestion-chip" onclick="applyUsernameSuggestion('${s}', '${inputId}', '${statusId}')">${s}</span>`).join("")}</div>`;
+        setFieldStatus(statusId, "taken", `"${value}" already taken. Try:`, chips);
+      } else if (field === "mobile") {
+        setFieldStatus(statusId, "taken", "This mobile is already registered to another account");
+      } else {
+        setFieldStatus(statusId, "taken", `${capitalize(field)} is already registered`);
+      }
+      return false;
+    }
+  } catch (err) {
+    setInputState(inputId, null);
+    setFieldStatus(statusId, "error", "Check failed, try again");
+    return null;
+  }
+}
+
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function attachLiveCheck(inputId, field, currentUid = null) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const statusId = inputId + "Status";
+  const uid = currentUid || currentUser?.uid || null;
+  const debouncedCheck = debounce(() => {
+    performAvailabilityCheck(field, input.value.trim(), inputId, statusId, uid);
+  }, 500);
+  input.addEventListener("input", () => {
+    setInputState(inputId, null);
+    setFieldStatus(statusId, "checking", "");
+    debouncedCheck();
+  });
+  input.addEventListener("blur", () => {
+    if (input.value.trim()) {
+      performAvailabilityCheck(field, input.value.trim(), inputId, statusId, uid);
+    }
+  });
+  if (input.value.trim()) {
+    performAvailabilityCheck(field, input.value.trim(), inputId, statusId, uid);
+  }
+}
+
+window.applyUsernameSuggestion = function(username, inputId, statusId) {
+  const input = document.getElementById(inputId);
+  if (input) {
+    input.value = username;
+    performAvailabilityCheck("username", username, inputId, statusId, currentUser?.uid || null);
+  }
+};
+
+function attachSignupChecks() {
+  if (document.getElementById("signupEmail")) attachLiveCheck("signupEmail", "email", null);
+  if (document.getElementById("signupPhone")) attachLiveCheck("signupPhone", "mobile", null);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  setTimeout(attachSignupChecks, 500);
+});
+
+/* ============================================================
+   AUTH STATE
+   ============================================================ */
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     currentUser = null; currentUserData = null;
@@ -697,9 +956,6 @@ onAuthStateChanged(auth, async (user) => {
   }
   currentUser = user;
   await reload(user);
-  if (!user.emailVerified) { showVerifyScreen(); return; }
-
-  // Load user data
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
     currentUserData = snap.exists() ? snap.data() : {
@@ -709,19 +965,35 @@ onAuthStateChanged(auth, async (user) => {
     currentUserData = { uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: [] };
   }
 
-  // ✅ CHECK SUSPENSION FIRST
+  if (currentUserData.role === "admin") {
+    showAppScreen();
+    showPage("admin");
+    return;
+  }
+
+  let verificationRequired = true, exempt = false;
+  try {
+    const [authSnap, exemptSnap] = await Promise.all([
+      getDoc(doc(db, "settings", "auth")),
+      getDoc(doc(db, "settings", "exemptUsers"))
+    ]);
+    if (authSnap.exists()) verificationRequired = authSnap.data().emailVerificationRequired !== false;
+    if (exemptSnap.exists()) exempt = (exemptSnap.data().userIds || []).includes(user.uid);
+  } catch (e) {}
+
+  if (verificationRequired && !exempt && !user.emailVerified) {
+    showVerifyScreen();
+    return;
+  }
   if (currentUserData.suspended === true || currentUserData.status === "suspended") {
     showSuspendedScreen();
     return;
   }
-
-  // Check pending device verification
   const pendingKey = "pendingDevice_" + user.uid;
   if (localStorage.getItem(pendingKey)) {
     showNewDeviceScreen();
     return;
   }
-
   await loadAppForUser(user);
 });
 
@@ -734,28 +1006,20 @@ async function loadAppForUser(user) {
   } catch (err) {
     currentUserData = { uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: [] };
   }
-
+  if (currentUserData.role === "admin") {
+    showAppScreen();
+    showPage("admin");
+    return;
+  }
   if (currentUserData.suspended === true || currentUserData.status === "suspended") {
     showSuspendedScreen();
     return;
   }
-
   showAppScreen();
-
-  if (currentUserData.role === "admin") {
-    document.getElementById("adminBtn")?.remove();
-    const ha = document.querySelector(".header-actions");
-    const btn = document.createElement("button");
-    btn.id = "adminBtn"; btn.className = "icon-btn"; btn.textContent = "⚙️";
-    btn.onclick = () => showPage("admin");
-    ha.insertBefore(btn, ha.firstChild);
-  }
-
   await ensureUserIdentity();
   const sessionResult = await registerSession();
   if (sessionResult.reason === "needs_verification") return;
   if (!sessionResult.allowed) return;
-
   attachCartListener();
   attachWishlistListener();
   await loadProducts();
@@ -763,7 +1027,7 @@ async function loadAppForUser(user) {
   renderProfile();
 }
 
-/* UNIQUE ID GENERATION */
+/* UNIQUE ID */
 async function generateUniquePublicId(uid) {
   for (let i = 0; i < 30; i++) {
     const candidate = String(Math.floor(100000 + Math.random() * 900000));
@@ -775,7 +1039,7 @@ async function generateUniquePublicId(uid) {
       return candidate;
     }
   }
-  throw new Error("Could not generate unique ID");
+  throw new Error("Failed unique ID");
 }
 
 async function generateUniqueUsername(base, uid) {
@@ -791,14 +1055,7 @@ async function generateUniqueUsername(base, uid) {
     suffix++;
     candidate = `${base}${suffix}`;
   }
-  throw new Error("Could not generate unique username");
-}
-
-async function checkUnique(field, value, uid) {
-  const clean = String(value).trim().toLowerCase().replace(/\s+/g, "");
-  const snap = await getDoc(doc(db, "uniqueIndex", `${field}_${clean}`));
-  if (!snap.exists()) return true;
-  return snap.data().userId === uid;
+  throw new Error("Failed username");
 }
 
 async function ensureUserIdentity() {
@@ -819,7 +1076,7 @@ async function ensureUserIdentity() {
   }
 }
 
-/* DEVICE SESSIONS */
+/* DEVICE */
 async function hashDevice() {
   const data = navigator.userAgent + "|" + screen.width + "x" + screen.height + "|" + navigator.language;
   const buf = new TextEncoder().encode(data);
@@ -832,51 +1089,36 @@ async function registerSession() {
     const deviceHash = await hashDevice();
     const sessions = currentUserData.sessions || [];
     const existing = sessions.find(s => s.deviceId === deviceHash);
-
     if (existing) {
-      const updated = sessions.map(s => s.deviceId === deviceHash
-        ? { ...s, lastActive: new Date().toISOString() } : s);
+      const updated = sessions.map(s => s.deviceId === deviceHash ? { ...s, lastActive: new Date().toISOString() } : s);
       await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
       currentUserData.sessions = updated;
       return { allowed: true };
     }
-
     if (sessions.length >= 2) {
-      showToast("Max 2 devices allowed. Remove one first.", "error");
+      showToast("Max 2 devices allowed", "error");
       setTimeout(() => signOut(auth), 2500);
       return { allowed: false, reason: "max_devices" };
     }
-
     if (sessions.length === 1) {
-      // 2nd device — needs verification
       const pending = {
-        deviceId: deviceHash,
-        userAgent: navigator.userAgent.slice(0, 100),
-        createdAt: new Date().toISOString(),
-        needsVerification: true
+        deviceId: deviceHash, userAgent: navigator.userAgent.slice(0, 100),
+        createdAt: new Date().toISOString(), needsVerification: true
       };
       localStorage.setItem("pendingDevice_" + currentUser.uid, JSON.stringify(pending));
       try { await sendEmailVerification(currentUser); } catch (e) {}
       showNewDeviceScreen();
       return { allowed: false, reason: "needs_verification" };
     }
-
-    // 1st device
     const newSession = {
-      deviceId: deviceHash,
-      userAgent: navigator.userAgent.slice(0, 100),
-      createdAt: new Date().toISOString(),
-      lastActive: new Date().toISOString(),
-      verified: true
+      deviceId: deviceHash, userAgent: navigator.userAgent.slice(0, 100),
+      createdAt: new Date().toISOString(), lastActive: new Date().toISOString(), verified: true
     };
     const updated = [...sessions, newSession];
     await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
     currentUserData.sessions = updated;
     return { allowed: true };
-  } catch (err) {
-    console.error("Session failed:", err);
-    return { allowed: true };
-  }
+  } catch (err) { return { allowed: true }; }
 }
 
 window.removeDevice = async function(deviceId) {
@@ -886,7 +1128,7 @@ window.removeDevice = async function(deviceId) {
     await updateDoc(doc(db, "users", currentUser.uid), { sessions });
     currentUserData.sessions = sessions;
     renderProfile();
-    showToast("Device removed", "success");
+    showToast("Removed", "success");
   } catch (err) { showToast("Failed", "error"); }
 };
 
@@ -903,83 +1145,43 @@ function renderProfile() {
     { label: "Full Name", key: "name", icon: "👤", required: true },
     { label: "Username", key: "username", icon: "🔖", required: true },
     { label: "Email", key: "email", icon: "📧", required: true },
-    { label: "Mobile Number", key: "mobile", icon: "📱", required: true },
+    { label: "Mobile", key: "mobile", icon: "📱", required: true },
     { label: "Gender", key: "gender", icon: "⚧", required: false },
     { label: "Date of Birth", key: "dob", icon: "🎂", required: false }
   ];
-
   document.getElementById("profileInfoList").innerHTML = fields.map(f => {
     const val = d[f.key];
     const isEmpty = !val || String(val).trim() === "";
     const displayVal = f.key === "gender" && val ? val.charAt(0).toUpperCase() + val.slice(1) : val;
-    return `
-      <div class="profile-info-row">
-        <div style="flex:1;min-width:0">
-          <div class="profile-info-label">${f.icon} ${f.label}${f.required ? " *" : ""}</div>
-          <div class="profile-info-value ${isEmpty ? 'missing' : ''}">
-            ${isEmpty ? "❌ Not set" + (f.required ? " — required" : "") : displayVal}
-          </div>
-        </div>
-      </div>
-    `;
+    return `<div class="profile-info-row"><div style="flex:1;min-width:0">
+      <div class="profile-info-label">${f.icon} ${f.label}${f.required ? " *" : ""}</div>
+      <div class="profile-info-value ${isEmpty ? 'missing' : ''}">${isEmpty ? "❌ Not set" : displayVal}</div>
+    </div></div>`;
   }).join("");
 
-  // Address
   const addr = d.address || {};
   const addrEl = document.getElementById("profileAddressList");
   if (!addr.line1) {
     addrEl.innerHTML = '<p style="font-size:13px;color:var(--danger);text-align:center;padding:20px">❌ Address not set</p>';
   } else {
-    addrEl.innerHTML = `
-      <div style="font-size:13px;line-height:1.7">
-        <div style="font-weight:700;font-size:14px">${addr.name || d.name}</div>
-        <div>📞 ${addr.phone || d.mobile || "—"}</div>
-        <div style="color:var(--text-light)">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}<br>${addr.city || ""}, ${addr.state || ""} - ${addr.pincode || ""}</div>
-      </div>`;
+    addrEl.innerHTML = `<div style="font-size:13px;line-height:1.7">
+      <div style="font-weight:700;font-size:14px">${addr.name || d.name}</div>
+      <div>📞 ${addr.phone || d.mobile || "—"}</div>
+      <div style="color:var(--text-light)">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}<br>${addr.city || ""}, ${addr.state || ""} - ${addr.pincode || ""}</div>
+    </div>`;
   }
 
-  // Devices
   const sessions = d.sessions || [];
   const devEl = document.getElementById("profileDevicesList");
-  if (!sessions.length) {
-    devEl.innerHTML = '<p style="font-size:13px;color:var(--text-light)">No active devices</p>';
-  } else {
-    devEl.innerHTML = sessions.map(s => `
-      <div class="device-item">
+  devEl.innerHTML = !sessions.length 
+    ? '<p style="font-size:13px;color:var(--text-light)">No devices</p>'
+    : sessions.map(s => `<div class="device-item">
         <div class="device-info">
           <div class="device-name">${s.userAgent.slice(0, 50)}...</div>
-          <div class="device-meta">${s.deviceId.slice(0, 8)} • Last: ${new Date(s.lastActive).toLocaleDateString()}</div>
+          <div class="device-meta">${s.deviceId.slice(0, 8)} • ${new Date(s.lastActive).toLocaleDateString()}</div>
         </div>
         <button class="btn btn-danger btn-sm" onclick="removeDevice('${s.deviceId}')">Remove</button>
-      </div>
-    `).join("");
-  }
-
-  renderAlerts();
-}
-
-function renderAlerts() {
-  const d = currentUserData || {};
-  const alerts = [];
-
-  // Missing fields
-  const missing = [];
-  if (!d.name) missing.push("Name");
-  if (!d.username) missing.push("Username");
-  if (!d.mobile) missing.push("Mobile");
-  if (!d.address?.line1) missing.push("Address");
-
-  if (missing.length > 0) {
-    alerts.push(`
-      <div class="alert-card info">
-        <div class="title" style="color:#1e40af"><span style="font-size:24px">📝</span> Complete Profile</div>
-        <div class="text" style="color:#1e40af">Missing: <strong>${missing.join(", ")}</strong></div>
-        <div class="actions"><button class="btn btn-primary btn-sm" onclick="openProfileEdit()">Complete →</button></div>
-      </div>
-    `);
-  }
-
-  document.getElementById("profileAlerts").innerHTML = alerts.join("");
+      </div>`).join("");
 }
 
 /* PROFILE EDIT */
@@ -988,10 +1190,16 @@ window.openProfileEdit = function() {
   openModal("✏️ Edit Profile", `
     <div class="form-group"><label>Full Name *</label>
       <input class="form-control" id="peName" value="${d.name || ""}" /></div>
-    <div class="form-group"><label>Username * (unique, lowercase)</label>
-      <input class="form-control" id="peUsername" value="${d.username || ""}" /></div>
-    <div class="form-group"><label>Mobile Number * (1 number = 1 account)</label>
-      <input class="form-control" id="peMobile" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" /></div>
+    <div class="form-group">
+      <label>Username * (unique)</label>
+      <input class="form-control" id="peUsername" value="${d.username || ""}" autocomplete="off" />
+      <div class="field-status" id="peUsernameStatus"></div>
+    </div>
+    <div class="form-group">
+      <label>Mobile Number *</label>
+      <input class="form-control" id="peMobile" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" autocomplete="off" />
+      <div class="field-status" id="peMobileStatus"></div>
+    </div>
     <div class="form-group"><label>Email (locked)</label>
       <input class="form-control" value="${d.email || ""}" disabled /></div>
     <div class="form-group"><label>Gender</label>
@@ -1008,6 +1216,10 @@ window.openProfileEdit = function() {
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
     <button class="btn btn-primary" id="peSaveBtn" onclick="saveProfile()">Save</button>
   `);
+  setTimeout(() => {
+    attachLiveCheck("peUsername", "username");
+    attachLiveCheck("peMobile", "mobile");
+  }, 150);
 };
 
 window.saveProfile = async function() {
@@ -1015,7 +1227,6 @@ window.saveProfile = async function() {
   btn.disabled = true; btn.textContent = "Saving...";
   const errEl = document.getElementById("peError");
   errEl.style.display = "none";
-
   const updates = {
     name: document.getElementById("peName").value.trim(),
     username: document.getElementById("peUsername").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, ""),
@@ -1023,25 +1234,18 @@ window.saveProfile = async function() {
     gender: document.getElementById("peGender").value,
     dob: document.getElementById("peDob").value
   };
-
   if (!updates.name) return peError("Name required");
   if (!updates.username || updates.username.length < 3) return peError("Username min 3 chars");
   if (!updates.mobile || !/^\+?\d{10,15}$/.test(updates.mobile)) return peError("Valid mobile required");
-
   try {
-    // Username check
     if (updates.username !== currentUserData.username) {
-      const ok = await checkUnique("username", updates.username, currentUser.uid);
-      if (!ok) return peError("❌ Username already taken");
+      const check = await checkUniqueStrict("username", updates.username, currentUser.uid);
+      if (!check.available) return peError("❌ Username already taken");
     }
-
-    // Mobile check
     if (updates.mobile !== currentUserData.mobile) {
-      const ok = await checkUnique("mobile", updates.mobile, currentUser.uid);
-      if (!ok) return peError("❌ Mobile already registered");
+      const check = await checkUniqueStrict("mobile", updates.mobile, currentUser.uid);
+      if (!check.available) return peError("❌ Mobile already registered");
     }
-
-    // Update indexes
     if (updates.username !== currentUserData.username) {
       if (currentUserData.username) {
         try { await deleteDoc(doc(db, "uniqueIndex", `username_${currentUserData.username}`)); } catch(e){}
@@ -1050,7 +1254,6 @@ window.saveProfile = async function() {
         field: "username", value: updates.username, userId: currentUser.uid, createdAt: serverTimestamp()
       });
     }
-
     if (updates.mobile !== currentUserData.mobile) {
       if (currentUserData.mobile) {
         try { await deleteDoc(doc(db, "uniqueIndex", `mobile_${currentUserData.mobile}`)); } catch(e){}
@@ -1059,16 +1262,13 @@ window.saveProfile = async function() {
         field: "mobile", value: updates.mobile, userId: currentUser.uid, createdAt: serverTimestamp()
       });
     }
-
     updates.updatedAt = serverTimestamp();
     await updateDoc(doc(db, "users", currentUser.uid), updates);
     currentUserData = { ...currentUserData, ...updates };
     showToast("Profile updated ✓", "success");
     closeModal();
     renderProfile();
-  } catch (err) {
-    peError(err.message || "Save failed");
-  }
+  } catch (err) { peError(err.message || "Save failed"); }
 };
 
 function peError(msg) {
@@ -1113,11 +1313,9 @@ window.saveAddress = async function() {
     state: document.getElementById("adState").value.trim(),
     pincode: document.getElementById("adPincode").value.trim()
   };
-
   if (!address.line1 || !address.city || !address.state || !address.pincode) {
     return showToast("All required fields भरें", "warning");
   }
-
   try {
     await updateDoc(doc(db, "users", currentUser.uid), { address, updatedAt: serverTimestamp() });
     currentUserData.address = address;
@@ -1127,25 +1325,20 @@ window.saveAddress = async function() {
   } catch (err) { showToast("Failed: " + err.message, "error"); }
 };
 
-/* SUSPENSION — CUSTOMER */
+/* SUSPENSION */
 window.openSuspensionAppeal = function() {
   const d = currentUserData || {};
   openModal("📝 Appeal Suspension", `
     <div style="padding:14px;background:#fee2e2;border-radius:12px;margin-bottom:16px;font-size:13px;color:#991b1b">
-      <strong>🚫 Account Suspended</strong><br>
-      ${d.suspendedReason || "Reason not provided"}
+      <strong>🚫 Account Suspended</strong><br>${d.suspendedReason || ""}
     </div>
-    <div class="form-group">
-      <label>Why should we unblock your account? *</label>
-      <textarea class="form-control" id="appealMsg" rows="5" placeholder="Explain your situation (min 20 chars)..."></textarea>
-    </div>
-    <div class="form-group">
-      <label>Contact Number</label>
-      <input class="form-control" id="appealContact" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" />
-    </div>
+    <div class="form-group"><label>Why should we unblock? *</label>
+      <textarea class="form-control" id="appealMsg" rows="5" placeholder="Explain (min 20 chars)..."></textarea></div>
+    <div class="form-group"><label>Contact</label>
+      <input class="form-control" id="appealContact" value="${d.mobile || ""}" /></div>
   `, `
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" id="appealBtn" onclick="submitAppeal()">Submit Appeal</button>
+    <button class="btn btn-primary" id="appealBtn" onclick="submitAppeal()">Submit</button>
   `);
 };
 
@@ -1154,31 +1347,23 @@ window.submitAppeal = async function() {
   btn.disabled = true; btn.textContent = "Submitting...";
   const message = document.getElementById("appealMsg").value.trim();
   const contact = document.getElementById("appealContact").value.trim();
-
   if (!message || message.length < 20) {
-    btn.disabled = false; btn.textContent = "Submit Appeal";
-    return showToast("Message at least 20 characters", "warning");
+    btn.disabled = false; btn.textContent = "Submit";
+    return showToast("Message min 20 chars", "warning");
   }
-
   try {
     await addDoc(collection(db, "accountAppeals"), {
       suspensionId: currentUserData.currentSuspensionId || "",
-      userId: currentUser.uid,
-      userName: currentUserData.name || "",
-      userEmail: currentUser.email,
-      userPublicId: currentUserData.publicId || "",
-      message, contact,
-      status: "pending",
-      adminResponse: "",
-      respondedBy: null,
-      respondedAt: null,
-      createdAt: serverTimestamp()
+      userId: currentUser.uid, userName: currentUserData.name || "",
+      userEmail: currentUser.email, userPublicId: currentUserData.publicId || "",
+      message, contact, status: "pending", adminResponse: "",
+      respondedBy: null, respondedAt: null, createdAt: serverTimestamp()
     });
     closeModal();
-    showToast("Appeal submitted ✓ Admin will review", "success");
+    showToast("Appeal submitted ✓", "success");
   } catch (err) {
     showToast("Failed: " + err.message, "error");
-    btn.disabled = false; btn.textContent = "Submit Appeal";
+    btn.disabled = false; btn.textContent = "Submit";
   }
 };
 
@@ -1194,19 +1379,8 @@ window.checkSuspensionStatus = async function() {
         return;
       }
     }
-    // Check pending appeal
-    const appealQ = query(
-      collection(db, "accountAppeals"),
-      where("userId", "==", currentUser.uid),
-      where("status", "==", "pending")
-    );
-    const appSnap = await getDocs(appealQ);
-    if (!appSnap.empty) {
-      showToast("⏳ Appeal still under review", "info");
-    } else {
-      showToast("Still suspended. Submit appeal if not done.", "warning");
-    }
-  } catch (err) { showToast("Failed: " + err.message, "error"); }
+    showToast("Still suspended", "warning");
+  } catch (err) { showToast("Failed", "error"); }
 };
 
 /* NAVIGATION */
@@ -1231,7 +1405,6 @@ window.toggleMenu = function() {
     { label: "📦 Orders", fn: () => showPage("orders") },
     { label: "👤 Profile", fn: () => showPage("profile") }
   ];
-  if (currentUserData?.role === "admin") items.push({ label: "⚙️ Admin", fn: () => showPage("admin") });
   window._menuActions = items.map(i => i.fn);
   openModal("Menu", `<div style="display:flex;flex-direction:column;gap:10px">${
     items.map((it, i) => `<button class="btn btn-ghost btn-block" style="justify-content:flex-start;padding:14px 18px" onclick="window._menuAction(${i})">${it.label}</button>`).join("")
@@ -1265,24 +1438,23 @@ function productCardHTML(p) {
   const img = (p.images && p.images[0]) || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='%23ede9fe' width='200' height='200'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' font-size='60'>📦</text></svg>";
   const disc = p.mrp && p.price && p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
   const isW = wishlist[p.id] ? "❤️" : "🤍";
-  return `
-    <div class="product-card" onclick="openProduct('${p.id}')">
-      <div class="img-wrap">
-        <img src="${img}" loading="lazy" />
-        ${disc > 0 ? `<div class="discount-badge">-${disc}%</div>` : ""}
-        <button class="wish-btn" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${isW}</button>
+  return `<div class="product-card" onclick="openProduct('${p.id}')">
+    <div class="img-wrap">
+      <img src="${img}" loading="lazy" />
+      ${disc > 0 ? `<div class="discount-badge">-${disc}%</div>` : ""}
+      <button class="wish-btn" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${isW}</button>
+    </div>
+    <div class="info">
+      <div class="name">${p.name || "Untitled"}</div>
+      <div class="price-row">
+        <span class="price">₹${p.price || 0}</span>
+        ${p.mrp && p.mrp > p.price ? `<span class="mrp">₹${p.mrp}</span>` : ""}
       </div>
-      <div class="info">
-        <div class="name">${p.name || "Untitled"}</div>
-        <div class="price-row">
-          <span class="price">₹${p.price || 0}</span>
-          ${p.mrp && p.mrp > p.price ? `<span class="mrp">₹${p.mrp}</span>` : ""}
-        </div>
-        <button class="add-btn" onclick="event.stopPropagation();addToCart('${p.id}')">
-          ${p.stock > 0 ? "🛒 Add to Cart" : "Out of Stock"}
-        </button>
-      </div>
-    </div>`;
+      <button class="add-btn" onclick="event.stopPropagation();addToCart('${p.id}')">
+        ${p.stock > 0 ? "🛒 Add to Cart" : "Out of Stock"}
+      </button>
+    </div>
+  </div>`;
 }
 
 function renderHomeProducts() {
@@ -1305,20 +1477,93 @@ window.openProduct = function(id) {
   if (!p) return;
   const img = (p.images && p.images[0]) || "";
   const disc = p.mrp && p.price && p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
-  openModal(p.name || "Product", `
-    ${img ? `<img src="${img}" style="max-height:280px;margin:0 auto 16px;border-radius:12px;object-fit:contain" />` : ""}
-    <h2 style="font-size:20px;font-weight:800;margin-bottom:6px">${p.name || ""}</h2>
-    ${p.brand ? `<div style="color:var(--text-light);font-size:13px;margin-bottom:12px">🏷️ ${p.brand}</div>` : ""}
-    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px">
-      <span style="font-size:28px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">₹${p.price || 0}</span>
-      ${p.mrp && p.mrp > p.price ? `<span style="text-decoration:line-through;color:var(--text-light);font-size:16px">₹${p.mrp}</span>` : ""}
-      ${disc > 0 ? `<span style="background:var(--success);color:#fff;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:700">${disc}% OFF</span>` : ""}
-    </div>
-    <p style="font-size:14px;line-height:1.7;color:var(--text-light)">${p.description || "No description"}</p>
-    <div style="margin-top:16px;font-size:13px;color:var(--text-light)">
-      <div>📦 Stock: <strong style="color:${p.stock > 0 ? 'var(--success)' : 'var(--danger)'}">${p.stock > 0 ? p.stock + " available" : "Out of stock"}</strong></div>
-    </div>
-  `, `<button class="btn btn-ghost" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="addToCart('${p.id}');closeModal()">🛒 Add</button>`);
+  const inWishlist = !!wishlist[p.id];
+  const inCart = cart[p.id] ? cart[p.id].qty : 0;
+  document.getElementById("productDetailContent").innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr;gap:20px" id="productLayout">
+      <div style="background:#fff;border-radius:16px;padding:20px;text-align:center;box-shadow:var(--shadow);position:relative">
+        ${disc > 0 ? `<div style="position:absolute;top:16px;left:16px;background:var(--gradient-2);color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700">-${disc}% OFF</div>` : ""}
+        <button onclick="toggleWishlist('${p.id}');openProduct('${p.id}')" style="position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:var(--shadow);font-size:20px;display:grid;place-items:center">${inWishlist ? "❤️" : "🤍"}</button>
+        ${img ? `<img src="${img}" style="max-height:400px;margin:0 auto;object-fit:contain;border-radius:12px" />` : `<div style="font-size:80px;padding:60px">📦</div>`}
+      </div>
+      <div>
+        <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px">
+          <h1 style="font-size:22px;font-weight:800;margin-bottom:8px;line-height:1.3">${p.name || ""}</h1>
+          ${p.brand ? `<div style="font-size:13px;color:var(--text-light);margin-bottom:12px">🏷️ ${p.brand}</div>` : ""}
+          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+            <span style="font-size:32px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">₹${p.price || 0}</span>
+            ${p.mrp && p.mrp > p.price ? `<span style="font-size:18px;color:var(--text-light);text-decoration:line-through">₹${p.mrp}</span>` : ""}
+            ${disc > 0 ? `<span style="background:#d1fae5;color:#065f46;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:700">Save ₹${(p.mrp - p.price).toFixed(0)}</span>` : ""}
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+            <span style="padding:6px 14px;background:${p.stock > 0 ? '#d1fae5' : '#fee2e2'};color:${p.stock > 0 ? '#065f46' : '#991b1b'};border-radius:20px;font-size:12px;font-weight:700">
+              ${p.stock > 0 ? `✓ In Stock (${p.stock})` : "✗ Out of Stock"}
+            </span>
+            ${p.sku ? `<span style="padding:6px 14px;background:#f1f5f9;border-radius:20px;font-size:12px;font-weight:600">SKU: ${p.sku}</span>` : ""}
+          </div>
+          ${p.stock > 0 ? `
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px">
+              <div class="qty-controls" style="padding:6px">
+                <button onclick="changeProductQty(-1)" style="width:36px;height:36px;font-size:18px">−</button>
+                <span id="productQty" style="font-size:16px;min-width:40px">1</span>
+                <button onclick="changeProductQty(1)" style="width:36px;height:36px;font-size:18px">+</button>
+              </div>
+              <div style="font-size:13px;color:var(--text-light)">Max ${p.stock}</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn-primary btn-lg" style="flex:1;min-width:180px" onclick="addToCartFromDetail('${p.id}')">🛒 Add to Cart${inCart ? ` (${inCart})` : ""}</button>
+              <button class="btn btn-outline btn-lg" style="flex:1;min-width:180px" onclick="buyNow('${p.id}')">⚡ Buy Now</button>
+            </div>
+          ` : `<button class="btn btn-ghost btn-block btn-lg" disabled>Out of Stock</button>`}
+        </div>
+        ${p.description ? `<div style="background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px">
+          <h3 style="font-size:15px;font-weight:800;margin-bottom:12px">📝 Description</h3>
+          <p style="font-size:14px;line-height:1.8;color:var(--text-light)">${p.description}</p>
+        </div>` : ""}
+        <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow)">
+          <h3 style="font-size:15px;font-weight:800;margin-bottom:12px">🚚 Delivery & Returns</h3>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+            <div>📦 <strong>Free Delivery</strong> — ₹500+ orders</div>
+            <div>🔄 <strong>7-Day Returns</strong></div>
+            <div>✅ <strong>100% Genuine</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  window._currentProductDetail = { product: p, qty: 1 };
+  showPage("product");
+};
+
+window.changeProductQty = function(delta) {
+  const d = window._currentProductDetail;
+  if (!d) return;
+  const p = d.product;
+  let newQty = d.qty + delta;
+  if (newQty < 1) newQty = 1;
+  if (newQty > p.stock) newQty = p.stock;
+  d.qty = newQty;
+  document.getElementById("productQty").textContent = newQty;
+};
+
+window.addToCartFromDetail = async function(productId) {
+  const d = window._currentProductDetail;
+  if (!d) return;
+  const p = d.product;
+  if (!p.stock || p.stock <= 0) return showToast("Out of stock", "warning");
+  const ex = cart[productId] || { qty: 0 };
+  const newQty = ex.qty + d.qty;
+  if (newQty > p.stock) return showToast(`Only ${p.stock} available`, "warning");
+  cart[productId] = { qty: newQty, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
+  try {
+    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+    showToast(`${d.qty} added ✓`, "success");
+    openProduct(productId);
+  } catch (err) { showToast("Failed", "error"); }
+};
+
+window.buyNow = async function(productId) {
+  await addToCartFromDetail(productId);
+  setTimeout(() => openCart(), 300);
 };
 
 async function loadCategories() {
@@ -1329,13 +1574,9 @@ async function loadCategories() {
       ${cats.map(c => `<button class="chip ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.name}</button>`).join("")}`;
     document.getElementById("homeCategories").innerHTML = html;
     document.getElementById("shopCategories").innerHTML = html;
-  } catch (err) {
-    document.getElementById("homeCategories").innerHTML = '<div style="font-size:12px;color:var(--text-light);padding:8px">No categories</div>';
-  }
+  } catch (err) {}
 }
-window.filterCategory = function(catId) {
-  currentCategory = catId; loadCategories(); renderShopProducts(); showPage("shop");
-};
+window.filterCategory = function(catId) { currentCategory = catId; loadCategories(); renderShopProducts(); showPage("shop"); };
 
 /* CART */
 function attachCartListener() {
@@ -1357,12 +1598,8 @@ function attachWishlistListener() {
   });
 }
 
-function updateCartBadge() {
-  document.getElementById("cartBadge").textContent = Object.values(cart).reduce((s, i) => s + (i.qty || 0), 0);
-}
-function updateWishBadge() {
-  document.getElementById("wishBadge").textContent = Object.keys(wishlist).length;
-}
+function updateCartBadge() { document.getElementById("cartBadge").textContent = Object.values(cart).reduce((s, i) => s + (i.qty || 0), 0); }
+function updateWishBadge() { document.getElementById("wishBadge").textContent = Object.keys(wishlist).length; }
 
 window.addToCart = async function(pid) {
   const p = allProducts.find(x => x.id === pid);
@@ -1374,7 +1611,7 @@ window.addToCart = async function(pid) {
   cart[pid] = { qty: nq, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
   try {
     await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    showToast("Added to cart ✓", "success");
+    showToast("Added ✓", "success");
   } catch (err) { showToast("Failed", "error"); }
 };
 
@@ -1428,9 +1665,8 @@ function renderCartModal() {
 window.toggleWishlist = async function(pid) {
   const p = allProducts.find(x => x.id === pid);
   if (!p) return;
-  if (wishlist[pid]) {
-    delete wishlist[pid]; showToast("Removed", "info");
-  } else {
+  if (wishlist[pid]) { delete wishlist[pid]; showToast("Removed", "info"); }
+  else {
     wishlist[pid] = { name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
     showToast("Added ❤️", "success");
   }
@@ -1444,15 +1680,14 @@ function renderWishlist() {
     el.innerHTML = '<div class="empty"><div class="emoji">💔</div><p>Wishlist empty</p></div>';
     return;
   }
-  el.innerHTML = items.map(([id, it]) => `
-    <div class="cart-item">
-      <img src="${it.image || ''}" />
-      <div class="details"><div class="name">${it.name}</div><div class="price">₹${it.price}</div></div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Add</button>
-        <button class="btn btn-ghost btn-sm" onclick="toggleWishlist('${id}')">Remove</button>
-      </div>
-    </div>`).join("");
+  el.innerHTML = items.map(([id, it]) => `<div class="cart-item">
+    <img src="${it.image || ''}" />
+    <div class="details"><div class="name">${it.name}</div><div class="price">₹${it.price}</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Add</button>
+      <button class="btn btn-ghost btn-sm" onclick="toggleWishlist('${id}')">Remove</button>
+    </div>
+  </div>`).join("");
 }
 
 /* ORDERS */
@@ -1464,12 +1699,10 @@ window.placeOrder = async function(total, delivery) {
   const sub = items.reduce((s, i) => s + i.price * i.qty, 0);
   try {
     await addDoc(collection(db, "orders"), {
-      userId: currentUser.uid,
-      customerName: currentUserData.name,
-      customerEmail: currentUser.email,
-      phone: currentUserData.mobile || "",
-      address: currentUserData.address || {},
-      items, subtotal: sub, discount: 0, coupon: "",
+      userId: currentUser.uid, customerName: currentUserData.name,
+      customerEmail: currentUser.email, phone: currentUserData.mobile || "",
+      address: currentUserData.address || {}, items,
+      subtotal: sub, discount: 0, coupon: "",
       deliveryCharge: delivery, totalAmount: total,
       paymentMethod: "COD", paymentStatus: "Pending",
       orderStatus: "Pending",
@@ -1493,11 +1726,10 @@ async function renderOrders() {
       el.innerHTML = '<div class="empty"><div class="emoji">📦</div><p>No orders yet</p></div>';
       return;
     }
-    el.innerHTML = orders.map(o => `
-      <div class="order-card">
-        <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
-        <div class="row"><span>${o.items?.length || 0} items</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
-      </div>`).join("");
+    el.innerHTML = orders.map(o => `<div class="order-card">
+      <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
+      <div class="row"><span>${o.items?.length || 0} items</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
+    </div>`).join("");
   } catch (err) { el.innerHTML = '<div class="empty"><p>Failed</p></div>'; }
 }
 
@@ -1550,22 +1782,20 @@ async function renderAdmin(tab) {
       const ss = sS.docs.map(d => d.data());
       const as = aS.docs.map(d => d.data());
       const sales = os.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + (o.totalAmount || 0), 0);
-      content.innerHTML = `
-        <div class="stat-grid">
-          <div class="stat-card"><div class="icon c1">💰</div><div class="label">Sales</div><div class="value">₹${sales.toLocaleString()}</div></div>
-          <div class="stat-card"><div class="icon c2">🧾</div><div class="label">Orders</div><div class="value">${os.length}</div></div>
-          <div class="stat-card"><div class="icon c3">👥</div><div class="label">Users</div><div class="value">${us.length}</div></div>
-          <div class="stat-card"><div class="icon c1">📦</div><div class="label">Products</div><div class="value">${ps.length}</div></div>
-          <div class="stat-card"><div class="icon c2">🚫</div><div class="label">Suspended</div><div class="value">${us.filter(u => u.suspended).length}</div></div>
-          <div class="stat-card"><div class="icon c3">📩</div><div class="label">Appeals</div><div class="value">${as.filter(a => a.status === "pending").length}</div></div>
-        </div>`;
+      content.innerHTML = `<div class="stat-grid">
+        <div class="stat-card"><div class="icon c1">💰</div><div class="label">Sales</div><div class="value">₹${sales.toLocaleString()}</div></div>
+        <div class="stat-card"><div class="icon c2">🧾</div><div class="label">Orders</div><div class="value">${os.length}</div></div>
+        <div class="stat-card"><div class="icon c3">👥</div><div class="label">Users</div><div class="value">${us.length}</div></div>
+        <div class="stat-card"><div class="icon c1">📦</div><div class="label">Products</div><div class="value">${ps.length}</div></div>
+        <div class="stat-card"><div class="icon c2">🚫</div><div class="label">Suspended</div><div class="value">${us.filter(u => u.suspended).length}</div></div>
+        <div class="stat-card"><div class="icon c3">📩</div><div class="label">Appeals</div><div class="value">${as.filter(a => a.status === "pending").length}</div></div>
+      </div>`;
     } catch (err) { content.innerHTML = '<div class="empty"><p>Failed</p></div>'; }
   }
 
   else if (tab === "products") {
     title.textContent = "Products";
-    content.innerHTML = `
-      <button class="btn btn-primary" style="margin-bottom:16px" onclick="openProductForm()">+ Add Product</button>
+    content.innerHTML = `<button class="btn btn-primary" style="margin-bottom:16px" onclick="openProductForm()">+ Add Product</button>
       <div class="table-wrap"><table>
         <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
         <tbody id="adminProductRows"><tr><td colspan="5" style="text-align:center;padding:20px">Loading...</td></tr></tbody>
@@ -1573,17 +1803,16 @@ async function renderAdmin(tab) {
     try {
       const snap = await getDocs(collection(db, "products"));
       const products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      document.getElementById("adminProductRows").innerHTML = products.map(p => `
-        <tr>
-          <td>${p.images?.[0] ? `<img src="${p.images[0]}" style="width:44px;height:44px;object-fit:cover;border-radius:8px" />` : "📦"}</td>
-          <td><strong>${p.name || "-"}</strong></td>
-          <td style="color:var(--primary);font-weight:700">₹${p.price || 0}</td>
-          <td>${p.stock || 0}</td>
-          <td>
-            <button class="btn btn-ghost btn-sm" onclick="openProductForm('${p.id}')">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">Del</button>
-          </td>
-        </tr>`).join("") || '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-light)">No products</td></tr>';
+      document.getElementById("adminProductRows").innerHTML = products.map(p => `<tr>
+        <td>${p.images?.[0] ? `<img src="${p.images[0]}" style="width:44px;height:44px;object-fit:cover;border-radius:8px" />` : "📦"}</td>
+        <td><strong>${p.name || "-"}</strong></td>
+        <td style="color:var(--primary);font-weight:700">₹${p.price || 0}</td>
+        <td>${p.stock || 0}</td>
+        <td>
+          <button class="btn btn-ghost btn-sm" onclick="openProductForm('${p.id}')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">Del</button>
+        </td>
+      </tr>`).join("") || '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-light)">No products</td></tr>';
     } catch (err) { document.getElementById("adminProductRows").innerHTML = `<tr><td colspan="5" style="color:var(--danger);padding:20px">${err.code}</td></tr>`; }
   }
 
@@ -1593,12 +1822,11 @@ async function renderAdmin(tab) {
     try {
       const snap = await getDocs(collection(db, "categories"));
       const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      document.getElementById("adminCatList").innerHTML = cats.map(c => `
-        <div class="cart-item">
-          <div class="details"><div class="name">${c.name}</div></div>
-          <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">Delete</button>
-        </div>`).join("") || '<div class="empty"><p>No categories</p></div>';
-    } catch (err) { document.getElementById("adminCatList").innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
+      document.getElementById("adminCatList").innerHTML = cats.map(c => `<div class="cart-item">
+        <div class="details"><div class="name">${c.name}</div></div>
+        <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">Delete</button>
+      </div>`).join("") || '<div class="empty"><p>No categories</p></div>';
+    } catch (err) {}
   }
 
   else if (tab === "orders") {
@@ -1607,15 +1835,14 @@ async function renderAdmin(tab) {
       const snap = await getDocs(collection(db, "orders"));
       const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = orders.length ? orders.map(o => `
-        <div class="order-card">
-          <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
-          <div class="row"><span>${o.customerName || o.customerEmail}</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
-          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
-            ${["Pending","Confirmed","Shipped","Delivered","Cancelled"].map(s => `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}','${s}')">${s}</button>`).join("")}
-          </div>
-        </div>`).join("") : '<div class="empty"><p>No orders</p></div>';
-    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
+      content.innerHTML = orders.length ? orders.map(o => `<div class="order-card">
+        <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
+        <div class="row"><span>${o.customerName || o.customerEmail}</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+          ${["Pending","Confirmed","Shipped","Delivered","Cancelled"].map(s => `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}','${s}')">${s}</button>`).join("")}
+        </div>
+      </div>`).join("") : '<div class="empty"><p>No orders</p></div>';
+    } catch (err) {}
   }
 
   else if (tab === "users") {
@@ -1624,22 +1851,22 @@ async function renderAdmin(tab) {
       const snap = await getDocs(collection(db, "users"));
       const users = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = `
-        <div class="table-wrap"><table>
-          <thead><tr><th>ID</th><th>Name</th><th>Mobile</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>${users.map(u => `<tr>
-            <td><strong>${u.publicId || "-"}</strong></td>
-            <td>${u.name || "-"}<br><small style="color:var(--text-light)">@${u.username || "-"}</small></td>
-            <td>${u.mobile || "-"}</td>
-            <td>${u.suspended ? '<span style="background:#fee2e2;color:#991b1b;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">🚫 SUSPENDED</span>' : '<span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">✓ ACTIVE</span>'}</td>
-            <td>
-              ${u.suspended 
-                ? `<button class="btn btn-success btn-sm" onclick="adminUnsuspendUser('${u.id}')">Unblock</button>` 
-                : `<button class="btn btn-danger btn-sm" onclick="openSuspendModal('${u.id}', '${u.name}')">Suspend</button>`}
-            </td>
-          </tr>`).join("")}</tbody>
-        </table></div>`;
-    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
+      content.innerHTML = `<div class="table-wrap"><table>
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>${users.map(u => `<tr>
+          <td><strong>${u.publicId || "-"}</strong></td>
+          <td>${u.name || "-"}<br><small style="color:var(--text-light)">@${u.username || "-"}</small></td>
+          <td>${u.email || "-"}</td>
+          <td>${u.mobile || "-"}</td>
+          <td>${u.suspended ? '<span style="background:#fee2e2;color:#991b1b;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">🚫 SUSPENDED</span>' : '<span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">✓ ACTIVE</span>'}</td>
+          <td>
+            ${u.suspended 
+              ? `<button class="btn btn-success btn-sm" onclick="adminUnsuspendUser('${u.id}')">Unblock</button>` 
+              : `<button class="btn btn-danger btn-sm" onclick="openSuspendModal('${u.id}', '${(u.name || '').replace(/'/g, "")}')">Suspend</button>`}
+          </td>
+        </tr>`).join("")}</tbody>
+      </table></div>`;
+    } catch (err) {}
   }
 
   else if (tab === "suspensions") {
@@ -1648,34 +1875,16 @@ async function renderAdmin(tab) {
       const snap = await getDocs(collection(db, "accountSuspensions"));
       const suspensions = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = suspensions.length ? suspensions.map(s => `
-        <div class="order-card" style="border-left-color:${s.status === 'active' ? 'var(--danger)' : 'var(--success)'}">
-          <div class="row">
-            <strong>${s.userName} (#${s.publicId})</strong>
-            <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;
-              background:${s.status === 'active' ? '#fee2e2' : '#d1fae5'};
-              color:${s.status === 'active' ? '#991b1b' : '#065f46'}">
-              ${s.status.toUpperCase()}
-            </span>
-          </div>
-          <div class="row" style="font-size:12px;color:var(--text-light)">
-            <span>${s.userEmail}</span>
-            <span>${s.suspendedAt ? new Date(s.suspendedAt.seconds * 1000).toLocaleString() : ""}</span>
-          </div>
-          <div style="padding:10px;background:#f8fafc;border-radius:8px;font-size:13px;margin:8px 0">
-            <strong>Reason:</strong> ${s.reasonText}
-          </div>
-          <div class="row" style="font-size:12px">
-            <span>Duration: ${s.duration}</span>
-            <span>By: ${s.triggeredBy}</span>
-          </div>
-          ${s.status === "active" ? `
-            <div style="margin-top:10px">
-              <button class="btn btn-success btn-sm" onclick="adminUnsuspend('${s.id}', '${s.userId}')">✓ Unblock User</button>
-            </div>
-          ` : ""}
-        </div>`).join("") : '<div class="empty"><p>No suspensions</p></div>';
-    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
+      content.innerHTML = suspensions.length ? suspensions.map(s => `<div class="order-card" style="border-left-color:${s.status === 'active' ? 'var(--danger)' : 'var(--success)'}">
+        <div class="row">
+          <strong>${s.userName} (#${s.publicId})</strong>
+          <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:${s.status === 'active' ? '#fee2e2' : '#d1fae5'};color:${s.status === 'active' ? '#991b1b' : '#065f46'}">${s.status.toUpperCase()}</span>
+        </div>
+        <div class="row" style="font-size:12px;color:var(--text-light)"><span>${s.userEmail}</span><span>${s.suspendedAt ? new Date(s.suspendedAt.seconds * 1000).toLocaleString() : ""}</span></div>
+        <div style="padding:10px;background:#f8fafc;border-radius:8px;font-size:13px;margin:8px 0"><strong>Reason:</strong> ${s.reasonText}</div>
+        ${s.status === "active" ? `<div style="margin-top:10px"><button class="btn btn-success btn-sm" onclick="adminUnsuspend('${s.id}', '${s.userId}')">✓ Unblock</button></div>` : ""}
+      </div>`).join("") : '<div class="empty"><p>No suspensions</p></div>';
+    } catch (err) {}
   }
 
   else if (tab === "appeals") {
@@ -1684,35 +1893,70 @@ async function renderAdmin(tab) {
       const snap = await getDocs(collection(db, "accountAppeals"));
       const appeals = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = appeals.length ? appeals.map(a => `
-        <div class="order-card">
-          <div class="row">
-            <strong>${a.userName} (#${a.userPublicId})</strong>
-            <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;
-              background:${a.status === 'pending' ? '#fef3c7' : a.status === 'approved' ? '#d1fae5' : '#fee2e2'};
-              color:${a.status === 'pending' ? '#92400e' : a.status === 'approved' ? '#065f46' : '#991b1b'}">
-              ${a.status.toUpperCase()}
-            </span>
-          </div>
-          <div class="row" style="font-size:12px;color:var(--text-light)">
-            <span>${a.userEmail}</span>
-            <span>${a.createdAt ? new Date(a.createdAt.seconds * 1000).toLocaleString() : ""}</span>
-          </div>
-          <div style="padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;margin:10px 0">
-            ${a.message}
-          </div>
-          ${a.contact ? `<div style="font-size:12px;color:var(--text-light);margin-bottom:8px">📞 ${a.contact}</div>` : ""}
-          ${a.adminResponse ? `<div style="padding:8px;background:#dbeafe;border-radius:8px;font-size:12px;color:#1e40af"><strong>Your response:</strong> ${a.adminResponse}</div>` : ""}
-          ${a.status === "pending" ? `
-            <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
-              <button class="btn btn-success btn-sm" onclick="approveAppeal('${a.id}', '${a.suspensionId}')">✓ Approve & Unblock</button>
-              <button class="btn btn-danger btn-sm" onclick="rejectAppeal('${a.id}')">✗ Reject</button>
+      content.innerHTML = appeals.length ? appeals.map(a => `<div class="order-card">
+        <div class="row">
+          <strong>${a.userName} (#${a.userPublicId})</strong>
+          <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:${a.status === 'pending' ? '#fef3c7' : a.status === 'approved' ? '#d1fae5' : '#fee2e2'};color:${a.status === 'pending' ? '#92400e' : a.status === 'approved' ? '#065f46' : '#991b1b'}">${a.status.toUpperCase()}</span>
+        </div>
+        <div class="row" style="font-size:12px;color:var(--text-light)"><span>${a.userEmail}</span><span>${a.createdAt ? new Date(a.createdAt.seconds * 1000).toLocaleString() : ""}</span></div>
+        <div style="padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;margin:10px 0">${a.message}</div>
+        ${a.contact ? `<div style="font-size:12px;color:var(--text-light);margin-bottom:8px">📞 ${a.contact}</div>` : ""}
+        ${a.status === "pending" ? `<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn btn-success btn-sm" onclick="approveAppeal('${a.id}', '${a.suspensionId}')">✓ Approve</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectAppeal('${a.id}')">✗ Reject</button>
+        </div>` : ""}
+      </div>`).join("") : '<div class="empty"><p>No appeals</p></div>';
+    } catch (err) {}
+  }
+
+  else if (tab === "settings") {
+    title.textContent = "Settings";
+    try {
+      const [verifySnap, exemptSnap] = await Promise.all([
+        getDoc(doc(db, "settings", "auth")),
+        getDoc(doc(db, "settings", "exemptUsers"))
+      ]);
+      const authSettings = verifySnap.exists() ? verifySnap.data() : { emailVerificationRequired: true };
+      const exemptUsers = exemptSnap.exists() ? (exemptSnap.data().userIds || []) : [];
+      const usersSnap = await getDocs(collection(db, "users"));
+      const users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      content.innerHTML = `<div class="card" style="max-width:700px">
+        <h3 style="margin-bottom:20px;font-size:18px;font-weight:800">🔐 Authentication Settings</h3>
+        <div class="form-group" style="padding:16px;background:#f8fafc;border-radius:12px">
+          <label style="display:flex;align-items:center;gap:12px;cursor:pointer">
+            <input type="checkbox" id="emailVerifyToggle" ${authSettings.emailVerificationRequired ? "checked" : ""} style="width:20px;height:20px" />
+            <div>
+              <div style="font-weight:700;font-size:14px">Email Verification Required</div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:2px">ON = सभी नए users को email verify करना ज़रूरी</div>
             </div>
-          ` : ""}
-        </div>`).join("") : '<div class="empty"><p>No appeals</p></div>';
-    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
+          </label>
+        </div>
+        <div class="form-group">
+          <label style="font-weight:700">Verification Exempt Users</label>
+          <div style="font-size:12px;color:var(--text-light);margin-bottom:10px">ये users email verify नहीं करेंगे</div>
+          <div style="max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:12px;padding:8px">
+            ${users.map(u => `<label style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer;font-size:13px">
+              <input type="checkbox" class="exempt-checkbox" value="${u.id}" ${exemptUsers.includes(u.id) ? "checked" : ""} />
+              <div style="flex:1;min-width:0"><div style="font-weight:600">${u.name || "User"}</div><div style="font-size:11px;color:var(--text-light)">${u.email}</div></div>
+            </label>`).join("")}
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="saveAuthSettings()">💾 Save Settings</button>
+      </div>`;
+    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">Error: ${err.code}</p>`; }
   }
 }
+
+window.saveAuthSettings = async function() {
+  const enabled = document.getElementById("emailVerifyToggle").checked;
+  const exemptIds = Array.from(document.querySelectorAll(".exempt-checkbox:checked")).map(cb => cb.value);
+  try {
+    await setDoc(doc(db, "settings", "auth"), { emailVerificationRequired: enabled, updatedAt: serverTimestamp() });
+    await setDoc(doc(db, "settings", "exemptUsers"), { userIds: exemptIds, updatedAt: serverTimestamp() });
+    showToast("Settings saved ✓", "success");
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
 
 /* Admin: Suspend Modal */
 window.openSuspendModal = function(userId, userName) {
@@ -1720,31 +1964,23 @@ window.openSuspendModal = function(userId, userName) {
     <div style="padding:12px;background:#fee2e2;border-radius:10px;margin-bottom:16px;font-size:13px;color:#991b1b">
       <strong>User:</strong> ${userName}
     </div>
-    <div class="form-group">
-      <label>Reason *</label>
+    <div class="form-group"><label>Reason *</label>
       <select class="form-control" id="suspReason">
         <option value="Terms violation">Terms violation</option>
         <option value="Fraud activity">Fraud activity</option>
         <option value="Fake data">Fake data</option>
         <option value="Multiple accounts">Multiple accounts</option>
-        <option value="Abusive behavior">Abusive behavior</option>
-        <option value="Payment issue">Payment issue</option>
         <option value="Other">Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Reason Details *</label>
-      <textarea class="form-control" id="suspReasonText" rows="3" placeholder="Explain why you're suspending..."></textarea>
-    </div>
-    <div class="form-group">
-      <label>Duration</label>
+      </select></div>
+    <div class="form-group"><label>Reason Details *</label>
+      <textarea class="form-control" id="suspReasonText" rows="3" placeholder="Explain..."></textarea></div>
+    <div class="form-group"><label>Duration</label>
       <select class="form-control" id="suspDuration">
         <option value="24h">24 hours</option>
         <option value="7d">7 days</option>
         <option value="30d">30 days</option>
         <option value="permanent" selected>Permanent</option>
-      </select>
-    </div>
+      </select></div>
   `, `
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
     <button class="btn btn-danger" onclick="confirmSuspendUser('${userId}')">🚫 Suspend</button>
@@ -1755,19 +1991,10 @@ window.confirmSuspendUser = async function(userId) {
   const reason = document.getElementById("suspReason").value;
   const reasonText = document.getElementById("suspReasonText").value.trim();
   const duration = document.getElementById("suspDuration").value;
-
-  if (!reasonText) return showToast("Reason details required", "warning");
+  if (!reasonText) return showToast("Reason required", "warning");
   if (!confirm("Confirm suspension?")) return;
-
   try {
-    await suspendUser(userId, {
-      reason,
-      reasonText,
-      triggeredBy: "admin",
-      adminId: currentUser.uid,
-      duration,
-      appealAllowed: true
-    });
+    await suspendUser(userId, { reason, reasonText, triggeredBy: "admin", adminId: currentUser.uid, duration, appealAllowed: true });
     showToast("User suspended ✓", "success");
     closeModal();
     renderAdmin("users");
@@ -1775,64 +2002,31 @@ window.confirmSuspendUser = async function(userId) {
 };
 
 async function suspendUser(userId, options = {}) {
-  const {
-    reason = "admin_action",
-    reasonText = "Suspended by admin",
-    triggeredBy = "admin",
-    adminId = null,
-    duration = "permanent",
-    appealAllowed = true
-  } = options;
-
+  const { reason = "admin_action", reasonText = "Suspended", triggeredBy = "admin", adminId = null, duration = "permanent", appealAllowed = true } = options;
   let expiresAt = null;
   if (duration === "24h") expiresAt = Timestamp.fromDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
   else if (duration === "7d") expiresAt = Timestamp.fromDate(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
   else if (duration === "30d") expiresAt = Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
-
   const userSnap = await getDoc(doc(db, "users", userId));
   if (!userSnap.exists()) throw new Error("User not found");
   const userData = userSnap.data();
-
   const suspRef = await addDoc(collection(db, "accountSuspensions"), {
-    userId,
-    publicId: userData.publicId || "",
-    userName: userData.name || "",
-    userEmail: userData.email || "",
-    userMobile: userData.mobile || "",
-    reason,
-    reasonText,
-    triggeredBy,
-    adminId,
-    suspendedAt: serverTimestamp(),
-    expiresAt,
-    duration,
-    appealAllowed,
-    status: "active",
-    liftedAt: null,
-    liftedBy: null,
-    liftedReason: "",
+    userId, publicId: userData.publicId || "", userName: userData.name || "",
+    userEmail: userData.email || "", userMobile: userData.mobile || "",
+    reason, reasonText, triggeredBy, adminId,
+    suspendedAt: serverTimestamp(), expiresAt, duration, appealAllowed,
+    status: "active", liftedAt: null, liftedBy: null, liftedReason: "",
     createdAt: serverTimestamp()
   });
-
   await updateDoc(doc(db, "users", userId), {
-    suspended: true,
-    status: "suspended",
-    suspendedReason: reasonText,
-    suspendedAt: serverTimestamp(),
-    suspensionDuration: duration,
-    currentSuspensionId: suspRef.id,
-    updatedAt: serverTimestamp()
+    suspended: true, status: "suspended", suspendedReason: reasonText,
+    suspendedAt: serverTimestamp(), suspensionDuration: duration,
+    currentSuspensionId: suspRef.id, updatedAt: serverTimestamp()
   });
-
   await addDoc(collection(db, "suspensionLogs"), {
-    suspensionId: suspRef.id,
-    userId,
-    action: "suspended",
-    performedBy: adminId || "system",
-    details: reasonText,
-    timestamp: serverTimestamp()
+    suspensionId: suspRef.id, userId, action: "suspended",
+    performedBy: adminId || "system", details: reasonText, timestamp: serverTimestamp()
   });
-
   return suspRef.id;
 }
 
@@ -1840,29 +2034,16 @@ async function liftSuspension(suspensionId, adminId, liftedReason = "") {
   const suspSnap = await getDoc(doc(db, "accountSuspensions", suspensionId));
   if (!suspSnap.exists()) throw new Error("Suspension not found");
   const susp = suspSnap.data();
-
   await updateDoc(doc(db, "accountSuspensions", suspensionId), {
-    status: "lifted",
-    liftedAt: serverTimestamp(),
-    liftedBy: adminId,
-    liftedReason
+    status: "lifted", liftedAt: serverTimestamp(), liftedBy: adminId, liftedReason
   });
-
   await updateDoc(doc(db, "users", susp.userId), {
-    suspended: false,
-    status: "active",
-    suspendedReason: "",
-    currentSuspensionId: null,
-    updatedAt: serverTimestamp()
+    suspended: false, status: "active", suspendedReason: "",
+    currentSuspensionId: null, updatedAt: serverTimestamp()
   });
-
   await addDoc(collection(db, "suspensionLogs"), {
-    suspensionId,
-    userId: susp.userId,
-    action: "lifted",
-    performedBy: adminId,
-    details: liftedReason,
-    timestamp: serverTimestamp()
+    suspensionId, userId: susp.userId, action: "lifted",
+    performedBy: adminId, details: liftedReason, timestamp: serverTimestamp()
   });
 }
 
@@ -1875,9 +2056,8 @@ window.adminUnsuspendUser = async function(userId) {
       await liftSuspension(userData.currentSuspensionId, currentUser.uid, "Admin unblocked");
     } else {
       await updateDoc(doc(db, "users", userId), {
-        suspended: false, status: "active",
-        suspendedReason: "", currentSuspensionId: null,
-        updatedAt: serverTimestamp()
+        suspended: false, status: "active", suspendedReason: "",
+        currentSuspensionId: null, updatedAt: serverTimestamp()
       });
     }
     showToast("User unblocked ✓", "success");
@@ -1886,47 +2066,37 @@ window.adminUnsuspendUser = async function(userId) {
 };
 
 window.adminUnsuspend = async function(suspensionId, userId) {
-  if (!confirm("Unblock this user?")) return;
+  if (!confirm("Unblock?")) return;
   try {
     await liftSuspension(suspensionId, currentUser.uid, "Admin unblocked");
-    showToast("User unblocked ✓", "success");
+    showToast("Unblocked ✓", "success");
     renderAdmin("suspensions");
-  } catch (err) { showToast("Failed: " + err.message, "error"); }
+  } catch (err) { showToast("Failed", "error"); }
 };
 
 window.approveAppeal = async function(appealId, suspensionId) {
-  if (!confirm("Approve this appeal and unblock the user?")) return;
-  const response = prompt("Response message to user (optional):") || "Appeal approved";
-
+  if (!confirm("Approve appeal?")) return;
+  const response = prompt("Response to user:") || "Appeal approved";
   try {
     await updateDoc(doc(db, "accountAppeals", appealId), {
-      status: "approved",
-      adminResponse: response,
-      respondedBy: currentUser.uid,
-      respondedAt: serverTimestamp()
+      status: "approved", adminResponse: response,
+      respondedBy: currentUser.uid, respondedAt: serverTimestamp()
     });
-
-    if (suspensionId) {
-      await liftSuspension(suspensionId, currentUser.uid, "Appeal approved: " + response);
-    }
-
-    showToast("Appeal approved ✓", "success");
+    if (suspensionId) await liftSuspension(suspensionId, currentUser.uid, "Appeal approved");
+    showToast("Approved ✓", "success");
     renderAdmin("appeals");
-  } catch (err) { showToast("Failed: " + err.message, "error"); }
+  } catch (err) { showToast("Failed", "error"); }
 };
 
 window.rejectAppeal = async function(appealId) {
-  if (!confirm("Reject this appeal?")) return;
-  const response = prompt("Rejection reason:") || "Appeal rejected";
-
+  if (!confirm("Reject?")) return;
+  const response = prompt("Reason:") || "Rejected";
   try {
     await updateDoc(doc(db, "accountAppeals", appealId), {
-      status: "rejected",
-      adminResponse: response,
-      respondedBy: currentUser.uid,
-      respondedAt: serverTimestamp()
+      status: "rejected", adminResponse: response,
+      respondedBy: currentUser.uid, respondedAt: serverTimestamp()
     });
-    showToast("Appeal rejected", "info");
+    showToast("Rejected", "info");
     renderAdmin("appeals");
   } catch (err) { showToast("Failed", "error"); }
 };
@@ -2045,7 +2215,7 @@ window.updateOrderStatus = async function(id, status) {
   } catch (err) { showToast("Failed", "error"); }
 };
 
-console.log("%c🛒 Pawan Retail — Full System", "color:#7c3aed;font-size:20px;font-weight:bold");
+console.log("%c🛒 Pawan Retail — Complete System v4", "color:#7c3aed;font-size:20px;font-weight:bold");
 </script>
 
 </body>
