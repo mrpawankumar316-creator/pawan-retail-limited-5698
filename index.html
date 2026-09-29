@@ -3,542 +3,287 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pawan Retail Limited — Shop</title>
+<title>Pawan Retail — Shop</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
-
 <style>
-/* ==========================================================
-   GLOBAL RESET & THEME
-   ========================================================== */
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-:root {
-  --primary: #e91e63;
-  --primary-dark: #c2185b;
-  --primary-light: #fce4ec;
-  --accent: #ff9800;
-  --success: #4caf50;
-  --danger: #f44336;
-  --warning: #ff9800;
-  --info: #2196f3;
-  --bg: #f5f5f7;
-  --card: #ffffff;
-  --text: #212121;
-  --text-light: #757575;
-  --border: #e0e0e0;
-  --shadow: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-  --radius: 12px;
-  --radius-sm: 8px;
-}
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-img { max-width: 100%; display: block; }
-button { font-family: inherit; cursor: pointer; border: none; background: none; }
-input, textarea, select { font-family: inherit; font-size: 14px; }
-a { color: var(--primary); text-decoration: none; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--primary:#7c3aed;--primary-dark:#6d28d9;--primary-light:#ede9fe;--secondary:#ec4899;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--info:#3b82f6;--bg:#faf5ff;--card:#fff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;--shadow:0 4px 12px rgba(124,58,237,.10);--shadow-lg:0 12px 32px rgba(124,58,237,.15);--gradient-1:linear-gradient(135deg,#7c3aed 0%,#ec4899 100%);--gradient-2:linear-gradient(135deg,#ec4899 0%,#f59e0b 100%);--gradient-3:linear-gradient(135deg,#14b8a6 0%,#3b82f6 100%);--radius:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#faf5ff 0%,#fce7f3 50%,#fff7ed 100%);background-attachment:fixed;color:var(--text);line-height:1.5;min-height:100vh}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,textarea,select{font-family:inherit;font-size:14px}
+a{color:var(--primary);text-decoration:none}
 
-/* ==========================================================
-   HEADER
-   ========================================================== */
-.header {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  padding: 12px 16px;
-  display: flex; align-items: center; gap: 12px;
-}
-.header .logo {
-  font-size: 18px; font-weight: 800; color: var(--primary);
-  display: flex; align-items: center; gap: 6px;
-}
-.header .search-bar {
-  flex: 1; max-width: 500px;
-  background: var(--bg);
-  border-radius: 24px;
-  padding: 8px 16px;
-  display: flex; align-items: center; gap: 8px;
-}
-.header .search-bar input {
-  flex: 1; border: none; background: transparent; outline: none;
-  font-size: 14px;
-}
-.header-actions { display: flex; gap: 8px; margin-left: auto; align-items: center; }
-.icon-btn {
-  width: 40px; height: 40px; border-radius: 50%;
-  display: grid; place-items: center;
-  font-size: 20px; position: relative;
-  transition: background 0.2s;
-}
-.icon-btn:hover { background: var(--bg); }
-.badge {
-  position: absolute; top: 2px; right: 2px;
-  background: var(--primary); color: #fff;
-  font-size: 10px; font-weight: 700;
-  min-width: 18px; height: 18px; padding: 0 4px;
-  border-radius: 9px; display: grid; place-items: center;
-}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(124,58,237,.1);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.header .logo{font-size:18px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
+.header-actions{display:flex;gap:6px;margin-left:auto;align-items:center}
+.icon-btn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:20px;position:relative;transition:all .2s}
+.icon-btn:hover{background:var(--primary-light);transform:scale(1.05)}
+.badge{position:absolute;top:2px;right:2px;background:var(--gradient-2);color:#fff;font-size:10px;font-weight:700;min-width:20px;height:20px;padding:0 5px;border-radius:10px;display:grid;place-items:center}
 
-/* ==========================================================
-   LAYOUT
-   ========================================================== */
-.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
-.page { display: none; padding-bottom: 80px; }
-.page.active { display: block; }
+.container{max-width:1200px;margin:0 auto;padding:16px}
+.page{display:none;padding-bottom:90px;animation:fadeInUp .3s}
+.page.active{display:block}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* ==========================================================
-   BUTTONS
-   ========================================================== */
-.btn {
-  padding: 10px 20px; border-radius: var(--radius-sm);
-  font-size: 14px; font-weight: 600;
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  transition: all 0.2s; white-space: nowrap;
-}
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-dark); }
-.btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
-.btn-outline:hover { background: var(--primary-light); }
-.btn-ghost { background: var(--bg); color: var(--text); }
-.btn-ghost:hover { background: var(--border); }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-success { background: var(--success); color: #fff; }
-.btn-block { width: 100%; }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn{padding:12px 22px;border-radius:12px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .25s;white-space:nowrap}
+.btn-primary{background:var(--gradient-1);color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.45)}
+.btn-outline{background:transparent;color:var(--primary);border:2px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+.btn-ghost{background:#f1f5f9;color:var(--text)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-success{background:var(--success);color:#fff}
+.btn-block{width:100%}
+.btn-sm{padding:8px 14px;font-size:12px;border-radius:8px}
+.btn-lg{padding:16px 28px;font-size:16px;border-radius:14px}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
 
-/* ==========================================================
-   FORMS
-   ========================================================== */
-.form-group { margin-bottom: 16px; }
-.form-group label {
-  display: block; font-size: 13px; font-weight: 600;
-  margin-bottom: 6px; color: var(--text);
-}
-.form-control {
-  width: 100%; padding: 12px 14px;
-  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-  background: var(--card); font-size: 14px;
-  transition: border 0.2s;
-}
-.form-control:focus { outline: none; border-color: var(--primary); }
-textarea.form-control { resize: vertical; min-height: 80px; }
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
+.form-control{width:100%;padding:13px 16px;border:2px solid var(--border);border-radius:12px;background:var(--card);font-size:14px;transition:all .2s;outline:none}
+.form-control:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(124,58,237,.1)}
+.form-control:disabled{background:#f1f5f9;color:var(--text-light);cursor:not-allowed}
+textarea.form-control{resize:vertical;min-height:80px}
 
-/* ==========================================================
-   CARDS & PRODUCTS
-   ========================================================== */
-.card {
-  background: var(--card); border-radius: var(--radius);
-  padding: 16px; box-shadow: var(--shadow);
-}
-.product-grid {
-  display: grid; gap: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-}
-.product-card {
-  background: var(--card); border-radius: var(--radius);
-  overflow: hidden; box-shadow: var(--shadow);
-  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-  display: flex; flex-direction: column;
-}
-.product-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-.product-card .img-wrap {
-  position: relative; aspect-ratio: 1; background: var(--bg);
-  display: grid; place-items: center; overflow: hidden;
-}
-.product-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.product-card .wish-btn {
-  position: absolute; top: 8px; right: 8px;
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,0.9); display: grid; place-items: center;
-  font-size: 16px;
-}
-.product-card .info { padding: 10px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
-.product-card .name {
-  font-size: 13px; font-weight: 600; line-height: 1.3;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.product-card .price-row { display: flex; align-items: baseline; gap: 6px; margin-top: auto; }
-.product-card .price { font-size: 15px; font-weight: 700; color: var(--primary); }
-.product-card .mrp { font-size: 12px; color: var(--text-light); text-decoration: line-through; }
-.product-card .discount { font-size: 11px; color: var(--success); font-weight: 600; }
-.product-card .add-btn {
-  margin-top: 6px; padding: 6px; border-radius: 6px;
-  background: var(--primary); color: #fff; font-size: 12px; font-weight: 600;
-}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:16px;border:1px solid rgba(124,58,237,.05)}
 
-/* ==========================================================
-   AUTH SCREENS
-   ========================================================== */
-.auth-wrap {
-  min-height: 100vh; display: grid; place-items: center;
-  padding: 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-}
-.auth-card {
-  background: var(--card); border-radius: var(--radius);
-  padding: 32px 24px; width: 100%; max-width: 400px;
-  box-shadow: var(--shadow-lg);
-}
-.auth-card h1 {
-  font-size: 24px; margin-bottom: 4px; color: var(--primary);
-  text-align: center;
-}
-.auth-card .subtitle {
-  text-align: center; color: var(--text-light); font-size: 13px;
-  margin-bottom: 24px;
-}
-.auth-tabs {
-  display: flex; gap: 4px; background: var(--bg);
-  border-radius: var(--radius-sm); padding: 4px; margin-bottom: 20px;
-}
-.auth-tabs button {
-  flex: 1; padding: 8px; border-radius: 6px;
-  font-size: 13px; font-weight: 600; color: var(--text-light);
-  transition: all 0.2s;
-}
-.auth-tabs button.active { background: var(--card); color: var(--primary); box-shadow: var(--shadow); }
+.product-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.product-card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:all .3s;display:flex;flex-direction:column}
+.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.product-card .img-wrap{position:relative;aspect-ratio:1;background:#f8f5ff;display:grid;place-items:center;overflow:hidden}
+.product-card .img-wrap img{width:100%;height:100%;object-fit:cover}
+.product-card .wish-btn{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:16px;box-shadow:var(--shadow)}
+.product-card .discount-badge{position:absolute;top:10px;left:10px;background:var(--gradient-2);color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.product-card .info{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.product-card .name{font-size:13px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px}
+.product-card .price-row{display:flex;align-items:baseline;gap:8px;margin-top:auto}
+.product-card .price{font-size:16px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.product-card .mrp{font-size:12px;color:var(--text-light);text-decoration:line-through}
+.product-card .add-btn{margin-top:8px;padding:9px;border-radius:10px;background:var(--gradient-1);color:#fff;font-size:12px;font-weight:700}
 
-/* ==========================================================
-   BOTTOM NAV
-   ========================================================== */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
-  background: var(--card); border-top: 1px solid var(--border);
-  display: flex; padding: 6px 0;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
-}
-.bottom-nav button {
-  flex: 1; padding: 8px 4px; display: flex; flex-direction: column;
-  align-items: center; gap: 2px; font-size: 10px; font-weight: 600;
-  color: var(--text-light); transition: color 0.2s;
-}
-.bottom-nav button.active { color: var(--primary); }
-.bottom-nav .nav-icon { font-size: 20px; }
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:var(--gradient-1);position:relative;overflow:hidden}
+.auth-card{background:var(--card);border-radius:24px;padding:36px 28px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;z-index:1}
+.auth-card h1{font-size:28px;margin-bottom:6px;text-align:center;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.auth-card .subtitle{text-align:center;color:var(--text-light);font-size:13px;margin-bottom:28px}
+.auth-tabs{display:flex;gap:6px;background:#f1f5f9;border-radius:12px;padding:5px;margin-bottom:24px}
+.auth-tabs button{flex:1;padding:10px;border-radius:9px;font-size:13px;font-weight:600;color:var(--text-light);transition:all .25s}
+.auth-tabs button.active{background:var(--gradient-1);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,.3)}
 
-/* ==========================================================
-   MODAL
-   ========================================================== */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 1000;
-  background: rgba(0,0,0,0.5); display: none;
-  align-items: center; justify-content: center; padding: 16px;
-  animation: fadeIn 0.2s;
-}
-.modal-overlay.active { display: flex; }
-.modal {
-  background: var(--card); border-radius: var(--radius);
-  width: 100%; max-width: 500px; max-height: 90vh;
-  overflow-y: auto; box-shadow: var(--shadow-lg);
-  animation: slideUp 0.25s;
-}
-.modal-header {
-  padding: 16px; border-bottom: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
-  position: sticky; top: 0; background: var(--card); z-index: 1;
-}
-.modal-header h3 { font-size: 16px; }
-.modal-body { padding: 16px; }
-.modal-footer {
-  padding: 16px; border-top: 1px solid var(--border);
-  display: flex; gap: 8px; justify-content: flex-end;
-}
-@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-@keyframes slideUp { from { transform: translateY(20px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+.verify-card{background:var(--card);border-radius:24px;padding:36px 28px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center;position:relative;z-index:1}
+.verify-icon{width:90px;height:90px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;font-size:44px;margin:0 auto 20px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.verify-card h2{font-size:22px;margin-bottom:8px}
+.email-shown{display:inline-block;background:var(--primary-light);color:var(--primary);padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;margin:12px 0;word-break:break-all}
+.verify-card .steps{background:#f8fafc;border-radius:12px;padding:16px;text-align:left;margin:20px 0;font-size:13px;line-height:1.8}
+.verify-card .steps ol{padding-left:20px}
+.verify-card p{color:var(--text-light);font-size:13px}
 
-/* ==========================================================
-   TOAST
-   ========================================================== */
-.toast-container {
-  position: fixed; top: 20px; right: 20px; z-index: 2000;
-  display: flex; flex-direction: column; gap: 8px;
-}
-.toast {
-  padding: 12px 16px; border-radius: var(--radius-sm);
-  background: var(--card); box-shadow: var(--shadow-lg);
-  font-size: 13px; font-weight: 500;
-  border-left: 4px solid var(--primary);
-  min-width: 240px; animation: slideIn 0.3s;
-}
-.toast.success { border-left-color: var(--success); }
-.toast.error { border-left-color: var(--danger); }
-.toast.warning { border-left-color: var(--warning); }
-@keyframes slideIn { from { transform: translateX(100%); opacity: 0 } to { transform: translateX(0); opacity: 1 } }
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:90;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid rgba(124,58,237,.1);display:flex;padding:8px 0 10px;box-shadow:0 -4px 20px rgba(124,58,237,.08)}
+.bottom-nav button{flex:1;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:#94a3b8;transition:all .25s}
+.bottom-nav button.active{color:var(--primary);transform:translateY(-2px)}
+.bottom-nav .nav-icon{font-size:20px}
 
-/* ==========================================================
-   MISC
-   ========================================================== */
-.section-title {
-  font-size: 18px; font-weight: 700; margin: 20px 0 12px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.section-title small { font-size: 12px; color: var(--primary); font-weight: 500; cursor: pointer; }
-.empty {
-  text-align: center; padding: 60px 20px; color: var(--text-light);
-}
-.empty .emoji { font-size: 56px; margin-bottom: 12px; }
-.empty p { font-size: 14px; margin-bottom: 4px; }
-.loading {
-  display: flex; justify-content: center; padding: 40px;
-}
-.spinner {
-  width: 32px; height: 32px; border: 3px solid var(--border);
-  border-top-color: var(--primary); border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg) } }
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(30,41,59,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.active{display:flex}
+.modal{background:var(--card);border-radius:24px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.35);animation:slideUp .3s}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--card);z-index:1;border-radius:24px 24px 0 0}
+.modal-header h3{font-size:18px;font-weight:700;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.modal-body{padding:20px 24px}
+.modal-footer{padding:16px 24px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:var(--card);border-radius:0 0 24px 24px}
+.modal-footer .btn{flex:1}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-/* Admin panel */
-.admin-sidebar {
-  position: fixed; top: 0; left: 0; bottom: 0; width: 240px;
-  background: var(--card); border-right: 1px solid var(--border);
-  padding: 20px 0; overflow-y: auto; z-index: 200;
-  transform: translateX(-100%); transition: transform 0.3s;
-}
-.admin-sidebar.open { transform: translateX(0); }
-.admin-sidebar .brand {
-  padding: 0 20px 20px; font-size: 18px; font-weight: 800;
-  color: var(--primary); border-bottom: 1px solid var(--border);
-  margin-bottom: 12px;
-}
-.admin-sidebar button {
-  display: flex; align-items: center; gap: 10px;
-  width: 100%; padding: 12px 20px; text-align: left;
-  font-size: 14px; font-weight: 500; color: var(--text);
-  transition: background 0.15s;
-}
-.admin-sidebar button.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
-.admin-sidebar button:hover { background: var(--bg); }
-.admin-main { padding: 16px; }
-.admin-header {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 20px;
-}
-.admin-header h1 { font-size: 20px; flex: 1; }
-.menu-toggle { font-size: 24px; }
+.toast-container{position:fixed;top:20px;right:20px;z-index:2000;display:flex;flex-direction:column;gap:10px;max-width:340px}
+.toast{padding:14px 18px;border-radius:12px;background:var(--card);box-shadow:var(--shadow-lg);font-size:13px;font-weight:500;border-left:4px solid var(--primary);min-width:240px;animation:slideIn .35s}
+.toast.success{border-left-color:var(--success);background:linear-gradient(to right,#f0fdf4,#fff)}
+.toast.error{border-left-color:var(--danger);background:linear-gradient(to right,#fef2f2,#fff)}
+.toast.warning{border-left-color:var(--warning);background:linear-gradient(to right,#fffbeb,#fff)}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
 
-/* Dashboard cards */
-.stat-grid {
-  display: grid; gap: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  margin-bottom: 24px;
-}
-.stat-card {
-  background: var(--card); border-radius: var(--radius);
-  padding: 16px; box-shadow: var(--shadow);
-  display: flex; flex-direction: column; gap: 4px;
-}
-.stat-card .label { font-size: 12px; color: var(--text-light); font-weight: 500; }
-.stat-card .value { font-size: 22px; font-weight: 700; color: var(--text); }
-.stat-card .icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  display: grid; place-items: center; font-size: 18px;
-  background: var(--primary-light); color: var(--primary);
-  margin-bottom: 8px;
-}
+.section-title{font-size:18px;font-weight:800;margin:24px 0 14px;display:flex;justify-content:space-between;align-items:center}
+.section-title small{font-size:12px;font-weight:600;color:var(--primary);cursor:pointer;padding:6px 12px;background:var(--primary-light);border-radius:20px}
+.empty{text-align:center;padding:60px 20px;color:var(--text-light)}
+.empty .emoji{font-size:64px;margin-bottom:16px;opacity:.8}
+.empty p{font-size:14px;margin-bottom:6px}
+.empty p:last-child{font-size:12px;color:#94a3b8}
+.loading{display:flex;justify-content:center;padding:40px}
+.spinner{width:38px;height:38px;border:3px solid var(--primary-light);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* Table */
-.table-wrap { overflow-x: auto; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
-th { background: var(--bg); font-weight: 600; font-size: 12px; color: var(--text-light); text-transform: uppercase; }
-tr:last-child td { border-bottom: none; }
+.admin-sidebar{position:fixed;top:0;left:0;bottom:0;width:260px;background:linear-gradient(180deg,#1e293b 0%,#0f172a 100%);color:#fff;padding:24px 0;overflow-y:auto;z-index:200;transform:translateX(-100%);transition:transform .35s;box-shadow:4px 0 24px rgba(0,0,0,.15)}
+.admin-sidebar.open{transform:translateX(0)}
+.admin-sidebar .brand{padding:0 24px 24px;font-size:20px;font-weight:800;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:16px;background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.admin-sidebar button{display:flex;align-items:center;gap:12px;width:100%;padding:14px 24px;text-align:left;font-size:14px;font-weight:500;color:rgba(255,255,255,.75);transition:all .2s;border-left:3px solid transparent}
+.admin-sidebar button.active{background:rgba(124,58,237,.15);color:#fff;font-weight:600;border-left-color:#a78bfa}
+.admin-sidebar button:hover{background:rgba(124,58,237,.1);color:#fff}
+.admin-main{padding:16px}
+.admin-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.admin-header h1{font-size:22px;flex:1;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.menu-toggle{font-size:26px;color:var(--primary)}
 
-/* Cart item */
-.cart-item {
-  display: flex; gap: 12px; padding: 12px;
-  background: var(--card); border-radius: var(--radius);
-  box-shadow: var(--shadow); margin-bottom: 12px;
-  align-items: center;
-}
-.cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; background: var(--bg); }
-.cart-item .details { flex: 1; min-width: 0; }
-.cart-item .name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.cart-item .price { font-size: 14px; color: var(--primary); font-weight: 700; }
-.qty-controls {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--bg); border-radius: 6px; padding: 2px;
-}
-.qty-controls button {
-  width: 26px; height: 26px; border-radius: 4px;
-  background: var(--card); font-weight: 700; font-size: 14px;
-  display: grid; place-items: center;
-}
-.qty-controls span { font-weight: 600; min-width: 20px; text-align: center; font-size: 13px; }
+.stat-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));margin-bottom:24px}
+.stat-card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px}
+.stat-card .icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;margin-bottom:6px;color:#fff}
+.stat-card .icon.c1{background:var(--gradient-1)}
+.stat-card .icon.c2{background:var(--gradient-2)}
+.stat-card .icon.c3{background:var(--gradient-3)}
+.stat-card .label{font-size:12px;color:var(--text-light);font-weight:500;text-transform:uppercase}
+.stat-card .value{font-size:24px;font-weight:800}
 
-/* Order card */
-.order-card {
-  background: var(--card); border-radius: var(--radius);
-  padding: 14px; box-shadow: var(--shadow); margin-bottom: 12px;
-}
-.order-card .row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
-.order-card .status {
-  padding: 3px 10px; border-radius: 12px; font-size: 11px;
-  font-weight: 600; text-transform: uppercase;
-}
-.status-Pending { background: #fff3e0; color: #e65100; }
-.status-Confirmed { background: #e3f2fd; color: #0d47a1; }
-.status-Shipped { background: #f3e5f5; color: #4a148c; }
-.status-Delivered { background: #e8f5e9; color: #1b5e20; }
-.status-Cancelled { background: #ffebee; color: #b71c1c; }
+.table-wrap{overflow-x:auto;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border)}
+th{background:#f8fafc;font-weight:700;font-size:11px;color:var(--text-light);text-transform:uppercase}
+tr:last-child td{border-bottom:none}
 
-/* Upload preview */
-.img-preview {
-  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;
-}
-.img-preview .thumb {
-  position: relative; width: 70px; height: 70px;
-  border-radius: 8px; overflow: hidden;
-}
-.img-preview .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.img-preview .thumb button {
-  position: absolute; top: 2px; right: 2px;
-  width: 20px; height: 20px; border-radius: 50%;
-  background: rgba(0,0,0,0.6); color: #fff; font-size: 12px;
-  display: grid; place-items: center;
-}
+.order-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:14px;border-left:4px solid var(--primary)}
+.order-card .row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px}
+.order-card .status{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase}
+.status-Pending{background:#fef3c7;color:#92400e}
+.status-Confirmed{background:#dbeafe;color:#1e40af}
+.status-Shipped{background:#e9d5ff;color:#6b21a8}
+.status-Delivered{background:#d1fae5;color:#065f46}
+.status-Cancelled{background:#fee2e2;color:#991b1b}
 
-/* Category chips */
-.chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 12px; }
-.chip {
-  padding: 6px 14px; border-radius: 20px; background: var(--card);
-  font-size: 13px; font-weight: 500; white-space: nowrap;
-  border: 1px solid var(--border); transition: all 0.2s;
-}
-.chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.cart-item{display:flex;gap:14px;padding:14px;background:var(--card);border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px;align-items:center}
+.cart-item img{width:72px;height:72px;object-fit:cover;border-radius:12px;background:#f8f5ff}
+.cart-item .details{flex:1;min-width:0}
+.cart-item .name{font-size:13px;font-weight:600;margin-bottom:6px}
+.cart-item .price{font-size:15px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.qty-controls{display:flex;align-items:center;gap:4px;background:#f1f5f9;border-radius:10px;padding:3px}
+.qty-controls button{width:30px;height:30px;border-radius:8px;background:#fff;font-weight:800;font-size:15px;display:grid;place-items:center;color:var(--primary)}
+.qty-controls span{font-weight:700;min-width:28px;text-align:center;font-size:13px}
 
-/* Responsive */
-@media (min-width: 768px) {
-  .product-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-  .admin-sidebar { transform: translateX(0); }
-  .admin-main { margin-left: 240px; }
-  .menu-toggle { display: none; }
+.chips{display:flex;gap:10px;overflow-x:auto;padding:6px 0 14px}
+.chip{padding:9px 18px;border-radius:20px;background:var(--card);font-size:13px;font-weight:600;white-space:nowrap;border:1.5px solid var(--border);transition:all .25s;color:var(--text-light)}
+.chip.active{background:var(--gradient-1);color:#fff;border-color:transparent}
+
+.img-preview{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.img-preview .thumb{position:relative;width:80px;height:80px;border-radius:12px;overflow:hidden}
+.img-preview .thumb img{width:100%;height:100%;object-fit:cover}
+
+/* Profile specific */
+.profile-header{background:var(--gradient-1);color:#fff;border-radius:var(--radius);padding:24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
+.profile-header::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.1);top:-80px;right:-80px}
+.profile-avatar{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:36px;font-weight:800;margin:0 auto 12px;border:3px solid rgba(255,255,255,.3);position:relative;z-index:1}
+.profile-info-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)}
+.profile-info-row:last-child{border-bottom:none}
+.profile-info-label{font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.profile-info-value{font-size:14px;font-weight:600;margin-top:2px}
+.profile-info-value.missing{color:var(--danger)}
+
+.alert-card{padding:16px;border-radius:14px;margin-bottom:14px;border-left:5px solid}
+.alert-card.danger{background:#fee2e2;border-left-color:var(--danger)}
+.alert-card.warning{background:#fef3c7;border-left-color:var(--warning)}
+.alert-card.info{background:#dbeafe;border-left-color:var(--info)}
+.alert-card.success{background:#d1fae5;border-left-color:var(--success)}
+.alert-card .title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;margin-bottom:8px}
+.alert-card .text{font-size:13px;line-height:1.6}
+.alert-card .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+
+.device-item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:#f8fafc;border-radius:12px;margin-bottom:8px}
+.device-info{flex:1;min-width:0}
+.device-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.device-meta{font-size:11px;color:var(--text-light)}
+
+@media (min-width:768px){
+  .product-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .admin-sidebar{transform:translateX(0)}
+  .admin-main{margin-left:260px;padding:24px}
+  .menu-toggle{display:none}
 }
-@media (max-width: 767px) {
-  .header .search-bar { display: none; }
-  .header .logo { font-size: 16px; }
+@media (max-width:767px){
+  .header .logo{font-size:16px}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
 
-<!-- ==========================================================
-     TOAST CONTAINER
-     ========================================================== -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- ==========================================================
-     AUTH SCREEN
-     ========================================================== -->
+<!-- AUTH SCREEN -->
 <div class="auth-wrap" id="authScreen">
   <div class="auth-card">
     <h1>🛒 Pawan Retail</h1>
-    <p class="subtitle">India's premium shopping experience</p>
-
+    <p class="subtitle">India's Premium Shopping Experience</p>
     <div class="auth-tabs">
       <button id="tabLogin" class="active" onclick="switchAuthTab('login')">Login</button>
       <button id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
     </div>
-
-    <!-- Login form -->
     <form id="loginForm" onsubmit="handleLogin(event)">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" class="form-control" id="loginEmail" required placeholder="you@example.com" />
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" id="loginPassword" required placeholder="••••••••" />
-      </div>
-      <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Login</button>
-      <p style="text-align:center; margin-top:12px;">
-        <a href="#" onclick="handleForgotPassword(event)" style="font-size:13px;">Forgot password?</a>
-      </p>
+      <div class="form-group"><label>Email</label><input type="email" class="form-control" id="loginEmail" required /></div>
+      <div class="form-group"><label>Password</label><input type="password" class="form-control" id="loginPassword" required /></div>
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="loginBtn">Login</button>
+      <p style="text-align:center;margin-top:14px"><a href="#" onclick="handleForgotPassword(event)" style="font-size:13px;font-weight:600">Forgot password?</a></p>
     </form>
-
-    <!-- Signup form -->
     <form id="signupForm" style="display:none" onsubmit="handleSignup(event)">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" class="form-control" id="signupName" required placeholder="Your name" />
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" class="form-control" id="signupEmail" required placeholder="you@example.com" />
-      </div>
-      <div class="form-group">
-        <label>Phone</label>
-        <input type="tel" class="form-control" id="signupPhone" placeholder="+91 XXXXXXXXXX" />
-      </div>
-      <div class="form-group">
-        <label>Password (min 6 chars)</label>
-        <input type="password" class="form-control" id="signupPassword" required minlength="6" />
-      </div>
-      <button type="submit" class="btn btn-primary btn-block" id="signupBtn">Create Account</button>
+      <div class="form-group"><label>Full Name *</label><input type="text" class="form-control" id="signupName" required /></div>
+      <div class="form-group"><label>Email *</label><input type="email" class="form-control" id="signupEmail" required /></div>
+      <div class="form-group"><label>Mobile Number *</label><input type="tel" class="form-control" id="signupPhone" required placeholder="+91XXXXXXXXXX" /></div>
+      <div class="form-group"><label>Password * (min 6)</label><input type="password" class="form-control" id="signupPassword" required minlength="6" /></div>
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="signupBtn">Create Account</button>
+      <p style="font-size:11px;color:var(--text-light);text-align:center;margin-top:12px">✉️ Email verification ज़रूरी है</p>
     </form>
   </div>
 </div>
 
-<!-- ==========================================================
-     CUSTOMER APP
-     ========================================================== -->
+<!-- VERIFY SCREEN -->
+<div class="auth-wrap" id="verifyScreen" style="display:none">
+  <div class="verify-card">
+    <div class="verify-icon">📧</div>
+    <h2>Verify Your Email</h2>
+    <p>Verification link भेजी गई है:</p>
+    <div class="email-shown" id="verifyEmail">—</div>
+    <div class="steps">
+      <ol>
+        <li>Inbox खोलें — <strong>spam folder</strong> भी check करें</li>
+        <li><strong>"Verify Email" link</strong> पर click करें</li>
+        <li>वापस इस page पर आएँ</li>
+        <li>नीचे <strong>"I've Verified"</strong> दबाएँ</li>
+      </ol>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-primary btn-block" onclick="checkEmailVerified()">✅ I've Verified</button>
+      <button class="btn btn-outline btn-block" id="resendBtn" onclick="resendVerification()">🔄 Resend Email</button>
+      <button class="btn btn-ghost btn-block" onclick="handleLogout()">🚪 Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
 <div id="appScreen" style="display:none">
 
-  <!-- HEADER -->
   <header class="header">
     <div class="logo" onclick="showPage('home')">🛒 Pawan Retail</div>
-    <div class="search-bar">
-      <span>🔍</span>
-      <input type="search" id="searchInput" placeholder="Search products..." oninput="debounceSearch()" />
-    </div>
     <div class="header-actions">
-      <button class="icon-btn" onclick="openCart()" title="Cart">
-        🛒 <span class="badge" id="cartBadge">0</span>
-      </button>
-      <button class="icon-btn" onclick="openWishlist()" title="Wishlist">
-        ❤️ <span class="badge" id="wishBadge">0</span>
-      </button>
-      <button class="icon-btn" onclick="toggleMenu()" title="Menu">☰</button>
+      <button class="icon-btn" onclick="openCart()">🛒<span class="badge" id="cartBadge">0</span></button>
+      <button class="icon-btn" onclick="showPage('wishlist')">❤️<span class="badge" id="wishBadge">0</span></button>
+      <button class="icon-btn" onclick="toggleMenu()">☰</button>
     </div>
   </header>
 
-  <!-- HOME PAGE -->
   <section class="page active container" id="page-home">
     <div class="section-title">Categories</div>
     <div class="chips" id="homeCategories"></div>
-
-    <div class="section-title">
-      Featured Products
-      <small onclick="showPage('shop')">View all →</small>
-    </div>
+    <div class="section-title">Featured</div>
     <div class="product-grid" id="featuredGrid"></div>
-
-    <div class="section-title">
-      All Products
-      <small onclick="showPage('shop')">View all →</small>
-    </div>
+    <div class="section-title">All Products <small onclick="showPage('shop')">View all →</small></div>
     <div class="product-grid" id="homeProductsGrid"></div>
   </section>
 
-  <!-- SHOP PAGE -->
   <section class="page container" id="page-shop">
     <div class="section-title">Shop</div>
     <div class="chips" id="shopCategories"></div>
     <div class="product-grid" id="shopGrid"></div>
   </section>
 
-  <!-- WISHLIST PAGE -->
   <section class="page container" id="page-wishlist">
     <div class="section-title">My Wishlist</div>
     <div id="wishlistContent"></div>
   </section>
 
-  <!-- ORDERS PAGE -->
   <section class="page container" id="page-orders">
     <div class="section-title">My Orders</div>
     <div id="ordersContent"></div>
@@ -546,20 +291,58 @@ tr:last-child td { border-bottom: none; }
 
   <!-- PROFILE PAGE -->
   <section class="page container" id="page-profile">
-    <div class="section-title">My Profile</div>
-    <div class="card" id="profileCard"></div>
-    <button class="btn btn-outline btn-block" style="margin-top:16px" onclick="handleLogout()">Logout</button>
+    <div id="profileAlerts"></div>
+
+    <div class="profile-header">
+      <div class="profile-avatar" id="profileAvatar">U</div>
+      <h3 style="font-size:20px;font-weight:800;margin-bottom:4px" id="profileName">User</h3>
+      <p style="font-size:13px;opacity:.9;margin-bottom:10px" id="profileUsername">@username</p>
+      <div style="display:inline-flex;gap:18px;background:rgba(255,255,255,.15);padding:10px 20px;border-radius:14px;font-size:12px;position:relative;z-index:1">
+        <div><strong style="display:block;opacity:.85;font-size:10px">USER ID</strong><span id="profilePublicId" style="font-size:18px;font-weight:800">------</span></div>
+        <div style="width:1px;background:rgba(255,255,255,.3)"></div>
+        <div><strong style="display:block;opacity:.85;font-size:10px">COINS</strong><span id="profileCoins" style="font-size:18px;font-weight:800">0 🪙</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h4 style="font-size:15px;font-weight:800">Account Details</h4>
+        <button class="btn btn-primary btn-sm" onclick="openProfileEdit()">✏️ Edit</button>
+      </div>
+      <div id="profileInfoList"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h4 style="font-size:15px;font-weight:800">📍 Delivery Address</h4>
+        <button class="btn btn-outline btn-sm" onclick="openAddressEdit()">Edit</button>
+      </div>
+      <div id="profileAddressList"></div>
+    </div>
+
+    <div class="card">
+      <h4 style="font-size:15px;font-weight:800;margin-bottom:12px">📱 Active Devices (max 2)</h4>
+      <div id="profileDevicesList"></div>
+    </div>
+
+    <div class="card" id="profileRequestCard" style="display:none">
+      <h4 style="font-size:15px;font-weight:800;margin-bottom:12px">🆘 Admin Support</h4>
+      <button class="btn btn-primary btn-block" onclick="openAdminRequest()">Send Request</button>
+      <div id="pendingRequestsList" style="margin-top:12px"></div>
+    </div>
+
+    <button class="btn btn-outline btn-block" onclick="handleLogout()">Logout</button>
   </section>
 
-  <!-- ADMIN PAGE -->
   <section class="page" id="page-admin">
     <div class="admin-sidebar" id="adminSidebar">
       <div class="brand">⚙️ Admin Panel</div>
-      <button class="active" onclick="adminTab('dashboard')">📊 Dashboard</button>
-      <button onclick="adminTab('products')">📦 Products</button>
-      <button onclick="adminTab('categories')">🗂 Categories</button>
-      <button onclick="adminTab('orders')">🧾 Orders</button>
-      <button onclick="adminTab('customers')">👥 Customers</button>
+      <button class="active" onclick="adminTab('dashboard', this)">📊 Dashboard</button>
+      <button onclick="adminTab('products', this)">📦 Products</button>
+      <button onclick="adminTab('categories', this)">🗂 Categories</button>
+      <button onclick="adminTab('orders', this)">🧾 Orders</button>
+      <button onclick="adminTab('users', this)">👥 Users</button>
+      <button onclick="adminTab('requests', this)">🆘 Requests</button>
       <button onclick="showPage('home')">🏠 Back to Shop</button>
     </div>
     <div class="admin-main">
@@ -571,68 +354,45 @@ tr:last-child td { border-bottom: none; }
     </div>
   </section>
 
-  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
-    <button data-nav="home" onclick="showPage('home')">
-      <span class="nav-icon">🏠</span>Home
-    </button>
-    <button data-nav="shop" onclick="showPage('shop')">
-      <span class="nav-icon">🛍</span>Shop
-    </button>
-    <button data-nav="wishlist" onclick="showPage('wishlist')">
-      <span class="nav-icon">❤️</span>Wishlist
-    </button>
-    <button data-nav="orders" onclick="showPage('orders')">
-      <span class="nav-icon">📦</span>Orders
-    </button>
-    <button data-nav="profile" onclick="showPage('profile')">
-      <span class="nav-icon">👤</span>Profile
-    </button>
+    <button data-nav="home" onclick="showPage('home')"><span class="nav-icon">🏠</span>Home</button>
+    <button data-nav="shop" onclick="showPage('shop')"><span class="nav-icon">🛍</span>Shop</button>
+    <button data-nav="wishlist" onclick="showPage('wishlist')"><span class="nav-icon">❤️</span>Wishlist</button>
+    <button data-nav="orders" onclick="showPage('orders')"><span class="nav-icon">📦</span>Orders</button>
+    <button data-nav="profile" onclick="showPage('profile')"><span class="nav-icon">👤</span>Profile</button>
   </nav>
 </div>
 
-<!-- ==========================================================
-     MODAL
-     ========================================================== -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <h3 id="modalTitle">Title</h3>
-      <button class="icon-btn" onclick="closeModal()">✕</button>
-    </div>
+    <div class="modal-header"><h3 id="modalTitle">Title</h3><button class="icon-btn" onclick="closeModal()">✕</button></div>
     <div class="modal-body" id="modalBody"></div>
     <div class="modal-footer" id="modalFooter"></div>
   </div>
 </div>
 
-<!-- ==========================================================
-     FIREBASE SDK (Modular v10)
-     ========================================================== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  signOut, onAuthStateChanged, sendPasswordResetEmail
+  signOut, onAuthStateChanged, sendPasswordResetEmail,
+  sendEmailVerification, reload
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
-  collection, query, where, orderBy, limit, serverTimestamp, onSnapshot
+  collection, query, where, serverTimestamp, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import {
-  getStorage, ref, uploadBytes, getDownloadURL, deleteObject
+  getStorage, ref, uploadBytes, getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
 
-// ----------------------------------------------------------
-// FIREBASE CONFIG (आपका actual project)
-// ----------------------------------------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyBiSeHAQfLQeQEvddbORc-WDbsFSPweOg8",
   authDomain: "pawan-kumar-82619.firebaseapp.com",
   projectId: "pawan-kumar-82619",
   storageBucket: "pawan-kumar-82619.firebasestorage.app",
   messagingSenderId: "613216856721",
-  appId: "1:613216856721:web:2238338eb3f42bebfbed30",
-  measurementId: "G-HJN1LX2HEW"
+  appId: "1:613216856721:web:2238338eb3f42bebfbed30"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -640,34 +400,41 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// ----------------------------------------------------------
-// GLOBAL STATE
-// ----------------------------------------------------------
-let currentUser = null;
-let currentUserData = null;
-let allProducts = [];
-let cart = {};       // { productId: {qty, product} }
-let wishlist = {};   // { productId: product }
+let currentUser = null, currentUserData = null;
+let allProducts = [], cart = {}, wishlist = {};
 let currentCategory = null;
-let searchQuery = "";
-let cartUnsub = null;
-let wishUnsub = null;
+let cartUnsub = null, wishUnsub = null;
+let suspensionTimer = null;
 
-// ==========================================================
-// TOAST
-// ==========================================================
-window.showToast = function(message, type = "info") {
-  const container = document.getElementById("toastContainer");
-  const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
-  toast.textContent = message;
-  container.appendChild(toast);
-  setTimeout(() => toast.remove(), 3500);
+/* TOAST */
+window.showToast = function(msg, type = "info") {
+  const c = document.getElementById("toastContainer");
+  const t = document.createElement("div");
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
 };
 
-// ==========================================================
-// AUTH
-// ==========================================================
+/* SCREEN SWITCH */
+function showAuthScreen() {
+  document.getElementById("authScreen").style.display = "grid";
+  document.getElementById("verifyScreen").style.display = "none";
+  document.getElementById("appScreen").style.display = "none";
+}
+function showVerifyScreen() {
+  document.getElementById("authScreen").style.display = "none";
+  document.getElementById("verifyScreen").style.display = "grid";
+  document.getElementById("appScreen").style.display = "none";
+  document.getElementById("verifyEmail").textContent = currentUser?.email || "—";
+}
+function showAppScreen() {
+  document.getElementById("authScreen").style.display = "none";
+  document.getElementById("verifyScreen").style.display = "none";
+  document.getElementById("appScreen").style.display = "block";
+}
+
+/* AUTH */
 window.switchAuthTab = function(tab) {
   document.getElementById("tabLogin").classList.toggle("active", tab === "login");
   document.getElementById("tabSignup").classList.toggle("active", tab === "signup");
@@ -682,11 +449,15 @@ window.handleLogin = async function(e) {
   try {
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
-    await signInWithEmailAndPassword(auth, email, password);
-    showToast("Login successful!", "success");
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    await reload(cred.user);
+    if (!cred.user.emailVerified) {
+      showToast("Please verify your email first", "warning");
+      return;
+    }
+    showToast("Login successful! 🎉", "success");
   } catch (err) {
-    console.error(err);
-    showToast(getFriendlyError(err), "error");
+    showToast(friendlyError(err), "error");
   } finally {
     btn.disabled = false; btn.textContent = "Login";
   }
@@ -699,19 +470,63 @@ window.handleSignup = async function(e) {
   try {
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim();
-    const phone = document.getElementById("signupPhone").value.trim();
+    const phone = document.getElementById("signupPhone").value.trim().replace(/\s+/g, "");
     const password = document.getElementById("signupPassword").value;
+
+    if (!/^\+?\d{10,15}$/.test(phone)) {
+      showToast("Valid mobile required (+91XXXXXXXXXX)", "warning");
+      return;
+    }
+
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, "users", cred.user.uid), {
+
+    // Generate unique publicId + username + check mobile
+    const publicId = await generateUniquePublicId(cred.user.uid);
+    const username = await generateUniqueUsername(
+      (name || "user").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 12) || "user",
+      cred.user.uid
+    );
+    const mobileOk = await checkUnique("mobile", phone, cred.user.uid);
+
+    const userData = {
       uid: cred.user.uid,
-      name, email, phone,
-      role: "customer",
+      publicId, username,
+      name, email, mobile: phone,
+      role: "customer", emailVerified: false,
+      gender: "", dob: "",
+      address: {},
+      coins: 0, totalCoinsEarned: 0, totalCoinsUsed: 0,
+      status: "active", suspended: false,
+      duplicateIssue: null,
+      sessions: [],
       createdAt: serverTimestamp()
-    });
-    showToast("Account created successfully!", "success");
+    };
+
+    if (!mobileOk) {
+      // Mobile already in use — flag issue
+      userData.duplicateIssue = {
+        field: "mobile",
+        value: phone,
+        detectedAt: new Date().toISOString(),
+        deadline: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        resolved: false
+      };
+      userData.status = "pending_update";
+    } else {
+      await setDoc(doc(db, "uniqueIndex", `mobile_${phone}`), {
+        field: "mobile", value: phone,
+        userId: cred.user.uid,
+        createdAt: serverTimestamp()
+      });
+    }
+
+    await setDoc(doc(db, "users", cred.user.uid), userData);
+    await sendEmailVerification(cred.user);
+
+    showToast("Account created! Check email for verification.", "success");
   } catch (err) {
     console.error(err);
-    showToast(getFriendlyError(err), "error");
+    showToast(friendlyError(err), "error");
   } finally {
     btn.disabled = false; btn.textContent = "Create Account";
   }
@@ -723,88 +538,677 @@ window.handleForgotPassword = async function(e) {
   if (!email) return showToast("Enter your email first", "warning");
   try {
     await sendPasswordResetEmail(auth, email);
-    showToast("Reset link sent to your email", "success");
+    showToast("Reset link sent!", "success");
+  } catch (err) { showToast(friendlyError(err), "error"); }
+};
+
+window.resendVerification = async function() {
+  if (!auth.currentUser) return;
+  const btn = document.getElementById("resendBtn");
+  btn.disabled = true;
+  try {
+    await sendEmailVerification(auth.currentUser);
+    showToast("Resent! Check inbox.", "success");
+    setTimeout(() => btn.disabled = false, 30000);
   } catch (err) {
-    showToast(getFriendlyError(err), "error");
+    showToast(friendlyError(err), "error");
+    btn.disabled = false;
   }
+};
+
+window.checkEmailVerified = async function() {
+  if (!auth.currentUser) return;
+  try {
+    await reload(auth.currentUser);
+    if (auth.currentUser.emailVerified) {
+      try { await updateDoc(doc(db, "users", auth.currentUser.uid), { emailVerified: true }); } catch(e){}
+      showToast("Verified! Welcome 🎉", "success");
+      await loadAppForUser(auth.currentUser);
+    } else {
+      showToast("Not verified yet.", "warning");
+    }
+  } catch (err) { showToast(friendlyError(err), "error"); }
 };
 
 window.handleLogout = async function() {
   if (!confirm("Logout?")) return;
+  if (suspensionTimer) clearInterval(suspensionTimer);
   await signOut(auth);
   showToast("Logged out", "info");
 };
 
-function getFriendlyError(err) {
+function friendlyError(err) {
   const map = {
-    "auth/invalid-email": "Invalid email address",
-    "auth/user-not-found": "No account found with this email",
-    "auth/wrong-password": "Incorrect password",
-    "auth/invalid-credential": "Invalid email or password",
-    "auth/email-already-in-use": "This email is already registered",
-    "auth/weak-password": "Password must be at least 6 characters",
-    "permission-denied": "Permission denied"
+    "auth/invalid-email": "Invalid email",
+    "auth/user-not-found": "No account found",
+    "auth/wrong-password": "Wrong password",
+    "auth/invalid-credential": "Invalid credentials",
+    "auth/email-already-in-use": "Email already registered",
+    "auth/weak-password": "Password too weak",
+    "permission-denied": "Permission denied — check Firestore Rules"
   };
   return map[err.code] || err.message || "Something went wrong";
 }
 
-// ==========================================================
-// AUTH STATE LISTENER
-// ==========================================================
+/* AUTH STATE */
 onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    currentUser = user;
-    const snap = await getDoc(doc(db, "users", user.uid));
-    currentUserData = snap.exists() ? snap.data() : { uid: user.uid, email: user.email, role: "customer" };
-
-    document.getElementById("authScreen").style.display = "none";
-    document.getElementById("appScreen").style.display = "block";
-
-    attachCartListener();
-    attachWishlistListener();
-    await loadProducts();
-    await loadCategories();
-
-    // Add admin button if admin
-    if (currentUserData.role === "admin") {
-      const headerActions = document.querySelector(".header-actions");
-      if (!document.getElementById("adminBtn")) {
-        const adminBtn = document.createElement("button");
-        adminBtn.id = "adminBtn";
-        adminBtn.className = "icon-btn";
-        adminBtn.textContent = "⚙️";
-        adminBtn.title = "Admin Panel";
-        adminBtn.onclick = () => showPage("admin");
-        headerActions.insertBefore(adminBtn, headerActions.firstChild);
-      }
-    }
-    renderProfile();
-  } else {
+  if (!user) {
     currentUser = null; currentUserData = null;
     cart = {}; wishlist = {};
     if (cartUnsub) cartUnsub();
     if (wishUnsub) wishUnsub();
-    document.getElementById("authScreen").style.display = "grid";
-    document.getElementById("appScreen").style.display = "none";
+    if (suspensionTimer) clearInterval(suspensionTimer);
+    showAuthScreen();
+    return;
   }
+  currentUser = user;
+  await reload(user);
+  if (!user.emailVerified) { showVerifyScreen(); return; }
+  await loadAppForUser(user);
 });
 
-// ==========================================================
-// NAVIGATION
-// ==========================================================
+async function loadAppForUser(user) {
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    currentUserData = snap.exists() ? snap.data() : {
+      uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: []
+    };
+  } catch (err) {
+    currentUserData = { uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: [] };
+  }
+
+  // Check suspension
+  if (currentUserData.suspended || currentUserData.status === "suspended") {
+    // Allow login but show suspended alert; block shopping?
+    // For now, allow read-only access
+  }
+
+  showAppScreen();
+
+  // Ensure publicId + username
+  await ensureUserIdentity();
+  // Register device session
+  await registerSession();
+
+  document.getElementById("adminBtn")?.remove();
+  if (currentUserData.role === "admin") {
+    const ha = document.querySelector(".header-actions");
+    const btn = document.createElement("button");
+    btn.id = "adminBtn";
+    btn.className = "icon-btn";
+    btn.textContent = "⚙️";
+    btn.onclick = () => showPage("admin");
+    ha.insertBefore(btn, ha.firstChild);
+  }
+
+  attachCartListener();
+  attachWishlistListener();
+  await loadProducts();
+  await loadCategories();
+  renderProfile();
+  startSuspensionTimer();
+}
+
+/* ============================================================
+   UNIQUE ID GENERATION
+   ============================================================ */
+async function generateUniquePublicId(uid) {
+  for (let i = 0; i < 30; i++) {
+    const candidate = String(Math.floor(100000 + Math.random() * 900000));
+    const snap = await getDoc(doc(db, "uniqueIndex", `publicId_${candidate}`));
+    if (!snap.exists()) {
+      await setDoc(doc(db, "uniqueIndex", `publicId_${candidate}`), {
+        field: "publicId", value: candidate, userId: uid, createdAt: serverTimestamp()
+      });
+      return candidate;
+    }
+  }
+  throw new Error("Could not generate unique ID");
+}
+
+async function generateUniqueUsername(base, uid) {
+  let candidate = base, suffix = 0;
+  while (suffix < 999) {
+    const snap = await getDoc(doc(db, "uniqueIndex", `username_${candidate}`));
+    if (!snap.exists()) {
+      await setDoc(doc(db, "uniqueIndex", `username_${candidate}`), {
+        field: "username", value: candidate, userId: uid, createdAt: serverTimestamp()
+      });
+      return candidate;
+    }
+    suffix++;
+    candidate = `${base}${suffix}`;
+  }
+  throw new Error("Could not generate unique username");
+}
+
+async function checkUnique(field, value, uid) {
+  const clean = String(value).trim().toLowerCase().replace(/\s+/g, "");
+  const snap = await getDoc(doc(db, "uniqueIndex", `${field}_${clean}`));
+  if (!snap.exists()) return true;
+  return snap.data().userId === uid;
+}
+
+async function ensureUserIdentity() {
+  const updates = {};
+  if (!currentUserData.publicId) {
+    try {
+      updates.publicId = await generateUniquePublicId(currentUser.uid);
+    } catch (e) { console.error(e); }
+  }
+  if (!currentUserData.username) {
+    const base = (currentUserData.name || currentUserData.email || "user")
+      .toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 12) || "user";
+    try {
+      updates.username = await generateUniqueUsername(base, currentUser.uid);
+    } catch (e) { console.error(e); }
+  }
+  if (Object.keys(updates).length > 0) {
+    try {
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        ...updates, updatedAt: serverTimestamp()
+      });
+      currentUserData = { ...currentUserData, ...updates };
+    } catch (e) { console.error("Identity update failed:", e); }
+  }
+}
+
+/* ============================================================
+   DEVICE SESSIONS
+   ============================================================ */
+async function hashDevice() {
+  const data = navigator.userAgent + "|" + screen.width + "x" + screen.height + "|" + navigator.language;
+  const buf = new TextEncoder().encode(data);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 16);
+}
+
+async function registerSession() {
+  try {
+    const deviceHash = await hashDevice();
+    const sessions = currentUserData.sessions || [];
+    const existing = sessions.find(s => s.deviceId === deviceHash);
+
+    if (existing) {
+      const updated = sessions.map(s => s.deviceId === deviceHash
+        ? { ...s, lastActive: new Date().toISOString() } : s);
+      await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
+      currentUserData.sessions = updated;
+      return;
+    }
+
+    if (sessions.length >= 2) {
+      showToast("Max 2 devices. Logout from another device.", "error");
+      setTimeout(() => signOut(auth), 2000);
+      return;
+    }
+
+    const newSession = {
+      deviceId: deviceHash,
+      userAgent: navigator.userAgent.slice(0, 100),
+      createdAt: new Date().toISOString(),
+      lastActive: new Date().toISOString(),
+      verified: sessions.length === 0  // first device auto-verified
+    };
+
+    const updated = [...sessions, newSession];
+    await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
+    currentUserData.sessions = updated;
+
+    if (!newSession.verified) {
+      showToast("2nd device — email verify required", "warning");
+      try { await sendEmailVerification(currentUser); } catch (e) {}
+    }
+  } catch (err) {
+    console.error("Session register failed:", err);
+  }
+}
+
+window.removeDevice = async function(deviceId) {
+  if (!confirm("Remove this device?")) return;
+  const sessions = (currentUserData.sessions || []).filter(s => s.deviceId !== deviceId);
+  try {
+    await updateDoc(doc(db, "users", currentUser.uid), { sessions });
+    currentUserData.sessions = sessions;
+    renderProfile();
+    showToast("Device removed", "success");
+  } catch (err) { showToast("Failed", "error"); }
+};
+
+/* ============================================================
+   PROFILE RENDER
+   ============================================================ */
+function renderProfile() {
+  const d = currentUserData || {};
+
+  document.getElementById("profileAvatar").textContent =
+    (d.name || d.email || "U")[0].toUpperCase();
+  document.getElementById("profileName").textContent = d.name || "User";
+  document.getElementById("profileUsername").textContent = "@" + (d.username || "username");
+  document.getElementById("profilePublicId").textContent = d.publicId || "------";
+  document.getElementById("profileCoins").textContent = (d.coins || 0) + " 🪙";
+
+  const fields = [
+    { label: "Full Name", key: "name", icon: "👤", required: true, readonly: false },
+    { label: "Username", key: "username", icon: "🔖", required: true, readonly: false },
+    { label: "Email", key: "email", icon: "📧", required: true, readonly: true },
+    { label: "Mobile Number", key: "mobile", icon: "📱", required: true, readonly: false },
+    { label: "Gender", key: "gender", icon: "⚧", required: false, readonly: false },
+    { label: "Date of Birth", key: "dob", icon: "🎂", required: false, readonly: false }
+  ];
+
+  document.getElementById("profileInfoList").innerHTML = fields.map(f => {
+    const val = d[f.key];
+    const isEmpty = !val || String(val).trim() === "";
+    const displayVal = f.key === "gender" && val ? val.charAt(0).toUpperCase() + val.slice(1) : val;
+    return `
+      <div class="profile-info-row">
+        <div style="flex:1;min-width:0">
+          <div class="profile-info-label">${f.icon} ${f.label}${f.required ? " *" : ""}</div>
+          <div class="profile-info-value ${isEmpty ? 'missing' : ''}">
+            ${isEmpty ? "❌ Not set" + (f.required ? " — required" : "") : displayVal}
+          </div>
+        </div>
+        ${isEmpty && f.required && !f.readonly ? `<button class="btn btn-primary btn-sm" onclick="openProfileEdit()">Add</button>` : ""}
+      </div>
+    `;
+  }).join("");
+
+  // Address
+  const addr = d.address || {};
+  const addrEl = document.getElementById("profileAddressList");
+  if (!addr.line1) {
+    addrEl.innerHTML = '<p style="font-size:13px;color:var(--danger);text-align:center;padding:20px">❌ Address not set — click Edit to add</p>';
+  } else {
+    addrEl.innerHTML = `
+      <div style="font-size:13px;line-height:1.7">
+        <div style="font-weight:700;font-size:14px">${addr.name || d.name}</div>
+        <div>📞 ${addr.phone || d.mobile || "—"}</div>
+        <div style="color:var(--text-light)">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}<br>${addr.city || ""}, ${addr.state || ""} - ${addr.pincode || ""}</div>
+      </div>
+    `;
+  }
+
+  // Devices
+  const sessions = d.sessions || [];
+  const devEl = document.getElementById("profileDevicesList");
+  if (!sessions.length) {
+    devEl.innerHTML = '<p style="font-size:13px;color:var(--text-light)">No active devices</p>';
+  } else {
+    devEl.innerHTML = sessions.map(s => `
+      <div class="device-item">
+        <div class="device-info">
+          <div class="device-name">${s.userAgent.slice(0, 50)}...</div>
+          <div class="device-meta">
+            ${s.deviceId.slice(0, 8)} • Last: ${new Date(s.lastActive).toLocaleDateString()}
+            ${!s.verified ? ' • <span style="color:var(--warning);font-weight:700">⚠️ UNVERIFIED</span>' : ''}
+          </div>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="removeDevice('${s.deviceId}')">Remove</button>
+      </div>
+    `).join("");
+  }
+
+  // Alerts
+  renderAlerts();
+  // Pending requests
+  renderPendingRequests();
+}
+
+function renderAlerts() {
+  const d = currentUserData || {};
+  const alerts = [];
+  const now = Date.now();
+
+  // Suspended
+  if (d.suspended || d.status === "suspended") {
+    alerts.push(`
+      <div class="alert-card danger">
+        <div class="title" style="color:#991b1b"><span style="font-size:24px">🚫</span> Account Suspended</div>
+        <div class="text" style="color:#991b1b">${d.suspendedReason || "Account suspended. Contact admin."}</div>
+        <div class="actions"><button class="btn btn-primary btn-sm" onclick="openAdminRequest()">Request Admin</button></div>
+      </div>
+    `);
+  }
+
+  // Duplicate issue with timer
+  if (d.duplicateIssue && !d.duplicateIssue.resolved) {
+    const deadline = new Date(d.duplicateIssue.deadline).getTime();
+    const hoursLeft = Math.max(0, (deadline - now) / (1000 * 60 * 60));
+    const minsLeft = Math.max(0, Math.floor(((deadline - now) / (1000 * 60)) % 60));
+
+    if (hoursLeft > 0) {
+      alerts.push(`
+        <div class="alert-card warning">
+          <div class="title" style="color:#92400e"><span style="font-size:24px">⏰</span> Action Required — ${Math.floor(hoursLeft)}h ${minsLeft}m left</div>
+          <div class="text" style="color:#92400e">
+            आपका <strong>${d.duplicateIssue.field}</strong> already किसी और account में registered है।
+            24 घंटे में update नहीं किया तो account suspend हो जाएगा।
+          </div>
+          <div class="actions"><button class="btn btn-primary btn-sm" onclick="openProfileEdit()">Update Now →</button></div>
+        </div>
+      `);
+    } else {
+      alerts.push(`
+        <div class="alert-card danger">
+          <div class="title" style="color:#991b1b"><span style="font-size:24px">🚫</span> Time Expired</div>
+          <div class="text" style="color:#991b1b">24 घंटे बीत गए। Admin से contact करें।</div>
+          <div class="actions"><button class="btn btn-primary btn-sm" onclick="openAdminRequest()">Request Admin</button></div>
+        </div>
+      `);
+    }
+  }
+
+  // Missing fields
+  const missing = [];
+  if (!d.name) missing.push("Name");
+  if (!d.username) missing.push("Username");
+  if (!d.mobile) missing.push("Mobile");
+  if (!d.address?.line1) missing.push("Address");
+
+  if (missing.length > 0 && !d.suspended) {
+    alerts.push(`
+      <div class="alert-card info">
+        <div class="title" style="color:#1e40af"><span style="font-size:24px">📝</span> Complete Your Profile</div>
+        <div class="text" style="color:#1e40af">Missing: <strong>${missing.join(", ")}</strong></div>
+        <div class="actions"><button class="btn btn-primary btn-sm" onclick="openProfileEdit()">Complete Now →</button></div>
+      </div>
+    `);
+  }
+
+  document.getElementById("profileAlerts").innerHTML = alerts.join("");
+}
+
+/* ============================================================
+   PROFILE EDIT
+   ============================================================ */
+window.openProfileEdit = function() {
+  const d = currentUserData || {};
+  openModal("✏️ Edit Profile", `
+    <div class="form-group"><label>Full Name *</label>
+      <input class="form-control" id="peName" value="${d.name || ""}" /></div>
+    <div class="form-group"><label>Username * (lowercase, unique)</label>
+      <input class="form-control" id="peUsername" value="${d.username || ""}" />
+      <small style="font-size:11px;color:var(--text-light);display:block;margin-top:4px">अगर already exists, system बताएगा</small>
+    </div>
+    <div class="form-group"><label>Mobile Number *</label>
+      <input class="form-control" id="peMobile" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" />
+      <small style="font-size:11px;color:var(--text-light);display:block;margin-top:4px">1 number = 1 account</small>
+    </div>
+    <div class="form-group"><label>Email (locked)</label>
+      <input class="form-control" value="${d.email || ""}" disabled /></div>
+    <div class="form-group"><label>Gender</label>
+      <select class="form-control" id="peGender">
+        <option value="">Select</option>
+        <option value="male" ${d.gender === "male" ? "selected" : ""}>Male</option>
+        <option value="female" ${d.gender === "female" ? "selected" : ""}>Female</option>
+        <option value="other" ${d.gender === "other" ? "selected" : ""}>Other</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Date of Birth</label>
+      <input type="date" class="form-control" id="peDob" value="${d.dob || ""}" /></div>
+    <div id="peError" style="display:none;padding:10px;background:#fee2e2;border-radius:8px;font-size:12px;color:#991b1b;margin-top:10px"></div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" id="peSaveBtn" onclick="saveProfile()">Save</button>
+  `);
+};
+
+window.saveProfile = async function() {
+  const btn = document.getElementById("peSaveBtn");
+  btn.disabled = true; btn.textContent = "Saving...";
+  const errEl = document.getElementById("peError");
+  errEl.style.display = "none";
+
+  const updates = {
+    name: document.getElementById("peName").value.trim(),
+    username: document.getElementById("peUsername").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, ""),
+    mobile: document.getElementById("peMobile").value.trim().replace(/\s+/g, ""),
+    gender: document.getElementById("peGender").value,
+    dob: document.getElementById("peDob").value
+  };
+
+  if (!updates.name) return peError("Name required");
+  if (!updates.username || updates.username.length < 3) return peError("Username min 3 chars");
+  if (!updates.mobile || !/^\+?\d{10,15}$/.test(updates.mobile)) return peError("Valid mobile required (+91XXXXXXXXXX)");
+
+  try {
+    // Username check
+    if (updates.username !== currentUserData.username) {
+      const ok = await checkUnique("username", updates.username, currentUser.uid);
+      if (!ok) return peError("❌ Username already taken. Choose another.");
+    }
+
+    // Mobile check
+    if (updates.mobile !== currentUserData.mobile) {
+      const ok = await checkUnique("mobile", updates.mobile, currentUser.uid);
+      if (!ok) {
+        // Duplicate detected — set 24hr timer
+        const deadline = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        const issue = {
+          field: "mobile",
+          value: updates.mobile,
+          detectedAt: new Date().toISOString(),
+          deadline: deadline.toISOString(),
+          resolved: false
+        };
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          duplicateIssue: issue,
+          status: "pending_update",
+          updatedAt: serverTimestamp()
+        });
+        currentUserData.duplicateIssue = issue;
+        currentUserData.status = "pending_update";
+        closeModal();
+        showToast("⚠️ Mobile already in use! Update within 24 hours.", "warning");
+        renderProfile();
+        return;
+      }
+    }
+
+    // Update unique indexes if changed
+    if (updates.username !== currentUserData.username) {
+      if (currentUserData.username) {
+        try { await deleteDoc(doc(db, "uniqueIndex", `username_${currentUserData.username}`)); } catch(e){}
+      }
+      await setDoc(doc(db, "uniqueIndex", `username_${updates.username}`), {
+        field: "username", value: updates.username, userId: currentUser.uid, createdAt: serverTimestamp()
+      });
+    }
+
+    if (updates.mobile !== currentUserData.mobile) {
+      if (currentUserData.mobile) {
+        try { await deleteDoc(doc(db, "uniqueIndex", `mobile_${currentUserData.mobile}`)); } catch(e){}
+      }
+      await setDoc(doc(db, "uniqueIndex", `mobile_${updates.mobile}`), {
+        field: "mobile", value: updates.mobile, userId: currentUser.uid, createdAt: serverTimestamp()
+      });
+    }
+
+    // Clear duplicate issue if resolved
+    updates.duplicateIssue = null;
+    updates.status = "active";
+    updates.suspended = false;
+    updates.updatedAt = serverTimestamp();
+
+    await updateDoc(doc(db, "users", currentUser.uid), updates);
+    currentUserData = { ...currentUserData, ...updates };
+    showToast("Profile updated ✓", "success");
+    closeModal();
+    renderProfile();
+  } catch (err) {
+    console.error(err);
+    peError(err.message || "Save failed");
+  }
+};
+
+function peError(msg) {
+  const errEl = document.getElementById("peError");
+  errEl.style.display = "block";
+  errEl.textContent = "❌ " + msg;
+  const btn = document.getElementById("peSaveBtn");
+  if (btn) { btn.disabled = false; btn.textContent = "Save"; }
+}
+
+/* ============================================================
+   ADDRESS EDIT
+   ============================================================ */
+window.openAddressEdit = function() {
+  const a = currentUserData?.address || {};
+  openModal("📍 Delivery Address", `
+    <div class="form-group"><label>Full Name</label>
+      <input class="form-control" id="adName" value="${a.name || currentUserData.name || ""}" /></div>
+    <div class="form-group"><label>Phone</label>
+      <input class="form-control" id="adPhone" value="${a.phone || currentUserData.mobile || ""}" /></div>
+    <div class="form-group"><label>Address Line 1 *</label>
+      <input class="form-control" id="adLine1" value="${a.line1 || ""}" placeholder="House no, building, street" /></div>
+    <div class="form-group"><label>Address Line 2</label>
+      <input class="form-control" id="adLine2" value="${a.line2 || ""}" placeholder="Area, landmark (optional)" /></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>City *</label>
+        <input class="form-control" id="adCity" value="${a.city || ""}" /></div>
+      <div class="form-group"><label>State *</label>
+        <input class="form-control" id="adState" value="${a.state || ""}" /></div>
+    </div>
+    <div class="form-group"><label>Pincode *</label>
+      <input class="form-control" id="adPincode" value="${a.pincode || ""}" maxlength="6" /></div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveAddress()">Save</button>
+  `);
+};
+
+window.saveAddress = async function() {
+  const address = {
+    name: document.getElementById("adName").value.trim(),
+    phone: document.getElementById("adPhone").value.trim(),
+    line1: document.getElementById("adLine1").value.trim(),
+    line2: document.getElementById("adLine2").value.trim(),
+    city: document.getElementById("adCity").value.trim(),
+    state: document.getElementById("adState").value.trim(),
+    pincode: document.getElementById("adPincode").value.trim()
+  };
+
+  if (!address.line1 || !address.city || !address.state || !address.pincode) {
+    return showToast("All required fields भरें", "warning");
+  }
+
+  try {
+    await updateDoc(doc(db, "users", currentUser.uid), {
+      address, updatedAt: serverTimestamp()
+    });
+    currentUserData.address = address;
+    showToast("Address saved ✓", "success");
+    closeModal();
+    renderProfile();
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
+
+/* ============================================================
+   SUSPENSION TIMER
+   ============================================================ */
+function startSuspensionTimer() {
+  if (suspensionTimer) clearInterval(suspensionTimer);
+  suspensionTimer = setInterval(async () => {
+    const d = currentUserData || {};
+    if (!d.duplicateIssue || d.duplicateIssue.resolved) return;
+
+    const deadline = new Date(d.duplicateIssue.deadline).getTime();
+    if (Date.now() >= deadline && !d.suspended) {
+      try {
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          suspended: true,
+          status: "suspended",
+          suspendedReason: "Failed to update duplicate " + d.duplicateIssue.field + " within 24 hours",
+          suspendedAt: serverTimestamp()
+        });
+        currentUserData.suspended = true;
+        currentUserData.status = "suspended";
+        renderProfile();
+        showToast("Account suspended — contact admin", "error");
+      } catch (e) { console.error(e); }
+    } else {
+      renderAlerts();
+    }
+  }, 60000);
+}
+
+/* ============================================================
+   ADMIN REQUEST
+   ============================================================ */
+window.openAdminRequest = function() {
+  openModal("🆘 Admin Support", `
+    <div class="form-group"><label>Request Type</label>
+      <select class="form-control" id="arType">
+        <option value="unsuspend">Account Unblock</option>
+        <option value="data_update">Data Update Help</option>
+        <option value="duplicate">Duplicate Issue</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Message *</label>
+      <textarea class="form-control" id="arMessage" rows="4" placeholder="Explain your issue..."></textarea></div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="submitAdminRequest()">Send Request</button>
+  `);
+};
+
+window.submitAdminRequest = async function() {
+  const type = document.getElementById("arType").value;
+  const message = document.getElementById("arMessage").value.trim();
+  if (!message) return showToast("Message required", "warning");
+
+  try {
+    await addDoc(collection(db, "adminRequests"), {
+      userId: currentUser.uid,
+      userName: currentUserData.name || "",
+      userEmail: currentUser.email,
+      userPublicId: currentUserData.publicId || "",
+      type, message,
+      status: "pending",
+      createdAt: serverTimestamp()
+    });
+    showToast("Request sent ✓", "success");
+    closeModal();
+    renderPendingRequests();
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
+
+async function renderPendingRequests() {
+  try {
+    const snap = await getDocs(query(collection(db, "adminRequests"), where("userId", "==", currentUser.uid)));
+    const reqs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    const card = document.getElementById("profileRequestCard");
+    if (reqs.length > 0) card.style.display = "block";
+    document.getElementById("pendingRequestsList").innerHTML = reqs.slice(0, 5).map(r => `
+      <div style="padding:10px;background:#f8fafc;border-radius:8px;margin-bottom:8px;font-size:12px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <strong>${r.type}</strong>
+          <span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:${r.status === 'pending' ? '#fef3c7' : r.status === 'approved' ? '#d1fae5' : '#fee2e2'};color:${r.status === 'pending' ? '#92400e' : r.status === 'approved' ? '#065f46' : '#991b1b'}">${r.status.toUpperCase()}</span>
+        </div>
+        <div style="color:var(--text-light)">${r.message.slice(0, 100)}</div>
+        ${r.response ? `<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);color:var(--primary);font-weight:600">💬 ${r.response}</div>` : ""}
+      </div>
+    `).join("");
+  } catch (err) { console.error(err); }
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
 window.showPage = function(pageName) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  const page = document.getElementById("page-" + pageName);
-  if (page) page.classList.add("active");
-
+  document.getElementById("page-" + pageName)?.classList.add("active");
   document.querySelectorAll(".bottom-nav button").forEach(b => {
     b.classList.toggle("active", b.dataset.nav === pageName);
   });
-
   if (pageName === "wishlist") renderWishlist();
   if (pageName === "orders") renderOrders();
   if (pageName === "profile") renderProfile();
   if (pageName === "admin") renderAdmin("dashboard");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 window.toggleMenu = function() {
@@ -815,23 +1219,19 @@ window.toggleMenu = function() {
     { label: "📦 Orders", fn: () => showPage("orders") },
     { label: "👤 Profile", fn: () => showPage("profile") }
   ];
-  if (currentUserData?.role === "admin") {
-    items.push({ label: "⚙️ Admin Panel", fn: () => showPage("admin") });
-  }
-  openModal("Menu", `<div style="display:flex;flex-direction:column;gap:8px">${
-    items.map((it, i) => `<button class="btn btn-ghost btn-block" onclick="window._menuAction(${i})">${it.label}</button>`).join("")
+  if (currentUserData?.role === "admin") items.push({ label: "⚙️ Admin", fn: () => showPage("admin") });
+  window._menuActions = items.map(i => i.fn);
+  openModal("Menu", `<div style="display:flex;flex-direction:column;gap:10px">${
+    items.map((it, i) => `<button class="btn btn-ghost btn-block" style="justify-content:flex-start;padding:14px 18px" onclick="window._menuAction(${i})">${it.label}</button>`).join("")
   }</div>`);
-  window._menuActions = items.map(it => it.fn);
 };
 window._menuAction = (i) => { closeModal(); window._menuActions[i](); };
 
-// ==========================================================
-// PRODUCTS
-// ==========================================================
+/* ============================================================
+   PRODUCTS
+   ============================================================ */
 async function loadProducts() {
-  showLoading("homeProductsGrid");
-  showLoading("featuredGrid");
-  showLoading("shopGrid");
+  ["homeProductsGrid","featuredGrid","shopGrid"].forEach(showLoading);
   try {
     const q = query(collection(db, "products"), where("active", "==", true));
     const snap = await getDocs(q);
@@ -839,8 +1239,10 @@ async function loadProducts() {
     renderHomeProducts();
     renderShopProducts();
   } catch (err) {
-    console.error(err);
-    showToast("Failed to load products", "error");
+    ["homeProductsGrid","featuredGrid","shopGrid"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = '<div class="empty" style="grid-column:1/-1"><p style="font-size:12px">Unable to load</p></div>';
+    });
   }
 }
 
@@ -849,430 +1251,268 @@ function showLoading(id) {
   if (el) el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
 }
 
-window.debounceSearch = (() => {
-  let t;
-  return () => {
-    clearTimeout(t);
-    t = setTimeout(() => {
-      searchQuery = document.getElementById("searchInput").value.toLowerCase().trim();
-      renderShopProducts();
-      renderHomeProducts();
-      if (searchQuery) showPage("shop");
-    }, 350);
-  };
-})();
-
 function productCardHTML(p) {
-  const img = (p.images && p.images[0]) || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='%23eee' width='200' height='200'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' font-size='60'>📦</text></svg>";
-  const discountPct = p.mrp && p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
-  const isWished = wishlist[p.id] ? "❤️" : "🤍";
+  const img = (p.images && p.images[0]) || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='%23ede9fe' width='200' height='200'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' font-size='60'>📦</text></svg>";
+  const disc = p.mrp && p.price && p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+  const isW = wishlist[p.id] ? "❤️" : "🤍";
   return `
     <div class="product-card" onclick="openProduct('${p.id}')">
       <div class="img-wrap">
-        <img src="${img}" alt="${p.name || ''}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23eee%22 width=%22200%22 height=%22200%22/></svg>'" />
-        <button class="wish-btn" onclick="event.stopPropagation(); toggleWishlist('${p.id}')">${isWished}</button>
+        <img src="${img}" loading="lazy" />
+        ${disc > 0 ? `<div class="discount-badge">-${disc}%</div>` : ""}
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${isW}</button>
       </div>
       <div class="info">
-        <div class="name">${p.name || "Untitled Product"}</div>
+        <div class="name">${p.name || "Untitled"}</div>
         <div class="price-row">
           <span class="price">₹${p.price || 0}</span>
           ${p.mrp && p.mrp > p.price ? `<span class="mrp">₹${p.mrp}</span>` : ""}
         </div>
-        ${discountPct > 0 ? `<div class="discount">${discountPct}% OFF</div>` : ""}
-        <button class="add-btn" onclick="event.stopPropagation(); addToCart('${p.id}')">
-          ${p.stock > 0 ? "Add to Cart" : "Out of Stock"}
+        <button class="add-btn" onclick="event.stopPropagation();addToCart('${p.id}')">
+          ${p.stock > 0 ? "🛒 Add to Cart" : "Out of Stock"}
         </button>
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
 function renderHomeProducts() {
-  let filtered = allProducts;
-  if (searchQuery) {
-    filtered = filtered.filter(p =>
-      (p.name || "").toLowerCase().includes(searchQuery) ||
-      (p.brand || "").toLowerCase().includes(searchQuery)
-    );
-  }
-  const featured = filtered.filter(p => p.isFeatured || p.featured).slice(0, 4);
-  const others = filtered.slice(0, 8);
-
-  document.getElementById("featuredGrid").innerHTML = featured.length
-    ? featured.map(productCardHTML).join("")
-    : '<div class="empty" style="grid-column:1/-1"><div class="emoji">✨</div><p>No featured products yet</p></div>';
-
-  document.getElementById("homeProductsGrid").innerHTML = others.length
-    ? others.map(productCardHTML).join("")
-    : '<div class="empty" style="grid-column:1/-1"><div class="emoji">📦</div><p>No products available</p></div>';
+  const feat = allProducts.filter(p => p.isFeatured).slice(0, 6);
+  document.getElementById("featuredGrid").innerHTML = feat.length ? feat.map(productCardHTML).join("") :
+    '<div class="empty" style="grid-column:1/-1"><div class="emoji">✨</div><p>No featured</p></div>';
+  document.getElementById("homeProductsGrid").innerHTML = allProducts.length ? allProducts.slice(0, 8).map(productCardHTML).join("") :
+    '<div class="empty" style="grid-column:1/-1"><div class="emoji">📦</div><p>No products</p><p>Admin से add करें</p></div>';
 }
 
 function renderShopProducts() {
-  let filtered = allProducts;
-  if (currentCategory) filtered = filtered.filter(p => p.categoryId === currentCategory);
-  if (searchQuery) {
-    filtered = filtered.filter(p =>
-      (p.name || "").toLowerCase().includes(searchQuery) ||
-      (p.brand || "").toLowerCase().includes(searchQuery) ||
-      (p.description || "").toLowerCase().includes(searchQuery)
-    );
-  }
-  document.getElementById("shopGrid").innerHTML = filtered.length
-    ? filtered.map(productCardHTML).join("")
-    : '<div class="empty" style="grid-column:1/-1"><div class="emoji">🔍</div><p>No products found</p></div>';
+  let f = allProducts;
+  if (currentCategory) f = f.filter(p => p.categoryId === currentCategory);
+  document.getElementById("shopGrid").innerHTML = f.length ? f.map(productCardHTML).join("") :
+    '<div class="empty" style="grid-column:1/-1"><div class="emoji">🔍</div><p>No products</p></div>';
 }
 
 window.openProduct = function(id) {
   const p = allProducts.find(x => x.id === id);
   if (!p) return;
   const img = (p.images && p.images[0]) || "";
-  const discountPct = p.mrp && p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
-
+  const disc = p.mrp && p.price && p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
   openModal(p.name || "Product", `
-    <div style="text-align:center">
-      ${img ? `<img src="${img}" style="max-height:280px;margin:0 auto;border-radius:12px;object-fit:contain" />` : ""}
+    ${img ? `<img src="${img}" style="max-height:280px;margin:0 auto 16px;border-radius:12px;object-fit:contain" />` : ""}
+    <h2 style="font-size:20px;font-weight:800;margin-bottom:6px">${p.name || ""}</h2>
+    ${p.brand ? `<div style="color:var(--text-light);font-size:13px;margin-bottom:12px">🏷️ ${p.brand}</div>` : ""}
+    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px">
+      <span style="font-size:28px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">₹${p.price || 0}</span>
+      ${p.mrp && p.mrp > p.price ? `<span style="text-decoration:line-through;color:var(--text-light);font-size:16px">₹${p.mrp}</span>` : ""}
+      ${disc > 0 ? `<span style="background:var(--success);color:#fff;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:700">${disc}% OFF</span>` : ""}
     </div>
-    <h2 style="margin-top:16px;font-size:18px">${p.name || ""}</h2>
-    ${p.brand ? `<div style="color:var(--text-light);font-size:13px">Brand: ${p.brand}</div>` : ""}
-    <div style="display:flex;align-items:baseline;gap:8px;margin:12px 0">
-      <span style="font-size:24px;font-weight:700;color:var(--primary)">₹${p.price || 0}</span>
-      ${p.mrp && p.mrp > p.price ? `<span style="text-decoration:line-through;color:var(--text-light)">₹${p.mrp}</span>` : ""}
-      ${discountPct > 0 ? `<span style="color:var(--success);font-weight:600">${discountPct}% OFF</span>` : ""}
+    <p style="font-size:14px;line-height:1.7;color:var(--text-light)">${p.description || "No description"}</p>
+    <div style="margin-top:16px;font-size:13px;color:var(--text-light)">
+      <div>📦 Stock: <strong style="color:${p.stock > 0 ? 'var(--success)' : 'var(--danger)'}">${p.stock > 0 ? p.stock + " available" : "Out of stock"}</strong></div>
     </div>
-    <p style="font-size:14px;line-height:1.6">${p.description || p.shortDescription || "No description available."}</p>
-    <div style="margin-top:12px;font-size:12px;color:var(--text-light)">
-      ${p.sku ? `<div>SKU: ${p.sku}</div>` : ""}
-      <div>Stock: ${p.stock > 0 ? p.stock + " available" : "Out of stock"}</div>
-    </div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Close</button>
-    <button class="btn btn-primary" onclick="addToCart('${p.id}'); closeModal()">Add to Cart</button>
-  `);
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="addToCart('${p.id}');closeModal()">🛒 Add</button>`);
 };
 
-// ==========================================================
-// CATEGORIES
-// ==========================================================
+/* CATEGORIES */
 async function loadCategories() {
   try {
     const snap = await getDocs(collection(db, "categories"));
     const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    const chipsHTML = `
-      <button class="chip ${!currentCategory ? 'active' : ''}" onclick="filterCategory(null)">All</button>
-      ${cats.map(c => `<button class="chip ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.name}</button>`).join("")}
-    `;
-    document.getElementById("homeCategories").innerHTML = chipsHTML;
-    document.getElementById("shopCategories").innerHTML = chipsHTML;
+    const html = `<button class="chip ${!currentCategory ? 'active' : ''}" onclick="filterCategory(null)">All</button>
+      ${cats.map(c => `<button class="chip ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.name}</button>`).join("")}`;
+    document.getElementById("homeCategories").innerHTML = html;
+    document.getElementById("shopCategories").innerHTML = html;
   } catch (err) {
-    console.error("Categories load error:", err);
-    document.getElementById("homeCategories").innerHTML =
-      '<div style="font-size:12px;color:var(--text-light);padding:8px 0">No categories yet — add from Admin Panel</div>';
-    document.getElementById("shopCategories").innerHTML = "";
+    document.getElementById("homeCategories").innerHTML = '<div style="font-size:12px;color:var(--text-light);padding:8px">No categories</div>';
   }
 }
-
 window.filterCategory = function(catId) {
-  currentCategory = catId;
-  loadCategories();
-  renderShopProducts();
-  showPage("shop");
+  currentCategory = catId; loadCategories(); renderShopProducts(); showPage("shop");
 };
 
-// ==========================================================
-// CART (Firestore-backed)
-// ==========================================================
+/* CART */
 function attachCartListener() {
   if (cartUnsub) cartUnsub();
   cartUnsub = onSnapshot(doc(db, "carts", currentUser.uid), (snap) => {
-    if (snap.exists()) {
-      cart = snap.data().items || {};
-    } else {
-      cart = {};
-    }
+    cart = snap.exists() ? (snap.data().items || {}) : {};
     updateCartBadge();
-    renderHomeProducts();
-    renderShopProducts();
-  });
+    renderHomeProducts(); renderShopProducts();
+  }, (e) => console.error(e));
 }
 
 function attachWishlistListener() {
   if (wishUnsub) wishUnsub();
   wishUnsub = onSnapshot(doc(db, "wishlists", currentUser.uid), (snap) => {
-    if (snap.exists()) {
-      wishlist = snap.data().items || {};
-    } else {
-      wishlist = {};
-    }
+    wishlist = snap.exists() ? (snap.data().items || {}) : {};
     updateWishBadge();
-    renderHomeProducts();
-    renderShopProducts();
-    if (document.getElementById("page-wishlist").classList.contains("active")) {
-      renderWishlist();
-    }
-  });
+    renderHomeProducts(); renderShopProducts();
+    if (document.getElementById("page-wishlist").classList.contains("active")) renderWishlist();
+  }, (e) => console.error(e));
 }
 
 function updateCartBadge() {
-  const count = Object.values(cart).reduce((sum, it) => sum + (it.qty || 0), 0);
-  document.getElementById("cartBadge").textContent = count;
+  document.getElementById("cartBadge").textContent = Object.values(cart).reduce((s, i) => s + (i.qty || 0), 0);
 }
 function updateWishBadge() {
-  const count = Object.keys(wishlist).length;
-  document.getElementById("wishBadge").textContent = count;
+  document.getElementById("wishBadge").textContent = Object.keys(wishlist).length;
 }
 
-window.addToCart = async function(productId) {
-  const p = allProducts.find(x => x.id === productId);
+window.addToCart = async function(pid) {
+  const p = allProducts.find(x => x.id === pid);
   if (!p) return;
   if (!p.stock || p.stock <= 0) return showToast("Out of stock", "warning");
-  const existing = cart[productId] || { qty: 0 };
-  const newQty = existing.qty + 1;
-  if (newQty > p.stock) return showToast("Not enough stock", "warning");
-
-  cart[productId] = { qty: newQty, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
+  const ex = cart[pid] || { qty: 0 };
+  const nq = ex.qty + 1;
+  if (nq > p.stock) return showToast("Not enough stock", "warning");
+  cart[pid] = { qty: nq, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
   try {
     await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    showToast("Added to cart", "success");
-  } catch (err) {
-    console.error(err);
-    showToast("Failed to add to cart", "error");
-  }
+    showToast("Added to cart ✓", "success");
+  } catch (err) { showToast("Failed", "error"); }
 };
 
-window.removeFromCart = async function(productId) {
-  delete cart[productId];
-  try {
-    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    showToast("Removed from cart", "info");
-    renderCartModal();
-  } catch (err) {
-    showToast("Failed to remove", "error");
-  }
+window.removeFromCart = async function(pid) {
+  delete cart[pid];
+  await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+  renderCartModal();
 };
 
-window.updateCartQty = async function(productId, delta) {
-  const item = cart[productId];
+window.updateCartQty = async function(pid, d) {
+  const item = cart[pid];
   if (!item) return;
-  const p = allProducts.find(x => x.id === productId);
-  const newQty = item.qty + delta;
-  if (newQty <= 0) return removeFromCart(productId);
-  if (p && newQty > p.stock) return showToast("Not enough stock", "warning");
-  item.qty = newQty;
-  try {
-    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    renderCartModal();
-  } catch (err) {
-    showToast("Failed to update", "error");
-  }
+  const p = allProducts.find(x => x.id === pid);
+  const nq = item.qty + d;
+  if (nq <= 0) return removeFromCart(pid);
+  if (p && nq > p.stock) return showToast("Not enough stock", "warning");
+  item.qty = nq;
+  await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+  renderCartModal();
 };
 
 window.openCart = function() { renderCartModal(); };
 
 function renderCartModal() {
   const items = Object.entries(cart);
-  if (items.length === 0) {
-    openModal("Cart", '<div class="empty"><div class="emoji">🛒</div><p>Your cart is empty</p></div>');
+  if (!items.length) {
+    openModal("🛒 Cart", '<div class="empty"><div class="emoji">🛒</div><p>Cart empty</p></div>');
     return;
   }
-  let subtotal = 0;
+  let sub = 0;
   const body = items.map(([id, it]) => {
-    subtotal += it.price * it.qty;
-    return `
-      <div class="cart-item">
-        <img src="${it.image || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22><rect fill=%22%23eee%22 width=%2270%22 height=%2270%22/></svg>'}" />
-        <div class="details">
-          <div class="name">${it.name}</div>
-          <div class="price">₹${it.price} × ${it.qty} = ₹${it.price * it.qty}</div>
-        </div>
-        <div class="qty-controls">
-          <button onclick="updateCartQty('${id}', -1)">−</button>
-          <span>${it.qty}</span>
-          <button onclick="updateCartQty('${id}', 1)">+</button>
-        </div>
-      </div>
-    `;
+    sub += it.price * it.qty;
+    return `<div class="cart-item">
+      <img src="${it.image || ''}" />
+      <div class="details"><div class="name">${it.name}</div><div class="price">₹${it.price} × ${it.qty}</div></div>
+      <div class="qty-controls"><button onclick="updateCartQty('${id}',-1)">−</button><span>${it.qty}</span><button onclick="updateCartQty('${id}',1)">+</button></div>
+    </div>`;
   }).join("");
-  const delivery = subtotal > 500 ? 0 : 40;
-  const total = subtotal + delivery;
-
-  openModal("Your Cart", `
-    ${body}
-    <div style="margin-top:12px;padding:12px;background:var(--bg);border-radius:8px;font-size:13px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Subtotal</span><span>₹${subtotal}</span></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Delivery</span><span>${delivery === 0 ? "FREE" : "₹" + delivery}</span></div>
-      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:15px;padding-top:6px;border-top:1px dashed var(--border)"><span>Total</span><span style="color:var(--primary)">₹${total}</span></div>
-    </div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Continue Shopping</button>
-    <button class="btn btn-primary" onclick="placeOrder(${total}, ${delivery})">Place Order (COD)</button>
-  `);
+  const del = sub > 500 ? 0 : 40;
+  const tot = sub + del;
+  openModal("🛒 Cart", `${body}
+    <div style="padding:14px;background:#f8fafc;border-radius:12px;font-size:13px;margin-top:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Subtotal</span><span>₹${sub}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>Delivery</span><span>${del === 0 ? "FREE" : "₹" + del}</span></div>
+      <div style="display:flex;justify-content:space-between;font-weight:800;font-size:16px;padding-top:8px;border-top:2px dashed var(--border)"><span>Total</span><span style="color:var(--primary)">₹${tot}</span></div>
+    </div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="placeOrder(${tot},${del})">Place Order</button>`);
 }
 
-// ==========================================================
-// WISHLIST
-// ==========================================================
-window.toggleWishlist = async function(productId) {
-  const p = allProducts.find(x => x.id === productId);
+/* WISHLIST */
+window.toggleWishlist = async function(pid) {
+  const p = allProducts.find(x => x.id === pid);
   if (!p) return;
-  if (wishlist[productId]) {
-    delete wishlist[productId];
-    showToast("Removed from wishlist", "info");
+  if (wishlist[pid]) {
+    delete wishlist[pid]; showToast("Removed", "info");
   } else {
-    wishlist[productId] = { name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
-    showToast("Added to wishlist", "success");
+    wishlist[pid] = { name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
+    showToast("Added ❤️", "success");
   }
-  try {
-    await setDoc(doc(db, "wishlists", currentUser.uid), { items: wishlist }, { merge: true });
-  } catch (err) {
-    showToast("Failed to update wishlist", "error");
-  }
+  await setDoc(doc(db, "wishlists", currentUser.uid), { items: wishlist }, { merge: true });
 };
-
-window.openWishlist = function() { showPage("wishlist"); };
 
 function renderWishlist() {
   const items = Object.entries(wishlist);
   const el = document.getElementById("wishlistContent");
-  if (items.length === 0) {
-    el.innerHTML = '<div class="empty"><div class="emoji">💔</div><p>Your wishlist is empty</p><p style="font-size:12px">Tap ❤️ on any product to save it</p></div>';
+  if (!items.length) {
+    el.innerHTML = '<div class="empty"><div class="emoji">💔</div><p>Wishlist empty</p></div>';
     return;
   }
   el.innerHTML = items.map(([id, it]) => `
     <div class="cart-item">
-      <img src="${it.image || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22><rect fill=%22%23eee%22 width=%2270%22 height=%2270%22/></svg>'}" />
-      <div class="details">
-        <div class="name">${it.name}</div>
-        <div class="price">₹${it.price}</div>
-      </div>
+      <img src="${it.image || ''}" />
+      <div class="details"><div class="name">${it.name}</div><div class="price">₹${it.price}</div></div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Add to Cart</button>
+        <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Add</button>
         <button class="btn btn-ghost btn-sm" onclick="toggleWishlist('${id}')">Remove</button>
       </div>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
-// ==========================================================
-// ORDERS
-// ==========================================================
+/* ORDERS */
 window.placeOrder = async function(total, delivery) {
   const items = Object.entries(cart).map(([id, it]) => ({
     productId: id, name: it.name, price: it.price, qty: it.qty, image: it.image
   }));
-  if (items.length === 0) return showToast("Cart is empty", "warning");
-
-  const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
-
+  if (!items.length) return showToast("Cart empty", "warning");
+  const sub = items.reduce((s, i) => s + i.price * i.qty, 0);
   try {
     await addDoc(collection(db, "orders"), {
       userId: currentUser.uid,
-      customerName: currentUserData?.name || "",
+      customerName: currentUserData.name,
       customerEmail: currentUser.email,
-      phone: currentUserData?.phone || "",
-      address: "Update in profile",
-      items,
-      subtotal,
-      discount: 0,
-      coupon: "",
-      deliveryCharge: delivery,
-      totalAmount: total,
-      paymentMethod: "COD",
-      paymentStatus: "Pending",
+      phone: currentUserData.mobile || "",
+      address: currentUserData.address || {},
+      items, subtotal: sub, discount: 0, coupon: "",
+      deliveryCharge: delivery, totalAmount: total,
+      paymentMethod: "COD", paymentStatus: "Pending",
       orderStatus: "Pending",
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
+      createdAt: serverTimestamp(), updatedAt: serverTimestamp()
     });
     await setDoc(doc(db, "carts", currentUser.uid), { items: {} }, { merge: true });
     closeModal();
-    showToast("Order placed successfully! 🎉", "success");
+    showToast("Order placed! 🎉", "success");
     setTimeout(() => showPage("orders"), 500);
-  } catch (err) {
-    console.error(err);
-    showToast("Failed to place order: " + err.message, "error");
-  }
+  } catch (err) { showToast("Order failed: " + err.message, "error"); }
 };
 
 async function renderOrders() {
   const el = document.getElementById("ordersContent");
   el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
   try {
-    const q = query(
-      collection(db, "orders"),
-      where("userId", "==", currentUser.uid)
-    );
-    const snap = await getDocs(q);
+    const snap = await getDocs(query(collection(db, "orders"), where("userId", "==", currentUser.uid)));
     const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-    if (orders.length === 0) {
-      el.innerHTML = '<div class="empty"><div class="emoji">📦</div><p>No orders yet</p><p style="font-size:12px">Start shopping to see your orders here</p></div>';
+    if (!orders.length) {
+      el.innerHTML = '<div class="empty"><div class="emoji">📦</div><p>No orders yet</p></div>';
       return;
     }
     el.innerHTML = orders.map(o => `
       <div class="order-card">
-        <div class="row">
-          <strong>#${o.id.slice(-8).toUpperCase()}</strong>
-          <span class="status status-${o.orderStatus}">${o.orderStatus}</span>
-        </div>
-        <div class="row"><span>${o.items?.length || 0} item(s)</span><strong>₹${o.totalAmount}</strong></div>
-        <div class="row" style="color:var(--text-light);font-size:12px">
-          <span>${o.paymentMethod} • ${o.paymentStatus}</span>
-          <span>${o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleDateString() : ""}</span>
-        </div>
-      </div>
-    `).join("");
-  } catch (err) {
-    console.error(err);
-    el.innerHTML = '<div class="empty"><p>Failed to load orders</p></div>';
-  }
+        <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
+        <div class="row"><span>${o.items?.length || 0} items</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
+        <div class="row" style="font-size:12px;color:var(--text-light)"><span>${o.paymentMethod}</span><span>${o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleDateString() : ""}</span></div>
+      </div>`).join("");
+  } catch (err) { el.innerHTML = '<div class="empty"><p>Failed to load</p></div>'; }
 }
 
-// ==========================================================
-// PROFILE
-// ==========================================================
-function renderProfile() {
-  const el = document.getElementById("profileCard");
-  if (!el) return;
-  const d = currentUserData || {};
-  el.innerHTML = `
-    <div style="text-align:center;margin-bottom:16px">
-      <div style="width:72px;height:72px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;font-size:32px;font-weight:700;margin:0 auto 8px">
-        ${(d.name || currentUser?.email || "U")[0].toUpperCase()}
-      </div>
-      <h3>${d.name || "User"}</h3>
-      <p style="color:var(--text-light);font-size:13px">${currentUser?.email || ""}</p>
-      ${d.role === "admin" ? '<span style="background:var(--primary);color:#fff;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-top:6px;display:inline-block">ADMIN</span>' : ""}
-    </div>
-    <div style="border-top:1px solid var(--border);padding-top:12px;font-size:13px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Phone</span><strong>${d.phone || "Not set"}</strong></div>
-      <div style="display:flex;justify-content:space-between"><span>User ID</span><strong style="font-size:11px">${currentUser?.uid.slice(0, 12)}...</strong></div>
-    </div>
-  `;
-}
-
-// ==========================================================
-// MODAL
-// ==========================================================
+/* MODAL */
 window.openModal = function(title, body, footer = "") {
   document.getElementById("modalTitle").textContent = title;
   document.getElementById("modalBody").innerHTML = body;
   document.getElementById("modalFooter").innerHTML = footer;
   document.getElementById("modalOverlay").classList.add("active");
+  document.body.style.overflow = "hidden";
 };
-window.closeModal = function(e) {
-  if (e && e.target !== e.currentTarget && e.target !== document.getElementById("modalOverlay")) return;
+window.closeModal = function() {
   document.getElementById("modalOverlay").classList.remove("active");
+  document.body.style.overflow = "";
 };
 
-// ==========================================================
-// ADMIN PANEL
-// ==========================================================
-window.toggleSidebar = function() {
-  document.getElementById("adminSidebar").classList.toggle("open");
-};
-
-window.adminTab = function(tab) {
+/* ============================================================
+   ADMIN PANEL
+   ============================================================ */
+window.toggleSidebar = function() { document.getElementById("adminSidebar").classList.toggle("open"); };
+window.adminTab = function(tab, el) {
   document.querySelectorAll(".admin-sidebar button").forEach(b => b.classList.remove("active"));
-  event?.target?.classList?.add("active");
+  if (el) el.classList.add("active");
   renderAdmin(tab);
 };
 
@@ -1288,323 +1528,293 @@ async function renderAdmin(tab) {
 
   if (tab === "dashboard") {
     title.textContent = "Dashboard";
-    const [productsSnap, ordersSnap, usersSnap] = await Promise.all([
-      getDocs(collection(db, "products")),
-      getDocs(collection(db, "orders")),
-      getDocs(collection(db, "users"))
-    ]);
-    const products = productsSnap.docs.map(d => d.data());
-    const orders = ordersSnap.docs.map(d => d.data());
-    const users = usersSnap.docs.map(d => d.data());
-    const totalSales = orders.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + (o.totalAmount || 0), 0);
-    const pending = orders.filter(o => o.orderStatus === "Pending").length;
-    const delivered = orders.filter(o => o.orderStatus === "Delivered").length;
-    const lowStock = products.filter(p => (p.stock || 0) < 5).length;
-
-    content.innerHTML = `
-      <div class="stat-grid">
-        <div class="stat-card"><div class="icon">💰</div><div class="label">Total Sales</div><div class="value">₹${totalSales}</div></div>
-        <div class="stat-card"><div class="icon">🧾</div><div class="label">Total Orders</div><div class="value">${orders.length}</div></div>
-        <div class="stat-card"><div class="icon">👥</div><div class="label">Customers</div><div class="value">${users.length}</div></div>
-        <div class="stat-card"><div class="icon">📦</div><div class="label">Products</div><div class="value">${products.length}</div></div>
-        <div class="stat-card"><div class="icon">⏳</div><div class="label">Pending</div><div class="value">${pending}</div></div>
-        <div class="stat-card"><div class="icon">✅</div><div class="label">Delivered</div><div class="value">${delivered}</div></div>
-        <div class="stat-card"><div class="icon">⚠️</div><div class="label">Low Stock</div><div class="value">${lowStock}</div></div>
-      </div>
-      <div class="card">
-        <h3 style="margin-bottom:12px;font-size:16px">Recent Orders</h3>
-        ${orders.slice(-5).reverse().map(o => `
-          <div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;display:flex;justify-content:space-between">
-            <span>${o.customerName || "Customer"}</span>
-            <strong>₹${o.totalAmount || 0}</strong>
-          </div>
-        `).join("") || '<p style="color:var(--text-light);font-size:13px">No orders yet</p>'}
-      </div>
-    `;
+    try {
+      const [pS, oS, uS, rS] = await Promise.all([
+        getDocs(collection(db, "products")),
+        getDocs(collection(db, "orders")),
+        getDocs(collection(db, "users")),
+        getDocs(collection(db, "adminRequests"))
+      ]);
+      const ps = pS.docs.map(d => d.data());
+      const os = oS.docs.map(d => d.data());
+      const us = uS.docs.map(d => d.data());
+      const rs = rS.docs.map(d => d.data());
+      const sales = os.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + (o.totalAmount || 0), 0);
+      content.innerHTML = `
+        <div class="stat-grid">
+          <div class="stat-card"><div class="icon c1">💰</div><div class="label">Sales</div><div class="value">₹${sales.toLocaleString()}</div></div>
+          <div class="stat-card"><div class="icon c2">🧾</div><div class="label">Orders</div><div class="value">${os.length}</div></div>
+          <div class="stat-card"><div class="icon c3">👥</div><div class="label">Users</div><div class="value">${us.length}</div></div>
+          <div class="stat-card"><div class="icon c1">📦</div><div class="label">Products</div><div class="value">${ps.length}</div></div>
+          <div class="stat-card"><div class="icon c2">🆘</div><div class="label">Requests</div><div class="value">${rs.filter(r => r.status === "pending").length}</div></div>
+          <div class="stat-card"><div class="icon c3">🚫</div><div class="label">Suspended</div><div class="value">${us.filter(u => u.suspended).length}</div></div>
+        </div>
+      `;
+    } catch (err) { content.innerHTML = '<div class="empty"><p>Failed</p></div>'; }
   }
 
   else if (tab === "products") {
     title.textContent = "Products";
     content.innerHTML = `
       <button class="btn btn-primary" style="margin-bottom:16px" onclick="openProductForm()">+ Add Product</button>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
-          <tbody id="adminProductRows"></tbody>
-        </table>
-      </div>
-    `;
-    const snap = await getDocs(collection(db, "products"));
-    const products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    document.getElementById("adminProductRows").innerHTML = products.map(p => `
-      <tr>
-        <td>${p.images?.[0] ? `<img src="${p.images[0]}" style="width:40px;height:40px;object-fit:cover;border-radius:6px" />` : "📦"}</td>
-        <td>${p.name || "-"}</td>
-        <td>₹${p.price || 0}</td>
-        <td>${p.stock || 0}</td>
-        <td>
-          <button class="btn btn-ghost btn-sm" onclick="openProductForm('${p.id}')">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">Del</button>
-        </td>
-      </tr>
-    `).join("") || '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-light)">No products yet</td></tr>';
+      <div class="table-wrap"><table>
+        <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+        <tbody id="adminProductRows"><tr><td colspan="5" style="text-align:center;padding:20px">Loading...</td></tr></tbody>
+      </table></div>`;
+    try {
+      const snap = await getDocs(collection(db, "products"));
+      const products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      document.getElementById("adminProductRows").innerHTML = products.map(p => `
+        <tr>
+          <td>${p.images?.[0] ? `<img src="${p.images[0]}" style="width:44px;height:44px;object-fit:cover;border-radius:8px" />` : "📦"}</td>
+          <td><strong>${p.name || "-"}</strong></td>
+          <td style="color:var(--primary);font-weight:700">₹${p.price || 0}</td>
+          <td>${p.stock || 0}</td>
+          <td>
+            <button class="btn btn-ghost btn-sm" onclick="openProductForm('${p.id}')">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">Del</button>
+          </td>
+        </tr>`).join("") || '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-light)">No products</td></tr>';
+    } catch (err) { document.getElementById("adminProductRows").innerHTML = `<tr><td colspan="5" style="color:var(--danger);padding:20px">${err.code}</td></tr>`; }
   }
 
   else if (tab === "categories") {
     title.textContent = "Categories";
-    content.innerHTML = `
-      <button class="btn btn-primary" style="margin-bottom:16px" onclick="openCategoryForm()">+ Add Category</button>
-      <div id="adminCategoryList"></div>
-    `;
-    const snap = await getDocs(collection(db, "categories"));
-    const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    document.getElementById("adminCategoryList").innerHTML = cats.map(c => `
-      <div class="cart-item">
-        <div class="details"><div class="name">${c.name}</div></div>
-        <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">Delete</button>
-      </div>
-    `).join("") || '<div class="empty"><p>No categories yet</p></div>';
+    content.innerHTML = `<button class="btn btn-primary" style="margin-bottom:16px" onclick="openCategoryForm()">+ Add Category</button><div id="adminCatList"></div>`;
+    try {
+      const snap = await getDocs(collection(db, "categories"));
+      const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      document.getElementById("adminCatList").innerHTML = cats.map(c => `
+        <div class="cart-item">
+          <div class="details"><div class="name">${c.name}</div></div>
+          <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">Delete</button>
+        </div>`).join("") || '<div class="empty"><p>No categories</p></div>';
+    } catch (err) { document.getElementById("adminCatList").innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
   }
 
   else if (tab === "orders") {
     title.textContent = "Orders";
-    const snap = await getDocs(collection(db, "orders"));
-    const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-    content.innerHTML = orders.length ? orders.map(o => `
-      <div class="order-card">
-        <div class="row">
-          <strong>#${o.id.slice(-8).toUpperCase()}</strong>
-          <span class="status status-${o.orderStatus}">${o.orderStatus}</span>
-        </div>
-        <div class="row"><span>${o.customerName || o.customerEmail}</span><strong>₹${o.totalAmount}</strong></div>
-        <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
-          ${["Pending", "Confirmed", "Shipped", "Delivered", "Cancelled"].map(s => 
-            `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}', '${s}')">${s}</button>`
-          ).join("")}
-        </div>
-      </div>
-    `).join("") : '<div class="empty"><p>No orders yet</p></div>';
+    try {
+      const snap = await getDocs(collection(db, "orders"));
+      const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      content.innerHTML = orders.length ? orders.map(o => `
+        <div class="order-card">
+          <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
+          <div class="row"><span>${o.customerName || o.customerEmail}</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+            ${["Pending","Confirmed","Shipped","Delivered","Cancelled"].map(s => `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}','${s}')">${s}</button>`).join("")}
+          </div>
+        </div>`).join("") : '<div class="empty"><p>No orders</p></div>';
+    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
   }
 
-  else if (tab === "customers") {
-    title.textContent = "Customers";
-    const snap = await getDocs(collection(db, "users"));
-    const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    content.innerHTML = `
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead>
-          <tbody>
-            ${users.map(u => `
-              <tr>
-                <td>${u.name || "-"}</td>
-                <td>${u.email || "-"}</td>
-                <td>${u.role || "customer"}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
-    `;
+  else if (tab === "users") {
+    title.textContent = "Users";
+    try {
+      const snap = await getDocs(collection(db, "users"));
+      const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      content.innerHTML = `
+        <div class="table-wrap"><table>
+          <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>${users.map(u => `<tr>
+            <td><strong>${u.publicId || "-"}</strong></td>
+            <td>${u.name || "-"}<br><small style="color:var(--text-light)">@${u.username || "-"}</small></td>
+            <td>${u.email || "-"}</td>
+            <td>${u.mobile || "-"}</td>
+            <td>
+              ${u.suspended ? '<span style="background:#fee2e2;color:#991b1b;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">🚫 SUSPENDED</span>' : 
+                u.duplicateIssue && !u.duplicateIssue.resolved ? '<span style="background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">⏰ PENDING</span>' :
+                '<span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">✓ ACTIVE</span>'}
+            </td>
+            <td>
+              ${u.suspended ? `<button class="btn btn-success btn-sm" onclick="unsuspendUser('${u.id}')">Unblock</button>` : ""}
+              ${u.duplicateIssue && !u.duplicateIssue.resolved ? `<button class="btn btn-ghost btn-sm" onclick="clearDuplicate('${u.id}')">Clear Issue</button>` : ""}
+            </td>
+          </tr>`).join("")}</tbody>
+        </table></div>`;
+    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
+  }
+
+  else if (tab === "requests") {
+    title.textContent = "Admin Requests";
+    try {
+      const snap = await getDocs(collection(db, "adminRequests"));
+      const reqs = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      content.innerHTML = reqs.length ? reqs.map(r => `
+        <div class="order-card">
+          <div class="row"><strong>${r.userName || r.userEmail}</strong>
+            <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:${r.status === 'pending' ? '#fef3c7' : r.status === 'approved' ? '#d1fae5' : '#fee2e2'};color:${r.status === 'pending' ? '#92400e' : r.status === 'approved' ? '#065f46' : '#991b1b'}">${r.status.toUpperCase()}</span>
+          </div>
+          <div class="row" style="font-size:12px;color:var(--text-light)"><span>Type: ${r.type}</span><span>${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : ""}</span></div>
+          <div style="padding:10px;background:#f8fafc;border-radius:8px;font-size:13px;margin:8px 0">${r.message}</div>
+          ${r.status === "pending" ? `
+            <div style="display:flex;gap:6px;margin-top:8px">
+              <button class="btn btn-success btn-sm" onclick="respondRequest('${r.id}','approved')">✓ Approve</button>
+              <button class="btn btn-danger btn-sm" onclick="respondRequest('${r.id}','rejected')">✗ Reject</button>
+            </div>
+          ` : ""}
+        </div>`).join("") : '<div class="empty"><p>No requests</p></div>';
+    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">${err.code}</p>`; }
   }
 }
 
-// ---------- Admin: Product form ----------
-window.openProductForm = function(productId = null) {
-  const editing = !!productId;
-  let p = { name: "", price: "", mrp: "", stock: 0, description: "", images: [], categoryId: "", brand: "", sku: "" };
-  if (editing) {
-    const found = allProducts.find(x => x.id === productId);
-    if (found) p = { ...p, ...found };
-    // Also fetch if not in memory (admin products list)
-    if (!found) {
-      getDoc(doc(db, "products", productId)).then(snap => {
-        if (snap.exists()) openProductForm(productId); // retry after loading
-      });
-    }
-  }
+/* Admin actions */
+window.unsuspendUser = async function(uid) {
+  if (!confirm("Unblock this user?")) return;
+  try {
+    await updateDoc(doc(db, "users", uid), {
+      suspended: false, status: "active",
+      duplicateIssue: null,
+      suspendedReason: "",
+      updatedAt: serverTimestamp()
+    });
+    showToast("User unblocked ✓", "success");
+    renderAdmin("users");
+  } catch (err) { showToast("Failed", "error"); }
+};
 
+window.clearDuplicate = async function(uid) {
+  if (!confirm("Clear duplicate issue for this user?")) return;
+  try {
+    await updateDoc(doc(db, "users", uid), {
+      duplicateIssue: null, status: "active",
+      updatedAt: serverTimestamp()
+    });
+    showToast("Cleared ✓", "success");
+    renderAdmin("users");
+  } catch (err) { showToast("Failed", "error"); }
+};
+
+window.respondRequest = async function(reqId, status) {
+  const response = prompt("Response message (optional):") || "";
+  try {
+    await updateDoc(doc(db, "adminRequests", reqId), {
+      status, response,
+      respondedAt: serverTimestamp()
+    });
+    showToast("Request " + status, "success");
+    renderAdmin("requests");
+  } catch (err) { showToast("Failed", "error"); }
+};
+
+/* Product form */
+window.openProductForm = async function(productId = null) {
+  const editing = !!productId;
+  let p = { name: "", price: "", mrp: "", stock: 0, description: "", images: [], brand: "", sku: "", isFeatured: false };
+  if (editing) {
+    try {
+      const snap = await getDoc(doc(db, "products", productId));
+      if (snap.exists()) p = { ...p, ...snap.data() };
+    } catch (e) { showToast("Load failed", "error"); return; }
+  }
   openModal(editing ? "Edit Product" : "Add Product", `
-    <div class="form-group">
-      <label>Product Name *</label>
-      <input class="form-control" id="pfName" value="${p.name || ""}" />
-    </div>
-    <div class="form-group">
-      <label>Description</label>
-      <textarea class="form-control" id="pfDescription">${p.description || ""}</textarea>
+    <div class="form-group"><label>Name *</label><input class="form-control" id="pfName" value="${p.name || ""}" /></div>
+    <div class="form-group"><label>Description</label><textarea class="form-control" id="pfDescription">${p.description || ""}</textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Price *</label><input type="number" class="form-control" id="pfPrice" value="${p.price || ""}" /></div>
+      <div class="form-group"><label>MRP</label><input type="number" class="form-control" id="pfMrp" value="${p.mrp || ""}" /></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="form-group">
-        <label>Price (₹) *</label>
-        <input type="number" class="form-control" id="pfPrice" value="${p.price || ""}" />
-      </div>
-      <div class="form-group">
-        <label>MRP (₹)</label>
-        <input type="number" class="form-control" id="pfMrp" value="${p.mrp || ""}" />
-      </div>
+      <div class="form-group"><label>Stock</label><input type="number" class="form-control" id="pfStock" value="${p.stock || 0}" /></div>
+      <div class="form-group"><label>SKU</label><input class="form-control" id="pfSku" value="${p.sku || ""}" /></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="form-group">
-        <label>Stock</label>
-        <input type="number" class="form-control" id="pfStock" value="${p.stock || 0}" />
-      </div>
-      <div class="form-group">
-        <label>SKU</label>
-        <input class="form-control" id="pfSku" value="${p.sku || ""}" />
-      </div>
+    <div class="form-group"><label>Brand</label><input class="form-control" id="pfBrand" value="${p.brand || ""}" /></div>
+    <div class="form-group"><label>Image</label><input type="file" class="form-control" id="pfImage" accept="image/*" />
+      <div class="img-preview">${p.images?.[0] ? `<div class="thumb"><img src="${p.images[0]}" /></div>` : ""}</div>
     </div>
-    <div class="form-group">
-      <label>Brand</label>
-      <input class="form-control" id="pfBrand" value="${p.brand || ""}" />
-    </div>
-    <div class="form-group">
-      <label>Product Image</label>
-      <input type="file" class="form-control" id="pfImage" accept="image/*" />
-      <div id="pfImagePreview" class="img-preview">
-        ${p.images?.[0] ? `<div class="thumb"><img src="${p.images[0]}" /></div>` : ""}
-      </div>
-    </div>
-    <div class="form-group">
-      <label>
-        <input type="checkbox" id="pfFeatured" ${p.isFeatured ? "checked" : ""} />
-        Mark as Featured
-      </label>
-    </div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" id="pfSaveBtn" onclick="saveProduct(${editing ? `'${productId}'` : "null"})">
-      ${editing ? "Update" : "Create"}
-    </button>
-  `);
+    <div class="form-group"><label><input type="checkbox" id="pfFeatured" ${p.isFeatured ? "checked" : ""} /> Featured</label></div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="pfSaveBtn" onclick="saveProduct(${editing ? `'${productId}'` : "null"})">${editing ? "Update" : "Create"}</button>`);
 };
 
 window.saveProduct = async function(productId) {
   const btn = document.getElementById("pfSaveBtn");
   btn.disabled = true; btn.textContent = "Saving...";
-
   const name = document.getElementById("pfName").value.trim();
   const price = parseFloat(document.getElementById("pfPrice").value) || 0;
   if (!name || !price) {
     btn.disabled = false; btn.textContent = productId ? "Update" : "Create";
-    return showToast("Name and Price are required", "warning");
+    return showToast("Name and Price required", "warning");
   }
-
   const data = {
-    name,
-    description: document.getElementById("pfDescription").value.trim(),
-    price,
-    mrp: parseFloat(document.getElementById("pfMrp").value) || price,
+    name, description: document.getElementById("pfDescription").value.trim(),
+    price, mrp: parseFloat(document.getElementById("pfMrp").value) || price,
     stock: parseInt(document.getElementById("pfStock").value) || 0,
     sku: document.getElementById("pfSku").value.trim(),
     brand: document.getElementById("pfBrand").value.trim(),
     isFeatured: document.getElementById("pfFeatured").checked,
-    active: true,
-    updatedAt: serverTimestamp()
+    active: true, updatedAt: serverTimestamp()
   };
-
   try {
-    // Upload image if selected
     const file = document.getElementById("pfImage").files[0];
     if (file) {
-      const path = `products/${Date.now()}_${file.name}`;
-      const storageRef = ref(storage, path);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      data.images = [url];
+      const sRef = ref(storage, `products/${Date.now()}_${file.name}`);
+      await uploadBytes(sRef, file);
+      data.images = [await getDownloadURL(sRef)];
     }
-
     if (productId) {
       await updateDoc(doc(db, "products", productId), data);
-      showToast("Product updated", "success");
+      showToast("Updated ✓", "success");
     } else {
       data.createdAt = serverTimestamp();
       if (!data.images) data.images = [];
       await addDoc(collection(db, "products"), data);
-      showToast("Product created", "success");
+      showToast("Created ✓", "success");
     }
     closeModal();
     await loadProducts();
-    if (document.getElementById("page-admin").classList.contains("active")) renderAdmin("products");
+    renderAdmin("products");
   } catch (err) {
-    console.error(err);
-    showToast("Save failed: " + err.message, "error");
+    showToast("Failed: " + err.message, "error");
   } finally {
     btn.disabled = false; btn.textContent = productId ? "Update" : "Create";
   }
 };
 
-window.deleteProduct = async function(productId) {
-  if (!confirm("Delete this product permanently?")) return;
+window.deleteProduct = async function(id) {
+  if (!confirm("Delete?")) return;
   try {
-    await deleteDoc(doc(db, "products", productId));
-    showToast("Product deleted", "success");
+    await deleteDoc(doc(db, "products", id));
+    showToast("Deleted", "success");
     await loadProducts();
     renderAdmin("products");
-  } catch (err) {
-    showToast("Delete failed: " + err.message, "error");
-  }
+  } catch (err) { showToast("Failed", "error"); }
 };
 
-// ---------- Admin: Category form ----------
 window.openCategoryForm = function() {
-  openModal("Add Category", `
-    <div class="form-group">
-      <label>Category Name *</label>
-      <input class="form-control" id="cfName" />
-    </div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" onclick="saveCategory()">Create</button>
-  `);
+  openModal("Add Category", `<div class="form-group"><label>Name *</label><input class="form-control" id="cfName" /></div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveCategory()">Create</button>`);
 };
-
 window.saveCategory = async function() {
   const name = document.getElementById("cfName").value.trim();
   if (!name) return showToast("Name required", "warning");
   try {
     await addDoc(collection(db, "categories"), { name, createdAt: serverTimestamp() });
-    showToast("Category created", "success");
+    showToast("Created", "success");
     closeModal();
     await loadCategories();
     renderAdmin("categories");
-  } catch (err) {
-    showToast("Failed: " + err.message, "error");
-  }
+  } catch (err) { showToast("Failed", "error"); }
 };
-
 window.deleteCategory = async function(id) {
-  if (!confirm("Delete category?")) return;
+  if (!confirm("Delete?")) return;
   try {
     await deleteDoc(doc(db, "categories", id));
-    showToast("Category deleted", "success");
+    showToast("Deleted", "success");
     await loadCategories();
     renderAdmin("categories");
-  } catch (err) {
-    showToast("Failed: " + err.message, "error");
-  }
+  } catch (err) { showToast("Failed", "error"); }
 };
-
-// ---------- Admin: Update order status ----------
-window.updateOrderStatus = async function(orderId, status) {
+window.updateOrderStatus = async function(id, status) {
   try {
-    await updateDoc(doc(db, "orders", orderId), {
-      orderStatus: status,
-      updatedAt: serverTimestamp()
-    });
-    showToast("Order updated to " + status, "success");
+    await updateDoc(doc(db, "orders", id), { orderStatus: status, updatedAt: serverTimestamp() });
+    showToast("Updated to " + status, "success");
     renderAdmin("orders");
-  } catch (err) {
-    showToast("Failed: " + err.message, "error");
-  }
+  } catch (err) { showToast("Failed", "error"); }
 };
 
-// ==========================================================
-// INIT
-// ==========================================================
-console.log("%c🛒 Pawan Retail Limited", "color:#e91e63;font-size:20px;font-weight:bold");
-console.log("%cFirebase Project: pawan-kumar-82619", "color:#666;font-size:12px");
-
+console.log("%c🛒 Pawan Retail — Profile System", "color:#7c3aed;font-size:20px;font-weight:bold");
 </script>
 
 </body>
