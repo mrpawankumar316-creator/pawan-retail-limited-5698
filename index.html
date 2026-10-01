@@ -3,480 +3,587 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pawan Retail — Shop</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+<title>Pawan Retail - Online Shopping</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>P</text></svg>" />
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--primary:#7c3aed;--primary-dark:#6d28d9;--primary-light:#ede9fe;--secondary:#ec4899;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--info:#3b82f6;--bg:#faf5ff;--card:#fff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;--shadow:0 4px 12px rgba(124,58,237,.10);--shadow-lg:0 12px 32px rgba(124,58,237,.15);--gradient-1:linear-gradient(135deg,#7c3aed 0%,#ec4899 100%);--gradient-2:linear-gradient(135deg,#ec4899 0%,#f59e0b 100%);--gradient-3:linear-gradient(135deg,#14b8a6 0%,#3b82f6 100%);--radius:16px}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#faf5ff 0%,#fce7f3 50%,#fff7ed 100%);background-attachment:fixed;color:var(--text);line-height:1.5;min-height:100vh}
+:root{
+  --blue:#2874f0;--blue-dark:#1f5fbf;--orange:#ff6b00;--green:#388e3c;--red:#d32f2f;
+  --text:#212121;--text-mid:#4f4f4f;--text-muted:#878787;
+  --border:#e0e0e0;--border-dark:#c7c7c7;
+  --bg:#f1f3f6;--card:#fff;--hover:#f5f5f5;
+}
+html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.4;min-height:100vh;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
-input,textarea,select{font-family:inherit;font-size:14px}
-a{color:var(--primary);text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;font-size:14px;color:inherit}
+input,select,textarea{font-family:inherit;font-size:14px}
+a{color:var(--blue);text-decoration:none}
 
-.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(124,58,237,.1);padding:12px 16px;display:flex;align-items:center;gap:12px}
-.header .logo{font-size:18px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
-.header-actions{display:flex;gap:6px;margin-left:auto;align-items:center}
-.icon-btn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:20px;position:relative;transition:all .2s}
-.icon-btn:hover{background:var(--primary-light);transform:scale(1.05)}
-.badge{position:absolute;top:2px;right:2px;background:var(--gradient-2);color:#fff;font-size:10px;font-weight:700;min-width:20px;height:20px;padding:0 5px;border-radius:10px;display:grid;place-items:center}
+/* HEADER */
+.header{background:var(--blue);padding:10px 16px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 4px rgba(0,0,0,.08)}
+.header .brand{color:#fff;font-size:19px;font-weight:600;font-style:italic;letter-spacing:-.3px;cursor:pointer;white-space:nowrap;display:flex;flex-direction:column;line-height:1}
+.header .brand .tagline{font-size:10px;font-style:italic;font-weight:400;color:#ffe500;margin-top:2px}
+.header .search{flex:1;max-width:600px;background:#fff;border-radius:2px;display:flex;align-items:center;padding:0 12px;height:36px}
+.header .search input{flex:1;border:none;outline:none;font-size:14px;background:transparent}
+.header .search .ico{color:var(--blue);font-size:16px;font-weight:700}
+.header .actions{display:flex;align-items:center;gap:6px;margin-left:auto}
+.header .nav-item{color:#fff;font-size:14px;font-weight:500;padding:6px 12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;position:relative}
+.header .nav-item .count{background:var(--orange);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;padding:0 4px;border-radius:8px;display:grid;place-items:center;position:absolute;top:-2px;right:0}
+.header .menu-toggle{display:none;color:#fff;font-size:20px;padding:6px}
 
-.container{max-width:1200px;margin:0 auto;padding:16px}
-.page{display:none;padding-bottom:90px;animation:fadeInUp .3s}
+/* CATEGORY STRIP */
+.cat-strip{background:#fff;border-bottom:1px solid var(--border);padding:12px 16px;display:flex;gap:28px;overflow-x:auto;scrollbar-width:none}
+.cat-strip::-webkit-scrollbar{display:none}
+.cat-strip .cat{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;min-width:60px;font-size:12px;color:var(--text);font-weight:500;padding:2px 0;border-bottom:2px solid transparent}
+.cat-strip .cat:hover{color:var(--blue)}
+.cat-strip .cat.active{color:var(--blue);border-bottom-color:var(--blue)}
+.cat-strip .cat .ico{font-size:22px;margin-bottom:2px}
+
+.container{max-width:1300px;margin:0 auto;padding:12px}
+.page{display:none;padding-bottom:80px}
 .page.active{display:block}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.btn{padding:12px 22px;border-radius:12px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .25s;white-space:nowrap}
-.btn-primary{background:var(--gradient-1);color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.35)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.45)}
-.btn-outline{background:transparent;color:var(--primary);border:2px solid var(--primary)}
-.btn-ghost{background:#f1f5f9;color:var(--text)}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-success{background:var(--success);color:#fff}
-.btn-warning{background:var(--warning);color:#fff}
+/* BUTTONS */
+.btn{padding:10px 20px;border-radius:2px;font-size:14px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;white-space:nowrap}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-dark);box-shadow:0 2px 6px rgba(40,116,240,.3)}
+.btn-secondary{background:var(--orange);color:#fff}
+.btn-secondary:hover{background:#e55f00}
+.btn-outline{background:#fff;color:var(--blue);border:1px solid var(--border);font-weight:500}
+.btn-outline:hover{box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.btn-ghost{background:transparent;color:var(--text);padding:8px 12px}
+.btn-ghost:hover{background:var(--hover)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-success{background:var(--green);color:#fff}
 .btn-block{width:100%}
-.btn-sm{padding:8px 14px;font-size:12px;border-radius:8px}
-.btn-lg{padding:16px 28px;font-size:16px;border-radius:14px}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.btn-sm{padding:6px 14px;font-size:13px}
+.btn-lg{padding:14px 28px;font-size:16px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
 
+/* FORMS */
 .form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
-.form-control{width:100%;padding:13px 16px;border:2px solid var(--border);border-radius:12px;background:var(--card);font-size:14px;transition:all .2s;outline:none}
-.form-control:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(124,58,237,.1)}
-.form-control:disabled{background:#f1f5f9;color:var(--text-light);cursor:not-allowed}
-.form-control.available{border-color:var(--success);box-shadow:0 0 0 4px rgba(16,185,129,.1)}
-.form-control.taken{border-color:var(--danger);box-shadow:0 0 0 4px rgba(239,68,68,.1)}
-.form-control.checking{border-color:var(--warning);box-shadow:0 0 0 4px rgba(245,158,11,.1)}
+.form-group label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:var(--text-mid)}
+.form-control{width:100%;padding:11px 12px;border:1px solid var(--border-dark);border-radius:2px;background:#fff;font-size:14px;outline:none;transition:border-color .15s}
+.form-control:focus{border-color:var(--blue)}
+.form-control:disabled{background:#f5f5f5;color:var(--text-muted);cursor:not-allowed}
+.form-control.available{border-color:var(--green)}
+.form-control.taken{border-color:var(--red)}
 textarea.form-control{resize:vertical;min-height:80px}
 
-.field-status{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin-top:6px;min-height:18px;flex-wrap:wrap}
-.field-status.checking{color:var(--text-light)}
-.field-status.available{color:var(--success)}
-.field-status.taken{color:var(--danger)}
-.field-status.error{color:var(--warning)}
-.field-status .spinner-mini{width:12px;height:12px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
-.field-status .icon{font-size:14px}
-.suggestion-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.suggestion-chip{padding:4px 10px;background:var(--primary-light);color:var(--primary);border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
-.suggestion-chip:hover{background:var(--primary);color:#fff;transform:translateY(-1px)}
+.field-status{font-size:12px;margin-top:5px;min-height:16px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.field-status.available{color:var(--green)}
+.field-status.taken{color:var(--red)}
+.field-status.checking{color:var(--text-muted)}
+.field-status.error{color:var(--orange)}
+.field-status .spinner-mini{width:11px;height:11px;border:2px solid var(--text-muted);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
+.suggestion-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.suggestion-chip{padding:3px 8px;background:#e3f2fd;color:var(--blue);border:1px solid #bbdefb;border-radius:2px;font-size:11px;cursor:pointer}
+.suggestion-chip:hover{background:var(--blue);color:#fff}
 
-.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:16px;border:1px solid rgba(124,58,237,.05)}
+/* PRODUCTS */
+.section{background:#fff;border-radius:2px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.section-title{font-size:20px;font-weight:500;color:var(--text);margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.section-title .view-all{background:var(--blue);color:#fff;padding:8px 16px;font-size:13px;font-weight:500;border-radius:2px;cursor:pointer}
+.section-title .view-all:hover{background:var(--blue-dark)}
 
-.product-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-.product-card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:all .3s;display:flex;flex-direction:column}
-.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
-.product-card .img-wrap{position:relative;aspect-ratio:1;background:#f8f5ff;display:grid;place-items:center;overflow:hidden}
-.product-card .img-wrap img{width:100%;height:100%;object-fit:cover}
-.product-card .wish-btn{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:16px;box-shadow:var(--shadow)}
-.product-card .discount-badge{position:absolute;top:10px;left:10px;background:var(--gradient-2);color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.product-card .info{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
-.product-card .name{font-size:13px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px}
-.product-card .price-row{display:flex;align-items:baseline;gap:8px;margin-top:auto}
-.product-card .price{font-size:16px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.product-card .mrp{font-size:12px;color:var(--text-light);text-decoration:line-through}
-.product-card .add-btn{margin-top:8px;padding:9px;border-radius:10px;background:var(--gradient-1);color:#fff;font-size:12px;font-weight:700}
+.product-grid{display:grid;gap:2px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));background:var(--border);border:1px solid var(--border)}
+.product-card{background:#fff;cursor:pointer;display:flex;flex-direction:column;transition:box-shadow .15s;position:relative}
+.product-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:2}
+.product-card .img-wrap{aspect-ratio:1;background:#fff;display:grid;place-items:center;overflow:hidden;padding:12px}
+.product-card .img-wrap img{width:100%;height:100%;object-fit:contain;transition:transform .3s}
+.product-card:hover .img-wrap img{transform:scale(1.05)}
+.product-card .wish-btn{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--border);display:grid;place-items:center;font-size:14px;z-index:2}
+.product-card .wish-btn:hover{background:#ffe5e5;border-color:#ff6b6b}
+.product-card .info{padding:10px 10px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.product-card .name{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px}
+.product-card .brand{font-size:11px;color:var(--text-muted)}
+.product-card .price-row{display:flex;align-items:baseline;gap:6px;margin-top:4px}
+.product-card .price{font-size:15px;font-weight:600;color:var(--text)}
+.product-card .mrp{font-size:12px;color:var(--text-muted);text-decoration:line-through}
+.product-card .discount{font-size:12px;color:var(--green);font-weight:500}
+.product-card .stock-badge{font-size:11px;color:var(--orange);font-weight:500}
 
-.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:var(--gradient-1);position:relative;overflow:hidden}
-.auth-card{background:var(--card);border-radius:24px;padding:36px 28px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;z-index:1}
-.auth-card h1{font-size:28px;margin-bottom:6px;text-align:center;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.auth-card .subtitle{text-align:center;color:var(--text-light);font-size:13px;margin-bottom:28px}
-.auth-tabs{display:flex;gap:6px;background:#f1f5f9;border-radius:12px;padding:5px;margin-bottom:24px}
-.auth-tabs button{flex:1;padding:10px;border-radius:9px;font-size:13px;font-weight:600;color:var(--text-light);transition:all .25s}
-.auth-tabs button.active{background:var(--gradient-1);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,.3)}
+/* AUTH */
+.auth-wrap{min-height:100vh;background:var(--bg);display:grid;place-items:center;padding:20px}
+.auth-card{background:#fff;border-radius:2px;box-shadow:0 2px 12px rgba(0,0,0,.1);padding:36px 32px;width:100%;max-width:420px}
+.auth-logo{text-align:center;margin-bottom:24px}
+.auth-logo h1{font-size:24px;font-weight:600;color:var(--blue);font-style:italic;letter-spacing:-.5px}
+.auth-logo p{color:var(--text-muted);font-size:13px;margin-top:4px}
+.auth-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px}
+.auth-tabs button{flex:1;padding:12px;font-size:14px;font-weight:500;color:var(--text-muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.auth-tabs button.active{color:var(--blue);border-bottom-color:var(--blue)}
 
-.verify-card{background:var(--card);border-radius:24px;padding:36px 28px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center;position:relative;z-index:1}
-.verify-icon{width:90px;height:90px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;font-size:44px;margin:0 auto 20px;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.verify-card h2{font-size:22px;margin-bottom:8px}
-.email-shown{display:inline-block;background:var(--primary-light);color:var(--primary);padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;margin:12px 0;word-break:break-all}
-.verify-card .steps{background:#f8fafc;border-radius:12px;padding:16px;text-align:left;margin:20px 0;font-size:13px;line-height:1.8}
-.verify-card .steps ol{padding-left:20px}
-.verify-card p{color:var(--text-light);font-size:13px}
+.verify-card{background:#fff;border-radius:2px;box-shadow:0 2px 12px rgba(0,0,0,.1);padding:36px 32px;width:100%;max-width:440px}
+.verify-icon{width:64px;height:64px;border-radius:50%;background:#e3f2fd;color:var(--blue);display:grid;place-items:center;font-size:28px;margin:0 auto 20px;font-weight:600}
+.verify-card h2{font-size:20px;text-align:center;margin-bottom:8px;color:var(--text)}
+.verify-card p{text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:16px}
+.verify-email{display:block;background:#f5f5f5;color:var(--blue);padding:10px 14px;border-radius:2px;font-size:13px;font-weight:500;text-align:center;margin-bottom:20px;word-break:break-all}
+.verify-steps{background:#fafafa;border-left:3px solid var(--blue);padding:14px 18px;margin-bottom:20px;font-size:13px;color:var(--text-mid)}
+.verify-steps ol{padding-left:20px}
+.verify-steps li{margin-bottom:6px;line-height:1.6}
 
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:90;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid rgba(124,58,237,.1);display:flex;padding:8px 0 10px;box-shadow:0 -4px 20px rgba(124,58,237,.08)}
-.bottom-nav button{flex:1;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:#94a3b8;transition:all .25s}
-.bottom-nav button.active{color:var(--primary);transform:translateY(-2px)}
-.bottom-nav .nav-icon{font-size:20px}
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:8px 0;z-index:90;box-shadow:0 -1px 4px rgba(0,0,0,.05)}
+.bottom-nav button{flex:1;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--text-muted);font-weight:500}
+.bottom-nav button.active{color:var(--blue)}
+.bottom-nav .ico{font-size:18px}
 
-.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(30,41,59,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:16px}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:1000;animation:fadeIn .15s}
 .modal-overlay.active{display:flex}
-.modal{background:var(--card);border-radius:24px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.35);animation:slideUp .3s}
-.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--card);z-index:1;border-radius:24px 24px 0 0}
-.modal-header h3{font-size:18px;font-weight:700;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.modal-body{padding:20px 24px}
-.modal-footer{padding:16px 24px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:var(--card);border-radius:0 0 24px 24px}
+.modal{background:#fff;border-radius:2px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 4px 24px rgba(0,0,0,.3);animation:slideUp .2s}
+.modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:1}
+.modal-header h3{font-size:16px;font-weight:500;color:var(--text)}
+.modal-header .close{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:18px;color:var(--text-muted)}
+.modal-header .close:hover{background:var(--hover)}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:#fff}
 .modal-footer .btn{flex:1}
-@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(15px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-.toast-container{position:fixed;top:20px;right:20px;z-index:2000;display:flex;flex-direction:column;gap:10px;max-width:340px}
-.toast{padding:14px 18px;border-radius:12px;background:var(--card);box-shadow:var(--shadow-lg);font-size:13px;font-weight:500;border-left:4px solid var(--primary);min-width:240px;animation:slideIn .35s}
-.toast.success{border-left-color:var(--success);background:linear-gradient(to right,#f0fdf4,#fff)}
-.toast.error{border-left-color:var(--danger);background:linear-gradient(to right,#fef2f2,#fff)}
-.toast.warning{border-left-color:var(--warning);background:linear-gradient(to right,#fffbeb,#fff)}
-@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+/* TOAST */
+.toast-wrap{position:fixed;top:16px;right:16px;z-index:2000;display:flex;flex-direction:column;gap:8px;max-width:340px;pointer-events:none}
+.toast{background:#323232;color:#fff;padding:12px 16px;border-radius:2px;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.2);animation:slideIn .25s;pointer-events:auto}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+.toast.warning{background:var(--orange)}
+@keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
 
-.section-title{font-size:18px;font-weight:800;margin:24px 0 14px;display:flex;justify-content:space-between;align-items:center}
-.section-title small{font-size:12px;font-weight:600;color:var(--primary);cursor:pointer;padding:6px 12px;background:var(--primary-light);border-radius:20px}
-.empty{text-align:center;padding:60px 20px;color:var(--text-light)}
-.empty .emoji{font-size:64px;margin-bottom:16px;opacity:.8}
-.empty p{font-size:14px;margin-bottom:6px}
-.empty p:last-child{font-size:12px;color:#94a3b8}
+.empty{text-align:center;padding:60px 20px;color:var(--text-muted);background:#fff;border-radius:2px}
+.empty .icon{font-size:48px;margin-bottom:12px;color:var(--border-dark)}
+.empty h3{font-size:16px;font-weight:500;color:var(--text);margin-bottom:6px}
+.empty p{font-size:13px;margin-bottom:4px}
 .loading{display:flex;justify-content:center;padding:40px}
-.spinner{width:38px;height:38px;border:3px solid var(--primary-light);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.admin-sidebar{position:fixed;top:0;left:0;bottom:0;width:260px;background:linear-gradient(180deg,#1e293b 0%,#0f172a 100%);color:#fff;padding:24px 0;overflow-y:auto;z-index:200;transform:translateX(-100%);transition:transform .35s;box-shadow:4px 0 24px rgba(0,0,0,.15)}
-.admin-sidebar.open{transform:translateX(0)}
-.admin-sidebar .brand{padding:0 24px 24px;font-size:20px;font-weight:800;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:16px;background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.admin-sidebar button{display:flex;align-items:center;gap:12px;width:100%;padding:14px 24px;text-align:left;font-size:14px;font-weight:500;color:rgba(255,255,255,.75);transition:all .2s;border-left:3px solid transparent}
-.admin-sidebar button.active{background:rgba(124,58,237,.15);color:#fff;font-weight:600;border-left-color:#a78bfa}
-.admin-sidebar button:hover{background:rgba(124,58,237,.1);color:#fff}
-.admin-main{padding:16px}
-.admin-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.admin-header h1{font-size:22px;flex:1;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.menu-toggle{font-size:26px;color:var(--primary)}
-
-.stat-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));margin-bottom:24px}
-.stat-card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px}
-.stat-card .icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;margin-bottom:6px;color:#fff}
-.stat-card .icon.c1{background:var(--gradient-1)}
-.stat-card .icon.c2{background:var(--gradient-2)}
-.stat-card .icon.c3{background:var(--gradient-3)}
-.stat-card .label{font-size:12px;color:var(--text-light);font-weight:500;text-transform:uppercase}
-.stat-card .value{font-size:24px;font-weight:800}
-
-.table-wrap{overflow-x:auto;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border)}
-th{background:#f8fafc;font-weight:700;font-size:11px;color:var(--text-light);text-transform:uppercase}
-tr:last-child td{border-bottom:none}
-
-.order-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:14px;border-left:4px solid var(--primary)}
-.order-card .row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px}
-.status{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase}
-.status-Pending{background:#fef3c7;color:#92400e}
-.status-Confirmed{background:#dbeafe;color:#1e40af}
-.status-Shipped{background:#e9d5ff;color:#6b21a8}
-.status-Delivered{background:#d1fae5;color:#065f46}
-.status-Cancelled{background:#fee2e2;color:#991b1b}
-
-.cart-item{display:flex;gap:14px;padding:14px;background:var(--card);border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px;align-items:center}
-.cart-item img{width:72px;height:72px;object-fit:cover;border-radius:12px;background:#f8f5ff}
+/* CART */
+.cart-item{display:flex;gap:14px;padding:16px;background:#fff;border-bottom:1px solid var(--border);align-items:flex-start}
+.cart-item:last-child{border-bottom:none}
+.cart-item img{width:80px;height:80px;object-fit:contain;background:#fff;border:1px solid var(--border);padding:4px}
 .cart-item .details{flex:1;min-width:0}
-.cart-item .name{font-size:13px;font-weight:600;margin-bottom:6px}
-.cart-item .price{font-size:15px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.qty-controls{display:flex;align-items:center;gap:4px;background:#f1f5f9;border-radius:10px;padding:3px}
-.qty-controls button{width:30px;height:30px;border-radius:8px;background:#fff;font-weight:800;font-size:15px;display:grid;place-items:center;color:var(--primary)}
-.qty-controls span{font-weight:700;min-width:28px;text-align:center;font-size:13px}
+.cart-item .name{font-size:14px;font-weight:500;margin-bottom:6px;line-height:1.4}
+.cart-item .price{font-size:16px;font-weight:600;color:var(--text);margin-bottom:4px}
+.qty-ctrl{display:inline-flex;align-items:center;border:1px solid var(--border-dark);border-radius:2px;margin-top:8px}
+.qty-ctrl button{width:28px;height:28px;background:#fff;color:var(--blue);font-size:16px;font-weight:600;display:grid;place-items:center}
+.qty-ctrl button:hover{background:var(--hover)}
+.qty-ctrl .q{min-width:36px;text-align:center;font-weight:500;font-size:14px}
 
-.chips{display:flex;gap:10px;overflow-x:auto;padding:6px 0 14px}
-.chip{padding:9px 18px;border-radius:20px;background:var(--card);font-size:13px;font-weight:600;white-space:nowrap;border:1.5px solid var(--border);transition:all .25s;color:var(--text-light)}
-.chip.active{background:var(--gradient-1);color:#fff;border-color:transparent}
+/* ORDERS */
+.order-card{background:#fff;border:1px solid var(--border);border-radius:2px;padding:16px;margin-bottom:12px}
+.order-card .head{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.order-card .head .id{font-size:13px;color:var(--text-muted)}
+.order-card .head .id strong{color:var(--text);font-weight:500}
+.order-card .row{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px}
+.order-card .row:last-child{margin-bottom:0}
+.status{padding:3px 10px;border-radius:2px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.status-Pending{background:#fff3e0;color:#e65100}
+.status-Confirmed{background:#e3f2fd;color:#0d47a1}
+.status-Shipped{background:#f3e5f5;color:#4a148c}
+.status-Delivered{background:#e8f5e9;color:#1b5e20}
+.status-Cancelled{background:#ffebee;color:#b71c1c}
 
-.img-preview{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.img-preview .thumb{position:relative;width:80px;height:80px;border-radius:12px;overflow:hidden}
-.img-preview .thumb img{width:100%;height:100%;object-fit:cover}
+/* PROFILE */
+.profile-head{background:#fff;border-radius:2px;padding:20px;margin-bottom:12px;display:flex;gap:16px;align-items:center;border:1px solid var(--border)}
+.profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:24px;font-weight:500;flex-shrink:0}
+.profile-head .info{flex:1;min-width:0}
+.profile-head h3{font-size:16px;font-weight:500;margin-bottom:2px}
+.profile-head p{font-size:13px;color:var(--text-muted)}
+.profile-head .meta{display:flex;gap:16px;margin-top:8px;font-size:12px}
+.profile-head .meta div{display:flex;flex-direction:column;gap:2px}
+.profile-head .meta strong{font-size:14px;color:var(--text)}
+.profile-head .meta span{color:var(--text-muted);font-size:11px}
 
-.profile-header{background:var(--gradient-1);color:#fff;border-radius:var(--radius);padding:24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
-.profile-avatar{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:36px;font-weight:800;margin:0 auto 12px;border:3px solid rgba(255,255,255,.3);position:relative;z-index:1}
-.profile-info-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)}
-.profile-info-row:last-child{border-bottom:none}
-.profile-info-label{font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.profile-info-value{font-size:14px;font-weight:600;margin-top:2px}
-.profile-info-value.missing{color:var(--danger)}
+.profile-row{display:flex;align-items:center;gap:12px;padding:16px;background:#fff;border-bottom:1px solid var(--border);cursor:pointer}
+.profile-row:last-child{border-bottom:none}
+.profile-row:hover{background:var(--hover)}
+.profile-row .ico{width:36px;height:36px;border-radius:50%;background:#f5f5f5;display:grid;place-items:center;font-size:16px;color:var(--blue);flex-shrink:0}
+.profile-row .txt{flex:1;min-width:0}
+.profile-row .txt .lbl{font-size:14px;font-weight:500;color:var(--text)}
+.profile-row .txt .val{font-size:12px;color:var(--text-muted);margin-top:2px}
+.profile-row .txt .val.missing{color:var(--red)}
 
-.alert-card{padding:16px;border-radius:14px;margin-bottom:14px;border-left:5px solid}
-.alert-card.danger{background:#fee2e2;border-left-color:var(--danger)}
-.alert-card.warning{background:#fef3c7;border-left-color:var(--warning)}
-.alert-card.info{background:#dbeafe;border-left-color:var(--info)}
-.alert-card.success{background:#d1fae5;border-left-color:var(--success)}
-.alert-card .title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;margin-bottom:8px}
-.alert-card .text{font-size:13px;line-height:1.6}
-.alert-card .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.profile-section{background:#fff;border-radius:2px;margin-bottom:12px;border:1px solid var(--border);overflow:hidden}
+.profile-section .section-hd{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.profile-section .section-hd h4{font-size:14px;font-weight:500;color:var(--text)}
+.profile-section .section-hd button{font-size:13px;color:var(--blue);font-weight:500}
 
-.device-item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:#f8fafc;border-radius:12px;margin-bottom:8px}
-.device-info{flex:1;min-width:0}
-.device-name{font-size:13px;font-weight:700;margin-bottom:2px}
-.device-meta{font-size:11px;color:var(--text-light)}
+.alert-box{padding:14px 16px;border-radius:2px;margin-bottom:12px;border-left:3px solid;font-size:13px;line-height:1.5}
+.alert-box.info{background:#e3f2fd;border-color:var(--blue);color:#0d47a1}
+.alert-box.warn{background:#fff3e0;border-color:var(--orange);color:#e65100}
+.alert-box.danger{background:#ffebee;border-color:var(--red);color:#b71c1c}
+.alert-box .title{font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.alert-box .actions{margin-top:10px}
+.alert-box .actions button{padding:6px 14px;font-size:12px;border-radius:2px;background:var(--blue);color:#fff;font-weight:500}
 
-.suspended-overlay{position:fixed;inset:0;z-index:900;background:rgba(15,23,42,.92);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
-.suspended-overlay.active{display:flex}
-.suspended-box{background:#fff;border-radius:24px;padding:32px 24px;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.5)}
-.suspended-icon{width:100px;height:100px;border-radius:50%;background:#fee2e2;color:var(--danger);display:grid;place-items:center;font-size:52px;margin:0 auto 20px}
+/* ADMIN */
+.admin-layout{display:flex;min-height:100vh;background:var(--bg)}
+.admin-side{width:220px;background:#fff;border-right:1px solid var(--border);padding:16px 0;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.admin-side .logo{padding:0 20px 16px;font-size:17px;font-weight:600;color:var(--blue);font-style:italic;border-bottom:1px solid var(--border);margin-bottom:8px}
+.admin-side button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 20px;text-align:left;font-size:13px;font-weight:500;color:var(--text-mid);border-left:3px solid transparent}
+.admin-side button:hover{background:var(--hover);color:var(--text)}
+.admin-side button.active{background:#e3f2fd;color:var(--blue);border-left-color:var(--blue)}
+.admin-main{flex:1;padding:20px;min-width:0}
+.admin-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.admin-top h1{font-size:22px;font-weight:500;color:var(--text)}
+.admin-top .user-info{font-size:13px;color:var(--text-muted)}
 
+.stat-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));margin-bottom:24px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:2px;padding:16px}
+.stat-card .lbl{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.stat-card .val{font-size:22px;font-weight:600;color:var(--text)}
+
+.table-box{background:#fff;border:1px solid var(--border);border-radius:2px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--border)}
+th{background:#fafafa;font-weight:500;font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--hover)}
+
+/* PRODUCT DETAIL */
+.pdp-wrap{display:grid;grid-template-columns:1fr;gap:12px;background:#fff;border-radius:2px;padding:16px;margin-bottom:12px}
+.pdp-image{background:#fff;border:1px solid var(--border);padding:24px;text-align:center;position:relative;border-radius:2px}
+.pdp-image img{max-height:380px;margin:0 auto;object-fit:contain}
+.pdp-badge{position:absolute;top:12px;left:12px;background:var(--green);color:#fff;padding:4px 10px;font-size:11px;font-weight:600;border-radius:2px}
+.pdp-wish{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--border);display:grid;place-items:center;font-size:20px}
+.pdp-info h1{font-size:20px;font-weight:500;line-height:1.35;margin-bottom:8px}
+.pdp-brand{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+.pdp-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.pdp-price{font-size:28px;font-weight:600;color:var(--text)}
+.pdp-mrp{font-size:16px;color:var(--text-muted);text-decoration:line-through}
+.pdp-off{font-size:14px;color:var(--green);font-weight:600}
+.pdp-stock{font-size:13px;font-weight:500;margin-bottom:16px}
+.pdp-stock.ok{color:var(--green)}
+.pdp-stock.no{color:var(--red)}
+.pdp-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.pdp-actions .btn{flex:1;min-width:140px;padding:14px 20px;font-size:15px}
+.qty-box{display:inline-flex;align-items:center;border:1px solid var(--border-dark);border-radius:2px;margin-bottom:16px}
+.qty-box button{width:36px;height:36px;background:#fff;color:var(--blue);font-weight:600;font-size:18px}
+.qty-box button:hover{background:var(--hover)}
+.qty-box .val{min-width:44px;text-align:center;font-weight:500;font-size:15px}
+.pdp-desc-box{background:#fff;border-radius:2px;padding:20px;margin-bottom:12px;border:1px solid var(--border)}
+.pdp-desc-box h3{font-size:15px;font-weight:500;margin-bottom:12px;color:var(--text)}
+.pdp-desc-box p{font-size:13px;line-height:1.7;color:var(--text-mid);white-space:pre-wrap}
+
+/* RESPONSIVE */
 @media (min-width:768px){
-  .product-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
-  .admin-sidebar{transform:translateX(0)}
-  .admin-main{margin-left:260px;padding:24px}
-  .menu-toggle{display:none}
-  #productLayout{grid-template-columns:1fr 1fr!important;align-items:start}
+  .pdp-wrap{grid-template-columns:380px 1fr;gap:24px}
+  .admin-side{transform:none}
 }
 @media (max-width:767px){
-  .header .logo{font-size:16px}
-  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .header .search{display:none}
+  .header{padding:10px 12px;gap:8px}
+  .header .brand{font-size:17px}
+  .header .nav-item{padding:6px 8px;font-size:13px}
+  .header .menu-toggle{display:block}
+  .bottom-nav{display:flex}
+  .container{padding:8px}
+  .section{padding:12px}
+  .section-title{font-size:17px;flex-wrap:wrap;gap:8px}
+  .section-title .view-all{padding:6px 12px;font-size:12px}
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+  .product-card .name{font-size:12px;min-height:32px}
+  .product-card .price{font-size:14px}
+  .admin-layout{flex-direction:column}
+  .admin-side{width:100%;position:static;height:auto;border-right:none;border-bottom:1px solid var(--border);display:none}
+  .admin-side.open{display:block}
+  .admin-main{padding:12px}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .auth-card{padding:28px 20px}
+  .modal{max-height:95vh}
+  .pdp-price{font-size:24px}
 }
 </style>
 </head>
 <body>
 
-<div class="toast-container" id="toastContainer"></div>
+<div class="toast-wrap" id="toastWrap"></div>
 
 <!-- AUTH SCREEN -->
 <div class="auth-wrap" id="authScreen">
   <div class="auth-card">
-    <h1>🛒 Pawan Retail</h1>
-    <p class="subtitle">India's Premium Shopping Experience</p>
+    <div class="auth-logo">
+      <h1>Pawan Retail</h1>
+      <p>India's trusted online store</p>
+    </div>
     <div class="auth-tabs">
       <button id="tabLogin" class="active" onclick="switchAuthTab('login')">Login</button>
-      <button id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
+      <button id="tabSignup" onclick="switchAuthTab('signup')">Register</button>
     </div>
     <form id="loginForm" onsubmit="handleLogin(event)">
-      <div class="form-group"><label>Email</label><input type="email" class="form-control" id="loginEmail" required /></div>
-      <div class="form-group"><label>Password</label><input type="password" class="form-control" id="loginPassword" required /></div>
+      <div class="form-group"><label>Email Address</label>
+        <input type="email" class="form-control" id="loginEmail" required /></div>
+      <div class="form-group"><label>Password</label>
+        <input type="password" class="form-control" id="loginPassword" required /></div>
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="loginBtn">Login</button>
-      <p style="text-align:center;margin-top:14px">
-        <a href="#" onclick="showForgotPasswordPage();event.preventDefault()" style="font-size:13px;font-weight:600">Forgot password?</a>
-      </p>
+      <div style="text-align:center;margin-top:16px">
+        <a href="#" onclick="showForgotPasswordPage();event.preventDefault()" style="font-size:13px">Forgot Password?</a>
+      </div>
     </form>
     <form id="signupForm" style="display:none" onsubmit="handleSignup(event)">
-      <div class="form-group"><label>Full Name *</label><input type="text" class="form-control" id="signupName" required /></div>
-      <div class="form-group">
-        <label>Email *</label>
+      <div class="form-group"><label>Full Name</label>
+        <input type="text" class="form-control" id="signupName" required /></div>
+      <div class="form-group"><label>Email Address</label>
         <input type="email" class="form-control" id="signupEmail" required autocomplete="off" />
-        <div class="field-status" id="signupEmailStatus"></div>
-      </div>
-      <div class="form-group">
-        <label>Mobile Number *</label>
+        <div class="field-status" id="signupEmailStatus"></div></div>
+      <div class="form-group"><label>Mobile Number</label>
         <input type="tel" class="form-control" id="signupPhone" required placeholder="+91XXXXXXXXXX" autocomplete="off" />
-        <div class="field-status" id="signupPhoneStatus"></div>
-      </div>
-      <div class="form-group"><label>Password * (min 6)</label><input type="password" class="form-control" id="signupPassword" required minlength="6" /></div>
+        <div class="field-status" id="signupPhoneStatus"></div></div>
+      <div class="form-group"><label>Password</label>
+        <input type="password" class="form-control" id="signupPassword" required minlength="6" /></div>
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="signupBtn">Create Account</button>
-      <p style="font-size:11px;color:var(--text-light);text-align:center;margin-top:12px">✉️ Email verification ज़रूरी है</p>
+      <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px;line-height:1.5">
+        By creating an account, you agree to our Terms and Privacy Policy.
+      </p>
     </form>
   </div>
 </div>
 
-<!-- ADMIN LOGIN SCREEN (Hidden) -->
-<div class="auth-wrap" id="adminLoginScreen" style="display:none;background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%)">
-  <div class="auth-card" style="border:2px solid #f59e0b">
-    <div style="text-align:center;margin-bottom:24px">
-      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:grid;place-items:center;font-size:40px;margin:0 auto 16px;box-shadow:0 8px 24px rgba(245,158,11,.4)">⚙️</div>
-      <h1 style="font-size:24px;margin-bottom:6px;background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Admin Panel</h1>
-      <p style="color:var(--text-light);font-size:13px">Authorized access only</p>
+<!-- ADMIN LOGIN (hidden — ?admin=1) -->
+<div class="auth-wrap" id="adminLoginScreen" style="display:none;background:#1a1f36">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <h1 style="color:#ffb800">Admin Panel</h1>
+      <p>Pawan Retail - Staff Access</p>
     </div>
     <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
       <div class="form-group"><label>Admin Email</label>
         <input type="email" class="form-control" id="adminEmail" required autocomplete="off" /></div>
       <div class="form-group"><label>Password</label>
         <input type="password" class="form-control" id="adminPassword" required autocomplete="off" /></div>
-      <div id="adminError" style="display:none;padding:10px;background:#fee2e2;border-radius:8px;font-size:12px;color:#991b1b;margin-bottom:12px"></div>
-      <button type="submit" class="btn btn-block btn-lg" id="adminLoginBtn" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 14px rgba(245,158,11,.4)">🔐 Admin Login</button>
+      <div id="adminError" style="display:none;padding:10px;background:#ffebee;border-left:3px solid var(--red);font-size:13px;color:var(--red);margin-bottom:16px"></div>
+      <button type="submit" class="btn btn-block btn-lg" id="adminLoginBtn" style="background:#ffb800;color:#1a1f36;font-weight:600">Sign In</button>
     </form>
-    <p style="text-align:center;margin-top:20px;font-size:11px;color:var(--text-light)">🔒 Authorized administrators only</p>
+    <p style="text-align:center;margin-top:20px;font-size:12px;color:var(--text-muted)">
+      Unauthorized access prohibited
+    </p>
   </div>
 </div>
 
 <!-- VERIFY SCREEN -->
 <div class="auth-wrap" id="verifyScreen" style="display:none">
   <div class="verify-card">
-    <div class="verify-icon">📧</div>
-    <h2>Verify Your Email</h2>
-    <p>Verification link भेजी गई है:</p>
-    <div class="email-shown" id="verifyEmail">—</div>
-    <div class="steps">
+    <div class="verify-icon">✉</div>
+    <h2>Verify your email</h2>
+    <p>We've sent a verification link to</p>
+    <span class="verify-email" id="verifyEmail">—</span>
+    <div class="verify-steps">
       <ol>
-        <li>Inbox खोलें — <strong>spam folder</strong> भी check करें</li>
-        <li><strong>"Verify Email" link</strong> पर click करें</li>
-        <li>वापस इस page पर आएँ</li>
-        <li>नीचे <strong>"I've Verified"</strong> दबाएँ</li>
+        <li>Open your email inbox</li>
+        <li>Click the verification link</li>
+        <li>Come back to this page</li>
+        <li>Click "I've Verified" below</li>
       </ol>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <button class="btn btn-primary btn-block" onclick="checkEmailVerified()">✅ I've Verified</button>
-      <button class="btn btn-outline btn-block" id="resendBtn" onclick="resendVerification()">🔄 Resend</button>
-      <button class="btn btn-ghost btn-block" onclick="handleLogout()">🚪 Logout</button>
-    </div>
+    <button class="btn btn-primary btn-block" onclick="checkEmailVerified()">I've Verified My Email</button>
+    <button class="btn btn-outline btn-block" id="resendBtn" onclick="resendVerification()" style="margin-top:8px">Resend Email</button>
+    <button class="btn btn-ghost btn-block" onclick="handleLogout()" style="margin-top:8px">Logout</button>
   </div>
 </div>
 
 <!-- NEW DEVICE -->
 <div class="auth-wrap" id="newDeviceScreen" style="display:none">
   <div class="verify-card">
-    <div class="verify-icon">🆕</div>
-    <h2>New Device Detected</h2>
-    <p>2nd device से login के लिए email verification ज़रूरी है</p>
-    <div class="email-shown" id="deviceVerifyEmail">—</div>
-    <div class="steps">
-      <ol><li>Email पर verification link भेजी गई है</li><li>Link पर click करें</li><li>वापस आकर Verified दबाएँ</li></ol>
+    <div class="verify-icon" style="background:#fff3e0;color:var(--orange)">!</div>
+    <h2>New device detected</h2>
+    <p>For security, verify your email to continue</p>
+    <span class="verify-email" id="deviceVerifyEmail">—</span>
+    <div class="verify-steps">
+      <p style="margin:0">A verification link has been sent. Click the link, then return here.</p>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <button class="btn btn-primary btn-block" onclick="verifyNewDevice()">✅ Verified — Continue</button>
-      <button class="btn btn-outline btn-block" onclick="resendVerification()">🔄 Resend</button>
-      <button class="btn btn-ghost btn-block" onclick="handleLogout()">🚪 Logout</button>
-    </div>
+    <button class="btn btn-primary btn-block" onclick="verifyNewDevice()">Verified - Continue</button>
+    <button class="btn btn-outline btn-block" onclick="resendVerification()" style="margin-top:8px">Resend Email</button>
+    <button class="btn btn-ghost btn-block" onclick="handleLogout()" style="margin-top:8px">Logout</button>
   </div>
 </div>
 
 <!-- FORGOT PASSWORD -->
 <div class="auth-wrap" id="forgotPasswordScreen" style="display:none">
   <div class="auth-card">
-    <div style="text-align:center;margin-bottom:24px">
-      <div style="width:80px;height:80px;border-radius:50%;background:var(--primary-light);display:grid;place-items:center;font-size:36px;margin:0 auto 16px">🔐</div>
-      <h1 style="font-size:24px;margin-bottom:6px">Forgot Password?</h1>
-      <p style="color:var(--text-light);font-size:13px">Enter your email — we'll send a reset link</p>
+    <div class="auth-logo">
+      <h1>Reset Password</h1>
+      <p>We'll email you a reset link</p>
     </div>
     <form id="forgotForm" onsubmit="handleForgotPasswordPage(event)">
-      <div class="form-group">
-        <label>Registered Email</label>
-        <input type="email" class="form-control" id="forgotEmail" required placeholder="you@example.com" autofocus />
-      </div>
-      <button type="submit" class="btn btn-primary btn-block btn-lg" id="forgotBtn">📧 Send Reset Link</button>
+      <div class="form-group"><label>Registered Email</label>
+        <input type="email" class="form-control" id="forgotEmail" required autofocus /></div>
+      <button type="submit" class="btn btn-primary btn-block" id="forgotBtn">Send Reset Link</button>
     </form>
-    <div id="forgotSuccess" style="display:none;text-align:center;padding:20px 0">
-      <div style="font-size:56px;margin-bottom:12px">✅</div>
-      <h3 style="font-size:18px;font-weight:800;margin-bottom:8px">Email Sent!</h3>
-      <p style="color:var(--text-light);font-size:13px;line-height:1.6">Password reset link भेजी गई है।<br>Inbox और spam folder check करें।</p>
+    <div id="forgotSuccess" style="display:none;text-align:center;padding:16px 0">
+      <div style="font-size:44px;color:var(--green);margin-bottom:12px">✓</div>
+      <h3 style="font-size:18px;font-weight:500;margin-bottom:8px">Email Sent</h3>
+      <p style="color:var(--text-muted);font-size:13px;line-height:1.6">Check your inbox for the reset link. Check spam folder too.</p>
     </div>
-    <p style="text-align:center;margin-top:24px">
-      <a href="#" onclick="showAuthScreen();event.preventDefault()" style="font-size:13px;font-weight:600">← Back to Login</a>
-    </p>
+    <div style="text-align:center;margin-top:20px">
+      <a href="#" onclick="showAuthScreen();event.preventDefault()" style="font-size:13px">Back to Login</a>
+    </div>
   </div>
 </div>
 
 <!-- SUSPENDED -->
-<div class="suspended-overlay" id="suspendedScreen">
-  <div class="suspended-box">
-    <div class="suspended-icon">🚫</div>
-    <h2 style="font-size:22px;font-weight:800;margin-bottom:8px;color:#991b1b">Account Suspended</h2>
-    <p id="suspendedReason" style="font-size:14px;color:#991b1b;margin-bottom:16px">Suspended.</p>
-    <div style="background:#f8fafc;border-radius:12px;padding:14px;text-align:left;font-size:12px;margin-bottom:16px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-light)">User ID:</span><strong id="suspPublicId">—</strong></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-light)">Suspended:</span><strong id="suspDate">—</strong></div>
+<div class="auth-wrap" id="suspendedScreen" style="display:none;background:#212121">
+  <div class="verify-card">
+    <div class="verify-icon" style="background:#ffebee;color:var(--red)">!</div>
+    <h2 style="color:#fff">Account Suspended</h2>
+    <p style="color:#bbb" id="suspendedReason">Your account has been suspended.</p>
+    <div style="background:#2a2a2a;padding:14px;text-align:left;font-size:12px;color:#ddd;margin:20px 0;border-radius:2px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:#888">User ID:</span><strong id="suspPublicId">—</strong></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:#888">Suspended on:</span><strong id="suspDate">—</strong></div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <button class="btn btn-primary btn-block" onclick="openSuspensionAppeal()">📝 Submit Appeal</button>
-      <button class="btn btn-outline btn-block" onclick="checkSuspensionStatus()">🔄 Check Status</button>
-      <button class="btn btn-ghost btn-block" onclick="handleLogout()">🚪 Logout</button>
-    </div>
+    <button class="btn btn-primary btn-block" onclick="openSuspensionAppeal()">Submit Appeal</button>
+    <button class="btn btn-outline btn-block" onclick="checkSuspensionStatus()" style="margin-top:8px">Check Status</button>
+    <button class="btn btn-ghost btn-block" onclick="handleLogout()" style="margin-top:8px;color:#fff">Logout</button>
   </div>
 </div>
 
 <!-- MAIN APP -->
 <div id="appScreen" style="display:none">
   <header class="header">
-    <div class="logo" onclick="showPage('home')">🛒 Pawan Retail</div>
-    <div class="header-actions">
-      <button class="icon-btn" onclick="openCart()">🛒<span class="badge" id="cartBadge">0</span></button>
-      <button class="icon-btn" onclick="showPage('wishlist')">❤️<span class="badge" id="wishBadge">0</span></button>
-      <button class="icon-btn" onclick="toggleMenu()">☰</button>
+    <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+    <div class="brand" onclick="showPage('home')">
+      Pawan Retail
+      <span class="tagline">Explore Plus</span>
+    </div>
+    <div class="search">
+      <input type="search" id="searchInput" placeholder="Search for products, brands and more" oninput="debounceSearch()" />
+      <span class="ico">⌕</span>
+    </div>
+    <div class="actions">
+      <div class="nav-item" onclick="showPage('profile')">
+        <span id="headerUserName">Login</span>
+      </div>
+      <div class="nav-item" onclick="showPage('wishlist')">
+        ♡ Wishlist
+        <span class="count" id="wishBadge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" onclick="openCart()">
+        🛒 Cart
+        <span class="count" id="cartBadge" style="display:none">0</span>
+      </div>
     </div>
   </header>
 
+  <div class="cat-strip" id="catStrip"></div>
+
   <section class="page active container" id="page-home">
-    <div class="section-title">Categories</div>
-    <div class="chips" id="homeCategories"></div>
-    <div class="section-title">Featured</div>
-    <div class="product-grid" id="featuredGrid"></div>
-    <div class="section-title">All Products <small onclick="showPage('shop')">View all →</small></div>
-    <div class="product-grid" id="homeProductsGrid"></div>
+    <div class="section">
+      <div class="section-title">
+        Featured Products
+        <span class="view-all" onclick="showPage('shop')">VIEW ALL</span>
+      </div>
+      <div class="product-grid" id="featuredGrid" style="margin-top:14px"></div>
+    </div>
+    <div class="section">
+      <div class="section-title">
+        All Products
+        <span class="view-all" onclick="showPage('shop')">VIEW ALL</span>
+      </div>
+      <div class="product-grid" id="homeProductsGrid" style="margin-top:14px"></div>
+    </div>
   </section>
 
   <section class="page container" id="page-shop">
-    <div class="section-title">Shop</div>
-    <div class="chips" id="shopCategories"></div>
-    <div class="product-grid" id="shopGrid"></div>
+    <div class="section">
+      <div class="section-title" id="shopTitle">All Products</div>
+      <div class="product-grid" id="shopGrid" style="margin-top:14px"></div>
+    </div>
   </section>
 
   <section class="page container" id="page-wishlist">
-    <div class="section-title">My Wishlist</div>
-    <div id="wishlistContent"></div>
+    <div class="section">
+      <div class="section-title">My Wishlist</div>
+      <div id="wishlistContent"></div>
+    </div>
   </section>
 
   <section class="page container" id="page-orders">
-    <div class="section-title">My Orders</div>
-    <div id="ordersContent"></div>
+    <div class="section">
+      <div class="section-title">My Orders</div>
+      <div id="ordersContent" style="margin-top:14px"></div>
+    </div>
   </section>
 
   <section class="page container" id="page-product">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-      <button class="icon-btn" onclick="showPage('shop')" style="background:#f1f5f9">←</button>
-      <h2 style="font-size:18px;font-weight:800">Product Details</h2>
-    </div>
     <div id="productDetailContent"></div>
   </section>
 
   <section class="page container" id="page-profile">
     <div id="profileAlerts"></div>
-    <div class="profile-header">
+    <div class="profile-head">
       <div class="profile-avatar" id="profileAvatar">U</div>
-      <h3 style="font-size:20px;font-weight:800;margin-bottom:4px" id="profileName">User</h3>
-      <p style="font-size:13px;opacity:.9;margin-bottom:10px" id="profileUsername">@username</p>
-      <div style="display:inline-flex;gap:18px;background:rgba(255,255,255,.15);padding:10px 20px;border-radius:14px;font-size:12px;position:relative;z-index:1">
-        <div><strong style="display:block;opacity:.85;font-size:10px">USER ID</strong><span id="profilePublicId" style="font-size:18px;font-weight:800">------</span></div>
-        <div style="width:1px;background:rgba(255,255,255,.3)"></div>
-        <div><strong style="display:block;opacity:.85;font-size:10px">COINS</strong><span id="profileCoins" style="font-size:18px;font-weight:800">0 🪙</span></div>
+      <div class="info">
+        <h3 id="profileName">User</h3>
+        <p id="profileUsername">@username</p>
+        <div class="meta">
+          <div><span>User ID</span><strong id="profilePublicId">------</strong></div>
+          <div><span>Coins</span><strong id="profileCoins">0</strong></div>
+        </div>
       </div>
     </div>
-
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h4 style="font-size:15px;font-weight:800">Account Details</h4>
-        <button class="btn btn-primary btn-sm" onclick="openProfileEdit()">✏️ Edit</button>
+    <div class="profile-section">
+      <div class="section-hd">
+        <h4>Account Information</h4>
+        <button onclick="openProfileEdit()">EDIT</button>
       </div>
       <div id="profileInfoList"></div>
     </div>
-
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h4 style="font-size:15px;font-weight:800">📍 Delivery Address</h4>
-        <button class="btn btn-outline btn-sm" onclick="openAddressEdit()">Edit</button>
+    <div class="profile-section">
+      <div class="section-hd">
+        <h4>Delivery Address</h4>
+        <button onclick="openAddressEdit()">EDIT</button>
       </div>
       <div id="profileAddressList"></div>
     </div>
-
-    <div class="card">
-      <h4 style="font-size:15px;font-weight:800;margin-bottom:12px">📱 Active Devices (max 2)</h4>
+    <div class="profile-section">
+      <div class="section-hd">
+        <h4>Active Devices (max 2)</h4>
+      </div>
       <div id="profileDevicesList"></div>
     </div>
-
-    <button class="btn btn-outline btn-block" onclick="handleLogout()">Logout</button>
+    <button class="btn btn-outline btn-block" onclick="handleLogout()" style="margin-top:12px;padding:14px">Logout</button>
   </section>
 
   <section class="page" id="page-admin">
-    <div class="admin-sidebar" id="adminSidebar">
-      <div class="brand">⚙️ Admin Panel</div>
-      <button class="active" onclick="adminTab('dashboard', this)">📊 Dashboard</button>
-      <button onclick="adminTab('products', this)">📦 Products</button>
-      <button onclick="adminTab('categories', this)">🗂 Categories</button>
-      <button onclick="adminTab('orders', this)">🧾 Orders</button>
-      <button onclick="adminTab('users', this)">👥 Users</button>
-      <button onclick="adminTab('suspensions', this)">🚫 Suspensions</button>
-      <button onclick="adminTab('appeals', this)">📩 Appeals</button>
-      <button onclick="adminTab('settings', this)">⚙️ Settings</button>
-      <button onclick="handleLogout()">🚪 Logout</button>
-    </div>
-    <div class="admin-main">
-      <div class="admin-header">
-        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-        <h1 id="adminTitle">Dashboard</h1>
-      </div>
-      <div id="adminContent"></div>
+    <div class="admin-layout">
+      <aside class="admin-side" id="adminSide">
+        <div class="logo">Admin Panel</div>
+        <button class="active" onclick="adminTab('dashboard', this)">Dashboard</button>
+        <button onclick="adminTab('products', this)">Products</button>
+        <button onclick="adminTab('categories', this)">Categories</button>
+        <button onclick="adminTab('orders', this)">Orders</button>
+        <button onclick="adminTab('users', this)">Users</button>
+        <button onclick="adminTab('suspensions', this)">Suspensions</button>
+        <button onclick="adminTab('appeals', this)">Appeals</button>
+        <button onclick="adminTab('settings', this)">Settings</button>
+        <button onclick="handleLogout()">Logout</button>
+      </aside>
+      <main class="admin-main">
+        <div class="admin-top">
+          <button class="menu-toggle" style="color:var(--text);font-size:20px" onclick="document.getElementById('adminSide').classList.toggle('open')">☰</button>
+          <h1 id="adminTitle">Dashboard</h1>
+          <div class="user-info" id="adminUserInfo">Admin</div>
+        </div>
+        <div id="adminContent"></div>
+      </main>
     </div>
   </section>
 
   <nav class="bottom-nav">
-    <button data-nav="home" onclick="showPage('home')"><span class="nav-icon">🏠</span>Home</button>
-    <button data-nav="shop" onclick="showPage('shop')"><span class="nav-icon">🛍</span>Shop</button>
-    <button data-nav="wishlist" onclick="showPage('wishlist')"><span class="nav-icon">❤️</span>Wishlist</button>
-    <button data-nav="orders" onclick="showPage('orders')"><span class="nav-icon">📦</span>Orders</button>
-    <button data-nav="profile" onclick="showPage('profile')"><span class="nav-icon">👤</span>Profile</button>
+    <button data-nav="home" onclick="showPage('home')"><span class="ico">⌂</span>Home</button>
+    <button data-nav="shop" onclick="showPage('shop')"><span class="ico">▤</span>Categories</button>
+    <button data-nav="wishlist" onclick="showPage('wishlist')"><span class="ico">♡</span>Wishlist</button>
+    <button data-nav="orders" onclick="showPage('orders')"><span class="ico">▢</span>Orders</button>
+    <button data-nav="profile" onclick="showPage('profile')"><span class="ico">◉</span>Account</button>
   </nav>
 </div>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header"><h3 id="modalTitle">Title</h3><button class="icon-btn" onclick="closeModal()">✕</button></div>
+    <div class="modal-header">
+      <h3 id="modalTitle">Title</h3>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
     <div class="modal-body" id="modalBody"></div>
     <div class="modal-footer" id="modalFooter"></div>
   </div>
@@ -493,57 +600,62 @@ import {
   getFirestore, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
   collection, query, where, serverTimestamp, onSnapshot, Timestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-import {
-  getStorage, ref, uploadBytes, getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
 
+// ⚙️ NEW Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyBiSeHAQfLQeQEvddbORc-WDbsFSPweOg8",
-  authDomain: "pawan-kumar-82619.firebaseapp.com",
-  projectId: "pawan-kumar-82619",
-  storageBucket: "pawan-kumar-82619.firebasestorage.app",
-  messagingSenderId: "613216856721",
-  appId: "1:613216856721:web:2238338eb3f42bebfbed30"
+  apiKey: "AIzaSyAzy_JeQH70Fvqru2DME1EsH59Yh5JtRjs",
+  authDomain: "pawan-retail-limited07.firebaseapp.com",
+  projectId: "pawan-retail-limited07",
+  storageBucket: "pawan-retail-limited07.firebasestorage.app",
+  messagingSenderId: "595261097611",
+  appId: "1:595261097611:web:88a136d144129b142b368e"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
 
-let currentUser = null, currentUserData = null;
-let allProducts = [], cart = {}, wishlist = {};
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentUser = null;
+let currentUserData = null;
+let allProducts = [];
+let allCategories = [];
+let cart = {};
+let wishlist = {};
 let currentCategory = null;
-let cartUnsub = null, wishUnsub = null;
+let searchQuery = "";
+let cartUnsub = null;
+let wishUnsub = null;
+let currentProductDetail = null;
 
 /* ============================================================
    TOAST
    ============================================================ */
 window.showToast = function(msg, type = "info") {
-  const c = document.getElementById("toastContainer");
+  const wrap = document.getElementById("toastWrap");
   const t = document.createElement("div");
   t.className = `toast ${type}`;
   t.textContent = msg;
-  c.appendChild(t);
-  setTimeout(() => t.remove(), 3500);
+  wrap.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
 };
 
 /* ============================================================
    SCREENS
    ============================================================ */
 function isAdminURL() {
-  return window.location.search.includes("admin=1") || 
+  return window.location.search.includes("admin=1") ||
          window.location.hash === "#admin-login-secret";
 }
 
 function hideAllScreens() {
-  document.getElementById("authScreen").style.display = "none";
-  document.getElementById("adminLoginScreen").style.display = "none";
-  document.getElementById("verifyScreen").style.display = "none";
-  document.getElementById("newDeviceScreen").style.display = "none";
-  document.getElementById("forgotPasswordScreen").style.display = "none";
+  ["authScreen","adminLoginScreen","verifyScreen","newDeviceScreen","forgotPasswordScreen","suspendedScreen"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
   document.getElementById("appScreen").style.display = "none";
-  document.getElementById("suspendedScreen").classList.remove("active");
 }
 
 function showAuthScreen() {
@@ -554,16 +666,19 @@ function showAuthScreen() {
     document.getElementById("authScreen").style.display = "grid";
   }
 }
+
 function showVerifyScreen() {
   hideAllScreens();
   document.getElementById("verifyScreen").style.display = "grid";
   document.getElementById("verifyEmail").textContent = currentUser?.email || "—";
 }
+
 function showNewDeviceScreen() {
   hideAllScreens();
   document.getElementById("newDeviceScreen").style.display = "grid";
   document.getElementById("deviceVerifyEmail").textContent = currentUser?.email || "—";
 }
+
 function showForgotPasswordPage() {
   hideAllScreens();
   document.getElementById("forgotPasswordScreen").style.display = "grid";
@@ -571,21 +686,24 @@ function showForgotPasswordPage() {
   document.getElementById("forgotSuccess").style.display = "none";
   document.getElementById("forgotEmail").value = "";
 }
+
 function showAppScreen() {
   hideAllScreens();
   document.getElementById("appScreen").style.display = "block";
 }
+
 function showSuspendedScreen() {
   hideAllScreens();
-  document.getElementById("suspendedScreen").classList.add("active");
+  document.getElementById("suspendedScreen").style.display = "grid";
   const d = currentUserData || {};
-  document.getElementById("suspendedReason").textContent = d.suspendedReason || "Account suspended";
+  document.getElementById("suspendedReason").textContent = d.suspendedReason || "Your account has been suspended.";
   document.getElementById("suspPublicId").textContent = d.publicId || "—";
-  document.getElementById("suspDate").textContent = d.suspendedAt ? new Date(d.suspendedAt.seconds * 1000).toLocaleString() : "—";
+  document.getElementById("suspDate").textContent = d.suspendedAt
+    ? new Date(d.suspendedAt.seconds * 1000).toLocaleString() : "—";
 }
 
 /* ============================================================
-   AUTH — LOGIN
+   AUTH
    ============================================================ */
 window.switchAuthTab = function(tab) {
   document.getElementById("tabLogin").classList.toggle("active", tab === "login");
@@ -598,26 +716,28 @@ window.switchAuthTab = function(tab) {
 window.handleLogin = async function(e) {
   e.preventDefault();
   const btn = document.getElementById("loginBtn");
-  btn.disabled = true; btn.textContent = "Logging in...";
+  btn.disabled = true;
+  btn.textContent = "Logging in...";
   try {
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
     const cred = await signInWithEmailAndPassword(auth, email, password);
     await reload(cred.user);
-    const userSnap = await getDoc(doc(db, "users", cred.user.uid));
-    if (userSnap.exists() && userSnap.data().role === "admin") {
-      showToast("Admin detected — opening admin panel", "info");
+    const snap = await getDoc(doc(db, "users", cred.user.uid));
+    if (snap.exists() && snap.data().role === "admin") {
+      showToast("Admin account - opening admin panel", "info");
       return;
     }
     if (!cred.user.emailVerified) {
       showToast("Please verify your email first", "warning");
       return;
     }
-    showToast("Login successful! 🎉", "success");
+    showToast("Login successful", "success");
   } catch (err) {
     showToast(friendlyError(err), "error");
   } finally {
-    btn.disabled = false; btn.textContent = "Login";
+    btn.disabled = false;
+    btn.textContent = "Login";
   }
 };
 
@@ -625,19 +745,20 @@ window.handleAdminLogin = async function(e) {
   e.preventDefault();
   const btn = document.getElementById("adminLoginBtn");
   const errEl = document.getElementById("adminError");
-  btn.disabled = true; btn.textContent = "Verifying...";
+  btn.disabled = true;
+  btn.textContent = "Verifying...";
   errEl.style.display = "none";
   const email = document.getElementById("adminEmail").value.trim();
   const password = document.getElementById("adminPassword").value;
   try {
     const cred = await signInWithEmailAndPassword(auth, email, password);
     await reload(cred.user);
-    const userSnap = await getDoc(doc(db, "users", cred.user.uid));
-    if (!userSnap.exists() || userSnap.data().role !== "admin") {
+    const snap = await getDoc(doc(db, "users", cred.user.uid));
+    if (!snap.exists() || snap.data().role !== "admin") {
       await signOut(auth);
-      throw new Error("Access denied — not an admin account");
+      throw new Error("Access denied - not an admin account");
     }
-    showToast("Welcome, Admin! 🎉", "success");
+    showToast("Welcome, Admin", "success");
     window.history.replaceState({}, "", "/");
   } catch (err) {
     let msg = "Login failed";
@@ -645,16 +766,18 @@ window.handleAdminLogin = async function(e) {
     else if (err.code === "auth/user-not-found") msg = "No account found";
     else if (err.message) msg = err.message;
     errEl.style.display = "block";
-    errEl.textContent = "❌ " + msg;
+    errEl.textContent = msg;
   } finally {
-    btn.disabled = false; btn.textContent = "🔐 Admin Login";
+    btn.disabled = false;
+    btn.textContent = "Sign In";
   }
 };
 
 window.handleSignup = async function(e) {
   e.preventDefault();
   const btn = document.getElementById("signupBtn");
-  btn.disabled = true; btn.textContent = "Creating...";
+  btn.disabled = true;
+  btn.textContent = "Creating account...";
   try {
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim().toLowerCase();
@@ -662,19 +785,19 @@ window.handleSignup = async function(e) {
     const password = document.getElementById("signupPassword").value;
 
     if (!/^\+?\d{10,15}$/.test(phone)) {
-      btn.disabled = false; btn.textContent = "Create Account";
-      return showToast("Valid mobile required", "warning");
+      showToast("Please enter a valid mobile number", "warning");
+      return;
     }
 
     const emailCheck = await checkUniqueStrict("email", email, null);
     if (!emailCheck.available) {
-      btn.disabled = false; btn.textContent = "Create Account";
-      return showToast("❌ This email is already registered", "error");
+      showToast("This email is already registered", "error");
+      return;
     }
     const mobileCheck = await checkUniqueStrict("mobile", phone, null);
     if (!mobileCheck.available) {
-      btn.disabled = false; btn.textContent = "Create Account";
-      return showToast("❌ This mobile is already registered", "error");
+      showToast("This mobile number is already registered", "error");
+      return;
     }
 
     const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -685,15 +808,20 @@ window.handleSignup = async function(e) {
     );
 
     await setDoc(doc(db, "users", cred.user.uid), {
-      uid: cred.user.uid, publicId, username,
+      uid: cred.user.uid,
+      publicId, username,
       name, email, mobile: phone,
-      role: "customer", emailVerified: false,
-      gender: "", dob: "", address: {},
-      coins: 0, totalCoinsEarned: 0, totalCoinsUsed: 0,
-      status: "active", suspended: false,
-      duplicateIssue: null, sessions: [],
+      role: "customer",
+      emailVerified: false,
+      gender: "", dob: "",
+      address: {},
+      coins: 0,
+      status: "active",
+      suspended: false,
+      sessions: [],
       createdAt: serverTimestamp()
     });
+
     await setDoc(doc(db, "uniqueIndex", `email_${email}`), {
       field: "email", value: email, userId: cred.user.uid, createdAt: serverTimestamp()
     });
@@ -702,29 +830,32 @@ window.handleSignup = async function(e) {
     });
 
     await sendEmailVerification(cred.user);
-    showToast("Account created! Check email.", "success");
+    showToast("Account created. Please verify your email.", "success");
   } catch (err) {
     showToast(friendlyError(err), "error");
   } finally {
-    btn.disabled = false; btn.textContent = "Create Account";
+    btn.disabled = false;
+    btn.textContent = "Create Account";
   }
 };
 
 window.handleForgotPasswordPage = async function(e) {
   e.preventDefault();
   const btn = document.getElementById("forgotBtn");
-  btn.disabled = true; btn.textContent = "Sending...";
+  btn.disabled = true;
+  btn.textContent = "Sending...";
   const email = document.getElementById("forgotEmail").value.trim();
   try {
     await sendPasswordResetEmail(auth, email);
     document.getElementById("forgotForm").style.display = "none";
     document.getElementById("forgotSuccess").style.display = "block";
-    showToast("Reset link sent ✓", "success");
+    showToast("Reset link sent to your email", "success");
   } catch (err) {
-    if (err.code === "auth/user-not-found") showToast("No account with this email", "error");
+    if (err.code === "auth/user-not-found") showToast("No account found with this email", "error");
     else showToast(friendlyError(err), "error");
   } finally {
-    btn.disabled = false; btn.textContent = "📧 Send Reset Link";
+    btn.disabled = false;
+    btn.textContent = "Send Reset Link";
   }
 };
 
@@ -734,7 +865,7 @@ window.resendVerification = async function() {
   if (btn) btn.disabled = true;
   try {
     await sendEmailVerification(auth.currentUser);
-    showToast("Email resent!", "success");
+    showToast("Verification email sent", "success");
     setTimeout(() => { if (btn) btn.disabled = false; }, 30000);
   } catch (err) {
     showToast(friendlyError(err), "error");
@@ -747,69 +878,76 @@ window.checkEmailVerified = async function() {
   try {
     await reload(auth.currentUser);
     if (auth.currentUser.emailVerified) {
-      try { await updateDoc(doc(db, "users", auth.currentUser.uid), { emailVerified: true }); } catch(e){}
+      try { await updateDoc(doc(db, "users", auth.currentUser.uid), { emailVerified: true }); } catch(e) {}
       const pendingKey = "pendingDevice_" + auth.currentUser.uid;
       if (localStorage.getItem(pendingKey)) { showNewDeviceScreen(); return; }
-      showToast("Verified! 🎉", "success");
+      showToast("Email verified", "success");
       await loadAppForUser(auth.currentUser);
     } else {
-      showToast("Not verified yet.", "warning");
+      showToast("Email not verified yet", "warning");
     }
-  } catch (err) { showToast(friendlyError(err), "error"); }
+  } catch (err) {
+    showToast(friendlyError(err), "error");
+  }
 };
 
 window.verifyNewDevice = async function() {
   await reload(auth.currentUser);
-  if (!auth.currentUser.emailVerified) return showToast("Click verification link first", "warning");
+  if (!auth.currentUser.emailVerified) {
+    showToast("Please verify from the email first", "warning");
+    return;
+  }
   const pendingStr = localStorage.getItem("pendingDevice_" + auth.currentUser.uid);
-  if (!pendingStr) return showToast("No pending device", "warning");
+  if (!pendingStr) { showToast("No pending device found", "warning"); return; }
   const pending = JSON.parse(pendingStr);
   const sessions = currentUserData?.sessions || [];
-  if (sessions.length >= 2) return showToast("Max 2 devices", "error");
+  if (sessions.length >= 2) { showToast("Maximum 2 devices allowed", "error"); return; }
   const updated = [...sessions, { ...pending, verified: true, needsVerification: false }];
   try {
     await updateDoc(doc(db, "users", auth.currentUser.uid), { sessions: updated });
     currentUserData.sessions = updated;
     localStorage.removeItem("pendingDevice_" + auth.currentUser.uid);
-    showToast("2nd device verified ✓", "success");
+    showToast("Device verified", "success");
     await loadAppForUser(auth.currentUser);
-  } catch (err) { showToast("Failed: " + err.message, "error"); }
+  } catch (err) {
+    showToast("Verification failed", "error");
+  }
 };
 
 window.handleLogout = async function() {
-  if (!confirm("Logout?")) return;
+  if (!confirm("Are you sure you want to logout?")) return;
   await signOut(auth);
   showToast("Logged out", "info");
 };
 
 function friendlyError(err) {
   const map = {
-    "auth/invalid-email": "Invalid email",
+    "auth/invalid-email": "Invalid email address",
     "auth/user-not-found": "No account found",
-    "auth/wrong-password": "Wrong password",
-    "auth/invalid-credential": "Invalid credentials",
-    "auth/email-already-in-use": "Email already registered",
-    "auth/weak-password": "Password too weak",
+    "auth/wrong-password": "Incorrect password",
+    "auth/invalid-credential": "Invalid email or password",
+    "auth/email-already-in-use": "This email is already registered",
+    "auth/weak-password": "Password is too weak",
     "permission-denied": "Permission denied"
   };
   return map[err.code] || err.message || "Something went wrong";
 }
 
 /* ============================================================
-   UNIQUE CHECK — STRICT
+   UNIQUE CHECK
    ============================================================ */
 async function checkUniqueStrict(field, value, currentUid) {
   const clean = String(value).trim().toLowerCase().replace(/\s+/g, "");
-  if (!clean) return { available: false, reason: "empty" };
+  if (!clean) return { available: false };
   try {
     const snap = await getDoc(doc(db, "uniqueIndex", `${field}_${clean}`));
     if (!snap.exists()) return { available: true };
     const data = snap.data();
     if (currentUid && data.userId === currentUid) return { available: true, sameUser: true };
-    return { available: false, ownerId: data.userId };
+    return { available: false };
   } catch (err) {
-    console.error("checkUniqueStrict error:", err);
-    return { available: false, reason: "Check failed" };
+    console.error("Check failed:", err);
+    return { available: false };
   }
 }
 
@@ -831,22 +969,22 @@ function generateUsernameSuggestions(base) {
   return [clean + Math.floor(Math.random() * 9 + 1), clean + "_" + year, clean + rand];
 }
 
-function setFieldStatus(elementId, status, message, extra = "") {
-  const el = document.getElementById(elementId);
+function setFieldStatus(id, status, message, extra = "") {
+  const el = document.getElementById(id);
   if (!el) return;
   el.className = `field-status ${status}`;
   let icon = "";
   if (status === "checking") icon = '<div class="spinner-mini"></div>';
-  else if (status === "available") icon = '<span class="icon">✅</span>';
-  else if (status === "taken") icon = '<span class="icon">❌</span>';
-  else if (status === "error") icon = '<span class="icon">⚠️</span>';
+  else if (status === "available") icon = '<span>✓</span>';
+  else if (status === "taken") icon = '<span>✕</span>';
+  else if (status === "error") icon = '<span>!</span>';
   el.innerHTML = `${icon} <span>${message}</span>${extra}`;
 }
 
-function setInputState(inputId, state) {
-  const input = document.getElementById(inputId);
+function setInputState(id, state) {
+  const input = document.getElementById(id);
   if (!input) return;
-  input.classList.remove("available", "taken", "checking");
+  input.classList.remove("available", "taken");
   if (state) input.classList.add(state);
 }
 
@@ -858,7 +996,7 @@ async function performAvailabilityCheck(field, value, inputId, statusId, current
   }
   if (field === "mobile" && !/^\+?\d{10,15}$/.test(value.replace(/\s+/g, ""))) {
     setInputState(inputId, "taken");
-    setFieldStatus(statusId, "error", "Invalid mobile (+91XXXXXXXXXX)");
+    setFieldStatus(statusId, "error", "Invalid mobile number");
     return;
   }
   if (field === "username" && !/^[a-z0-9_]{3,20}$/.test(value)) {
@@ -868,35 +1006,30 @@ async function performAvailabilityCheck(field, value, inputId, statusId, current
   }
   if (field === "email" && !/^\S+@\S+\.\S+$/.test(value)) {
     setInputState(inputId, "taken");
-    setFieldStatus(statusId, "error", "Invalid email");
+    setFieldStatus(statusId, "error", "Invalid email address");
     return;
   }
-  setInputState(inputId, "checking");
+  setInputState(inputId, null);
   setFieldStatus(statusId, "checking", "Checking...");
-  try {
-    const result = await checkUniqueStrict(field, value, currentUid);
-    if (result.available) {
-      setInputState(inputId, "available");
-      if (result.sameUser) setFieldStatus(statusId, "available", `Your current ${field} ✓`);
-      else setFieldStatus(statusId, "available", `${capitalize(field)} is available ✓`);
-      return true;
+
+  const result = await checkUniqueStrict(field, value, currentUid);
+  if (result.available) {
+    setInputState(inputId, "available");
+    if (result.sameUser) setFieldStatus(statusId, "available", `Current ${field}`);
+    else setFieldStatus(statusId, "available", `${capitalize(field)} is available`);
+  } else {
+    setInputState(inputId, "taken");
+    if (field === "username") {
+      const suggestions = generateUsernameSuggestions(value);
+      const chips = `<div class="suggestion-chips">${suggestions.map(s =>
+        `<span class="suggestion-chip" onclick="applySuggestion('${s}','${inputId}','${statusId}')">${s}</span>`
+      ).join("")}</div>`;
+      setFieldStatus(statusId, "taken", `"${value}" is taken. Try:`, chips);
+    } else if (field === "mobile") {
+      setFieldStatus(statusId, "taken", "This mobile number is already registered");
     } else {
-      setInputState(inputId, "taken");
-      if (field === "username") {
-        const suggestions = generateUsernameSuggestions(value);
-        const chips = `<div class="suggestion-chips">${suggestions.map(s => `<span class="suggestion-chip" onclick="applyUsernameSuggestion('${s}', '${inputId}', '${statusId}')">${s}</span>`).join("")}</div>`;
-        setFieldStatus(statusId, "taken", `"${value}" already taken. Try:`, chips);
-      } else if (field === "mobile") {
-        setFieldStatus(statusId, "taken", "This mobile is already registered to another account");
-      } else {
-        setFieldStatus(statusId, "taken", `${capitalize(field)} is already registered`);
-      }
-      return false;
+      setFieldStatus(statusId, "taken", `${capitalize(field)} is already registered`);
     }
-  } catch (err) {
-    setInputState(inputId, null);
-    setFieldStatus(statusId, "error", "Check failed, try again");
-    return null;
   }
 }
 
@@ -907,13 +1040,13 @@ function attachLiveCheck(inputId, field, currentUid = null) {
   if (!input) return;
   const statusId = inputId + "Status";
   const uid = currentUid || currentUser?.uid || null;
-  const debouncedCheck = debounce(() => {
+  const debounced = debounce(() => {
     performAvailabilityCheck(field, input.value.trim(), inputId, statusId, uid);
   }, 500);
   input.addEventListener("input", () => {
     setInputState(inputId, null);
     setFieldStatus(statusId, "checking", "");
-    debouncedCheck();
+    debounced();
   });
   input.addEventListener("blur", () => {
     if (input.value.trim()) {
@@ -925,7 +1058,7 @@ function attachLiveCheck(inputId, field, currentUid = null) {
   }
 }
 
-window.applyUsernameSuggestion = function(username, inputId, statusId) {
+window.applySuggestion = function(username, inputId, statusId) {
   const input = document.getElementById(inputId);
   if (input) {
     input.value = username;
@@ -938,17 +1071,17 @@ function attachSignupChecks() {
   if (document.getElementById("signupPhone")) attachLiveCheck("signupPhone", "mobile", null);
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  setTimeout(attachSignupChecks, 500);
-});
+window.addEventListener("DOMContentLoaded", () => setTimeout(attachSignupChecks, 500));
 
 /* ============================================================
    AUTH STATE
    ============================================================ */
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    currentUser = null; currentUserData = null;
-    cart = {}; wishlist = {};
+    currentUser = null;
+    currentUserData = null;
+    cart = {};
+    wishlist = {};
     if (cartUnsub) cartUnsub();
     if (wishUnsub) wishUnsub();
     showAuthScreen();
@@ -956,6 +1089,7 @@ onAuthStateChanged(auth, async (user) => {
   }
   currentUser = user;
   await reload(user);
+
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
     currentUserData = snap.exists() ? snap.data() : {
@@ -968,10 +1102,12 @@ onAuthStateChanged(auth, async (user) => {
   if (currentUserData.role === "admin") {
     showAppScreen();
     showPage("admin");
+    document.getElementById("adminUserInfo").textContent = currentUserData.name || "Admin";
     return;
   }
 
-  let verificationRequired = true, exempt = false;
+  let verificationRequired = true;
+  let exempt = false;
   try {
     const [authSnap, exemptSnap] = await Promise.all([
       getDoc(doc(db, "settings", "auth")),
@@ -985,15 +1121,18 @@ onAuthStateChanged(auth, async (user) => {
     showVerifyScreen();
     return;
   }
+
   if (currentUserData.suspended === true || currentUserData.status === "suspended") {
     showSuspendedScreen();
     return;
   }
+
   const pendingKey = "pendingDevice_" + user.uid;
   if (localStorage.getItem(pendingKey)) {
     showNewDeviceScreen();
     return;
   }
+
   await loadAppForUser(user);
 });
 
@@ -1006,20 +1145,26 @@ async function loadAppForUser(user) {
   } catch (err) {
     currentUserData = { uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: [] };
   }
+
   if (currentUserData.role === "admin") {
     showAppScreen();
     showPage("admin");
+    document.getElementById("adminUserInfo").textContent = currentUserData.name || "Admin";
     return;
   }
+
   if (currentUserData.suspended === true || currentUserData.status === "suspended") {
     showSuspendedScreen();
     return;
   }
+
   showAppScreen();
+  updateHeaderUser();
   await ensureUserIdentity();
   const sessionResult = await registerSession();
   if (sessionResult.reason === "needs_verification") return;
   if (!sessionResult.allowed) return;
+
   attachCartListener();
   attachWishlistListener();
   await loadProducts();
@@ -1027,7 +1172,14 @@ async function loadAppForUser(user) {
   renderProfile();
 }
 
-/* UNIQUE ID */
+function updateHeaderUser() {
+  const el = document.getElementById("headerUserName");
+  if (el) el.textContent = currentUserData?.name?.split(" ")[0] || "Account";
+}
+
+/* ============================================================
+   UNIQUE ID GENERATION
+   ============================================================ */
 async function generateUniquePublicId(uid) {
   for (let i = 0; i < 30; i++) {
     const candidate = String(Math.floor(100000 + Math.random() * 900000));
@@ -1039,7 +1191,7 @@ async function generateUniquePublicId(uid) {
       return candidate;
     }
   }
-  throw new Error("Failed unique ID");
+  throw new Error("Failed to generate unique ID");
 }
 
 async function generateUniqueUsername(base, uid) {
@@ -1055,7 +1207,7 @@ async function generateUniqueUsername(base, uid) {
     suffix++;
     candidate = `${base}${suffix}`;
   }
-  throw new Error("Failed username");
+  throw new Error("Failed to generate username");
 }
 
 async function ensureUserIdentity() {
@@ -1076,7 +1228,9 @@ async function ensureUserIdentity() {
   }
 }
 
-/* DEVICE */
+/* ============================================================
+   DEVICE SESSION
+   ============================================================ */
 async function hashDevice() {
   const data = navigator.userAgent + "|" + screen.width + "x" + screen.height + "|" + navigator.language;
   const buf = new TextEncoder().encode(data);
@@ -1090,20 +1244,23 @@ async function registerSession() {
     const sessions = currentUserData.sessions || [];
     const existing = sessions.find(s => s.deviceId === deviceHash);
     if (existing) {
-      const updated = sessions.map(s => s.deviceId === deviceHash ? { ...s, lastActive: new Date().toISOString() } : s);
+      const updated = sessions.map(s => s.deviceId === deviceHash
+        ? { ...s, lastActive: new Date().toISOString() } : s);
       await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
       currentUserData.sessions = updated;
       return { allowed: true };
     }
     if (sessions.length >= 2) {
-      showToast("Max 2 devices allowed", "error");
+      showToast("Maximum 2 devices allowed. Please logout from another device.", "error");
       setTimeout(() => signOut(auth), 2500);
       return { allowed: false, reason: "max_devices" };
     }
     if (sessions.length === 1) {
       const pending = {
-        deviceId: deviceHash, userAgent: navigator.userAgent.slice(0, 100),
-        createdAt: new Date().toISOString(), needsVerification: true
+        deviceId: deviceHash,
+        userAgent: navigator.userAgent.slice(0, 100),
+        createdAt: new Date().toISOString(),
+        needsVerification: true
       };
       localStorage.setItem("pendingDevice_" + currentUser.uid, JSON.stringify(pending));
       try { await sendEmailVerification(currentUser); } catch (e) {}
@@ -1111,14 +1268,19 @@ async function registerSession() {
       return { allowed: false, reason: "needs_verification" };
     }
     const newSession = {
-      deviceId: deviceHash, userAgent: navigator.userAgent.slice(0, 100),
-      createdAt: new Date().toISOString(), lastActive: new Date().toISOString(), verified: true
+      deviceId: deviceHash,
+      userAgent: navigator.userAgent.slice(0, 100),
+      createdAt: new Date().toISOString(),
+      lastActive: new Date().toISOString(),
+      verified: true
     };
     const updated = [...sessions, newSession];
     await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
     currentUserData.sessions = updated;
     return { allowed: true };
-  } catch (err) { return { allowed: true }; }
+  } catch (err) {
+    return { allowed: true };
+  }
 }
 
 window.removeDevice = async function(deviceId) {
@@ -1128,78 +1290,102 @@ window.removeDevice = async function(deviceId) {
     await updateDoc(doc(db, "users", currentUser.uid), { sessions });
     currentUserData.sessions = sessions;
     renderProfile();
-    showToast("Removed", "success");
-  } catch (err) { showToast("Failed", "error"); }
+    showToast("Device removed", "success");
+  } catch (err) {
+    showToast("Failed to remove device", "error");
+  }
 };
 
-/* PROFILE */
+/* ============================================================
+   PROFILE
+   ============================================================ */
 function renderProfile() {
   const d = currentUserData || {};
   document.getElementById("profileAvatar").textContent = (d.name || d.email || "U")[0].toUpperCase();
   document.getElementById("profileName").textContent = d.name || "User";
   document.getElementById("profileUsername").textContent = "@" + (d.username || "username");
   document.getElementById("profilePublicId").textContent = d.publicId || "------";
-  document.getElementById("profileCoins").textContent = (d.coins || 0) + " 🪙";
+  document.getElementById("profileCoins").textContent = d.coins || 0;
 
   const fields = [
-    { label: "Full Name", key: "name", icon: "👤", required: true },
-    { label: "Username", key: "username", icon: "🔖", required: true },
-    { label: "Email", key: "email", icon: "📧", required: true },
-    { label: "Mobile", key: "mobile", icon: "📱", required: true },
-    { label: "Gender", key: "gender", icon: "⚧", required: false },
-    { label: "Date of Birth", key: "dob", icon: "🎂", required: false }
+    { label: "Full Name", key: "name", required: true },
+    { label: "Username", key: "username", required: true },
+    { label: "Email", key: "email", required: true },
+    { label: "Mobile Number", key: "mobile", required: true },
+    { label: "Gender", key: "gender", required: false },
+    { label: "Date of Birth", key: "dob", required: false }
   ];
+
   document.getElementById("profileInfoList").innerHTML = fields.map(f => {
     const val = d[f.key];
     const isEmpty = !val || String(val).trim() === "";
     const displayVal = f.key === "gender" && val ? val.charAt(0).toUpperCase() + val.slice(1) : val;
-    return `<div class="profile-info-row"><div style="flex:1;min-width:0">
-      <div class="profile-info-label">${f.icon} ${f.label}${f.required ? " *" : ""}</div>
-      <div class="profile-info-value ${isEmpty ? 'missing' : ''}">${isEmpty ? "❌ Not set" : displayVal}</div>
-    </div></div>`;
+    return `<div class="profile-row">
+      <div class="ico">•</div>
+      <div class="txt">
+        <div class="lbl">${f.label}</div>
+        <div class="val ${isEmpty ? 'missing' : ''}">${isEmpty ? "Not set" + (f.required ? " (required)" : "") : displayVal}</div>
+      </div>
+    </div>`;
   }).join("");
 
   const addr = d.address || {};
   const addrEl = document.getElementById("profileAddressList");
   if (!addr.line1) {
-    addrEl.innerHTML = '<p style="font-size:13px;color:var(--danger);text-align:center;padding:20px">❌ Address not set</p>';
+    addrEl.innerHTML = '<div class="profile-row"><div class="txt"><div class="val missing">Address not set. Click EDIT to add.</div></div></div>';
   } else {
-    addrEl.innerHTML = `<div style="font-size:13px;line-height:1.7">
-      <div style="font-weight:700;font-size:14px">${addr.name || d.name}</div>
-      <div>📞 ${addr.phone || d.mobile || "—"}</div>
-      <div style="color:var(--text-light)">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}<br>${addr.city || ""}, ${addr.state || ""} - ${addr.pincode || ""}</div>
-    </div>`;
+    addrEl.innerHTML = `<div class="profile-row"><div class="txt">
+      <div class="lbl">${addr.name || d.name}</div>
+      <div class="val">${addr.phone || d.mobile || ""}</div>
+      <div class="val">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}, ${addr.city || ""}, ${addr.state || ""} - ${addr.pincode || ""}</div>
+    </div></div>`;
   }
 
   const sessions = d.sessions || [];
   const devEl = document.getElementById("profileDevicesList");
-  devEl.innerHTML = !sessions.length 
-    ? '<p style="font-size:13px;color:var(--text-light)">No devices</p>'
-    : sessions.map(s => `<div class="device-item">
-        <div class="device-info">
-          <div class="device-name">${s.userAgent.slice(0, 50)}...</div>
-          <div class="device-meta">${s.deviceId.slice(0, 8)} • ${new Date(s.lastActive).toLocaleDateString()}</div>
+  devEl.innerHTML = !sessions.length
+    ? '<div class="profile-row"><div class="txt"><div class="val">No devices registered</div></div></div>'
+    : sessions.map(s => `<div class="profile-row">
+        <div class="txt">
+          <div class="lbl">${s.deviceId.slice(0, 8)}</div>
+          <div class="val">Last active: ${new Date(s.lastActive).toLocaleDateString()}</div>
         </div>
-        <button class="btn btn-danger btn-sm" onclick="removeDevice('${s.deviceId}')">Remove</button>
+        <button class="btn btn-sm btn-ghost" onclick="removeDevice('${s.deviceId}')" style="color:var(--red)">Remove</button>
       </div>`).join("");
+
+  renderAlerts();
 }
 
-/* PROFILE EDIT */
+function renderAlerts() {
+  const d = currentUserData || {};
+  const alerts = [];
+  const missing = [];
+  if (!d.name) missing.push("Name");
+  if (!d.username) missing.push("Username");
+  if (!d.mobile) missing.push("Mobile");
+  if (!d.address?.line1) missing.push("Address");
+
+  if (missing.length > 0) {
+    alerts.push(`<div class="alert-box info">
+      <div class="title">Complete your profile</div>
+      <div>Missing: ${missing.join(", ")}</div>
+      <div class="actions"><button onclick="openProfileEdit()">Complete Now</button></div>
+    </div>`);
+  }
+  document.getElementById("profileAlerts").innerHTML = alerts.join("");
+}
+
 window.openProfileEdit = function() {
   const d = currentUserData || {};
-  openModal("✏️ Edit Profile", `
+  openModal("Edit Profile", `
     <div class="form-group"><label>Full Name *</label>
       <input class="form-control" id="peName" value="${d.name || ""}" /></div>
-    <div class="form-group">
-      <label>Username * (unique)</label>
+    <div class="form-group"><label>Username *</label>
       <input class="form-control" id="peUsername" value="${d.username || ""}" autocomplete="off" />
-      <div class="field-status" id="peUsernameStatus"></div>
-    </div>
-    <div class="form-group">
-      <label>Mobile Number *</label>
+      <div class="field-status" id="peUsernameStatus"></div></div>
+    <div class="form-group"><label>Mobile Number *</label>
       <input class="form-control" id="peMobile" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" autocomplete="off" />
-      <div class="field-status" id="peMobileStatus"></div>
-    </div>
+      <div class="field-status" id="peMobileStatus"></div></div>
     <div class="form-group"><label>Email (locked)</label>
       <input class="form-control" value="${d.email || ""}" disabled /></div>
     <div class="form-group"><label>Gender</label>
@@ -1211,7 +1397,7 @@ window.openProfileEdit = function() {
       </select></div>
     <div class="form-group"><label>Date of Birth</label>
       <input type="date" class="form-control" id="peDob" value="${d.dob || ""}" /></div>
-    <div id="peError" style="display:none;padding:10px;background:#fee2e2;border-radius:8px;font-size:12px;color:#991b1b;margin-top:10px"></div>
+    <div id="peError" style="display:none;padding:10px;background:#ffebee;border-left:3px solid var(--red);font-size:13px;color:var(--red);margin-top:12px"></div>
   `, `
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
     <button class="btn btn-primary" id="peSaveBtn" onclick="saveProfile()">Save</button>
@@ -1224,9 +1410,11 @@ window.openProfileEdit = function() {
 
 window.saveProfile = async function() {
   const btn = document.getElementById("peSaveBtn");
-  btn.disabled = true; btn.textContent = "Saving...";
+  btn.disabled = true;
+  btn.textContent = "Saving...";
   const errEl = document.getElementById("peError");
   errEl.style.display = "none";
+
   const updates = {
     name: document.getElementById("peName").value.trim(),
     username: document.getElementById("peUsername").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, ""),
@@ -1234,18 +1422,21 @@ window.saveProfile = async function() {
     gender: document.getElementById("peGender").value,
     dob: document.getElementById("peDob").value
   };
-  if (!updates.name) return peError("Name required");
+
+  if (!updates.name) return peError("Name is required");
   if (!updates.username || updates.username.length < 3) return peError("Username min 3 chars");
   if (!updates.mobile || !/^\+?\d{10,15}$/.test(updates.mobile)) return peError("Valid mobile required");
+
   try {
     if (updates.username !== currentUserData.username) {
       const check = await checkUniqueStrict("username", updates.username, currentUser.uid);
-      if (!check.available) return peError("❌ Username already taken");
+      if (!check.available) return peError("Username is already taken");
     }
     if (updates.mobile !== currentUserData.mobile) {
       const check = await checkUniqueStrict("mobile", updates.mobile, currentUser.uid);
-      if (!check.available) return peError("❌ Mobile already registered");
+      if (!check.available) return peError("Mobile number is already registered");
     }
+
     if (updates.username !== currentUserData.username) {
       if (currentUserData.username) {
         try { await deleteDoc(doc(db, "uniqueIndex", `username_${currentUserData.username}`)); } catch(e){}
@@ -1262,27 +1453,30 @@ window.saveProfile = async function() {
         field: "mobile", value: updates.mobile, userId: currentUser.uid, createdAt: serverTimestamp()
       });
     }
+
     updates.updatedAt = serverTimestamp();
     await updateDoc(doc(db, "users", currentUser.uid), updates);
     currentUserData = { ...currentUserData, ...updates };
-    showToast("Profile updated ✓", "success");
+    showToast("Profile updated", "success");
     closeModal();
     renderProfile();
-  } catch (err) { peError(err.message || "Save failed"); }
+    updateHeaderUser();
+  } catch (err) {
+    peError(err.message || "Failed to save");
+  }
 };
 
 function peError(msg) {
-  const errEl = document.getElementById("peError");
-  errEl.style.display = "block";
-  errEl.textContent = "❌ " + msg;
+  const el = document.getElementById("peError");
+  el.style.display = "block";
+  el.textContent = msg;
   const btn = document.getElementById("peSaveBtn");
   if (btn) { btn.disabled = false; btn.textContent = "Save"; }
 }
 
-/* ADDRESS */
 window.openAddressEdit = function() {
   const a = currentUserData?.address || {};
-  openModal("📍 Delivery Address", `
+  openModal("Delivery Address", `
     <div class="form-group"><label>Full Name</label>
       <input class="form-control" id="adName" value="${a.name || currentUserData.name || ""}" /></div>
     <div class="form-group"><label>Phone</label>
@@ -1314,27 +1508,30 @@ window.saveAddress = async function() {
     pincode: document.getElementById("adPincode").value.trim()
   };
   if (!address.line1 || !address.city || !address.state || !address.pincode) {
-    return showToast("All required fields भरें", "warning");
+    return showToast("Please fill all required fields", "warning");
   }
   try {
     await updateDoc(doc(db, "users", currentUser.uid), { address, updatedAt: serverTimestamp() });
     currentUserData.address = address;
-    showToast("Address saved ✓", "success");
+    showToast("Address saved", "success");
     closeModal();
     renderProfile();
-  } catch (err) { showToast("Failed: " + err.message, "error"); }
+  } catch (err) {
+    showToast("Failed to save address", "error");
+  }
 };
 
-/* SUSPENSION */
+/* SUSPENSION - customer */
 window.openSuspensionAppeal = function() {
   const d = currentUserData || {};
-  openModal("📝 Appeal Suspension", `
-    <div style="padding:14px;background:#fee2e2;border-radius:12px;margin-bottom:16px;font-size:13px;color:#991b1b">
-      <strong>🚫 Account Suspended</strong><br>${d.suspendedReason || ""}
+  openModal("Appeal Suspension", `
+    <div class="alert-box danger" style="margin-bottom:16px">
+      <div class="title">Account Suspended</div>
+      <div>${d.suspendedReason || ""}</div>
     </div>
-    <div class="form-group"><label>Why should we unblock? *</label>
-      <textarea class="form-control" id="appealMsg" rows="5" placeholder="Explain (min 20 chars)..."></textarea></div>
-    <div class="form-group"><label>Contact</label>
+    <div class="form-group"><label>Why should we unblock your account? *</label>
+      <textarea class="form-control" id="appealMsg" rows="5" placeholder="Minimum 20 characters"></textarea></div>
+    <div class="form-group"><label>Contact Number</label>
       <input class="form-control" id="appealContact" value="${d.mobile || ""}" /></div>
   `, `
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
@@ -1344,26 +1541,36 @@ window.openSuspensionAppeal = function() {
 
 window.submitAppeal = async function() {
   const btn = document.getElementById("appealBtn");
-  btn.disabled = true; btn.textContent = "Submitting...";
+  btn.disabled = true;
+  btn.textContent = "Submitting...";
   const message = document.getElementById("appealMsg").value.trim();
   const contact = document.getElementById("appealContact").value.trim();
   if (!message || message.length < 20) {
-    btn.disabled = false; btn.textContent = "Submit";
-    return showToast("Message min 20 chars", "warning");
+    showToast("Please write at least 20 characters", "warning");
+    btn.disabled = false;
+    btn.textContent = "Submit";
+    return;
   }
   try {
     await addDoc(collection(db, "accountAppeals"), {
       suspensionId: currentUserData.currentSuspensionId || "",
-      userId: currentUser.uid, userName: currentUserData.name || "",
-      userEmail: currentUser.email, userPublicId: currentUserData.publicId || "",
-      message, contact, status: "pending", adminResponse: "",
-      respondedBy: null, respondedAt: null, createdAt: serverTimestamp()
+      userId: currentUser.uid,
+      userName: currentUserData.name || "",
+      userEmail: currentUser.email,
+      userPublicId: currentUserData.publicId || "",
+      message, contact,
+      status: "pending",
+      adminResponse: "",
+      respondedBy: null,
+      respondedAt: null,
+      createdAt: serverTimestamp()
     });
     closeModal();
-    showToast("Appeal submitted ✓", "success");
+    showToast("Appeal submitted. We'll review it soon.", "success");
   } catch (err) {
-    showToast("Failed: " + err.message, "error");
-    btn.disabled = false; btn.textContent = "Submit";
+    showToast("Failed to submit appeal", "error");
+    btn.disabled = false;
+    btn.textContent = "Submit";
   }
 };
 
@@ -1374,209 +1581,285 @@ window.checkSuspensionStatus = async function() {
     if (snap.exists()) {
       currentUserData = snap.data();
       if (currentUserData.suspended !== true) {
-        showToast("Account active! 🎉", "success");
+        showToast("Account is active", "success");
         await loadAppForUser(currentUser);
         return;
       }
     }
-    showToast("Still suspended", "warning");
-  } catch (err) { showToast("Failed", "error"); }
+    showToast("Account is still suspended", "warning");
+  } catch (err) {
+    showToast("Failed to check status", "error");
+  }
 };
 
 /* NAVIGATION */
-window.showPage = function(pageName) {
+window.showPage = function(name) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById("page-" + pageName)?.classList.add("active");
+  const page = document.getElementById("page-" + name);
+  if (page) page.classList.add("active");
   document.querySelectorAll(".bottom-nav button").forEach(b => {
-    b.classList.toggle("active", b.dataset.nav === pageName);
+    b.classList.toggle("active", b.dataset.nav === name);
   });
-  if (pageName === "wishlist") renderWishlist();
-  if (pageName === "orders") renderOrders();
-  if (pageName === "profile") renderProfile();
-  if (pageName === "admin") renderAdmin("dashboard");
+  if (name === "wishlist") renderWishlist();
+  if (name === "orders") renderOrders();
+  if (name === "profile") renderProfile();
+  if (name === "admin") renderAdmin("dashboard");
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-window.toggleMenu = function() {
+window.toggleMobileMenu = function() {
   const items = [
-    { label: "🏠 Home", fn: () => showPage("home") },
-    { label: "🛍 Shop", fn: () => showPage("shop") },
-    { label: "❤️ Wishlist", fn: () => showPage("wishlist") },
-    { label: "📦 Orders", fn: () => showPage("orders") },
-    { label: "👤 Profile", fn: () => showPage("profile") }
+    { label: "Home", fn: () => showPage("home") },
+    { label: "Shop", fn: () => showPage("shop") },
+    { label: "Wishlist", fn: () => showPage("wishlist") },
+    { label: "My Orders", fn: () => showPage("orders") },
+    { label: "Account", fn: () => showPage("profile") }
   ];
   window._menuActions = items.map(i => i.fn);
-  openModal("Menu", `<div style="display:flex;flex-direction:column;gap:10px">${
-    items.map((it, i) => `<button class="btn btn-ghost btn-block" style="justify-content:flex-start;padding:14px 18px" onclick="window._menuAction(${i})">${it.label}</button>`).join("")
+  openModal("Menu", `<div style="display:flex;flex-direction:column">${
+    items.map((it, i) => `<button class="profile-row" style="border-bottom:1px solid var(--border);width:100%;text-align:left" onclick="window._menuAction(${i})">
+      <div class="txt"><div class="lbl">${it.label}</div></div>
+    </button>`).join("")
   }</div>`);
 };
 window._menuAction = (i) => { closeModal(); window._menuActions[i](); };
 
-/* PRODUCTS */
+/* ============================================================
+   PRODUCTS
+   ============================================================ */
 async function loadProducts() {
-  ["homeProductsGrid","featuredGrid","shopGrid"].forEach(showLoading);
+  ["homeProductsGrid", "featuredGrid", "shopGrid"].forEach(showLoading);
   try {
-    const q = query(collection(db, "products"), where("active", "==", true));
-    const snap = await getDocs(q);
-    allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    // ✅ कोई Index नहीं — simple query
+    const snap = await getDocs(collection(db, "products"));
+    allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .filter(p => p.active !== false);
     renderHomeProducts();
     renderShopProducts();
   } catch (err) {
-    ["homeProductsGrid","featuredGrid","shopGrid"].forEach(id => {
+    console.error("Products load failed:", err);
+    ["homeProductsGrid", "featuredGrid", "shopGrid"].forEach(id => {
       const el = document.getElementById(id);
-      if (el) el.innerHTML = '<div class="empty" style="grid-column:1/-1"><p style="font-size:12px">Unable to load</p></div>';
+      if (el) el.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:40px 20px"><h3>Unable to load products</h3></div>';
     });
   }
 }
 
 function showLoading(id) {
   const el = document.getElementById(id);
-  if (el) el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  if (el) el.innerHTML = '<div class="loading" style="grid-column:1/-1"><div class="spinner"></div></div>';
 }
 
 function productCardHTML(p) {
-  const img = (p.images && p.images[0]) || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='%23ede9fe' width='200' height='200'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' font-size='60'>📦</text></svg>";
+  const img = (p.images && p.images[0]) || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='%23f5f5f5' width='200' height='200'/><text x='50%' y='52%' text-anchor='middle' font-size='20' fill='%23999'>No Image</text></svg>";
   const disc = p.mrp && p.price && p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
-  const isW = wishlist[p.id] ? "❤️" : "🤍";
+  const isWished = wishlist[p.id] ? "♥" : "♡";
+  const stockText = p.stock > 0
+    ? (p.stock <= 5 ? `<div class="stock-badge">Only ${p.stock} left</div>` : "")
+    : `<div class="stock-badge">Out of stock</div>`;
+
   return `<div class="product-card" onclick="openProduct('${p.id}')">
     <div class="img-wrap">
-      <img src="${img}" loading="lazy" />
-      ${disc > 0 ? `<div class="discount-badge">-${disc}%</div>` : ""}
-      <button class="wish-btn" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${isW}</button>
+      <img src="${img}" loading="lazy" alt="${(p.name || '').replace(/"/g, '')}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23f5f5f5%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2252%%22 text-anchor=%22middle%22 font-size=%2220%22 fill=%22%23999%22>No Image</text></svg>'" />
+      <button class="wish-btn" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${isWished}</button>
     </div>
     <div class="info">
-      <div class="name">${p.name || "Untitled"}</div>
+      ${p.brand ? `<div class="brand">${p.brand}</div>` : ""}
+      <div class="name">${p.name || "Untitled Product"}</div>
       <div class="price-row">
-        <span class="price">₹${p.price || 0}</span>
-        ${p.mrp && p.mrp > p.price ? `<span class="mrp">₹${p.mrp}</span>` : ""}
+        <span class="price">₹${(p.price || 0).toLocaleString("en-IN")}</span>
+        ${p.mrp && p.mrp > p.price ? `<span class="mrp">₹${p.mrp.toLocaleString("en-IN")}</span>` : ""}
+        ${disc > 0 ? `<span class="discount">${disc}% off</span>` : ""}
       </div>
-      <button class="add-btn" onclick="event.stopPropagation();addToCart('${p.id}')">
-        ${p.stock > 0 ? "🛒 Add to Cart" : "Out of Stock"}
-      </button>
+      ${stockText}
     </div>
   </div>`;
 }
 
 function renderHomeProducts() {
-  const feat = allProducts.filter(p => p.isFeatured).slice(0, 6);
-  document.getElementById("featuredGrid").innerHTML = feat.length ? feat.map(productCardHTML).join("") :
-    '<div class="empty" style="grid-column:1/-1"><div class="emoji">✨</div><p>No featured</p></div>';
-  document.getElementById("homeProductsGrid").innerHTML = allProducts.length ? allProducts.slice(0, 8).map(productCardHTML).join("") :
-    '<div class="empty" style="grid-column:1/-1"><div class="emoji">📦</div><p>No products</p></div>';
+  const featured = allProducts.filter(p => p.isFeatured).slice(0, 8);
+  document.getElementById("featuredGrid").innerHTML = featured.length
+    ? featured.map(productCardHTML).join("")
+    : '<div class="empty" style="grid-column:1/-1;padding:40px 20px"><h3>No featured products</h3><p>Check back soon</p></div>';
+
+  document.getElementById("homeProductsGrid").innerHTML = allProducts.length
+    ? allProducts.slice(0, 12).map(productCardHTML).join("")
+    : '<div class="empty" style="grid-column:1/-1;padding:40px 20px"><h3>No products available</h3><p>Admin will add products shortly</p></div>';
 }
 
 function renderShopProducts() {
-  let f = allProducts;
-  if (currentCategory) f = f.filter(p => p.categoryId === currentCategory);
-  document.getElementById("shopGrid").innerHTML = f.length ? f.map(productCardHTML).join("") :
-    '<div class="empty" style="grid-column:1/-1"><div class="emoji">🔍</div><p>No products</p></div>';
+  // ✅ Client-side filter — कोई Index नहीं
+  let filtered = [...allProducts];
+  if (currentCategory) filtered = filtered.filter(p => p.categoryId === currentCategory);
+  if (searchQuery) {
+    filtered = filtered.filter(p =>
+      (p.name || "").toLowerCase().includes(searchQuery) ||
+      (p.brand || "").toLowerCase().includes(searchQuery) ||
+      (p.description || "").toLowerCase().includes(searchQuery)
+    );
+  }
+  document.getElementById("shopTitle").textContent = searchQuery
+    ? `Search: "${searchQuery}" (${filtered.length})`
+    : currentCategory
+      ? (allCategories.find(c => c.id === currentCategory)?.name || "Products") + ` (${filtered.length})`
+      : `All Products (${filtered.length})`;
+
+  document.getElementById("shopGrid").innerHTML = filtered.length
+    ? filtered.map(productCardHTML).join("")
+    : '<div class="empty" style="grid-column:1/-1;padding:60px 20px"><h3>No products found</h3><p>Try a different search or category</p></div>';
 }
+
+window.debounceSearch = (() => {
+  let t;
+  return () => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      searchQuery = document.getElementById("searchInput").value.toLowerCase().trim();
+      renderShopProducts();
+      if (searchQuery) showPage("shop");
+    }, 350);
+  };
+})();
 
 window.openProduct = function(id) {
   const p = allProducts.find(x => x.id === id);
   if (!p) return;
+
   const img = (p.images && p.images[0]) || "";
   const disc = p.mrp && p.price && p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
-  const inWishlist = !!wishlist[p.id];
-  const inCart = cart[p.id] ? cart[p.id].qty : 0;
+  const inWished = !!wishlist[p.id];
+  const inCartQty = cart[p.id] ? cart[p.id].qty : 0;
+
   document.getElementById("productDetailContent").innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr;gap:20px" id="productLayout">
-      <div style="background:#fff;border-radius:16px;padding:20px;text-align:center;box-shadow:var(--shadow);position:relative">
-        ${disc > 0 ? `<div style="position:absolute;top:16px;left:16px;background:var(--gradient-2);color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700">-${disc}% OFF</div>` : ""}
-        <button onclick="toggleWishlist('${p.id}');openProduct('${p.id}')" style="position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:var(--shadow);font-size:20px;display:grid;place-items:center">${inWishlist ? "❤️" : "🤍"}</button>
-        ${img ? `<img src="${img}" style="max-height:400px;margin:0 auto;object-fit:contain;border-radius:12px" />` : `<div style="font-size:80px;padding:60px">📦</div>`}
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <button class="btn btn-ghost" onclick="showPage('shop')" style="padding:6px 12px">← Back</button>
+      <div style="font-size:13px;color:var(--text-muted)">Home / Product</div>
+    </div>
+
+    <div class="pdp-wrap">
+      <div class="pdp-image">
+        ${disc > 0 ? `<div class="pdp-badge">${disc}% OFF</div>` : ""}
+        <button class="pdp-wish" onclick="toggleWishlist('${p.id}');openProduct('${p.id}')">${inWished ? "♥" : "♡"}</button>
+        ${img ? `<img src="${img}" alt="" />` : `<div style="padding:60px;color:var(--text-muted)">No Image</div>`}
       </div>
-      <div>
-        <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px">
-          <h1 style="font-size:22px;font-weight:800;margin-bottom:8px;line-height:1.3">${p.name || ""}</h1>
-          ${p.brand ? `<div style="font-size:13px;color:var(--text-light);margin-bottom:12px">🏷️ ${p.brand}</div>` : ""}
-          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-            <span style="font-size:32px;font-weight:800;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">₹${p.price || 0}</span>
-            ${p.mrp && p.mrp > p.price ? `<span style="font-size:18px;color:var(--text-light);text-decoration:line-through">₹${p.mrp}</span>` : ""}
-            ${disc > 0 ? `<span style="background:#d1fae5;color:#065f46;padding:4px 12px;border-radius:20px;font-size:13px;font-weight:700">Save ₹${(p.mrp - p.price).toFixed(0)}</span>` : ""}
-          </div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px">
-            <span style="padding:6px 14px;background:${p.stock > 0 ? '#d1fae5' : '#fee2e2'};color:${p.stock > 0 ? '#065f46' : '#991b1b'};border-radius:20px;font-size:12px;font-weight:700">
-              ${p.stock > 0 ? `✓ In Stock (${p.stock})` : "✗ Out of Stock"}
-            </span>
-            ${p.sku ? `<span style="padding:6px 14px;background:#f1f5f9;border-radius:20px;font-size:12px;font-weight:600">SKU: ${p.sku}</span>` : ""}
-          </div>
-          ${p.stock > 0 ? `
-            <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px">
-              <div class="qty-controls" style="padding:6px">
-                <button onclick="changeProductQty(-1)" style="width:36px;height:36px;font-size:18px">−</button>
-                <span id="productQty" style="font-size:16px;min-width:40px">1</span>
-                <button onclick="changeProductQty(1)" style="width:36px;height:36px;font-size:18px">+</button>
-              </div>
-              <div style="font-size:13px;color:var(--text-light)">Max ${p.stock}</div>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn btn-primary btn-lg" style="flex:1;min-width:180px" onclick="addToCartFromDetail('${p.id}')">🛒 Add to Cart${inCart ? ` (${inCart})` : ""}</button>
-              <button class="btn btn-outline btn-lg" style="flex:1;min-width:180px" onclick="buyNow('${p.id}')">⚡ Buy Now</button>
-            </div>
-          ` : `<button class="btn btn-ghost btn-block btn-lg" disabled>Out of Stock</button>`}
+
+      <div class="pdp-info">
+        <h1>${p.name || "Untitled Product"}</h1>
+        ${p.brand ? `<div class="pdp-brand">Brand: <strong>${p.brand}</strong></div>` : ""}
+
+        <div class="pdp-price-row">
+          <span class="pdp-price">₹${(p.price || 0).toLocaleString("en-IN")}</span>
+          ${p.mrp && p.mrp > p.price ? `<span class="pdp-mrp">₹${p.mrp.toLocaleString("en-IN")}</span>` : ""}
+          ${disc > 0 ? `<span class="pdp-off">${disc}% off</span>` : ""}
         </div>
-        ${p.description ? `<div style="background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px">
-          <h3 style="font-size:15px;font-weight:800;margin-bottom:12px">📝 Description</h3>
-          <p style="font-size:14px;line-height:1.8;color:var(--text-light)">${p.description}</p>
-        </div>` : ""}
-        <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow)">
-          <h3 style="font-size:15px;font-weight:800;margin-bottom:12px">🚚 Delivery & Returns</h3>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
-            <div>📦 <strong>Free Delivery</strong> — ₹500+ orders</div>
-            <div>🔄 <strong>7-Day Returns</strong></div>
-            <div>✅ <strong>100% Genuine</strong></div>
+
+        <div class="pdp-stock ${p.stock > 0 ? 'ok' : 'no'}">
+          ${p.stock > 0 ? `In Stock${p.stock <= 5 ? ` (only ${p.stock} left)` : ""}` : "Currently Out of Stock"}
+        </div>
+
+        ${p.stock > 0 ? `
+          <div class="qty-box">
+            <button onclick="changeDetailQty(-1)">−</button>
+            <span class="val" id="detailQty">1</span>
+            <button onclick="changeDetailQty(1)">+</button>
           </div>
+          <div class="pdp-actions">
+            <button class="btn btn-secondary" onclick="addToCartFromDetail('${p.id}')">Add to Cart</button>
+            <button class="btn btn-primary" onclick="buyNow('${p.id}')">Buy Now</button>
+          </div>
+          ${inCartQty ? `<div style="margin-top:12px;font-size:13px;color:var(--green)">✓ ${inCartQty} item(s) already in cart</div>` : ""}
+        ` : `<button class="btn btn-ghost btn-block" disabled style="padding:14px">Out of Stock</button>`}
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-mid)">
+          ${p.sku ? `<div style="margin-bottom:6px">SKU: <strong>${p.sku}</strong></div>` : ""}
+          <div>Free delivery on orders above ₹500</div>
+          <div>7 days return policy</div>
         </div>
       </div>
-    </div>`;
-  window._currentProductDetail = { product: p, qty: 1 };
+    </div>
+
+    ${p.description ? `
+      <div class="pdp-desc-box">
+        <h3>Product Description</h3>
+        <p>${p.description}</p>
+      </div>
+    ` : ""}
+  `;
+
+  window._currentProduct = { product: p, qty: 1 };
   showPage("product");
 };
 
-window.changeProductQty = function(delta) {
-  const d = window._currentProductDetail;
+window.changeDetailQty = function(delta) {
+  const d = window._currentProduct;
   if (!d) return;
-  const p = d.product;
-  let newQty = d.qty + delta;
-  if (newQty < 1) newQty = 1;
-  if (newQty > p.stock) newQty = p.stock;
-  d.qty = newQty;
-  document.getElementById("productQty").textContent = newQty;
+  let q = d.qty + delta;
+  if (q < 1) q = 1;
+  if (q > d.product.stock) q = d.product.stock;
+  d.qty = q;
+  document.getElementById("detailQty").textContent = q;
 };
 
-window.addToCartFromDetail = async function(productId) {
-  const d = window._currentProductDetail;
+window.addToCartFromDetail = async function(pid) {
+  const d = window._currentProduct;
   if (!d) return;
   const p = d.product;
   if (!p.stock || p.stock <= 0) return showToast("Out of stock", "warning");
-  const ex = cart[productId] || { qty: 0 };
-  const newQty = ex.qty + d.qty;
-  if (newQty > p.stock) return showToast(`Only ${p.stock} available`, "warning");
-  cart[productId] = { qty: newQty, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
+  const ex = cart[pid] || { qty: 0 };
+  const nq = ex.qty + d.qty;
+  if (nq > p.stock) return showToast(`Only ${p.stock} available`, "warning");
+  cart[pid] = {
+    qty: nq,
+    name: p.name,
+    price: p.price,
+    image: (p.images && p.images[0]) || ""
+  };
   try {
     await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    showToast(`${d.qty} added ✓`, "success");
-    openProduct(productId);
-  } catch (err) { showToast("Failed", "error"); }
+    showToast(`${d.qty} item(s) added to cart`, "success");
+    openProduct(pid);
+  } catch (err) {
+    showToast("Failed to add", "error");
+  }
 };
 
-window.buyNow = async function(productId) {
-  await addToCartFromDetail(productId);
+window.buyNow = async function(pid) {
+  await addToCartFromDetail(pid);
   setTimeout(() => openCart(), 300);
 };
 
 async function loadCategories() {
   try {
     const snap = await getDocs(collection(db, "categories"));
-    const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    const html = `<button class="chip ${!currentCategory ? 'active' : ''}" onclick="filterCategory(null)">All</button>
-      ${cats.map(c => `<button class="chip ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.name}</button>`).join("")}`;
-    document.getElementById("homeCategories").innerHTML = html;
-    document.getElementById("shopCategories").innerHTML = html;
-  } catch (err) {}
+    allCategories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderCategoryStrip();
+  } catch (err) {
+    document.getElementById("catStrip").innerHTML = "";
+  }
 }
-window.filterCategory = function(catId) { currentCategory = catId; loadCategories(); renderShopProducts(); showPage("shop"); };
+
+function renderCategoryStrip() {
+  const strip = document.getElementById("catStrip");
+  if (!allCategories.length) { strip.style.display = "none"; return; }
+  strip.style.display = "flex";
+  strip.innerHTML = `
+    <div class="cat ${!currentCategory ? 'active' : ''}" onclick="filterCategory(null)">
+      <div class="ico">▤</div><span>All</span>
+    </div>
+    ${allCategories.map(c => `
+      <div class="cat ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">
+        <div class="ico">▢</div><span>${c.name}</span>
+      </div>
+    `).join("")}
+  `;
+}
+
+window.filterCategory = function(catId) {
+  currentCategory = catId;
+  renderCategoryStrip();
+  renderShopProducts();
+  showPage("shop");
+};
 
 /* CART */
 function attachCartListener() {
@@ -1584,8 +1867,9 @@ function attachCartListener() {
   cartUnsub = onSnapshot(doc(db, "carts", currentUser.uid), (snap) => {
     cart = snap.exists() ? (snap.data().items || {}) : {};
     updateCartBadge();
-    renderHomeProducts(); renderShopProducts();
-  });
+    renderHomeProducts();
+    renderShopProducts();
+  }, (err) => console.error("Cart:", err));
 }
 
 function attachWishlistListener() {
@@ -1593,13 +1877,25 @@ function attachWishlistListener() {
   wishUnsub = onSnapshot(doc(db, "wishlists", currentUser.uid), (snap) => {
     wishlist = snap.exists() ? (snap.data().items || {}) : {};
     updateWishBadge();
-    renderHomeProducts(); renderShopProducts();
+    renderHomeProducts();
+    renderShopProducts();
     if (document.getElementById("page-wishlist").classList.contains("active")) renderWishlist();
-  });
+  }, (err) => console.error("Wishlist:", err));
 }
 
-function updateCartBadge() { document.getElementById("cartBadge").textContent = Object.values(cart).reduce((s, i) => s + (i.qty || 0), 0); }
-function updateWishBadge() { document.getElementById("wishBadge").textContent = Object.keys(wishlist).length; }
+function updateCartBadge() {
+  const total = Object.values(cart).reduce((s, i) => s + (i.qty || 0), 0);
+  const el = document.getElementById("cartBadge");
+  if (total > 0) { el.textContent = total; el.style.display = "grid"; }
+  else el.style.display = "none";
+}
+
+function updateWishBadge() {
+  const count = Object.keys(wishlist).length;
+  const el = document.getElementById("wishBadge");
+  if (count > 0) { el.textContent = count; el.style.display = "grid"; }
+  else el.style.display = "none";
+}
 
 window.addToCart = async function(pid) {
   const p = allProducts.find(x => x.id === pid);
@@ -1608,29 +1904,44 @@ window.addToCart = async function(pid) {
   const ex = cart[pid] || { qty: 0 };
   const nq = ex.qty + 1;
   if (nq > p.stock) return showToast("Not enough stock", "warning");
-  cart[pid] = { qty: nq, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
+  cart[pid] = {
+    qty: nq,
+    name: p.name,
+    price: p.price,
+    image: (p.images && p.images[0]) || ""
+  };
   try {
     await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    showToast("Added ✓", "success");
-  } catch (err) { showToast("Failed", "error"); }
+    showToast("Added to cart", "success");
+  } catch (err) {
+    showToast("Failed to add", "error");
+  }
 };
 
 window.removeFromCart = async function(pid) {
   delete cart[pid];
-  await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-  renderCartModal();
+  try {
+    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+    renderCartModal();
+  } catch (err) {
+    showToast("Failed to remove", "error");
+  }
 };
 
-window.updateCartQty = async function(pid, d) {
+window.updateCartQty = async function(pid, delta) {
   const item = cart[pid];
   if (!item) return;
   const p = allProducts.find(x => x.id === pid);
-  const nq = item.qty + d;
+  const nq = item.qty + delta;
   if (nq <= 0) return removeFromCart(pid);
   if (p && nq > p.stock) return showToast("Not enough stock", "warning");
   item.qty = nq;
-  await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-  renderCartModal();
+  try {
+    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+    renderCartModal();
+  } catch (err) {
+    showToast("Failed to update", "error");
+  }
 };
 
 window.openCart = function() { renderCartModal(); };
@@ -1638,54 +1949,80 @@ window.openCart = function() { renderCartModal(); };
 function renderCartModal() {
   const items = Object.entries(cart);
   if (!items.length) {
-    openModal("🛒 Cart", '<div class="empty"><div class="emoji">🛒</div><p>Cart empty</p></div>');
+    openModal("Shopping Cart", '<div class="empty"><div class="icon">🛒</div><h3>Your cart is empty</h3><p>Add products to get started</p></div>');
     return;
   }
   let sub = 0;
   const body = items.map(([id, it]) => {
     sub += it.price * it.qty;
     return `<div class="cart-item">
-      <img src="${it.image || ''}" />
-      <div class="details"><div class="name">${it.name}</div><div class="price">₹${it.price} × ${it.qty}</div></div>
-      <div class="qty-controls"><button onclick="updateCartQty('${id}',-1)">−</button><span>${it.qty}</span><button onclick="updateCartQty('${id}',1)">+</button></div>
+      <img src="${it.image || ''}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22><rect fill=%22%23f5f5f5%22 width=%2280%22 height=%2280%22/></svg>'" />
+      <div class="details">
+        <div class="name">${it.name}</div>
+        <div class="price">₹${it.price.toLocaleString("en-IN")}</div>
+        <div class="qty-ctrl">
+          <button onclick="updateCartQty('${id}',-1)">−</button>
+          <span class="q">${it.qty}</span>
+          <button onclick="updateCartQty('${id}',1)">+</button>
+        </div>
+        <button onclick="removeFromCart('${id}')" style="margin-top:8px;color:var(--red);font-size:12px">Remove</button>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:15px;font-weight:600">₹${(it.price * it.qty).toLocaleString("en-IN")}</div>
+      </div>
     </div>`;
   }).join("");
   const del = sub > 500 ? 0 : 40;
   const tot = sub + del;
-  openModal("🛒 Cart", `${body}
-    <div style="padding:14px;background:#f8fafc;border-radius:12px;font-size:13px;margin-top:12px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Subtotal</span><span>₹${sub}</span></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>Delivery</span><span>${del === 0 ? "FREE" : "₹" + del}</span></div>
-      <div style="display:flex;justify-content:space-between;font-weight:800;font-size:16px;padding-top:8px;border-top:2px dashed var(--border)"><span>Total</span><span style="color:var(--primary)">₹${tot}</span></div>
+
+  openModal("Shopping Cart", `${body}
+    <div style="padding:16px;background:#fafafa;border-top:1px solid var(--border);margin:0 -20px -20px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px"><span>Subtotal</span><span>₹${sub.toLocaleString("en-IN")}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:13px"><span>Delivery</span><span>${del === 0 ? "FREE" : "₹" + del}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:600;padding-top:10px;border-top:1px dashed var(--border)">
+        <span>Total</span><span>₹${tot.toLocaleString("en-IN")}</span>
+      </div>
     </div>`,
-    `<button class="btn btn-ghost" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="placeOrder(${tot},${del})">Place Order</button>`);
+    `<button class="btn btn-ghost" onclick="closeModal()">Continue Shopping</button>
+     <button class="btn btn-secondary" onclick="placeOrder(${tot}, ${del})">Place Order</button>`);
 }
 
 /* WISHLIST */
 window.toggleWishlist = async function(pid) {
   const p = allProducts.find(x => x.id === pid);
   if (!p) return;
-  if (wishlist[pid]) { delete wishlist[pid]; showToast("Removed", "info"); }
-  else {
-    wishlist[pid] = { name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
-    showToast("Added ❤️", "success");
+  if (wishlist[pid]) {
+    delete wishlist[pid];
+    showToast("Removed from wishlist", "info");
+  } else {
+    wishlist[pid] = {
+      name: p.name,
+      price: p.price,
+      image: (p.images && p.images[0]) || ""
+    };
+    showToast("Added to wishlist", "success");
   }
-  await setDoc(doc(db, "wishlists", currentUser.uid), { items: wishlist }, { merge: true });
+  try {
+    await setDoc(doc(db, "wishlists", currentUser.uid), { items: wishlist }, { merge: true });
+  } catch (err) {}
 };
 
 function renderWishlist() {
   const items = Object.entries(wishlist);
   const el = document.getElementById("wishlistContent");
   if (!items.length) {
-    el.innerHTML = '<div class="empty"><div class="emoji">💔</div><p>Wishlist empty</p></div>';
+    el.innerHTML = '<div class="empty"><div class="icon">♡</div><h3>Your wishlist is empty</h3><p>Save items you like by tapping the heart icon</p></div>';
     return;
   }
   el.innerHTML = items.map(([id, it]) => `<div class="cart-item">
     <img src="${it.image || ''}" />
-    <div class="details"><div class="name">${it.name}</div><div class="price">₹${it.price}</div></div>
-    <div style="display:flex;flex-direction:column;gap:6px">
-      <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Add</button>
-      <button class="btn btn-ghost btn-sm" onclick="toggleWishlist('${id}')">Remove</button>
+    <div class="details">
+      <div class="name">${it.name}</div>
+      <div class="price">₹${it.price.toLocaleString("en-IN")}</div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Move to Cart</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleWishlist('${id}')">Remove</button>
+      </div>
     </div>
   </div>`).join("");
 }
@@ -1693,44 +2030,77 @@ function renderWishlist() {
 /* ORDERS */
 window.placeOrder = async function(total, delivery) {
   const items = Object.entries(cart).map(([id, it]) => ({
-    productId: id, name: it.name, price: it.price, qty: it.qty, image: it.image
+    productId: id,
+    name: it.name,
+    price: it.price,
+    qty: it.qty,
+    image: it.image
   }));
-  if (!items.length) return showToast("Cart empty", "warning");
+  if (!items.length) return showToast("Cart is empty", "warning");
+
+  if (!currentUserData.address?.line1) {
+    showToast("Please add a delivery address first", "warning");
+    closeModal();
+    showPage("profile");
+    setTimeout(() => openAddressEdit(), 300);
+    return;
+  }
+
   const sub = items.reduce((s, i) => s + i.price * i.qty, 0);
   try {
     await addDoc(collection(db, "orders"), {
-      userId: currentUser.uid, customerName: currentUserData.name,
-      customerEmail: currentUser.email, phone: currentUserData.mobile || "",
-      address: currentUserData.address || {}, items,
-      subtotal: sub, discount: 0, coupon: "",
-      deliveryCharge: delivery, totalAmount: total,
-      paymentMethod: "COD", paymentStatus: "Pending",
+      userId: currentUser.uid,
+      customerName: currentUserData.name,
+      customerEmail: currentUser.email,
+      phone: currentUserData.mobile || "",
+      address: currentUserData.address || {},
+      items,
+      subtotal: sub,
+      discount: 0,
+      coupon: "",
+      deliveryCharge: delivery,
+      totalAmount: total,
+      paymentMethod: "COD",
+      paymentStatus: "Pending",
       orderStatus: "Pending",
-      createdAt: serverTimestamp(), updatedAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
     });
     await setDoc(doc(db, "carts", currentUser.uid), { items: {} }, { merge: true });
     closeModal();
-    showToast("Order placed! 🎉", "success");
+    showToast("Order placed successfully", "success");
     setTimeout(() => showPage("orders"), 500);
-  } catch (err) { showToast("Order failed: " + err.message, "error"); }
+  } catch (err) {
+    showToast("Order failed: " + err.message, "error");
+  }
 };
 
 async function renderOrders() {
   const el = document.getElementById("ordersContent");
   el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
   try {
-    const snap = await getDocs(query(collection(db, "orders"), where("userId", "==", currentUser.uid)));
+    const snap = await getDocs(collection(db, "orders"));
     const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .filter(o => o.userId === currentUser.uid)
       .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
     if (!orders.length) {
-      el.innerHTML = '<div class="empty"><div class="emoji">📦</div><p>No orders yet</p></div>';
+      el.innerHTML = '<div class="empty"><div class="icon">▢</div><h3>No orders yet</h3><p>Your orders will appear here</p></div>';
       return;
     }
+
     el.innerHTML = orders.map(o => `<div class="order-card">
-      <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
-      <div class="row"><span>${o.items?.length || 0} items</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
+      <div class="head">
+        <div class="id">Order ID: <strong>#${o.id.slice(-10).toUpperCase()}</strong></div>
+        <span class="status status-${o.orderStatus}">${o.orderStatus}</span>
+      </div>
+      <div class="row"><span style="color:var(--text-muted)">${o.items?.length || 0} item(s)</span><strong>₹${(o.totalAmount || 0).toLocaleString("en-IN")}</strong></div>
+      <div class="row"><span style="color:var(--text-muted)">Payment</span><span>${o.paymentMethod} - ${o.paymentStatus}</span></div>
+      <div class="row"><span style="color:var(--text-muted)">Placed on</span><span>${o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : ""}</span></div>
     </div>`).join("");
-  } catch (err) { el.innerHTML = '<div class="empty"><p>Failed</p></div>'; }
+  } catch (err) {
+    el.innerHTML = '<div class="empty"><h3>Failed to load orders</h3></div>';
+  }
 }
 
 /* MODAL */
@@ -1741,19 +2111,20 @@ window.openModal = function(title, body, footer = "") {
   document.getElementById("modalOverlay").classList.add("active");
   document.body.style.overflow = "hidden";
 };
+
 window.closeModal = function() {
   document.getElementById("modalOverlay").classList.remove("active");
   document.body.style.overflow = "";
 };
 
 /* ============================================================
-   ADMIN PANEL
+   ADMIN
    ============================================================ */
-window.toggleSidebar = function() { document.getElementById("adminSidebar").classList.toggle("open"); };
 window.adminTab = function(tab, el) {
-  document.querySelectorAll(".admin-sidebar button").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".admin-side button").forEach(b => b.classList.remove("active"));
   if (el) el.classList.add("active");
   renderAdmin(tab);
+  document.getElementById("adminSide").classList.remove("open");
 };
 
 async function renderAdmin(tab) {
@@ -1762,70 +2133,90 @@ async function renderAdmin(tab) {
   content.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
 
   if (currentUserData?.role !== "admin") {
-    content.innerHTML = '<div class="empty"><div class="emoji">🔒</div><p>Admin only</p></div>';
+    content.innerHTML = '<div class="empty"><h3>Admin access required</h3></div>';
     return;
   }
 
   if (tab === "dashboard") {
     title.textContent = "Dashboard";
     try {
-      const [pS, oS, uS, sS, aS] = await Promise.all([
+      const [pS, oS, uS, aS] = await Promise.all([
         getDocs(collection(db, "products")),
         getDocs(collection(db, "orders")),
         getDocs(collection(db, "users")),
-        getDocs(collection(db, "accountSuspensions")),
         getDocs(collection(db, "accountAppeals"))
       ]);
       const ps = pS.docs.map(d => d.data());
       const os = oS.docs.map(d => d.data());
       const us = uS.docs.map(d => d.data());
-      const ss = sS.docs.map(d => d.data());
       const as = aS.docs.map(d => d.data());
       const sales = os.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + (o.totalAmount || 0), 0);
-      content.innerHTML = `<div class="stat-grid">
-        <div class="stat-card"><div class="icon c1">💰</div><div class="label">Sales</div><div class="value">₹${sales.toLocaleString()}</div></div>
-        <div class="stat-card"><div class="icon c2">🧾</div><div class="label">Orders</div><div class="value">${os.length}</div></div>
-        <div class="stat-card"><div class="icon c3">👥</div><div class="label">Users</div><div class="value">${us.length}</div></div>
-        <div class="stat-card"><div class="icon c1">📦</div><div class="label">Products</div><div class="value">${ps.length}</div></div>
-        <div class="stat-card"><div class="icon c2">🚫</div><div class="label">Suspended</div><div class="value">${us.filter(u => u.suspended).length}</div></div>
-        <div class="stat-card"><div class="icon c3">📩</div><div class="label">Appeals</div><div class="value">${as.filter(a => a.status === "pending").length}</div></div>
-      </div>`;
-    } catch (err) { content.innerHTML = '<div class="empty"><p>Failed</p></div>'; }
+
+      content.innerHTML = `
+        <div class="stat-row">
+          <div class="stat-card"><div class="lbl">Total Sales</div><div class="val">₹${sales.toLocaleString("en-IN")}</div></div>
+          <div class="stat-card"><div class="lbl">Orders</div><div class="val">${os.length}</div></div>
+          <div class="stat-card"><div class="lbl">Users</div><div class="val">${us.length}</div></div>
+          <div class="stat-card"><div class="lbl">Products</div><div class="val">${ps.length}</div></div>
+          <div class="stat-card"><div class="lbl">Pending Orders</div><div class="val">${os.filter(o => o.orderStatus === "Pending").length}</div></div>
+          <div class="stat-card"><div class="lbl">Suspended</div><div class="val">${us.filter(u => u.suspended).length}</div></div>
+          <div class="stat-card"><div class="lbl">Pending Appeals</div><div class="val">${as.filter(a => a.status === "pending").length}</div></div>
+        </div>
+      `;
+    } catch (err) {
+      content.innerHTML = '<div class="empty"><h3>Failed to load dashboard</h3></div>';
+    }
   }
 
   else if (tab === "products") {
     title.textContent = "Products";
-    content.innerHTML = `<button class="btn btn-primary" style="margin-bottom:16px" onclick="openProductForm()">+ Add Product</button>
-      <div class="table-wrap"><table>
-        <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
-        <tbody id="adminProductRows"><tr><td colspan="5" style="text-align:center;padding:20px">Loading...</td></tr></tbody>
-      </table></div>`;
+    content.innerHTML = `
+      <div style="margin-bottom:16px">
+        <button class="btn btn-primary" onclick="openProductForm()">+ Add Product</button>
+      </div>
+      <div class="table-box">
+        <table>
+          <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+          <tbody id="productRows"><tr><td colspan="5" style="text-align:center;padding:20px">Loading...</td></tr></tbody>
+        </table>
+      </div>`;
     try {
       const snap = await getDocs(collection(db, "products"));
       const products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      document.getElementById("adminProductRows").innerHTML = products.map(p => `<tr>
-        <td>${p.images?.[0] ? `<img src="${p.images[0]}" style="width:44px;height:44px;object-fit:cover;border-radius:8px" />` : "📦"}</td>
+      document.getElementById("productRows").innerHTML = products.length ? products.map(p => `<tr>
+        <td>${p.images?.[0] ? `<img src="${p.images[0]}" style="width:40px;height:40px;object-fit:cover" onerror="this.style.display='none'" />` : "-"}</td>
         <td><strong>${p.name || "-"}</strong></td>
-        <td style="color:var(--primary);font-weight:700">₹${p.price || 0}</td>
+        <td>₹${(p.price || 0).toLocaleString("en-IN")}</td>
         <td>${p.stock || 0}</td>
         <td>
-          <button class="btn btn-ghost btn-sm" onclick="openProductForm('${p.id}')">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">Del</button>
+          <button class="btn btn-sm btn-ghost" onclick="openProductForm('${p.id}')">Edit</button>
+          <button class="btn btn-sm btn-ghost" onclick="deleteProduct('${p.id}')" style="color:var(--red)">Delete</button>
         </td>
-      </tr>`).join("") || '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-light)">No products</td></tr>';
-    } catch (err) { document.getElementById("adminProductRows").innerHTML = `<tr><td colspan="5" style="color:var(--danger);padding:20px">${err.code}</td></tr>`; }
+      </tr>`).join("") : '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted)">No products yet</td></tr>';
+    } catch (err) {
+      document.getElementById("productRows").innerHTML = `<tr><td colspan="5" style="color:var(--red);padding:20px">${err.code}</td></tr>`;
+    }
   }
 
   else if (tab === "categories") {
     title.textContent = "Categories";
-    content.innerHTML = `<button class="btn btn-primary" style="margin-bottom:16px" onclick="openCategoryForm()">+ Add Category</button><div id="adminCatList"></div>`;
+    content.innerHTML = `
+      <div style="margin-bottom:16px">
+        <button class="btn btn-primary" onclick="openCategoryForm()">+ Add Category</button>
+      </div>
+      <div class="table-box">
+        <table>
+          <thead><tr><th>Name</th><th>Actions</th></tr></thead>
+          <tbody id="catRows"><tr><td colspan="2" style="text-align:center;padding:20px">Loading...</td></tr></tbody>
+        </table>
+      </div>`;
     try {
       const snap = await getDocs(collection(db, "categories"));
       const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      document.getElementById("adminCatList").innerHTML = cats.map(c => `<div class="cart-item">
-        <div class="details"><div class="name">${c.name}</div></div>
-        <button class="btn btn-danger btn-sm" onclick="deleteCategory('${c.id}')">Delete</button>
-      </div>`).join("") || '<div class="empty"><p>No categories</p></div>';
+      document.getElementById("catRows").innerHTML = cats.length ? cats.map(c => `<tr>
+        <td><strong>${c.name}</strong></td>
+        <td><button class="btn btn-sm btn-ghost" onclick="deleteCategory('${c.id}')" style="color:var(--red)">Delete</button></td>
+      </tr>`).join("") : '<tr><td colspan="2" style="text-align:center;padding:24px;color:var(--text-muted)">No categories yet</td></tr>';
     } catch (err) {}
   }
 
@@ -1836,12 +2227,18 @@ async function renderAdmin(tab) {
       const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
       content.innerHTML = orders.length ? orders.map(o => `<div class="order-card">
-        <div class="row"><strong>#${o.id.slice(-8).toUpperCase()}</strong><span class="status status-${o.orderStatus}">${o.orderStatus}</span></div>
-        <div class="row"><span>${o.customerName || o.customerEmail}</span><strong style="color:var(--primary)">₹${o.totalAmount}</strong></div>
-        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
-          ${["Pending","Confirmed","Shipped","Delivered","Cancelled"].map(s => `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}','${s}')">${s}</button>`).join("")}
+        <div class="head">
+          <div class="id">Order ID: <strong>#${o.id.slice(-10).toUpperCase()}</strong></div>
+          <span class="status status-${o.orderStatus}">${o.orderStatus}</span>
         </div>
-      </div>`).join("") : '<div class="empty"><p>No orders</p></div>';
+        <div class="row"><span style="color:var(--text-muted)">Customer</span><span>${o.customerName || o.customerEmail}</span></div>
+        <div class="row"><span style="color:var(--text-muted)">Total</span><strong>₹${(o.totalAmount || 0).toLocaleString("en-IN")}</strong></div>
+        <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
+          ${["Pending","Confirmed","Shipped","Delivered","Cancelled"].map(s =>
+            `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}','${s}')">${s}</button>`
+          ).join("")}
+        </div>
+      </div>`).join("") : '<div class="empty"><h3>No orders yet</h3></div>';
     } catch (err) {}
   }
 
@@ -1851,18 +2248,18 @@ async function renderAdmin(tab) {
       const snap = await getDocs(collection(db, "users"));
       const users = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = `<div class="table-wrap"><table>
-        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th>Actions</th></tr></thead>
+      content.innerHTML = `<div class="table-box"><table>
+        <thead><tr><th>User ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody>${users.map(u => `<tr>
           <td><strong>${u.publicId || "-"}</strong></td>
-          <td>${u.name || "-"}<br><small style="color:var(--text-light)">@${u.username || "-"}</small></td>
+          <td>${u.name || "-"}${u.username ? `<br><small style="color:var(--text-muted)">@${u.username}</small>` : ""}</td>
           <td>${u.email || "-"}</td>
           <td>${u.mobile || "-"}</td>
-          <td>${u.suspended ? '<span style="background:#fee2e2;color:#991b1b;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">🚫 SUSPENDED</span>' : '<span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700">✓ ACTIVE</span>'}</td>
+          <td>${u.suspended ? '<span class="status status-Cancelled">Suspended</span>' : '<span class="status status-Delivered">Active</span>'}</td>
           <td>
-            ${u.suspended 
-              ? `<button class="btn btn-success btn-sm" onclick="adminUnsuspendUser('${u.id}')">Unblock</button>` 
-              : `<button class="btn btn-danger btn-sm" onclick="openSuspendModal('${u.id}', '${(u.name || '').replace(/'/g, "")}')">Suspend</button>`}
+            ${u.suspended
+              ? `<button class="btn btn-sm btn-success" onclick="adminUnsuspendUser('${u.id}')">Unblock</button>`
+              : `<button class="btn btn-sm btn-ghost" onclick="openSuspendModal('${u.id}','${(u.name||'').replace(/'/g,'')}')" style="color:var(--red)">Suspend</button>`}
           </td>
         </tr>`).join("")}</tbody>
       </table></div>`;
@@ -1875,15 +2272,16 @@ async function renderAdmin(tab) {
       const snap = await getDocs(collection(db, "accountSuspensions"));
       const suspensions = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = suspensions.length ? suspensions.map(s => `<div class="order-card" style="border-left-color:${s.status === 'active' ? 'var(--danger)' : 'var(--success)'}">
-        <div class="row">
-          <strong>${s.userName} (#${s.publicId})</strong>
-          <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:${s.status === 'active' ? '#fee2e2' : '#d1fae5'};color:${s.status === 'active' ? '#991b1b' : '#065f46'}">${s.status.toUpperCase()}</span>
+      content.innerHTML = suspensions.length ? suspensions.map(s => `<div class="order-card">
+        <div class="head">
+          <div class="id">${s.userName} (#${s.publicId})</div>
+          <span class="status status-${s.status === 'active' ? 'Cancelled' : 'Delivered'}">${s.status.toUpperCase()}</span>
         </div>
-        <div class="row" style="font-size:12px;color:var(--text-light)"><span>${s.userEmail}</span><span>${s.suspendedAt ? new Date(s.suspendedAt.seconds * 1000).toLocaleString() : ""}</span></div>
-        <div style="padding:10px;background:#f8fafc;border-radius:8px;font-size:13px;margin:8px 0"><strong>Reason:</strong> ${s.reasonText}</div>
-        ${s.status === "active" ? `<div style="margin-top:10px"><button class="btn btn-success btn-sm" onclick="adminUnsuspend('${s.id}', '${s.userId}')">✓ Unblock</button></div>` : ""}
-      </div>`).join("") : '<div class="empty"><p>No suspensions</p></div>';
+        <div class="row"><span style="color:var(--text-muted)">Email</span><span>${s.userEmail}</span></div>
+        <div class="row"><span style="color:var(--text-muted)">Reason</span><span>${s.reasonText}</span></div>
+        <div class="row"><span style="color:var(--text-muted)">Duration</span><span>${s.duration}</span></div>
+        ${s.status === "active" ? `<div style="margin-top:12px"><button class="btn btn-sm btn-success" onclick="adminUnsuspend('${s.id}','${s.userId}')">Unblock</button></div>` : ""}
+      </div>`).join("") : '<div class="empty"><h3>No suspensions</h3></div>';
     } catch (err) {}
   }
 
@@ -1894,18 +2292,17 @@ async function renderAdmin(tab) {
       const appeals = snap.docs.map(d => ({ id: d.id, ...d.data() }))
         .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
       content.innerHTML = appeals.length ? appeals.map(a => `<div class="order-card">
-        <div class="row">
-          <strong>${a.userName} (#${a.userPublicId})</strong>
-          <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:${a.status === 'pending' ? '#fef3c7' : a.status === 'approved' ? '#d1fae5' : '#fee2e2'};color:${a.status === 'pending' ? '#92400e' : a.status === 'approved' ? '#065f46' : '#991b1b'}">${a.status.toUpperCase()}</span>
+        <div class="head">
+          <div class="id">${a.userName} (#${a.userPublicId})</div>
+          <span class="status ${a.status === 'pending' ? 'status-Pending' : a.status === 'approved' ? 'status-Delivered' : 'status-Cancelled'}">${a.status.toUpperCase()}</span>
         </div>
-        <div class="row" style="font-size:12px;color:var(--text-light)"><span>${a.userEmail}</span><span>${a.createdAt ? new Date(a.createdAt.seconds * 1000).toLocaleString() : ""}</span></div>
-        <div style="padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;margin:10px 0">${a.message}</div>
-        ${a.contact ? `<div style="font-size:12px;color:var(--text-light);margin-bottom:8px">📞 ${a.contact}</div>` : ""}
-        ${a.status === "pending" ? `<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
-          <button class="btn btn-success btn-sm" onclick="approveAppeal('${a.id}', '${a.suspensionId}')">✓ Approve</button>
-          <button class="btn btn-danger btn-sm" onclick="rejectAppeal('${a.id}')">✗ Reject</button>
-        </div>` : ""}
-      </div>`).join("") : '<div class="empty"><p>No appeals</p></div>';
+        <div style="padding:12px;background:#fafafa;font-size:13px;line-height:1.6;margin-bottom:10px">${a.message}</div>
+        ${a.contact ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Contact: ${a.contact}</div>` : ""}
+        ${a.status === "pending" ? `<div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-success" onclick="approveAppeal('${a.id}','${a.suspensionId}')">Approve</button>
+          <button class="btn btn-sm btn-danger" onclick="rejectAppeal('${a.id}')">Reject</button>
+        </div>` : a.adminResponse ? `<div style="font-size:12px;color:var(--text-muted)">Response: ${a.adminResponse}</div>` : ""}
+      </div>`).join("") : '<div class="empty"><h3>No appeals</h3></div>';
     } catch (err) {}
   }
 
@@ -1921,30 +2318,40 @@ async function renderAdmin(tab) {
       const usersSnap = await getDocs(collection(db, "users"));
       const users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-      content.innerHTML = `<div class="card" style="max-width:700px">
-        <h3 style="margin-bottom:20px;font-size:18px;font-weight:800">🔐 Authentication Settings</h3>
-        <div class="form-group" style="padding:16px;background:#f8fafc;border-radius:12px">
-          <label style="display:flex;align-items:center;gap:12px;cursor:pointer">
-            <input type="checkbox" id="emailVerifyToggle" ${authSettings.emailVerificationRequired ? "checked" : ""} style="width:20px;height:20px" />
-            <div>
-              <div style="font-weight:700;font-size:14px">Email Verification Required</div>
-              <div style="font-size:12px;color:var(--text-light);margin-top:2px">ON = सभी नए users को email verify करना ज़रूरी</div>
-            </div>
-          </label>
-        </div>
-        <div class="form-group">
-          <label style="font-weight:700">Verification Exempt Users</label>
-          <div style="font-size:12px;color:var(--text-light);margin-bottom:10px">ये users email verify नहीं करेंगे</div>
-          <div style="max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:12px;padding:8px">
-            ${users.map(u => `<label style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer;font-size:13px">
-              <input type="checkbox" class="exempt-checkbox" value="${u.id}" ${exemptUsers.includes(u.id) ? "checked" : ""} />
-              <div style="flex:1;min-width:0"><div style="font-weight:600">${u.name || "User"}</div><div style="font-size:11px;color:var(--text-light)">${u.email}</div></div>
-            </label>`).join("")}
+      content.innerHTML = `
+        <div style="background:#fff;border:1px solid var(--border);padding:20px;max-width:700px">
+          <h3 style="font-size:16px;font-weight:500;margin-bottom:16px">Authentication</h3>
+
+          <div style="padding:14px;background:#fafafa;border:1px solid var(--border);margin-bottom:20px">
+            <label style="display:flex;align-items:center;gap:12px;cursor:pointer">
+              <input type="checkbox" id="emailVerifyToggle" ${authSettings.emailVerificationRequired ? "checked" : ""} style="width:18px;height:18px" />
+              <div>
+                <div style="font-weight:500;font-size:14px">Require Email Verification</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:2px">All new users must verify their email before login</div>
+              </div>
+            </label>
           </div>
+
+          <div style="margin-bottom:16px">
+            <div style="font-weight:500;font-size:14px;margin-bottom:8px">Exempt Users</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Selected users can skip verification</div>
+            <div style="max-height:300px;overflow-y:auto;border:1px solid var(--border);padding:8px">
+              ${users.map(u => `<label style="display:flex;align-items:center;gap:10px;padding:8px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)">
+                <input type="checkbox" class="exempt-checkbox" value="${u.id}" ${exemptUsers.includes(u.id) ? "checked" : ""} />
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:500">${u.name || "User"}</div>
+                  <div style="font-size:11px;color:var(--text-muted)">${u.email}</div>
+                </div>
+              </label>`).join("")}
+            </div>
+          </div>
+
+          <button class="btn btn-primary" onclick="saveAuthSettings()">Save Settings</button>
         </div>
-        <button class="btn btn-primary btn-block" onclick="saveAuthSettings()">💾 Save Settings</button>
-      </div>`;
-    } catch (err) { content.innerHTML = `<p style="color:var(--danger)">Error: ${err.code}</p>`; }
+      `;
+    } catch (err) {
+      content.innerHTML = `<div class="empty"><h3>Error: ${err.code}</h3></div>`;
+    }
   }
 }
 
@@ -1954,15 +2361,18 @@ window.saveAuthSettings = async function() {
   try {
     await setDoc(doc(db, "settings", "auth"), { emailVerificationRequired: enabled, updatedAt: serverTimestamp() });
     await setDoc(doc(db, "settings", "exemptUsers"), { userIds: exemptIds, updatedAt: serverTimestamp() });
-    showToast("Settings saved ✓", "success");
-  } catch (err) { showToast("Failed: " + err.message, "error"); }
+    showToast("Settings saved", "success");
+  } catch (err) {
+    showToast("Failed to save settings", "error");
+  }
 };
 
-/* Admin: Suspend Modal */
+/* Admin: Suspend */
 window.openSuspendModal = function(userId, userName) {
-  openModal("🚫 Suspend User", `
-    <div style="padding:12px;background:#fee2e2;border-radius:10px;margin-bottom:16px;font-size:13px;color:#991b1b">
-      <strong>User:</strong> ${userName}
+  openModal("Suspend User", `
+    <div class="alert-box danger" style="margin-bottom:16px">
+      <div class="title">${userName}</div>
+      <div>This user will be unable to shop or place orders.</div>
     </div>
     <div class="form-group"><label>Reason *</label>
       <select class="form-control" id="suspReason">
@@ -1972,8 +2382,8 @@ window.openSuspendModal = function(userId, userName) {
         <option value="Multiple accounts">Multiple accounts</option>
         <option value="Other">Other</option>
       </select></div>
-    <div class="form-group"><label>Reason Details *</label>
-      <textarea class="form-control" id="suspReasonText" rows="3" placeholder="Explain..."></textarea></div>
+    <div class="form-group"><label>Details *</label>
+      <textarea class="form-control" id="suspReasonText" rows="3"></textarea></div>
     <div class="form-group"><label>Duration</label>
       <select class="form-control" id="suspDuration">
         <option value="24h">24 hours</option>
@@ -1983,7 +2393,7 @@ window.openSuspendModal = function(userId, userName) {
       </select></div>
   `, `
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-danger" onclick="confirmSuspendUser('${userId}')">🚫 Suspend</button>
+    <button class="btn btn-danger" onclick="confirmSuspendUser('${userId}')">Suspend</button>
   `);
 };
 
@@ -1991,14 +2401,23 @@ window.confirmSuspendUser = async function(userId) {
   const reason = document.getElementById("suspReason").value;
   const reasonText = document.getElementById("suspReasonText").value.trim();
   const duration = document.getElementById("suspDuration").value;
-  if (!reasonText) return showToast("Reason required", "warning");
+  if (!reasonText) return showToast("Please provide reason details", "warning");
   if (!confirm("Confirm suspension?")) return;
+
   try {
-    await suspendUser(userId, { reason, reasonText, triggeredBy: "admin", adminId: currentUser.uid, duration, appealAllowed: true });
-    showToast("User suspended ✓", "success");
+    await suspendUser(userId, {
+      reason, reasonText,
+      triggeredBy: "admin",
+      adminId: currentUser.uid,
+      duration,
+      appealAllowed: true
+    });
+    showToast("User suspended", "success");
     closeModal();
     renderAdmin("users");
-  } catch (err) { showToast("Failed: " + err.message, "error"); }
+  } catch (err) {
+    showToast("Failed to suspend", "error");
+  }
 };
 
 async function suspendUser(userId, options = {}) {
@@ -2007,85 +2426,103 @@ async function suspendUser(userId, options = {}) {
   if (duration === "24h") expiresAt = Timestamp.fromDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
   else if (duration === "7d") expiresAt = Timestamp.fromDate(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
   else if (duration === "30d") expiresAt = Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
+
   const userSnap = await getDoc(doc(db, "users", userId));
   if (!userSnap.exists()) throw new Error("User not found");
   const userData = userSnap.data();
+
   const suspRef = await addDoc(collection(db, "accountSuspensions"), {
-    userId, publicId: userData.publicId || "", userName: userData.name || "",
-    userEmail: userData.email || "", userMobile: userData.mobile || "",
-    reason, reasonText, triggeredBy, adminId,
-    suspendedAt: serverTimestamp(), expiresAt, duration, appealAllowed,
-    status: "active", liftedAt: null, liftedBy: null, liftedReason: "",
+    userId,
+    publicId: userData.publicId || "",
+    userName: userData.name || "",
+    userEmail: userData.email || "",
+    reason, reasonText,
+    triggeredBy, adminId,
+    suspendedAt: serverTimestamp(),
+    expiresAt, duration, appealAllowed,
+    status: "active",
     createdAt: serverTimestamp()
   });
+
   await updateDoc(doc(db, "users", userId), {
-    suspended: true, status: "suspended", suspendedReason: reasonText,
-    suspendedAt: serverTimestamp(), suspensionDuration: duration,
-    currentSuspensionId: suspRef.id, updatedAt: serverTimestamp()
+    suspended: true,
+    status: "suspended",
+    suspendedReason: reasonText,
+    suspendedAt: serverTimestamp(),
+    suspensionDuration: duration,
+    currentSuspensionId: suspRef.id,
+    updatedAt: serverTimestamp()
   });
-  await addDoc(collection(db, "suspensionLogs"), {
-    suspensionId: suspRef.id, userId, action: "suspended",
-    performedBy: adminId || "system", details: reasonText, timestamp: serverTimestamp()
-  });
-  return suspRef.id;
 }
 
 async function liftSuspension(suspensionId, adminId, liftedReason = "") {
   const suspSnap = await getDoc(doc(db, "accountSuspensions", suspensionId));
-  if (!suspSnap.exists()) throw new Error("Suspension not found");
+  if (!suspSnap.exists()) throw new Error("Not found");
   const susp = suspSnap.data();
+
   await updateDoc(doc(db, "accountSuspensions", suspensionId), {
-    status: "lifted", liftedAt: serverTimestamp(), liftedBy: adminId, liftedReason
+    status: "lifted",
+    liftedAt: serverTimestamp(),
+    liftedBy: adminId,
+    liftedReason
   });
   await updateDoc(doc(db, "users", susp.userId), {
-    suspended: false, status: "active", suspendedReason: "",
-    currentSuspensionId: null, updatedAt: serverTimestamp()
-  });
-  await addDoc(collection(db, "suspensionLogs"), {
-    suspensionId, userId: susp.userId, action: "lifted",
-    performedBy: adminId, details: liftedReason, timestamp: serverTimestamp()
+    suspended: false,
+    status: "active",
+    suspendedReason: "",
+    currentSuspensionId: null,
+    updatedAt: serverTimestamp()
   });
 }
 
 window.adminUnsuspendUser = async function(userId) {
   if (!confirm("Unblock this user?")) return;
   try {
-    const userSnap = await getDoc(doc(db, "users", userId));
-    const userData = userSnap.data();
-    if (userData.currentSuspensionId) {
-      await liftSuspension(userData.currentSuspensionId, currentUser.uid, "Admin unblocked");
+    const snap = await getDoc(doc(db, "users", userId));
+    const u = snap.data();
+    if (u.currentSuspensionId) {
+      await liftSuspension(u.currentSuspensionId, currentUser.uid, "Admin unblocked");
     } else {
       await updateDoc(doc(db, "users", userId), {
-        suspended: false, status: "active", suspendedReason: "",
-        currentSuspensionId: null, updatedAt: serverTimestamp()
+        suspended: false, status: "active",
+        suspendedReason: "", currentSuspensionId: null,
+        updatedAt: serverTimestamp()
       });
     }
-    showToast("User unblocked ✓", "success");
+    showToast("User unblocked", "success");
     renderAdmin("users");
-  } catch (err) { showToast("Failed: " + err.message, "error"); }
+  } catch (err) {
+    showToast("Failed to unblock", "error");
+  }
 };
 
 window.adminUnsuspend = async function(suspensionId, userId) {
   if (!confirm("Unblock?")) return;
   try {
     await liftSuspension(suspensionId, currentUser.uid, "Admin unblocked");
-    showToast("Unblocked ✓", "success");
+    showToast("User unblocked", "success");
     renderAdmin("suspensions");
-  } catch (err) { showToast("Failed", "error"); }
+  } catch (err) {
+    showToast("Failed", "error");
+  }
 };
 
 window.approveAppeal = async function(appealId, suspensionId) {
-  if (!confirm("Approve appeal?")) return;
+  if (!confirm("Approve this appeal?")) return;
   const response = prompt("Response to user:") || "Appeal approved";
   try {
     await updateDoc(doc(db, "accountAppeals", appealId), {
-      status: "approved", adminResponse: response,
-      respondedBy: currentUser.uid, respondedAt: serverTimestamp()
+      status: "approved",
+      adminResponse: response,
+      respondedBy: currentUser.uid,
+      respondedAt: serverTimestamp()
     });
     if (suspensionId) await liftSuspension(suspensionId, currentUser.uid, "Appeal approved");
-    showToast("Approved ✓", "success");
+    showToast("Approved", "success");
     renderAdmin("appeals");
-  } catch (err) { showToast("Failed", "error"); }
+  } catch (err) {
+    showToast("Failed", "error");
+  }
 };
 
 window.rejectAppeal = async function(appealId) {
@@ -2093,15 +2530,19 @@ window.rejectAppeal = async function(appealId) {
   const response = prompt("Reason:") || "Rejected";
   try {
     await updateDoc(doc(db, "accountAppeals", appealId), {
-      status: "rejected", adminResponse: response,
-      respondedBy: currentUser.uid, respondedAt: serverTimestamp()
+      status: "rejected",
+      adminResponse: response,
+      respondedBy: currentUser.uid,
+      respondedAt: serverTimestamp()
     });
     showToast("Rejected", "info");
     renderAdmin("appeals");
-  } catch (err) { showToast("Failed", "error"); }
+  } catch (err) {
+    showToast("Failed", "error");
+  }
 };
 
-/* Product / Category CRUD */
+/* Products CRUD — ⚙️ Image URL based (no storage) */
 window.openProductForm = async function(productId = null) {
   const editing = !!productId;
   let p = { name: "", price: "", mrp: "", stock: 0, description: "", images: [], brand: "", sku: "", isFeatured: false };
@@ -2113,7 +2554,7 @@ window.openProductForm = async function(productId = null) {
   }
   openModal(editing ? "Edit Product" : "Add Product", `
     <div class="form-group"><label>Name *</label><input class="form-control" id="pfName" value="${p.name || ""}" /></div>
-    <div class="form-group"><label>Description</label><textarea class="form-control" id="pfDescription">${p.description || ""}</textarea></div>
+    <div class="form-group"><label>Description</label><textarea class="form-control" id="pfDescription" rows="3">${p.description || ""}</textarea></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="form-group"><label>Price *</label><input type="number" class="form-control" id="pfPrice" value="${p.price || ""}" /></div>
       <div class="form-group"><label>MRP</label><input type="number" class="form-control" id="pfMrp" value="${p.mrp || ""}" /></div>
@@ -2123,38 +2564,61 @@ window.openProductForm = async function(productId = null) {
       <div class="form-group"><label>SKU</label><input class="form-control" id="pfSku" value="${p.sku || ""}" /></div>
     </div>
     <div class="form-group"><label>Brand</label><input class="form-control" id="pfBrand" value="${p.brand || ""}" /></div>
-    <div class="form-group"><label>Image</label><input type="file" class="form-control" id="pfImage" accept="image/*" />
-      <div class="img-preview">${p.images?.[0] ? `<div class="thumb"><img src="${p.images[0]}" /></div>` : ""}</div>
+    <div class="form-group">
+      <label>Product Image URL</label>
+      <input type="url" class="form-control" id="pfImageUrl" value="${p.images?.[0] || ""}" placeholder="https://example.com/image.jpg" oninput="previewImage(this.value)" />
+      <small style="font-size:11px;color:var(--text-muted);display:block;margin-top:4px">
+        Upload image to imgbb.com / postimages.org and paste direct link here
+      </small>
+      <div id="pfImagePreview" style="margin-top:10px">
+        ${p.images?.[0] ? `<img src="${p.images[0]}" style="width:80px;height:80px;object-fit:cover;border:1px solid var(--border)" onerror="this.style.display='none'" />` : ""}
+      </div>
     </div>
-    <div class="form-group"><label><input type="checkbox" id="pfFeatured" ${p.isFeatured ? "checked" : ""} /> Featured</label></div>
-  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="pfSaveBtn" onclick="saveProduct(${editing ? `'${productId}'` : "null"})">${editing ? "Update" : "Create"}</button>`);
+    <div class="form-group"><label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+      <input type="checkbox" id="pfFeatured" ${p.isFeatured ? "checked" : ""} /> Mark as Featured
+    </label></div>
+  `, `
+    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" id="pfSaveBtn" onclick="saveProduct(${editing ? `'${productId}'` : "null"})">${editing ? "Update" : "Create"}</button>
+  `);
+};
+
+window.previewImage = function(url) {
+  const el = document.getElementById("pfImagePreview");
+  if (!el) return;
+  if (!url || !url.trim()) { el.innerHTML = ""; return; }
+  el.innerHTML = `<img src="${url}" style="width:80px;height:80px;object-fit:cover;border:1px solid var(--border)" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=&quot;color:var(--red);font-size:12px&quot;>Image load failed</span>'" />`;
 };
 
 window.saveProduct = async function(productId) {
   const btn = document.getElementById("pfSaveBtn");
-  btn.disabled = true; btn.textContent = "Saving...";
+  btn.disabled = true;
+  btn.textContent = "Saving...";
   const name = document.getElementById("pfName").value.trim();
   const price = parseFloat(document.getElementById("pfPrice").value) || 0;
   if (!name || !price) {
-    btn.disabled = false; btn.textContent = productId ? "Update" : "Create";
-    return showToast("Name and Price required", "warning");
+    btn.disabled = false;
+    btn.textContent = productId ? "Update" : "Create";
+    return showToast("Name and price are required", "warning");
   }
   const data = {
-    name, description: document.getElementById("pfDescription").value.trim(),
-    price, mrp: parseFloat(document.getElementById("pfMrp").value) || price,
+    name,
+    description: document.getElementById("pfDescription").value.trim(),
+    price,
+    mrp: parseFloat(document.getElementById("pfMrp").value) || price,
     stock: parseInt(document.getElementById("pfStock").value) || 0,
     sku: document.getElementById("pfSku").value.trim(),
     brand: document.getElementById("pfBrand").value.trim(),
     isFeatured: document.getElementById("pfFeatured").checked,
-    active: true, updatedAt: serverTimestamp()
+    active: true,
+    updatedAt: serverTimestamp()
   };
+
+  // ✅ Image URL based — no storage upload
+  const imageUrl = document.getElementById("pfImageUrl").value.trim();
+  if (imageUrl) data.images = [imageUrl];
+
   try {
-    const file = document.getElementById("pfImage").files[0];
-    if (file) {
-      const sRef = ref(storage, `products/${Date.now()}_${file.name}`);
-      await uploadBytes(sRef, file);
-      data.images = [await getDownloadURL(sRef)];
-    }
     if (productId) {
       await updateDoc(doc(db, "products", productId), data);
     } else {
@@ -2162,60 +2626,75 @@ window.saveProduct = async function(productId) {
       if (!data.images) data.images = [];
       await addDoc(collection(db, "products"), data);
     }
-    showToast("Saved ✓", "success");
+    showToast("Product saved", "success");
     closeModal();
     await loadProducts();
     renderAdmin("products");
   } catch (err) {
-    showToast("Failed: " + err.message, "error");
+    showToast("Save failed: " + err.message, "error");
   } finally {
-    btn.disabled = false; btn.textContent = productId ? "Update" : "Create";
+    btn.disabled = false;
+    btn.textContent = productId ? "Update" : "Create";
   }
 };
 
 window.deleteProduct = async function(id) {
-  if (!confirm("Delete?")) return;
+  if (!confirm("Delete this product?")) return;
   try {
     await deleteDoc(doc(db, "products", id));
-    showToast("Deleted", "success");
+    showToast("Product deleted", "success");
     await loadProducts();
     renderAdmin("products");
-  } catch (err) { showToast("Failed", "error"); }
+  } catch (err) {
+    showToast("Delete failed", "error");
+  }
 };
 
 window.openCategoryForm = function() {
-  openModal("Add Category", `<div class="form-group"><label>Name *</label><input class="form-control" id="cfName" /></div>`,
+  openModal("Add Category", `<div class="form-group"><label>Category Name *</label><input class="form-control" id="cfName" /></div>`,
     `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveCategory()">Create</button>`);
 };
+
 window.saveCategory = async function() {
   const name = document.getElementById("cfName").value.trim();
   if (!name) return showToast("Name required", "warning");
   try {
     await addDoc(collection(db, "categories"), { name, createdAt: serverTimestamp() });
-    showToast("Created", "success");
+    showToast("Category added", "success");
     closeModal();
     await loadCategories();
     renderAdmin("categories");
-  } catch (err) { showToast("Failed", "error"); }
+  } catch (err) {
+    showToast("Failed", "error");
+  }
 };
+
 window.deleteCategory = async function(id) {
   if (!confirm("Delete?")) return;
   try {
     await deleteDoc(doc(db, "categories", id));
-    showToast("Deleted", "success");
+    showToast("Category deleted", "success");
     await loadCategories();
     renderAdmin("categories");
-  } catch (err) { showToast("Failed", "error"); }
-};
-window.updateOrderStatus = async function(id, status) {
-  try {
-    await updateDoc(doc(db, "orders", id), { orderStatus: status, updatedAt: serverTimestamp() });
-    showToast("Updated to " + status, "success");
-    renderAdmin("orders");
-  } catch (err) { showToast("Failed", "error"); }
+  } catch (err) {
+    showToast("Failed", "error");
+  }
 };
 
-console.log("%c🛒 Pawan Retail — Complete System v4", "color:#7c3aed;font-size:20px;font-weight:bold");
+window.updateOrderStatus = async function(id, status) {
+  try {
+    await updateDoc(doc(db, "orders", id), {
+      orderStatus: status,
+      updatedAt: serverTimestamp()
+    });
+    showToast("Status updated to " + status, "success");
+    renderAdmin("orders");
+  } catch (err) {
+    showToast("Failed", "error");
+  }
+};
+
+console.log("Pawan Retail — No Storage, No Index edition");
 </script>
 
 </body>
