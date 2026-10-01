@@ -573,7 +573,7 @@ import {
   collection, query, where, serverTimestamp, onSnapshot, Timestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-// ⚙️ Pawan Retail Limited07 config
+// ✅ CORRECT Firebase Config — Note the letter "O" (not zero) after H7
 const firebaseConfig = {
   apiKey: "AIzaSyAzy_JeQH70Fvqru2DME1EsH59Yh5JtRjs",
   authDomain: "pawan-retail-limited07.firebaseapp.com",
@@ -818,9 +818,7 @@ window.checkEmailVerified = async function() {
     } else {
       showToast("Email not verified yet", "warning");
     }
-  } catch (err) {
-    showToast(friendlyError(err), "error");
-  }
+  } catch (err) { showToast(friendlyError(err), "error"); }
 };
 
 window.verifyNewDevice = async function() {
@@ -855,7 +853,11 @@ function friendlyError(err) {
     "auth/invalid-credential": "Invalid email or password",
     "auth/email-already-in-use": "This email is already registered",
     "auth/weak-password": "Password is too weak",
-    "permission-denied": "Permission denied"
+    "auth/api-key-not-valid": "Invalid API key. Check config.",
+    "auth/operation-not-allowed": "Email/Password login disabled. Enable in Firebase Console.",
+    "auth/unauthorized-domain": "This domain is not authorized in Firebase.",
+    "auth/network-request-failed": "Network error. Check internet.",
+    "permission-denied": "Permission denied. Check Firestore Rules."
   };
   return map[err.code] || err.message || "Something went wrong";
 }
@@ -1155,7 +1157,6 @@ function renderProfile() {
   document.getElementById("profileUsername").textContent = "@" + (d.username || "username");
   document.getElementById("profilePublicId").textContent = d.publicId || "------";
   document.getElementById("profileCoins").textContent = d.coins || 0;
-
   const fields = [
     { label: "Full Name", key: "name", required: true },
     { label: "Username", key: "username", required: true },
@@ -1176,7 +1177,6 @@ function renderProfile() {
       </div>
     </div>`;
   }).join("");
-
   const addr = d.address || {};
   const addrEl = document.getElementById("profileAddressList");
   if (!addr.line1) {
@@ -1188,7 +1188,6 @@ function renderProfile() {
       <div class="val">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}, ${addr.city || ""}, ${addr.state || ""} - ${addr.pincode || ""}</div>
     </div></div>`;
   }
-
   const sessions = d.sessions || [];
   const devEl = document.getElementById("profileDevicesList");
   devEl.innerHTML = !sessions.length
@@ -1200,7 +1199,6 @@ function renderProfile() {
         </div>
         <button class="btn btn-sm btn-ghost" onclick="removeDevice('${s.deviceId}')" style="color:var(--red)">Remove</button>
       </div>`).join("");
-
   renderAlerts();
 }
 
@@ -1302,9 +1300,7 @@ window.saveProfile = async function() {
     closeModal();
     renderProfile();
     updateHeaderUser();
-  } catch (err) {
-    peError(err.message || "Failed to save");
-  }
+  } catch (err) { peError(err.message || "Failed to save"); }
 };
 function peError(msg) {
   const el = document.getElementById("peError");
@@ -1863,7 +1859,6 @@ async function renderAdmin(tab) {
     content.innerHTML = '<div class="empty"><h3>Admin access required</h3></div>';
     return;
   }
-
   if (tab === "dashboard") {
     title.textContent = "Dashboard";
     try {
@@ -1916,9 +1911,7 @@ async function renderAdmin(tab) {
           <button class="btn btn-sm btn-ghost" onclick="deleteProduct('${p.id}')" style="color:var(--red)">Delete</button>
         </td>
       </tr>`).join("") : '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted)">No products yet</td></tr>';
-    } catch (err) {
-      document.getElementById("productRows").innerHTML = `<tr><td colspan="5" style="color:var(--red);padding:20px">${err.code}</td></tr>`;
-    }
+    } catch (err) { document.getElementById("productRows").innerHTML = `<tr><td colspan="5" style="color:var(--red);padding:20px">${err.code}</td></tr>`; }
   }
   else if (tab === "categories") {
     title.textContent = "Categories";
@@ -2234,7 +2227,7 @@ window.openProductForm = async function(productId = null) {
       <label>Product Image URL</label>
       <input type="url" class="form-control" id="pfImageUrl" value="${p.images?.[0] || ""}" placeholder="https://example.com/image.jpg" oninput="previewImage(this.value)" />
       <small style="font-size:11px;color:var(--text-muted);display:block;margin-top:4px">
-        Upload image to imgbb.com or postimages.org and paste direct link
+        Upload image to imgbb.com and paste direct link
       </small>
       <div id="pfImagePreview" style="margin-top:10px">
         ${p.images?.[0] ? `<img src="${p.images[0]}" style="width:80px;height:80px;object-fit:cover;border:1px solid var(--border)" onerror="this.style.display='none'" />` : ""}
@@ -2342,7 +2335,7 @@ window.updateOrderStatus = async function(id, status) {
   } catch (err) { showToast("Failed", "error"); }
 };
 
-console.log("Pawan Retail app loaded");
+console.log("Pawan Retail loaded");
 </script>
 
 </body>
