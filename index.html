@@ -7,13 +7,14 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>P</text></svg>" />
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--blue:#2874f0;--blue-dark:#1f5fbf;--orange:#ff6b00;--green:#388e3c;--red:#d32f2f;--text:#212121;--text-mid:#4f4f4f;--text-muted:#878787;--border:#e0e0e0;--border-dark:#c7c7c7;--bg:#f1f3f6;--card:#fff;--hover:#f5f5f5}
+:root{--blue:#2874f0;--blue-dark:#1f5fbf;--orange:#ff6b00;--green:#388e3c;--red:#d32f2f;--yellow:#ffb800;--purple:#7c3aed;--text:#212121;--text-mid:#4f4f4f;--text-muted:#878787;--border:#e0e0e0;--border-dark:#c7c7c7;--bg:#f1f3f6;--card:#fff;--hover:#f5f5f5}
 html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.4;min-height:100vh;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 button{font-family:inherit;cursor:pointer;border:none;background:none;font-size:14px;color:inherit}
 input,select,textarea{font-family:inherit;font-size:14px}
 a{color:var(--blue);text-decoration:none}
 
+/* HEADER */
 .header{background:var(--blue);padding:10px 16px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 4px rgba(0,0,0,.08)}
 .header .brand{color:#fff;font-size:19px;font-weight:600;font-style:italic;letter-spacing:-.3px;cursor:pointer;white-space:nowrap;display:flex;flex-direction:column;line-height:1}
 .header .brand .tagline{font-size:10px;font-style:italic;font-weight:400;color:#ffe500;margin-top:2px}
@@ -24,6 +25,10 @@ a{color:var(--blue);text-decoration:none}
 .header .nav-item{color:#fff;font-size:14px;font-weight:500;padding:6px 12px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;position:relative}
 .header .nav-item .count{background:var(--orange);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;padding:0 4px;border-radius:8px;display:grid;place-items:center;position:absolute;top:-2px;right:0}
 .header .menu-toggle{display:none;color:#fff;font-size:20px;padding:6px}
+
+/* WALLET BADGE */
+.wallet-badge{background:rgba(255,255,255,.15);padding:6px 12px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:13px;font-weight:600}
+.wallet-badge .coin{color:#ffd700;font-size:16px}
 
 .cat-strip{background:#fff;border-bottom:1px solid var(--border);padding:12px 16px;display:flex;gap:28px;overflow-x:auto;scrollbar-width:none}
 .cat-strip::-webkit-scrollbar{display:none}
@@ -38,15 +43,15 @@ a{color:var(--blue);text-decoration:none}
 
 .btn{padding:10px 20px;border-radius:2px;font-size:14px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;white-space:nowrap}
 .btn-primary{background:var(--blue);color:#fff}
-.btn-primary:hover{background:var(--blue-dark);box-shadow:0 2px 6px rgba(40,116,240,.3)}
+.btn-primary:hover{background:var(--blue-dark)}
 .btn-secondary{background:var(--orange);color:#fff}
 .btn-secondary:hover{background:#e55f00}
+.btn-success{background:var(--green);color:#fff}
+.btn-danger{background:var(--red);color:#fff}
+.btn-purple{background:var(--purple);color:#fff}
 .btn-outline{background:#fff;color:var(--blue);border:1px solid var(--border);font-weight:500}
-.btn-outline:hover{box-shadow:0 2px 6px rgba(0,0,0,.1)}
 .btn-ghost{background:transparent;color:var(--text);padding:8px 12px}
 .btn-ghost:hover{background:var(--hover)}
-.btn-danger{background:var(--red);color:#fff}
-.btn-success{background:var(--green);color:#fff}
 .btn-block{width:100%}
 .btn-sm{padding:6px 14px;font-size:13px}
 .btn-lg{padding:14px 28px;font-size:16px}
@@ -69,30 +74,63 @@ textarea.form-control{resize:vertical;min-height:80px}
 .field-status .spinner-mini{width:11px;height:11px;border:2px solid var(--text-muted);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
 .suggestion-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
 .suggestion-chip{padding:3px 8px;background:#e3f2fd;color:var(--blue);border:1px solid #bbdefb;border-radius:2px;font-size:11px;cursor:pointer}
-.suggestion-chip:hover{background:var(--blue);color:#fff}
 
 .section{background:#fff;border-radius:2px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 .section-title{font-size:20px;font-weight:500;color:var(--text);margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
 .section-title .view-all{background:var(--blue);color:#fff;padding:8px 16px;font-size:13px;font-weight:500;border-radius:2px;cursor:pointer}
-.section-title .view-all:hover{background:var(--blue-dark)}
 
+/* OFFERS CAROUSEL */
+.offers-scroll{display:flex;gap:12px;overflow-x:auto;padding:12px 0;scrollbar-width:none}
+.offers-scroll::-webkit-scrollbar{display:none}
+.offer-card{min-width:280px;background:linear-gradient(135deg,#ff6b6b,#ee5a6f);color:#fff;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:8px;box-shadow:0 4px 12px rgba(238,90,111,.3)}
+.offer-card.purple{background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 4px 12px rgba(124,58,237,.3)}
+.offer-card.orange{background:linear-gradient(135deg,#ff9a00,#ff6b00);box-shadow:0 4px 12px rgba(255,107,0,.3)}
+.offer-card.blue{background:linear-gradient(135deg,#2874f0,#1f5fbf);box-shadow:0 4px 12px rgba(40,116,240,.3)}
+.offer-card h3{font-size:16px;font-weight:700}
+.offer-card .desc{font-size:12px;opacity:.9;line-height:1.4}
+.offer-card .code{background:rgba(255,255,255,.2);padding:6px 12px;border-radius:4px;font-family:monospace;font-weight:700;font-size:13px;letter-spacing:1px;display:inline-block;border:1px dashed rgba(255,255,255,.5)}
+.offer-card .btn-copy{background:#fff;color:#000;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:600;align-self:flex-start}
+.offer-card .expiry{font-size:11px;opacity:.8}
+
+/* FLASH SALE */
+.flash-header{background:linear-gradient(135deg,#d32f2f,#e91e63);color:#fff;padding:16px;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.flash-header h2{font-size:18px;font-weight:700}
+.timer-box{background:rgba(0,0,0,.2);padding:8px 16px;border-radius:6px;display:flex;align-items:center;gap:8px;font-weight:600}
+.timer-box .label{font-size:11px;text-transform:uppercase;letter-spacing:1px;opacity:.9}
+.timer-box .time{font-size:20px;font-weight:700;font-family:monospace}
+.flash-header.upcoming{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+.flash-header.expired{background:linear-gradient(135deg,#64748b,#475569)}
+
+/* DEAL CARD */
+.deal-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer;transition:transform .2s}
+.deal-card:hover{transform:translateY(-2px)}
+.deal-card .deal-header{padding:12px 16px;background:#fafafa;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.deal-card .deal-status{padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;text-transform:uppercase}
+.deal-status.upcoming{background:#fef3c7;color:#92400e}
+.deal-status.active{background:#d1fae5;color:#065f46}
+.deal-status.expired{background:#fee2e2;color:#991b1b}
+.deal-timer{font-family:monospace;font-weight:700;color:var(--red);font-size:14px}
+.deal-products{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1px;background:var(--border)}
+.deal-products .product-card{box-shadow:none;border-radius:0}
+
+/* PRODUCTS */
 .product-grid{display:grid;gap:2px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));background:var(--border);border:1px solid var(--border)}
 .product-card{background:#fff;cursor:pointer;display:flex;flex-direction:column;transition:box-shadow .15s;position:relative}
 .product-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:2}
-.product-card .img-wrap{aspect-ratio:1;background:#fff;display:grid;place-items:center;overflow:hidden;padding:12px}
+.product-card .img-wrap{aspect-ratio:1;background:#fff;display:grid;place-items:center;overflow:hidden;padding:12px;position:relative}
 .product-card .img-wrap img{width:100%;height:100%;object-fit:contain;transition:transform .3s}
 .product-card:hover .img-wrap img{transform:scale(1.05)}
 .product-card .wish-btn{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--border);display:grid;place-items:center;font-size:14px;z-index:2}
-.product-card .wish-btn:hover{background:#ffe5e5;border-color:#ff6b6b}
 .product-card .info{padding:10px 10px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
-.product-card .name{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px}
+.product-card .name{font-size:13px;font-weight:500;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px}
 .product-card .brand{font-size:11px;color:var(--text-muted)}
 .product-card .price-row{display:flex;align-items:baseline;gap:6px;margin-top:4px}
-.product-card .price{font-size:15px;font-weight:600;color:var(--text)}
+.product-card .price{font-size:15px;font-weight:600}
 .product-card .mrp{font-size:12px;color:var(--text-muted);text-decoration:line-through}
 .product-card .discount{font-size:12px;color:var(--green);font-weight:500}
 .product-card .stock-badge{font-size:11px;color:var(--orange);font-weight:500}
 
+/* AUTH */
 .auth-wrap{min-height:100vh;background:var(--bg);display:grid;place-items:center;padding:20px}
 .auth-card{background:#fff;border-radius:2px;box-shadow:0 2px 12px rgba(0,0,0,.1);padding:36px 32px;width:100%;max-width:420px}
 .auth-logo{text-align:center;margin-bottom:24px}
@@ -104,30 +142,26 @@ textarea.form-control{resize:vertical;min-height:80px}
 
 .verify-card{background:#fff;border-radius:2px;box-shadow:0 2px 12px rgba(0,0,0,.1);padding:36px 32px;width:100%;max-width:440px}
 .verify-icon{width:64px;height:64px;border-radius:50%;background:#e3f2fd;color:var(--blue);display:grid;place-items:center;font-size:28px;margin:0 auto 20px;font-weight:600}
-.verify-card h2{font-size:20px;text-align:center;margin-bottom:8px;color:var(--text)}
+.verify-card h2{font-size:20px;text-align:center;margin-bottom:8px}
 .verify-card p{text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:16px}
 .verify-email{display:block;background:#f5f5f5;color:var(--blue);padding:10px 14px;border-radius:2px;font-size:13px;font-weight:500;text-align:center;margin-bottom:20px;word-break:break-all}
-.verify-steps{background:#fafafa;border-left:3px solid var(--blue);padding:14px 18px;margin-bottom:20px;font-size:13px;color:var(--text-mid)}
+.verify-steps{background:#fafafa;border-left:3px solid var(--blue);padding:14px 18px;margin-bottom:20px;font-size:13px}
 .verify-steps ol{padding-left:20px}
-.verify-steps li{margin-bottom:6px;line-height:1.6}
 
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:8px 0;z-index:90;box-shadow:0 -1px 4px rgba(0,0,0,.05)}
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:8px 0;z-index:90}
 .bottom-nav button{flex:1;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--text-muted);font-weight:500}
 .bottom-nav button.active{color:var(--blue)}
 .bottom-nav .ico{font-size:18px}
 
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:1000;animation:fadeIn .15s}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:1000}
 .modal-overlay.active{display:flex}
-.modal{background:#fff;border-radius:2px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 4px 24px rgba(0,0,0,.3);animation:slideUp .2s}
+.modal{background:#fff;border-radius:2px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 4px 24px rgba(0,0,0,.3)}
 .modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:1}
-.modal-header h3{font-size:16px;font-weight:500;color:var(--text)}
+.modal-header h3{font-size:16px;font-weight:500}
 .modal-header .close{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:18px;color:var(--text-muted)}
-.modal-header .close:hover{background:var(--hover)}
 .modal-body{padding:20px}
 .modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:#fff}
 .modal-footer .btn{flex:1}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideUp{from{transform:translateY(15px);opacity:0}to{transform:translateY(0);opacity:1}}
 
 .toast-wrap{position:fixed;top:16px;right:16px;z-index:2000;display:flex;flex-direction:column;gap:8px;max-width:340px;pointer-events:none}
 .toast{background:#323232;color:#fff;padding:12px 16px;border-radius:2px;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.2);animation:slideIn .25s;pointer-events:auto}
@@ -135,86 +169,86 @@ textarea.form-control{resize:vertical;min-height:80px}
 .toast.error{background:var(--red)}
 .toast.warning{background:var(--orange)}
 @keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 .empty{text-align:center;padding:60px 20px;color:var(--text-muted);background:#fff;border-radius:2px}
 .empty .icon{font-size:48px;margin-bottom:12px;color:var(--border-dark)}
 .empty h3{font-size:16px;font-weight:500;color:var(--text);margin-bottom:6px}
-.empty p{font-size:13px;margin-bottom:4px}
 .loading{display:flex;justify-content:center;padding:40px}
 .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 
 .cart-item{display:flex;gap:14px;padding:16px;background:#fff;border-bottom:1px solid var(--border);align-items:flex-start}
 .cart-item:last-child{border-bottom:none}
 .cart-item img{width:80px;height:80px;object-fit:contain;background:#fff;border:1px solid var(--border);padding:4px}
 .cart-item .details{flex:1;min-width:0}
 .cart-item .name{font-size:14px;font-weight:500;margin-bottom:6px;line-height:1.4}
-.cart-item .price{font-size:16px;font-weight:600;color:var(--text);margin-bottom:4px}
+.cart-item .price{font-size:16px;font-weight:600;margin-bottom:4px}
 .qty-ctrl{display:inline-flex;align-items:center;border:1px solid var(--border-dark);border-radius:2px;margin-top:8px}
 .qty-ctrl button{width:28px;height:28px;background:#fff;color:var(--blue);font-size:16px;font-weight:600;display:grid;place-items:center}
-.qty-ctrl button:hover{background:var(--hover)}
 .qty-ctrl .q{min-width:36px;text-align:center;font-weight:500;font-size:14px}
 
 .order-card{background:#fff;border:1px solid var(--border);border-radius:2px;padding:16px;margin-bottom:12px}
 .order-card .head{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px}
-.order-card .head .id{font-size:13px;color:var(--text-muted)}
-.order-card .head .id strong{color:var(--text);font-weight:500}
 .order-card .row{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px}
-.order-card .row:last-child{margin-bottom:0}
-.status{padding:3px 10px;border-radius:2px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.status{padding:3px 10px;border-radius:2px;font-size:11px;font-weight:600;text-transform:uppercase}
 .status-Pending{background:#fff3e0;color:#e65100}
 .status-Confirmed{background:#e3f2fd;color:#0d47a1}
 .status-Shipped{background:#f3e5f5;color:#4a148c}
 .status-Delivered{background:#e8f5e9;color:#1b5e20}
 .status-Cancelled{background:#ffebee;color:#b71c1c}
 
+/* PROFILE */
 .profile-head{background:#fff;border-radius:2px;padding:20px;margin-bottom:12px;display:flex;gap:16px;align-items:center;border:1px solid var(--border)}
 .profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:24px;font-weight:500;flex-shrink:0}
 .profile-head .info{flex:1;min-width:0}
 .profile-head h3{font-size:16px;font-weight:500;margin-bottom:2px}
 .profile-head p{font-size:13px;color:var(--text-muted)}
-.profile-head .meta{display:flex;gap:16px;margin-top:8px;font-size:12px}
+.profile-head .meta{display:flex;gap:16px;margin-top:8px;font-size:12px;flex-wrap:wrap}
 .profile-head .meta div{display:flex;flex-direction:column;gap:2px}
-.profile-head .meta strong{font-size:14px;color:var(--text)}
+.profile-head .meta strong{font-size:14px}
 .profile-head .meta span{color:var(--text-muted);font-size:11px}
+
+/* WALLET CARD */
+.wallet-card{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:12px;padding:20px;margin-bottom:12px;box-shadow:0 4px 12px rgba(124,58,237,.3)}
+.wallet-card .label{font-size:12px;opacity:.9;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.wallet-card .amount{font-size:36px;font-weight:700;display:flex;align-items:center;gap:10px}
+.wallet-card .amount .coin{color:#ffd700;font-size:32px}
+.wallet-card .sub{font-size:13px;opacity:.9;margin-top:6px}
 
 .profile-row{display:flex;align-items:center;gap:12px;padding:16px;background:#fff;border-bottom:1px solid var(--border);cursor:pointer}
 .profile-row:last-child{border-bottom:none}
 .profile-row:hover{background:var(--hover)}
-.profile-row .ico{width:36px;height:36px;border-radius:50%;background:#f5f5f5;display:grid;place-items:center;font-size:16px;color:var(--blue);flex-shrink:0}
+.profile-row .ico{width:36px;height:36px;border-radius:50%;background:#f5f5f5;display:grid;place-items:center;font-size:16px;color:var(--blue)}
 .profile-row .txt{flex:1;min-width:0}
-.profile-row .txt .lbl{font-size:14px;font-weight:500;color:var(--text)}
+.profile-row .txt .lbl{font-size:14px;font-weight:500}
 .profile-row .txt .val{font-size:12px;color:var(--text-muted);margin-top:2px}
 .profile-row .txt .val.missing{color:var(--red)}
-
 .profile-section{background:#fff;border-radius:2px;margin-bottom:12px;border:1px solid var(--border);overflow:hidden}
 .profile-section .section-hd{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.profile-section .section-hd h4{font-size:14px;font-weight:500;color:var(--text)}
+.profile-section .section-hd h4{font-size:14px;font-weight:500}
 .profile-section .section-hd button{font-size:13px;color:var(--blue);font-weight:500}
 
-.alert-box{padding:14px 16px;border-radius:2px;margin-bottom:12px;border-left:3px solid;font-size:13px;line-height:1.5}
+.alert-box{padding:14px 16px;border-radius:2px;margin-bottom:12px;border-left:3px solid;font-size:13px}
 .alert-box.info{background:#e3f2fd;border-color:var(--blue);color:#0d47a1}
 .alert-box.warn{background:#fff3e0;border-color:var(--orange);color:#e65100}
 .alert-box.danger{background:#ffebee;border-color:var(--red);color:#b71c1c}
-.alert-box .title{font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
-.alert-box .actions{margin-top:10px}
-.alert-box .actions button{padding:6px 14px;font-size:12px;border-radius:2px;background:var(--blue);color:#fff;font-weight:500}
 
+/* ADMIN */
 .admin-layout{display:flex;min-height:100vh;background:var(--bg)}
-.admin-side{width:220px;background:#fff;border-right:1px solid var(--border);padding:16px 0;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
-.admin-side .logo{padding:0 20px 16px;font-size:17px;font-weight:600;color:var(--blue);font-style:italic;border-bottom:1px solid var(--border);margin-bottom:8px}
-.admin-side button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 20px;text-align:left;font-size:13px;font-weight:500;color:var(--text-mid);border-left:3px solid transparent}
-.admin-side button:hover{background:var(--hover);color:var(--text)}
-.admin-side button.active{background:#e3f2fd;color:var(--blue);border-left-color:var(--blue)}
+.admin-side{width:230px;background:#1e293b;color:#fff;padding:16px 0;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.admin-side .logo{padding:0 20px 16px;font-size:17px;font-weight:600;color:#ffb800;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:8px}
+.admin-side button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 20px;text-align:left;font-size:13px;font-weight:500;color:rgba(255,255,255,.75);border-left:3px solid transparent}
+.admin-side button:hover{background:rgba(255,255,255,.05);color:#fff}
+.admin-side button.active{background:rgba(40,116,240,.15);color:#fff;border-left-color:var(--blue)}
 .admin-main{flex:1;padding:20px;min-width:0}
 .admin-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.admin-top h1{font-size:22px;font-weight:500;color:var(--text)}
+.admin-top h1{font-size:22px;font-weight:500}
 .admin-top .user-info{font-size:13px;color:var(--text-muted)}
 
 .stat-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));margin-bottom:24px}
 .stat-card{background:#fff;border:1px solid var(--border);border-radius:2px;padding:16px}
 .stat-card .lbl{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.stat-card .val{font-size:22px;font-weight:600;color:var(--text)}
+.stat-card .val{font-size:22px;font-weight:600}
 
 .table-box{background:#fff;border:1px solid var(--border);border-radius:2px;overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px}
@@ -229,9 +263,7 @@ tr:hover td{background:var(--hover)}
 .pdp-badge{position:absolute;top:12px;left:12px;background:var(--green);color:#fff;padding:4px 10px;font-size:11px;font-weight:600;border-radius:2px}
 .pdp-wish{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--border);display:grid;place-items:center;font-size:20px}
 .pdp-info h1{font-size:20px;font-weight:500;line-height:1.35;margin-bottom:8px}
-.pdp-brand{font-size:12px;color:var(--text-muted);margin-bottom:14px}
-.pdp-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
-.pdp-price{font-size:28px;font-weight:600;color:var(--text)}
+.pdp-price{font-size:28px;font-weight:600}
 .pdp-mrp{font-size:16px;color:var(--text-muted);text-decoration:line-through}
 .pdp-off{font-size:14px;color:var(--green);font-weight:600}
 .pdp-stock{font-size:13px;font-weight:500;margin-bottom:16px}
@@ -241,37 +273,33 @@ tr:hover td{background:var(--hover)}
 .pdp-actions .btn{flex:1;min-width:140px;padding:14px 20px;font-size:15px}
 .qty-box{display:inline-flex;align-items:center;border:1px solid var(--border-dark);border-radius:2px;margin-bottom:16px}
 .qty-box button{width:36px;height:36px;background:#fff;color:var(--blue);font-weight:600;font-size:18px}
-.qty-box button:hover{background:var(--hover)}
 .qty-box .val{min-width:44px;text-align:center;font-weight:500;font-size:15px}
 .pdp-desc-box{background:#fff;border-radius:2px;padding:20px;margin-bottom:12px;border:1px solid var(--border)}
-.pdp-desc-box h3{font-size:15px;font-weight:500;margin-bottom:12px;color:var(--text)}
-.pdp-desc-box p{font-size:13px;line-height:1.7;color:var(--text-mid);white-space:pre-wrap}
+
+/* COUPON INPUT */
+.coupon-row{display:flex;gap:8px;margin-bottom:12px}
+.coupon-row input{flex:1;padding:10px 14px;border:1px solid var(--border-dark);border-radius:2px;font-size:14px;text-transform:uppercase;font-family:monospace;font-weight:600}
+.coupon-row button{padding:10px 20px;background:var(--blue);color:#fff;border-radius:2px;font-weight:600}
 
 @media (min-width:768px){
   .pdp-wrap{grid-template-columns:380px 1fr;gap:24px}
 }
 @media (max-width:767px){
   .header .search{display:none}
-  .header{padding:10px 12px;gap:8px}
-  .header .brand{font-size:17px}
   .header .nav-item{padding:6px 8px;font-size:13px}
   .header .menu-toggle{display:block}
+  .header .brand .tagline{display:none}
+  .wallet-badge{padding:4px 8px;font-size:11px}
   .bottom-nav{display:flex}
-  .container{padding:8px}
-  .section{padding:12px}
-  .section-title{font-size:17px;flex-wrap:wrap;gap:8px}
-  .section-title .view-all{padding:6px 12px;font-size:12px}
   .product-grid{grid-template-columns:repeat(2,1fr)}
-  .product-card .name{font-size:12px;min-height:32px}
-  .product-card .price{font-size:14px}
   .admin-layout{flex-direction:column}
-  .admin-side{width:100%;position:static;height:auto;border-right:none;border-bottom:1px solid var(--border);display:none}
+  .admin-side{width:100%;position:static;height:auto;display:none}
   .admin-side.open{display:block}
-  .admin-main{padding:12px}
   .stat-row{grid-template-columns:repeat(2,1fr)}
-  .auth-card{padding:28px 20px}
-  .modal{max-height:95vh}
   .pdp-price{font-size:24px}
+  .offer-card{min-width:240px}
+  .flash-header h2{font-size:15px}
+  .timer-box .time{font-size:16px}
 }
 </style>
 </head>
@@ -279,6 +307,7 @@ tr:hover td{background:var(--hover)}
 
 <div class="toast-wrap" id="toastWrap"></div>
 
+<!-- AUTH SCREEN -->
 <div class="auth-wrap" id="authScreen">
   <div class="auth-card">
     <div class="auth-logo">
@@ -311,13 +340,11 @@ tr:hover td{background:var(--hover)}
       <div class="form-group"><label>Password</label>
         <input type="password" class="form-control" id="signupPassword" required minlength="6" /></div>
       <button type="submit" class="btn btn-primary btn-block btn-lg" id="signupBtn">Create Account</button>
-      <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px;line-height:1.5">
-        By creating an account, you agree to our Terms and Privacy Policy.
-      </p>
     </form>
   </div>
 </div>
 
+<!-- ADMIN LOGIN -->
 <div class="auth-wrap" id="adminLoginScreen" style="display:none;background:#1a1f36">
   <div class="auth-card">
     <div class="auth-logo">
@@ -326,18 +353,16 @@ tr:hover td{background:var(--hover)}
     </div>
     <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
       <div class="form-group"><label>Admin Email</label>
-        <input type="email" class="form-control" id="adminEmail" required autocomplete="off" /></div>
+        <input type="email" class="form-control" id="adminEmail" required /></div>
       <div class="form-group"><label>Password</label>
-        <input type="password" class="form-control" id="adminPassword" required autocomplete="off" /></div>
+        <input type="password" class="form-control" id="adminPassword" required /></div>
       <div id="adminError" style="display:none;padding:10px;background:#ffebee;border-left:3px solid var(--red);font-size:13px;color:var(--red);margin-bottom:16px"></div>
       <button type="submit" class="btn btn-block btn-lg" id="adminLoginBtn" style="background:#ffb800;color:#1a1f36;font-weight:600">Sign In</button>
     </form>
-    <p style="text-align:center;margin-top:20px;font-size:12px;color:var(--text-muted)">
-      Unauthorized access prohibited
-    </p>
   </div>
 </div>
 
+<!-- VERIFY EMAIL -->
 <div class="auth-wrap" id="verifyScreen" style="display:none">
   <div class="verify-card">
     <div class="verify-icon">✉</div>
@@ -358,21 +383,7 @@ tr:hover td{background:var(--hover)}
   </div>
 </div>
 
-<div class="auth-wrap" id="newDeviceScreen" style="display:none">
-  <div class="verify-card">
-    <div class="verify-icon" style="background:#fff3e0;color:var(--orange)">!</div>
-    <h2>New device detected</h2>
-    <p>For security, verify your email to continue</p>
-    <span class="verify-email" id="deviceVerifyEmail">—</span>
-    <div class="verify-steps">
-      <p style="margin:0">A verification link has been sent. Click the link, then return here.</p>
-    </div>
-    <button class="btn btn-primary btn-block" onclick="verifyNewDevice()">Verified - Continue</button>
-    <button class="btn btn-outline btn-block" onclick="resendVerification()" style="margin-top:8px">Resend Email</button>
-    <button class="btn btn-ghost btn-block" onclick="handleLogout()" style="margin-top:8px">Logout</button>
-  </div>
-</div>
-
+<!-- FORGOT PASSWORD -->
 <div class="auth-wrap" id="forgotPasswordScreen" style="display:none">
   <div class="auth-card">
     <div class="auth-logo">
@@ -381,13 +392,13 @@ tr:hover td{background:var(--hover)}
     </div>
     <form id="forgotForm" onsubmit="handleForgotPasswordPage(event)">
       <div class="form-group"><label>Registered Email</label>
-        <input type="email" class="form-control" id="forgotEmail" required autofocus /></div>
+        <input type="email" class="form-control" id="forgotEmail" required /></div>
       <button type="submit" class="btn btn-primary btn-block" id="forgotBtn">Send Reset Link</button>
     </form>
     <div id="forgotSuccess" style="display:none;text-align:center;padding:16px 0">
       <div style="font-size:44px;color:var(--green);margin-bottom:12px">✓</div>
-      <h3 style="font-size:18px;font-weight:500;margin-bottom:8px">Email Sent</h3>
-      <p style="color:var(--text-muted);font-size:13px;line-height:1.6">Check your inbox. Check spam folder too.</p>
+      <h3>Email Sent</h3>
+      <p>Check your inbox</p>
     </div>
     <div style="text-align:center;margin-top:20px">
       <a href="#" onclick="showAuthScreen();event.preventDefault()" style="font-size:13px">Back to Login</a>
@@ -395,21 +406,18 @@ tr:hover td{background:var(--hover)}
   </div>
 </div>
 
+<!-- SUSPENDED -->
 <div class="auth-wrap" id="suspendedScreen" style="display:none;background:#212121">
   <div class="verify-card">
     <div class="verify-icon" style="background:#ffebee;color:var(--red)">!</div>
     <h2 style="color:#fff">Account Suspended</h2>
     <p style="color:#bbb" id="suspendedReason">Your account has been suspended.</p>
-    <div style="background:#2a2a2a;padding:14px;text-align:left;font-size:12px;color:#ddd;margin:20px 0;border-radius:2px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:#888">User ID:</span><strong id="suspPublicId">—</strong></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:#888">Suspended on:</span><strong id="suspDate">—</strong></div>
-    </div>
     <button class="btn btn-primary btn-block" onclick="openSuspensionAppeal()">Submit Appeal</button>
-    <button class="btn btn-outline btn-block" onclick="checkSuspensionStatus()" style="margin-top:8px">Check Status</button>
     <button class="btn btn-ghost btn-block" onclick="handleLogout()" style="margin-top:8px;color:#fff">Logout</button>
   </div>
 </div>
 
+<!-- MAIN APP -->
 <div id="appScreen" style="display:none">
   <header class="header">
     <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
@@ -422,23 +430,27 @@ tr:hover td{background:var(--hover)}
       <span class="ico">⌕</span>
     </div>
     <div class="actions">
-      <div class="nav-item" onclick="showPage('profile')">
-        <span id="headerUserName">Login</span>
+      <div class="wallet-badge" onclick="showPage('profile')">
+        <span class="coin">🪙</span><span id="headerWallet">0</span>
       </div>
       <div class="nav-item" onclick="showPage('wishlist')">
-        ♡ Wishlist
-        <span class="count" id="wishBadge" style="display:none">0</span>
+        ♡ <span class="count" id="wishBadge" style="display:none">0</span>
       </div>
       <div class="nav-item" onclick="openCart()">
-        🛒 Cart
-        <span class="count" id="cartBadge" style="display:none">0</span>
+        🛒 <span class="count" id="cartBadge" style="display:none">0</span>
       </div>
     </div>
   </header>
 
   <div class="cat-strip" id="catStrip"></div>
 
+  <!-- HOME -->
   <section class="page active container" id="page-home">
+    <!-- Offers Carousel -->
+    <div id="offersSection"></div>
+    <!-- Flash / Upcoming Deals -->
+    <div id="dealsSection"></div>
+    <!-- Featured -->
     <div class="section">
       <div class="section-title">
         Featured Products
@@ -446,6 +458,7 @@ tr:hover td{background:var(--hover)}
       </div>
       <div class="product-grid" id="featuredGrid" style="margin-top:14px"></div>
     </div>
+    <!-- All -->
     <div class="section">
       <div class="section-title">
         All Products
@@ -482,6 +495,17 @@ tr:hover td{background:var(--hover)}
 
   <section class="page container" id="page-profile">
     <div id="profileAlerts"></div>
+
+    <!-- Wallet Card -->
+    <div class="wallet-card">
+      <div class="label">Pawan Wallet</div>
+      <div class="amount">
+        <span class="coin">🪙</span>
+        <span id="walletCoins">0</span>
+      </div>
+      <div class="sub">≈ ₹<span id="walletValue">0</span> • 1 coin = ₹0.10</div>
+    </div>
+
     <div class="profile-head">
       <div class="profile-avatar" id="profileAvatar">U</div>
       <div class="info">
@@ -489,10 +513,11 @@ tr:hover td{background:var(--hover)}
         <p id="profileUsername">@username</p>
         <div class="meta">
           <div><span>User ID</span><strong id="profilePublicId">------</strong></div>
-          <div><span>Coins</span><strong id="profileCoins">0</strong></div>
+          <div><span>Coins Used</span><strong id="profileCoinsUsed">0</strong></div>
         </div>
       </div>
     </div>
+
     <div class="profile-section">
       <div class="section-hd">
         <h4>Account Information</h4>
@@ -500,6 +525,7 @@ tr:hover td{background:var(--hover)}
       </div>
       <div id="profileInfoList"></div>
     </div>
+
     <div class="profile-section">
       <div class="section-hd">
         <h4>Delivery Address</h4>
@@ -507,28 +533,27 @@ tr:hover td{background:var(--hover)}
       </div>
       <div id="profileAddressList"></div>
     </div>
-    <div class="profile-section">
-      <div class="section-hd">
-        <h4>Active Devices (max 2)</h4>
-      </div>
-      <div id="profileDevicesList"></div>
-    </div>
+
     <button class="btn btn-outline btn-block" onclick="handleLogout()" style="margin-top:12px;padding:14px">Logout</button>
   </section>
 
+  <!-- ADMIN PANEL -->
   <section class="page" id="page-admin">
     <div class="admin-layout">
       <aside class="admin-side" id="adminSide">
-        <div class="logo">Admin Panel</div>
-        <button class="active" onclick="adminTab('dashboard', this)">Dashboard</button>
-        <button onclick="adminTab('products', this)">Products</button>
-        <button onclick="adminTab('categories', this)">Categories</button>
-        <button onclick="adminTab('orders', this)">Orders</button>
-        <button onclick="adminTab('users', this)">Users</button>
-        <button onclick="adminTab('suspensions', this)">Suspensions</button>
-        <button onclick="adminTab('appeals', this)">Appeals</button>
-        <button onclick="adminTab('settings', this)">Settings</button>
-        <button onclick="handleLogout()">Logout</button>
+        <div class="logo">⚙️ Admin Panel</div>
+        <button class="active" onclick="adminTab('dashboard', this)">📊 Dashboard</button>
+        <button onclick="adminTab('products', this)">📦 Products</button>
+        <button onclick="adminTab('categories', this)">🗂 Categories</button>
+        <button onclick="adminTab('orders', this)">🧾 Orders</button>
+        <button onclick="adminTab('users', this)">👥 Users</button>
+        <button onclick="adminTab('wallet', this)">🪙 Wallet</button>
+        <button onclick="adminTab('coupons', this)">🎟 Coupons</button>
+        <button onclick="adminTab('offers', this)">🏷 Offers</button>
+        <button onclick="adminTab('deals', this)">⚡ Deals</button>
+        <button onclick="adminTab('suspensions', this)">🚫 Suspensions</button>
+        <button onclick="adminTab('appeals', this)">📩 Appeals</button>
+        <button onclick="handleLogout()">🚪 Logout</button>
       </aside>
       <main class="admin-main">
         <div class="admin-top">
@@ -543,7 +568,7 @@ tr:hover td{background:var(--hover)}
 
   <nav class="bottom-nav">
     <button data-nav="home" onclick="showPage('home')"><span class="ico">⌂</span>Home</button>
-    <button data-nav="shop" onclick="showPage('shop')"><span class="ico">▤</span>Categories</button>
+    <button data-nav="shop" onclick="showPage('shop')"><span class="ico">▤</span>Shop</button>
     <button data-nav="wishlist" onclick="showPage('wishlist')"><span class="ico">♡</span>Wishlist</button>
     <button data-nav="orders" onclick="showPage('orders')"><span class="ico">▢</span>Orders</button>
     <button data-nav="profile" onclick="showPage('profile')"><span class="ico">◉</span>Account</button>
@@ -570,10 +595,11 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
-  collection, query, where, serverTimestamp, onSnapshot, Timestamp
+  collection, query, where, serverTimestamp, onSnapshot, Timestamp,
+  runTransaction, increment
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-// ✅ CORRECT Firebase Config — Note the letter "O" (not zero) after H7
+// ✅ Firebase Config — Pawan Retail Limited07
 const firebaseConfig = {
   apiKey: "AIzaSyAZy_JeQH7Ofvqru2DME1EsH59Yh5JtRjs",
   authDomain: "pawan-retail-limited07.firebaseapp.com",
@@ -587,13 +613,23 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// ============================================================
+// STATE
+// ============================================================
 let currentUser = null, currentUserData = null;
 let allProducts = [], allCategories = [];
+let allOffers = [], allDeals = [], allCoupons = [];
 let cart = {}, wishlist = {};
 let currentCategory = null, searchQuery = "";
-let cartUnsub = null, wishUnsub = null;
-let currentProductDetail = null;
+let cartUnsub = null, wishUnsub = null, userUnsub = null;
+let coinSettings = { coinValueInRupees: 0.10 };
+let appliedCoupon = null;
+let appliedCoins = 0;
+let dealTimers = {};
 
+// ============================================================
+// UTILITIES
+// ============================================================
 window.showToast = function(msg, type = "info") {
   const wrap = document.getElementById("toastWrap");
   const t = document.createElement("div");
@@ -603,11 +639,37 @@ window.showToast = function(msg, type = "info") {
   setTimeout(() => t.remove(), 3000);
 };
 
+function formatINR(n) {
+  return "₹" + Number(n || 0).toLocaleString("en-IN");
+}
+
+function formatTimeLeft(ms) {
+  if (ms <= 0) return "Expired";
+  const d = Math.floor(ms / 86400000);
+  const h = Math.floor((ms % 86400000) / 3600000);
+  const m = Math.floor((ms % 3600000) / 60000);
+  const s = Math.floor((ms % 60000) / 1000);
+  if (d > 0) return `${d}d ${h}h ${m}m`;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function getDealStatus(deal) {
+  const now = Date.now();
+  const start = deal.startDate?.seconds ? deal.startDate.seconds * 1000 : new Date(deal.startDate).getTime();
+  const end = deal.endDate?.seconds ? deal.endDate.seconds * 1000 : new Date(deal.endDate).getTime();
+  if (now < start) return "upcoming";
+  if (now > end) return "expired";
+  return "active";
+}
+
+// ============================================================
+// SCREENS
+// ============================================================
 function isAdminURL() {
   return window.location.search.includes("admin=1") || window.location.hash === "#admin-login-secret";
 }
 function hideAllScreens() {
-  ["authScreen","adminLoginScreen","verifyScreen","newDeviceScreen","forgotPasswordScreen","suspendedScreen"].forEach(id => {
+  ["authScreen","adminLoginScreen","verifyScreen","forgotPasswordScreen","suspendedScreen"].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = "none";
   });
@@ -626,11 +688,6 @@ function showVerifyScreen() {
   document.getElementById("verifyScreen").style.display = "grid";
   document.getElementById("verifyEmail").textContent = currentUser?.email || "—";
 }
-function showNewDeviceScreen() {
-  hideAllScreens();
-  document.getElementById("newDeviceScreen").style.display = "grid";
-  document.getElementById("deviceVerifyEmail").textContent = currentUser?.email || "—";
-}
 function showForgotPasswordPage() {
   hideAllScreens();
   document.getElementById("forgotPasswordScreen").style.display = "grid";
@@ -646,11 +703,12 @@ function showSuspendedScreen() {
   hideAllScreens();
   document.getElementById("suspendedScreen").style.display = "grid";
   const d = currentUserData || {};
-  document.getElementById("suspendedReason").textContent = d.suspendedReason || "Your account has been suspended.";
-  document.getElementById("suspPublicId").textContent = d.publicId || "—";
-  document.getElementById("suspDate").textContent = d.suspendedAt ? new Date(d.suspendedAt.seconds * 1000).toLocaleString() : "—";
+  document.getElementById("suspendedReason").textContent = d.suspendedReason || "Account suspended.";
 }
 
+// ============================================================
+// AUTH
+// ============================================================
 window.switchAuthTab = function(tab) {
   document.getElementById("tabLogin").classList.toggle("active", tab === "login");
   document.getElementById("tabSignup").classList.toggle("active", tab === "signup");
@@ -673,16 +731,10 @@ window.handleLogin = async function(e) {
       showToast("Admin account - opening admin panel", "info");
       return;
     }
-    if (!cred.user.emailVerified) {
-      showToast("Please verify your email first", "warning");
-      return;
-    }
+    if (!cred.user.emailVerified) { showToast("Please verify your email first", "warning"); return; }
     showToast("Login successful", "success");
-  } catch (err) {
-    showToast(friendlyError(err), "error");
-  } finally {
-    btn.disabled = false; btn.textContent = "Login";
-  }
+  } catch (err) { showToast(friendlyError(err), "error"); }
+  finally { btn.disabled = false; btn.textContent = "Login"; }
 };
 
 window.handleAdminLogin = async function(e) {
@@ -691,9 +743,9 @@ window.handleAdminLogin = async function(e) {
   const errEl = document.getElementById("adminError");
   btn.disabled = true; btn.textContent = "Verifying...";
   errEl.style.display = "none";
-  const email = document.getElementById("adminEmail").value.trim();
-  const password = document.getElementById("adminPassword").value;
   try {
+    const email = document.getElementById("adminEmail").value.trim();
+    const password = document.getElementById("adminPassword").value;
     const cred = await signInWithEmailAndPassword(auth, email, password);
     await reload(cred.user);
     const snap = await getDoc(doc(db, "users", cred.user.uid));
@@ -704,42 +756,27 @@ window.handleAdminLogin = async function(e) {
     showToast("Welcome, Admin", "success");
     window.history.replaceState({}, "", "/");
   } catch (err) {
-    let msg = "Login failed";
-    if (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") msg = "Invalid credentials";
-    else if (err.code === "auth/user-not-found") msg = "No account found";
-    else if (err.message) msg = err.message;
     errEl.style.display = "block";
-    errEl.textContent = msg;
-  } finally {
-    btn.disabled = false; btn.textContent = "Sign In";
-  }
+    errEl.textContent = err.message || "Login failed";
+  } finally { btn.disabled = false; btn.textContent = "Sign In"; }
 };
 
 window.handleSignup = async function(e) {
   e.preventDefault();
   const btn = document.getElementById("signupBtn");
-  btn.disabled = true; btn.textContent = "Creating account...";
+  btn.disabled = true; btn.textContent = "Creating...";
   try {
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim().toLowerCase();
     const phone = document.getElementById("signupPhone").value.trim().replace(/\s+/g, "");
     const password = document.getElementById("signupPassword").value;
 
-    if (!/^\+?\d{10,15}$/.test(phone)) {
-      showToast("Please enter a valid mobile number", "warning");
-      return;
-    }
+    if (!/^\+?\d{10,15}$/.test(phone)) { showToast("Valid mobile required", "warning"); return; }
 
-    const emailCheck = await checkUniqueStrict("email", email, null);
-    if (!emailCheck.available) {
-      showToast("This email is already registered", "error");
-      return;
-    }
-    const mobileCheck = await checkUniqueStrict("mobile", phone, null);
-    if (!mobileCheck.available) {
-      showToast("This mobile number is already registered", "error");
-      return;
-    }
+    const emailSnap = await getDoc(doc(db, "uniqueIndex", `email_${email}`));
+    if (emailSnap.exists()) { showToast("Email already registered", "error"); return; }
+    const mobileSnap = await getDoc(doc(db, "uniqueIndex", `mobile_${phone}`));
+    if (mobileSnap.exists()) { showToast("Mobile already registered", "error"); return; }
 
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     const publicId = await generateUniquePublicId(cred.user.uid);
@@ -753,113 +790,98 @@ window.handleSignup = async function(e) {
       name, email, mobile: phone,
       role: "customer", emailVerified: false,
       gender: "", dob: "", address: {},
-      coins: 0, status: "active", suspended: false,
+      coins: 0, totalCoinsEarned: 0, totalCoinsUsed: 0,
+      status: "active", suspended: false,
       sessions: [], createdAt: serverTimestamp()
     });
-
-    await setDoc(doc(db, "uniqueIndex", `email_${email}`), {
-      field: "email", value: email, userId: cred.user.uid, createdAt: serverTimestamp()
-    });
-    await setDoc(doc(db, "uniqueIndex", `mobile_${phone}`), {
-      field: "mobile", value: phone, userId: cred.user.uid, createdAt: serverTimestamp()
-    });
+    await setDoc(doc(db, "uniqueIndex", `email_${email}`), { field: "email", value: email, userId: cred.user.uid, createdAt: serverTimestamp() });
+    await setDoc(doc(db, "uniqueIndex", `mobile_${phone}`), { field: "mobile", value: phone, userId: cred.user.uid, createdAt: serverTimestamp() });
 
     await sendEmailVerification(cred.user);
-    showToast("Account created. Please verify your email.", "success");
-  } catch (err) {
-    showToast(friendlyError(err), "error");
-  } finally {
-    btn.disabled = false; btn.textContent = "Create Account";
-  }
+    showToast("Account created. Check your email.", "success");
+  } catch (err) { showToast(friendlyError(err), "error"); }
+  finally { btn.disabled = false; btn.textContent = "Create Account"; }
 };
 
 window.handleForgotPasswordPage = async function(e) {
   e.preventDefault();
   const btn = document.getElementById("forgotBtn");
   btn.disabled = true; btn.textContent = "Sending...";
-  const email = document.getElementById("forgotEmail").value.trim();
   try {
-    await sendPasswordResetEmail(auth, email);
+    await sendPasswordResetEmail(auth, document.getElementById("forgotEmail").value.trim());
     document.getElementById("forgotForm").style.display = "none";
     document.getElementById("forgotSuccess").style.display = "block";
-    showToast("Reset link sent to your email", "success");
-  } catch (err) {
-    if (err.code === "auth/user-not-found") showToast("No account found with this email", "error");
-    else showToast(friendlyError(err), "error");
-  } finally {
-    btn.disabled = false; btn.textContent = "Send Reset Link";
-  }
+    showToast("Reset link sent", "success");
+  } catch (err) { showToast(friendlyError(err), "error"); }
+  finally { btn.disabled = false; btn.textContent = "Send Reset Link"; }
 };
 
 window.resendVerification = async function() {
   if (!auth.currentUser) return;
   const btn = document.getElementById("resendBtn");
   if (btn) btn.disabled = true;
-  try {
-    await sendEmailVerification(auth.currentUser);
-    showToast("Verification email sent", "success");
-    setTimeout(() => { if (btn) btn.disabled = false; }, 30000);
-  } catch (err) {
-    showToast(friendlyError(err), "error");
-    if (btn) btn.disabled = false;
-  }
+  try { await sendEmailVerification(auth.currentUser); showToast("Email sent", "success"); }
+  catch (err) { showToast(friendlyError(err), "error"); }
+  finally { if (btn) btn.disabled = false; }
 };
 
 window.checkEmailVerified = async function() {
   if (!auth.currentUser) return;
-  try {
-    await reload(auth.currentUser);
-    if (auth.currentUser.emailVerified) {
-      try { await updateDoc(doc(db, "users", auth.currentUser.uid), { emailVerified: true }); } catch(e) {}
-      const pendingKey = "pendingDevice_" + auth.currentUser.uid;
-      if (localStorage.getItem(pendingKey)) { showNewDeviceScreen(); return; }
-      showToast("Email verified", "success");
-      await loadAppForUser(auth.currentUser);
-    } else {
-      showToast("Email not verified yet", "warning");
-    }
-  } catch (err) { showToast(friendlyError(err), "error"); }
-};
-
-window.verifyNewDevice = async function() {
   await reload(auth.currentUser);
-  if (!auth.currentUser.emailVerified) { showToast("Please verify from the email first", "warning"); return; }
-  const pendingStr = localStorage.getItem("pendingDevice_" + auth.currentUser.uid);
-  if (!pendingStr) { showToast("No pending device found", "warning"); return; }
-  const pending = JSON.parse(pendingStr);
-  const sessions = currentUserData?.sessions || [];
-  if (sessions.length >= 2) { showToast("Maximum 2 devices allowed", "error"); return; }
-  const updated = [...sessions, { ...pending, verified: true, needsVerification: false }];
-  try {
-    await updateDoc(doc(db, "users", auth.currentUser.uid), { sessions: updated });
-    currentUserData.sessions = updated;
-    localStorage.removeItem("pendingDevice_" + auth.currentUser.uid);
-    showToast("Device verified", "success");
+  if (auth.currentUser.emailVerified) {
+    try { await updateDoc(doc(db, "users", auth.currentUser.uid), { emailVerified: true }); } catch(e){}
+    showToast("Email verified", "success");
     await loadAppForUser(auth.currentUser);
-  } catch (err) { showToast("Verification failed", "error"); }
+  } else { showToast("Not verified yet", "warning"); }
 };
 
 window.handleLogout = async function() {
-  if (!confirm("Are you sure you want to logout?")) return;
+  if (!confirm("Logout?")) return;
   await signOut(auth);
   showToast("Logged out", "info");
 };
 
 function friendlyError(err) {
   const map = {
-    "auth/invalid-email": "Invalid email address",
+    "auth/invalid-email": "Invalid email",
     "auth/user-not-found": "No account found",
-    "auth/wrong-password": "Incorrect password",
-    "auth/invalid-credential": "Invalid email or password",
-    "auth/email-already-in-use": "This email is already registered",
-    "auth/weak-password": "Password is too weak",
-    "auth/api-key-not-valid": "Invalid API key. Check config.",
-    "auth/operation-not-allowed": "Email/Password login disabled. Enable in Firebase Console.",
-    "auth/unauthorized-domain": "This domain is not authorized in Firebase.",
-    "auth/network-request-failed": "Network error. Check internet.",
-    "permission-denied": "Permission denied. Check Firestore Rules."
+    "auth/wrong-password": "Wrong password",
+    "auth/invalid-credential": "Invalid credentials",
+    "auth/email-already-in-use": "Email already registered",
+    "auth/weak-password": "Password too weak",
+    "auth/api-key-not-valid": "Invalid API key",
+    "auth/unauthorized-domain": "Domain not authorized",
+    "permission-denied": "Permission denied"
   };
   return map[err.code] || err.message || "Something went wrong";
+}
+
+// ============================================================
+// UNIQUE ID
+// ============================================================
+async function generateUniquePublicId(uid) {
+  for (let i = 0; i < 30; i++) {
+    const candidate = String(Math.floor(100000 + Math.random() * 900000));
+    const snap = await getDoc(doc(db, "uniqueIndex", `publicId_${candidate}`));
+    if (!snap.exists()) {
+      await setDoc(doc(db, "uniqueIndex", `publicId_${candidate}`), { field: "publicId", value: candidate, userId: uid, createdAt: serverTimestamp() });
+      return candidate;
+    }
+  }
+  throw new Error("ID generation failed");
+}
+
+async function generateUniqueUsername(base, uid) {
+  let candidate = base, suffix = 0;
+  while (suffix < 999) {
+    const snap = await getDoc(doc(db, "uniqueIndex", `username_${candidate}`));
+    if (!snap.exists()) {
+      await setDoc(doc(db, "uniqueIndex", `username_${candidate}`), { field: "username", value: candidate, userId: uid, createdAt: serverTimestamp() });
+      return candidate;
+    }
+    suffix++; candidate = `${base}${suffix}`;
+  }
+  throw new Error("Username generation failed");
 }
 
 async function checkUniqueStrict(field, value, currentUid) {
@@ -868,558 +890,189 @@ async function checkUniqueStrict(field, value, currentUid) {
   try {
     const snap = await getDoc(doc(db, "uniqueIndex", `${field}_${clean}`));
     if (!snap.exists()) return { available: true };
-    const data = snap.data();
-    if (currentUid && data.userId === currentUid) return { available: true, sameUser: true };
+    if (currentUid && snap.data().userId === currentUid) return { available: true, sameUser: true };
     return { available: false };
-  } catch (err) { return { available: false }; }
+  } catch { return { available: false }; }
 }
 
+// ============================================================
+// LIVE CHECKS
+// ============================================================
 function debounce(fn, delay) {
-  let timer = null;
-  return function(...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), delay);
-  };
+  let timer;
+  return function(...args) { clearTimeout(timer); timer = setTimeout(() => fn.apply(this, args), delay); };
 }
+
 function generateUsernameSuggestions(base) {
   const clean = base.replace(/[^a-z0-9]/g, "").slice(0, 10) || "user";
   const year = new Date().getFullYear();
-  const rand = Math.floor(Math.random() * 99) + 1;
-  return [clean + Math.floor(Math.random() * 9 + 1), clean + "_" + year, clean + rand];
+  return [clean + Math.floor(Math.random() * 9 + 1), clean + "_" + year, clean + Math.floor(Math.random() * 99 + 1)];
 }
-function setFieldStatus(id, status, message, extra = "") {
+
+function setFieldStatus(id, status, msg, extra = "") {
   const el = document.getElementById(id);
   if (!el) return;
   el.className = `field-status ${status}`;
-  let icon = "";
-  if (status === "checking") icon = '<div class="spinner-mini"></div>';
-  else if (status === "available") icon = '<span>✓</span>';
-  else if (status === "taken") icon = '<span>✕</span>';
-  else if (status === "error") icon = '<span>!</span>';
-  el.innerHTML = `${icon} <span>${message}</span>${extra}`;
+  const icon = status === "checking" ? '<div class="spinner-mini"></div>' :
+               status === "available" ? '<span>✓</span>' :
+               status === "taken" ? '<span>✕</span>' :
+               status === "error" ? '<span>!</span>' : '';
+  el.innerHTML = `${icon} <span>${msg}</span>${extra}`;
 }
+
 function setInputState(id, state) {
-  const input = document.getElementById(id);
-  if (!input) return;
-  input.classList.remove("available", "taken");
-  if (state) input.classList.add(state);
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove("available", "taken");
+  if (state) el.classList.add(state);
 }
-async function performAvailabilityCheck(field, value, inputId, statusId, currentUid) {
-  if (!value || value.trim().length < (field === "mobile" ? 10 : 3)) {
-    setInputState(inputId, null);
-    setFieldStatus(statusId, "checking", "");
-    return;
-  }
-  if (field === "mobile" && !/^\+?\d{10,15}$/.test(value.replace(/\s+/g, ""))) {
-    setInputState(inputId, "taken");
-    setFieldStatus(statusId, "error", "Invalid mobile number");
-    return;
-  }
-  if (field === "username" && !/^[a-z0-9_]{3,20}$/.test(value)) {
-    setInputState(inputId, "taken");
-    setFieldStatus(statusId, "error", "Only a-z, 0-9, _ (3-20 chars)");
-    return;
-  }
-  if (field === "email" && !/^\S+@\S+\.\S+$/.test(value)) {
-    setInputState(inputId, "taken");
-    setFieldStatus(statusId, "error", "Invalid email address");
-    return;
-  }
+
+async function performAvailCheck(field, value, inputId, statusId, uid) {
+  if (!value || value.length < (field === "mobile" ? 10 : 3)) { setInputState(inputId, null); setFieldStatus(statusId, "checking", ""); return; }
+  if (field === "mobile" && !/^\+?\d{10,15}$/.test(value.replace(/\s+/g, ""))) { setInputState(inputId, "taken"); setFieldStatus(statusId, "error", "Invalid mobile"); return; }
+  if (field === "email" && !/^\S+@\S+\.\S+$/.test(value)) { setInputState(inputId, "taken"); setFieldStatus(statusId, "error", "Invalid email"); return; }
   setInputState(inputId, null);
   setFieldStatus(statusId, "checking", "Checking...");
-  const result = await checkUniqueStrict(field, value, currentUid);
-  if (result.available) {
+  const res = await checkUniqueStrict(field, value, uid);
+  if (res.available) {
     setInputState(inputId, "available");
-    if (result.sameUser) setFieldStatus(statusId, "available", `Current ${field}`);
-    else setFieldStatus(statusId, "available", `${capitalize(field)} is available`);
+    setFieldStatus(statusId, "available", res.sameUser ? `Current ${field}` : `${field} available`);
   } else {
     setInputState(inputId, "taken");
     if (field === "username") {
-      const suggestions = generateUsernameSuggestions(value);
-      const chips = `<div class="suggestion-chips">${suggestions.map(s =>
-        `<span class="suggestion-chip" onclick="applySuggestion('${s}','${inputId}','${statusId}')">${s}</span>`
-      ).join("")}</div>`;
-      setFieldStatus(statusId, "taken", `"${value}" is taken. Try:`, chips);
-    } else if (field === "mobile") {
-      setFieldStatus(statusId, "taken", "This mobile number is already registered");
+      const chips = `<div class="suggestion-chips">${generateUsernameSuggestions(value).map(s => `<span class="suggestion-chip" onclick="applySuggestion('${s}','${inputId}','${statusId}')">${s}</span>`).join("")}</div>`;
+      setFieldStatus(statusId, "taken", `"${value}" taken. Try:`, chips);
     } else {
-      setFieldStatus(statusId, "taken", `${capitalize(field)} is already registered`);
+      setFieldStatus(statusId, "taken", `${field} already registered`);
     }
   }
 }
-function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
-function attachLiveCheck(inputId, field, currentUid = null) {
+
+function attachLiveCheck(inputId, field, uid = null) {
   const input = document.getElementById(inputId);
   if (!input) return;
   const statusId = inputId + "Status";
-  const uid = currentUid || currentUser?.uid || null;
-  const debounced = debounce(() => {
-    performAvailabilityCheck(field, input.value.trim(), inputId, statusId, uid);
-  }, 500);
-  input.addEventListener("input", () => {
-    setInputState(inputId, null);
-    setFieldStatus(statusId, "checking", "");
-    debounced();
-  });
-  input.addEventListener("blur", () => {
-    if (input.value.trim()) {
-      performAvailabilityCheck(field, input.value.trim(), inputId, statusId, uid);
-    }
-  });
-  if (input.value.trim()) {
-    performAvailabilityCheck(field, input.value.trim(), inputId, statusId, uid);
-  }
+  const finalUid = uid || currentUser?.uid || null;
+  const debounced = debounce(() => performAvailCheck(field, input.value.trim(), inputId, statusId, finalUid), 500);
+  input.addEventListener("input", () => { setInputState(inputId, null); setFieldStatus(statusId, "checking", ""); debounced(); });
+  input.addEventListener("blur", () => { if (input.value.trim()) performAvailCheck(field, input.value.trim(), inputId, statusId, finalUid); });
+  if (input.value.trim()) performAvailCheck(field, input.value.trim(), inputId, statusId, finalUid);
 }
-window.applySuggestion = function(username, inputId, statusId) {
-  const input = document.getElementById(inputId);
-  if (input) {
-    input.value = username;
-    performAvailabilityCheck("username", username, inputId, statusId, currentUser?.uid || null);
-  }
-};
-function attachSignupChecks() {
-  if (document.getElementById("signupEmail")) attachLiveCheck("signupEmail", "email", null);
-  if (document.getElementById("signupPhone")) attachLiveCheck("signupPhone", "mobile", null);
-}
-window.addEventListener("DOMContentLoaded", () => setTimeout(attachSignupChecks, 500));
 
+window.applySuggestion = function(val, inputId, statusId) {
+  const input = document.getElementById(inputId);
+  if (input) { input.value = val; performAvailCheck("username", val, inputId, statusId, currentUser?.uid); }
+};
+
+function attachSignupChecks() {
+  if (document.getElementById("signupEmail")) attachLiveCheck("signupEmail", "email");
+  if (document.getElementById("signupPhone")) attachLiveCheck("signupPhone", "mobile");
+}
+
+// ============================================================
+// AUTH STATE LISTENER
+// ============================================================
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     currentUser = null; currentUserData = null;
     cart = {}; wishlist = {};
     if (cartUnsub) cartUnsub();
     if (wishUnsub) wishUnsub();
+    if (userUnsub) userUnsub();
     showAuthScreen();
     return;
   }
   currentUser = user;
   await reload(user);
-  try {
-    const snap = await getDoc(doc(db, "users", user.uid));
-    currentUserData = snap.exists() ? snap.data() : {
-      uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: []
-    };
-  } catch (err) {
-    currentUserData = { uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: [] };
-  }
-  if (currentUserData.role === "admin") {
-    showAppScreen();
-    showPage("admin");
-    document.getElementById("adminUserInfo").textContent = currentUserData.name || "Admin";
-    return;
-  }
-  let verificationRequired = true, exempt = false;
-  try {
-    const [authSnap, exemptSnap] = await Promise.all([
-      getDoc(doc(db, "settings", "auth")),
-      getDoc(doc(db, "settings", "exemptUsers"))
-    ]);
-    if (authSnap.exists()) verificationRequired = authSnap.data().emailVerificationRequired !== false;
-    if (exemptSnap.exists()) exempt = (exemptSnap.data().userIds || []).includes(user.uid);
-  } catch (e) {}
-  if (verificationRequired && !exempt && !user.emailVerified) { showVerifyScreen(); return; }
-  if (currentUserData.suspended === true || currentUserData.status === "suspended") { showSuspendedScreen(); return; }
-  const pendingKey = "pendingDevice_" + user.uid;
-  if (localStorage.getItem(pendingKey)) { showNewDeviceScreen(); return; }
   await loadAppForUser(user);
 });
 
 async function loadAppForUser(user) {
+  // Load or create user doc
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
-    currentUserData = snap.exists() ? snap.data() : {
-      uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: []
-    };
+    if (snap.exists()) {
+      currentUserData = snap.data();
+    } else {
+      // Auto-create
+      const defaultData = {
+        uid: user.uid, email: user.email || "",
+        mobile: "", publicId: "", username: "",
+        name: user.displayName || "",
+        role: "customer", emailVerified: user.emailVerified || false,
+        gender: "", dob: "", address: {},
+        coins: 0, totalCoinsEarned: 0, totalCoinsUsed: 0,
+        status: "active", suspended: false,
+        sessions: [], createdAt: serverTimestamp()
+      };
+      await setDoc(doc(db, "users", user.uid), defaultData, { merge: true });
+      currentUserData = defaultData;
+    }
   } catch (err) {
+    console.error("User load error:", err);
     currentUserData = { uid: user.uid, email: user.email, role: "customer", coins: 0, sessions: [] };
   }
+
+  // Admin?
   if (currentUserData.role === "admin") {
     showAppScreen();
     showPage("admin");
     document.getElementById("adminUserInfo").textContent = currentUserData.name || "Admin";
     return;
   }
-  if (currentUserData.suspended === true || currentUserData.status === "suspended") { showSuspendedScreen(); return; }
+
+  // Verification
+  if (!user.emailVerified) { showVerifyScreen(); return; }
+
+  // Suspended?
+  if (currentUserData.suspended === true) { showSuspendedScreen(); return; }
+
   showAppScreen();
   updateHeaderUser();
-  await ensureUserIdentity();
-  const sessionResult = await registerSession();
-  if (sessionResult.reason === "needs_verification") return;
-  if (!sessionResult.allowed) return;
+
+  // Live user listener — updates wallet live
+  if (userUnsub) userUnsub();
+  userUnsub = onSnapshot(doc(db, "users", user.uid), (snap) => {
+    if (snap.exists()) {
+      currentUserData = snap.data();
+      updateHeaderUser();
+      renderProfile();
+    }
+  });
+
+  // Load data
+  await loadCoinSettings();
   attachCartListener();
   attachWishlistListener();
   await loadProducts();
   await loadCategories();
+  await loadOffers();
+  await loadDeals();
+  await loadCoupons();
   renderProfile();
 }
+
 function updateHeaderUser() {
   const el = document.getElementById("headerUserName");
   if (el) el.textContent = currentUserData?.name?.split(" ")[0] || "Account";
+  const w = document.getElementById("headerWallet");
+  if (w) w.textContent = currentUserData?.coins || 0;
 }
 
-async function generateUniquePublicId(uid) {
-  for (let i = 0; i < 30; i++) {
-    const candidate = String(Math.floor(100000 + Math.random() * 900000));
-    const snap = await getDoc(doc(db, "uniqueIndex", `publicId_${candidate}`));
-    if (!snap.exists()) {
-      await setDoc(doc(db, "uniqueIndex", `publicId_${candidate}`), {
-        field: "publicId", value: candidate, userId: uid, createdAt: serverTimestamp()
-      });
-      return candidate;
-    }
-  }
-  throw new Error("Failed to generate unique ID");
-}
-async function generateUniqueUsername(base, uid) {
-  let candidate = base, suffix = 0;
-  while (suffix < 999) {
-    const snap = await getDoc(doc(db, "uniqueIndex", `username_${candidate}`));
-    if (!snap.exists()) {
-      await setDoc(doc(db, "uniqueIndex", `username_${candidate}`), {
-        field: "username", value: candidate, userId: uid, createdAt: serverTimestamp()
-      });
-      return candidate;
-    }
-    suffix++;
-    candidate = `${base}${suffix}`;
-  }
-  throw new Error("Failed to generate username");
-}
-async function ensureUserIdentity() {
-  const updates = {};
-  if (!currentUserData.publicId) {
-    try { updates.publicId = await generateUniquePublicId(currentUser.uid); } catch (e) {}
-  }
-  if (!currentUserData.username) {
-    const base = (currentUserData.name || currentUserData.email || "user")
-      .toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 12) || "user";
-    try { updates.username = await generateUniqueUsername(base, currentUser.uid); } catch (e) {}
-  }
-  if (Object.keys(updates).length > 0) {
-    try {
-      await updateDoc(doc(db, "users", currentUser.uid), { ...updates, updatedAt: serverTimestamp() });
-      currentUserData = { ...currentUserData, ...updates };
-    } catch (e) {}
-  }
-}
-
-async function hashDevice() {
-  const data = navigator.userAgent + "|" + screen.width + "x" + screen.height + "|" + navigator.language;
-  const buf = new TextEncoder().encode(data);
-  const hash = await crypto.subtle.digest("SHA-256", buf);
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 16);
-}
-async function registerSession() {
+async function loadCoinSettings() {
   try {
-    const deviceHash = await hashDevice();
-    const sessions = currentUserData.sessions || [];
-    const existing = sessions.find(s => s.deviceId === deviceHash);
-    if (existing) {
-      const updated = sessions.map(s => s.deviceId === deviceHash ? { ...s, lastActive: new Date().toISOString() } : s);
-      await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
-      currentUserData.sessions = updated;
-      return { allowed: true };
-    }
-    if (sessions.length >= 2) {
-      showToast("Maximum 2 devices allowed. Please logout from another device.", "error");
-      setTimeout(() => signOut(auth), 2500);
-      return { allowed: false, reason: "max_devices" };
-    }
-    if (sessions.length === 1) {
-      const pending = { deviceId: deviceHash, userAgent: navigator.userAgent.slice(0, 100), createdAt: new Date().toISOString(), needsVerification: true };
-      localStorage.setItem("pendingDevice_" + currentUser.uid, JSON.stringify(pending));
-      try { await sendEmailVerification(currentUser); } catch (e) {}
-      showNewDeviceScreen();
-      return { allowed: false, reason: "needs_verification" };
-    }
-    const newSession = { deviceId: deviceHash, userAgent: navigator.userAgent.slice(0, 100), createdAt: new Date().toISOString(), lastActive: new Date().toISOString(), verified: true };
-    const updated = [...sessions, newSession];
-    await updateDoc(doc(db, "users", currentUser.uid), { sessions: updated });
-    currentUserData.sessions = updated;
-    return { allowed: true };
-  } catch (err) { return { allowed: true }; }
-}
-window.removeDevice = async function(deviceId) {
-  if (!confirm("Remove this device?")) return;
-  const sessions = (currentUserData.sessions || []).filter(s => s.deviceId !== deviceId);
-  try {
-    await updateDoc(doc(db, "users", currentUser.uid), { sessions });
-    currentUserData.sessions = sessions;
-    renderProfile();
-    showToast("Device removed", "success");
-  } catch (err) { showToast("Failed to remove device", "error"); }
-};
-
-function renderProfile() {
-  const d = currentUserData || {};
-  document.getElementById("profileAvatar").textContent = (d.name || d.email || "U")[0].toUpperCase();
-  document.getElementById("profileName").textContent = d.name || "User";
-  document.getElementById("profileUsername").textContent = "@" + (d.username || "username");
-  document.getElementById("profilePublicId").textContent = d.publicId || "------";
-  document.getElementById("profileCoins").textContent = d.coins || 0;
-  const fields = [
-    { label: "Full Name", key: "name", required: true },
-    { label: "Username", key: "username", required: true },
-    { label: "Email", key: "email", required: true },
-    { label: "Mobile Number", key: "mobile", required: true },
-    { label: "Gender", key: "gender", required: false },
-    { label: "Date of Birth", key: "dob", required: false }
-  ];
-  document.getElementById("profileInfoList").innerHTML = fields.map(f => {
-    const val = d[f.key];
-    const isEmpty = !val || String(val).trim() === "";
-    const displayVal = f.key === "gender" && val ? val.charAt(0).toUpperCase() + val.slice(1) : val;
-    return `<div class="profile-row">
-      <div class="ico">•</div>
-      <div class="txt">
-        <div class="lbl">${f.label}</div>
-        <div class="val ${isEmpty ? 'missing' : ''}">${isEmpty ? "Not set" + (f.required ? " (required)" : "") : displayVal}</div>
-      </div>
-    </div>`;
-  }).join("");
-  const addr = d.address || {};
-  const addrEl = document.getElementById("profileAddressList");
-  if (!addr.line1) {
-    addrEl.innerHTML = '<div class="profile-row"><div class="txt"><div class="val missing">Address not set. Click EDIT to add.</div></div></div>';
-  } else {
-    addrEl.innerHTML = `<div class="profile-row"><div class="txt">
-      <div class="lbl">${addr.name || d.name}</div>
-      <div class="val">${addr.phone || d.mobile || ""}</div>
-      <div class="val">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}, ${addr.city || ""}, ${addr.state || ""} - ${addr.pincode || ""}</div>
-    </div></div>`;
-  }
-  const sessions = d.sessions || [];
-  const devEl = document.getElementById("profileDevicesList");
-  devEl.innerHTML = !sessions.length
-    ? '<div class="profile-row"><div class="txt"><div class="val">No devices registered</div></div></div>'
-    : sessions.map(s => `<div class="profile-row">
-        <div class="txt">
-          <div class="lbl">${s.deviceId.slice(0, 8)}</div>
-          <div class="val">Last active: ${new Date(s.lastActive).toLocaleDateString()}</div>
-        </div>
-        <button class="btn btn-sm btn-ghost" onclick="removeDevice('${s.deviceId}')" style="color:var(--red)">Remove</button>
-      </div>`).join("");
-  renderAlerts();
+    const snap = await getDoc(doc(db, "settings", "coinSettings"));
+    if (snap.exists()) coinSettings = { ...coinSettings, ...snap.data() };
+  } catch(e){}
 }
 
-function renderAlerts() {
-  const d = currentUserData || {};
-  const alerts = [];
-  const missing = [];
-  if (!d.name) missing.push("Name");
-  if (!d.username) missing.push("Username");
-  if (!d.mobile) missing.push("Mobile");
-  if (!d.address?.line1) missing.push("Address");
-  if (missing.length > 0) {
-    alerts.push(`<div class="alert-box info">
-      <div class="title">Complete your profile</div>
-      <div>Missing: ${missing.join(", ")}</div>
-      <div class="actions"><button onclick="openProfileEdit()">Complete Now</button></div>
-    </div>`);
-  }
-  document.getElementById("profileAlerts").innerHTML = alerts.join("");
-}
-
-window.openProfileEdit = function() {
-  const d = currentUserData || {};
-  openModal("Edit Profile", `
-    <div class="form-group"><label>Full Name *</label>
-      <input class="form-control" id="peName" value="${d.name || ""}" /></div>
-    <div class="form-group"><label>Username *</label>
-      <input class="form-control" id="peUsername" value="${d.username || ""}" autocomplete="off" />
-      <div class="field-status" id="peUsernameStatus"></div></div>
-    <div class="form-group"><label>Mobile Number *</label>
-      <input class="form-control" id="peMobile" value="${d.mobile || ""}" placeholder="+91XXXXXXXXXX" autocomplete="off" />
-      <div class="field-status" id="peMobileStatus"></div></div>
-    <div class="form-group"><label>Email (locked)</label>
-      <input class="form-control" value="${d.email || ""}" disabled /></div>
-    <div class="form-group"><label>Gender</label>
-      <select class="form-control" id="peGender">
-        <option value="">Select</option>
-        <option value="male" ${d.gender === "male" ? "selected" : ""}>Male</option>
-        <option value="female" ${d.gender === "female" ? "selected" : ""}>Female</option>
-        <option value="other" ${d.gender === "other" ? "selected" : ""}>Other</option>
-      </select></div>
-    <div class="form-group"><label>Date of Birth</label>
-      <input type="date" class="form-control" id="peDob" value="${d.dob || ""}" /></div>
-    <div id="peError" style="display:none;padding:10px;background:#ffebee;border-left:3px solid var(--red);font-size:13px;color:var(--red);margin-top:12px"></div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" id="peSaveBtn" onclick="saveProfile()">Save</button>
-  `);
-  setTimeout(() => {
-    attachLiveCheck("peUsername", "username");
-    attachLiveCheck("peMobile", "mobile");
-  }, 150);
-};
-
-window.saveProfile = async function() {
-  const btn = document.getElementById("peSaveBtn");
-  btn.disabled = true; btn.textContent = "Saving...";
-  const errEl = document.getElementById("peError");
-  errEl.style.display = "none";
-  const updates = {
-    name: document.getElementById("peName").value.trim(),
-    username: document.getElementById("peUsername").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, ""),
-    mobile: document.getElementById("peMobile").value.trim().replace(/\s+/g, ""),
-    gender: document.getElementById("peGender").value,
-    dob: document.getElementById("peDob").value
-  };
-  if (!updates.name) return peError("Name is required");
-  if (!updates.username || updates.username.length < 3) return peError("Username min 3 chars");
-  if (!updates.mobile || !/^\+?\d{10,15}$/.test(updates.mobile)) return peError("Valid mobile required");
-  try {
-    if (updates.username !== currentUserData.username) {
-      const check = await checkUniqueStrict("username", updates.username, currentUser.uid);
-      if (!check.available) return peError("Username is already taken");
-    }
-    if (updates.mobile !== currentUserData.mobile) {
-      const check = await checkUniqueStrict("mobile", updates.mobile, currentUser.uid);
-      if (!check.available) return peError("Mobile number is already registered");
-    }
-    if (updates.username !== currentUserData.username) {
-      if (currentUserData.username) {
-        try { await deleteDoc(doc(db, "uniqueIndex", `username_${currentUserData.username}`)); } catch(e){}
-      }
-      await setDoc(doc(db, "uniqueIndex", `username_${updates.username}`), {
-        field: "username", value: updates.username, userId: currentUser.uid, createdAt: serverTimestamp()
-      });
-    }
-    if (updates.mobile !== currentUserData.mobile) {
-      if (currentUserData.mobile) {
-        try { await deleteDoc(doc(db, "uniqueIndex", `mobile_${currentUserData.mobile}`)); } catch(e){}
-      }
-      await setDoc(doc(db, "uniqueIndex", `mobile_${updates.mobile}`), {
-        field: "mobile", value: updates.mobile, userId: currentUser.uid, createdAt: serverTimestamp()
-      });
-    }
-    updates.updatedAt = serverTimestamp();
-    await updateDoc(doc(db, "users", currentUser.uid), updates);
-    currentUserData = { ...currentUserData, ...updates };
-    showToast("Profile updated", "success");
-    closeModal();
-    renderProfile();
-    updateHeaderUser();
-  } catch (err) { peError(err.message || "Failed to save"); }
-};
-function peError(msg) {
-  const el = document.getElementById("peError");
-  el.style.display = "block";
-  el.textContent = msg;
-  const btn = document.getElementById("peSaveBtn");
-  if (btn) { btn.disabled = false; btn.textContent = "Save"; }
-}
-
-window.openAddressEdit = function() {
-  const a = currentUserData?.address || {};
-  openModal("Delivery Address", `
-    <div class="form-group"><label>Full Name</label>
-      <input class="form-control" id="adName" value="${a.name || currentUserData.name || ""}" /></div>
-    <div class="form-group"><label>Phone</label>
-      <input class="form-control" id="adPhone" value="${a.phone || currentUserData.mobile || ""}" /></div>
-    <div class="form-group"><label>Address Line 1 *</label>
-      <input class="form-control" id="adLine1" value="${a.line1 || ""}" /></div>
-    <div class="form-group"><label>Address Line 2</label>
-      <input class="form-control" id="adLine2" value="${a.line2 || ""}" /></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="form-group"><label>City *</label><input class="form-control" id="adCity" value="${a.city || ""}" /></div>
-      <div class="form-group"><label>State *</label><input class="form-control" id="adState" value="${a.state || ""}" /></div>
-    </div>
-    <div class="form-group"><label>Pincode *</label>
-      <input class="form-control" id="adPincode" value="${a.pincode || ""}" maxlength="6" /></div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" onclick="saveAddress()">Save</button>
-  `);
-};
-
-window.saveAddress = async function() {
-  const address = {
-    name: document.getElementById("adName").value.trim(),
-    phone: document.getElementById("adPhone").value.trim(),
-    line1: document.getElementById("adLine1").value.trim(),
-    line2: document.getElementById("adLine2").value.trim(),
-    city: document.getElementById("adCity").value.trim(),
-    state: document.getElementById("adState").value.trim(),
-    pincode: document.getElementById("adPincode").value.trim()
-  };
-  if (!address.line1 || !address.city || !address.state || !address.pincode) {
-    return showToast("Please fill all required fields", "warning");
-  }
-  try {
-    await updateDoc(doc(db, "users", currentUser.uid), { address, updatedAt: serverTimestamp() });
-    currentUserData.address = address;
-    showToast("Address saved", "success");
-    closeModal();
-    renderProfile();
-  } catch (err) { showToast("Failed to save address", "error"); }
-};
-
-window.openSuspensionAppeal = function() {
-  const d = currentUserData || {};
-  openModal("Appeal Suspension", `
-    <div class="alert-box danger" style="margin-bottom:16px">
-      <div class="title">Account Suspended</div>
-      <div>${d.suspendedReason || ""}</div>
-    </div>
-    <div class="form-group"><label>Why should we unblock your account? *</label>
-      <textarea class="form-control" id="appealMsg" rows="5" placeholder="Minimum 20 characters"></textarea></div>
-    <div class="form-group"><label>Contact Number</label>
-      <input class="form-control" id="appealContact" value="${d.mobile || ""}" /></div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" id="appealBtn" onclick="submitAppeal()">Submit</button>
-  `);
-};
-
-window.submitAppeal = async function() {
-  const btn = document.getElementById("appealBtn");
-  btn.disabled = true; btn.textContent = "Submitting...";
-  const message = document.getElementById("appealMsg").value.trim();
-  const contact = document.getElementById("appealContact").value.trim();
-  if (!message || message.length < 20) {
-    showToast("Please write at least 20 characters", "warning");
-    btn.disabled = false; btn.textContent = "Submit"; return;
-  }
-  try {
-    await addDoc(collection(db, "accountAppeals"), {
-      suspensionId: currentUserData.currentSuspensionId || "",
-      userId: currentUser.uid, userName: currentUserData.name || "",
-      userEmail: currentUser.email, userPublicId: currentUserData.publicId || "",
-      message, contact, status: "pending", adminResponse: "",
-      respondedBy: null, respondedAt: null, createdAt: serverTimestamp()
-    });
-    closeModal();
-    showToast("Appeal submitted. We'll review it soon.", "success");
-  } catch (err) {
-    showToast("Failed to submit appeal", "error");
-    btn.disabled = false; btn.textContent = "Submit";
-  }
-};
-
-window.checkSuspensionStatus = async function() {
-  if (!currentUser) return;
-  try {
-    const snap = await getDoc(doc(db, "users", currentUser.uid));
-    if (snap.exists()) {
-      currentUserData = snap.data();
-      if (currentUserData.suspended !== true) {
-        showToast("Account is active", "success");
-        await loadAppForUser(currentUser);
-        return;
-      }
-    }
-    showToast("Account is still suspended", "warning");
-  } catch (err) { showToast("Failed to check status", "error"); }
-};
-
+// ============================================================
+// NAVIGATION
+// ============================================================
 window.showPage = function(name) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  const page = document.getElementById("page-" + name);
-  if (page) page.classList.add("active");
-  document.querySelectorAll(".bottom-nav button").forEach(b => {
-    b.classList.toggle("active", b.dataset.nav === name);
-  });
+  document.getElementById("page-" + name)?.classList.add("active");
+  document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.toggle("active", b.dataset.nav === name));
   if (name === "wishlist") renderWishlist();
   if (name === "orders") renderOrders();
   if (name === "profile") renderProfile();
@@ -1436,98 +1089,78 @@ window.toggleMobileMenu = function() {
     { label: "Account", fn: () => showPage("profile") }
   ];
   window._menuActions = items.map(i => i.fn);
-  openModal("Menu", `<div style="display:flex;flex-direction:column">${
-    items.map((it, i) => `<button class="profile-row" style="border-bottom:1px solid var(--border);width:100%;text-align:left" onclick="window._menuAction(${i})">
-      <div class="txt"><div class="lbl">${it.label}</div></div>
-    </button>`).join("")
-  }</div>`);
+  openModal("Menu", `<div style="display:flex;flex-direction:column">${items.map((it, i) => `<button class="profile-row" style="border-bottom:1px solid var(--border);width:100%;text-align:left" onclick="window._menuAction(${i})"><div class="txt"><div class="lbl">${it.label}</div></div></button>`).join("")}</div>`);
 };
 window._menuAction = (i) => { closeModal(); window._menuActions[i](); };
 
+// ============================================================
+// LOAD PRODUCTS
+// ============================================================
 async function loadProducts() {
   ["homeProductsGrid", "featuredGrid", "shopGrid"].forEach(showLoading);
   try {
     const snap = await getDocs(collection(db, "products"));
-    allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .filter(p => p.active !== false);
+    allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.active !== false);
     renderHomeProducts();
     renderShopProducts();
   } catch (err) {
     console.error("Products load failed:", err);
-    ["homeProductsGrid", "featuredGrid", "shopGrid"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:40px 20px"><h3>Unable to load products</h3></div>';
-    });
   }
 }
+
 function showLoading(id) {
   const el = document.getElementById(id);
   if (el) el.innerHTML = '<div class="loading" style="grid-column:1/-1"><div class="spinner"></div></div>';
 }
+
 function productCardHTML(p) {
   const img = (p.images && p.images[0]) || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect fill='%23f5f5f5' width='200' height='200'/><text x='50%' y='52%' text-anchor='middle' font-size='20' fill='%23999'>No Image</text></svg>";
   const disc = p.mrp && p.price && p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
   const isWished = wishlist[p.id] ? "♥" : "♡";
-  const stockText = p.stock > 0
-    ? (p.stock <= 5 ? `<div class="stock-badge">Only ${p.stock} left</div>` : "")
-    : `<div class="stock-badge">Out of stock</div>`;
   return `<div class="product-card" onclick="openProduct('${p.id}')">
     <div class="img-wrap">
-      <img src="${img}" loading="lazy" alt="${(p.name || '').replace(/"/g, '')}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23f5f5f5%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2252%%22 text-anchor=%22middle%22 font-size=%2220%22 fill=%22%23999%22>No Image</text></svg>'" />
+      <img src="${img}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23f5f5f5%22 width=%22200%22 height=%22200%22/></svg>'" />
       <button class="wish-btn" onclick="event.stopPropagation();toggleWishlist('${p.id}')">${isWished}</button>
     </div>
     <div class="info">
       ${p.brand ? `<div class="brand">${p.brand}</div>` : ""}
-      <div class="name">${p.name || "Untitled Product"}</div>
+      <div class="name">${p.name || "Untitled"}</div>
       <div class="price-row">
-        <span class="price">₹${(p.price || 0).toLocaleString("en-IN")}</span>
-        ${p.mrp && p.mrp > p.price ? `<span class="mrp">₹${p.mrp.toLocaleString("en-IN")}</span>` : ""}
+        <span class="price">${formatINR(p.price)}</span>
+        ${p.mrp && p.mrp > p.price ? `<span class="mrp">${formatINR(p.mrp)}</span>` : ""}
         ${disc > 0 ? `<span class="discount">${disc}% off</span>` : ""}
       </div>
-      ${stockText}
+      ${p.stock > 0 && p.stock <= 5 ? `<div class="stock-badge">Only ${p.stock} left</div>` : ""}
+      ${p.stock <= 0 ? `<div class="stock-badge">Out of stock</div>` : ""}
     </div>
   </div>`;
 }
+
 function renderHomeProducts() {
   const featured = allProducts.filter(p => p.isFeatured).slice(0, 8);
-  document.getElementById("featuredGrid").innerHTML = featured.length
-    ? featured.map(productCardHTML).join("")
-    : '<div class="empty" style="grid-column:1/-1;padding:40px 20px"><h3>No featured products</h3><p>Check back soon</p></div>';
-  document.getElementById("homeProductsGrid").innerHTML = allProducts.length
-    ? allProducts.slice(0, 12).map(productCardHTML).join("")
-    : '<div class="empty" style="grid-column:1/-1;padding:40px 20px"><h3>No products available</h3><p>Admin will add products shortly</p></div>';
+  document.getElementById("featuredGrid").innerHTML = featured.length ? featured.map(productCardHTML).join("") :
+    '<div class="empty" style="grid-column:1/-1;padding:40px 20px"><h3>No featured products</h3></div>';
+  document.getElementById("homeProductsGrid").innerHTML = allProducts.length ? allProducts.slice(0, 12).map(productCardHTML).join("") :
+    '<div class="empty" style="grid-column:1/-1;padding:40px 20px"><h3>No products available</h3><p>Admin will add soon</p></div>';
 }
+
 function renderShopProducts() {
   let filtered = [...allProducts];
   if (currentCategory) filtered = filtered.filter(p => p.categoryId === currentCategory);
-  if (searchQuery) {
-    filtered = filtered.filter(p =>
-      (p.name || "").toLowerCase().includes(searchQuery) ||
-      (p.brand || "").toLowerCase().includes(searchQuery) ||
-      (p.description || "").toLowerCase().includes(searchQuery)
-    );
-  }
-  document.getElementById("shopTitle").textContent = searchQuery
-    ? `Search: "${searchQuery}" (${filtered.length})`
-    : currentCategory
-      ? (allCategories.find(c => c.id === currentCategory)?.name || "Products") + ` (${filtered.length})`
-      : `All Products (${filtered.length})`;
-  document.getElementById("shopGrid").innerHTML = filtered.length
-    ? filtered.map(productCardHTML).join("")
-    : '<div class="empty" style="grid-column:1/-1;padding:60px 20px"><h3>No products found</h3><p>Try a different search or category</p></div>';
+  if (searchQuery) filtered = filtered.filter(p => (p.name || "").toLowerCase().includes(searchQuery) || (p.brand || "").toLowerCase().includes(searchQuery));
+  document.getElementById("shopTitle").textContent = searchQuery ? `Search: "${searchQuery}" (${filtered.length})` : `All Products (${filtered.length})`;
+  document.getElementById("shopGrid").innerHTML = filtered.length ? filtered.map(productCardHTML).join("") :
+    '<div class="empty" style="grid-column:1/-1;padding:60px 20px"><h3>No products found</h3></div>';
 }
+
 window.debounceSearch = (() => {
   let t;
-  return () => {
-    clearTimeout(t);
-    t = setTimeout(() => {
-      searchQuery = document.getElementById("searchInput").value.toLowerCase().trim();
-      renderShopProducts();
-      if (searchQuery) showPage("shop");
-    }, 350);
-  };
+  return () => { clearTimeout(t); t = setTimeout(() => { searchQuery = document.getElementById("searchInput").value.toLowerCase().trim(); renderShopProducts(); if (searchQuery) showPage("shop"); }, 350); };
 })();
 
+// ============================================================
+// PRODUCT DETAIL
+// ============================================================
 window.openProduct = function(id) {
   const p = allProducts.find(x => x.id === id);
   if (!p) return;
@@ -1536,27 +1169,24 @@ window.openProduct = function(id) {
   const inWished = !!wishlist[p.id];
   const inCartQty = cart[p.id] ? cart[p.id].qty : 0;
   document.getElementById("productDetailContent").innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-      <button class="btn btn-ghost" onclick="showPage('shop')" style="padding:6px 12px">← Back</button>
-      <div style="font-size:13px;color:var(--text-muted)">Home / Product</div>
+    <div style="display:flex;gap:12px;margin-bottom:12px">
+      <button class="btn btn-ghost" onclick="showPage('shop')">← Back</button>
     </div>
     <div class="pdp-wrap">
       <div class="pdp-image">
         ${disc > 0 ? `<div class="pdp-badge">${disc}% OFF</div>` : ""}
         <button class="pdp-wish" onclick="toggleWishlist('${p.id}');openProduct('${p.id}')">${inWished ? "♥" : "♡"}</button>
-        ${img ? `<img src="${img}" alt="" />` : `<div style="padding:60px;color:var(--text-muted)">No Image</div>`}
+        ${img ? `<img src="${img}" />` : `<div style="padding:60px;color:var(--text-muted)">No Image</div>`}
       </div>
       <div class="pdp-info">
-        <h1>${p.name || "Untitled Product"}</h1>
-        ${p.brand ? `<div class="pdp-brand">Brand: <strong>${p.brand}</strong></div>` : ""}
-        <div class="pdp-price-row">
-          <span class="pdp-price">₹${(p.price || 0).toLocaleString("en-IN")}</span>
-          ${p.mrp && p.mrp > p.price ? `<span class="pdp-mrp">₹${p.mrp.toLocaleString("en-IN")}</span>` : ""}
+        <h1>${p.name || "Product"}</h1>
+        ${p.brand ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Brand: <strong>${p.brand}</strong></div>` : ""}
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">
+          <span class="pdp-price">${formatINR(p.price)}</span>
+          ${p.mrp && p.mrp > p.price ? `<span class="pdp-mrp">${formatINR(p.mrp)}</span>` : ""}
           ${disc > 0 ? `<span class="pdp-off">${disc}% off</span>` : ""}
         </div>
-        <div class="pdp-stock ${p.stock > 0 ? 'ok' : 'no'}">
-          ${p.stock > 0 ? `In Stock${p.stock <= 5 ? ` (only ${p.stock} left)` : ""}` : "Currently Out of Stock"}
-        </div>
+        <div class="pdp-stock ${p.stock > 0 ? 'ok' : 'no'}">${p.stock > 0 ? `In Stock${p.stock <= 5 ? ` (only ${p.stock})` : ""}` : "Out of Stock"}</div>
         ${p.stock > 0 ? `
           <div class="qty-box">
             <button onclick="changeDetailQty(-1)">−</button>
@@ -1567,20 +1197,16 @@ window.openProduct = function(id) {
             <button class="btn btn-secondary" onclick="addToCartFromDetail('${p.id}')">Add to Cart</button>
             <button class="btn btn-primary" onclick="buyNow('${p.id}')">Buy Now</button>
           </div>
-          ${inCartQty ? `<div style="margin-top:12px;font-size:13px;color:var(--green)">✓ ${inCartQty} item(s) already in cart</div>` : ""}
-        ` : `<button class="btn btn-ghost btn-block" disabled style="padding:14px">Out of Stock</button>`}
-        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-mid)">
-          ${p.sku ? `<div style="margin-bottom:6px">SKU: <strong>${p.sku}</strong></div>` : ""}
-          <div>Free delivery on orders above ₹500</div>
-          <div>7 days return policy</div>
-        </div>
+          ${inCartQty ? `<div style="margin-top:12px;font-size:13px;color:var(--green)">✓ ${inCartQty} already in cart</div>` : ""}
+        ` : `<button class="btn btn-ghost btn-block" disabled>Out of Stock</button>`}
       </div>
     </div>
-    ${p.description ? `<div class="pdp-desc-box"><h3>Product Description</h3><p>${p.description}</p></div>` : ""}
+    ${p.description ? `<div class="pdp-desc-box"><h3>Description</h3><p style="font-size:13px;line-height:1.7;color:var(--text-mid);white-space:pre-wrap">${p.description}</p></div>` : ""}
   `;
   window._currentProduct = { product: p, qty: 1 };
   showPage("product");
 };
+
 window.changeDetailQty = function(delta) {
   const d = window._currentProduct;
   if (!d) return;
@@ -1590,6 +1216,7 @@ window.changeDetailQty = function(delta) {
   d.qty = q;
   document.getElementById("detailQty").textContent = q;
 };
+
 window.addToCartFromDetail = async function(pid) {
   const d = window._currentProduct;
   if (!d) return;
@@ -1601,14 +1228,19 @@ window.addToCartFromDetail = async function(pid) {
   cart[pid] = { qty: nq, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
   try {
     await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    showToast(`${d.qty} item(s) added to cart`, "success");
+    showToast(`${d.qty} added to cart`, "success");
     openProduct(pid);
-  } catch (err) { showToast("Failed to add", "error"); }
+  } catch (err) { showToast("Failed", "error"); }
 };
+
 window.buyNow = async function(pid) {
   await addToCartFromDetail(pid);
   setTimeout(() => openCart(), 300);
 };
+
+// ============================================================
+// CATEGORIES
+// ============================================================
 async function loadCategories() {
   try {
     const snap = await getDocs(collection(db, "categories"));
@@ -1616,6 +1248,7 @@ async function loadCategories() {
     renderCategoryStrip();
   } catch (err) { document.getElementById("catStrip").innerHTML = ""; }
 }
+
 function renderCategoryStrip() {
   const strip = document.getElementById("catStrip");
   if (!allCategories.length) { strip.style.display = "none"; return; }
@@ -1624,13 +1257,10 @@ function renderCategoryStrip() {
     <div class="cat ${!currentCategory ? 'active' : ''}" onclick="filterCategory(null)">
       <div class="ico">▤</div><span>All</span>
     </div>
-    ${allCategories.map(c => `
-      <div class="cat ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">
-        <div class="ico">▢</div><span>${c.name}</span>
-      </div>
-    `).join("")}
+    ${allCategories.map(c => `<div class="cat ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')"><div class="ico">▢</div><span>${c.name}</span></div>`).join("")}
   `;
 }
+
 window.filterCategory = function(catId) {
   currentCategory = catId;
   renderCategoryStrip();
@@ -1638,6 +1268,183 @@ window.filterCategory = function(catId) {
   showPage("shop");
 };
 
+// ============================================================
+// OFFERS
+// ============================================================
+async function loadOffers() {
+  try {
+    const snap = await getDocs(collection(db, "offers"));
+    allOffers = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .filter(o => o.active !== false)
+      .filter(o => {
+        const now = Date.now();
+        const end = o.endDate?.seconds ? o.endDate.seconds * 1000 : new Date(o.endDate).getTime();
+        return end > now;
+      });
+    renderOffers();
+  } catch (err) { console.error("Offers load failed:", err); }
+}
+
+function renderOffers() {
+  const el = document.getElementById("offersSection");
+  if (!allOffers.length) { el.innerHTML = ""; return; }
+  const colors = ["purple", "orange", "blue"];
+  el.innerHTML = `
+    <div class="section">
+      <div class="section-title">🎁 Special Offers</div>
+      <div class="offers-scroll">
+        ${allOffers.map((o, i) => {
+          const end = o.endDate?.seconds ? o.endDate.seconds * 1000 : new Date(o.endDate).getTime();
+          const daysLeft = Math.ceil((end - Date.now()) / 86400000);
+          const discountText = o.discountType === "percentage" ? `${o.discountValue}% OFF` :
+                              o.discountType === "flat" ? `₹${o.discountValue} OFF` :
+                              o.discountType === "free_delivery" ? "FREE DELIVERY" : "SPECIAL";
+          return `<div class="offer-card ${colors[i % colors.length]}">
+            <h3>${o.name || "Offer"}</h3>
+            <div class="desc">${o.description || ""}</div>
+            <div style="font-size:20px;font-weight:800">${discountText}</div>
+            ${o.couponCode ? `<div class="code" onclick="copyCode('${o.couponCode}')">${o.couponCode}</div>` : ""}
+            <div class="expiry">${daysLeft > 0 ? `Valid for ${daysLeft} day${daysLeft > 1 ? 's' : ''}` : "Ends today"}</div>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
+
+window.copyCode = function(code) {
+  navigator.clipboard.writeText(code).then(() => showToast(`Code "${code}" copied`, "success"));
+};
+
+// ============================================================
+// DEALS (with timers)
+// ============================================================
+async function loadDeals() {
+  try {
+    const snap = await getDocs(collection(db, "deals"));
+    allDeals = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(d => d.active !== false);
+    renderDeals();
+    startDealTimers();
+  } catch (err) { console.error("Deals load failed:", err); }
+}
+
+function renderDeals() {
+  const el = document.getElementById("dealsSection");
+  if (!allDeals.length) { el.innerHTML = ""; return; }
+
+  // Separate active and upcoming
+  const activeDeals = allDeals.filter(d => getDealStatus(d) === "active");
+  const upcomingDeals = allDeals.filter(d => getDealStatus(d) === "upcoming");
+
+  let html = "";
+
+  // Active deals (flash sale style)
+  activeDeals.forEach(deal => {
+    const endTime = deal.endDate?.seconds ? deal.endDate.seconds * 1000 : new Date(deal.endDate).getTime();
+    const products = allProducts.filter(p => (deal.productIds || []).includes(p.id));
+    html += `
+      <div class="section" style="padding:0;overflow:hidden;margin-bottom:12px">
+        <div class="flash-header">
+          <div>
+            <h2>⚡ ${deal.name || "Flash Sale"}</h2>
+            <div style="font-size:12px;opacity:.9;margin-top:2px">${deal.description || ""}</div>
+          </div>
+          <div class="timer-box">
+            <span class="label">Ends in</span>
+            <span class="time" data-deal-timer="${deal.id}" data-end="${endTime}">--:--:--</span>
+          </div>
+        </div>
+        <div class="deal-products">
+          ${products.slice(0, 6).map(productCardHTML).join("") || '<div style="padding:20px;text-align:center;color:#999">No products in this deal</div>'}
+        </div>
+      </div>
+    `;
+  });
+
+  // Upcoming deals
+  upcomingDeals.forEach(deal => {
+    const startTime = deal.startDate?.seconds ? deal.startDate.seconds * 1000 : new Date(deal.startDate).getTime();
+    html += `
+      <div class="section" style="padding:0;overflow:hidden;margin-bottom:12px">
+        <div class="flash-header upcoming">
+          <div>
+            <h2>🔔 ${deal.name || "Upcoming Deal"}</h2>
+            <div style="font-size:12px;opacity:.9;margin-top:2px">${deal.description || ""} — Starting soon</div>
+          </div>
+          <div class="timer-box">
+            <span class="label">Starts in</span>
+            <span class="time" data-deal-timer="${deal.id}" data-start="${startTime}">--:--:--</span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  el.innerHTML = html;
+}
+
+function startDealTimers() {
+  Object.values(dealTimers).forEach(t => clearInterval(t));
+  dealTimers = {};
+  document.querySelectorAll("[data-deal-timer]").forEach(el => {
+    const update = () => {
+      const end = el.dataset.end ? parseInt(el.dataset.end) : null;
+      const start = el.dataset.start ? parseInt(el.dataset.start) : null;
+      const target = end || start;
+      const left = target - Date.now();
+      if (left <= 0) {
+        el.textContent = end ? "EXPIRED" : "STARTING...";
+        if (end) { setTimeout(() => loadDeals(), 2000); }
+        return;
+      }
+      el.textContent = formatTimeLeft(left);
+    };
+    update();
+    const interval = setInterval(update, 1000);
+    dealTimers[el.dataset.dealTimer] = interval;
+  });
+}
+
+// Refresh deals every minute for status changes
+setInterval(() => { if (currentUser && !isAdminURL()) loadDeals(); }, 60000);
+
+// ============================================================
+// COUPONS
+// ============================================================
+async function loadCoupons() {
+  try {
+    const snap = await getDocs(collection(db, "coupons"));
+    allCoupons = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(c => c.active !== false);
+  } catch (err) { console.error("Coupons load failed:", err); }
+}
+
+async function validateCoupon(code, subtotal) {
+  if (!code) return { valid: false, reason: "Enter a code" };
+  const c = allCoupons.find(x => x.code?.toUpperCase() === code.toUpperCase());
+  if (!c) return { valid: false, reason: "Invalid coupon code" };
+  const now = Date.now();
+  const start = c.startDate?.seconds ? c.startDate.seconds * 1000 : new Date(c.startDate).getTime();
+  const end = c.expiryDate?.seconds ? c.expiryDate.seconds * 1000 : new Date(c.expiryDate).getTime();
+  if (now < start) return { valid: false, reason: "Coupon not active yet" };
+  if (now > end) return { valid: false, reason: "Coupon expired" };
+  if (c.minOrder && subtotal < c.minOrder) return { valid: false, reason: `Min order ₹${c.minOrder}` };
+
+  let discount = 0;
+  if (c.discountType === "percentage") {
+    discount = (subtotal * c.discountValue) / 100;
+    if (c.maxDiscount) discount = Math.min(discount, c.maxDiscount);
+  } else if (c.discountType === "flat") {
+    discount = c.discountValue;
+  } else if (c.discountType === "free_delivery") {
+    discount = 0; // handled separately
+  }
+  discount = Math.min(discount, subtotal);
+  return { valid: true, discount: Math.round(discount), coupon: c };
+}
+
+// ============================================================
+// CART
+// ============================================================
 function attachCartListener() {
   if (cartUnsub) cartUnsub();
   cartUnsub = onSnapshot(doc(db, "carts", currentUser.uid), (snap) => {
@@ -1645,7 +1452,7 @@ function attachCartListener() {
     updateCartBadge();
     renderHomeProducts();
     renderShopProducts();
-  }, (err) => console.error("Cart:", err));
+  });
 }
 function attachWishlistListener() {
   if (wishUnsub) wishUnsub();
@@ -1655,19 +1462,17 @@ function attachWishlistListener() {
     renderHomeProducts();
     renderShopProducts();
     if (document.getElementById("page-wishlist").classList.contains("active")) renderWishlist();
-  }, (err) => console.error("Wishlist:", err));
+  });
 }
 function updateCartBadge() {
   const total = Object.values(cart).reduce((s, i) => s + (i.qty || 0), 0);
   const el = document.getElementById("cartBadge");
-  if (total > 0) { el.textContent = total; el.style.display = "grid"; }
-  else el.style.display = "none";
+  if (total > 0) { el.textContent = total; el.style.display = "grid"; } else el.style.display = "none";
 }
 function updateWishBadge() {
   const count = Object.keys(wishlist).length;
   const el = document.getElementById("wishBadge");
-  if (count > 0) { el.textContent = count; el.style.display = "grid"; }
-  else el.style.display = "none";
+  if (count > 0) { el.textContent = count; el.style.display = "grid"; } else el.style.display = "none";
 }
 
 window.addToCart = async function(pid) {
@@ -1678,18 +1483,15 @@ window.addToCart = async function(pid) {
   const nq = ex.qty + 1;
   if (nq > p.stock) return showToast("Not enough stock", "warning");
   cart[pid] = { qty: nq, name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
-  try {
-    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    showToast("Added to cart", "success");
-  } catch (err) { showToast("Failed to add", "error"); }
+  try { await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true }); showToast("Added", "success"); } catch(e){}
 };
+
 window.removeFromCart = async function(pid) {
   delete cart[pid];
-  try {
-    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    renderCartModal();
-  } catch (err) { showToast("Failed to remove", "error"); }
+  await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+  renderCartModal();
 };
+
 window.updateCartQty = async function(pid, delta) {
   const item = cart[pid];
   if (!item) return;
@@ -1698,16 +1500,16 @@ window.updateCartQty = async function(pid, delta) {
   if (nq <= 0) return removeFromCart(pid);
   if (p && nq > p.stock) return showToast("Not enough stock", "warning");
   item.qty = nq;
-  try {
-    await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
-    renderCartModal();
-  } catch (err) { showToast("Failed to update", "error"); }
+  await setDoc(doc(db, "carts", currentUser.uid), { items: cart }, { merge: true });
+  renderCartModal();
 };
-window.openCart = function() { renderCartModal(); };
+
+window.openCart = function() { appliedCoupon = null; appliedCoins = 0; renderCartModal(); };
+
 function renderCartModal() {
   const items = Object.entries(cart);
   if (!items.length) {
-    openModal("Shopping Cart", '<div class="empty"><div class="icon">🛒</div><h3>Your cart is empty</h3><p>Add products to get started</p></div>');
+    openModal("Shopping Cart", '<div class="empty"><div class="icon">🛒</div><h3>Your cart is empty</h3></div>');
     return;
   }
   let sub = 0;
@@ -1717,7 +1519,7 @@ function renderCartModal() {
       <img src="${it.image || ''}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22><rect fill=%22%23f5f5f5%22 width=%2280%22 height=%2280%22/></svg>'" />
       <div class="details">
         <div class="name">${it.name}</div>
-        <div class="price">₹${it.price.toLocaleString("en-IN")}</div>
+        <div class="price">${formatINR(it.price)} × ${it.qty}</div>
         <div class="qty-ctrl">
           <button onclick="updateCartQty('${id}',-1)">−</button>
           <span class="q">${it.qty}</span>
@@ -1726,88 +1528,172 @@ function renderCartModal() {
         <button onclick="removeFromCart('${id}')" style="margin-top:8px;color:var(--red);font-size:12px">Remove</button>
       </div>
       <div style="text-align:right">
-        <div style="font-size:15px;font-weight:600">₹${(it.price * it.qty).toLocaleString("en-IN")}</div>
+        <div style="font-size:15px;font-weight:600">${formatINR(it.price * it.qty)}</div>
       </div>
     </div>`;
   }).join("");
-  const del = sub > 500 ? 0 : 40;
-  const tot = sub + del;
+
+  const delivery = sub > 500 ? 0 : 40;
+  const couponDiscount = appliedCoupon ? appliedCoupon.discount : 0;
+  const userCoins = currentUserData?.coins || 0;
+  const maxCoinsUsable = Math.min(userCoins, Math.floor((sub * 0.2) / (coinSettings.coinValueInRupees || 0.10)));
+  const coinDiscount = appliedCoins * (coinSettings.coinValueInRupees || 0.10);
+  const total = sub + delivery - couponDiscount - coinDiscount;
+
   openModal("Shopping Cart", `${body}
     <div style="padding:16px;background:#fafafa;border-top:1px solid var(--border);margin:0 -20px -20px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px"><span>Subtotal</span><span>₹${sub.toLocaleString("en-IN")}</span></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:13px"><span>Delivery</span><span>${del === 0 ? "FREE" : "₹" + del}</span></div>
+      <div class="coupon-row">
+        <input type="text" id="couponInput" placeholder="ENTER COUPON CODE" value="${appliedCoupon ? appliedCoupon.code : ''}" />
+        <button onclick="applyCouponCode(${sub})">${appliedCoupon ? 'Change' : 'Apply'}</button>
+      </div>
+      ${appliedCoupon ? `<div style="padding:8px 12px;background:#d1fae5;border-radius:4px;font-size:12px;color:#065f46;margin-bottom:12px">✓ Coupon "${appliedCoupon.code}" applied — ${formatINR(couponDiscount)} off</div>` : ""}
+      
+      <div style="margin-bottom:12px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px">🪙 Use Coins (${userCoins} available, max ${maxCoinsUsable})</div>
+        <div style="display:flex;gap:8px">
+          <input type="number" id="coinInput" value="${appliedCoins}" min="0" max="${maxCoinsUsable}" style="flex:1;padding:8px;border:1px solid var(--border);border-radius:4px" oninput="updateCoinInput(${sub}, ${delivery}, ${couponDiscount}, ${maxCoinsUsable})" />
+          <button onclick="useAllCoins(${maxCoinsUsable}, ${sub}, ${delivery}, ${couponDiscount})" style="padding:8px 14px;background:var(--purple);color:#fff;border-radius:4px;font-size:12px">Use All</button>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px"><span>Subtotal</span><span>${formatINR(sub)}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px"><span>Delivery</span><span>${delivery === 0 ? "FREE" : formatINR(delivery)}</span></div>
+      ${couponDiscount > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:var(--green)"><span>Coupon Discount</span><span>-${formatINR(couponDiscount)}</span></div>` : ""}
+      ${coinDiscount > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:var(--purple)"><span>Coin Discount (${appliedCoins} coins)</span><span>-${formatINR(coinDiscount)}</span></div>` : ""}
       <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:600;padding-top:10px;border-top:1px dashed var(--border)">
-        <span>Total</span><span>₹${tot.toLocaleString("en-IN")}</span>
+        <span>Total</span><span>${formatINR(total)}</span>
       </div>
     </div>`,
-    `<button class="btn btn-ghost" onclick="closeModal()">Continue Shopping</button>
-     <button class="btn btn-secondary" onclick="placeOrder(${tot}, ${del})">Place Order</button>`);
+    `<button class="btn btn-ghost" onclick="closeModal()">Continue</button>
+     <button class="btn btn-secondary" onclick="placeOrder(${sub},${delivery})">Place Order</button>`);
 }
 
+window.applyCouponCode = async function(subtotal) {
+  const code = document.getElementById("couponInput").value.trim().toUpperCase();
+  if (!code) return showToast("Enter code", "warning");
+  const result = await validateCoupon(code, subtotal);
+  if (!result.valid) { showToast(result.reason, "error"); return; }
+  appliedCoupon = { code: result.coupon.code, discount: result.discount, id: result.coupon.id };
+  showToast(`Coupon applied: ${formatINR(result.discount)} off`, "success");
+  renderCartModal();
+};
+
+window.useAllCoins = function(max, sub, delivery, couponDiscount) {
+  appliedCoins = max;
+  renderCartModal();
+};
+
+window.updateCoinInput = function(sub, delivery, couponDiscount, max) {
+  let v = parseInt(document.getElementById("coinInput").value) || 0;
+  if (v < 0) v = 0;
+  if (v > max) v = max;
+  appliedCoins = v;
+  const coinDisc = v * (coinSettings.coinValueInRupees || 0.10);
+  const total = sub + delivery - couponDiscount - coinDisc;
+  showToast(`${v} coins = ${formatINR(coinDisc)} off`, "info");
+};
+
+// ============================================================
+// WISHLIST
+// ============================================================
 window.toggleWishlist = async function(pid) {
   const p = allProducts.find(x => x.id === pid);
   if (!p) return;
-  if (wishlist[pid]) {
-    delete wishlist[pid];
-    showToast("Removed from wishlist", "info");
-  } else {
-    wishlist[pid] = { name: p.name, price: p.price, image: (p.images && p.images[0]) || "" };
-    showToast("Added to wishlist", "success");
-  }
-  try { await setDoc(doc(db, "wishlists", currentUser.uid), { items: wishlist }, { merge: true }); } catch (err) {}
+  if (wishlist[pid]) { delete wishlist[pid]; showToast("Removed", "info"); }
+  else { wishlist[pid] = { name: p.name, price: p.price, image: (p.images && p.images[0]) || "" }; showToast("Wishlisted", "success"); }
+  await setDoc(doc(db, "wishlists", currentUser.uid), { items: wishlist }, { merge: true });
 };
+
 function renderWishlist() {
   const items = Object.entries(wishlist);
   const el = document.getElementById("wishlistContent");
-  if (!items.length) {
-    el.innerHTML = '<div class="empty"><div class="icon">♡</div><h3>Your wishlist is empty</h3><p>Save items you like by tapping the heart icon</p></div>';
-    return;
-  }
+  if (!items.length) { el.innerHTML = '<div class="empty"><h3>Your wishlist is empty</h3></div>'; return; }
   el.innerHTML = items.map(([id, it]) => `<div class="cart-item">
     <img src="${it.image || ''}" />
     <div class="details">
       <div class="name">${it.name}</div>
-      <div class="price">₹${it.price.toLocaleString("en-IN")}</div>
+      <div class="price">${formatINR(it.price)}</div>
       <div style="display:flex;gap:8px;margin-top:10px">
-        <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Move to Cart</button>
+        <button class="btn btn-primary btn-sm" onclick="addToCart('${id}')">Add to Cart</button>
         <button class="btn btn-ghost btn-sm" onclick="toggleWishlist('${id}')">Remove</button>
       </div>
     </div>
   </div>`).join("");
 }
 
-window.placeOrder = async function(total, delivery) {
+// ============================================================
+// PLACE ORDER (with coin + coupon handling)
+// ============================================================
+window.placeOrder = async function(subtotal, delivery) {
   const items = Object.entries(cart).map(([id, it]) => ({
     productId: id, name: it.name, price: it.price, qty: it.qty, image: it.image
   }));
-  if (!items.length) return showToast("Cart is empty", "warning");
+  if (!items.length) return showToast("Cart empty", "warning");
   if (!currentUserData.address?.line1) {
-    showToast("Please add a delivery address first", "warning");
+    showToast("Add delivery address first", "warning");
     closeModal();
     showPage("profile");
     setTimeout(() => openAddressEdit(), 300);
     return;
   }
-  const sub = items.reduce((s, i) => s + i.price * i.qty, 0);
+
+  const coinDisc = appliedCoins * (coinSettings.coinValueInRupees || 0.10);
+  const couponDisc = appliedCoupon ? appliedCoupon.discount : 0;
+  const total = subtotal + delivery - couponDisc - coinDisc;
+
+  // Coins check
+  if (appliedCoins > (currentUserData.coins || 0)) {
+    return showToast("Not enough coins", "error");
+  }
+
   try {
+    // Deduct coins if used
+    if (appliedCoins > 0) {
+      await runTransaction(db, async (tx) => {
+        const userRef = doc(db, "users", currentUser.uid);
+        const userSnap = await tx.get(userRef);
+        const current = userSnap.data()?.coins || 0;
+        if (current < appliedCoins) throw new Error("Insufficient coins");
+        tx.update(userRef, {
+          coins: current - appliedCoins,
+          totalCoinsUsed: (userSnap.data()?.totalCoinsUsed || 0) + appliedCoins
+        });
+      });
+    }
+
+    // Create order
     await addDoc(collection(db, "orders"), {
       userId: currentUser.uid,
       customerName: currentUserData.name,
       customerEmail: currentUser.email,
       phone: currentUserData.mobile || "",
       address: currentUserData.address || {},
-      items, subtotal: sub, discount: 0, coupon: "",
-      deliveryCharge: delivery, totalAmount: total,
-      paymentMethod: "COD", paymentStatus: "Pending",
+      items, subtotal,
+      coupon: appliedCoupon?.code || "",
+      couponDiscount: couponDisc,
+      coinsUsed: appliedCoins,
+      coinDiscount: coinDisc,
+      deliveryCharge: delivery,
+      totalAmount: total,
+      paymentMethod: "COD",
+      paymentStatus: "Pending",
       orderStatus: "Pending",
-      createdAt: serverTimestamp(), updatedAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
     });
+
+    // Clear cart
     await setDoc(doc(db, "carts", currentUser.uid), { items: {} }, { merge: true });
+    appliedCoins = 0; appliedCoupon = null;
     closeModal();
-    showToast("Order placed successfully", "success");
+    showToast(`Order placed! Saved ${formatINR(couponDisc + coinDisc)}`, "success");
     setTimeout(() => showPage("orders"), 500);
-  } catch (err) { showToast("Order failed: " + err.message, "error"); }
+  } catch (err) {
+    console.error(err);
+    showToast("Order failed: " + err.message, "error");
+  }
 };
+
 async function renderOrders() {
   const el = document.getElementById("ordersContent");
   el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
@@ -1816,22 +1702,199 @@ async function renderOrders() {
     const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .filter(o => o.userId === currentUser.uid)
       .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-    if (!orders.length) {
-      el.innerHTML = '<div class="empty"><div class="icon">▢</div><h3>No orders yet</h3><p>Your orders will appear here</p></div>';
-      return;
-    }
+    if (!orders.length) { el.innerHTML = '<div class="empty"><h3>No orders yet</h3></div>'; return; }
     el.innerHTML = orders.map(o => `<div class="order-card">
       <div class="head">
-        <div class="id">Order ID: <strong>#${o.id.slice(-10).toUpperCase()}</strong></div>
+        <div style="font-size:13px;color:var(--text-muted)">Order <strong>#${o.id.slice(-10).toUpperCase()}</strong></div>
         <span class="status status-${o.orderStatus}">${o.orderStatus}</span>
       </div>
-      <div class="row"><span style="color:var(--text-muted)">${o.items?.length || 0} item(s)</span><strong>₹${(o.totalAmount || 0).toLocaleString("en-IN")}</strong></div>
-      <div class="row"><span style="color:var(--text-muted)">Payment</span><span>${o.paymentMethod} - ${o.paymentStatus}</span></div>
-      <div class="row"><span style="color:var(--text-muted)">Placed on</span><span>${o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : ""}</span></div>
+      <div class="row"><span style="color:var(--text-muted)">${o.items?.length || 0} item(s)</span><strong>${formatINR(o.totalAmount)}</strong></div>
+      <div class="row"><span style="color:var(--text-muted)">Payment</span><span>${o.paymentMethod}</span></div>
+      ${o.coinDiscount > 0 ? `<div class="row" style="color:var(--purple)"><span>🪙 Coins used</span><span>-${formatINR(o.coinDiscount)}</span></div>` : ""}
+      ${o.couponDiscount > 0 ? `<div class="row" style="color:var(--green)"><span>🎟 Coupon ${o.coupon}</span><span>-${formatINR(o.couponDiscount)}</span></div>` : ""}
     </div>`).join("");
-  } catch (err) { el.innerHTML = '<div class="empty"><h3>Failed to load orders</h3></div>'; }
+  } catch (err) { el.innerHTML = '<div class="empty"><h3>Failed to load</h3></div>'; }
 }
 
+// ============================================================
+// PROFILE
+// ============================================================
+function renderProfile() {
+  const d = currentUserData || {};
+  document.getElementById("profileAvatar").textContent = (d.name || d.email || "U")[0].toUpperCase();
+  document.getElementById("profileName").textContent = d.name || "User";
+  document.getElementById("profileUsername").textContent = "@" + (d.username || "username");
+  document.getElementById("profilePublicId").textContent = d.publicId || "------";
+  document.getElementById("profileCoinsUsed").textContent = d.totalCoinsUsed || 0;
+  document.getElementById("walletCoins").textContent = d.coins || 0;
+  document.getElementById("walletValue").textContent = ((d.coins || 0) * (coinSettings.coinValueInRupees || 0.10)).toFixed(2);
+
+  const fields = [
+    { label: "Full Name", key: "name" },
+    { label: "Username", key: "username" },
+    { label: "Email", key: "email" },
+    { label: "Mobile", key: "mobile" },
+    { label: "Gender", key: "gender" },
+    { label: "Date of Birth", key: "dob" }
+  ];
+  document.getElementById("profileInfoList").innerHTML = fields.map(f => {
+    const val = d[f.key];
+    const empty = !val || String(val).trim() === "";
+    return `<div class="profile-row">
+      <div class="ico">•</div>
+      <div class="txt">
+        <div class="lbl">${f.label}</div>
+        <div class="val ${empty ? 'missing' : ''}">${empty ? "Not set" : val}</div>
+      </div>
+    </div>`;
+  }).join("");
+
+  const addr = d.address || {};
+  const addrEl = document.getElementById("profileAddressList");
+  if (!addr.line1) { addrEl.innerHTML = '<div class="profile-row"><div class="txt"><div class="val missing">Not set</div></div></div>'; }
+  else {
+    addrEl.innerHTML = `<div class="profile-row"><div class="txt">
+      <div class="lbl">${addr.name || d.name}</div>
+      <div class="val">${addr.line1}${addr.line2 ? ", " + addr.line2 : ""}, ${addr.city || ""} - ${addr.pincode || ""}</div>
+    </div></div>`;
+  }
+}
+
+window.openProfileEdit = function() {
+  const d = currentUserData || {};
+  openModal("Edit Profile", `
+    <div class="form-group"><label>Full Name *</label><input class="form-control" id="peName" value="${d.name || ""}" /></div>
+    <div class="form-group"><label>Username *</label><input class="form-control" id="peUsername" value="${d.username || ""}" /><div class="field-status" id="peUsernameStatus"></div></div>
+    <div class="form-group"><label>Mobile *</label><input class="form-control" id="peMobile" value="${d.mobile || ""}" /><div class="field-status" id="peMobileStatus"></div></div>
+    <div class="form-group"><label>Email (locked)</label><input class="form-control" value="${d.email || ""}" disabled /></div>
+    <div class="form-group"><label>Gender</label>
+      <select class="form-control" id="peGender">
+        <option value="">Select</option>
+        <option value="male" ${d.gender === "male" ? "selected" : ""}>Male</option>
+        <option value="female" ${d.gender === "female" ? "selected" : ""}>Female</option>
+        <option value="other" ${d.gender === "other" ? "selected" : ""}>Other</option>
+      </select></div>
+    <div class="form-group"><label>DOB</label><input type="date" class="form-control" id="peDob" value="${d.dob || ""}" /></div>
+    <div id="peError" style="display:none;padding:10px;background:#ffebee;border-left:3px solid var(--red);font-size:13px;color:var(--red);margin-top:12px"></div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="peSaveBtn" onclick="saveProfile()">Save</button>`);
+  setTimeout(() => { attachLiveCheck("peUsername", "username"); attachLiveCheck("peMobile", "mobile"); }, 150);
+};
+
+window.saveProfile = async function() {
+  const btn = document.getElementById("peSaveBtn");
+  btn.disabled = true; btn.textContent = "Saving...";
+  const errEl = document.getElementById("peError"); errEl.style.display = "none";
+  const updates = {
+    name: document.getElementById("peName").value.trim(),
+    username: document.getElementById("peUsername").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, ""),
+    mobile: document.getElementById("peMobile").value.trim().replace(/\s+/g, ""),
+    gender: document.getElementById("peGender").value,
+    dob: document.getElementById("peDob").value
+  };
+  if (!updates.name) return peError("Name required");
+  if (!updates.username || updates.username.length < 3) return peError("Username min 3");
+  if (!updates.mobile || !/^\+?\d{10,15}$/.test(updates.mobile)) return peError("Valid mobile required");
+
+  try {
+    if (updates.username !== currentUserData.username) {
+      const chk = await checkUniqueStrict("username", updates.username, currentUser.uid);
+      if (!chk.available) return peError("Username taken");
+    }
+    if (updates.mobile !== currentUserData.mobile) {
+      const chk = await checkUniqueStrict("mobile", updates.mobile, currentUser.uid);
+      if (!chk.available) return peError("Mobile registered");
+    }
+
+    // Update unique index
+    if (updates.username !== currentUserData.username) {
+      if (currentUserData.username) { try { await deleteDoc(doc(db, "uniqueIndex", `username_${currentUserData.username}`)); } catch(e){} }
+      await setDoc(doc(db, "uniqueIndex", `username_${updates.username}`), { field: "username", value: updates.username, userId: currentUser.uid, createdAt: serverTimestamp() });
+    }
+    if (updates.mobile !== currentUserData.mobile) {
+      if (currentUserData.mobile) { try { await deleteDoc(doc(db, "uniqueIndex", `mobile_${currentUserData.mobile}`)); } catch(e){} }
+      await setDoc(doc(db, "uniqueIndex", `mobile_${updates.mobile}`), { field: "mobile", value: updates.mobile, userId: currentUser.uid, createdAt: serverTimestamp() });
+    }
+
+    updates.updatedAt = serverTimestamp();
+    // Use setDoc with merge to avoid "No document to update" error
+    await setDoc(doc(db, "users", currentUser.uid), updates, { merge: true });
+    currentUserData = { ...currentUserData, ...updates };
+    showToast("Profile updated", "success");
+    closeModal();
+    renderProfile();
+  } catch (err) { peError(err.message || "Failed"); }
+};
+
+function peError(msg) {
+  const el = document.getElementById("peError");
+  el.style.display = "block"; el.textContent = msg;
+  const btn = document.getElementById("peSaveBtn");
+  if (btn) { btn.disabled = false; btn.textContent = "Save"; }
+}
+
+window.openAddressEdit = function() {
+  const a = currentUserData?.address || {};
+  openModal("Delivery Address", `
+    <div class="form-group"><label>Full Name</label><input class="form-control" id="adName" value="${a.name || currentUserData.name || ""}" /></div>
+    <div class="form-group"><label>Phone</label><input class="form-control" id="adPhone" value="${a.phone || currentUserData.mobile || ""}" /></div>
+    <div class="form-group"><label>Address Line 1 *</label><input class="form-control" id="adLine1" value="${a.line1 || ""}" /></div>
+    <div class="form-group"><label>Address Line 2</label><input class="form-control" id="adLine2" value="${a.line2 || ""}" /></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>City *</label><input class="form-control" id="adCity" value="${a.city || ""}" /></div>
+      <div class="form-group"><label>State *</label><input class="form-control" id="adState" value="${a.state || ""}" /></div>
+    </div>
+    <div class="form-group"><label>Pincode *</label><input class="form-control" id="adPincode" value="${a.pincode || ""}" maxlength="6" /></div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveAddress()">Save</button>`);
+};
+
+window.saveAddress = async function() {
+  const address = {
+    name: document.getElementById("adName").value.trim(),
+    phone: document.getElementById("adPhone").value.trim(),
+    line1: document.getElementById("adLine1").value.trim(),
+    line2: document.getElementById("adLine2").value.trim(),
+    city: document.getElementById("adCity").value.trim(),
+    state: document.getElementById("adState").value.trim(),
+    pincode: document.getElementById("adPincode").value.trim()
+  };
+  if (!address.line1 || !address.city || !address.state || !address.pincode) return showToast("Fill all required", "warning");
+  try {
+    await setDoc(doc(db, "users", currentUser.uid), { address, updatedAt: serverTimestamp() }, { merge: true });
+    currentUserData.address = address;
+    showToast("Address saved", "success");
+    closeModal(); renderProfile();
+  } catch (err) { showToast("Failed", "error"); }
+};
+
+window.openSuspensionAppeal = function() {
+  const d = currentUserData || {};
+  openModal("Appeal Suspension", `
+    <div class="alert-box danger"><div style="font-weight:600">Account Suspended</div><div>${d.suspendedReason || ""}</div></div>
+    <div class="form-group"><label>Why should we unblock your account? *</label><textarea class="form-control" id="appealMsg" rows="5"></textarea></div>
+    <div class="form-group"><label>Contact</label><input class="form-control" id="appealContact" value="${d.mobile || ""}" /></div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="appealBtn" onclick="submitAppeal()">Submit</button>`);
+};
+
+window.submitAppeal = async function() {
+  const btn = document.getElementById("appealBtn");
+  btn.disabled = true; btn.textContent = "Submitting...";
+  const message = document.getElementById("appealMsg").value.trim();
+  if (!message || message.length < 20) { showToast("Min 20 chars", "warning"); btn.disabled = false; btn.textContent = "Submit"; return; }
+  try {
+    await addDoc(collection(db, "accountAppeals"), {
+      suspensionId: currentUserData.currentSuspensionId || "",
+      userId: currentUser.uid, userName: currentUserData.name || "",
+      userEmail: currentUser.email, userPublicId: currentUserData.publicId || "",
+      message, contact: document.getElementById("appealContact").value.trim(),
+      status: "pending", createdAt: serverTimestamp()
+    });
+    closeModal(); showToast("Appeal submitted", "success");
+  } catch (err) { showToast("Failed", "error"); btn.disabled = false; btn.textContent = "Submit"; }
+};
+
+// ============================================================
+// MODAL
+// ============================================================
 window.openModal = function(title, body, footer = "") {
   document.getElementById("modalTitle").textContent = title;
   document.getElementById("modalBody").innerHTML = body;
@@ -1844,6 +1907,9 @@ window.closeModal = function() {
   document.body.style.overflow = "";
 };
 
+// ============================================================
+// ============= ADMIN PANEL ==================================
+// ============================================================
 window.adminTab = function(tab, el) {
   document.querySelectorAll(".admin-side button").forEach(b => b.classList.remove("active"));
   if (el) el.classList.add("active");
@@ -1856,9 +1922,10 @@ async function renderAdmin(tab) {
   const content = document.getElementById("adminContent");
   content.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
   if (currentUserData?.role !== "admin") {
-    content.innerHTML = '<div class="empty"><h3>Admin access required</h3></div>';
+    content.innerHTML = '<div class="empty"><h3>Admin only</h3></div>';
     return;
   }
+
   if (tab === "dashboard") {
     title.textContent = "Dashboard";
     try {
@@ -1875,216 +1942,335 @@ async function renderAdmin(tab) {
       const sales = os.filter(o => o.orderStatus !== "Cancelled").reduce((s, o) => s + (o.totalAmount || 0), 0);
       content.innerHTML = `
         <div class="stat-row">
-          <div class="stat-card"><div class="lbl">Total Sales</div><div class="val">₹${sales.toLocaleString("en-IN")}</div></div>
+          <div class="stat-card"><div class="lbl">Total Sales</div><div class="val">${formatINR(sales)}</div></div>
           <div class="stat-card"><div class="lbl">Orders</div><div class="val">${os.length}</div></div>
           <div class="stat-card"><div class="lbl">Users</div><div class="val">${us.length}</div></div>
           <div class="stat-card"><div class="lbl">Products</div><div class="val">${ps.length}</div></div>
-          <div class="stat-card"><div class="lbl">Pending Orders</div><div class="val">${os.filter(o => o.orderStatus === "Pending").length}</div></div>
+          <div class="stat-card"><div class="lbl">Pending</div><div class="val">${os.filter(o => o.orderStatus === "Pending").length}</div></div>
           <div class="stat-card"><div class="lbl">Suspended</div><div class="val">${us.filter(u => u.suspended).length}</div></div>
-          <div class="stat-card"><div class="lbl">Pending Appeals</div><div class="val">${as.filter(a => a.status === "pending").length}</div></div>
-        </div>
-      `;
-    } catch (err) { content.innerHTML = '<div class="empty"><h3>Failed to load dashboard</h3></div>'; }
+          <div class="stat-card"><div class="lbl">Appeals</div><div class="val">${as.filter(a => a.status === "pending").length}</div></div>
+        </div>`;
+    } catch (err) { content.innerHTML = '<div class="empty"><h3>Failed</h3></div>'; }
   }
+
   else if (tab === "products") {
     title.textContent = "Products";
-    content.innerHTML = `
-      <div style="margin-bottom:16px">
-        <button class="btn btn-primary" onclick="openProductForm()">+ Add Product</button>
-      </div>
-      <div class="table-box">
-        <table>
-          <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
-          <tbody id="productRows"><tr><td colspan="5" style="text-align:center;padding:20px">Loading...</td></tr></tbody>
-        </table>
-      </div>`;
+    content.innerHTML = `<div style="margin-bottom:16px"><button class="btn btn-primary" onclick="openProductForm()">+ Add Product</button></div>
+      <div class="table-box"><table><thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+      <tbody id="productRows">Loading...</tbody></table></div>`;
     try {
       const snap = await getDocs(collection(db, "products"));
       const products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       document.getElementById("productRows").innerHTML = products.length ? products.map(p => `<tr>
         <td>${p.images?.[0] ? `<img src="${p.images[0]}" style="width:40px;height:40px;object-fit:cover" onerror="this.style.display='none'" />` : "-"}</td>
         <td><strong>${p.name || "-"}</strong></td>
-        <td>₹${(p.price || 0).toLocaleString("en-IN")}</td>
+        <td>${formatINR(p.price)}</td>
         <td>${p.stock || 0}</td>
         <td>
           <button class="btn btn-sm btn-ghost" onclick="openProductForm('${p.id}')">Edit</button>
           <button class="btn btn-sm btn-ghost" onclick="deleteProduct('${p.id}')" style="color:var(--red)">Delete</button>
         </td>
-      </tr>`).join("") : '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted)">No products yet</td></tr>';
-    } catch (err) { document.getElementById("productRows").innerHTML = `<tr><td colspan="5" style="color:var(--red);padding:20px">${err.code}</td></tr>`; }
+      </tr>`).join("") : '<tr><td colspan="5" style="text-align:center;padding:24px">No products</td></tr>';
+    } catch (err) { document.getElementById("productRows").innerHTML = `<tr><td colspan="5" style="color:red">${err.code}</td></tr>`; }
   }
+
   else if (tab === "categories") {
     title.textContent = "Categories";
-    content.innerHTML = `
-      <div style="margin-bottom:16px">
-        <button class="btn btn-primary" onclick="openCategoryForm()">+ Add Category</button>
-      </div>
-      <div class="table-box">
-        <table>
-          <thead><tr><th>Name</th><th>Actions</th></tr></thead>
-          <tbody id="catRows"><tr><td colspan="2" style="text-align:center;padding:20px">Loading...</td></tr></tbody>
-        </table>
-      </div>`;
+    content.innerHTML = `<div style="margin-bottom:16px"><button class="btn btn-primary" onclick="openCategoryForm()">+ Add Category</button></div>
+      <div class="table-box"><table><thead><tr><th>Name</th><th>Actions</th></tr></thead><tbody id="catRows">Loading...</tbody></table></div>`;
     try {
       const snap = await getDocs(collection(db, "categories"));
       const cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      document.getElementById("catRows").innerHTML = cats.length ? cats.map(c => `<tr>
-        <td><strong>${c.name}</strong></td>
-        <td><button class="btn btn-sm btn-ghost" onclick="deleteCategory('${c.id}')" style="color:var(--red)">Delete</button></td>
-      </tr>`).join("") : '<tr><td colspan="2" style="text-align:center;padding:24px;color:var(--text-muted)">No categories yet</td></tr>';
-    } catch (err) {}
+      document.getElementById("catRows").innerHTML = cats.length ? cats.map(c => `<tr><td><strong>${c.name}</strong></td><td><button class="btn btn-sm btn-ghost" onclick="deleteCategory('${c.id}')" style="color:red">Delete</button></td></tr>`).join("") : '<tr><td colspan="2" style="text-align:center;padding:24px">None</td></tr>';
+    } catch(err){}
   }
+
   else if (tab === "orders") {
     title.textContent = "Orders";
     try {
       const snap = await getDocs(collection(db, "orders"));
-      const orders = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      const orders = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
       content.innerHTML = orders.length ? orders.map(o => `<div class="order-card">
         <div class="head">
-          <div class="id">Order ID: <strong>#${o.id.slice(-10).toUpperCase()}</strong></div>
+          <div>Order <strong>#${o.id.slice(-10).toUpperCase()}</strong></div>
           <span class="status status-${o.orderStatus}">${o.orderStatus}</span>
         </div>
-        <div class="row"><span style="color:var(--text-muted)">Customer</span><span>${o.customerName || o.customerEmail}</span></div>
-        <div class="row"><span style="color:var(--text-muted)">Total</span><strong>₹${(o.totalAmount || 0).toLocaleString("en-IN")}</strong></div>
+        <div class="row"><span>Customer</span><strong>${o.customerName || o.customerEmail}</strong></div>
+        <div class="row"><span>Total</span><strong>${formatINR(o.totalAmount)}</strong></div>
+        <div class="row"><span>Coins used</span><span>${o.coinsUsed || 0}</span></div>
+        <div class="row"><span>Coupon</span><span>${o.coupon || "-"}</span></div>
         <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
-          ${["Pending","Confirmed","Shipped","Delivered","Cancelled"].map(s =>
-            `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}','${s}')">${s}</button>`
-          ).join("")}
+          ${["Pending","Confirmed","Shipped","Delivered","Cancelled"].map(s => `<button class="btn btn-sm ${o.orderStatus === s ? 'btn-primary' : 'btn-ghost'}" onclick="updateOrderStatus('${o.id}','${s}')">${s}</button>`).join("")}
         </div>
-      </div>`).join("") : '<div class="empty"><h3>No orders yet</h3></div>';
-    } catch (err) {}
+      </div>`).join("") : '<div class="empty"><h3>No orders</h3></div>';
+    } catch(err){}
   }
+
   else if (tab === "users") {
     title.textContent = "Users";
     try {
       const snap = await getDocs(collection(db, "users"));
-      const users = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      const users = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
       content.innerHTML = `<div class="table-box"><table>
-        <thead><tr><th>User ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Status</th><th>Actions</th></tr></thead>
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Mobile</th><th>Coins</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody>${users.map(u => `<tr>
           <td><strong>${u.publicId || "-"}</strong></td>
-          <td>${u.name || "-"}${u.username ? `<br><small style="color:var(--text-muted)">@${u.username}</small>` : ""}</td>
+          <td>${u.name || "-"}</td>
           <td>${u.email || "-"}</td>
           <td>${u.mobile || "-"}</td>
-          <td>${u.suspended ? '<span class="status status-Cancelled">Suspended</span>' : '<span class="status status-Delivered">Active</span>'}</td>
+          <td>🪙 ${u.coins || 0}</td>
+          <td>${u.suspended ? '<span class="status status-Cancelled">Suspend</span>' : '<span class="status status-Delivered">Active</span>'}</td>
           <td>
-            ${u.suspended
-              ? `<button class="btn btn-sm btn-success" onclick="adminUnsuspendUser('${u.id}')">Unblock</button>`
-              : `<button class="btn btn-sm btn-ghost" onclick="openSuspendModal('${u.id}','${(u.name||'').replace(/'/g,'')}')" style="color:var(--red)">Suspend</button>`}
+            <button class="btn btn-sm btn-purple" onclick="openAddCoinsModal('${u.id}','${(u.name||'').replace(/'/g,"")}', ${u.coins||0})">🪙 Coins</button>
+            ${u.suspended 
+              ? `<button class="btn btn-sm btn-success" onclick="adminUnsuspendUser('${u.id}')">Unblock</button>` 
+              : `<button class="btn btn-sm btn-ghost" onclick="openSuspendModal('${u.id}','${(u.name||'').replace(/'/g,"")}')" style="color:red">Suspend</button>`}
           </td>
         </tr>`).join("")}</tbody>
       </table></div>`;
-    } catch (err) {}
+    } catch(err){}
   }
+
+  // ===================== WALLET / COINS =====================
+  else if (tab === "wallet") {
+    title.textContent = "Wallet Management";
+    try {
+      const snap = await getDocs(collection(db, "users"));
+      const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const totalCoins = users.reduce((s, u) => s + (u.coins || 0), 0);
+      const totalEarned = users.reduce((s, u) => s + (u.totalCoinsEarned || 0), 0);
+      const totalUsed = users.reduce((s, u) => s + (u.totalCoinsUsed || 0), 0);
+
+      content.innerHTML = `
+        <div class="stat-row">
+          <div class="stat-card"><div class="lbl">Total Coins in Circulation</div><div class="val">🪙 ${totalCoins}</div></div>
+          <div class="stat-card"><div class="lbl">Total Earned</div><div class="val">🪙 ${totalEarned}</div></div>
+          <div class="stat-card"><div class="lbl">Total Used</div><div class="val">🪙 ${totalUsed}</div></div>
+          <div class="stat-card"><div class="lbl">Value in ₹</div><div class="val">${formatINR(totalCoins * 0.10)}</div></div>
+        </div>
+
+        <div class="table-box">
+          <table>
+            <thead><tr><th>User</th><th>Email</th><th>Current Coins</th><th>Earned</th><th>Used</th><th>Actions</th></tr></thead>
+            <tbody>${users.sort((a,b)=>(b.coins||0)-(a.coins||0)).map(u => `<tr>
+              <td><strong>${u.name || "-"}</strong></td>
+              <td>${u.email || "-"}</td>
+              <td style="color:var(--purple);font-weight:700">🪙 ${u.coins || 0}</td>
+              <td>${u.totalCoinsEarned || 0}</td>
+              <td>${u.totalCoinsUsed || 0}</td>
+              <td>
+                <button class="btn btn-sm btn-purple" onclick="openAddCoinsModal('${u.id}','${(u.name||'').replace(/'/g,"")}', ${u.coins||0})">+ Add Coins</button>
+              </td>
+            </tr>`).join("")}</tbody>
+          </table>
+        </div>
+      `;
+    } catch(err){}
+  }
+
+  // ===================== COUPONS =====================
+  else if (tab === "coupons") {
+    title.textContent = "Coupons";
+    try {
+      const snap = await getDocs(collection(db, "coupons"));
+      const coupons = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      content.innerHTML = `
+        <div style="margin-bottom:16px"><button class="btn btn-primary" onclick="openCouponForm()">+ Create Coupon</button></div>
+        <div class="table-box">
+          <table>
+            <thead><tr><th>Code</th><th>Type</th><th>Value</th><th>Min Order</th><th>Validity</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>${coupons.length ? coupons.map(c => {
+              const now = Date.now();
+              const end = c.expiryDate?.seconds ? c.expiryDate.seconds * 1000 : new Date(c.expiryDate).getTime();
+              const expired = now > end;
+              return `<tr>
+                <td><strong style="font-family:monospace;color:var(--blue)">${c.code || "-"}</strong></td>
+                <td>${c.discountType || "-"}</td>
+                <td>${c.discountType === "percentage" ? c.discountValue + "%" : c.discountType === "flat" ? formatINR(c.discountValue) : "-"}</td>
+                <td>${c.minOrder ? formatINR(c.minOrder) : "-"}</td>
+                <td style="font-size:11px">${expired ? '<span style="color:red">Expired</span>' : new Date(end).toLocaleDateString()}</td>
+                <td><span class="status ${c.active && !expired ? 'status-Delivered' : 'status-Cancelled'}">${c.active && !expired ? "Active" : "Inactive"}</span></td>
+                <td>
+                  <button class="btn btn-sm btn-ghost" onclick="toggleCouponActive('${c.id}', ${c.active !== false})">${c.active ? "Disable" : "Enable"}</button>
+                  <button class="btn btn-sm btn-ghost" onclick="deleteCoupon('${c.id}')" style="color:red">Delete</button>
+                </td>
+              </tr>`;
+            }).join("") : '<tr><td colspan="7" style="text-align:center;padding:24px">No coupons</td></tr>'}</tbody>
+          </table>
+        </div>
+      `;
+    } catch(err){}
+  }
+
+  // ===================== OFFERS =====================
+  else if (tab === "offers") {
+    title.textContent = "Offers";
+    try {
+      const snap = await getDocs(collection(db, "offers"));
+      const offers = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      content.innerHTML = `
+        <div style="margin-bottom:16px"><button class="btn btn-primary" onclick="openOfferForm()">+ Create Offer</button></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">
+          ${offers.length ? offers.map(o => {
+            const now = Date.now();
+            const end = o.endDate?.seconds ? o.endDate.seconds * 1000 : new Date(o.endDate).getTime();
+            const expired = now > end;
+            return `<div class="offer-card purple" style="min-width:auto">
+              <h3>${o.name || "Offer"}</h3>
+              <div class="desc">${o.description || ""}</div>
+              ${o.couponCode ? `<div class="code">${o.couponCode}</div>` : ""}
+              <div class="expiry">${expired ? "EXPIRED" : "Valid till " + new Date(end).toLocaleDateString()}</div>
+              <div style="display:flex;gap:6px;margin-top:8px">
+                <button class="btn btn-sm" style="background:rgba(255,255,255,.9);color:#000" onclick="deleteOffer('${o.id}')">Delete</button>
+              </div>
+            </div>`;
+          }).join("") : '<div class="empty"><h3>No offers</h3></div>'}
+        </div>
+      `;
+    } catch(err){}
+  }
+
+  // ===================== DEALS =====================
+  else if (tab === "deals") {
+    title.textContent = "Deals & Flash Sales";
+    try {
+      const snap = await getDocs(collection(db, "deals"));
+      const deals = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      content.innerHTML = `
+        <div style="margin-bottom:16px"><button class="btn btn-primary" onclick="openDealForm()">+ Create Deal</button></div>
+        ${deals.length ? deals.map(d => {
+          const status = getDealStatus(d);
+          const start = d.startDate?.seconds ? d.startDate.seconds * 1000 : new Date(d.startDate).getTime();
+          const end = d.endDate?.seconds ? d.endDate.seconds * 1000 : new Date(d.endDate).getTime();
+          return `<div class="order-card">
+            <div class="head">
+              <div><strong>${d.name || "Deal"}</strong> — ${d.description || ""}</div>
+              <span class="deal-status ${status}">${status.toUpperCase()}</span>
+            </div>
+            <div class="row"><span>Start</span><strong>${new Date(start).toLocaleString()}</strong></div>
+            <div class="row"><span>End</span><strong>${new Date(end).toLocaleString()}</strong></div>
+            <div class="row"><span>Products</span><span>${(d.productIds || []).length}</span></div>
+            <div class="row"><span>Deal Price</span><strong>${formatINR(d.dealPrice || 0)}</strong></div>
+            <div style="margin-top:12px">
+              <button class="btn btn-sm btn-ghost" onclick="deleteDeal('${d.id}')" style="color:red">Delete</button>
+            </div>
+          </div>`;
+        }).join("") : '<div class="empty"><h3>No deals yet</h3></div>'}
+      `;
+    } catch(err){}
+  }
+
   else if (tab === "suspensions") {
     title.textContent = "Suspensions";
     try {
       const snap = await getDocs(collection(db, "accountSuspensions"));
-      const suspensions = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = suspensions.length ? suspensions.map(s => `<div class="order-card">
-        <div class="head">
-          <div class="id">${s.userName} (#${s.publicId})</div>
-          <span class="status status-${s.status === 'active' ? 'Cancelled' : 'Delivered'}">${s.status.toUpperCase()}</span>
-        </div>
-        <div class="row"><span style="color:var(--text-muted)">Email</span><span>${s.userEmail}</span></div>
-        <div class="row"><span style="color:var(--text-muted)">Reason</span><span>${s.reasonText}</span></div>
-        <div class="row"><span style="color:var(--text-muted)">Duration</span><span>${s.duration}</span></div>
-        ${s.status === "active" ? `<div style="margin-top:12px"><button class="btn btn-sm btn-success" onclick="adminUnsuspend('${s.id}','${s.userId}')">Unblock</button></div>` : ""}
+      const items = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      content.innerHTML = items.length ? items.map(s => `<div class="order-card">
+        <div class="head"><div>${s.userName} (#${s.publicId})</div><span class="status ${s.status === 'active' ? 'status-Cancelled' : 'status-Delivered'}">${s.status.toUpperCase()}</span></div>
+        <div class="row"><span>Reason</span><span>${s.reasonText || ""}</span></div>
+        <div class="row"><span>Duration</span><span>${s.duration || "-"}</span></div>
+        ${s.status === "active" ? `<button class="btn btn-sm btn-success" onclick="adminUnsuspend('${s.id}','${s.userId}')">Unblock</button>` : ""}
       </div>`).join("") : '<div class="empty"><h3>No suspensions</h3></div>';
-    } catch (err) {}
+    } catch(err){}
   }
+
   else if (tab === "appeals") {
     title.textContent = "Appeals";
     try {
       const snap = await getDocs(collection(db, "accountAppeals"));
-      const appeals = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      content.innerHTML = appeals.length ? appeals.map(a => `<div class="order-card">
-        <div class="head">
-          <div class="id">${a.userName} (#${a.userPublicId})</div>
-          <span class="status ${a.status === 'pending' ? 'status-Pending' : a.status === 'approved' ? 'status-Delivered' : 'status-Cancelled'}">${a.status.toUpperCase()}</span>
-        </div>
-        <div style="padding:12px;background:#fafafa;font-size:13px;line-height:1.6;margin-bottom:10px">${a.message}</div>
-        ${a.contact ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Contact: ${a.contact}</div>` : ""}
-        ${a.status === "pending" ? `<div style="display:flex;gap:6px">
-          <button class="btn btn-sm btn-success" onclick="approveAppeal('${a.id}','${a.suspensionId}')">Approve</button>
-          <button class="btn btn-sm btn-danger" onclick="rejectAppeal('${a.id}')">Reject</button>
-        </div>` : a.adminResponse ? `<div style="font-size:12px;color:var(--text-muted)">Response: ${a.adminResponse}</div>` : ""}
+      const items = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      content.innerHTML = items.length ? items.map(a => `<div class="order-card">
+        <div class="head"><div>${a.userName}</div><span class="status ${a.status === 'pending' ? 'status-Pending' : a.status === 'approved' ? 'status-Delivered' : 'status-Cancelled'}">${a.status.toUpperCase()}</span></div>
+        <div style="padding:12px;background:#fafafa;font-size:13px;margin-bottom:10px">${a.message}</div>
+        ${a.status === "pending" ? `<button class="btn btn-sm btn-success" onclick="approveAppeal('${a.id}','${a.suspensionId}')">Approve</button>
+          <button class="btn btn-sm btn-danger" onclick="rejectAppeal('${a.id}')">Reject</button>` : a.adminResponse ? `<div style="font-size:12px;color:var(--text-muted)">Response: ${a.adminResponse}</div>` : ""}
       </div>`).join("") : '<div class="empty"><h3>No appeals</h3></div>';
-    } catch (err) {}
-  }
-  else if (tab === "settings") {
-    title.textContent = "Settings";
-    try {
-      const [verifySnap, exemptSnap] = await Promise.all([
-        getDoc(doc(db, "settings", "auth")),
-        getDoc(doc(db, "settings", "exemptUsers"))
-      ]);
-      const authSettings = verifySnap.exists() ? verifySnap.data() : { emailVerificationRequired: true };
-      const exemptUsers = exemptSnap.exists() ? (exemptSnap.data().userIds || []) : [];
-      const usersSnap = await getDocs(collection(db, "users"));
-      const users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-      content.innerHTML = `
-        <div style="background:#fff;border:1px solid var(--border);padding:20px;max-width:700px">
-          <h3 style="font-size:16px;font-weight:500;margin-bottom:16px">Authentication</h3>
-          <div style="padding:14px;background:#fafafa;border:1px solid var(--border);margin-bottom:20px">
-            <label style="display:flex;align-items:center;gap:12px;cursor:pointer">
-              <input type="checkbox" id="emailVerifyToggle" ${authSettings.emailVerificationRequired ? "checked" : ""} style="width:18px;height:18px" />
-              <div>
-                <div style="font-weight:500;font-size:14px">Require Email Verification</div>
-                <div style="font-size:12px;color:var(--text-muted);margin-top:2px">All new users must verify their email before login</div>
-              </div>
-            </label>
-          </div>
-          <div style="margin-bottom:16px">
-            <div style="font-weight:500;font-size:14px;margin-bottom:8px">Exempt Users</div>
-            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Selected users can skip verification</div>
-            <div style="max-height:300px;overflow-y:auto;border:1px solid var(--border);padding:8px">
-              ${users.map(u => `<label style="display:flex;align-items:center;gap:10px;padding:8px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)">
-                <input type="checkbox" class="exempt-checkbox" value="${u.id}" ${exemptUsers.includes(u.id) ? "checked" : ""} />
-                <div style="flex:1;min-width:0">
-                  <div style="font-weight:500">${u.name || "User"}</div>
-                  <div style="font-size:11px;color:var(--text-muted)">${u.email}</div>
-                </div>
-              </label>`).join("")}
-            </div>
-          </div>
-          <button class="btn btn-primary" onclick="saveAuthSettings()">Save Settings</button>
-        </div>
-      `;
-    } catch (err) { content.innerHTML = `<div class="empty"><h3>Error: ${err.code}</h3></div>`; }
+    } catch(err){}
   }
 }
 
-window.saveAuthSettings = async function() {
-  const enabled = document.getElementById("emailVerifyToggle").checked;
-  const exemptIds = Array.from(document.querySelectorAll(".exempt-checkbox:checked")).map(cb => cb.value);
-  try {
-    await setDoc(doc(db, "settings", "auth"), { emailVerificationRequired: enabled, updatedAt: serverTimestamp() });
-    await setDoc(doc(db, "settings", "exemptUsers"), { userIds: exemptIds, updatedAt: serverTimestamp() });
-    showToast("Settings saved", "success");
-  } catch (err) { showToast("Failed to save settings", "error"); }
+// ============================================================
+// ADMIN: ADD COINS MODAL
+// ============================================================
+window.openAddCoinsModal = function(userId, userName, currentCoins) {
+  openModal("🪙 Add Coins to Wallet", `
+    <div style="padding:12px;background:#faf5ff;border-radius:8px;margin-bottom:16px">
+      <strong>${userName}</strong><br>
+      Current Balance: 🪙 ${currentCoins}
+    </div>
+    <div class="form-group">
+      <label>Coins to Add *</label>
+      <input type="number" class="form-control" id="addCoinsAmount" min="1" placeholder="e.g. 100" />
+    </div>
+    <div class="form-group">
+      <label>Reason</label>
+      <select class="form-control" id="addCoinsReason">
+        <option value="Bonus">Bonus</option>
+        <option value="Refund">Refund</option>
+        <option value="Promotional">Promotional</option>
+        <option value="Compensation">Compensation</option>
+        <option value="Loyalty Reward">Loyalty Reward</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Note (optional)</label>
+      <input class="form-control" id="addCoinsNote" placeholder="Add a note..." />
+    </div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-purple" onclick="confirmAddCoins('${userId}')">Add Coins</button>`);
 };
 
+window.confirmAddCoins = async function(userId) {
+  const amount = parseInt(document.getElementById("addCoinsAmount").value) || 0;
+  const reason = document.getElementById("addCoinsReason").value;
+  const note = document.getElementById("addCoinsNote").value.trim();
+
+  if (amount <= 0) return showToast("Enter valid amount", "warning");
+
+  try {
+    await runTransaction(db, async (tx) => {
+      const userRef = doc(db, "users", userId);
+      const userSnap = await tx.get(userRef);
+      const current = userSnap.data()?.coins || 0;
+      tx.update(userRef, {
+        coins: current + amount,
+        totalCoinsEarned: (userSnap.data()?.totalCoinsEarned || 0) + amount,
+        updatedAt: serverTimestamp()
+      });
+    });
+
+    // Log to coin history
+    await addDoc(collection(db, "users", userId, "coinHistory"), {
+      type: "earned",
+      coins: amount,
+      reason: reason + (note ? " — " + note : ""),
+      by: "admin",
+      adminId: currentUser.uid,
+      createdAt: serverTimestamp()
+    });
+
+    showToast(`${amount} coins added ✓`, "success");
+    closeModal();
+    renderAdmin("wallet");
+  } catch (err) {
+    showToast("Failed: " + err.message, "error");
+  }
+};
+
+// ============================================================
+// ADMIN: SUSPEND
+// ============================================================
 window.openSuspendModal = function(userId, userName) {
   openModal("Suspend User", `
-    <div class="alert-box danger" style="margin-bottom:16px">
-      <div class="title">${userName}</div>
-      <div>This user will be unable to shop or place orders.</div>
-    </div>
-    <div class="form-group"><label>Reason *</label>
+    <div class="alert-box danger"><div><strong>${userName}</strong></div><div>User will not be able to shop.</div></div>
+    <div class="form-group"><label>Reason</label>
       <select class="form-control" id="suspReason">
-        <option value="Terms violation">Terms violation</option>
-        <option value="Fraud activity">Fraud activity</option>
-        <option value="Fake data">Fake data</option>
-        <option value="Multiple accounts">Multiple accounts</option>
-        <option value="Other">Other</option>
+        <option>Terms violation</option>
+        <option>Fraud activity</option>
+        <option>Fake data</option>
+        <option>Multiple accounts</option>
+        <option>Other</option>
       </select></div>
-    <div class="form-group"><label>Details *</label>
-      <textarea class="form-control" id="suspReasonText" rows="3"></textarea></div>
+    <div class="form-group"><label>Details *</label><textarea class="form-control" id="suspReasonText" rows="3"></textarea></div>
     <div class="form-group"><label>Duration</label>
       <select class="form-control" id="suspDuration">
         <option value="24h">24 hours</option>
@@ -2092,116 +2278,83 @@ window.openSuspendModal = function(userId, userName) {
         <option value="30d">30 days</option>
         <option value="permanent" selected>Permanent</option>
       </select></div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-danger" onclick="confirmSuspendUser('${userId}')">Suspend</button>
-  `);
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="confirmSuspendUser('${userId}')">Suspend</button>`);
 };
 
 window.confirmSuspendUser = async function(userId) {
   const reason = document.getElementById("suspReason").value;
   const reasonText = document.getElementById("suspReasonText").value.trim();
   const duration = document.getElementById("suspDuration").value;
-  if (!reasonText) return showToast("Please provide reason details", "warning");
-  if (!confirm("Confirm suspension?")) return;
+  if (!reasonText) return showToast("Enter details", "warning");
+  if (!confirm("Confirm?")) return;
   try {
-    await suspendUser(userId, { reason, reasonText, triggeredBy: "admin", adminId: currentUser.uid, duration, appealAllowed: true });
+    const userSnap = await getDoc(doc(db, "users", userId));
+    const userData = userSnap.data();
+    const suspRef = await addDoc(collection(db, "accountSuspensions"), {
+      userId, publicId: userData.publicId || "", userName: userData.name || "",
+      userEmail: userData.email || "", reason, reasonText,
+      triggeredBy: "admin", adminId: currentUser.uid,
+      suspendedAt: serverTimestamp(), duration,
+      status: "active", createdAt: serverTimestamp()
+    });
+    await updateDoc(doc(db, "users", userId), {
+      suspended: true, status: "suspended", suspendedReason: reasonText,
+      suspendedAt: serverTimestamp(), currentSuspensionId: suspRef.id,
+      updatedAt: serverTimestamp()
+    });
     showToast("User suspended", "success");
-    closeModal();
-    renderAdmin("users");
-  } catch (err) { showToast("Failed to suspend", "error"); }
+    closeModal(); renderAdmin("users");
+  } catch (err) { showToast("Failed", "error"); }
 };
 
-async function suspendUser(userId, options = {}) {
-  const { reason = "admin_action", reasonText = "Suspended", triggeredBy = "admin", adminId = null, duration = "permanent", appealAllowed = true } = options;
-  let expiresAt = null;
-  if (duration === "24h") expiresAt = Timestamp.fromDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
-  else if (duration === "7d") expiresAt = Timestamp.fromDate(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
-  else if (duration === "30d") expiresAt = Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
-  const userSnap = await getDoc(doc(db, "users", userId));
-  if (!userSnap.exists()) throw new Error("User not found");
-  const userData = userSnap.data();
-  const suspRef = await addDoc(collection(db, "accountSuspensions"), {
-    userId, publicId: userData.publicId || "", userName: userData.name || "",
-    userEmail: userData.email || "", reason, reasonText,
-    triggeredBy, adminId, suspendedAt: serverTimestamp(),
-    expiresAt, duration, appealAllowed, status: "active",
-    createdAt: serverTimestamp()
-  });
-  await updateDoc(doc(db, "users", userId), {
-    suspended: true, status: "suspended", suspendedReason: reasonText,
-    suspendedAt: serverTimestamp(), suspensionDuration: duration,
-    currentSuspensionId: suspRef.id, updatedAt: serverTimestamp()
-  });
-}
-
-async function liftSuspension(suspensionId, adminId, liftedReason = "") {
-  const suspSnap = await getDoc(doc(db, "accountSuspensions", suspensionId));
-  if (!suspSnap.exists()) throw new Error("Not found");
-  const susp = suspSnap.data();
-  await updateDoc(doc(db, "accountSuspensions", suspensionId), {
-    status: "lifted", liftedAt: serverTimestamp(), liftedBy: adminId, liftedReason
-  });
-  await updateDoc(doc(db, "users", susp.userId), {
-    suspended: false, status: "active", suspendedReason: "",
-    currentSuspensionId: null, updatedAt: serverTimestamp()
-  });
-}
-
 window.adminUnsuspendUser = async function(userId) {
-  if (!confirm("Unblock this user?")) return;
+  if (!confirm("Unblock?")) return;
   try {
     const snap = await getDoc(doc(db, "users", userId));
     const u = snap.data();
     if (u.currentSuspensionId) {
-      await liftSuspension(u.currentSuspensionId, currentUser.uid, "Admin unblocked");
-    } else {
-      await updateDoc(doc(db, "users", userId), {
-        suspended: false, status: "active", suspendedReason: "",
-        currentSuspensionId: null, updatedAt: serverTimestamp()
-      });
+      await updateDoc(doc(db, "accountSuspensions", u.currentSuspensionId), { status: "lifted", liftedAt: serverTimestamp(), liftedBy: currentUser.uid });
     }
-    showToast("User unblocked", "success");
+    await updateDoc(doc(db, "users", userId), { suspended: false, status: "active", suspendedReason: "", currentSuspensionId: null, updatedAt: serverTimestamp() });
+    showToast("Unblocked", "success");
     renderAdmin("users");
-  } catch (err) { showToast("Failed to unblock", "error"); }
+  } catch (err) { showToast("Failed", "error"); }
 };
 
 window.adminUnsuspend = async function(suspensionId, userId) {
   if (!confirm("Unblock?")) return;
   try {
-    await liftSuspension(suspensionId, currentUser.uid, "Admin unblocked");
-    showToast("User unblocked", "success");
+    await updateDoc(doc(db, "accountSuspensions", suspensionId), { status: "lifted", liftedAt: serverTimestamp(), liftedBy: currentUser.uid });
+    await updateDoc(doc(db, "users", userId), { suspended: false, status: "active", currentSuspensionId: null, updatedAt: serverTimestamp() });
+    showToast("Unblocked", "success");
     renderAdmin("suspensions");
   } catch (err) { showToast("Failed", "error"); }
 };
 
 window.approveAppeal = async function(appealId, suspensionId) {
-  if (!confirm("Approve this appeal?")) return;
-  const response = prompt("Response to user:") || "Appeal approved";
+  const response = prompt("Response:") || "Approved";
   try {
-    await updateDoc(doc(db, "accountAppeals", appealId), {
-      status: "approved", adminResponse: response,
-      respondedBy: currentUser.uid, respondedAt: serverTimestamp()
-    });
-    if (suspensionId) await liftSuspension(suspensionId, currentUser.uid, "Appeal approved");
+    await updateDoc(doc(db, "accountAppeals", appealId), { status: "approved", adminResponse: response, respondedBy: currentUser.uid, respondedAt: serverTimestamp() });
+    if (suspensionId) {
+      await updateDoc(doc(db, "accountSuspensions", suspensionId), { status: "lifted", liftedAt: serverTimestamp(), liftedBy: currentUser.uid });
+    }
     showToast("Approved", "success");
     renderAdmin("appeals");
   } catch (err) { showToast("Failed", "error"); }
 };
 
 window.rejectAppeal = async function(appealId) {
-  if (!confirm("Reject?")) return;
   const response = prompt("Reason:") || "Rejected";
   try {
-    await updateDoc(doc(db, "accountAppeals", appealId), {
-      status: "rejected", adminResponse: response,
-      respondedBy: currentUser.uid, respondedAt: serverTimestamp()
-    });
+    await updateDoc(doc(db, "accountAppeals", appealId), { status: "rejected", adminResponse: response, respondedBy: currentUser.uid, respondedAt: serverTimestamp() });
     showToast("Rejected", "info");
     renderAdmin("appeals");
   } catch (err) { showToast("Failed", "error"); }
 };
 
+// ============================================================
+// ADMIN: PRODUCT FORM
+// ============================================================
 window.openProductForm = async function(productId = null) {
   const editing = !!productId;
   let p = { name: "", price: "", mrp: "", stock: 0, description: "", images: [], brand: "", sku: "", isFeatured: false };
@@ -2224,29 +2377,24 @@ window.openProductForm = async function(productId = null) {
     </div>
     <div class="form-group"><label>Brand</label><input class="form-control" id="pfBrand" value="${p.brand || ""}" /></div>
     <div class="form-group">
-      <label>Product Image URL</label>
-      <input type="url" class="form-control" id="pfImageUrl" value="${p.images?.[0] || ""}" placeholder="https://example.com/image.jpg" oninput="previewImage(this.value)" />
+      <label>Product Image URL *</label>
+      <input type="url" class="form-control" id="pfImageUrl" value="${p.images?.[0] || ""}" placeholder="https://i.ibb.co/xxxxx/image.jpg" oninput="previewImage(this.value)" />
       <small style="font-size:11px;color:var(--text-muted);display:block;margin-top:4px">
-        Upload image to imgbb.com and paste direct link
+        Upload to <strong>imgbb.com</strong> → Copy "Direct link" → Paste here
       </small>
       <div id="pfImagePreview" style="margin-top:10px">
-        ${p.images?.[0] ? `<img src="${p.images[0]}" style="width:80px;height:80px;object-fit:cover;border:1px solid var(--border)" onerror="this.style.display='none'" />` : ""}
+        ${p.images?.[0] ? `<img src="${p.images[0]}" style="width:100px;height:100px;object-fit:cover;border:1px solid var(--border);border-radius:4px" onerror="this.style.display='none'" />` : ""}
       </div>
     </div>
-    <div class="form-group"><label style="display:flex;align-items:center;gap:8px;cursor:pointer">
-      <input type="checkbox" id="pfFeatured" ${p.isFeatured ? "checked" : ""} /> Mark as Featured
-    </label></div>
-  `, `
-    <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-    <button class="btn btn-primary" id="pfSaveBtn" onclick="saveProduct(${editing ? `'${productId}'` : "null"})">${editing ? "Update" : "Create"}</button>
-  `);
+    <div class="form-group"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pfFeatured" ${p.isFeatured ? "checked" : ""} /> Mark as Featured</label></div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="pfSaveBtn" onclick="saveProduct(${editing ? `'${productId}'` : "null"})">${editing ? "Update" : "Create"}</button>`);
 };
 
 window.previewImage = function(url) {
   const el = document.getElementById("pfImagePreview");
   if (!el) return;
   if (!url || !url.trim()) { el.innerHTML = ""; return; }
-  el.innerHTML = `<img src="${url}" style="width:80px;height:80px;object-fit:cover;border:1px solid var(--border)" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=&quot;color:var(--red);font-size:12px&quot;>Image load failed</span>'" />`;
+  el.innerHTML = `<img src="${url}" style="width:100px;height:100px;object-fit:cover;border:1px solid var(--border);border-radius:4px" onerror="this.outerHTML='<span style=&quot;color:red;font-size:12px&quot;>Image failed to load</span>'" />`;
 };
 
 window.saveProduct = async function(productId) {
@@ -2254,10 +2402,7 @@ window.saveProduct = async function(productId) {
   btn.disabled = true; btn.textContent = "Saving...";
   const name = document.getElementById("pfName").value.trim();
   const price = parseFloat(document.getElementById("pfPrice").value) || 0;
-  if (!name || !price) {
-    btn.disabled = false; btn.textContent = productId ? "Update" : "Create";
-    return showToast("Name and price are required", "warning");
-  }
+  if (!name || !price) { btn.disabled = false; btn.textContent = productId ? "Update" : "Create"; return showToast("Name & price required", "warning"); }
   const data = {
     name,
     description: document.getElementById("pfDescription").value.trim(),
@@ -2272,70 +2417,276 @@ window.saveProduct = async function(productId) {
   const imageUrl = document.getElementById("pfImageUrl").value.trim();
   if (imageUrl) data.images = [imageUrl];
   try {
-    if (productId) {
-      await updateDoc(doc(db, "products", productId), data);
-    } else {
-      data.createdAt = serverTimestamp();
-      if (!data.images) data.images = [];
-      await addDoc(collection(db, "products"), data);
-    }
-    showToast("Product saved", "success");
-    closeModal();
-    await loadProducts();
-    renderAdmin("products");
-  } catch (err) {
-    showToast("Save failed: " + err.message, "error");
-  } finally {
-    btn.disabled = false; btn.textContent = productId ? "Update" : "Create";
-  }
+    if (productId) await updateDoc(doc(db, "products", productId), data);
+    else { data.createdAt = serverTimestamp(); if (!data.images) data.images = []; await addDoc(collection(db, "products"), data); }
+    showToast("Saved", "success"); closeModal(); await loadProducts(); renderAdmin("products");
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+  finally { btn.disabled = false; btn.textContent = productId ? "Update" : "Create"; }
 };
 
 window.deleteProduct = async function(id) {
-  if (!confirm("Delete this product?")) return;
-  try {
-    await deleteDoc(doc(db, "products", id));
-    showToast("Product deleted", "success");
-    await loadProducts();
-    renderAdmin("products");
-  } catch (err) { showToast("Delete failed", "error"); }
+  if (!confirm("Delete?")) return;
+  try { await deleteDoc(doc(db, "products", id)); showToast("Deleted", "success"); await loadProducts(); renderAdmin("products"); }
+  catch (err) { showToast("Failed", "error"); }
 };
 
 window.openCategoryForm = function() {
-  openModal("Add Category", `<div class="form-group"><label>Category Name *</label><input class="form-control" id="cfName" /></div>`,
+  openModal("Add Category", `<div class="form-group"><label>Name *</label><input class="form-control" id="cfName" /></div>`,
     `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveCategory()">Create</button>`);
 };
-
 window.saveCategory = async function() {
   const name = document.getElementById("cfName").value.trim();
   if (!name) return showToast("Name required", "warning");
-  try {
-    await addDoc(collection(db, "categories"), { name, createdAt: serverTimestamp() });
-    showToast("Category added", "success");
-    closeModal();
-    await loadCategories();
-    renderAdmin("categories");
-  } catch (err) { showToast("Failed", "error"); }
+  try { await addDoc(collection(db, "categories"), { name, createdAt: serverTimestamp() }); showToast("Added", "success"); closeModal(); await loadCategories(); renderAdmin("categories"); }
+  catch (err) { showToast("Failed", "error"); }
 };
-
 window.deleteCategory = async function(id) {
   if (!confirm("Delete?")) return;
-  try {
-    await deleteDoc(doc(db, "categories", id));
-    showToast("Category deleted", "success");
-    await loadCategories();
-    renderAdmin("categories");
-  } catch (err) { showToast("Failed", "error"); }
+  try { await deleteDoc(doc(db, "categories", id)); showToast("Deleted", "success"); await loadCategories(); renderAdmin("categories"); }
+  catch (err) { showToast("Failed", "error"); }
 };
 
 window.updateOrderStatus = async function(id, status) {
-  try {
-    await updateDoc(doc(db, "orders", id), { orderStatus: status, updatedAt: serverTimestamp() });
-    showToast("Status updated to " + status, "success");
-    renderAdmin("orders");
-  } catch (err) { showToast("Failed", "error"); }
+  try { await updateDoc(doc(db, "orders", id), { orderStatus: status, updatedAt: serverTimestamp() }); showToast("Updated", "success"); renderAdmin("orders"); }
+  catch (err) { showToast("Failed", "error"); }
 };
 
-console.log("Pawan Retail loaded");
+// ============================================================
+// ADMIN: COUPON FORM
+// ============================================================
+window.openCouponForm = function() {
+  const now = new Date();
+  const future = new Date(now.getTime() + 30 * 86400000);
+  openModal("Create Coupon", `
+    <div class="form-group"><label>Coupon Code *</label><input class="form-control" id="cfCode" placeholder="SAVE50" style="text-transform:uppercase;font-family:monospace;font-weight:600" /></div>
+    <div class="form-group"><label>Discount Type *</label>
+      <select class="form-control" id="cfType" onchange="toggleDiscountFields()">
+        <option value="percentage">Percentage (%)</option>
+        <option value="flat">Flat (₹)</option>
+        <option value="free_delivery">Free Delivery</option>
+      </select></div>
+    <div class="form-group" id="cfValueGroup"><label>Discount Value *</label><input type="number" class="form-control" id="cfValue" placeholder="e.g. 50" /></div>
+    <div class="form-group"><label>Minimum Order (₹)</label><input type="number" class="form-control" id="cfMinOrder" value="0" /></div>
+    <div class="form-group"><label>Maximum Discount (₹) — for % type</label><input type="number" class="form-control" id="cfMaxDiscount" placeholder="e.g. 500" /></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Start Date</label><input type="date" class="form-control" id="cfStartDate" value="${now.toISOString().split('T')[0]}" /></div>
+      <div class="form-group"><label>Expiry Date *</label><input type="date" class="form-control" id="cfExpiryDate" value="${future.toISOString().split('T')[0]}" /></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Usage Limit</label><input type="number" class="form-control" id="cfUsageLimit" value="100" /></div>
+      <div class="form-group"><label>Per User Limit</label><input type="number" class="form-control" id="cfPerUserLimit" value="1" /></div>
+    </div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveCoupon()">Create</button>`);
+};
+
+window.toggleDiscountFields = function() {
+  const type = document.getElementById("cfType").value;
+  const grp = document.getElementById("cfValueGroup");
+  if (type === "free_delivery") grp.style.display = "none";
+  else grp.style.display = "block";
+};
+
+window.saveCoupon = async function() {
+  const code = document.getElementById("cfCode").value.trim().toUpperCase();
+  const type = document.getElementById("cfType").value;
+  const value = parseFloat(document.getElementById("cfValue").value) || 0;
+  const minOrder = parseFloat(document.getElementById("cfMinOrder").value) || 0;
+  const maxDiscount = parseFloat(document.getElementById("cfMaxDiscount").value) || 0;
+  const startDate = document.getElementById("cfStartDate").value;
+  const expiryDate = document.getElementById("cfExpiryDate").value;
+  const usageLimit = parseInt(document.getElementById("cfUsageLimit").value) || 100;
+  const perUserLimit = parseInt(document.getElementById("cfPerUserLimit").value) || 1;
+
+  if (!code) return showToast("Code required", "warning");
+  if (type !== "free_delivery" && value <= 0) return showToast("Value required", "warning");
+  if (!expiryDate) return showToast("Expiry date required", "warning");
+
+  // Check unique code
+  const existing = allCoupons.find(c => c.code?.toUpperCase() === code);
+  if (existing) return showToast("Code already exists", "error");
+
+  try {
+    await addDoc(collection(db, "coupons"), {
+      code, discountType: type, discountValue: value,
+      minOrder, maxDiscount,
+      startDate: new Date(startDate),
+      expiryDate: new Date(expiryDate),
+      usageLimit, perUserLimit, usedCount: 0,
+      active: true, createdAt: serverTimestamp()
+    });
+    showToast("Coupon created ✓", "success");
+    closeModal();
+    await loadCoupons();
+    renderAdmin("coupons");
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
+
+window.toggleCouponActive = async function(id, current) {
+  try { await updateDoc(doc(db, "coupons", id), { active: !current }); showToast("Updated", "success"); await loadCoupons(); renderAdmin("coupons"); }
+  catch (err) { showToast("Failed", "error"); }
+};
+
+window.deleteCoupon = async function(id) {
+  if (!confirm("Delete coupon?")) return;
+  try { await deleteDoc(doc(db, "coupons", id)); showToast("Deleted", "success"); await loadCoupons(); renderAdmin("coupons"); }
+  catch (err) { showToast("Failed", "error"); }
+};
+
+// ============================================================
+// ADMIN: OFFER FORM
+// ============================================================
+window.openOfferForm = function() {
+  const now = new Date();
+  const future = new Date(now.getTime() + 15 * 86400000);
+  openModal("Create Offer", `
+    <div class="form-group"><label>Offer Name *</label><input class="form-control" id="ofName" placeholder="Festive Sale" /></div>
+    <div class="form-group"><label>Description</label><textarea class="form-control" id="ofDesc" rows="2" placeholder="Get up to 50% off..."></textarea></div>
+    <div class="form-group"><label>Discount Type *</label>
+      <select class="form-control" id="ofType">
+        <option value="percentage">Percentage (%)</option>
+        <option value="flat">Flat (₹)</option>
+        <option value="free_delivery">Free Delivery</option>
+        <option value="buy_x_get_y">Buy X Get Y</option>
+      </select></div>
+    <div class="form-group"><label>Discount Value</label><input type="number" class="form-control" id="ofValue" value="10" /></div>
+    <div class="form-group"><label>Coupon Code (optional)</label><input class="form-control" id="ofCode" placeholder="FEST50" style="text-transform:uppercase;font-family:monospace" /></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Start Date</label><input type="date" class="form-control" id="ofStartDate" value="${now.toISOString().split('T')[0]}" /></div>
+      <div class="form-group"><label>End Date *</label><input type="date" class="form-control" id="ofEndDate" value="${future.toISOString().split('T')[0]}" /></div>
+    </div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveOffer()">Create</button>`);
+};
+
+window.saveOffer = async function() {
+  const name = document.getElementById("ofName").value.trim();
+  const desc = document.getElementById("ofDesc").value.trim();
+  const type = document.getElementById("ofType").value;
+  const value = parseFloat(document.getElementById("ofValue").value) || 0;
+  const code = document.getElementById("ofCode").value.trim().toUpperCase();
+  const startDate = document.getElementById("ofStartDate").value;
+  const endDate = document.getElementById("ofEndDate").value;
+
+  if (!name || !endDate) return showToast("Name & end date required", "warning");
+
+  try {
+    await addDoc(collection(db, "offers"), {
+      name, description: desc,
+      discountType: type, discountValue: value,
+      couponCode: code,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      active: true, createdAt: serverTimestamp()
+    });
+    showToast("Offer created ✓", "success");
+    closeModal();
+    await loadOffers();
+    renderAdmin("offers");
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
+
+window.deleteOffer = async function(id) {
+  if (!confirm("Delete offer?")) return;
+  try { await deleteDoc(doc(db, "offers", id)); showToast("Deleted", "success"); await loadOffers(); renderAdmin("offers"); }
+  catch (err) { showToast("Failed", "error"); }
+};
+
+// ============================================================
+// ADMIN: DEAL FORM
+// ============================================================
+window.openDealForm = async function() {
+  // Load products for selection
+  const prodSnap = await getDocs(collection(db, "products"));
+  const products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.active !== false);
+  const now = new Date();
+  const future = new Date(now.getTime() + 7 * 86400000);
+
+  openModal("Create Deal / Flash Sale", `
+    <div class="form-group"><label>Deal Name *</label>
+      <input class="form-control" id="dfName" placeholder="Flash Sale / Weekend Deal" /></div>
+    <div class="form-group"><label>Description</label>
+      <input class="form-control" id="dfDesc" placeholder="Massive discounts!" /></div>
+    <div class="form-group"><label>Deal Type</label>
+      <select class="form-control" id="dfType">
+        <option value="flash_sale">Flash Sale</option>
+        <option value="deal_of_day">Deal of the Day</option>
+        <option value="weekend_deal">Weekend Deal</option>
+        <option value="festival_deal">Festival Deal</option>
+        <option value="clearance">Clearance Sale</option>
+        <option value="limited_time">Limited Time Deal</option>
+      </select></div>
+    <div class="form-group">
+      <label>Start Date & Time * (timer will run from here)</label>
+      <input type="datetime-local" class="form-control" id="dfStart" value="${new Date(now.getTime() + 60000).toISOString().slice(0,16)}" />
+    </div>
+    <div class="form-group">
+      <label>End Date & Time *</label>
+      <input type="datetime-local" class="form-control" id="dfEnd" value="${future.toISOString().slice(0,16)}" />
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Deal Price (₹)</label>
+        <input type="number" class="form-control" id="dfDealPrice" placeholder="e.g. 999" /></div>
+      <div class="form-group"><label>Original Price (₹)</label>
+        <input type="number" class="form-control" id="dfOrigPrice" placeholder="e.g. 1999" /></div>
+    </div>
+    <div class="form-group"><label>Stock Limit (0 = unlimited)</label>
+      <input type="number" class="form-control" id="dfStockLimit" value="0" /></div>
+    <div class="form-group">
+      <label>Select Products *</label>
+      <div style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:4px;padding:8px">
+        ${products.map(p => `<label style="display:flex;align-items:center;gap:8px;padding:6px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)">
+          <input type="checkbox" class="deal-product-cb" value="${p.id}" />
+          <div style="flex:1">
+            <div style="font-weight:600">${p.name}</div>
+            <div style="font-size:11px;color:var(--text-muted)">${formatINR(p.price)} • Stock: ${p.stock}</div>
+          </div>
+        </label>`).join("") || '<div style="padding:20px;text-align:center;color:#999">No products. Add products first.</div>'}
+      </div>
+    </div>
+  `, `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveDeal()">Create Deal</button>`);
+};
+
+window.saveDeal = async function() {
+  const name = document.getElementById("dfName").value.trim();
+  const desc = document.getElementById("dfDesc").value.trim();
+  const type = document.getElementById("dfType").value;
+  const start = document.getElementById("dfStart").value;
+  const end = document.getElementById("dfEnd").value;
+  const dealPrice = parseFloat(document.getElementById("dfDealPrice").value) || 0;
+  const origPrice = parseFloat(document.getElementById("dfOrigPrice").value) || 0;
+  const stockLimit = parseInt(document.getElementById("dfStockLimit").value) || 0;
+  const productIds = Array.from(document.querySelectorAll(".deal-product-cb:checked")).map(cb => cb.value);
+
+  if (!name) return showToast("Name required", "warning");
+  if (!start || !end) return showToast("Start & End time required", "warning");
+  if (!productIds.length) return showToast("Select at least 1 product", "warning");
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  if (endDate <= startDate) return showToast("End must be after start", "warning");
+
+  try {
+    await addDoc(collection(db, "deals"), {
+      name, description: desc, dealType: type,
+      startDate, endDate,
+      dealPrice, originalPrice: origPrice,
+      stockLimit, productIds,
+      active: true,
+      createdAt: serverTimestamp()
+    });
+    showToast("Deal created! Timer will start automatically ✓", "success");
+    closeModal();
+    await loadDeals();
+    renderAdmin("deals");
+  } catch (err) { showToast("Failed: " + err.message, "error"); }
+};
+
+window.deleteDeal = async function(id) {
+  if (!confirm("Delete deal?")) return;
+  try { await deleteDoc(doc(db, "deals", id)); showToast("Deleted", "success"); await loadDeals(); renderAdmin("deals"); }
+  catch (err) { showToast("Failed", "error"); }
+};
+
+console.log("Pawan Retail loaded - Full version with Wallet, Coupons, Offers, Deals");
 </script>
 
 </body>
