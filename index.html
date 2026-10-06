@@ -2,18 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4f46e5">
 <title>Pawan Retail Limited</title>
 <style>
-:root{--bg:#f4f5f9;--card:#fff;--text:#0f172a;--mut:#64748b;--bd:#e5e7eb;--pri:#4f46e5;--pri-d:#4338ca;--ok:#16a34a;--warn:#f59e0b;--bad:#dc2626;--r:16px;--sh:0 4px 24px rgba(15,23,42,.06);--shl:0 12px 40px rgba(15,23,42,.14)}
+:root{
+  --bg:#f4f5f9;--card:#fff;--text:#0f172a;--mut:#64748b;--bd:#e5e7eb;
+  --pri:#4f46e5;--pri-d:#4338ca;--ok:#16a34a;--warn:#f59e0b;--bad:#dc2626;
+  --r:16px;--sh:0 4px 24px rgba(15,23,42,.06);--shl:0 12px 40px rgba(15,23,42,.14);
+  --safe-top:env(safe-area-inset-top,0);
+  --safe-bottom:env(safe-area-inset-bottom,0);
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
 a{color:var(--pri);text-decoration:none}
-button{font-family:inherit;cursor:pointer;border:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 img{max-width:100%;display:block}
 input,textarea,select{font-family:inherit}
-.screen{display:none;min-height:100vh}.screen.active{display:block}
-.wrap{max-width:520px;margin:0 auto;padding-bottom:88px;min-height:100vh}
+.hidden{display:none!important}
+
+/* Screens */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+
+/* Layout */
+.wrap{max-width:520px;margin:0 auto;padding-bottom:calc(88px + var(--safe-bottom));min-height:100vh;position:relative}
 .container{padding:16px}
 .card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--sh);margin-bottom:14px}
 .row{display:flex;align-items:center;gap:10px}
@@ -21,68 +34,109 @@ input,textarea,select{font-family:inherit}
 .mut{color:var(--mut);font-size:13px}.sm{font-size:12px}.bold{font-weight:700}.ctr{text-align:center}
 .mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
 .mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}
-.appbar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd)}
+.mt0{margin-top:0}.mb0{margin-bottom:0}
+
+/* Appbar */
+.appbar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px}
-.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;display:grid;place-items:center;font-weight:800}
-.iconbtn{width:38px;height:38px;border-radius:10px;background:#f1f5f9;display:grid;place-items:center;position:relative}
-.dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--bad);display:none}.dot.show{display:block}
-.btn{padding:12px 18px;border-radius:12px;font-weight:600;font-size:15px;transition:transform .08s}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.iconbtn{width:38px;height:38px;border-radius:10px;background:#f1f5f9;display:grid;place-items:center;position:relative;font-size:16px}
+.iconbtn:active{background:#e2e8f0}
+.dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--bad);display:none}
+.dot.show{display:block}
+
+/* Buttons */
+.btn{padding:12px 18px;border-radius:12px;font-weight:600;font-size:15px;transition:transform .08s,opacity .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn:active{transform:scale(.98)}
 .btn-pri{background:var(--pri);color:#fff;box-shadow:0 6px 18px rgba(79,70,229,.3)}
 .btn-pri:hover{background:var(--pri-d)}
 .btn-out{background:#fff;color:var(--text);border:1px solid var(--bd)}
-.btn-bad{background:var(--bad);color:#fff}.btn-ok{background:var(--ok);color:#fff}
-.btn-block{width:100%;display:block}.btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn-bad{background:var(--bad);color:#fff}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-block{width:100%;display:flex}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
 .btn-sm{padding:8px 14px;font-size:13px;border-radius:10px}
 .btn-xs{padding:6px 10px;font-size:12px;border-radius:8px}
+
+/* Inputs */
 .field{margin-bottom:14px}
 .label{font-size:13px;font-weight:600;margin-bottom:6px;display:block;color:#334155}
-.input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--bd);font-size:15px;background:#fff}
+.input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--bd);font-size:15px;background:#fff;transition:border-color .15s,box-shadow .15s}
 .input:focus{outline:none;border-color:var(--pri);box-shadow:0 0 0 4px rgba(79,70,229,.12)}
 textarea.input{min-height:90px;resize:vertical}
-.pwwrap{position:relative}.pwtog{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;color:var(--mut);font-size:13px;font-weight:600}
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:#fff;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--bd);padding:8px 0 10px;z-index:30}
-.bnav a{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--mut);font-size:11px;padding:4px 0;cursor:pointer}
-.bnav a.active{color:var(--pri);font-weight:700}.bnav svg{width:22px;height:22px}
+.pwwrap{position:relative}
+.pwtog{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--mut);font-size:13px;font-weight:600;padding:6px}
+.pw-input{padding-right:60px}
+
+/* Bottom nav */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:#fff;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--bd);padding:8px 0 calc(10px + var(--safe-bottom));z-index:30}
+.bnav a{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--mut);font-size:11px;padding:4px 0;cursor:pointer;font-weight:500}
+.bnav a.active{color:var(--pri);font-weight:700}
+.bnav svg{width:22px;height:22px}
+
+/* Badges */
 .badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 .b-ok{background:#dcfce7;color:#166534}.b-warn{background:#fef3c7;color:#92400e}
-.b-info{background:#dbeafe;color:#1e40af}.b-bad{background:#fee2e2;color:#991b1b}.b-mut{background:#f1f5f9;color:#334155}
+.b-info{background:#dbeafe;color:#1e40af}.b-bad{background:#fee2e2;color:#991b1b}
+.b-mut{background:#f1f5f9;color:#334155}
+
+/* Banner */
 .banner{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-radius:20px;padding:20px;box-shadow:var(--shl);margin-bottom:14px}
 .banner h3{margin:0 0 6px;font-size:17px}
 .banner .brow{display:flex;justify-content:space-between;margin:6px 0;font-size:13px;opacity:.95}
 .banner .btn{margin-top:12px;background:#fff;color:var(--pri);width:100%}
 .banner-promo{background:linear-gradient(135deg,#0ea5e9,#4f46e5)}
+
+/* Product grid */
 .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .pcard{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column}
 .pimg{aspect-ratio:1;object-fit:cover;background:#eef2ff;width:100%}
 .pbody{padding:10px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
 .pname{font-weight:700;font-size:14px}
 .pdesc{font-size:12px;color:var(--mut);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.chip{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#4338ca;font-weight:700;text-transform:uppercase;align-self:flex-start}
+.chip{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#4338ca;font-weight:700;text-transform:uppercase;align-self:flex-start;letter-spacing:.3px}
 .pfoot{margin-top:auto}
+
+/* Timeline */
 .tl{list-style:none;padding:0;margin:0}
 .tl li{padding:10px 0 12px 32px;position:relative;font-size:14px;color:var(--mut)}
 .tl li::before{content:"";position:absolute;left:8px;top:14px;width:10px;height:10px;border-radius:50%;background:#d0d5dd}
 .tl li::after{content:"";position:absolute;left:12px;top:26px;bottom:-6px;width:2px;background:#e5e7eb}
 .tl li:last-child::after{display:none}
-.tl li.done{color:var(--text);font-weight:600}.tl li.done::before{background:var(--ok)}
-.tl li.cur{color:var(--pri);font-weight:700}.tl li.cur::before{background:var(--pri);box-shadow:0 0 0 4px rgba(79,70,229,.2)}
-.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;transition:all .3s;z-index:1000;max-width:92vw;text-align:center}
+.tl li.done{color:var(--text);font-weight:600}
+.tl li.done::before{background:var(--ok)}
+.tl li.cur{color:var(--pri);font-weight:700}
+.tl li.cur::before{background:var(--pri);box-shadow:0 0 0 4px rgba(79,70,229,.2)}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:calc(100px + var(--safe-bottom));transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;transition:all .3s ease;z-index:1000;max-width:92vw;text-align:center;font-weight:500;pointer-events:none;box-shadow:var(--shl)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast-success{background:var(--ok)}.toast-error{background:var(--bad)}
+
+/* Auth screens */
 .auth-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at top,#eef2ff,#f4f5f9 55%)}
 .auth-card{width:100%;max-width:420px;background:#fff;border-radius:22px;padding:28px;box-shadow:var(--shl)}
-.auth-card h1{margin:0 0 6px;font-size:22px}.auth-card .sub{margin:0 0 22px;color:var(--mut);font-size:14px}
+.auth-card h1{margin:0 0 6px;font-size:22px}
+.auth-card .sub{margin:0 0 22px;color:var(--mut);font-size:14px}
 .auth-logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;margin-bottom:14px}
+
+/* Stars */
 .stars-in{font-size:34px;display:inline-flex;gap:4px;cursor:pointer;user-select:none}
-.stars-in span{color:#d1d5db}.stars-in span.on{color:#f59e0b}
-.empty{text-align:center;padding:40px 20px;color:var(--mut)}.empty .big{font-size:48px;opacity:.4;margin-bottom:10px}
+.stars-in span{color:#d1d5db;transition:transform .1s,color .15s}
+.stars-in span.on{color:#f59e0b}
+.stars-in span:active{transform:scale(1.15)}
+
+/* Empty / Skeleton */
+.empty{text-align:center;padding:40px 20px;color:var(--mut)}
+.empty .big{font-size:48px;opacity:.4;margin-bottom:10px}
 .sk{background:linear-gradient(90deg,#eef0f3 25%,#e3e6ea 37%,#eef0f3 63%);background-size:400% 100%;animation:sk 1.4s infinite;border-radius:12px;height:80px;margin-bottom:10px}
 @keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+
+/* Admin */
 .al{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
 .aside{background:#0f172a;color:#cbd5e1;padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto}
 .aside .brand{color:#fff;margin-bottom:24px}
-.aside nav a{display:flex;gap:10px;padding:10px 12px;border-radius:10px;color:#cbd5e1;font-size:14px;margin-bottom:4px;cursor:pointer}
+.aside nav a{display:flex;gap:10px;padding:10px 12px;border-radius:10px;color:#cbd5e1;font-size:14px;margin-bottom:4px;cursor:pointer;font-weight:500}
 .aside nav a.active,.aside nav a:hover{background:#1e293b;color:#fff}
 .amain{padding:24px;background:var(--bg);min-height:100vh}
 .atop{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
@@ -91,208 +145,348 @@ textarea.input{min-height:90px;resize:vertical}
 .stat{background:#fff;border-radius:16px;padding:16px;box-shadow:var(--sh)}
 .stat .l{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-weight:700}
 .stat .v{font-size:24px;font-weight:800}
-.tw{background:#fff;border-radius:14px;box-shadow:var(--sh);overflow:hidden}.tw.sc{overflow-x:auto}
+.tw{background:#fff;border-radius:14px;box-shadow:var(--sh);overflow:hidden}
+.tw.sc{overflow-x:auto}
 .tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
 .tbl th,.tbl td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--bd);vertical-align:top}
 .tbl th{background:#f9fafb;font-size:11px;text-transform:uppercase;color:var(--mut);letter-spacing:.4px;font-weight:700}
+.tbl tr:last-child td{border-bottom:none}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
 .mobmenu{display:none;background:#0f172a;color:#fff;border-radius:10px;padding:8px 12px;font-size:14px}
+
+/* Modal */
 .modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;place-items:center;z-index:200;padding:16px;overflow:auto}
 .modal-bg.show{display:grid}
-.modal{background:#fff;border-radius:18px;padding:22px;max-width:560px;width:100%;max-height:92vh;overflow:auto;box-shadow:var(--shl)}
+.modal{background:#fff;border-radius:18px;padding:22px;max-width:560px;width:100%;max-height:92vh;overflow:auto;box-shadow:var(--shl);animation:modIn .2s ease}
+@keyframes modIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 .modal h3{margin:0 0 14px;font-size:18px}
-.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
-.tab{padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--bd);font-size:13px;white-space:nowrap;color:var(--mut);cursor:pointer}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--bd);font-size:13px;white-space:nowrap;color:var(--mut);cursor:pointer;font-weight:500}
 .tab.active{background:var(--pri);color:#fff;border-color:var(--pri)}
+
+/* QR box */
 .qrbox{background:#fff;padding:14px;border-radius:14px;border:2px dashed var(--bd);display:grid;place-items:center;margin:12px 0}
 .qrbox img{max-width:220px;width:100%}
+
+/* Spinner */
 .spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .pgload{display:grid;place-items:center;min-height:100vh}
 .pgload .spin{width:34px;height:34px;border-width:3px;border-color:rgba(79,70,229,.25);border-top-color:var(--pri)}
+
+/* Misc */
 .div{height:1px;background:var(--bd);margin:12px 0}
 .chipbtn{background:#eef2ff;color:#4338ca;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:none}
 .avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:800}
-.copybox{background:#f8fafc;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font-family:monospace;font-size:14px;word-break:break-all}
-.mt0{margin:0}
-@media(max-width:820px){.al{grid-template-columns:1fr}.aside{position:fixed;left:0;top:0;bottom:0;width:240px;transform:translateX(-100%);transition:transform .25s;z-index:100}.aside.open{transform:translateX(0)}.amain{padding:14px}.mobmenu{display:inline-block}}
+.copybox{background:#f8fafc;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font-family:'SF Mono',Monaco,monospace;font-size:14px;word-break:break-all}
+
+/* Responsive */
+@media(max-width:820px){
+  .al{grid-template-columns:1fr}
+  .aside{position:fixed;left:0;top:0;bottom:0;width:240px;transform:translateX(-100%);transition:transform .25s;z-index:100}
+  .aside.open{transform:translateX(0)}
+  .amain{padding:14px}
+  .mobmenu{display:inline-block}
+}
+@media(max-width:400px){
+  .g2{gap:10px}
+  .pbody{padding:8px 10px}
+}
 </style>
 </head>
 <body>
 
-<div id="bootLoader" class="pgload"><div class="ctr"><div class="spin"></div><p class="mut mt16">Loading Pawan Retail…</p></div></div>
+<div id="bootLoader" class="pgload">
+  <div class="ctr"><div class="spin"></div><p class="mut mt16">Loading…</p></div>
+</div>
 
-<!-- LOGIN -->
-<div id="scrLogin" class="screen"><div class="auth-wrap"><div class="auth-card">
-  <div class="auth-logo">P</div><h1>Welcome back</h1><p class="sub">Sign in to Pawan Retail Limited</p>
-  <form id="loginForm" novalidate>
-    <div class="field"><label class="label">Email</label><input class="input" type="email" id="liEmail" required autocomplete="email"></div>
-    <div class="field"><label class="label">Password</label><div class="pwwrap"><input class="input" type="password" id="liPass" required autocomplete="current-password"><button type="button" class="pwtog" data-t="liPass">Show</button></div></div>
-    <div class="field between"><label class="sm row" style="gap:6px"><input type="checkbox" id="liRemember" checked> Remember me</label><a href="#" id="toForgot" class="sm">Forgot password?</a></div>
-    <button class="btn btn-pri btn-block" type="submit" id="liBtn">Login</button>
-  </form>
-  <p class="ctr mt16 sm">New here? <a href="#" id="toReg">Create an account</a></p>
-  <p class="ctr sm mut">Admin? <a href="#" id="toAdminLogin">Admin login</a></p>
-</div></div></div>
+<!-- ===== LOGIN ===== -->
+<div id="scrLogin" class="screen">
+  <div class="auth-wrap"><div class="auth-card">
+    <div class="auth-logo">P</div>
+    <h1>Welcome back</h1>
+    <p class="sub">Sign in to Pawan Retail Limited</p>
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label class="label">Email</label>
+        <input class="input" type="email" id="liEmail" required autocomplete="email" inputmode="email">
+      </div>
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="pwwrap">
+          <input class="input pw-input" type="password" id="liPass" required autocomplete="current-password">
+          <button type="button" class="pwtog" data-t="liPass">Show</button>
+        </div>
+      </div>
+      <div class="field between">
+        <label class="sm row" style="gap:6px;color:#475467"><input type="checkbox" id="liRemember" checked> Remember me</label>
+        <a href="#" id="toForgot" class="sm">Forgot password?</a>
+      </div>
+      <button class="btn btn-pri btn-block" type="submit" id="liBtn">Login</button>
+    </form>
+    <p class="ctr mt16 sm">New here? <a href="#" id="toReg">Create an account</a></p>
+    <p class="ctr sm mut">Admin? <a href="#" id="toAdminLogin">Admin login</a></p>
+  </div></div>
+</div>
 
-<!-- REGISTER -->
-<div id="scrRegister" class="screen"><div class="auth-wrap"><div class="auth-card">
-  <div class="auth-logo">P</div><h1>Create your account</h1><p class="sub">Join Pawan Retail Limited</p>
-  <form id="regForm" novalidate>
-    <div class="field"><label class="label">Full Name</label><input class="input" id="rgName" required autocomplete="name"></div>
-    <div class="field"><label class="label">Mobile Number</label><input class="input" id="rgPhone" inputmode="numeric" maxlength="10" required autocomplete="tel"></div>
-    <div class="field"><label class="label">Email</label><input class="input" type="email" id="rgEmail" required autocomplete="email"></div>
-    <div class="field"><label class="label">Password</label><div class="pwwrap"><input class="input" type="password" id="rgPass" required minlength="6" autocomplete="new-password"><button type="button" class="pwtog" data-t="rgPass">Show</button></div></div>
-    <div class="field"><label class="label">Confirm Password</label><input class="input" type="password" id="rgPass2" required autocomplete="new-password"></div>
-    <div class="field"><label class="label">Address</label><textarea class="input" id="rgAddr" required autocomplete="street-address"></textarea></div>
-    <button class="btn btn-pri btn-block" type="submit" id="rgBtn">Create Account</button>
-  </form>
-  <p class="ctr mt16 sm">Already have an account? <a href="#" id="toLogin">Login</a></p>
-</div></div></div>
+<!-- ===== REGISTER ===== -->
+<div id="scrRegister" class="screen">
+  <div class="auth-wrap"><div class="auth-card">
+    <div class="auth-logo">P</div>
+    <h1>Create your account</h1>
+    <p class="sub">Join Pawan Retail Limited</p>
+    <form id="regForm" novalidate>
+      <div class="field"><label class="label">Full Name</label>
+        <input class="input" id="rgName" required autocomplete="name"></div>
+      <div class="field"><label class="label">Mobile Number</label>
+        <input class="input" id="rgPhone" inputmode="numeric" maxlength="10" required autocomplete="tel"></div>
+      <div class="field"><label class="label">Email</label>
+        <input class="input" type="email" id="rgEmail" required autocomplete="email" inputmode="email"></div>
+      <div class="field"><label class="label">Password</label>
+        <div class="pwwrap">
+          <input class="input pw-input" type="password" id="rgPass" required minlength="6" autocomplete="new-password">
+          <button type="button" class="pwtog" data-t="rgPass">Show</button>
+        </div></div>
+      <div class="field"><label class="label">Confirm Password</label>
+        <input class="input" type="password" id="rgPass2" required autocomplete="new-password"></div>
+      <div class="field"><label class="label">Address</label>
+        <textarea class="input" id="rgAddr" required autocomplete="street-address"></textarea></div>
+      <button class="btn btn-pri btn-block" type="submit" id="rgBtn">Create Account</button>
+    </form>
+    <p class="ctr mt16 sm">Already have an account? <a href="#" id="toLogin">Login</a></p>
+  </div></div>
+</div>
 
-<!-- FORGOT -->
-<div id="scrForgot" class="screen"><div class="auth-wrap"><div class="auth-card">
-  <div class="auth-logo">🔐</div><h1>Reset password</h1><p class="sub">We'll email you a secure reset link.</p>
-  <form id="forgotForm" novalidate>
-    <div class="field"><label class="label">Registered Email</label><input class="input" type="email" id="fpEmail" required></div>
-    <button class="btn btn-pri btn-block" type="submit" id="fpBtn">Send Reset Email</button>
-  </form>
-  <p class="ctr mt16 sm"><a href="#" id="fpToLogin">← Back to login</a></p>
-</div></div></div>
+<!-- ===== FORGOT ===== -->
+<div id="scrForgot" class="screen">
+  <div class="auth-wrap"><div class="auth-card">
+    <div class="auth-logo">🔐</div>
+    <h1>Reset password</h1>
+    <p class="sub">We'll email you a secure reset link.</p>
+    <form id="forgotForm" novalidate>
+      <div class="field"><label class="label">Registered Email</label>
+        <input class="input" type="email" id="fpEmail" required inputmode="email"></div>
+      <button class="btn btn-pri btn-block" type="submit" id="fpBtn">Send Reset Email</button>
+    </form>
+    <p class="ctr mt16 sm"><a href="#" id="fpToLogin">← Back to login</a></p>
+  </div></div>
+</div>
 
-<!-- HOME -->
-<div id="scrHome" class="screen"><div class="wrap">
-  <div class="appbar"><div class="brand"><span class="logo">P</span><span>Pawan Retail</span></div>
-    <div class="row"><button class="iconbtn" id="notifBtn">🔔<span class="dot" id="notifDot"></span></button><button class="iconbtn" id="acctBtn">👤</button></div></div>
-  <div class="container">
-    <div class="mb16"><h2 class="mt0 mb8" style="font-size:22px" id="homeGreet">Hello 👋</h2><p class="mut mt0" id="homeSub">Welcome</p></div>
-    <div id="homeBanner"></div>
-    <div class="between mb12"><h3 class="mt0" style="font-size:16px">Categories</h3></div>
-    <div class="row mb16" id="homeCats" style="flex-wrap:wrap;gap:8px"></div>
-    <div class="between mb12"><h3 class="mt0" style="font-size:16px">Featured</h3><a href="#" id="homeSeeAll" class="sm">See all →</a></div>
-    <div id="homeProducts" class="g2"></div>
-    <div class="mt16"></div><button class="chipbtn" id="homeCare">📞 Customer Care</button>
-  </div>
-  <nav class="bnav">
-    <a data-nav="home" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2V10z"/></svg>Home</a>
-    <a data-nav="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg>Products</a>
-    <a data-nav="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l2 6v14H4V8z"/><path d="M9 14h6"/></svg>My Orders</a>
-    <a data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg>Account</a>
-  </nav>
-</div></div>
-
-<!-- PRODUCTS -->
-<div id="scrProducts" class="screen"><div class="wrap">
-  <div class="appbar"><div class="brand"><span class="logo">P</span><span>Products</span></div><button class="iconbtn" id="prodSearchBtn">🔍</button></div>
-  <div class="container">
-    <input class="input mb12" id="prodSearch" placeholder="Search products…" style="display:none">
-    <div class="tabs" id="prodCats"></div>
-    <div id="prodGrid" class="g2"></div>
-  </div>
-  <nav class="bnav">
-    <a data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2V10z"/></svg>Home</a>
-    <a data-nav="products" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg>Products</a>
-    <a data-nav="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l2 6v14H4V8z"/><path d="M9 14h6"/></svg>My Orders</a>
-    <a data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg>Account</a>
-  </nav>
-</div></div>
-
-<!-- REQUEST -->
-<div id="scrRequest" class="screen"><div class="wrap">
-  <div class="appbar"><button class="iconbtn" id="reqBack">←</button><div class="brand">New Request</div><div style="width:38px"></div></div>
-  <div class="container" id="reqBody"></div>
-</div></div>
-
-<!-- ORDERS -->
-<div id="scrOrders" class="screen"><div class="wrap">
-  <div class="appbar"><div class="brand"><span class="logo">P</span><span>My Orders</span></div></div>
-  <div class="container">
-    <div class="tabs" id="orderTabs">
-      <div class="tab active" data-f="all">All</div><div class="tab" data-f="pending">Pending</div>
-      <div class="tab" data-f="active">Active</div><div class="tab" data-f="delivered">Delivered</div>
-      <div class="tab" data-f="cancelled">Cancelled</div>
+<!-- ===== HOME ===== -->
+<div id="scrHome" class="screen">
+  <div class="wrap">
+    <div class="appbar">
+      <div class="brand"><span class="logo">P</span><span>Pawan Retail</span></div>
+      <div class="row">
+        <button class="iconbtn" id="notifBtn" aria-label="Notifications">🔔<span class="dot" id="notifDot"></span></button>
+        <button class="iconbtn" id="acctBtn" aria-label="Account">👤</button>
+      </div>
     </div>
-    <div id="ordersList"></div>
-  </div>
-  <nav class="bnav">
-    <a data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2V10z"/></svg>Home</a>
-    <a data-nav="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg>Products</a>
-    <a data-nav="orders" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l2 6v14H4V8z"/><path d="M9 14h6"/></svg>My Orders</a>
-    <a data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg>Account</a>
-  </nav>
-</div></div>
-
-<!-- DETAILS -->
-<div id="scrDetails" class="screen"><div class="wrap">
-  <div class="appbar"><button class="iconbtn" id="detBack">←</button><div class="brand">Details</div><div style="width:38px"></div></div>
-  <div class="container" id="detBody"></div>
-</div></div>
-
-<!-- PAYMENT -->
-<div id="scrPayment" class="screen"><div class="wrap">
-  <div class="appbar"><button class="iconbtn" id="payBack">←</button><div class="brand">Payment</div><div style="width:38px"></div></div>
-  <div class="container" id="payBody"></div>
-</div></div>
-
-<!-- REVIEW -->
-<div id="scrReview" class="screen"><div class="wrap">
-  <div class="appbar"><button class="iconbtn" id="revBack">←</button><div class="brand">Give Review</div><div style="width:38px"></div></div>
-  <div class="container" id="revBody"></div>
-</div></div>
-
-<!-- COMPLAINT -->
-<div id="scrComplaint" class="screen"><div class="wrap">
-  <div class="appbar"><button class="iconbtn" id="cmpBack">←</button><div class="brand">Complaint</div><div style="width:38px"></div></div>
-  <div class="container" id="cmpBody"></div>
-</div></div>
-
-<!-- ACCOUNT -->
-<div id="scrAccount" class="screen"><div class="wrap">
-  <div class="appbar"><div class="brand"><span class="logo">P</span><span>Account</span></div></div>
-  <div class="container" id="acctBody"></div>
-  <nav class="bnav">
-    <a data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2V10z"/></svg>Home</a>
-    <a data-nav="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg>Products</a>
-    <a data-nav="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l2 6v14H4V8z"/><path d="M9 14h6"/></svg>My Orders</a>
-    <a data-nav="account" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg>Account</a>
-  </nav>
-</div></div>
-
-<!-- ADMIN LOGIN -->
-<div id="scrAdminLogin" class="screen"><div class="auth-wrap"><div class="auth-card">
-  <div class="auth-logo" style="background:linear-gradient(135deg,#0f172a,#334155)">🔐</div>
-  <h1>Admin Panel</h1><p class="sub">Pawan Retail Limited · Administrator access</p>
-  <form id="adminLoginForm" novalidate>
-    <div class="field"><label class="label">Admin Email</label><input class="input" type="email" id="alEmail" required></div>
-    <div class="field"><label class="label">Password</label><div class="pwwrap"><input class="input" type="password" id="alPass" required><button type="button" class="pwtog" data-t="alPass">Show</button></div></div>
-    <button class="btn btn-pri btn-block" type="submit" id="alBtn">Login to Admin</button>
-  </form>
-  <p class="ctr mt16 sm"><a href="#" id="alToCustomer">← Customer login</a></p>
-</div></div></div>
-
-<!-- ADMIN APP -->
-<div id="scrAdmin" class="screen"><div class="al">
-  <aside class="aside" id="adminSide">
-    <div class="brand"><span class="logo">P</span> Admin</div>
-    <nav id="adminNav">
-      <a data-v="dash" class="active">📊 Dashboard</a>
-      <a data-v="reqs">📥 Requests</a><a data-v="ords">📦 Orders</a>
-      <a data-v="prods">🛒 Products</a><a data-v="pays">💳 Payments</a>
-      <a data-v="revs">⭐ Reviews</a><a data-v="cmps">📣 Complaints</a>
-      <a data-v="custs">👥 Customers</a><a data-v="settings">⚙️ Settings</a>
-      <a id="adminLogout" style="color:#f87171">🚪 Logout</a>
+    <div class="container">
+      <div class="mb16">
+        <h2 class="mt0 mb8" style="font-size:22px" id="homeGreet">Hello 👋</h2>
+        <p class="mut mt0 mb0" id="homeSub">Welcome</p>
+      </div>
+      <div id="homeBanner"></div>
+      <div class="between mb12"><h3 class="mt0" style="font-size:16px">Categories</h3></div>
+      <div class="row mb16" id="homeCats" style="flex-wrap:wrap;gap:8px"></div>
+      <div class="between mb12">
+        <h3 class="mt0" style="font-size:16px">Featured</h3>
+        <a href="#" id="homeSeeAll" class="sm">See all →</a>
+      </div>
+      <div id="homeProducts" class="g2"></div>
+      <div class="mt16"></div>
+      <button class="chipbtn" id="homeCare">📞 Customer Care</button>
+    </div>
+    <nav class="bnav">
+      <a data-nav="home" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2V10z"/></svg>Home</a>
+      <a data-nav="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg>Products</a>
+      <a data-nav="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l2 6v14H4V8z"/><path d="M9 14h6"/></svg>My Orders</a>
+      <a data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg>Account</a>
     </nav>
-  </aside>
-  <main class="amain">
-    <div class="atop"><div class="row"><button class="mobmenu" id="mobMenu">☰</button><h1 id="adminTitle">Dashboard</h1></div><div class="mut sm" id="adminUserLabel"></div></div>
-    <div id="adminView"></div>
-  </main>
-</div></div>
+  </div>
+</div>
+
+<!-- ===== PRODUCTS ===== -->
+<div id="scrProducts" class="screen">
+  <div class="wrap">
+    <div class="appbar">
+      <div class="brand"><span class="logo">P</span><span>Products</span></div>
+      <button class="iconbtn" id="prodSearchBtn" aria-label="Search">🔍</button>
+    </div>
+    <div class="container">
+      <input class="input mb12 hidden" id="prodSearch" placeholder="Search products…">
+      <div class="tabs" id="prodCats"></div>
+      <div id="prodGrid" class="g2"></div>
+    </div>
+    <nav class="bnav">
+      <a data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2V10z"/></svg>Home</a>
+      <a data-nav="products" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg>Products</a>
+      <a data-nav="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l2 6v14H4V8z"/><path d="M9 14h6"/></svg>My Orders</a>
+      <a data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg>Account</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ===== CREATE REQUEST ===== -->
+<div id="scrRequest" class="screen">
+  <div class="wrap">
+    <div class="appbar">
+      <button class="iconbtn" id="reqBack" aria-label="Back">←</button>
+      <div class="brand">New Request</div>
+      <div style="width:38px"></div>
+    </div>
+    <div class="container" id="reqBody"></div>
+  </div>
+</div>
+
+<!-- ===== ORDERS ===== -->
+<div id="scrOrders" class="screen">
+  <div class="wrap">
+    <div class="appbar"><div class="brand"><span class="logo">P</span><span>My Orders</span></div></div>
+    <div class="container">
+      <div class="tabs" id="orderTabs">
+        <div class="tab active" data-f="all">All</div>
+        <div class="tab" data-f="pending">Pending</div>
+        <div class="tab" data-f="active">Active</div>
+        <div class="tab" data-f="delivered">Delivered</div>
+        <div class="tab" data-f="cancelled">Cancelled</div>
+      </div>
+      <div id="ordersList"></div>
+    </div>
+    <nav class="bnav">
+      <a data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2V10z"/></svg>Home</a>
+      <a data-nav="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg>Products</a>
+      <a data-nav="orders" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l2 6v14H4V8z"/><path d="M9 14h6"/></svg>My Orders</a>
+      <a data-nav="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg>Account</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ===== DETAILS ===== -->
+<div id="scrDetails" class="screen">
+  <div class="wrap">
+    <div class="appbar">
+      <button class="iconbtn" id="detBack" aria-label="Back">←</button>
+      <div class="brand">Details</div>
+      <div style="width:38px"></div>
+    </div>
+    <div class="container" id="detBody"></div>
+  </div>
+</div>
+
+<!-- ===== PAYMENT ===== -->
+<div id="scrPayment" class="screen">
+  <div class="wrap">
+    <div class="appbar">
+      <button class="iconbtn" id="payBack" aria-label="Back">←</button>
+      <div class="brand">Payment</div>
+      <div style="width:38px"></div>
+    </div>
+    <div class="container" id="payBody"></div>
+  </div>
+</div>
+
+<!-- ===== REVIEW ===== -->
+<div id="scrReview" class="screen">
+  <div class="wrap">
+    <div class="appbar">
+      <button class="iconbtn" id="revBack" aria-label="Back">←</button>
+      <div class="brand">Give Review</div>
+      <div style="width:38px"></div>
+    </div>
+    <div class="container" id="revBody"></div>
+  </div>
+</div>
+
+<!-- ===== COMPLAINT ===== -->
+<div id="scrComplaint" class="screen">
+  <div class="wrap">
+    <div class="appbar">
+      <button class="iconbtn" id="cmpBack" aria-label="Back">←</button>
+      <div class="brand">Complaint</div>
+      <div style="width:38px"></div>
+    </div>
+    <div class="container" id="cmpBody"></div>
+  </div>
+</div>
+
+<!-- ===== ACCOUNT ===== -->
+<div id="scrAccount" class="screen">
+  <div class="wrap">
+    <div class="appbar"><div class="brand"><span class="logo">P</span><span>Account</span></div></div>
+    <div class="container" id="acctBody"></div>
+    <nav class="bnav">
+      <a data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2V10z"/></svg>Home</a>
+      <a data-nav="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg>Products</a>
+      <a data-nav="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12l2 6v14H4V8z"/><path d="M9 14h6"/></svg>My Orders</a>
+      <a data-nav="account" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0116 0"/></svg>Account</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ===== ADMIN LOGIN ===== -->
+<div id="scrAdminLogin" class="screen">
+  <div class="auth-wrap"><div class="auth-card">
+    <div class="auth-logo" style="background:linear-gradient(135deg,#0f172a,#334155)">🔐</div>
+    <h1>Admin Panel</h1>
+    <p class="sub">Pawan Retail Limited · Administrator access</p>
+    <form id="adminLoginForm" novalidate>
+      <div class="field"><label class="label">Admin Email</label>
+        <input class="input" type="email" id="alEmail" required inputmode="email"></div>
+      <div class="field"><label class="label">Password</label>
+        <div class="pwwrap">
+          <input class="input pw-input" type="password" id="alPass" required>
+          <button type="button" class="pwtog" data-t="alPass">Show</button>
+        </div></div>
+      <button class="btn btn-pri btn-block" type="submit" id="alBtn">Login to Admin</button>
+    </form>
+    <p class="ctr mt16 sm"><a href="#" id="alToCustomer">← Customer login</a></p>
+  </div></div>
+</div>
+
+<!-- ===== ADMIN APP ===== -->
+<div id="scrAdmin" class="screen">
+  <div class="al">
+    <aside class="aside" id="adminSide">
+      <div class="brand"><span class="logo">P</span> Admin</div>
+      <nav id="adminNav">
+        <a data-v="dash" class="active">📊 Dashboard</a>
+        <a data-v="reqs">📥 Requests</a>
+        <a data-v="ords">📦 Orders</a>
+        <a data-v="prods">🛒 Products</a>
+        <a data-v="pays">💳 Payments</a>
+        <a data-v="revs">⭐ Reviews</a>
+        <a data-v="cmps">📣 Complaints</a>
+        <a data-v="custs">👥 Customers</a>
+        <a data-v="settings">⚙️ Settings</a>
+        <a id="adminLogout" style="color:#f87171">🚪 Logout</a>
+      </nav>
+    </aside>
+    <main class="amain">
+      <div class="atop">
+        <div class="row">
+          <button class="mobmenu" id="mobMenu" aria-label="Menu">☰</button>
+          <h1 id="adminTitle">Dashboard</h1>
+        </div>
+        <div class="mut sm" id="adminUserLabel"></div>
+      </div>
+      <div id="adminView"></div>
+    </main>
+  </div>
+</div>
 
 <div id="modalRoot"></div>
 
 <script type="module">
-/* ========== FIREBASE — Auth + Firestore ONLY ========== */
+/* ================================================================
+   PAWAN RETAIL — Professional Build
+   Firebase Authentication + Cloud Firestore ONLY
+   No Storage · No Functions · No Realtime DB · No index required
+   ================================================================ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -312,982 +506,1648 @@ const firebaseConfig = {
   messagingSenderId: "595261097611",
   appId: "1:595261097611:web:88a136d144129b142b368e"
 };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
-/* Storage intentionally NOT initialized */
+const fb = initializeApp(firebaseConfig);
+const auth = getAuth(fb);
+const db = getFirestore(fb);
 
-const S = { user:null, profile:null, settings:{business:{},payment:{},order:{}},
-  cartProduct:null, orderFilter:'all', productFilter:'all', productSearch:'',
-  adminView:'dash', allProducts:[], allOrders:[], allNotifs:[] };
-const L = []; const regL = u => L.push(u);
-const clearL = () => { L.forEach(u=>{ try{u();}catch(_){} }); L.length=0; };
+/* ================================================================
+   STATE & CONFIG
+   ================================================================ */
+const State = {
+  user: null, profile: null,
+  settings: { business:{}, payment:{}, order:{} },
+  cartProduct: null,
+  orderFilter: 'all', productFilter: 'all', productSearch: '',
+  adminView: 'dash',
+  cache: { orders: [], products: [], notifs: [] }
+};
 
-const $ = (s,r=document)=>r.querySelector(s);
-const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
-const show = id => { $$('.screen').forEach(x=>x.classList.remove('active')); const e=$('#'+id); if(e) e.classList.add('active'); window.scrollTo(0,0); };
-function toast(m,t='info'){ const e=document.createElement('div'); e.className='toast toast-'+t; e.textContent=m; document.body.appendChild(e);
-  requestAnimationFrame(()=>e.classList.add('show')); setTimeout(()=>{e.classList.remove('show');setTimeout(()=>e.remove(),350);},3200); }
-function friendlyErr(e){ const c=e?.code||''; const m={
-  'auth/invalid-email':'Please enter a valid email.','auth/user-not-found':'No account with this email.',
-  'auth/wrong-password':'Incorrect password.','auth/invalid-credential':'Invalid email or password.',
-  'auth/email-already-in-use':'Email already registered.','auth/weak-password':'Password must be 6+ chars.',
-  'auth/too-many-requests':'Too many attempts. Try again later.','auth/network-request-failed':'Network error.',
-  'permission-denied':'You do not have permission.','unavailable':'Service unavailable.','not-found':'Not found.'};
-  return m[c]||e?.message||'Something went wrong.'; }
-const inr = n => n==null||isNaN(n)?'—':'₹'+Number(n).toLocaleString('en-IN');
-const fdt = ts => !ts?'—':(ts?.toDate?ts.toDate():new Date(ts)).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});
-const fds = ts => !ts?'—':(ts?.toDate?ts.toDate():new Date(ts)).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-const esc = (s='') => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const sortDesc = (a,b) => (b.createdAt?.toMillis?.()||0) - (a.createdAt?.toMillis?.()||0);
+const STATUS = {
+  pending:'Request Submitted', contacting:'Admin Reviewing',
+  price_fixed:'Price Fixed', payment_pending:'Payment Pending',
+  payment_verification:'Payment Verification', confirmed:'Order Confirmed',
+  preparing:'Preparing', out_for_delivery:'Out for Delivery',
+  delivered:'Delivered', cancelled:'Cancelled'
+};
+const STATUS_BADGE = {
+  pending:'warn', contacting:'warn', price_fixed:'info',
+  payment_pending:'warn', payment_verification:'warn',
+  confirmed:'info', preparing:'info', out_for_delivery:'info',
+  delivered:'ok', cancelled:'bad'
+};
+const PAY_STATUS = { pending:'warn', submitted:'info', verified:'ok', rejected:'bad' };
 
-const SL={pending:'Request Submitted',contacting:'Admin Reviewing',price_fixed:'Price Fixed',payment_pending:'Payment Pending',payment_verification:'Payment Verification',confirmed:'Order Confirmed',preparing:'Preparing',out_for_delivery:'Out for Delivery',delivered:'Delivered',cancelled:'Cancelled'};
-const SB={pending:'warn',contacting:'warn',price_fixed:'info',payment_pending:'warn',payment_verification:'warn',confirmed:'info',preparing:'info',out_for_delivery:'info',delivered:'ok',cancelled:'bad'};
-const sLabel = s => SL[s]||s||'—';
-const sBadge = s => `<span class="badge b-${SB[s]||'mut'}">${esc(sLabel(s))}</span>`;
-function genId(p='PRL'){ const d=new Date(); return `${p}-${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}-${String(Math.floor(Math.random()*9999)).padStart(4,'0')}`; }
+const listeners = new Set();
+const registerListener = (u) => listeners.add(u);
+const clearListeners = () => { listeners.forEach(u => { try{u();}catch(_){} }); listeners.clear(); };
 
-async function loadSettings(){
-  const [b,p,o] = await Promise.all([getDoc(doc(db,'settings','business')),getDoc(doc(db,'settings','payment')),getDoc(doc(db,'settings','order'))]);
-  S.settings.business = b.exists()?b.data():{businessName:'Pawan Retail Limited',customerCareNumber:'',whatsappNumber:''};
-  S.settings.payment  = p.exists()?p.data():{upiId:'',merchantName:'Pawan Retail Limited'};
-  S.settings.order    = o.exists()?o.data():{defaultDeliveryCharge:0,complaintResponseMessage:'We will respond within 24 hours.',orderIdPrefix:'PRL'};
+/* ================================================================
+   UTILITIES
+   ================================================================ */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+const show = (id) => {
+  $$('.screen').forEach(x => x.classList.remove('active'));
+  const el = $('#'+id);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+};
+
+const hideBoot = () => { const b = $('#bootLoader'); if (b) b.style.display = 'none'; };
+
+function toast(msg, type = 'info') {
+  const el = document.createElement('div');
+  el.className = 'toast toast-' + type;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 350);
+  }, 3200);
 }
-async function notify(u,t,b,l=''){ try{ await addDoc(collection(db,'notifications'),{userId:u,title:t,body:b,link:l,read:false,createdAt:serverTimestamp()}); }catch(e){} }
 
-/* ===== Notifications — NO index needed ===== */
-function watchNotifs(){
-  const q1 = query(collection(db,'notifications'), where('userId','==',S.user.uid));
-  regL(onSnapshot(q1, snap=>{
-    S.allNotifs = snap.docs.map(d=>({id:d.id,...d.data()})).sort(sortDesc);
-    const dot = $('#notifDot'); if(dot) dot.classList.toggle('show', S.allNotifs.some(n=>!n.read));
-  }, ()=>{}));
-}
-function openNotif(){
-  openModal(`<h3>Notifications</h3>${S.allNotifs.length===0?'<p class="mut">No notifications yet.</p>':
-    S.allNotifs.map(n=>`<div class="card" style="margin-bottom:8px;${n.read?'':'background:#eef2ff'}">
-      <div class="between mb8"><strong class="sm">${esc(n.title||'')}</strong><span class="sm mut">${fdt(n.createdAt)}</span></div>
-      <div class="sm">${esc(n.body||'')}</div></div>`).join('')}
-    <button class="btn btn-out btn-block mt12" onclick="closeModal()">Close</button>`);
-  S.allNotifs.filter(n=>!n.read).forEach(n=>updateDoc(doc(db,'notifications',n.id),{read:true}).catch(()=>{}));
+function friendlyError(err) {
+  const c = err?.code || '';
+  const map = {
+    'auth/invalid-email':'Please enter a valid email.',
+    'auth/user-not-found':'No account found with this email.',
+    'auth/wrong-password':'Incorrect password.',
+    'auth/invalid-credential':'Invalid email or password.',
+    'auth/email-already-in-use':'Email already registered.',
+    'auth/weak-password':'Password must be at least 6 characters.',
+    'auth/too-many-requests':'Too many attempts. Try again later.',
+    'auth/network-request-failed':'Network error. Check connection.',
+    'permission-denied':'Permission denied.',
+    'unavailable':'Service temporarily unavailable.',
+    'not-found':'Data not found.'
+  };
+  return map[c] || err?.message || 'Something went wrong.';
 }
 
-/* ===== Modal ===== */
-function openModal(h){ const r=$('#modalRoot'); r.innerHTML=`<div class="modal-bg show"><div class="modal">${h}</div></div>`;
-  r.querySelector('.modal-bg').onclick=e=>{ if(e.target.classList.contains('modal-bg')) closeModal(); }; }
-function closeModal(){ $('#modalRoot').innerHTML=''; }
+const inr = n => (n == null || isNaN(n)) ? '—' : '₹' + Number(n).toLocaleString('en-IN');
+const fdt = ts => !ts ? '—' : (ts?.toDate?.() || new Date(ts)).toLocaleString('en-IN', { dateStyle:'medium', timeStyle:'short' });
+const fds = ts => !ts ? '—' : (ts?.toDate?.() || new Date(ts)).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+const esc = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ts = t => t?.toMillis?.() || 0;
+const sortDesc = (a, b) => ts(b.createdAt) - ts(a.createdAt);
+
+function genId(prefix = 'PRL') {
+  const d = new Date();
+  const ymd = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  const rand = String(Math.floor(Math.random()*9999)).padStart(4,'0');
+  return `${prefix}-${ymd}-${rand}`;
+}
+
+/* ================================================================
+   SETTINGS
+   ================================================================ */
+async function loadSettings() {
+  try {
+    const [b, p, o] = await Promise.all([
+      getDoc(doc(db, 'settings', 'business')),
+      getDoc(doc(db, 'settings', 'payment')),
+      getDoc(doc(db, 'settings', 'order'))
+    ]);
+    State.settings.business = b.exists() ? b.data() : { businessName:'Pawan Retail Limited', customerCareNumber:'', whatsappNumber:'' };
+    State.settings.payment  = p.exists() ? p.data() : { upiId:'', merchantName:'Pawan Retail Limited' };
+    State.settings.order    = o.exists() ? o.data() : { defaultDeliveryCharge:0, orderIdPrefix:'PRL', complaintResponseMessage:'We will respond within 24 hours.' };
+  } catch(e) { console.warn('Settings load failed:', e); }
+}
+
+/* ================================================================
+   NOTIFICATIONS
+   ================================================================ */
+async function notify(userId, title, body, link = '') {
+  try {
+    await addDoc(collection(db, 'notifications'), {
+      userId, title, body, link, read:false, createdAt: serverTimestamp()
+    });
+  } catch(e) { console.warn('Notify failed:', e); }
+}
+
+function watchNotifs() {
+  const q1 = query(collection(db, 'notifications'), where('userId','==',State.user.uid));
+  registerListener(onSnapshot(q1, snap => {
+    State.cache.notifs = snap.docs.map(d => ({ id:d.id, ...d.data() })).sort(sortDesc);
+    const dot = $('#notifDot');
+    if (dot) dot.classList.toggle('show', State.cache.notifs.some(n => !n.read));
+  }, e => console.warn('Notif listener:', e)));
+}
+
+function openNotifs() {
+  const list = State.cache.notifs;
+  openModal(`
+    <h3>Notifications</h3>
+    ${list.length === 0 ? '<p class="mut">No notifications yet.</p>' :
+      list.map(n => `
+        <div class="card" style="margin-bottom:8px;${n.read ? '' : 'background:#eef2ff'}">
+          <div class="between mb8">
+            <strong class="sm">${esc(n.title || '')}</strong>
+            <span class="sm mut">${fdt(n.createdAt)}</span>
+          </div>
+          <div class="sm">${esc(n.body || '')}</div>
+        </div>`).join('')}
+    <button class="btn btn-out btn-block mt12" onclick="closeModal()">Close</button>
+  `);
+  list.filter(n => !n.read).forEach(n => {
+    updateDoc(doc(db, 'notifications', n.id), { read:true }).catch(() => {});
+  });
+}
+
+/* ================================================================
+   MODAL SYSTEM
+   ================================================================ */
+function openModal(html) {
+  const r = $('#modalRoot');
+  r.innerHTML = `<div class="modal-bg show"><div class="modal">${html}</div></div>`;
+  const bg = r.querySelector('.modal-bg');
+  bg.onclick = e => { if (e.target === bg) closeModal(); };
+}
+function closeModal() { $('#modalRoot').innerHTML = ''; }
 window.closeModal = closeModal;
-function confirmDlg(m,y){ openModal(`<h3>Confirm</h3><p class="mut">${esc(m)}</p>
-  <div class="row mt16" style="justify-content:flex-end;gap:8px"><button class="btn btn-out" onclick="closeModal()">Cancel</button>
-  <button class="btn btn-bad" id="__cy">Confirm</button></div>`);
-  $('#__cy').onclick=()=>{ closeModal(); y(); }; }
 
-/* ===== Nav ===== */
-window.nav = w => {
-  if(w==='home'){ show('scrHome'); renderHome(); }
-  if(w==='products'){ show('scrProducts'); renderProducts(); }
-  if(w==='orders'){ show('scrOrders'); renderOrders(); }
-  if(w==='account'){ show('scrAccount'); renderAccount(); }
-  $$('.bnav a').forEach(a=>a.classList.toggle('active',a.dataset.nav===w));
-};
-document.addEventListener('click',e=>{ const a=e.target.closest('.bnav a[data-nav]'); if(a){e.preventDefault();nav(a.dataset.nav);} });
+function confirmDialog(msg, onConfirm) {
+  openModal(`
+    <h3>Confirm</h3>
+    <p class="mut">${esc(msg)}</p>
+    <div class="row mt16" style="justify-content:flex-end;gap:8px">
+      <button class="btn btn-out" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-bad" id="__confY">Confirm</button>
+    </div>
+  `);
+  $('#__confY').onclick = () => { closeModal(); onConfirm(); };
+}
+window.confirmDialog = confirmDialog;
 
-/* ===== Product Card ===== */
-function pCardHTML(p){
+/* ================================================================
+   NAVIGATION
+   ================================================================ */
+function navigate(dest) {
+  if (dest === 'home')     { show('scrHome');     renderHome(); }
+  if (dest === 'products') { show('scrProducts'); renderProducts(); }
+  if (dest === 'orders')   { show('scrOrders');   renderOrders(); }
+  if (dest === 'account')  { show('scrAccount');  renderAccount(); }
+  $$('.bnav a').forEach(a => a.classList.toggle('active', a.dataset.nav === dest));
+}
+window.navigate = navigate;
+
+document.addEventListener('click', e => {
+  const a = e.target.closest('.bnav a[data-nav]');
+  if (a) { e.preventDefault(); navigate(a.dataset.nav); }
+});
+
+/* ================================================================
+   PRODUCT RENDERING
+   ================================================================ */
+function productCard(p) {
   const img = p.imageUrl || 'https://via.placeholder.com/400x400/eef2ff/4f46e5?text=Product';
-  return `<div class="pcard">
-    <img class="pimg" src="${esc(img)}" onerror="this.src='https://via.placeholder.com/400x400/eef2ff/4f46e5?text=No+Image'">
-    <div class="pbody"><span class="chip">${esc(p.category||'Other')}</span>
-      <div class="pname">${esc(p.name||'')}</div>
-      <div class="pdesc">${esc(p.description||'')}</div>
-      <div class="pfoot"><button class="btn btn-pri btn-sm btn-block" onclick="selectProduct('${p.id}')">Select</button></div>
-    </div></div>`;
+  return `
+    <div class="pcard">
+      <img class="pimg" src="${esc(img)}" loading="lazy"
+           onerror="this.src='https://via.placeholder.com/400x400/eef2ff/4f46e5?text=No+Image'">
+      <div class="pbody">
+        <span class="chip">${esc(p.category || 'Other')}</span>
+        <div class="pname">${esc(p.name || '')}</div>
+        <div class="pdesc">${esc(p.description || '')}</div>
+        <div class="pfoot">
+          <button class="btn btn-pri btn-sm btn-block" onclick="selectProduct('${p.id}')">Select</button>
+        </div>
+      </div>
+    </div>
+  `;
 }
-window.selectProduct = async id => {
-  const s = await getDoc(doc(db,'products',id));
-  if(!s.exists()) return toast('Product unavailable','error');
-  const p = {id:s.id,...s.data()};
-  if(!p.active) return toast('Product not available','error');
-  S.cartProduct = p; show('scrRequest'); renderRequestPage();
+
+window.selectProduct = async (id) => {
+  try {
+    const snap = await getDoc(doc(db, 'products', id));
+    if (!snap.exists()) return toast('Product unavailable', 'error');
+    const p = { id:snap.id, ...snap.data() };
+    if (!p.active) return toast('Product not available', 'error');
+    State.cartProduct = p;
+    show('scrRequest');
+    renderRequestPage();
+  } catch (e) { toast(friendlyError(e), 'error'); }
 };
 
-/* ===== HOME — NO index needed ===== */
+/* ================================================================
+   CUSTOMER: HOME
+   ================================================================ */
 let unsubActiveReq = null;
-function renderHome(){
-  if(!S.profile) return;
-  $('#homeGreet').textContent = `Hello, ${S.profile.name?.split(' ')[0]||'there'} 👋`;
-  $('#homeSub').textContent = 'Welcome to ' + (S.settings.business.businessName||'Pawan Retail Limited');
-  if(unsubActiveReq){ unsubActiveReq(); unsubActiveReq=null; }
-  const q1 = query(collection(db,'requests'), where('customerId','==',S.user.uid));
-  unsubActiveReq = onSnapshot(q1, snap=>{
-    const reqs = snap.docs.map(d=>({id:d.id,...d.data()})).sort(sortDesc);
-    const active = reqs.find(r=>!['delivered','cancelled'].includes(r.status));
+
+function renderHome() {
+  if (!State.profile) return;
+  $('#homeGreet').textContent = `Hello, ${State.profile.name?.split(' ')[0] || 'there'} 👋`;
+  $('#homeSub').textContent = 'Welcome to ' + (State.settings.business.businessName || 'Pawan Retail Limited');
+
+  if (unsubActiveReq) { unsubActiveReq(); unsubActiveReq = null; }
+  const q1 = query(collection(db, 'requests'), where('customerId', '==', State.user.uid));
+  unsubActiveReq = onSnapshot(q1, snap => {
+    const reqs = snap.docs.map(d => ({ id:d.id, ...d.data() })).sort(sortDesc);
+    const active = reqs.find(r => !['delivered','cancelled'].includes(r.status));
     paintBanner(active, reqs[0]);
-  }, e=>console.warn('home listener',e));
-  renderHomeCats(); renderHomeProducts();
+  }, e => console.warn('Home listener:', e));
+
+  renderHomeCats();
+  renderHomeProducts();
 }
-function paintBanner(active,latest){
+
+function paintBanner(active, latest) {
   const el = $('#homeBanner');
-  if(active){
-    el.innerHTML = `<div class="banner">
-      <div class="brow"><strong>Your Latest Request</strong><span class="badge" style="background:#fff;color:#4f46e5">${esc(sLabel(active.status))}</span></div>
-      <h3>${esc(active.productName||'Order')}</h3>
-      <div class="brow"><span>Order</span><strong>#${esc(active.orderId||active.id)}</strong></div>
-      <div class="brow"><span>Qty</span><span>${active.quantity||1}</span></div>
-      ${active.finalAmount?`<div class="brow"><span>Amount</span><strong>${inr(active.finalAmount)}</strong></div>`:''}
-      <button class="btn" onclick="openDetails('${active.id}')">View Order</button></div>`; return;
+  if (active) {
+    el.innerHTML = `
+      <div class="banner">
+        <div class="brow">
+          <strong>Your Latest Request</strong>
+          <span class="badge" style="background:#fff;color:#4f46e5">${esc(STATUS[active.status] || active.status)}</span>
+        </div>
+        <h3>${esc(active.productName || 'Order')}</h3>
+        <div class="brow"><span>Order</span><strong>#${esc(active.orderId || active.id)}</strong></div>
+        <div class="brow"><span>Qty</span><span>${active.quantity || 1}</span></div>
+        ${active.finalAmount ? `<div class="brow"><span>Amount</span><strong>${inr(active.finalAmount)}</strong></div>` : ''}
+        <button class="btn" onclick="openDetails('${active.id}')">View Order</button>
+      </div>`;
+    return;
   }
-  if(latest && latest.status==='delivered'){
-    el.innerHTML = `<div class="banner" style="background:linear-gradient(135deg,#16a34a,#059669)">
-      <h3>🎉 Order Delivered</h3>
-      <div class="brow"><span>Order</span><strong>#${esc(latest.orderId||latest.id)}</strong></div>
-      <div class="brow"><span>Amount</span><strong>${inr(latest.finalAmount||0)}</strong></div>
-      <div class="row mt12" style="gap:8px">
-        <button class="btn" style="background:#fff;color:#166534;flex:1" onclick="openReview('${latest.id}')">Give Review</button>
-        <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;flex:1" onclick="openComplaint('${latest.id}')">Complaint</button>
-      </div></div>`; return;
+  if (latest && latest.status === 'delivered') {
+    el.innerHTML = `
+      <div class="banner" style="background:linear-gradient(135deg,#16a34a,#059669)">
+        <h3>🎉 Order Delivered</h3>
+        <div class="brow"><span>Order</span><strong>#${esc(latest.orderId || latest.id)}</strong></div>
+        <div class="brow"><span>Amount</span><strong>${inr(latest.finalAmount || 0)}</strong></div>
+        <div class="row mt12" style="gap:8px">
+          <button class="btn" style="background:#fff;color:#166534;flex:1" onclick="openReview('${latest.id}')">Give Review</button>
+          <button class="btn" style="background:rgba(255,255,255,.2);color:#fff;flex:1" onclick="openComplaint('${latest.id}')">Complaint</button>
+        </div>
+      </div>`;
+    return;
   }
-  el.innerHTML = `<div class="banner banner-promo">
-    <h3>🛒 Shop with Pawan Retail</h3>
-    <p style="margin:6px 0 0;opacity:.9;font-size:13px">Browse products, submit a request, and we'll contact you to confirm your order.</p>
-    <button class="btn" onclick="nav('products')">Browse Products</button></div>`;
-}
-async function renderHomeCats(){
-  const snap = await getDocs(query(collection(db,'products'),where('active','==',true)));
-  const cats = new Set(); snap.forEach(d=>{ if(d.data().category) cats.add(d.data().category); });
-  $('#homeCats').innerHTML = [...cats].slice(0,6).map(c=>`<button class="chipbtn" onclick="setCat('${esc(c)}')">${esc(c)}</button>`).join('');
-}
-window.setCat = c => { S.productFilter = c; nav('products'); };
-async function renderHomeProducts(){
-  const snap = await getDocs(query(collection(db,'products'),where('active','==',true)));
-  const list = snap.docs.map(d=>({id:d.id,...d.data()})).slice(0,4);
-  $('#homeProducts').innerHTML = list.length ? list.map(pCardHTML).join('')
-    : `<div class="empty" style="grid-column:1/-1"><div class="big">📦</div>No products yet.</div>`;
+  el.innerHTML = `
+    <div class="banner banner-promo">
+      <h3>🛒 Shop with Pawan Retail</h3>
+      <p style="margin:6px 0 0;opacity:.9;font-size:13px">Browse products, submit a request, and we'll contact you to confirm your order.</p>
+      <button class="btn" onclick="navigate('products')">Browse Products</button>
+    </div>`;
 }
 
-/* ===== PRODUCTS ===== */
-async function renderProducts(){
-  $('#prodSearchBtn').onclick = () => { const i=$('#prodSearch'); i.style.display = i.style.display==='none'?'block':'none'; if(i.style.display==='block') i.focus(); };
-  $('#prodSearch').oninput = e => { S.productSearch = e.target.value.toLowerCase(); paintGrid(); };
-  await paintGrid();
-}
-async function paintGrid(){
-  const snap = await getDocs(query(collection(db,'products'),where('active','==',true)));
-  S.allProducts = snap.docs.map(d=>({id:d.id,...d.data()}));
-  const cats = new Set(S.allProducts.map(p=>p.category||'Other'));
-  $('#prodCats').innerHTML = `<div class="tab ${S.productFilter==='all'?'active':''}" data-c="all">All</div>`+
-    [...cats].map(c=>`<div class="tab ${S.productFilter===c?'active':''}" data-c="${esc(c)}">${esc(c)}</div>`).join('');
-  $$('#prodCats .tab').forEach(t=>t.onclick=()=>{ S.productFilter=t.dataset.c; paintGrid(); });
-  let list = S.productFilter==='all'?S.allProducts:S.allProducts.filter(p=>(p.category||'Other')===S.productFilter);
-  if(S.productSearch) list = list.filter(p=>(p.name||'').toLowerCase().includes(S.productSearch)||(p.description||'').toLowerCase().includes(S.productSearch));
-  $('#prodGrid').innerHTML = list.length ? list.map(pCardHTML).join('')
-    : `<div class="empty" style="grid-column:1/-1"><div class="big">🔍</div>No products found.</div>`;
+async function renderHomeCats() {
+  try {
+    const snap = await getDocs(query(collection(db, 'products'), where('active','==',true)));
+    const cats = new Set();
+    snap.forEach(d => { if (d.data().category) cats.add(d.data().category); });
+    $('#homeCats').innerHTML = [...cats].slice(0,6).map(c =>
+      `<button class="chipbtn" onclick="setCategory('${esc(c)}')">${esc(c)}</button>`
+    ).join('');
+  } catch(e) { console.warn(e); }
 }
 
-/* ===== CREATE REQUEST ===== */
-function renderRequestPage(){
-  const p = S.cartProduct; if(!p){ show('scrProducts'); return; }
+async function renderHomeProducts() {
+  try {
+    const snap = await getDocs(query(collection(db, 'products'), where('active','==',true)));
+    const list = snap.docs.map(d => ({ id:d.id, ...d.data() })).slice(0, 4);
+    $('#homeProducts').innerHTML = list.length
+      ? list.map(productCard).join('')
+      : `<div class="empty" style="grid-column:1/-1"><div class="big">📦</div>No products yet.</div>`;
+  } catch(e) { console.warn(e); }
+}
+
+window.setCategory = (c) => { State.productFilter = c; navigate('products'); };
+
+/* ================================================================
+   CUSTOMER: PRODUCTS
+   ================================================================ */
+async function renderProducts() {
+  $('#prodSearchBtn').onclick = () => {
+    const inp = $('#prodSearch');
+    inp.classList.toggle('hidden');
+    if (!inp.classList.contains('hidden')) inp.focus();
+  };
+  $('#prodSearch').oninput = (e) => {
+    State.productSearch = e.target.value.toLowerCase();
+    paintProductGrid();
+  };
+  await paintProductGrid();
+}
+
+async function paintProductGrid() {
+  try {
+    const snap = await getDocs(query(collection(db, 'products'), where('active','==',true)));
+    State.cache.products = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+
+    const cats = new Set(State.cache.products.map(p => p.category || 'Other'));
+    $('#prodCats').innerHTML =
+      `<div class="tab ${State.productFilter==='all'?'active':''}" data-c="all">All</div>` +
+      [...cats].map(c => `<div class="tab ${State.productFilter===c?'active':''}" data-c="${esc(c)}">${esc(c)}</div>`).join('');
+
+    $$('#prodCats .tab').forEach(t => t.onclick = () => {
+      State.productFilter = t.dataset.c;
+      paintProductGrid();
+    });
+
+    let list = State.productFilter === 'all'
+      ? State.cache.products
+      : State.cache.products.filter(p => (p.category || 'Other') === State.productFilter);
+
+    if (State.productSearch) {
+      list = list.filter(p =>
+        (p.name||'').toLowerCase().includes(State.productSearch) ||
+        (p.description||'').toLowerCase().includes(State.productSearch)
+      );
+    }
+
+    $('#prodGrid').innerHTML = list.length
+      ? list.map(productCard).join('')
+      : `<div class="empty" style="grid-column:1/-1"><div class="big">🔍</div>No products found.</div>`;
+  } catch(e) { toast(friendlyError(e), 'error'); }
+}
+
+/* ================================================================
+   CUSTOMER: CREATE REQUEST
+   ================================================================ */
+function renderRequestPage() {
+  const p = State.cartProduct;
+  if (!p) { show('scrProducts'); return; }
   const img = p.imageUrl || 'https://via.placeholder.com/400x400/eef2ff/4f46e5?text=Product';
   $('#reqBody').innerHTML = `
     <div class="card"><div class="row">
       <img src="${esc(img)}" style="width:70px;height:70px;border-radius:12px;object-fit:cover" onerror="this.style.display='none'">
-      <div style="flex:1"><div class="bold">${esc(p.name)}</div><div class="sm mut">${esc(p.category||'')}</div></div>
+      <div class="flex-1">
+        <div class="bold">${esc(p.name)}</div>
+        <div class="sm mut">${esc(p.category||'')}</div>
+      </div>
     </div></div>
-    <div class="card"><h3 class="mt0 mb12" style="font-size:15px">Request Details</h3>
-      <div class="field"><label class="label">Quantity</label><input class="input" type="number" id="reqQty" value="1" min="1" max="99"></div>
-      <div class="field"><label class="label">Your Name</label><input class="input" id="reqName" value="${esc(S.profile.name||'')}" readonly style="background:#f8fafc"></div>
-      <div class="field"><label class="label">Mobile Number</label><input class="input" id="reqPhone" value="${esc(S.profile.phone||'')}" maxlength="10"></div>
-      <div class="field"><label class="label">Delivery Address</label><textarea class="input" id="reqAddr">${esc(S.profile.address||'')}</textarea></div>
-      <div class="field"><label class="label">Additional Note (optional)</label><textarea class="input" id="reqNote" placeholder="Any special instructions…"></textarea></div>
-      <div style="background:#eef2ff;border-radius:12px;padding:12px;margin-bottom:12px">
+    <div class="card">
+      <h3 class="mt0 mb12" style="font-size:15px">Request Details</h3>
+      <div class="field"><label class="label">Quantity</label>
+        <input class="input" type="number" id="reqQty" value="1" min="1" max="99"></div>
+      <div class="field"><label class="label">Your Name</label>
+        <input class="input" id="reqName" value="${esc(State.profile.name||'')}" readonly></div>
+      <div class="field"><label class="label">Mobile Number</label>
+        <input class="input" id="reqPhone" value="${esc(State.profile.phone||'')}" maxlength="10" inputmode="numeric"></div>
+      <div class="field"><label class="label">Delivery Address</label>
+        <textarea class="input" id="reqAddr">${esc(State.profile.address||'')}</textarea></div>
+      <div class="field"><label class="label">Additional Note (optional)</label>
+        <textarea class="input" id="reqNote" placeholder="Any special instructions…"></textarea></div>
+      <div class="card-info card card-tight mb12">
         <div class="sm" style="color:#4338ca;font-weight:600">ℹ️ This creates a request. Admin will contact you to confirm the price.</div>
       </div>
-      <button class="btn btn-pri btn-block" id="reqSubmit">Submit Request</button></div>`;
+      <button class="btn btn-pri btn-block" id="reqSubmit">Submit Request</button>
+    </div>`;
   $('#reqSubmit').onclick = submitRequest;
 }
-async function submitRequest(){
-  const qty = parseInt($('#reqQty').value,10), phone = $('#reqPhone').value.trim(),
-    addr = $('#reqAddr').value.trim(), note = $('#reqNote').value.trim();
-  if(!qty || qty<1) return toast('Enter valid quantity','error');
-  if(!/^[0-9]{10}$/.test(phone)) return toast('Enter valid 10-digit phone','error');
-  if(!addr) return toast('Address required','error');
-  const btn = $('#reqSubmit'); btn.disabled=true; btn.innerHTML='<span class="spin"></span> Submitting…';
-  try{
-    const orderId = genId(S.settings.order.orderIdPrefix||'PRL');
-    const ref = await addDoc(collection(db,'requests'),{
-      customerId:S.user.uid, customerName:S.profile.name||'', customerEmail:S.profile.email||'',
-      customerPhone:phone, productId:S.cartProduct.id, productName:S.cartProduct.name,
-      productImage:S.cartProduct.imageUrl||'', category:S.cartProduct.category||'',
-      quantity:qty, address:addr, note, orderId,
+
+async function submitRequest() {
+  const qty   = parseInt($('#reqQty').value, 10);
+  const phone = $('#reqPhone').value.trim();
+  const addr  = $('#reqAddr').value.trim();
+  const note  = $('#reqNote').value.trim();
+
+  if (!qty || qty < 1) return toast('Enter valid quantity', 'error');
+  if (!/^[0-9]{10}$/.test(phone)) return toast('Enter valid 10-digit phone', 'error');
+  if (!addr) return toast('Address required', 'error');
+
+  const btn = $('#reqSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> Submitting…';
+
+  try {
+    const orderId = genId(State.settings.order.orderIdPrefix || 'PRL');
+    const ref = await addDoc(collection(db, 'requests'), {
+      customerId: State.user.uid,
+      customerName: State.profile.name || '',
+      customerEmail: State.profile.email || '',
+      customerPhone: phone,
+      productId: State.cartProduct.id,
+      productName: State.cartProduct.name,
+      productImage: State.cartProduct.imageUrl || '',
+      category: State.cartProduct.category || '',
+      quantity: qty, address: addr, note, orderId,
       status:'pending', paymentMethod:'', paymentStatus:'pending',
       finalAmount:null, productAmount:null, deliveryCharge:null, discount:null,
-      trackingUrl:'', createdAt:serverTimestamp(), updatedAt:serverTimestamp()
+      trackingUrl:'',
+      createdAt: serverTimestamp(), updatedAt: serverTimestamp()
     });
-    await notify(S.user.uid,'Request Submitted',`Your request for ${S.cartProduct.name} × ${qty} was submitted. Ref: ${orderId}`,'');
-    toast('Request submitted!','success'); S.cartProduct = null; nav('orders');
-    setTimeout(()=>openDetails(ref.id), 300);
-  }catch(e){ toast(friendlyErr(e),'error'); }
-  finally{ btn.disabled=false; btn.textContent='Submit Request'; }
+    await notify(State.user.uid, 'Request Submitted',
+      `Your request for ${State.cartProduct.name} × ${qty} was submitted. Ref: ${orderId}`, '');
+    toast('Request submitted!', 'success');
+    State.cartProduct = null;
+    navigate('orders');
+    setTimeout(() => openDetails(ref.id), 300);
+  } catch (e) { toast(friendlyError(e), 'error'); }
+  finally { btn.disabled = false; btn.textContent = 'Submit Request'; }
 }
 
-/* ===== MY ORDERS — NO index needed ===== */
+/* ================================================================
+   CUSTOMER: MY ORDERS
+   ================================================================ */
 let unsubOrders = null;
-function renderOrders(){
-  $$('#orderTabs .tab').forEach(t=>t.onclick=()=>{
-    $$('#orderTabs .tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active'); S.orderFilter=t.dataset.f; paintOrders();
-  });
-  if(unsubOrders) unsubOrders();
-  const q1 = query(collection(db,'requests'), where('customerId','==',S.user.uid));
-  unsubOrders = onSnapshot(q1, snap=>{
-    S.allOrders = snap.docs.map(d=>({id:d.id,...d.data()})).sort(sortDesc);
+
+function renderOrders() {
+  $$('#orderTabs .tab').forEach(t => t.onclick = () => {
+    $$('#orderTabs .tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    State.orderFilter = t.dataset.f;
     paintOrders();
-  }, e=>{ $('#ordersList').innerHTML = `<div class="empty">Failed: ${esc(friendlyErr(e))}</div>`; });
+  });
+
+  if (unsubOrders) unsubOrders();
+  const q1 = query(collection(db, 'requests'), where('customerId', '==', State.user.uid));
+  unsubOrders = onSnapshot(q1, snap => {
+    State.cache.orders = snap.docs.map(d => ({ id:d.id, ...d.data() })).sort(sortDesc);
+    paintOrders();
+  }, e => {
+    console.warn(e);
+    $('#ordersList').innerHTML = `<div class="empty">Failed to load orders.</div>`;
+  });
 }
-function paintOrders(){
-  const all = S.allOrders, f = S.orderFilter;
+
+function paintOrders() {
+  const all = State.cache.orders;
+  const f = State.orderFilter;
   let list = all;
-  if(f==='pending')   list = all.filter(o=>['pending','contacting','price_fixed','payment_pending','payment_verification'].includes(o.status));
-  if(f==='active')    list = all.filter(o=>['confirmed','preparing','out_for_delivery'].includes(o.status));
-  if(f==='delivered') list = all.filter(o=>o.status==='delivered');
-  if(f==='cancelled') list = all.filter(o=>o.status==='cancelled');
-  if(!list.length){ $('#ordersList').innerHTML = `<div class="empty"><div class="big">📦</div>No orders in this category.</div>`; return; }
-  $('#ordersList').innerHTML = list.map(o=>`
+  if (f === 'pending')   list = all.filter(o => ['pending','contacting','price_fixed','payment_pending','payment_verification'].includes(o.status));
+  if (f === 'active')    list = all.filter(o => ['confirmed','preparing','out_for_delivery'].includes(o.status));
+  if (f === 'delivered') list = all.filter(o => o.status === 'delivered');
+  if (f === 'cancelled') list = all.filter(o => o.status === 'cancelled');
+
+  if (!list.length) {
+    $('#ordersList').innerHTML = `<div class="empty"><div class="big">📦</div>No orders in this category.</div>`;
+    return;
+  }
+
+  $('#ordersList').innerHTML = list.map(o => `
     <div class="card" style="cursor:pointer" onclick="openDetails('${o.id}')">
-      <div class="between mb8"><div class="bold">#${esc(o.orderId||o.id)}</div>${sBadge(o.status)}</div>
-      <div class="row">${o.productImage?`<img src="${esc(o.productImage)}" style="width:52px;height:52px;border-radius:10px;object-fit:cover" onerror="this.style.display='none'">`:''}
-        <div style="flex:1"><div class="bold sm">${esc(o.productName||'')} × ${o.quantity||1}</div>
-          <div class="sm mut">${fds(o.createdAt)}</div></div></div>
+      <div class="between mb8">
+        <div class="bold">#${esc(o.orderId || o.id)}</div>
+        ${badgeHTML(o.status)}
+      </div>
+      <div class="row">
+        ${o.productImage ? `<img src="${esc(o.productImage)}" style="width:52px;height:52px;border-radius:10px;object-fit:cover" onerror="this.style.display='none'">` : ''}
+        <div class="flex-1">
+          <div class="bold sm">${esc(o.productName || '')} × ${o.quantity || 1}</div>
+          <div class="sm mut">${fds(o.createdAt)}</div>
+        </div>
+      </div>
       <div class="div"></div>
-      <div class="between"><span class="mut sm">${o.paymentMethod?esc(o.paymentMethod.toUpperCase()):'Payment TBD'}</span>
-        <span class="bold">${o.finalAmount?inr(o.finalAmount):'Price TBD'}</span></div>
+      <div class="between">
+        <span class="mut sm">${o.paymentMethod ? esc(o.paymentMethod.toUpperCase()) : 'Payment TBD'}</span>
+        <span class="bold">${o.finalAmount ? inr(o.finalAmount) : 'Price TBD'}</span>
+      </div>
     </div>`).join('');
 }
 
-/* ===== DETAILS ===== */
+/* ================================================================
+   CUSTOMER: ORDER DETAILS
+   ================================================================ */
 let unsubDetails = null;
-window.openDetails = async id => {
-  if(unsubDetails){ unsubDetails(); unsubDetails=null; }
+
+window.openDetails = async (id) => {
+  if (unsubDetails) { unsubDetails(); unsubDetails = null; }
   show('scrDetails');
   $('#detBody').innerHTML = `<div class="sk" style="height:120px"></div><div class="sk" style="height:180px"></div>`;
-  unsubDetails = onSnapshot(doc(db,'requests',id), async snap=>{
-    if(!snap.exists()){ $('#detBody').innerHTML = `<div class="empty"><div class="big">❓</div>Not found.</div>`; return; }
-    const d = {id:snap.id,...snap.data()};
-    let rv=null, cp=null;
-    try{ const s = await getDocs(query(collection(db,'reviews'), where('orderId','==',id)));
-      if(!s.empty){ const arr = s.docs.map(x=>x.data()).sort(sortDesc); rv = arr[0]; } }catch(e){}
-    try{ const s = await getDocs(query(collection(db,'complaints'), where('orderId','==',id)));
-      if(!s.empty){ const arr = s.docs.map(x=>x.data()).sort(sortDesc); cp = arr[0]; } }catch(e){}
-    paintDetails(d, rv, cp);
+
+  unsubDetails = onSnapshot(doc(db, 'requests', id), async snap => {
+    if (!snap.exists()) {
+      $('#detBody').innerHTML = `<div class="empty"><div class="big">❓</div>Not found.</div>`;
+      return;
+    }
+    const d = { id:snap.id, ...snap.data() };
+    let review = null, complaint = null;
+
+    try {
+      const rS = await getDocs(query(collection(db, 'reviews'), where('orderId','==',id)));
+      if (!rS.empty) review = rS.docs.map(x => x.data()).sort(sortDesc)[0];
+    } catch(e){}
+
+    try {
+      const cS = await getDocs(query(collection(db, 'complaints'), where('orderId','==',id)));
+      if (!cS.empty) complaint = cS.docs.map(x => x.data()).sort(sortDesc)[0];
+    } catch(e){}
+
+    paintDetails(d, review, complaint);
   });
 };
-function paintDetails(d,review,complaint){
-  const steps = ['pending','contacting','price_fixed','payment_pending','payment_verification','confirmed','preparing','out_for_delivery','delivered'];
+
+function paintDetails(d, review, complaint) {
+  const steps  = ['pending','contacting','price_fixed','payment_pending','payment_verification','confirmed','preparing','out_for_delivery','delivered'];
   const labels = ['Request Submitted','Admin Reviewing','Customer Contacted','Price Fixed','Payment Pending','Order Confirmed','Preparing','Out for Delivery','Delivered'];
-  const isC = d.status==='cancelled', idx = steps.indexOf(d.status);
-  const tl = steps.map((s,i)=>{ const st = isC ? (i<=0?'done':'') : i<idx?'done' : i===idx?'cur' : '';
-    return `<li class="${st}">${labels[i]}</li>`; }).join('');
+  const isCancelled = d.status === 'cancelled';
+  const idx = steps.indexOf(d.status);
+
+  const timeline = steps.map((s, i) => {
+    const state = isCancelled
+      ? (i <= 0 ? 'done' : '')
+      : i < idx ? 'done' : i === idx ? 'cur' : '';
+    return `<li class="${state}">${labels[i]}</li>`;
+  }).join('');
+
   const canPay = ['price_fixed','payment_pending'].includes(d.status) && !d.paymentMethod;
   const showTrack = d.trackingUrl && ['confirmed','preparing','out_for_delivery','delivered'].includes(d.status);
+
   $('#detBody').innerHTML = `
-    <div class="card"><div class="between mb8">
-      <div><div class="sm mut">Order ID</div><div class="bold" style="font-size:16px">#${esc(d.orderId||d.id)}</div></div>${sBadge(d.status)}</div>
-      <div class="row" style="gap:12px">${d.productImage?`<img src="${esc(d.productImage)}" style="width:64px;height:64px;border-radius:12px;object-fit:cover" onerror="this.style.display='none'">`:''}
-        <div><div class="bold">${esc(d.productName||'')}</div><div class="sm mut">Qty: ${d.quantity||1}</div></div></div></div>
-    ${canPay?`<div class="card" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff">
-      <div class="sm" style="opacity:.9">Final Amount</div>
-      <div style="font-size:28px;font-weight:800;margin:4px 0">${inr(d.finalAmount)}</div>
-      <button class="btn btn-block" style="background:#fff;color:#4f46e5" onclick="openPayment('${d.id}')">Choose Payment</button></div>`:''}
-    <div class="card"><h3 class="mt0 mb12" style="font-size:15px">Status</h3>
-      ${isC?`<p class="sm" style="color:#dc2626;font-weight:600">This request was cancelled.</p>`:''}
-      <ul class="tl">${tl}</ul></div>
-    <div class="card"><h3 class="mt0 mb12" style="font-size:15px">Details</h3>
-      <div class="between mb8"><span class="mut sm">Product</span><span class="bold sm">${esc(d.productName||'—')}</span></div>
-      <div class="between mb8"><span class="mut sm">Quantity</span><span class="bold sm">${d.quantity||1}</span></div>
-      <div class="between mb8"><span class="mut sm">Address</span><span class="bold sm" style="max-width:60%;text-align:right">${esc(d.address||'—')}</span></div>
-      ${d.productAmount!=null?`<div class="between mb8"><span class="mut sm">Product Amount</span><span class="sm">${inr(d.productAmount)}</span></div>`:''}
-      ${d.deliveryCharge!=null?`<div class="between mb8"><span class="mut sm">Delivery</span><span class="sm">${inr(d.deliveryCharge)}</span></div>`:''}
-      ${d.discount?`<div class="between mb8"><span class="mut sm">Discount</span><span class="sm" style="color:#16a34a">- ${inr(d.discount)}</span></div>`:''}
-      ${d.finalAmount!=null?`<div class="div"></div><div class="between"><span class="bold">Final</span><span class="bold">${inr(d.finalAmount)}</span></div>`:''}
-      <div class="div"></div>
-      <div class="between mb8"><span class="mut sm">Payment Method</span><span class="sm">${esc(d.paymentMethod||'Not selected')}</span></div>
-      <div class="between mb8"><span class="mut sm">Payment Status</span><span class="sm">${esc(d.paymentStatus||'pending')}</span></div>
-      <div class="between mb8"><span class="mut sm">Requested</span><span class="sm">${fdt(d.createdAt)}</span></div>
-      ${d.deliveredAt?`<div class="between mb8"><span class="mut sm">Delivered</span><span class="sm">${fdt(d.deliveredAt)}</span></div>`:''}
-      ${d.note?`<div class="div"></div><div class="sm mut">Your note: "${esc(d.note)}"</div>`:''}
+    <div class="card">
+      <div class="between mb8">
+        <div>
+          <div class="sm mut">Order ID</div>
+          <div class="bold" style="font-size:16px">#${esc(d.orderId || d.id)}</div>
+        </div>
+        ${badgeHTML(d.status)}
+      </div>
+      <div class="row" style="gap:12px">
+        ${d.productImage ? `<img src="${esc(d.productImage)}" style="width:64px;height:64px;border-radius:12px;object-fit:cover" onerror="this.style.display='none'">` : ''}
+        <div>
+          <div class="bold">${esc(d.productName || '')}</div>
+          <div class="sm mut">Qty: ${d.quantity || 1}</div>
+        </div>
+      </div>
     </div>
-    ${showTrack?`<div class="card"><h3 class="mt0 mb8" style="font-size:15px">Track</h3>
-      <button class="btn btn-out btn-block" onclick="window.open('${esc(d.trackingUrl)}','_blank')">🚚 Open Tracking</button></div>`:''}
-    ${d.status==='delivered'?`<div class="card"><h3 class="mt0 mb8" style="font-size:15px">Feedback</h3>
-      ${review?`<div class="sm mb8"><strong>Your review:</strong> ${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}</div>
-        <div class="sm mut">${esc(review.review||'')}</div>`
-        :`<button class="btn btn-pri btn-block" onclick="openReview('${d.id}')">⭐ Give Review</button>`}
-      <div class="mt8">${complaint?`<div class="sm mt8"><strong>Complaint:</strong> ${esc(complaint.status)}</div>
-        ${complaint.adminReply?`<div class="sm mut mt8">Admin: ${esc(complaint.adminReply)}</div>`:''}`
-        :`<button class="btn btn-out btn-block mt8" onclick="openComplaint('${d.id}')">📣 Complaint</button>`}</div></div>`:''}
-    <div class="card"><h3 class="mt0 mb8" style="font-size:15px">Customer Care</h3>
-      <div class="sm mut">${esc(S.settings.business.customerCareNumber||'Contact admin')}</div>
+
+    ${canPay ? `
+      <div class="card" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff">
+        <div class="sm" style="opacity:.9">Final Amount</div>
+        <div style="font-size:28px;font-weight:800;margin:4px 0">${inr(d.finalAmount)}</div>
+        <button class="btn btn-block" style="background:#fff;color:#4f46e5" onclick="openPayment('${d.id}')">Choose Payment</button>
+      </div>` : ''}
+
+    <div class="card">
+      <h3 class="mt0 mb12" style="font-size:15px">Status</h3>
+      ${isCancelled ? `<p class="sm" style="color:#dc2626;font-weight:600">This request was cancelled.</p>` : ''}
+      <ul class="tl">${timeline}</ul>
+    </div>
+
+    <div class="card">
+      <h3 class="mt0 mb12" style="font-size:15px">Details</h3>
+      <div class="between mb8"><span class="mut sm">Product</span><span class="bold sm">${esc(d.productName || '—')}</span></div>
+      <div class="between mb8"><span class="mut sm">Quantity</span><span class="bold sm">${d.quantity || 1}</span></div>
+      <div class="between mb8"><span class="mut sm">Address</span><span class="bold sm" style="max-width:60%;text-align:right">${esc(d.address || '—')}</span></div>
+      ${d.productAmount != null ? `<div class="between mb8"><span class="mut sm">Product Amount</span><span class="sm">${inr(d.productAmount)}</span></div>` : ''}
+      ${d.deliveryCharge != null ? `<div class="between mb8"><span class="mut sm">Delivery</span><span class="sm">${inr(d.deliveryCharge)}</span></div>` : ''}
+      ${d.discount ? `<div class="between mb8"><span class="mut sm">Discount</span><span class="sm" style="color:#16a34a">- ${inr(d.discount)}</span></div>` : ''}
+      ${d.finalAmount != null ? `<div class="div"></div><div class="between"><span class="bold">Final</span><span class="bold">${inr(d.finalAmount)}</span></div>` : ''}
+      <div class="div"></div>
+      <div class="between mb8"><span class="mut sm">Payment Method</span><span class="sm">${esc(d.paymentMethod || 'Not selected')}</span></div>
+      <div class="between mb8"><span class="mut sm">Payment Status</span><span class="sm">${esc(d.paymentStatus || 'pending')}</span></div>
+      <div class="between mb8"><span class="mut sm">Requested</span><span class="sm">${fdt(d.createdAt)}</span></div>
+      ${d.deliveredAt ? `<div class="between mb8"><span class="mut sm">Delivered</span><span class="sm">${fdt(d.deliveredAt)}</span></div>` : ''}
+      ${d.note ? `<div class="div"></div><div class="sm mut">Your note: "${esc(d.note)}"</div>` : ''}
+    </div>
+
+    ${showTrack ? `
+      <div class="card">
+        <h3 class="mt0 mb8" style="font-size:15px">Track</h3>
+        <button class="btn btn-out btn-block" onclick="window.open('${esc(d.trackingUrl)}','_blank')">🚚 Open Tracking</button>
+      </div>` : ''}
+
+    ${d.status === 'delivered' ? `
+      <div class="card">
+        <h3 class="mt0 mb8" style="font-size:15px">Feedback</h3>
+        ${review
+          ? `<div class="sm mb8"><strong>Your review:</strong> ${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}</div>
+             <div class="sm mut">${esc(review.review || '')}</div>`
+          : `<button class="btn btn-pri btn-block" onclick="openReview('${d.id}')">⭐ Give Review</button>`}
+        <div class="mt8">
+          ${complaint
+            ? `<div class="sm mt8"><strong>Complaint:</strong> ${esc(complaint.status)}</div>
+               ${complaint.adminReply ? `<div class="sm mut mt8">Admin: ${esc(complaint.adminReply)}</div>` : ''}`
+            : `<button class="btn btn-out btn-block mt8" onclick="openComplaint('${d.id}')">📣 Complaint</button>`}
+        </div>
+      </div>` : ''}
+
+    <div class="card">
+      <h3 class="mt0 mb8" style="font-size:15px">Customer Care</h3>
+      <div class="sm mut">${esc(State.settings.business.customerCareNumber || 'Contact admin')}</div>
       <div class="row mt12" style="gap:8px">
-        ${S.settings.business.customerCareNumber?`<a class="btn btn-pri btn-sm" style="flex:1" href="tel:${esc(S.settings.business.customerCareNumber)}">📞 Call</a>`:''}
-        ${S.settings.business.whatsappNumber?`<a class="btn btn-out btn-sm" style="flex:1" target="_blank" href="https://wa.me/${esc(S.settings.business.whatsappNumber.replace(/[^0-9]/g,''))}">💬 WhatsApp</a>`:''}
-      </div></div>`;
+        ${State.settings.business.customerCareNumber
+          ? `<a class="btn btn-pri btn-sm" style="flex:1" href="tel:${esc(State.settings.business.customerCareNumber)}">📞 Call</a>` : ''}
+        ${State.settings.business.whatsappNumber
+          ? `<a class="btn btn-out btn-sm" style="flex:1" target="_blank" href="https://wa.me/${esc(State.settings.business.whatsappNumber.replace(/[^0-9]/g,''))}">💬 WhatsApp</a>` : ''}
+      </div>
+    </div>`;
 }
 
-/* ===== PAYMENT ===== */
+function badgeHTML(status) {
+  return `<span class="badge b-${STATUS_BADGE[status] || 'mut'}">${esc(STATUS[status] || status)}</span>`;
+}
+
+/* ================================================================
+   CUSTOMER: PAYMENT
+   ================================================================ */
 let payOrder = null;
-window.openPayment = async id => {
-  const snap = await getDoc(doc(db,'requests',id));
-  if(!snap.exists()) return toast('Not found','error');
-  payOrder = {id:snap.id,...snap.data()};
-  if(!payOrder.finalAmount) return toast('Price not fixed yet','error');
-  show('scrPayment'); paintPayment();
+
+window.openPayment = async (reqId) => {
+  try {
+    const snap = await getDoc(doc(db, 'requests', reqId));
+    if (!snap.exists()) return toast('Not found', 'error');
+    payOrder = { id:snap.id, ...snap.data() };
+    if (!payOrder.finalAmount) return toast('Price not fixed yet', 'error');
+    show('scrPayment');
+    paintPayment();
+  } catch(e) { toast(friendlyError(e), 'error'); }
 };
-function paintPayment(){
+
+function paintPayment() {
   const o = payOrder;
   $('#payBody').innerHTML = `
     <div class="card" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff">
       <div class="sm" style="opacity:.9">Amount Payable</div>
       <div style="font-size:32px;font-weight:800;margin:4px 0">${inr(o.finalAmount)}</div>
-      <div class="sm" style="opacity:.9">Order #${esc(o.orderId||o.id)}</div></div>
-    <div class="card"><h3 class="mt0 mb12" style="font-size:15px">Payment Method</h3>
+      <div class="sm" style="opacity:.9">Order #${esc(o.orderId || o.id)}</div>
+    </div>
+    <div class="card">
+      <h3 class="mt0 mb12" style="font-size:15px">Payment Method</h3>
       <div class="row mb12" style="gap:10px" id="pmTabs">
         <button class="btn btn-out btn-block" data-pm="upi" style="flex:1">💳 UPI</button>
-        <button class="btn btn-out btn-block" data-pm="cod" style="flex:1">💵 COD</button></div>
-      <div id="pmBody"></div></div>`;
-  $$('#pmTabs button').forEach(b=>b.onclick=()=>{
-    $$('#pmTabs button').forEach(x=>{ x.classList.remove('btn-pri'); x.classList.add('btn-out'); });
-    b.classList.remove('btn-out'); b.classList.add('btn-pri');
-    b.dataset.pm==='upi'?paintUPI():paintCOD();
+        <button class="btn btn-out btn-block" data-pm="cod" style="flex:1">💵 COD</button>
+      </div>
+      <div id="pmBody"></div>
+    </div>`;
+  $$('#pmTabs button').forEach(b => b.onclick = () => {
+    $$('#pmTabs button').forEach(x => { x.classList.remove('btn-pri'); x.classList.add('btn-out'); });
+    b.classList.remove('btn-out');
+    b.classList.add('btn-pri');
+    b.dataset.pm === 'upi' ? paintUPI() : paintCOD();
   });
 }
-function paintUPI(){
-  const o = payOrder, upi = S.settings.payment.upiId||'', name = S.settings.payment.merchantName||'Pawan Retail Limited';
+
+function paintUPI() {
+  const o = payOrder;
+  const upi = State.settings.payment.upiId || '';
+  const name = State.settings.payment.merchantName || 'Pawan Retail Limited';
   const link = `upi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent(name)}&am=${o.finalAmount}&cu=INR&tn=${encodeURIComponent('Order '+(o.orderId||o.id))}`;
   const qr = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(link)}`;
   $('#pmBody').innerHTML = `
     <div class="qrbox"><img src="${qr}" alt="UPI QR"></div>
-    <div class="copybox mb12">${esc(upi)||'UPI ID not configured'}</div>
+    <div class="copybox mb12">${esc(upi) || 'UPI ID not configured'}</div>
     <div class="sm mut ctr mb12">Scan with any UPI app, or pay to the UPI ID above.</div>
-    <div class="field"><label class="label">Transaction ID / UTR</label><input class="input" id="payTxn" placeholder="e.g. 123456789012"></div>
+    <div class="field"><label class="label">Transaction ID / UTR</label>
+      <input class="input" id="payTxn" placeholder="e.g. 123456789012" inputmode="numeric"></div>
     <button class="btn btn-pri btn-block" id="paySubmit">Submit Payment</button>
     <div class="sm mut ctr mt12">Your payment will be verified by admin.</div>`;
-  $('#paySubmit').onclick = ()=>submitPay('upi');
+  $('#paySubmit').onclick = () => submitPayment('upi');
 }
-function paintCOD(){
+
+function paintCOD() {
   $('#pmBody').innerHTML = `
-    <div style="background:#fef3c7;border-radius:12px;padding:12px;margin-bottom:12px">
-      <div class="sm" style="color:#92400e;font-weight:600">💵 Pay ${inr(payOrder.finalAmount)} in cash on delivery.</div></div>
+    <div class="card-warning card card-tight mb12">
+      <div class="sm" style="color:#92400e;font-weight:600">💵 Pay ${inr(payOrder.finalAmount)} in cash on delivery.</div>
+    </div>
     <button class="btn btn-pri btn-block" id="codSubmit">Confirm Cash on Delivery</button>`;
-  $('#codSubmit').onclick = ()=>submitPay('cod');
+  $('#codSubmit').onclick = () => submitPayment('cod');
 }
-async function submitPay(method){
-  const o = payOrder, btn = method==='upi'?$('#paySubmit'):$('#codSubmit');
+
+async function submitPayment(method) {
+  const o = payOrder;
+  const btn = method === 'upi' ? $('#paySubmit') : $('#codSubmit');
   let txn = '';
-  if(method==='upi'){ txn = $('#payTxn').value.trim(); if(!txn) return toast('Enter transaction ID','error'); }
-  btn.disabled=true; btn.innerHTML='<span class="spin"></span> Submitting…';
-  try{
-    await addDoc(collection(db,'payments'),{
-      orderId:o.id, readableId:o.orderId||o.id, customerId:S.user.uid,
-      amount:o.finalAmount, method, transactionId:txn,
-      status: method==='upi'?'submitted':'pending', createdAt:serverTimestamp()
+  if (method === 'upi') {
+    txn = $('#payTxn').value.trim();
+    if (!txn) return toast('Enter transaction ID', 'error');
+  }
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> Submitting…';
+  try {
+    await addDoc(collection(db, 'payments'), {
+      orderId: o.id,
+      readableId: o.orderId || o.id,
+      customerId: State.user.uid,
+      amount: o.finalAmount,
+      method, transactionId: txn,
+      status: method === 'upi' ? 'submitted' : 'pending',
+      createdAt: serverTimestamp()
     });
-    await updateDoc(doc(db,'requests',o.id),{
-      paymentMethod:method, paymentStatus:method==='upi'?'submitted':'pending',
-      status:'payment_verification', updatedAt:serverTimestamp()
+    await updateDoc(doc(db, 'requests', o.id), {
+      paymentMethod: method,
+      paymentStatus: method === 'upi' ? 'submitted' : 'pending',
+      status: 'payment_verification',
+      updatedAt: serverTimestamp()
     });
-    await notify(S.user.uid,'Payment Submitted', method==='upi'?`Your UPI payment for ${o.orderId} is being verified.`:`COD selected for ${o.orderId}`,'');
-    toast(method==='upi'?'Payment submitted':'COD selected','success');
-    show('scrOrders'); nav('orders');
-  }catch(e){ toast(friendlyErr(e),'error'); }
-  finally{ btn.disabled=false; btn.textContent = method==='upi'?'Submit Payment':'Confirm Cash on Delivery'; }
+    await notify(State.user.uid, 'Payment Submitted',
+      method === 'upi' ? `Your UPI payment for ${o.orderId} is being verified.` : `COD selected for ${o.orderId}`, '');
+    toast(method === 'upi' ? 'Payment submitted' : 'COD selected', 'success');
+    show('scrOrders');
+    navigate('orders');
+  } catch (e) { toast(friendlyError(e), 'error'); }
+  finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = method === 'upi' ? 'Submit Payment' : 'Confirm Cash on Delivery';
+    }
+  }
 }
 
-/* ===== REVIEW ===== */
-let rRating = 0, rOrderId = null;
-window.openReview = id => {
-  rOrderId = id; rRating = 0; show('scrReview');
+/* ================================================================
+   CUSTOMER: REVIEW
+   ================================================================ */
+let reviewRating = 0, reviewOrderId = null;
+
+window.openReview = (orderId) => {
+  reviewOrderId = orderId;
+  reviewRating = 0;
+  show('scrReview');
   $('#revBody').innerHTML = `
-    <div class="card"><h3 class="mt0 mb8" style="font-size:15px">How was your order?</h3>
-      <div class="ctr mb12"><div class="stars-in" id="starIn">${[1,2,3,4,5].map(n=>`<span data-n="${n}">★</span>`).join('')}</div></div>
-      <div class="field"><label class="label">Review (optional)</label><textarea class="input" id="revTxt" placeholder="Tell us what you think…"></textarea></div>
-      <button class="btn btn-pri btn-block" id="revSub">Submit Review</button></div>`;
-  $$('#starIn span').forEach(s=>s.onclick=()=>{
-    rRating = +s.dataset.n;
-    $$('#starIn span').forEach(x=>x.classList.toggle('on',+x.dataset.n<=rRating));
+    <div class="card">
+      <h3 class="mt0 mb8" style="font-size:15px">How was your order?</h3>
+      <div class="ctr mb12">
+        <div class="stars-in" id="starIn">
+          ${[1,2,3,4,5].map(n => `<span data-n="${n}">★</span>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label class="label">Review (optional)</label>
+        <textarea class="input" id="revTxt" placeholder="Tell us what you think…"></textarea></div>
+      <button class="btn btn-pri btn-block" id="revSub">Submit Review</button>
+    </div>`;
+  $$('#starIn span').forEach(s => s.onclick = () => {
+    reviewRating = +s.dataset.n;
+    $$('#starIn span').forEach(x => x.classList.toggle('on', +x.dataset.n <= reviewRating));
   });
-  $('#revSub').onclick = async ()=>{
-    if(!rRating) return toast('Select a rating','error');
-    const text = $('#revTxt').value.trim(), btn = $('#revSub');
-    btn.disabled=true; btn.innerHTML='<span class="spin"></span> Submitting…';
-    try{
-      await addDoc(collection(db,'reviews'),{
-        orderId:rOrderId, customerId:S.user.uid, customerName:S.profile.name||'',
-        rating:rRating, review:text, createdAt:serverTimestamp()
+  $('#revSub').onclick = async () => {
+    if (!reviewRating) return toast('Select a rating', 'error');
+    const text = $('#revTxt').value.trim();
+    const btn = $('#revSub');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span> Submitting…';
+    try {
+      await addDoc(collection(db, 'reviews'), {
+        orderId: reviewOrderId,
+        customerId: State.user.uid,
+        customerName: State.profile.name || '',
+        rating: reviewRating,
+        review: text,
+        createdAt: serverTimestamp()
       });
-      toast('Thanks for your review!','success'); show('scrOrders'); nav('orders');
-    }catch(e){ toast(friendlyErr(e),'error'); }
-    finally{ btn.disabled=false; btn.textContent='Submit Review'; }
+      toast('Thanks for your review!', 'success');
+      show('scrOrders');
+      navigate('orders');
+    } catch (e) { toast(friendlyError(e), 'error'); }
+    finally { btn.disabled = false; btn.textContent = 'Submit Review'; }
   };
 };
 
-/* ===== COMPLAINT ===== */
-let cOrderId = null;
-window.openComplaint = id => {
-  cOrderId = id; show('scrComplaint');
+/* ================================================================
+   CUSTOMER: COMPLAINT
+   ================================================================ */
+let complaintOrderId = null;
+
+window.openComplaint = (orderId) => {
+  complaintOrderId = orderId;
+  show('scrComplaint');
   $('#cmpBody').innerHTML = `
-    <div class="card"><h3 class="mt0 mb12" style="font-size:15px">Raise a Complaint</h3>
-      <div class="between mb12"><span class="mut sm">Order ID</span><span class="bold sm">${esc(id)}</span></div>
-      <div class="field"><label class="label">Describe your complaint</label><textarea class="input" id="cmpTxt" style="min-height:140px" placeholder="Tell us what went wrong…"></textarea></div>
+    <div class="card">
+      <h3 class="mt0 mb12" style="font-size:15px">Raise a Complaint</h3>
+      <div class="between mb12">
+        <span class="mut sm">Order ID</span>
+        <span class="bold sm">${esc(orderId)}</span>
+      </div>
+      <div class="field"><label class="label">Describe your complaint</label>
+        <textarea class="input" id="cmpTxt" style="min-height:140px" placeholder="Tell us what went wrong…"></textarea></div>
       <button class="btn btn-pri btn-block" id="cmpSub">Submit Complaint</button>
-      <div class="sm mut ctr mt16">Our team will respond within 24 hours.
-        ${S.settings.business.customerCareNumber?`<br>Customer Care: <strong>${esc(S.settings.business.customerCareNumber)}</strong>`:''}</div></div>`;
-  $('#cmpSub').onclick = async ()=>{
+      <div class="sm mut ctr mt16">
+        Our team will respond within 24 hours.
+        ${State.settings.business.customerCareNumber ? `<br>Customer Care: <strong>${esc(State.settings.business.customerCareNumber)}</strong>` : ''}
+      </div>
+    </div>`;
+  $('#cmpSub').onclick = async () => {
     const text = $('#cmpTxt').value.trim();
-    if(!text) return toast('Describe the issue','error');
-    const btn = $('#cmpSub'); btn.disabled=true; btn.innerHTML='<span class="spin"></span> Submitting…';
-    try{
-      await addDoc(collection(db,'complaints'),{
-        orderId:cOrderId, customerId:S.user.uid, customerName:S.profile.name||'',
-        complaint:text, status:'open', adminReply:'', createdAt:serverTimestamp()
+    if (!text) return toast('Describe the issue', 'error');
+    const btn = $('#cmpSub');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span> Submitting…';
+    try {
+      await addDoc(collection(db, 'complaints'), {
+        orderId: complaintOrderId,
+        customerId: State.user.uid,
+        customerName: State.profile.name || '',
+        complaint: text,
+        status: 'open',
+        adminReply: '',
+        createdAt: serverTimestamp()
       });
-      await notify(S.user.uid,'Complaint Received','Our team will respond within 24 hours.','');
-      toast('Complaint submitted','success'); show('scrOrders'); nav('orders');
-    }catch(e){ toast(friendlyErr(e),'error'); }
-    finally{ btn.disabled=false; btn.textContent='Submit Complaint'; }
+      await notify(State.user.uid, 'Complaint Received', 'Our team will respond within 24 hours.', '');
+      toast('Complaint submitted', 'success');
+      show('scrOrders');
+      navigate('orders');
+    } catch (e) { toast(friendlyError(e), 'error'); }
+    finally { btn.disabled = false; btn.textContent = 'Submit Complaint'; }
   };
 };
 
-/* ===== ACCOUNT ===== */
-function renderAccount(){
-  if(!S.profile) return;
-  const ini = (S.profile.name||'?').trim().charAt(0).toUpperCase();
+/* ================================================================
+   CUSTOMER: ACCOUNT
+   ================================================================ */
+function renderAccount() {
+  if (!State.profile) return;
+  const initial = (State.profile.name || '?').trim().charAt(0).toUpperCase();
   $('#acctBody').innerHTML = `
-    <div class="card ctr"><div class="avatar" style="margin:0 auto 12px">${esc(ini)}</div>
-      <div class="bold" style="font-size:18px">${esc(S.profile.name||'')}</div>
-      <div class="mut sm">${esc(S.profile.email||'')}</div>
-      <div class="mut sm">${esc(S.profile.phone||'')}</div>
-      <button class="btn btn-out btn-block mt12" id="acEdit">Edit Profile</button></div>
-    <div class="card"><div class="between mb12"><strong>Address</strong><button class="btn btn-out btn-sm" id="acEditAddr">Edit</button></div>
-      <div class="sm mut">${esc(S.profile.address||'Not set')}</div></div>
+    <div class="card ctr">
+      <div class="avatar" style="margin:0 auto 12px">${esc(initial)}</div>
+      <div class="bold" style="font-size:18px">${esc(State.profile.name || '')}</div>
+      <div class="mut sm">${esc(State.profile.email || '')}</div>
+      <div class="mut sm">${esc(State.profile.phone || '')}</div>
+      <button class="btn btn-out btn-block mt12" id="acEdit">Edit Profile</button>
+    </div>
+    <div class="card">
+      <div class="between mb12">
+        <strong>Address</strong>
+        <button class="btn btn-out btn-sm" id="acEditAddr">Edit</button>
+      </div>
+      <div class="sm mut">${esc(State.profile.address || 'Not set')}</div>
+    </div>
     <div class="card" style="padding:0">
-      <div class="between" style="padding:14px 16px;cursor:pointer" id="acOrders"><span>📦 My Orders</span><span class="mut">›</span></div>
+      <div class="between" style="padding:14px 16px;cursor:pointer" id="acOrders">
+        <span>📦 My Orders</span><span class="mut">›</span>
+      </div>
       <div class="div" style="margin:0"></div>
-      <div class="between" style="padding:14px 16px;cursor:pointer" id="acCare"><span>📞 Customer Care</span><span class="mut">›</span></div>
+      <div class="between" style="padding:14px 16px;cursor:pointer" id="acCare">
+        <span>📞 Customer Care</span><span class="mut">›</span>
+      </div>
       <div class="div" style="margin:0"></div>
-      <div class="between" style="padding:14px 16px;cursor:pointer" id="acPw"><span>🔒 Change Password</span><span class="mut">›</span></div></div>
+      <div class="between" style="padding:14px 16px;cursor:pointer" id="acPw">
+        <span>🔒 Change Password</span><span class="mut">›</span>
+      </div>
+    </div>
     <button class="btn btn-out btn-block" id="acOut" style="color:#dc2626">Logout</button>`;
+
   $('#acEdit').onclick = editProfile;
   $('#acEditAddr').onclick = editProfile;
-  $('#acOrders').onclick = ()=>nav('orders');
+  $('#acOrders').onclick = () => navigate('orders');
   $('#acCare').onclick = careModal;
-  $('#acPw').onclick = ()=> sendPasswordResetEmail(auth,S.profile.email).then(()=>toast('Reset email sent','success')).catch(e=>toast(friendlyErr(e),'error'));
-  $('#acOut').onclick = ()=>confirmDlg('Log out?',doLogout);
+  $('#acPw').onclick = () => sendPasswordResetEmail(auth, State.profile.email)
+    .then(() => toast('Reset email sent', 'success'))
+    .catch(e => toast(friendlyError(e), 'error'));
+  $('#acOut').onclick = () => confirmDialog('Log out?', doLogout);
 }
-function editProfile(){
-  openModal(`<h3>Edit Profile</h3>
-    <div class="field"><label class="label">Name</label><input class="input" id="epN" value="${esc(S.profile.name||'')}"></div>
-    <div class="field"><label class="label">Phone</label><input class="input" id="epP" value="${esc(S.profile.phone||'')}" maxlength="10"></div>
-    <div class="field"><label class="label">Address</label><textarea class="input" id="epA">${esc(S.profile.address||'')}</textarea></div>
-    <div class="row mt12" style="justify-content:flex-end;gap:8px"><button class="btn btn-out" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-pri" id="epSave">Save</button></div>`);
-  $('#epSave').onclick = async ()=>{
-    const name = $('#epN').value.trim(), phone = $('#epP').value.trim(), address = $('#epA').value.trim();
-    if(!name) return toast('Name required','error');
-    if(phone && !/^[0-9]{10}$/.test(phone)) return toast('Valid phone required','error');
-    try{ await updateDoc(doc(db,'users',S.user.uid),{name,phone,address});
-      S.profile = {...S.profile,name,phone,address}; toast('Updated','success'); closeModal(); renderAccount(); }
-    catch(e){ toast(friendlyErr(e),'error'); }
+
+function editProfile() {
+  openModal(`
+    <h3>Edit Profile</h3>
+    <div class="field"><label class="label">Name</label>
+      <input class="input" id="epN" value="${esc(State.profile.name || '')}"></div>
+    <div class="field"><label class="label">Phone</label>
+      <input class="input" id="epP" value="${esc(State.profile.phone || '')}" maxlength="10" inputmode="numeric"></div>
+    <div class="field"><label class="label">Address</label>
+      <textarea class="input" id="epA">${esc(State.profile.address || '')}</textarea></div>
+    <div class="row mt12" style="justify-content:flex-end;gap:8px">
+      <button class="btn btn-out" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-pri" id="epSave">Save</button>
+    </div>`);
+  $('#epSave').onclick = async () => {
+    const name = $('#epN').value.trim();
+    const phone = $('#epP').value.trim();
+    const address = $('#epA').value.trim();
+    if (!name) return toast('Name required', 'error');
+    if (phone && !/^[0-9]{10}$/.test(phone)) return toast('Valid phone required', 'error');
+    try {
+      await updateDoc(doc(db, 'users', State.user.uid), { name, phone, address });
+      State.profile = { ...State.profile, name, phone, address };
+      toast('Updated', 'success');
+      closeModal();
+      renderAccount();
+    } catch (e) { toast(friendlyError(e), 'error'); }
   };
 }
-function careModal(){
-  openModal(`<h3>Customer Care</h3>
-    ${S.settings.business.customerCareNumber?`<div class="copybox mb12">${esc(S.settings.business.customerCareNumber)}</div>`:`<div class="mut sm mb12">Not configured.</div>`}
+
+function careModal() {
+  openModal(`
+    <h3>Customer Care</h3>
+    ${State.settings.business.customerCareNumber
+      ? `<div class="copybox mb12">${esc(State.settings.business.customerCareNumber)}</div>`
+      : `<div class="mut sm mb12">Not configured.</div>`}
     <div class="row" style="gap:8px">
-      ${S.settings.business.customerCareNumber?`<a class="btn btn-pri btn-sm" style="flex:1" href="tel:${esc(S.settings.business.customerCareNumber)}">📞 Call</a>`:''}
-      ${S.settings.business.whatsappNumber?`<a class="btn btn-out btn-sm" style="flex:1" target="_blank" href="https://wa.me/${esc(S.settings.business.whatsappNumber.replace(/[^0-9]/g,''))}">💬 WhatsApp</a>`:''}
+      ${State.settings.business.customerCareNumber
+        ? `<a class="btn btn-pri btn-sm" style="flex:1" href="tel:${esc(State.settings.business.customerCareNumber)}">📞 Call</a>` : ''}
+      ${State.settings.business.whatsappNumber
+        ? `<a class="btn btn-out btn-sm" style="flex:1" target="_blank" href="https://wa.me/${esc(State.settings.business.whatsappNumber.replace(/[^0-9]/g,''))}">💬 WhatsApp</a>` : ''}
     </div>`);
 }
 
-/* ===== AUTH ===== */
-async function onLogin(e){
+/* ================================================================
+   AUTH ACTIONS
+   ================================================================ */
+async function onLogin(e) {
   e.preventDefault();
-  const email = $('#liEmail').value.trim(), pass = $('#liPass').value, rem = $('#liRemember').checked;
-  if(!email||!pass) return toast('Fill all fields','error');
-  const b = $('#liBtn'); b.disabled=true; b.innerHTML='<span class="spin"></span> Signing in…';
-  try{ await setPersistence(auth, rem?browserLocalPersistence:browserSessionPersistence);
-    await signInWithEmailAndPassword(auth,email,pass); }
-  catch(e){ toast(friendlyErr(e),'error'); }
-  finally{ b.disabled=false; b.textContent='Login'; }
+  const email = $('#liEmail').value.trim();
+  const pass = $('#liPass').value;
+  const rem = $('#liRemember').checked;
+  if (!email || !pass) return toast('Fill all fields', 'error');
+  const b = $('#liBtn');
+  b.disabled = true;
+  b.innerHTML = '<span class="spin"></span> Signing in…';
+  try {
+    await setPersistence(auth, rem ? browserLocalPersistence : browserSessionPersistence);
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch (e) { toast(friendlyError(e), 'error'); }
+  finally { b.disabled = false; b.textContent = 'Login'; }
 }
-async function onRegister(e){
+
+async function onRegister(e) {
   e.preventDefault();
-  const name = $('#rgName').value.trim(), phone = $('#rgPhone').value.trim(), email = $('#rgEmail').value.trim(),
-    pass = $('#rgPass').value, pass2 = $('#rgPass2').value, address = $('#rgAddr').value.trim();
-  if(!name||!email||!pass||!address) return toast('Fill all fields','error');
-  if(!/^[0-9]{10}$/.test(phone)) return toast('Valid 10-digit phone required','error');
-  if(pass.length<6) return toast('Password must be 6+ chars','error');
-  if(pass!==pass2) return toast('Passwords do not match','error');
-  const b = $('#rgBtn'); b.disabled=true; b.innerHTML='<span class="spin"></span> Creating…';
-  try{
-    const cred = await createUserWithEmailAndPassword(auth,email,pass);
-    await setDoc(doc(db,'users',cred.user.uid),{name,email,phone,address,role:'customer',createdAt:serverTimestamp()});
-    toast('Account created!','success');
-  }catch(e){ toast(friendlyErr(e),'error'); }
-  finally{ b.disabled=false; b.textContent='Create Account'; }
+  const name = $('#rgName').value.trim();
+  const phone = $('#rgPhone').value.trim();
+  const email = $('#rgEmail').value.trim();
+  const pass = $('#rgPass').value;
+  const pass2 = $('#rgPass2').value;
+  const address = $('#rgAddr').value.trim();
+  if (!name || !email || !pass || !address) return toast('Fill all fields', 'error');
+  if (!/^[0-9]{10}$/.test(phone)) return toast('Valid 10-digit phone required', 'error');
+  if (pass.length < 6) return toast('Password must be 6+ chars', 'error');
+  if (pass !== pass2) return toast('Passwords do not match', 'error');
+  const b = $('#rgBtn');
+  b.disabled = true;
+  b.innerHTML = '<span class="spin"></span> Creating…';
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      name, email, phone, address,
+      role: 'customer',
+      createdAt: serverTimestamp()
+    });
+    toast('Account created!', 'success');
+  } catch (e) { toast(friendlyError(e), 'error'); }
+  finally { b.disabled = false; b.textContent = 'Create Account'; }
 }
-async function onForgot(e){
+
+async function onForgot(e) {
   e.preventDefault();
   const email = $('#fpEmail').value.trim();
-  if(!email) return toast('Enter your email','error');
-  const b = $('#fpBtn'); b.disabled=true; b.innerHTML='<span class="spin"></span> Sending…';
-  try{ await sendPasswordResetEmail(auth,email); toast('Reset email sent','success'); show('scrLogin'); }
-  catch(e){ toast(friendlyErr(e),'error'); }
-  finally{ b.disabled=false; b.textContent='Send Reset Email'; }
+  if (!email) return toast('Enter your email', 'error');
+  const b = $('#fpBtn');
+  b.disabled = true;
+  b.innerHTML = '<span class="spin"></span> Sending…';
+  try {
+    await sendPasswordResetEmail(auth, email);
+    toast('Reset email sent', 'success');
+    show('scrLogin');
+  } catch (e) { toast(friendlyError(e), 'error'); }
+  finally { b.disabled = false; b.textContent = 'Send Reset Email'; }
 }
-async function onAdminLogin(e){
-  e.preventDefault();
-  const email = $('#alEmail').value.trim(), pass = $('#alPass').value;
-  if(!email||!pass) return toast('Fill credentials','error');
-  const b = $('#alBtn'); b.disabled=true; b.innerHTML='<span class="spin"></span> Signing in…';
-  try{ await signInWithEmailAndPassword(auth,email,pass); }
-  catch(e){ toast(friendlyErr(e),'error'); }
-  finally{ b.disabled=false; b.textContent='Login to Admin'; }
-}
-async function doLogout(){ try{await signOut(auth);}catch(e){} clearL(); S.user=null; S.profile=null; show('scrLogin'); }
 
-async function onAuth(user){
-  if(!user){ S.user=null; S.profile=null; hideBoot(); show('scrLogin'); return; }
-  S.user = user;
-  try{
-    const snap = await getDoc(doc(db,'users',user.uid));
-    if(!snap.exists()){ await signOut(auth); return; }
-    S.profile = {uid:user.uid,...snap.data()};
+async function onAdminLogin(e) {
+  e.preventDefault();
+  const email = $('#alEmail').value.trim();
+  const pass = $('#alPass').value;
+  if (!email || !pass) return toast('Fill credentials', 'error');
+  const b = $('#alBtn');
+  b.disabled = true;
+  b.innerHTML = '<span class="spin"></span> Signing in…';
+  try { await signInWithEmailAndPassword(auth, email, pass); }
+  catch (e) { toast(friendlyError(e), 'error'); }
+  finally { b.disabled = false; b.textContent = 'Login to Admin'; }
+}
+
+async function doLogout() {
+  try { await signOut(auth); } catch(_){}
+  clearListeners();
+  State.user = null;
+  State.profile = null;
+  show('scrLogin');
+}
+
+/* ================================================================
+   AUTH STATE
+   ================================================================ */
+async function handleAuth(user) {
+  if (!user) {
+    State.user = null;
+    State.profile = null;
+    hideBoot();
+    show('scrLogin');
+    return;
+  }
+  State.user = user;
+  try {
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (!snap.exists()) { await signOut(auth); return; }
+    State.profile = { uid:user.uid, ...snap.data() };
     await loadSettings();
     watchNotifs();
     hideBoot();
-    if(S.profile.role==='admin') startAdmin(); else startCustomer();
-  }catch(e){ console.error(e); toast(friendlyErr(e),'error'); await signOut(auth); }
+    if (State.profile.role === 'admin') startAdmin();
+    else startCustomer();
+  } catch (e) {
+    console.error(e);
+    toast(friendlyError(e), 'error');
+    await signOut(auth);
+  }
 }
-function hideBoot(){ const b=$('#bootLoader'); if(b) b.style.display='none'; }
 
-/* ===== CUSTOMER BOOT ===== */
-function startCustomer(){
-  show('scrHome'); renderHome();
-  $('#acctBtn').onclick = ()=>nav('account');
-  $('#homeSeeAll').onclick = e=>{e.preventDefault();nav('products');};
+/* ================================================================
+   CUSTOMER BOOT
+   ================================================================ */
+function startCustomer() {
+  show('scrHome');
+  renderHome();
+  $('#acctBtn').onclick = () => navigate('account');
+  $('#homeSeeAll').onclick = e => { e.preventDefault(); navigate('products'); };
   $('#homeCare').onclick = careModal;
-  $('#reqBack').onclick = ()=>show('scrProducts');
-  $('#detBack').onclick = ()=>{ if(unsubDetails){unsubDetails();unsubDetails=null;} show('scrOrders'); renderOrders(); };
-  $('#payBack').onclick = ()=>{ show('scrOrders'); nav('orders'); };
-  $('#revBack').onclick = ()=>{ show('scrOrders'); nav('orders'); };
-  $('#cmpBack').onclick = ()=>{ show('scrOrders'); nav('orders'); };
-  $('#notifBtn').onclick = openNotif;
+  $('#reqBack').onclick = () => show('scrProducts');
+  $('#detBack').onclick = () => {
+    if (unsubDetails) { unsubDetails(); unsubDetails = null; }
+    show('scrOrders');
+    renderOrders();
+  };
+  $('#payBack').onclick = () => { show('scrOrders'); navigate('orders'); };
+  $('#revBack').onclick = () => { show('scrOrders'); navigate('orders'); };
+  $('#cmpBack').onclick = () => { show('scrOrders'); navigate('orders'); };
+  $('#notifBtn').onclick = openNotifs;
 }
 
-/* ===== ADMIN BOOT ===== */
-function startAdmin(){
+/* ================================================================
+   ADMIN BOOT
+   ================================================================ */
+function startAdmin() {
   show('scrAdmin');
-  $('#adminUserLabel').innerHTML = `<strong>${esc(S.profile.name||'Admin')}</strong> · ${esc(S.profile.email||'')}`;
-  $$('#adminNav a[data-v]').forEach(a=>a.onclick=()=>{
-    $$('#adminNav a').forEach(x=>x.classList.remove('active'));
-    a.classList.add('active'); S.adminView = a.dataset.v;
-    $('#adminSide').classList.remove('open'); renderAdmin();
+  $('#adminUserLabel').innerHTML = `<strong>${esc(State.profile.name || 'Admin')}</strong> · ${esc(State.profile.email || '')}`;
+  $$('#adminNav a[data-v]').forEach(a => a.onclick = () => {
+    $$('#adminNav a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+    State.adminView = a.dataset.v;
+    $('#adminSide').classList.remove('open');
+    renderAdminView();
   });
-  $('#adminLogout').onclick = ()=>confirmDlg('Log out of admin?',doLogout);
-  $('#mobMenu').onclick = ()=>$('#adminSide').classList.toggle('open');
-  S.adminView='dash'; renderAdmin();
-}
-function renderAdmin(){
-  const T={dash:'Dashboard',reqs:'Requests',ords:'Orders',prods:'Products',pays:'Payments',revs:'Reviews',cmps:'Complaints',custs:'Customers',settings:'Settings'};
-  $('#adminTitle').textContent = T[S.adminView]||'Admin';
-  if(S.adminView==='dash') renderAdminDash();
-  if(S.adminView==='reqs') renderAdminRequests();
-  if(S.adminView==='ords') renderAdminOrders();
-  if(S.adminView==='prods') renderAdminProducts();
-  if(S.adminView==='pays') renderAdminPayments();
-  if(S.adminView==='revs') renderAdminReviews();
-  if(S.adminView==='cmps') renderAdminComplaints();
-  if(S.adminView==='custs') renderAdminCustomers();
-  if(S.adminView==='settings') renderAdminSettings();
+  $('#adminLogout').onclick = () => confirmDialog('Log out of admin?', doLogout);
+  $('#mobMenu').onclick = () => $('#adminSide').classList.toggle('open');
+  State.adminView = 'dash';
+  renderAdminView();
 }
 
-/* ===== Admin Dashboard ===== */
-async function renderAdminDash(){
+function renderAdminView() {
+  const titles = {
+    dash:'Dashboard', reqs:'Requests', ords:'Orders', prods:'Products',
+    pays:'Payments', revs:'Reviews', cmps:'Complaints', custs:'Customers', settings:'Settings'
+  };
+  $('#adminTitle').textContent = titles[State.adminView] || 'Admin';
+  const v = State.adminView;
+  if (v === 'dash')     renderAdminDash();
+  if (v === 'reqs')     renderAdminRequests();
+  if (v === 'ords')     renderAdminOrders();
+  if (v === 'prods')    renderAdminProducts();
+  if (v === 'pays')     renderAdminPayments();
+  if (v === 'revs')     renderAdminReviews();
+  if (v === 'cmps')     renderAdminComplaints();
+  if (v === 'custs')    renderAdminCustomers();
+  if (v === 'settings') renderAdminSettings();
+}
+
+/* ---------- Admin: Dashboard ---------- */
+async function renderAdminDash() {
   $('#adminView').innerHTML = `<div class="stats" id="dashStats"></div><div id="dashRecent"></div>`;
-  const [uS,rS,oS,pS,cS] = await Promise.all([
-    getDocs(collection(db,'users')), getDocs(collection(db,'requests')),
-    getDocs(collection(db,'orders')), getDocs(collection(db,'payments')), getDocs(collection(db,'complaints'))
-  ]);
-  const users = uS.docs.map(d=>d.data()).filter(u=>u.role!=='admin');
-  const reqs = rS.docs.map(d=>({id:d.id,...d.data()}));
-  const ords = oS.docs.map(d=>({id:d.id,...d.data()}));
-  const pays = pS.docs.map(d=>d.data());
-  const cmps = cS.docs.map(d=>d.data());
-  const today = new Date(); today.setHours(0,0,0,0);
-  const tOrders = ords.filter(o=>{ const t=o.createdAt?.toDate?.(); return t && t>=today; });
-  const stats = [
-    {l:'Total Customers', v:users.length},
-    {l:'New Requests', v:reqs.filter(r=>r.status==='pending').length},
-    {l:'Active Orders', v:ords.filter(o=>['confirmed','preparing','out_for_delivery'].includes(o.status)).length},
-    {l:'Pending Payments', v:pays.filter(p=>p.status==='submitted').length},
-    {l:"Today's Orders", v:tOrders.length},
-    {l:'Delivered', v:ords.filter(o=>o.status==='delivered').length},
-    {l:'Open Complaints', v:cmps.filter(c=>['open','under_review'].includes(c.status)).length},
-    {l:'Total Revenue', v:inr(ords.filter(o=>o.status==='delivered').reduce((a,o)=>a+(o.finalAmount||0),0))}
-  ];
-  $('#dashStats').innerHTML = stats.map(s=>`<div class="stat"><div class="l">${esc(s.l)}</div><div class="v">${typeof s.v==='number'?s.v:esc(s.v)}</div></div>`).join('');
-  const recent = reqs.sort(sortDesc).slice(0,8);
-  $('#dashRecent').innerHTML = `<h2 style="font-size:16px;margin:0 0 12px">Recent Requests</h2>
-    <div class="tw sc"><table class="tbl">
-      <thead><tr><th>Order</th><th>Customer</th><th>Product</th><th>Qty</th><th>Amount</th><th>Status</th><th></th></tr></thead>
-      <tbody>${recent.length?recent.map(r=>`<tr>
-        <td class="sm bold">#${esc(r.orderId||r.id)}</td>
-        <td class="sm">${esc(r.customerName||'—')}<br><span class="mut">${esc(r.customerPhone||'')}</span></td>
-        <td class="sm">${esc(r.productName||'')}</td><td class="sm">${r.quantity||1}</td>
-        <td class="sm">${r.finalAmount?inr(r.finalAmount):'—'}</td><td>${sBadge(r.status)}</td>
-        <td><button class="btn btn-pri btn-xs" onclick="admOpenReq('${r.id}')">Open</button></td>
-      </tr>`).join(''):'<tr><td colspan="7" class="mut ctr">No requests yet</td></tr>'}</tbody>
-    </table></div>`;
+  try {
+    const [uS, rS, oS, pS, cS] = await Promise.all([
+      getDocs(collection(db, 'users')),
+      getDocs(collection(db, 'requests')),
+      getDocs(collection(db, 'orders')),
+      getDocs(collection(db, 'payments')),
+      getDocs(collection(db, 'complaints'))
+    ]);
+    const users = uS.docs.map(d => d.data()).filter(u => u.role !== 'admin');
+    const reqs = rS.docs.map(d => ({ id:d.id, ...d.data() }));
+    const ords = oS.docs.map(d => ({ id:d.id, ...d.data() }));
+    const pays = pS.docs.map(d => d.data());
+    const cmps = cS.docs.map(d => d.data());
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const tOrders = ords.filter(o => { const t = o.createdAt?.toDate?.(); return t && t >= today; });
+
+    const stats = [
+      { l:'Total Customers', v: users.length },
+      { l:'New Requests', v: reqs.filter(r => r.status === 'pending').length },
+      { l:'Active Orders', v: ords.filter(o => ['confirmed','preparing','out_for_delivery'].includes(o.status)).length },
+      { l:'Pending Payments', v: pays.filter(p => p.status === 'submitted').length },
+      { l:"Today's Orders", v: tOrders.length },
+      { l:'Delivered', v: ords.filter(o => o.status === 'delivered').length },
+      { l:'Open Complaints', v: cmps.filter(c => ['open','under_review'].includes(c.status)).length },
+      { l:'Total Revenue', v: inr(ords.filter(o => o.status === 'delivered').reduce((a, o) => a + (o.finalAmount || 0), 0)) }
+    ];
+
+    $('#dashStats').innerHTML = stats.map(s =>
+      `<div class="stat"><div class="l">${esc(s.l)}</div><div class="v">${typeof s.v === 'number' ? s.v : esc(s.v)}</div></div>`
+    ).join('');
+
+    const recent = reqs.sort(sortDesc).slice(0, 8);
+    $('#dashRecent').innerHTML = `
+      <h2 style="font-size:16px;margin:0 0 12px">Recent Requests</h2>
+      <div class="tw sc"><table class="tbl">
+        <thead><tr><th>Order</th><th>Customer</th><th>Product</th><th>Qty</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+        <tbody>${recent.length ? recent.map(r => `
+          <tr>
+            <td class="sm bold">#${esc(r.orderId || r.id)}</td>
+            <td class="sm">${esc(r.customerName || '—')}<br><span class="mut">${esc(r.customerPhone || '')}</span></td>
+            <td class="sm">${esc(r.productName || '')}</td>
+            <td class="sm">${r.quantity || 1}</td>
+            <td class="sm">${r.finalAmount ? inr(r.finalAmount) : '—'}</td>
+            <td>${badgeHTML(r.status)}</td>
+            <td><button class="btn btn-pri btn-xs" onclick="admOpenReq('${r.id}')">Open</button></td>
+          </tr>`).join('') : '<tr><td colspan="7" class="mut ctr">No requests yet</td></tr>'}
+        </tbody>
+      </table></div>`;
+  } catch (e) { toast(friendlyError(e), 'error'); }
 }
 
-/* ===== Admin Requests ===== */
-let adminReqFilter='all';
-function renderAdminRequests(){
+/* ---------- Admin: Requests ---------- */
+let adminReqFilter = 'all';
+
+function renderAdminRequests() {
   $('#adminView').innerHTML = `
-    <div class="tabs" id="reqTabs">${[['all','All'],['pending','Pending'],['contacting','Contacting'],['price_fixed','Price Fixed'],['payment_pending','Payment Pending'],['payment_verification','Payment Verify'],['confirmed','Confirmed'],['delivered','Delivered'],['cancelled','Cancelled']].map(([k,l])=>`<div class="tab ${adminReqFilter===k?'active':''}" data-f="${k}">${l}</div>`).join('')}</div>
+    <div class="tabs" id="reqTabs">
+      ${[['all','All'],['pending','Pending'],['contacting','Contacting'],['price_fixed','Price Fixed'],
+         ['payment_pending','Payment Pending'],['payment_verification','Payment Verify'],
+         ['confirmed','Confirmed'],['delivered','Delivered'],['cancelled','Cancelled']]
+        .map(([k, l]) => `<div class="tab ${adminReqFilter === k ? 'active' : ''}" data-f="${k}">${l}</div>`).join('')}
+    </div>
     <div id="reqTbl"></div>`;
-  $$('#reqTabs .tab').forEach(t=>t.onclick=()=>{
+  $$('#reqTabs .tab').forEach(t => t.onclick = () => {
     adminReqFilter = t.dataset.f;
-    $$('#reqTabs .tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active'); paintAdminReqs();
+    $$('#reqTabs .tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    paintAdminReqs();
   });
   paintAdminReqs();
 }
-function paintAdminReqs(){
-  regL(onSnapshot(query(collection(db,'requests')),snap=>{
-    let list = snap.docs.map(d=>({id:d.id,...d.data()})).sort(sortDesc);
-    if(adminReqFilter!=='all') list = list.filter(r=>r.status===adminReqFilter);
-    const el = $('#reqTbl'); if(!el) return;
-    if(!list.length){ el.innerHTML = `<div class="empty"><div class="big">📥</div>No requests.</div>`; return; }
+
+function paintAdminReqs() {
+  registerListener(onSnapshot(query(collection(db, 'requests')), snap => {
+    let list = snap.docs.map(d => ({ id:d.id, ...d.data() })).sort(sortDesc);
+    if (adminReqFilter !== 'all') list = list.filter(r => r.status === adminReqFilter);
+    const el = $('#reqTbl');
+    if (!el) return;
+    if (!list.length) {
+      el.innerHTML = `<div class="empty"><div class="big">📥</div>No requests.</div>`;
+      return;
+    }
     el.innerHTML = `<div class="tw sc"><table class="tbl">
       <thead><tr><th>Order</th><th>Customer</th><th>Phone</th><th>Product</th><th>Qty</th><th>Amount</th><th>Status</th><th>Date</th><th></th></tr></thead>
-      <tbody>${list.map(r=>`<tr>
-        <td class="sm bold">#${esc(r.orderId||r.id)}</td><td class="sm">${esc(r.customerName||'')}</td>
-        <td class="sm">${esc(r.customerPhone||'')}</td><td class="sm">${esc(r.productName||'')}</td>
-        <td class="sm">${r.quantity||1}</td><td class="sm">${r.finalAmount?inr(r.finalAmount):'—'}</td>
-        <td>${sBadge(r.status)}</td><td class="sm">${fds(r.createdAt)}</td>
-        <td><button class="btn btn-pri btn-xs" onclick="admOpenReq('${r.id}')">Manage</button></td>
-      </tr>`).join('')}</tbody></table></div>`;
+      <tbody>${list.map(r => `
+        <tr>
+          <td class="sm bold">#${esc(r.orderId || r.id)}</td>
+          <td class="sm">${esc(r.customerName || '')}</td>
+          <td class="sm">${esc(r.customerPhone || '')}</td>
+          <td class="sm">${esc(r.productName || '')}</td>
+          <td class="sm">${r.quantity || 1}</td>
+          <td class="sm">${r.finalAmount ? inr(r.finalAmount) : '—'}</td>
+          <td>${badgeHTML(r.status)}</td>
+          <td class="sm">${fds(r.createdAt)}</td>
+          <td><button class="btn btn-pri btn-xs" onclick="admOpenReq('${r.id}')">Manage</button></td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>`;
   }));
 }
-window.admOpenReq = async id => {
-  const snap = await getDoc(doc(db,'requests',id));
-  if(!snap.exists()) return toast('Not found','error');
-  const r = {id:snap.id,...snap.data()};
-  openModal(`<h3>Manage Request</h3>
+
+window.admOpenReq = async (id) => {
+  const snap = await getDoc(doc(db, 'requests', id));
+  if (!snap.exists()) return toast('Not found', 'error');
+  const r = { id:snap.id, ...snap.data() };
+  openModal(`
+    <h3>Manage Request</h3>
     <div class="sm">
-      <div class="between mb8"><span class="mut">Order ID</span><strong>#${esc(r.orderId||r.id)}</strong></div>
-      <div class="between mb8"><span class="mut">Customer</span><span>${esc(r.customerName||'')}</span></div>
-      <div class="between mb8"><span class="mut">Phone</span><span>${esc(r.customerPhone||'')}</span></div>
-      <div class="between mb8"><span class="mut">Email</span><span>${esc(r.customerEmail||'')}</span></div>
-      <div class="between mb8"><span class="mut">Product</span><span>${esc(r.productName||'')} × ${r.quantity||1}</span></div>
-      <div class="between mb8"><span class="mut">Address</span><span style="max-width:60%;text-align:right">${esc(r.address||'')}</span></div>
-      ${r.note?`<div class="between mb8"><span class="mut">Note</span><span style="max-width:60%;text-align:right">${esc(r.note)}</span></div>`:''}
-      <div class="between mb8"><span class="mut">Status</span>${sBadge(r.status)}</div>
-      <div class="between mb8"><span class="mut">Payment</span><span>${esc(r.paymentMethod||'—')} · ${esc(r.paymentStatus||'')}</span></div>
+      <div class="between mb8"><span class="mut">Order ID</span><strong>#${esc(r.orderId || r.id)}</strong></div>
+      <div class="between mb8"><span class="mut">Customer</span><span>${esc(r.customerName || '')}</span></div>
+      <div class="between mb8"><span class="mut">Phone</span><span>${esc(r.customerPhone || '')}</span></div>
+      <div class="between mb8"><span class="mut">Email</span><span>${esc(r.customerEmail || '')}</span></div>
+      <div class="between mb8"><span class="mut">Product</span><span>${esc(r.productName || '')} × ${r.quantity || 1}</span></div>
+      <div class="between mb8"><span class="mut">Address</span><span style="max-width:60%;text-align:right">${esc(r.address || '')}</span></div>
+      ${r.note ? `<div class="between mb8"><span class="mut">Note</span><span style="max-width:60%;text-align:right">${esc(r.note)}</span></div>` : ''}
+      <div class="between mb8"><span class="mut">Status</span>${badgeHTML(r.status)}</div>
+      <div class="between mb8"><span class="mut">Payment</span><span>${esc(r.paymentMethod || '—')} · ${esc(r.paymentStatus || '')}</span></div>
     </div>
     <div class="div"></div>
     <div class="label">Contact</div>
     <div class="row mb12" style="gap:8px">
-      ${r.customerPhone?`<a class="btn btn-pri btn-sm" style="flex:1" href="tel:${esc(r.customerPhone)}">📞 Call</a>`:''}
-      ${r.customerPhone?`<a class="btn btn-out btn-sm" style="flex:1" target="_blank" href="https://wa.me/91${esc(r.customerPhone)}">💬 WhatsApp</a>`:''}
+      ${r.customerPhone ? `<a class="btn btn-pri btn-sm" style="flex:1" href="tel:${esc(r.customerPhone)}">📞 Call</a>` : ''}
+      ${r.customerPhone ? `<a class="btn btn-out btn-sm" style="flex:1" target="_blank" href="https://wa.me/91${esc(r.customerPhone)}">💬 WhatsApp</a>` : ''}
     </div>
     <div class="label">Fix Price</div>
     <div class="g2 mb8">
-      <div><label class="sm mut">Product Amount</label><input class="input" type="number" id="aProd" value="${r.productAmount??''}"></div>
-      <div><label class="sm mut">Delivery</label><input class="input" type="number" id="aDel" value="${r.deliveryCharge??(S.settings.order.defaultDeliveryCharge||0)}"></div>
-      <div><label class="sm mut">Discount</label><input class="input" type="number" id="aDis" value="${r.discount??0}"></div>
-      <div><label class="sm mut">Final</label><input class="input" id="aFin" value="${r.finalAmount??''}" readonly style="background:#f8fafc"></div>
+      <div><label class="sm mut">Product Amount</label><input class="input" type="number" id="aProd" value="${r.productAmount ?? ''}"></div>
+      <div><label class="sm mut">Delivery</label><input class="input" type="number" id="aDel" value="${r.deliveryCharge ?? (State.settings.order.defaultDeliveryCharge || 0)}"></div>
+      <div><label class="sm mut">Discount</label><input class="input" type="number" id="aDis" value="${r.discount ?? 0}"></div>
+      <div><label class="sm mut">Final</label><input class="input" id="aFin" value="${r.finalAmount ?? ''}" readonly></div>
     </div>
     <button class="btn btn-pri btn-block mb8" id="aFix">Fix Price</button>
     <div class="label">Update Status</div>
-    <select class="input mb8" id="aStat">${Object.keys(SL).map(k=>`<option value="${k}" ${r.status===k?'selected':''}>${SL[k]}</option>`).join('')}</select>
+    <select class="input mb8" id="aStat">
+      ${Object.keys(STATUS).map(k => `<option value="${k}" ${r.status === k ? 'selected' : ''}>${STATUS[k]}</option>`).join('')}
+    </select>
     <button class="btn btn-out btn-block mb8" id="aStatBtn">Update Status</button>
     <div class="label">Tracking URL</div>
-    <input class="input mb8" id="aTrack" value="${esc(r.trackingUrl||'')}" placeholder="https://…">
+    <input class="input mb8" id="aTrack" value="${esc(r.trackingUrl || '')}" placeholder="https://…">
     <button class="btn btn-out btn-block mb8" id="aTrackBtn">Save Tracking URL</button>
     <div class="row mt12" style="justify-content:flex-end;gap:8px">
       <button class="btn btn-out" onclick="closeModal()">Close</button>
-      <button class="btn btn-bad" id="aCancel">Cancel Request</button></div>`);
-  const recalc = ()=>{ const p=parseFloat($('#aProd').value)||0,d=parseFloat($('#aDel').value)||0,disc=parseFloat($('#aDis').value)||0;
-    $('#aFin').value = Math.max(0,p+d-disc); };
-  ['aProd','aDel','aDis'].forEach(x=>$('#'+x).oninput = recalc); recalc();
-  $('#aFix').onclick = async ()=>{
-    const productAmount=parseFloat($('#aProd').value)||0,deliveryCharge=parseFloat($('#aDel').value)||0,
-      discount=parseFloat($('#aDis').value)||0,finalAmount=parseFloat($('#aFin').value)||0;
-    if(productAmount<=0) return toast('Enter product amount','error');
-    try{
-      await updateDoc(doc(db,'requests',r.id),{productAmount,deliveryCharge,discount,finalAmount,
-        status:['pending','contacting'].includes(r.status)?'price_fixed':r.status,updatedAt:serverTimestamp()});
-      await notify(r.customerId,'Price Fixed',`Your order ${r.orderId||r.id} total is ${inr(finalAmount)}. Choose payment method.`,'');
-      toast('Price fixed','success'); closeModal();
-    }catch(e){ toast(friendlyErr(e),'error'); }
+      <button class="btn btn-bad" id="aCancel">Cancel Request</button>
+    </div>
+  `);
+
+  const recalc = () => {
+    const p = parseFloat($('#aProd').value) || 0;
+    const d = parseFloat($('#aDel').value) || 0;
+    const disc = parseFloat($('#aDis').value) || 0;
+    $('#aFin').value = Math.max(0, p + d - disc);
   };
-  $('#aStatBtn').onclick = async ()=>{
-    const st = $('#aStat').value, up = {status:st,updatedAt:serverTimestamp()};
-    if(st==='delivered') up.deliveredAt = serverTimestamp();
-    if(st==='confirmed') up.confirmedAt = serverTimestamp();
-    try{
-      await updateDoc(doc(db,'requests',r.id),up);
-      await notify(r.customerId,'Order Update',`Order ${r.orderId||r.id} is now: ${sLabel(st)}`,'');
-      toast('Status updated','success'); closeModal();
-    }catch(e){ toast(friendlyErr(e),'error'); }
+  ['aProd','aDel','aDis'].forEach(x => $('#'+x).oninput = recalc);
+  recalc();
+
+  $('#aFix').onclick = async () => {
+    const productAmount  = parseFloat($('#aProd').value) || 0;
+    const deliveryCharge = parseFloat($('#aDel').value) || 0;
+    const discount       = parseFloat($('#aDis').value) || 0;
+    const finalAmount    = parseFloat($('#aFin').value) || 0;
+    if (productAmount <= 0) return toast('Enter product amount', 'error');
+    try {
+      await updateDoc(doc(db, 'requests', r.id), {
+        productAmount, deliveryCharge, discount, finalAmount,
+        status: ['pending','contacting'].includes(r.status) ? 'price_fixed' : r.status,
+        updatedAt: serverTimestamp()
+      });
+      await notify(r.customerId, 'Price Fixed',
+        `Your order ${r.orderId || r.id} total is ${inr(finalAmount)}. Choose payment method.`, '');
+      toast('Price fixed', 'success');
+      closeModal();
+    } catch (e) { toast(friendlyError(e), 'error'); }
   };
-  $('#aTrackBtn').onclick = async ()=>{
+
+  $('#aStatBtn').onclick = async () => {
+    const st = $('#aStat').value;
+    const up = { status: st, updatedAt: serverTimestamp() };
+    if (st === 'delivered') up.deliveredAt = serverTimestamp();
+    if (st === 'confirmed') up.confirmedAt = serverTimestamp();
+    try {
+      await updateDoc(doc(db, 'requests', r.id), up);
+      await notify(r.customerId, 'Order Update', `Your order ${r.orderId || r.id} is now: ${STATUS[st] || st}`, '');
+      toast('Status updated', 'success');
+      closeModal();
+    } catch (e) { toast(friendlyError(e), 'error'); }
+  };
+
+  $('#aTrackBtn').onclick = async () => {
     const url = $('#aTrack').value.trim();
-    try{ await updateDoc(doc(db,'requests',r.id),{trackingUrl:url,updatedAt:serverTimestamp()});
-      if(url) await notify(r.customerId,'Tracking Available',`Track order ${r.orderId||r.id}`,url);
-      toast('Saved','success');
-    }catch(e){ toast(friendlyErr(e),'error'); }
+    try {
+      await updateDoc(doc(db, 'requests', r.id), { trackingUrl: url, updatedAt: serverTimestamp() });
+      if (url) await notify(r.customerId, 'Tracking Available', `Track order ${r.orderId || r.id}`, url);
+      toast('Saved', 'success');
+    } catch (e) { toast(friendlyError(e), 'error'); }
   };
-  $('#aCancel').onclick = ()=>confirmDlg('Cancel this request?',async ()=>{
-    try{ await updateDoc(doc(db,'requests',r.id),{status:'cancelled',updatedAt:serverTimestamp()});
-      await notify(r.customerId,'Request Cancelled',`Request ${r.orderId||r.id} was cancelled.`,'');
-      toast('Cancelled','success'); closeModal();
-    }catch(e){ toast(friendlyErr(e),'error'); }
+
+  $('#aCancel').onclick = () => confirmDialog('Cancel this request?', async () => {
+    try {
+      await updateDoc(doc(db, 'requests', r.id), { status:'cancelled', updatedAt: serverTimestamp() });
+      await notify(r.customerId, 'Request Cancelled', `Request ${r.orderId || r.id} was cancelled.`, '');
+      toast('Cancelled', 'success');
+      closeModal();
+    } catch (e) { toast(friendlyError(e), 'error'); }
   });
 };
 
-/* ===== Admin Orders ===== */
-function renderAdminOrders(){
+/* ---------- Admin: Orders ---------- */
+function renderAdminOrders() {
   $('#adminView').innerHTML = `<div id="ordTbl"></div>`;
-  regL(onSnapshot(query(collection(db,'requests')),snap=>{
-    const list = snap.docs.map(d=>({id:d.id,...d.data()}))
-      .filter(r=>['confirmed','preparing','out_for_delivery','delivered','cancelled'].includes(r.status)).sort(sortDesc);
-    const el = $('#ordTbl'); if(!el) return;
-    if(!list.length){ el.innerHTML = `<div class="empty"><div class="big">📦</div>No orders yet.</div>`; return; }
+  registerListener(onSnapshot(query(collection(db, 'requests')), snap => {
+    const list = snap.docs.map(d => ({ id:d.id, ...d.data() }))
+      .filter(r => ['confirmed','preparing','out_for_delivery','delivered','cancelled'].includes(r.status))
+      .sort(sortDesc);
+    const el = $('#ordTbl');
+    if (!el) return;
+    if (!list.length) { el.innerHTML = `<div class="empty"><div class="big">📦</div>No orders yet.</div>`; return; }
     el.innerHTML = `<div class="tw sc"><table class="tbl">
       <thead><tr><th>Order</th><th>Customer</th><th>Product</th><th>Amount</th><th>Payment</th><th>Status</th><th>Tracking</th><th></th></tr></thead>
-      <tbody>${list.map(r=>`<tr>
-        <td class="sm bold">#${esc(r.orderId||r.id)}</td><td class="sm">${esc(r.customerName||'')}</td>
-        <td class="sm">${esc(r.productName||'')} × ${r.quantity||1}</td>
-        <td class="sm">${inr(r.finalAmount||0)}</td>
-        <td class="sm">${esc(r.paymentMethod||'—')} / ${esc(r.paymentStatus||'')}</td>
-        <td>${sBadge(r.status)}</td>
-        <td class="sm">${r.trackingUrl?`<a href="${esc(r.trackingUrl)}" target="_blank">Link</a>`:'—'}</td>
-        <td><button class="btn btn-pri btn-xs" onclick="admOpenReq('${r.id}')">Manage</button></td>
-      </tr>`).join('')}</tbody></table></div>`;
+      <tbody>${list.map(r => `
+        <tr>
+          <td class="sm bold">#${esc(r.orderId || r.id)}</td>
+          <td class="sm">${esc(r.customerName || '')}</td>
+          <td class="sm">${esc(r.productName || '')} × ${r.quantity || 1}</td>
+          <td class="sm">${inr(r.finalAmount || 0)}</td>
+          <td class="sm">${esc(r.paymentMethod || '—')} / ${esc(r.paymentStatus || '')}</td>
+          <td>${badgeHTML(r.status)}</td>
+          <td class="sm">${r.trackingUrl ? `<a href="${esc(r.trackingUrl)}" target="_blank">Link</a>` : '—'}</td>
+          <td><button class="btn btn-pri btn-xs" onclick="admOpenReq('${r.id}')">Manage</button></td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>`;
   }));
 }
 
-/* ===== Admin Products ===== */
-function renderAdminProducts(){
+/* ---------- Admin: Products ---------- */
+function renderAdminProducts() {
   $('#adminView').innerHTML = `<div class="mb12"><button class="btn btn-pri" id="addProd">+ Add Product</button></div><div id="prodTbl"></div>`;
-  $('#addProd').onclick = ()=>prodModal();
-  regL(onSnapshot(query(collection(db,'products')),snap=>{
-    const list = snap.docs.map(d=>({id:d.id,...d.data()})).sort(sortDesc);
-    const el = $('#prodTbl'); if(!el) return;
-    if(!list.length){ el.innerHTML = `<div class="empty"><div class="big">🛒</div>No products yet.</div>`; return; }
+  $('#addProd').onclick = () => productModal();
+  registerListener(onSnapshot(query(collection(db, 'products')), snap => {
+    const list = snap.docs.map(d => ({ id:d.id, ...d.data() })).sort(sortDesc);
+    const el = $('#prodTbl');
+    if (!el) return;
+    if (!list.length) { el.innerHTML = `<div class="empty"><div class="big">🛒</div>No products yet.</div>`; return; }
     el.innerHTML = `<div class="tw sc"><table class="tbl">
       <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Active</th><th>Created</th><th></th></tr></thead>
-      <tbody>${list.map(p=>`<tr>
-        <td><img src="${esc(p.imageUrl||'https://via.placeholder.com/60')}" style="width:44px;height:44px;border-radius:8px;object-fit:cover" onerror="this.style.display='none'"></td>
-        <td class="sm"><strong>${esc(p.name||'')}</strong><br><span class="mut">${esc((p.description||'').slice(0,60))}</span></td>
-        <td class="sm">${esc(p.category||'')}</td>
-        <td>${p.active?'<span class="badge b-ok">Active</span>':'<span class="badge b-mut">Hidden</span>'}</td>
-        <td class="sm">${fds(p.createdAt)}</td>
-        <td class="acts"><button class="btn btn-out btn-xs" onclick="editProd('${p.id}')">Edit</button>
-          <button class="btn btn-bad btn-xs" onclick="delProd('${p.id}')">Delete</button></td>
-      </tr>`).join('')}</tbody></table></div>`;
+      <tbody>${list.map(p => `
+        <tr>
+          <td><img src="${esc(p.imageUrl || 'https://via.placeholder.com/60')}" style="width:44px;height:44px;border-radius:8px;object-fit:cover" onerror="this.style.display='none'"></td>
+          <td class="sm"><strong>${esc(p.name || '')}</strong><br><span class="mut">${esc((p.description || '').slice(0, 60))}</span></td>
+          <td class="sm">${esc(p.category || '')}</td>
+          <td>${p.active ? '<span class="badge b-ok">Active</span>' : '<span class="badge b-mut">Hidden</span>'}</td>
+          <td class="sm">${fds(p.createdAt)}</td>
+          <td class="acts">
+            <button class="btn btn-out btn-xs" onclick="editProd('${p.id}')">Edit</button>
+            <button class="btn btn-bad btn-xs" onclick="delProd('${p.id}')">Delete</button>
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>`;
   }));
 }
-function prodModal(p = null){
-  const e = !!p;
-  openModal(`<h3>${e?'Edit':'Add'} Product</h3>
-    <div class="field"><label class="label">Name</label><input class="input" id="pN" value="${esc(p?.name||'')}"></div>
-    <div class="field"><label class="label">Description</label><textarea class="input" id="pD">${esc(p?.description||'')}</textarea></div>
-    <div class="field"><label class="label">Category</label><input class="input" id="pC" value="${esc(p?.category||'')}" placeholder="Pizza / Food / Electronics / Other"></div>
-    <div class="field"><label class="label">Image URL (HTTPS)</label><input class="input" id="pI" value="${esc(p?.imageUrl||'')}" placeholder="https://…"></div>
-    <div class="field row" style="gap:8px"><input type="checkbox" id="pA" ${p?.active!==false?'checked':''}><label for="pA" class="sm">Active (visible to customers)</label></div>
-    <div class="row" style="justify-content:flex-end;gap:8px"><button class="btn btn-out" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-pri" id="pSave">Save</button></div>`);
-  $('#pSave').onclick = async ()=>{
-    const name = $('#pN').value.trim(), description = $('#pD').value.trim(),
-      category = $('#pC').value.trim()||'Other Products', imageUrl = $('#pI').value.trim(), active = $('#pA').checked;
-    if(!name) return toast('Name required','error');
-    if(imageUrl && !/^https?:\/\//i.test(imageUrl)) return toast('Image must start with http(s)://','error');
-    try{
-      if(e){ await updateDoc(doc(db,'products',p.id),{name,description,category,imageUrl,active}); toast('Updated','success'); }
-      else { await addDoc(collection(db,'products'),{name,description,category,imageUrl,active,createdAt:serverTimestamp()}); toast('Added','success'); }
+
+function productModal(product = null) {
+  const isEdit = !!product;
+  openModal(`
+    <h3>${isEdit ? 'Edit' : 'Add'} Product</h3>
+    <div class="field"><label class="label">Name</label>
+      <input class="input" id="pN" value="${esc(product?.name || '')}"></div>
+    <div class="field"><label class="label">Description</label>
+      <textarea class="input" id="pD">${esc(product?.description || '')}</textarea></div>
+    <div class="field"><label class="label">Category</label>
+      <input class="input" id="pC" value="${esc(product?.category || '')}" placeholder="Pizza / Food / Electronics / Other"></div>
+    <div class="field"><label class="label">Image URL (HTTPS)</label>
+      <input class="input" id="pI" value="${esc(product?.imageUrl || '')}" placeholder="https://…"></div>
+    <div class="field row" style="gap:8px">
+      <input type="checkbox" id="pA" ${product?.active !== false ? 'checked' : ''}>
+      <label for="pA" class="sm">Active (visible to customers)</label>
+    </div>
+    <div class="row" style="justify-content:flex-end;gap:8px">
+      <button class="btn btn-out" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-pri" id="pSave">Save</button>
+    </div>`);
+  $('#pSave').onclick = async () => {
+    const name = $('#pN').value.trim();
+    const description = $('#pD').value.trim();
+    const category = $('#pC').value.trim() || 'Other Products';
+    const imageUrl = $('#pI').value.trim();
+    const active = $('#pA').checked;
+    if (!name) return toast('Name required', 'error');
+    if (imageUrl && !/^https?:\/\//i.test(imageUrl)) return toast('Image must start with http(s)://', 'error');
+    try {
+      if (isEdit) {
+        await updateDoc(doc(db, 'products', product.id), { name, description, category, imageUrl, active });
+        toast('Updated', 'success');
+      } else {
+        await addDoc(collection(db, 'products'), { name, description, category, imageUrl, active, createdAt: serverTimestamp() });
+        toast('Added', 'success');
+      }
       closeModal();
-    }catch(e2){ toast(friendlyErr(e2),'error'); }
+    } catch (e) { toast(friendlyError(e), 'error'); }
   };
 }
-window.editProd = async id=>{ const s = await getDoc(doc(db,'products',id)); if(s.exists()) prodModal({id,...s.data()}); };
-window.delProd = id => confirmDlg('Delete product?',async ()=>{ try{ await deleteDoc(doc(db,'products',id)); toast('Deleted','success'); }catch(e){ toast(friendlyErr(e),'error'); } });
 
-/* ===== Admin Payments ===== */
-function renderAdminPayments(){
+window.editProd = async (id) => {
+  const s = await getDoc(doc(db, 'products', id));
+  if (s.exists()) productModal({ id, ...s.data() });
+};
+window.delProd = (id) => confirmDialog('Delete product?', async () => {
+  try { await deleteDoc(doc(db, 'products', id)); toast('Deleted', 'success'); }
+  catch (e) { toast(friendlyError(e), 'error'); }
+});
+
+/* ---------- Admin: Payments ---------- */
+function renderAdminPayments() {
   $('#adminView').innerHTML = `<div id="payTbl"></div>`;
-  regL(onSnapshot(query(collection(db,'payments')),snap=>{
-    const list = snap.docs.map(d=>({id:d.id,...d.data()})).sort(sortDesc);
-    const el = $('#payTbl'); if(!el) return;
-    if(!list.length){ el.innerHTML = `<div class="empty"><div class="big">💳</div>No payments yet.</div>`; return; }
-    const pb = s=>`<span class="badge b-${s==='verified'?'ok':s==='submitted'?'info':s==='rejected'?'bad':'warn'}">${esc(s)}</span>`;
+  registerListener(onSnapshot(query(collection(db, 'payments')), snap => {
+    const list = snap.docs.map(d => ({ id:d.id, ...d.data() })).sort(sortDesc);
+    const el = $('#payTbl');
+    if (!el) return;
+    if (!list.length) { el.innerHTML = `<div class="empty"><div class="big">💳</div>No payments yet.</div>`; return; }
+    const pb = s => `<span class="badge b-${PAY_STATUS[s] || 'mut'}">${esc(s)}</span>`;
     el.innerHTML = `<div class="tw sc"><table class="tbl">
       <thead><tr><th>Order</th><th>Amount</th><th>Method</th><th>Txn</th><th>Status</th><th>Date</th><th></th></tr></thead>
-      <tbody>${list.map(p=>`<tr>
-        <td class="sm bold">#${esc(p.readableId||p.orderId)}</td><td class="sm">${inr(p.amount||0)}</td>
-        <td class="sm">${esc(p.method||'')}</td><td class="sm">${esc(p.transactionId||'—')}</td>
-        <td>${pb(p.status)}</td><td class="sm">${fds(p.createdAt)}</td>
-        <td class="acts">${p.status==='submitted'?`
-          <button class="btn btn-ok btn-xs" onclick="verifyPay('${p.id}','verified')">✓ Verify</button>
-          <button class="btn btn-bad btn-xs" onclick="verifyPay('${p.id}','rejected')">✕ Reject</button>`:''}</td>
-      </tr>`).join('')}</tbody></table></div>`;
+      <tbody>${list.map(p => `
+        <tr>
+          <td class="sm bold">#${esc(p.readableId || p.orderId)}</td>
+          <td class="sm">${inr(p.amount || 0)}</td>
+          <td class="sm">${esc(p.method || '')}</td>
+          <td class="sm">${esc(p.transactionId || '—')}</td>
+          <td>${pb(p.status)}</td>
+          <td class="sm">${fds(p.createdAt)}</td>
+          <td class="acts">
+            ${p.status === 'submitted' ? `
+              <button class="btn btn-ok btn-xs" onclick="verifyPay('${p.id}','verified')">✓ Verify</button>
+              <button class="btn btn-bad btn-xs" onclick="verifyPay('${p.id}','rejected')">✕ Reject</button>` : ''}
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>`;
   }));
 }
-window.verifyPay = async (payId,decision)=>{
-  try{
-    const ps = await getDoc(doc(db,'payments',payId)); if(!ps.exists()) return toast('Not found','error');
+
+window.verifyPay = async (payId, decision) => {
+  try {
+    const ps = await getDoc(doc(db, 'payments', payId));
+    if (!ps.exists()) return toast('Not found', 'error');
     const pay = ps.data();
-    await updateDoc(doc(db,'payments',payId),{status:decision,verifiedAt:serverTimestamp()});
-    const rRef = doc(db,'requests',pay.orderId);
+    await updateDoc(doc(db, 'payments', payId), { status: decision, verifiedAt: serverTimestamp() });
+    const rRef = doc(db, 'requests', pay.orderId);
     const rs = await getDoc(rRef);
-    if(rs.exists()){
+    if (rs.exists()) {
       const r = rs.data();
-      if(decision==='verified'){
-        await updateDoc(rRef,{paymentStatus:'verified',status:'confirmed',confirmedAt:serverTimestamp(),updatedAt:serverTimestamp()});
-        await notify(r.customerId,'Payment Verified ✓',`Payment for ${r.orderId} verified. Order confirmed!`,'');
+      if (decision === 'verified') {
+        await updateDoc(rRef, {
+          paymentStatus:'verified', status:'confirmed',
+          confirmedAt: serverTimestamp(), updatedAt: serverTimestamp()
+        });
+        await notify(r.customerId, 'Payment Verified ✓', `Your payment for ${r.orderId} verified. Order confirmed!`, '');
       } else {
-        await updateDoc(rRef,{paymentStatus:'rejected',status:'price_fixed',updatedAt:serverTimestamp()});
-        await notify(r.customerId,'Payment Rejected',`Payment for ${r.orderId} was rejected. Please try again.`,'');
+        await updateDoc(rRef, {
+          paymentStatus:'rejected', status:'price_fixed',
+          updatedAt: serverTimestamp()
+        });
+        await notify(r.customerId, 'Payment Rejected', `Payment for ${r.orderId} rejected. Please try again.`, '');
       }
     }
-    toast(decision==='verified'?'Payment verified ✓':'Rejected','success');
-  }catch(e){ toast(friendlyErr(e),'error'); }
+    toast(decision === 'verified' ? 'Payment verified ✓' : 'Rejected', 'success');
+  } catch (e) { toast(friendlyError(e), 'error'); }
 };
 
-/* ===== Admin Reviews ===== */
-function renderAdminReviews(){
+/* ---------- Admin: Reviews ---------- */
+function renderAdminReviews() {
   $('#adminView').innerHTML = `<div id="revTbl"></div>`;
-  regL(onSnapshot(query(collection(db,'reviews')),snap=>{
-    const list = snap.docs.map(d=>({id:d.id,...d.data()})).sort(sortDesc);
-    const el = $('#revTbl'); if(!el) return;
-    if(!list.length){ el.innerHTML = `<div class="empty"><div class="big">⭐</div>No reviews yet.</div>`; return; }
+  registerListener(onSnapshot(query(collection(db, 'reviews')), snap => {
+    const list = snap.docs.map(d => ({ id:d.id, ...d.data() })).sort(sortDesc);
+    const el = $('#revTbl');
+    if (!el) return;
+    if (!list.length) { el.innerHTML = `<div class="empty"><div class="big">⭐</div>No reviews yet.</div>`; return; }
     el.innerHTML = `<div class="tw sc"><table class="tbl">
       <thead><tr><th>Order</th><th>Customer</th><th>Rating</th><th>Review</th><th>Date</th></tr></thead>
-      <tbody>${list.map(r=>`<tr>
-        <td class="sm bold">#${esc(r.orderId||'')}</td><td class="sm">${esc(r.customerName||'')}</td>
-        <td>${'★'.repeat(r.rating||0)}${'☆'.repeat(5-(r.rating||0))}</td>
-        <td class="sm">${esc(r.review||'')}</td><td class="sm">${fds(r.createdAt)}</td>
-      </tr>`).join('')}</tbody></table></div>`;
+      <tbody>${list.map(r => `
+        <tr>
+          <td class="sm bold">#${esc(r.orderId || '')}</td>
+          <td class="sm">${esc(r.customerName || '')}</td>
+          <td>${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</td>
+          <td class="sm">${esc(r.review || '')}</td>
+          <td class="sm">${fds(r.createdAt)}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>`;
   }));
 }
 
-/* ===== Admin Complaints ===== */
-function renderAdminComplaints(){
+/* ---------- Admin: Complaints ---------- */
+function renderAdminComplaints() {
   $('#adminView').innerHTML = `<div id="cmpTbl"></div>`;
-  regL(onSnapshot(query(collection(db,'complaints')),snap=>{
-    const list = snap.docs.map(d=>({id:d.id,...d.data()})).sort(sortDesc);
-    const el = $('#cmpTbl'); if(!el) return;
-    if(!list.length){ el.innerHTML = `<div class="empty"><div class="big">📣</div>No complaints.</div>`; return; }
+  registerListener(onSnapshot(query(collection(db, 'complaints')), snap => {
+    const list = snap.docs.map(d => ({ id:d.id, ...d.data() })).sort(sortDesc);
+    const el = $('#cmpTbl');
+    if (!el) return;
+    if (!list.length) { el.innerHTML = `<div class="empty"><div class="big">📣</div>No complaints.</div>`; return; }
     el.innerHTML = `<div class="tw sc"><table class="tbl">
       <thead><tr><th>Order</th><th>Customer</th><th>Complaint</th><th>Status</th><th>Date</th><th></th></tr></thead>
-      <tbody>${list.map(c=>`<tr>
-        <td class="sm bold">#${esc(c.orderId||'')}</td><td class="sm">${esc(c.customerName||'')}</td>
-        <td class="sm">${esc((c.complaint||'').slice(0,80))}</td>
-        <td><span class="badge b-${c.status==='resolved'||c.status==='closed'?'ok':c.status==='under_review'?'info':'warn'}">${esc(c.status)}</span></td>
-        <td class="sm">${fds(c.createdAt)}</td>
-        <td><button class="btn btn-pri btn-xs" onclick="admOpenCmp('${c.id}')">Open</button></td>
-      </tr>`).join('')}</tbody></table></div>`;
+      <tbody>${list.map(c => `
+        <tr>
+          <td class="sm bold">#${esc(c.orderId || '')}</td>
+          <td class="sm">${esc(c.customerName || '')}</td>
+          <td class="sm">${esc((c.complaint || '').slice(0, 80))}</td>
+          <td><span class="badge b-${c.status === 'resolved' || c.status === 'closed' ? 'ok' : c.status === 'under_review' ? 'info' : 'warn'}">${esc(c.status)}</span></td>
+          <td class="sm">${fds(c.createdAt)}</td>
+          <td><button class="btn btn-pri btn-xs" onclick="admOpenCmp('${c.id}')">Open</button></td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>`;
   }));
 }
-window.admOpenCmp = async id=>{
-  const s = await getDoc(doc(db,'complaints',id)); if(!s.exists()) return toast('Not found','error');
-  const c = {id:s.id,...s.data()};
-  openModal(`<h3>Complaint · #${esc(c.orderId||'')}</h3>
-    <div class="sm mb12">${esc(c.complaint||'')}</div>
-    <div class="field"><label class="label">Reply</label><textarea class="input" id="cR">${esc(c.adminReply||'')}</textarea></div>
-    <div class="field"><label class="label">Status</label><select class="input" id="cS">
-      ${['open','under_review','resolved','closed'].map(x=>`<option value="${x}" ${c.status===x?'selected':''}>${x}</option>`).join('')}</select></div>
-    <div class="row" style="justify-content:flex-end;gap:8px"><button class="btn btn-out" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-pri" id="cSave">Save</button></div>`);
-  $('#cSave').onclick = async ()=>{
-    const adminReply = $('#cR').value.trim(), status = $('#cS').value;
-    try{ await updateDoc(doc(db,'complaints',c.id),{adminReply,status,repliedAt:serverTimestamp()});
-      await notify(c.customerId,'Complaint Updated',`Complaint is now: ${status}.${adminReply?' Reply: '+adminReply:''}`,'');
-      toast('Updated','success'); closeModal();
-    }catch(e){ toast(friendlyErr(e),'error'); }
+
+window.admOpenCmp = async (id) => {
+  const s = await getDoc(doc(db, 'complaints', id));
+  if (!s.exists()) return toast('Not found', 'error');
+  const c = { id:s.id, ...s.data() };
+  openModal(`
+    <h3>Complaint · #${esc(c.orderId || '')}</h3>
+    <div class="sm mb12">${esc(c.complaint || '')}</div>
+    <div class="field"><label class="label">Reply</label>
+      <textarea class="input" id="cR">${esc(c.adminReply || '')}</textarea></div>
+    <div class="field"><label class="label">Status</label>
+      <select class="input" id="cS">
+        ${['open','under_review','resolved','closed'].map(x => `<option value="${x}" ${c.status === x ? 'selected' : ''}>${x}</option>`).join('')}
+      </select></div>
+    <div class="row" style="justify-content:flex-end;gap:8px">
+      <button class="btn btn-out" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-pri" id="cSave">Save</button>
+    </div>`);
+  $('#cSave').onclick = async () => {
+    const adminReply = $('#cR').value.trim();
+    const status = $('#cS').value;
+    try {
+      await updateDoc(doc(db, 'complaints', c.id), { adminReply, status, repliedAt: serverTimestamp() });
+      await notify(c.customerId, 'Complaint Updated', `Complaint is now: ${status}.${adminReply ? ' Reply: ' + adminReply : ''}`, '');
+      toast('Updated', 'success');
+      closeModal();
+    } catch (e) { toast(friendlyError(e), 'error'); }
   };
 };
 
-/* ===== Admin Customers ===== */
-async function renderAdminCustomers(){
+/* ---------- Admin: Customers ---------- */
+async function renderAdminCustomers() {
   $('#adminView').innerHTML = `<div id="custTbl"><div class="sk"></div></div>`;
-  try{
-    const [uS,rS] = await Promise.all([getDocs(collection(db,'users')), getDocs(collection(db,'requests'))]);
-    const users = uS.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.role!=='admin');
-    const reqs = rS.docs.map(d=>d.data());
+  try {
+    const [uS, rS] = await Promise.all([
+      getDocs(collection(db, 'users')),
+      getDocs(collection(db, 'requests'))
+    ]);
+    const users = uS.docs.map(d => ({ id:d.id, ...d.data() })).filter(u => u.role !== 'admin');
+    const reqs = rS.docs.map(d => d.data());
     const el = $('#custTbl');
-    if(!users.length){ el.innerHTML = `<div class="empty"><div class="big">👥</div>No customers.</div>`; return; }
+    if (!users.length) { el.innerHTML = `<div class="empty"><div class="big">👥</div>No customers.</div>`; return; }
     el.innerHTML = `<div class="tw sc"><table class="tbl">
       <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Joined</th><th>Orders</th></tr></thead>
-      <tbody>${users.map(u=>{
-        const cnt = reqs.filter(r=>r.customerId===u.id).length;
-        return `<tr><td class="sm"><strong>${esc(u.name||'')}</strong></td><td class="sm">${esc(u.email||'')}</td>
-          <td class="sm">${esc(u.phone||'')}</td><td class="sm">${esc(u.address||'')}</td>
-          <td class="sm">${fds(u.createdAt)}</td><td class="sm">${cnt}</td></tr>`;
-      }).join('')}</tbody></table></div>`;
-  }catch(e){ $('#custTbl').innerHTML = `<div class="empty">Failed: ${esc(friendlyErr(e))}</div>`; }
+      <tbody>${users.map(u => {
+        const cnt = reqs.filter(r => r.customerId === u.id).length;
+        return `<tr>
+          <td class="sm"><strong>${esc(u.name || '')}</strong></td>
+          <td class="sm">${esc(u.email || '')}</td>
+          <td class="sm">${esc(u.phone || '')}</td>
+          <td class="sm">${esc(u.address || '')}</td>
+          <td class="sm">${fds(u.createdAt)}</td>
+          <td class="sm">${cnt}</td>
+        </tr>`;
+      }).join('')}
+      </tbody>
+    </table></div>`;
+  } catch (e) { $('#custTbl').innerHTML = `<div class="empty">Failed: ${esc(friendlyError(e))}</div>`; }
 }
 
-/* ===== Admin Settings ===== */
-async function renderAdminSettings(){
+/* ---------- Admin: Settings ---------- */
+async function renderAdminSettings() {
   await loadSettings();
-  const b = S.settings.business, p = S.settings.payment, o = S.settings.order;
+  const b = State.settings.business;
+  const p = State.settings.payment;
+  const o = State.settings.order;
   $('#adminView').innerHTML = `
-    <div class="card"><h3 class="mt0 mb12" style="font-size:16px">Business</h3>
-      <div class="field"><label class="label">Business Name</label><input class="input" id="sbN" value="${esc(b.businessName||'')}"></div>
-      <div class="field"><label class="label">Customer Care Number</label><input class="input" id="sbC" value="${esc(b.customerCareNumber||'')}"></div>
-      <div class="field"><label class="label">WhatsApp Number</label><input class="input" id="sbW" value="${esc(b.whatsappNumber||'')}"></div></div>
-    <div class="card"><h3 class="mt0 mb12" style="font-size:16px">Payment</h3>
-      <div class="field"><label class="label">UPI ID</label><input class="input" id="spU" value="${esc(p.upiId||'')}" placeholder="example@upi"></div>
-      <div class="field"><label class="label">Merchant Name</label><input class="input" id="spM" value="${esc(p.merchantName||'')}"></div></div>
-    <div class="card"><h3 class="mt0 mb12" style="font-size:16px">Order</h3>
-      <div class="field"><label class="label">Default Delivery Charge (₹)</label><input class="input" type="number" id="soD" value="${o.defaultDeliveryCharge||0}"></div>
-      <div class="field"><label class="label">Order ID Prefix</label><input class="input" id="soP" value="${esc(o.orderIdPrefix||'PRL')}"></div>
-      <div class="field"><label class="label">Complaint Response Message</label><input class="input" id="soM" value="${esc(o.complaintResponseMessage||'We will respond within 24 hours.')}"></div></div>
+    <div class="card">
+      <h3 class="mt0 mb12" style="font-size:16px">Business</h3>
+      <div class="field"><label class="label">Business Name</label><input class="input" id="sbN" value="${esc(b.businessName || '')}"></div>
+      <div class="field"><label class="label">Customer Care Number</label><input class="input" id="sbC" value="${esc(b.customerCareNumber || '')}"></div>
+      <div class="field"><label class="label">WhatsApp Number</label><input class="input" id="sbW" value="${esc(b.whatsappNumber || '')}"></div>
+    </div>
+    <div class="card">
+      <h3 class="mt0 mb12" style="font-size:16px">Payment</h3>
+      <div class="field"><label class="label">UPI ID</label><input class="input" id="spU" value="${esc(p.upiId || '')}" placeholder="example@upi"></div>
+      <div class="field"><label class="label">Merchant Name</label><input class="input" id="spM" value="${esc(p.merchantName || '')}"></div>
+    </div>
+    <div class="card">
+      <h3 class="mt0 mb12" style="font-size:16px">Order</h3>
+      <div class="field"><label class="label">Default Delivery Charge (₹)</label><input class="input" type="number" id="soD" value="${o.defaultDeliveryCharge || 0}"></div>
+      <div class="field"><label class="label">Order ID Prefix</label><input class="input" id="soP" value="${esc(o.orderIdPrefix || 'PRL')}"></div>
+      <div class="field"><label class="label">Complaint Response Message</label><input class="input" id="soM" value="${esc(o.complaintResponseMessage || 'We will respond within 24 hours.')}"></div>
+    </div>
     <button class="btn btn-pri" id="saveSet">Save All Settings</button>`;
-  $('#saveSet').onclick = async ()=>{
-    try{
+  $('#saveSet').onclick = async () => {
+    try {
       await Promise.all([
-        setDoc(doc(db,'settings','business'),{businessName:$('#sbN').value.trim(),customerCareNumber:$('#sbC').value.trim(),whatsappNumber:$('#sbW').value.trim()},{merge:true}),
-        setDoc(doc(db,'settings','payment'),{upiId:$('#spU').value.trim(),merchantName:$('#spM').value.trim()},{merge:true}),
-        setDoc(doc(db,'settings','order'),{defaultDeliveryCharge:parseFloat($('#soD').value)||0,orderIdPrefix:$('#soP').value.trim()||'PRL',complaintResponseMessage:$('#soM').value.trim()},{merge:true})
+        setDoc(doc(db, 'settings', 'business'), {
+          businessName: $('#sbN').value.trim(),
+          customerCareNumber: $('#sbC').value.trim(),
+          whatsappNumber: $('#sbW').value.trim()
+        }, { merge: true }),
+        setDoc(doc(db, 'settings', 'payment'), {
+          upiId: $('#spU').value.trim(),
+          merchantName: $('#spM').value.trim()
+        }, { merge: true }),
+        setDoc(doc(db, 'settings', 'order'), {
+          defaultDeliveryCharge: parseFloat($('#soD').value) || 0,
+          orderIdPrefix: $('#soP').value.trim() || 'PRL',
+          complaintResponseMessage: $('#soM').value.trim()
+        }, { merge: true })
       ]);
-      await loadSettings(); toast('Settings saved','success');
-    }catch(e){ toast(friendlyErr(e),'error'); }
+      await loadSettings();
+      toast('Settings saved', 'success');
+    } catch (e) { toast(friendlyError(e), 'error'); }
   };
 }
 
-/* ===== BOOT ===== */
-(function(){
-  $('#toReg').onclick = e=>{e.preventDefault();show('scrRegister');};
-  $('#toForgot').onclick = e=>{e.preventDefault();show('scrForgot');};
-  $('#toAdminLogin').onclick = e=>{e.preventDefault();show('scrAdminLogin');};
-  $('#toLogin').onclick = e=>{e.preventDefault();show('scrLogin');};
-  $('#fpToLogin').onclick = e=>{e.preventDefault();show('scrLogin');};
-  $('#alToCustomer').onclick = e=>{e.preventDefault();show('scrLogin');};
-  $$('.pwtog').forEach(b=>b.onclick=()=>{
-    const i = document.getElementById(b.dataset.t); if(!i) return;
-    i.type = i.type==='password'?'text':'password'; b.textContent = i.type==='password'?'Show':'Hide';
+/* ================================================================
+   BOOTSTRAP
+   ================================================================ */
+(function bootstrap() {
+  // Auth screen wiring
+  $('#toReg').onclick = e => { e.preventDefault(); show('scrRegister'); };
+  $('#toForgot').onclick = e => { e.preventDefault(); show('scrForgot'); };
+  $('#toAdminLogin').onclick = e => { e.preventDefault(); show('scrAdminLogin'); };
+  $('#toLogin').onclick = e => { e.preventDefault(); show('scrLogin'); };
+  $('#fpToLogin').onclick = e => { e.preventDefault(); show('scrLogin'); };
+  $('#alToCustomer').onclick = e => { e.preventDefault(); show('scrLogin'); };
+
+  // Password toggles
+  $$('.pwtog').forEach(b => b.onclick = () => {
+    const inp = document.getElementById(b.dataset.t);
+    if (!inp) return;
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+    b.textContent = inp.type === 'password' ? 'Show' : 'Hide';
   });
+
+  // Form handlers
   $('#loginForm').addEventListener('submit', onLogin);
   $('#regForm').addEventListener('submit', onRegister);
   $('#forgotForm').addEventListener('submit', onForgot);
   $('#adminLoginForm').addEventListener('submit', onAdminLogin);
-  onAuthStateChanged(auth, onAuth);
+
+  // Firebase auth state
+  onAuthStateChanged(auth, handleAuth);
 })();
+
 window.toast = toast;
 window.openModal = openModal;
 </script>
