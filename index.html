@@ -79,7 +79,7 @@ ul{list-style:none}
 .bnav-item.active{color:var(--accent)}
 .bnav-badge{position:absolute;top:2px;right:calc(50% - 18px);min-width:14px;height:14px;padding:0 3px;background:var(--danger);color:#fff;font-size:9px;font-weight:700;border-radius:999px;display:none;align-items:center;justify-content:center}
 .bnav-badge.show{display:flex}
-.badge{display:inline-flex;align-items:center;padding:2px 8px;font-size:11px;font-weight:500;border-radius:4px;letter-spacing:.01em}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;font-size:11px;font-weight:500;border-radius:4px}
 .badge-neutral{background:#f4f4f5;color:#52525b}
 .badge-info{background:var(--accent-soft);color:var(--accent)}
 .badge-success{background:var(--success-soft);color:var(--success)}
@@ -332,7 +332,9 @@ const byNewest = (a, b) => millis(b.createdAt) - millis(a.createdAt);
 function genOrderId() {
   const d = new Date();
   const ymd = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
-  const rnd = String(Math.floor(Math.random() * 999999)).padStart(6, "0");
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let rnd = "";
+  for (let i = 0; i < 8; i++) rnd += chars[Math.floor(Math.random() * chars.length)];
   return `PRL-${ymd}-${rnd}`;
 }
 
@@ -373,41 +375,21 @@ function errorMsg(err) {
   return map[err?.code] || err?.message || "Something went wrong.";
 }
 
-/* ===== ACCOUNT STATUS ===== */
-function isAccountActive() {
-  if (!S.profile) return false;
-  const status = S.profile.status || "active";
-  if (status === "blocked") return false;
-  if (status === "suspended") {
-    const until = S.profile.suspendedUntil?.toMillis?.() || 0;
-    if (until > Date.now()) return false;
-  }
-  return true;
-}
-
+/* ===== STATUS ===== */
 function getStatusMessage() {
   if (!S.profile) return { blocked: true, title: "Not signed in", message: "Please sign in." };
   const status = S.profile.status || "active";
   if (status === "blocked") {
-    return {
-      blocked: true,
-      type: "blocked",
-      title: "Account Blocked",
+    return { blocked: true, type: "blocked", title: "Account Blocked",
       message: "Your account has been blocked by admin.",
-      reason: S.profile.blockReason || "Not specified"
-    };
+      reason: S.profile.blockReason || "Not specified" };
   }
   if (status === "suspended") {
     const until = S.profile.suspendedUntil?.toMillis?.() || 0;
     if (until > Date.now()) {
-      return {
-        blocked: true,
-        type: "suspended",
-        title: "Account Temporarily Suspended",
+      return { blocked: true, type: "suspended", title: "Account Temporarily Suspended",
         message: "Your account is temporarily suspended. Please wait for the timer to end.",
-        reason: S.profile.blockReason || "Not specified",
-        until
-      };
+        reason: S.profile.blockReason || "Not specified", until };
     }
   }
   return { blocked: false };
@@ -425,38 +407,22 @@ function formatCountdown(ms) {
 function renderBlockedBanner() {
   const info = getStatusMessage();
   if (!info.blocked) return "";
-
   if (info.type === "blocked") {
-    return `
-      <div class="blocked-banner">
-        <div class="icon">🚫</div>
-        <h2>${escapeHtml(info.title)}</h2>
-        <p>${escapeHtml(info.message)}</p>
-        <div class="blocked-reason">
-          <div class="lbl">Reason</div>
-          <div class="txt">${escapeHtml(info.reason)}</div>
-        </div>
-        <p style="margin-top:14px;font-size:12px;opacity:.75">Contact support if you believe this is a mistake.</p>
-      </div>`;
+    return `<div class="blocked-banner">
+      <div class="icon">🚫</div><h2>${escapeHtml(info.title)}</h2>
+      <p>${escapeHtml(info.message)}</p>
+      <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div>
+      <p style="margin-top:14px;font-size:12px;opacity:.75">Contact support if you believe this is a mistake.</p>
+    </div>`;
   }
-
   if (info.type === "suspended") {
-    return `
-      <div class="blocked-banner suspended">
-        <div class="icon">⏸️</div>
-        <h2>${escapeHtml(info.title)}</h2>
-        <p>${escapeHtml(info.message)}</p>
-        <div class="blocked-reason">
-          <div class="lbl">Reason</div>
-          <div class="txt">${escapeHtml(info.reason)}</div>
-        </div>
-        <div class="blocked-timer">
-          <div class="label">Time Remaining</div>
-          <div class="time" id="blockedTimer">--:--:--</div>
-        </div>
-      </div>`;
+    return `<div class="blocked-banner suspended">
+      <div class="icon">⏸️</div><h2>${escapeHtml(info.title)}</h2>
+      <p>${escapeHtml(info.message)}</p>
+      <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div>
+      <div class="blocked-timer"><div class="label">Time Remaining</div><div class="time" id="blockedTimer">--:--:--</div></div>
+    </div>`;
   }
-
   return "";
 }
 
@@ -464,16 +430,13 @@ function startBlockTimer() {
   if (S.blockTimerInterval) clearInterval(S.blockTimerInterval);
   const info = getStatusMessage();
   if (!info.blocked || info.type !== "suspended" || !info.until) return;
-
   const tick = () => {
     const el = $("#blockedTimer");
     if (!el) return;
     const remaining = info.until - Date.now();
     if (remaining <= 0) {
-      clearInterval(S.blockTimerInterval);
-      S.blockTimerInterval = null;
-      refreshProfile();
-      return;
+      clearInterval(S.blockTimerInterval); S.blockTimerInterval = null;
+      refreshProfile(); return;
     }
     el.textContent = formatCountdown(remaining);
   };
@@ -519,24 +482,17 @@ async function validateCoupon(code, subtotal) {
     if (c.expiresAt && c.expiresAt.toMillis && c.expiresAt.toMillis() < Date.now()) {
       return { valid: false, error: "This coupon has expired" };
     }
-    if (subtotal < (c.minOrder || 0)) {
-      return { valid: false, error: `Minimum order ₹${c.minOrder} required` };
-    }
+    if (subtotal < (c.minOrder || 0)) return { valid: false, error: `Minimum order ₹${c.minOrder} required` };
     const discount = calcCouponDiscount(c, subtotal);
     return { valid: true, coupon: c, discount };
-  } catch (e) {
-    return { valid: false, error: "Failed to check coupon" };
-  }
+  } catch (e) { return { valid: false, error: "Failed to check coupon" }; }
 }
 
 async function checkFirstOrder() {
   try {
     const snap = await getDocs(query(collection(db, "orders"), where("customerId", "==", S.user.uid)));
     S.isFirstOrder = snap.empty;
-  } catch (e) {
-    console.warn("first order check failed:", e);
-    S.isFirstOrder = false;
-  }
+  } catch (e) { S.isFirstOrder = false; }
 }
 
 /* ===== MODAL ===== */
@@ -555,8 +511,7 @@ function confirmDialog(message, onConfirm) {
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-danger" id="__confOk">Confirm</button>
-    </div>
-  `);
+    </div>`);
   $("#__confOk").onclick = () => { closeModal(); onConfirm(); };
 }
 window.confirmDialog = confirmDialog;
@@ -572,23 +527,22 @@ const icon = {
   search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>`,
   back: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`,
   menu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>`,
-  trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`
+  trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`,
+  track: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>`
 };
 
 function BNAV(active) {
-  return `
-    <nav class="bnav">
-      <div class="bnav-item ${active === "home" ? "active" : ""}" data-nav="home">${icon.home}<span>Home</span></div>
-      <div class="bnav-item ${active === "products" ? "active" : ""}" data-nav="products">${icon.store}<span>Browse</span></div>
-      <div class="bnav-item ${active === "cart" ? "active" : ""}" data-nav="cart">${icon.cart}<span>Cart</span><span class="bnav-badge" data-cart-badge></span></div>
-      <div class="bnav-item ${active === "orders" ? "active" : ""}" data-nav="orders">${icon.list}<span>Orders</span></div>
-    </nav>`;
+  return `<nav class="bnav">
+    <div class="bnav-item ${active === "home" ? "active" : ""}" data-nav="home">${icon.home}<span>Home</span></div>
+    <div class="bnav-item ${active === "products" ? "active" : ""}" data-nav="products">${icon.store}<span>Browse</span></div>
+    <div class="bnav-item ${active === "cart" ? "active" : ""}" data-nav="cart">${icon.cart}<span>Cart</span><span class="bnav-badge" data-cart-badge></span></div>
+    <div class="bnav-item ${active === "orders" ? "active" : ""}" data-nav="orders">${icon.list}<span>Orders</span></div>
+  </nav>`;
 }
 
 function screenLogin() {
   return `<div class="auth-shell"><div class="auth-box">
-    <div class="auth-mark">P</div>
-    <h1>Sign in</h1><p class="auth-sub">Pawan Retail Limited</p>
+    <div class="auth-mark">P</div><h1>Sign in</h1><p class="auth-sub">Pawan Retail Limited</p>
     <form id="loginForm">
       <div class="form-group"><label class="form-label">Email</label>
         <input class="form-input" id="loginEmail" type="email" required></div>
@@ -601,14 +555,20 @@ function screenLogin() {
       <button class="btn btn-primary btn-block" type="submit" id="loginSubmit">Sign in</button>
     </form>
     <p class="auth-foot">New here? <a href="#" id="linkRegister">Create an account</a></p>
-    <p class="auth-foot"><a href="#" id="linkAdminLogin">Admin sign in</a></p>
+    <p class="auth-foot">
+      <a href="#" id="linkTrackOrder" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--accent-soft);border-radius:8px;color:var(--accent);font-weight:600;font-size:13px">
+        📦 Track your order
+      </a>
+    </p>
+    <p class="auth-foot" style="font-size:11px;color:var(--text-3);margin-top:14px">
+      <a href="#" id="linkAdminLogin" style="color:var(--text-3)">Admin sign in</a>
+    </p>
   </div></div>`;
 }
 
 function screenRegister() {
   return `<div class="auth-shell"><div class="auth-box">
-    <div class="auth-mark">P</div>
-    <h1>Create account</h1><p class="auth-sub">Join Pawan Retail Limited</p>
+    <div class="auth-mark">P</div><h1>Create account</h1><p class="auth-sub">Join Pawan Retail Limited</p>
     <form id="registerForm">
       <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required></div>
       <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required></div>
@@ -626,8 +586,7 @@ function screenRegister() {
 
 function screenForgot() {
   return `<div class="auth-shell"><div class="auth-box">
-    <div class="auth-mark">P</div>
-    <h1>Reset password</h1><p class="auth-sub">We'll email you a reset link</p>
+    <div class="auth-mark">P</div><h1>Reset password</h1><p class="auth-sub">We'll email you a reset link</p>
     <form id="forgotForm">
       <div class="form-group"><label class="form-label">Registered email</label>
         <input class="form-input" id="forgotEmail" type="email" required></div>
@@ -736,6 +695,17 @@ function screenAccount() {
     <div class="page" id="accountBody"></div>${BNAV("account")}</div>`;
 }
 
+function screenTrackOrder() {
+  return `<div class="shell">
+    <div class="appbar">
+      <button class="appbar-back" onclick="showScreen('scrLogin')">${icon.back}</button>
+      <div class="appbar-title">Track Order</div>
+      <div style="width:32px"></div>
+    </div>
+    <div class="page" id="trackBody"></div>
+  </div>`;
+}
+
 function screenAdmin() {
   return `<div class="admin-layout">
     <aside class="admin-side" id="adminSide">
@@ -775,6 +745,7 @@ function mountScreens() {
     <div id="scrOrders" class="screen">${screenOrders()}</div>
     <div id="scrOrderDetail" class="screen">${screenOrderDetail()}</div>
     <div id="scrAccount" class="screen">${screenAccount()}</div>
+    <div id="scrTrackOrder" class="screen">${screenTrackOrder()}</div>
     <div id="scrAdmin" class="screen">${screenAdmin()}</div>
   `;
 
@@ -791,6 +762,7 @@ function mountScreens() {
   $("#linkBackLogin").onclick = e => { e.preventDefault(); showScreen("scrLogin"); };
   $("#linkAdminLogin").onclick = e => { e.preventDefault(); showScreen("scrAdminLogin"); };
   $("#linkCustomerLogin").onclick = e => { e.preventDefault(); showScreen("scrLogin"); };
+  $("#linkTrackOrder").onclick = e => { e.preventDefault(); showScreen("scrTrackOrder"); renderTrackPage(); };
 
   $("#loginForm").addEventListener("submit", handleLogin);
   $("#registerForm").addEventListener("submit", handleRegister);
@@ -861,26 +833,21 @@ async function handleRegister(e) {
   const pass = $("#regPassword").value;
   const pass2 = $("#regPassword2").value;
   const address = $("#regAddress").value.trim();
-
   if (!name || !email || !pass || !address) return toast("Fill all required fields", "error");
   if (!/^[0-9]{10}$/.test(phone)) return toast("Enter valid 10-digit number", "error");
   if (pass.length < 6) return toast("Password 6+ chars", "error");
   if (pass !== pass2) return toast("Passwords do not match", "error");
-
   const btn = $("#regSubmit");
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating account';
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db, "users", cred.user.uid), {
       name, email, phone, address,
-      role: "customer",
-      status: "active",
-      blockReason: "",
-      suspendedUntil: null,
+      role: "customer", status: "active",
+      blockReason: "", suspendedUntil: null,
       createdAt: serverTimestamp()
     });
     toast("Account created successfully", "success");
-
     loadEmailJS().then(() => {
       if (window.__emailjs) {
         window.__emailjs.send(
@@ -900,11 +867,8 @@ async function handleForgot(e) {
   if (!email) return toast("Enter your email", "error");
   const btn = $("#forgotSubmit");
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Sending';
-  try {
-    await sendPasswordResetEmail(auth, email);
-    toast("Reset link sent", "success");
-    showScreen("scrLogin");
-  } catch (err) { toast(errorMsg(err), "error"); }
+  try { await sendPasswordResetEmail(auth, email); toast("Reset link sent", "success"); showScreen("scrLogin"); }
+  catch (err) { toast(errorMsg(err), "error"); }
   finally { btn.disabled = false; btn.textContent = "Send reset link"; }
 }
 
@@ -941,19 +905,12 @@ async function onAuthChanged(user) {
     S.profile = { uid: user.uid, ...snap.data() };
     if (S.profile.role === "admin") bootAdmin();
     else bootCustomer();
-  } catch (err) {
-    console.error(err);
-    toast(errorMsg(err), "error");
-    await signOut(auth);
-  }
+  } catch (err) { console.error(err); toast(errorMsg(err), "error"); await signOut(auth); }
 }
 
 function bootCustomer() {
   goTo("home");
-  watchNotifs();
-  watchCustomerOrders();
-  watchBanners();
-  checkFirstOrder();
+  watchNotifs(); watchCustomerOrders(); watchBanners(); checkFirstOrder();
 }
 
 function watchBanners() {
@@ -962,7 +919,7 @@ function watchBanners() {
     S.cached.banners = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
     paintBanners();
-  }, err => console.warn("Banner listener:", err));
+  });
   S.customerSubs.add(unsub);
 }
 
@@ -971,22 +928,21 @@ function paintBanners() {
   if (!slot) return;
   const banners = S.cached.banners;
   if (!banners.length) { slot.innerHTML = ""; return; }
-  slot.innerHTML = `
-    <div class="banner-carousel">
-      <div class="banner-track" id="bannerTrack">
-        ${banners.map((b, i) => {
-          const img = /^https?:\/\//i.test(b.imageUrl || "") ? b.imageUrl : "";
-          const style = img ? `background-image:url('${escapeHtml(img)}')` : "";
-          return `<div class="banner-slide" style="${style}">
-            <h3>${escapeHtml(b.title || "")}</h3>
-            ${b.subtitle ? `<p>${escapeHtml(b.subtitle)}</p>` : ""}
-            ${b.buttonLabel ? `<button class="btn" data-banner-idx="${i}">${escapeHtml(b.buttonLabel)}</button>` : ""}
-          </div>`;
-        }).join("")}
-      </div>
-      ${banners.length > 1 ? `<div class="banner-dots">${banners.map((_, i) =>
-        `<div class="banner-dot ${i === 0 ? "active" : ""}" data-dot="${i}"></div>`).join("")}</div>` : ""}
-    </div>`;
+  slot.innerHTML = `<div class="banner-carousel">
+    <div class="banner-track" id="bannerTrack">
+      ${banners.map((b, i) => {
+        const img = /^https?:\/\//i.test(b.imageUrl || "") ? b.imageUrl : "";
+        const style = img ? `background-image:url('${escapeHtml(img)}')` : "";
+        return `<div class="banner-slide" style="${style}">
+          <h3>${escapeHtml(b.title || "")}</h3>
+          ${b.subtitle ? `<p>${escapeHtml(b.subtitle)}</p>` : ""}
+          ${b.buttonLabel ? `<button class="btn" data-banner-idx="${i}">${escapeHtml(b.buttonLabel)}</button>` : ""}
+        </div>`;
+      }).join("")}
+    </div>
+    ${banners.length > 1 ? `<div class="banner-dots">${banners.map((_, i) =>
+      `<div class="banner-dot ${i === 0 ? "active" : ""}" data-dot="${i}"></div>`).join("")}</div>` : ""}
+  </div>`;
   let idx = 0;
   const track = $("#bannerTrack");
   const dots = $$(".banner-dot");
@@ -1026,7 +982,7 @@ function watchCustomerOrders() {
   const unsub = onSnapshot(q, snap => {
     S.cached.orders = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
     if ($("#ordersList")) paintOrders();
-  }, err => console.warn("Order listener:", err));
+  });
   S.customerSubs.add(unsub);
 }
 
@@ -1118,7 +1074,7 @@ function paintCompany(company, products) {
           <div class="text-sm text-muted mt-2">${escapeHtml(company.description || "")}</div>
         </div>
       </div>
-      ${company.requiresNumber ? `<div class="info-box mt-3">ℹ️ This company requires a number. Choose "own" (₹0) or "company provides" (₹${company.numberCharge || 0}).</div>` : ""}
+      ${company.requiresNumber ? `<div class="info-box mt-3">ℹ️ Number required: choose "own" (₹0) or "company" (₹${company.numberCharge || 0}).</div>` : ""}
     </div>
     <div class="section-title mt-4">Products</div>
     <div class="product-grid" id="companyProducts"></div>`;
@@ -1168,8 +1124,7 @@ function renderCart() {
   const status = getStatusMessage();
   if (status.blocked) {
     body.innerHTML = renderBlockedBanner() + `<div class="empty" style="padding-top:20px"><button class="btn btn-secondary" onclick="goTo('home')">Go home</button></div>`;
-    startBlockTimer();
-    return;
+    startBlockTimer(); return;
   }
   if (!S.cart.items.length) {
     body.innerHTML = `<div class="empty"><div style="font-size:40px;opacity:.3;margin-bottom:10px">🛒</div>
@@ -1219,23 +1174,20 @@ window.changeQty = (productId, delta) => {
   item.quantity += delta;
   if (item.quantity <= 0) S.cart.items = S.cart.items.filter(i => i.productId !== productId);
   if (!S.cart.items.length) { S.cart = { companyId: null, companyName: null, items: [] }; S.appliedCoupon = null; }
-  updateCartBadge();
-  renderCart();
+  updateCartBadge(); renderCart();
 };
 
 window.removeFromCart = (productId) => {
   S.cart.items = S.cart.items.filter(i => i.productId !== productId);
   if (!S.cart.items.length) { S.cart = { companyId: null, companyName: null, items: [] }; S.appliedCoupon = null; }
-  updateCartBadge();
-  renderCart();
+  updateCartBadge(); renderCart();
 };
 
 window.startCheckout = () => {
   const status = getStatusMessage();
   if (status.blocked) return toast(status.title + ": " + status.message, "error");
   if (!S.cart.items.length) return toast("Cart is empty", "error");
-  showScreen("scrCheckout");
-  renderCheckout();
+  showScreen("scrCheckout"); renderCheckout();
 };
 
 async function renderCheckout() {
@@ -1320,8 +1272,7 @@ async function renderCheckout() {
       ${couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon discount</span><span id="sumDiscount">- ${fmtINR(couponDiscount)}</span></div>` : ""}
       <div class="price-row total"><span>Total</span><span id="sumTotal">${fmtINR(subtotal + numberCharge + deliveryCharge + serviceCharge - couponDiscount)}</span></div>
     </div>
-    <button class="btn btn-primary btn-block mt-3" id="placeOrderBtn">Place order</button>
-  `;
+    <button class="btn btn-primary btn-block mt-3" id="placeOrderBtn">Place order</button>`;
 
   let selectedChoice = requiresNumber ? null : "none";
   let selectedNumberCharge = requiresNumber ? 0 : 0;
@@ -1342,7 +1293,6 @@ async function renderCheckout() {
       updateSummary();
     });
   }
-
   $("#couponApplyBtn").onclick = async () => {
     if (S.appliedCoupon) { S.appliedCoupon = null; toast("Coupon removed", "success"); renderCheckout(); return; }
     const code = $("#couponInput").value.trim();
@@ -1353,11 +1303,9 @@ async function renderCheckout() {
     toast(`Coupon applied — saving ${fmtINR(res.discount)}`, "success");
     renderCheckout();
   };
-
   $("#placeOrderBtn").onclick = () => placeOrder({
     company, subtotal, selectedChoice,
-    numberCharge: selectedNumberCharge,
-    deliveryCharge, serviceCharge, requiresNumber
+    numberCharge: selectedNumberCharge, deliveryCharge, serviceCharge, requiresNumber
   });
 }
 
@@ -1411,17 +1359,14 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
       status: "pending", note: "Order placed", changedBy: S.user.uid, createdAt: serverTimestamp()
     });
     S.cart = { companyId: null, companyName: null, items: [] };
-    S.appliedCoupon = null;
-    S.isFirstOrder = false;
+    S.appliedCoupon = null; S.isFirstOrder = false;
     updateCartBadge();
     toast(`Order ${orderId} placed`, "success");
     goTo("orders");
   } catch (err) {
     console.error("Order failed:", err);
     toast(err.message || errorMsg(err), "error");
-  } finally {
-    btn.disabled = false; btn.textContent = "Place order";
-  }
+  } finally { btn.disabled = false; btn.textContent = "Place order"; }
 }
 
 let orderFilter = "all";
@@ -1494,14 +1439,12 @@ function paintOrderDetail(o, history) {
       <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
       <div class="text-xs text-soft mt-2">${fmtDate(o.createdAt, true)}</div>
     </div>
-
     ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
       <div class="reason-card">
         <div class="title">${o.status === "rejected" ? "Rejection Reason" : "Cancellation Reason"}</div>
         <div class="text">${escapeHtml(o.cancelReason)}</div>
         ${o.cancelledAt ? `<div class="meta">on ${fmtDate(o.cancelledAt, true)}</div>` : ""}
       </div>` : ""}
-
     <div class="card">
       <div class="section-title">Items</div>
       ${(o.items || []).map(i => `
@@ -1514,7 +1457,6 @@ function paintOrderDetail(o, history) {
           <div class="font-semibold text-sm">${fmtINR(i.lineTotal)}</div>
         </div>`).join("")}
     </div>
-
     <div class="card">
       <div class="section-title">Price breakdown</div>
       <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
@@ -1524,7 +1466,6 @@ function paintOrderDetail(o, history) {
       ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon (${escapeHtml(o.couponCode || "")})</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
       <div class="price-row total"><span>Grand Total</span><span>${fmtINR(o.grandTotal)}</span></div>
     </div>
-
     <div class="card">
       <div class="section-title">Delivery</div>
       <div class="text-sm"><span class="text-muted">Name:</span> ${escapeHtml(o.customerName)}</div>
@@ -1532,7 +1473,6 @@ function paintOrderDetail(o, history) {
       <div class="text-sm"><span class="text-muted">Email:</span> ${escapeHtml(o.customerEmail)}</div>
       <div class="text-sm"><span class="text-muted">Address:</span> ${escapeHtml(o.address)}</div>
     </div>
-
     <div class="card">
       <div class="section-title">Progress</div>
       <div class="timeline">${timeline}</div>
@@ -1574,8 +1514,7 @@ function renderAccount() {
 }
 
 window.editProfile = () => {
-  openModal(`
-    <div class="modal-title">Edit profile</div>
+  openModal(`<div class="modal-title">Edit profile</div>
     <div class="form-group"><label class="form-label">Name</label>
       <input class="form-input" id="epName" value="${escapeHtml(S.profile.name || "")}"></div>
     <div class="form-group"><label class="form-label">Phone</label>
@@ -1602,17 +1541,13 @@ window.editProfile = () => {
 };
 
 window.changePassword = () => {
-  sendPasswordResetEmail(auth, S.profile.email)
-    .then(() => toast("Reset link sent", "success"))
-    .catch(err => toast(errorMsg(err), "error"));
+  sendPasswordResetEmail(auth, S.profile.email).then(() => toast("Reset link sent", "success")).catch(err => toast(errorMsg(err), "error"));
 };
 
 window.showCare = () => {
   openModal(`<div class="modal-title">Customer care</div>
     <p class="text-sm text-muted mb-3">Reach out for help.</p>
-    <div class="text-center" style="padding:12px 0">
-      <div class="font-mono">support@pawanretail.example</div>
-    </div>
+    <div class="text-center" style="padding:12px 0"><div class="font-mono">support@pawanretail.example</div></div>
     <div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">Close</button></div>`);
 };
 
@@ -1621,6 +1556,149 @@ window.showNotifs = () => {
     <p class="text-sm text-soft">No new notifications.</p>
     <div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">Close</button></div>`);
 };
+
+/* ===== TRACK ORDER ===== */
+function renderTrackPage() {
+  $("#trackBody").innerHTML = `
+    <div class="card">
+      <div class="section-title">Enter your order details</div>
+      <p class="text-sm text-muted mb-3">Both Order ID and registered email are required to view your order.</p>
+      <div class="form-group"><label class="form-label">Order ID</label>
+        <input class="form-input font-mono" id="trackOrderId" placeholder="PRL-20261010-XXXXXXXX" style="text-transform:uppercase"></div>
+      <div class="form-group"><label class="form-label">Registered email</label>
+        <input class="form-input" id="trackEmail" type="email" placeholder="you@example.com"></div>
+      <button class="btn btn-primary btn-block" id="trackBtn">Track Order</button>
+    </div>
+    <div id="trackResult"></div>
+    <div class="card card-flat" style="background:var(--surface-2);border:1px solid var(--border)">
+      <div style="padding:14px">
+        <div class="text-xs text-soft">
+          <strong style="color:var(--text)">Where do I find my Order ID?</strong><br>
+          Your Order ID was shown when you placed the order and is included in the confirmation email.<br>
+          Example: <span class="font-mono">PRL-20261010-A7K9M2XP</span>
+        </div>
+      </div>
+    </div>`;
+  $("#trackBtn").onclick = trackOrder;
+  $("#trackOrderId").addEventListener("keypress", (e) => { if (e.key === "Enter") trackOrder(); });
+  $("#trackEmail").addEventListener("keypress", (e) => { if (e.key === "Enter") trackOrder(); });
+}
+
+async function trackOrder() {
+  const orderId = ($("#trackOrderId").value || "").trim().toUpperCase();
+  const email = ($("#trackEmail").value || "").trim().toLowerCase();
+  const result = $("#trackResult");
+  const btn = $("#trackBtn");
+  if (!orderId) return toast("Enter your order ID", "error");
+  if (!email) return toast("Enter your registered email", "error");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("Enter a valid email", "error");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Searching';
+  result.innerHTML = `<div class="skeleton" style="height:140px"></div>`;
+  try {
+    const snap = await getDocs(query(collection(db, "orders"), where("orderId", "==", orderId)));
+    if (snap.empty) {
+      result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca">
+        <div class="text-sm" style="color:var(--danger);font-weight:500">No order found with ID "${escapeHtml(orderId)}".</div>
+        <div class="text-xs mt-2" style="color:var(--danger);opacity:.8">Please check your Order ID and try again.</div>
+      </div>`;
+      btn.disabled = false; btn.textContent = "Track Order"; return;
+    }
+    const matching = snap.docs.find(d => ((d.data().customerEmail || "").toLowerCase() === email));
+    if (!matching) {
+      result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca">
+        <div class="text-sm" style="color:var(--danger);font-weight:500">Email does not match our records.</div>
+        <div class="text-xs mt-2" style="color:var(--danger);opacity:.8">The email you entered does not match the email used for this order.</div>
+      </div>`;
+      btn.disabled = false; btn.textContent = "Track Order"; return;
+    }
+    const o = { id: matching.id, ...matching.data() };
+    let history = [];
+    try {
+      const histSnap = await getDocs(collection(db, "orders", o.id, "statusHistory"));
+      history = histSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
+    } catch (_) {}
+    paintTrackResult(o, history);
+  } catch (err) {
+    console.error("Track error:", err);
+    result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca">
+      <div class="text-sm" style="color:var(--danger);font-weight:500">Failed to track order</div>
+      <div class="text-xs mt-2" style="color:var(--danger);opacity:.8">${escapeHtml(err.message || "Something went wrong")}</div>
+    </div>`;
+  } finally { btn.disabled = false; btn.textContent = "Track Order"; }
+}
+
+function paintTrackResult(o, history) {
+  const statusInfo = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
+  const steps = ["pending", "processing", "successful"];
+  const currentIdx = steps.indexOf(o.status);
+  const timeline = steps.map((s, i) => {
+    let cls = "";
+    if (o.status === "cancelled" || o.status === "rejected") cls = i === 0 ? "done" : "";
+    else if (i < currentIdx) cls = "done";
+    else if (i === currentIdx) cls = "current";
+    return `<div class="timeline-step ${cls}"><div class="tl-label">${ORDER_STATUS[s].label}</div></div>`;
+  }).join("");
+
+  $("#trackResult").innerHTML = `
+    <div class="card" style="margin-top:14px;background:var(--success-soft);border-color:#bbf7d0">
+      <div class="text-xs" style="color:var(--success);text-transform:uppercase;letter-spacing:.05em;font-weight:600">Order Verified</div>
+      <div class="text-sm" style="color:var(--success);margin-top:4px">Order ID and email matched successfully.</div>
+    </div>
+    <div class="card">
+      <div class="between mb-3">
+        <div><div class="text-xs text-soft">Order</div>
+          <div class="font-semibold font-mono" style="font-size:15px">${escapeHtml(o.orderId || o.id)}</div></div>
+        <span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span>
+      </div>
+      <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
+      <div class="text-xs text-soft mt-2">Placed on ${fmtDate(o.createdAt, true)}</div>
+    </div>
+    ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
+      <div class="reason-card">
+        <div class="title">${o.status === "rejected" ? "Rejection Reason" : "Cancellation Reason"}</div>
+        <div class="text">${escapeHtml(o.cancelReason)}</div>
+        ${o.cancelledAt ? `<div class="meta">on ${fmtDate(o.cancelledAt, true)}</div>` : ""}
+      </div>` : ""}
+    <div class="card">
+      <div class="section-title">Items</div>
+      ${(o.items || []).map(i => `
+        <div class="row" style="padding:8px 0;border-bottom:1px solid var(--border)">
+          <img src="${escapeHtml(/^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : PLACEHOLDER_IMG)}" style="width:48px;height:48px;border-radius:6px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
+          <div style="flex:1;min-width:0">
+            <div class="text-sm font-medium">${escapeHtml(i.name)}</div>
+            <div class="text-xs text-soft">Qty: ${i.quantity} × ${fmtINR(i.unitPrice)}</div>
+          </div>
+          <div class="font-semibold text-sm">${fmtINR(i.lineTotal)}</div>
+        </div>`).join("")}
+    </div>
+    <div class="card">
+      <div class="section-title">Price breakdown</div>
+      <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
+      ${o.deliveryCharge > 0 ? `<div class="price-row"><span class="text-muted">Delivery</span><span>${fmtINR(o.deliveryCharge)}</span></div>` : ""}
+      ${o.serviceCharge > 0 ? `<div class="price-row"><span class="text-muted">Service</span><span>${fmtINR(o.serviceCharge)}</span></div>` : ""}
+      ${o.numberCharge > 0 ? `<div class="price-row"><span class="text-muted">Number charge</span><span>${fmtINR(o.numberCharge)}</span></div>` : ""}
+      ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
+      <div class="price-row total"><span>Grand Total</span><span>${fmtINR(o.grandTotal)}</span></div>
+    </div>
+    <div class="card">
+      <div class="section-title">Delivery</div>
+      <div class="text-sm"><span class="text-muted">Name:</span> ${escapeHtml(o.customerName)}</div>
+      <div class="text-sm"><span class="text-muted">Phone:</span> ${escapeHtml(o.customerPhone)}</div>
+      <div class="text-sm"><span class="text-muted">Address:</span> ${escapeHtml(o.address)}</div>
+    </div>
+    <div class="card">
+      <div class="section-title">Progress</div>
+      <div class="timeline">${timeline}</div>
+      ${history.length ? `<div class="section-title mt-4">History</div>
+        ${history.map(h => `<div class="text-xs text-soft" style="padding:6px 0;border-bottom:1px solid var(--border)">
+          <div style="font-weight:500;color:var(--text)">${fmtDate(h.createdAt, true)} — ${escapeHtml(ORDER_STATUS[h.status]?.label || h.status)}</div>
+          ${h.note ? `<div style="margin-top:2px">Note: ${escapeHtml(h.note)}</div>` : ""}
+        </div>`).join("")}` : ""}
+    </div>
+    <div class="card card-flat" style="background:var(--surface-2);border:1px solid var(--border)">
+      <div style="padding:14px"><div class="text-xs text-soft">This is a read-only view. To modify or cancel, sign in to your account.</div></div>
+    </div>`;
+}
 
 /* ===== ADMIN ===== */
 let adminView = "dashboard";
@@ -1699,11 +1777,17 @@ function renderAdminCompanies() {
         <td>${c.requiresNumber ? `₹${c.numberCharge || 0}` : "—"}</td>
         <td>${c.isActive !== false ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Hidden</span>'}</td>
         <td class="acts"><button class="btn btn-secondary btn-xs" onclick="editCompany('${c.id}')">Edit</button>
-          <button class="btn btn-secondary btn-xs" onclick="manageProducts('${c.id}')">Products</button></td>
+          <button class="btn btn-secondary btn-xs" onclick="manageProducts('${c.id}')">Products</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteCompanyAdmin('${c.id}')">Delete</button></td>
       </tr>`).join("")}</tbody></table></div>`;
   });
   S.adminSubs.add(unsub);
 }
+
+window.deleteCompanyAdmin = (id) => confirmDialog("Delete this company permanently?", async () => {
+  try { await deleteDoc(doc(db, "companies", id)); toast("Company deleted", "success"); }
+  catch (err) { toast(errorMsg(err), "error"); }
+});
 
 window.companyForm = (company = null) => {
   const editing = !!company;
@@ -1723,8 +1807,7 @@ window.companyForm = (company = null) => {
     </div>`);
   $("#cSave").onclick = async () => {
     const data = {
-      name: $("#cName").value.trim(),
-      description: $("#cDesc").value.trim(),
+      name: $("#cName").value.trim(), description: $("#cDesc").value.trim(),
       category: $("#cCategory").value.trim() || "General",
       logoUrl: $("#cLogo").value.trim(),
       deliveryCharge: parseFloat($("#cDelivery").value) || 0,
@@ -1834,7 +1917,7 @@ window.bannerForm = (banner = null) => {
   openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} banner</div>
     <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="bTitle" value="${escapeHtml(banner?.title || "")}"></div>
     <div class="form-group"><label class="form-label">Subtitle</label><input class="form-input" id="bSubtitle" value="${escapeHtml(banner?.subtitle || "")}"></div>
-    <div class="form-group"><label class="form-label">Image URL (HTTPS)</label><input class="form-input" id="bImage" value="${escapeHtml(banner?.imageUrl || "")}"></div>
+    <div class="form-group"><label class="form-label">Image URL</label><input class="form-input" id="bImage" value="${escapeHtml(banner?.imageUrl || "")}"></div>
     <div class="form-group"><label class="form-label">Button label</label><input class="form-input" id="bButtonLabel" value="${escapeHtml(banner?.buttonLabel || "")}"></div>
     <div class="form-group"><label class="form-label">Destination type</label>
       <select class="form-select" id="bDestType">
@@ -1876,7 +1959,6 @@ window.deleteBannerAdmin = (id) => confirmDialog("Delete banner?", async () => {
   catch (err) { toast(errorMsg(err), "error"); }
 });
 
-/* ===== ADMIN COUPONS ===== */
 function renderAdminCoupons() {
   $("#adminContent").innerHTML = `<div class="mb-4"><button class="btn btn-primary" id="addCouponBtn">Add coupon</button></div><div id="couponsList"></div>`;
   $("#addCouponBtn").onclick = () => couponForm();
@@ -1911,7 +1993,7 @@ window.couponForm = (coupon = null) => {
       </select></div>
     <div class="form-group"><label class="form-label">Discount value</label>
       <input class="form-input" type="number" id="cpValue" value="${coupon?.discountValue || 0}"></div>
-    <div class="form-group"><label class="form-label">Max discount (for percent, optional)</label>
+    <div class="form-group"><label class="form-label">Max discount (for percent)</label>
       <input class="form-input" type="number" id="cpMax" value="${coupon?.maxDiscount || 0}"></div>
     <div class="form-group"><label class="form-label">Minimum order (₹)</label>
       <input class="form-input" type="number" id="cpMin" value="${coupon?.minOrder || 0}"></div>
@@ -1927,8 +2009,7 @@ window.couponForm = (coupon = null) => {
       discountValue: parseFloat($("#cpValue").value) || 0,
       maxDiscount: parseFloat($("#cpMax").value) || 0,
       minOrder: parseFloat($("#cpMin").value) || 0,
-      isActive: $("#cpActive").checked,
-      updatedAt: serverTimestamp()
+      isActive: $("#cpActive").checked, updatedAt: serverTimestamp()
     };
     if (!data.code) return toast("Code required", "error");
     if (data.discountValue <= 0) return toast("Discount value must be > 0", "error");
@@ -1950,7 +2031,6 @@ window.deleteCoupon = (id) => confirmDialog("Delete coupon?", async () => {
   catch (err) { toast(errorMsg(err), "error"); }
 });
 
-/* ===== ADMIN ORDERS ===== */
 let adminOrderFilter = "all";
 function renderAdminOrders() {
   $("#adminContent").innerHTML = `
@@ -2037,12 +2117,10 @@ window.adminOpenOrder = async (orderId) => {
   $("#admUpdateStatus").onclick = async () => {
     const newStatus = $("#admStatus").value;
     if (newStatus === o.status) return toast("Status unchanged", "info");
-
     if (newStatus === "rejected" || newStatus === "cancelled") {
-      // Ask for reason via inline prompt modal
       openModal(`<div class="modal-title">Reason for ${newStatus}</div>
-        <div class="form-group"><label class="form-label">Please provide a reason (visible to customer)</label>
-          <textarea class="form-textarea" id="cancelReasonInput" placeholder="e.g. Out of stock, Payment verification failed, Wrong address"></textarea></div>
+        <div class="form-group"><label class="form-label">Reason (visible to customer)</label>
+          <textarea class="form-textarea" id="cancelReasonInput" placeholder="e.g. Out of stock, Payment verification failed"></textarea></div>
         <div class="modal-actions">
           <button class="btn btn-secondary" id="cancelBack">Back</button>
           <button class="btn btn-danger" id="cancelConfirm">Confirm ${newStatus}</button>
@@ -2055,7 +2133,6 @@ window.adminOpenOrder = async (orderId) => {
       };
       return;
     }
-
     await updateOrderStatusWithReason(o, newStatus, "");
   };
 
@@ -2089,9 +2166,7 @@ async function updateOrderStatusWithReason(o, newStatus, reason) {
         });
         toast("Order updated. Email failed.", "error");
       }
-    } else {
-      toast("Status updated", "success");
-    }
+    } else { toast("Status updated", "success"); }
     closeModal();
   } catch (err) { toast(errorMsg(err), "error"); }
 }
@@ -2121,7 +2196,6 @@ async function sendSuccessEmail(order) {
   });
 }
 
-/* ===== ADMIN CUSTOMERS ===== */
 async function renderAdminCustomers() {
   $("#adminContent").innerHTML = `<div id="customersList"><div class="skeleton"></div></div>`;
   try {
@@ -2130,15 +2204,15 @@ async function renderAdminCustomers() {
     const el = $("#customersList");
     if (!users.length) { el.innerHTML = `<div class="empty">No customers</div>`; return; }
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${users.map(u => {
         const status = u.status || "active";
         const statusInfo = ACCOUNT_STATUS[status] || ACCOUNT_STATUS.active;
         const suspendUntil = u.suspendedUntil?.toMillis?.();
         const suspendActive = status === "suspended" && suspendUntil && suspendUntil > Date.now();
         return `<tr>
-          <td class="font-medium">${escapeHtml(u.name || "")}</td>
-          <td>${escapeHtml(u.email || "")}<div class="text-xs text-soft">${escapeHtml(u.phone || "")}</div></td>
+          <td class="font-medium">${escapeHtml(u.name || "")}<div class="text-xs text-soft">${escapeHtml(u.phone || "")}</div></td>
+          <td>${escapeHtml(u.email || "")}</td>
           <td class="text-xs">${fmtDate(u.createdAt)}</td>
           <td>
             <span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span>
@@ -2151,16 +2225,42 @@ async function renderAdminCustomers() {
             ` : `
               <button class="btn btn-success btn-xs" onclick="adminUnblockUser('${u.id}')">Unblock</button>
             `}
+            <button class="btn btn-danger btn-xs" onclick="adminDeleteUser('${u.id}', '${escapeHtml(u.email || '')}')">Delete</button>
           </td>
         </tr>`;
       }).join("")}</tbody></table></div>`;
   } catch (err) { $("#customersList").innerHTML = `<div class="empty">Failed to load</div>`; }
 }
 
+window.adminDeleteUser = (userId, email) => {
+  openModal(`<div class="modal-title">Delete User</div>
+    <div class="warn-box mb-3">
+      <strong>⚠️ Warning:</strong> This will permanently delete the user's profile from Firestore. This action cannot be undone.
+    </div>
+    <p class="text-sm text-muted mb-3">User: <strong>${escapeHtml(email)}</strong></p>
+    <p class="text-sm text-soft mb-3">Note: Firebase Authentication account may remain unless deleted manually from Firebase Console → Authentication.</p>
+    <div class="form-group"><label class="form-label">Type the email to confirm</label>
+      <input class="form-input font-mono" id="deleteConfirmEmail" placeholder="${escapeHtml(email)}"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" id="deleteConfirmBtn">Delete Permanently</button>
+    </div>`);
+  $("#deleteConfirmBtn").onclick = async () => {
+    const typed = $("#deleteConfirmEmail").value.trim();
+    if (typed !== email) return toast("Email does not match", "error");
+    try {
+      await deleteDoc(doc(db, "users", userId));
+      toast("User profile deleted", "success");
+      closeModal();
+      renderAdminCustomers();
+    } catch (err) { toast(errorMsg(err), "error"); }
+  };
+};
+
 window.adminBlockUser = (userId) => {
   openModal(`<div class="modal-title">Block User</div>
     <p class="text-sm text-muted mb-3">User will be permanently blocked and cannot place orders.</p>
-    <div class="form-group"><label class="form-label">Reason (required — visible to user)</label>
+    <div class="form-group"><label class="form-label">Reason (visible to user)</label>
       <textarea class="form-textarea" id="blockReason" placeholder="e.g. Violation of terms, fraudulent activity"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
@@ -2192,8 +2292,8 @@ window.adminSuspendUser = (userId) => {
         <option value="72">3 days</option>
         <option value="168">7 days</option>
       </select></div>
-    <div class="form-group"><label class="form-label">Reason (required — visible to user)</label>
-      <textarea class="form-textarea" id="suspendReason" placeholder="e.g. Payment failed multiple times, abusive behaviour"></textarea></div>
+    <div class="form-group"><label class="form-label">Reason (visible to user)</label>
+      <textarea class="form-textarea" id="suspendReason" placeholder="e.g. Payment failed multiple times"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" id="suspendConfirm">Suspend User</button>
