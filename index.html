@@ -229,8 +229,7 @@ ul{list-style:none}
 <script type="module">
 /* ================================================================
    PAWAN RETAIL LIMITED
-   Firebase Auth + Firestore + EmailJS only
-   No Storage, no Functions, no indexes, no backend
+   Firebase Auth + Firestore + EmailJS
    ================================================================ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -244,7 +243,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* ================================================================
-   CONFIG — FILL THESE IN
+   CONFIG
    ================================================================ */
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyAZy_JeQH7Ofvqru2DME1EsH59Yh5JtRjs",
@@ -255,14 +254,14 @@ const FIREBASE_CONFIG = {
   appId: "1:595261097611:web:88a136d144129b142b368e"
 };
 
-// 🔴 REPLACE THESE WITH YOUR EMAILJS CREDENTIALS
-// Get them from https://dashboard.emailjs.com/admin
+// ⚠️ REPLACE serviceId WITH YOUR ACTUAL SERVICE ID FROM EMAILJS DASHBOARD
+// Go to https://dashboard.emailjs.com/admin → Email Services → copy the "Service ID" column value
 const EMAILJS_CONFIG = {
-  publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
-  serviceId: "YOUR_EMAILJS_SERVICE_ID",
-  welcomeTemplateId: "YOUR_WELCOME_TEMPLATE_ID",
-  orderSuccessTemplateId: "YOUR_ORDER_SUCCESS_TEMPLATE_ID",
-  enabled: false // Set to true after configuring above
+  publicKey: "C0oQ0dC5JTdHyt3xK",
+  serviceId: "service_pawanretail",     // ⚠️ REPLACE THIS — get from EmailJS → Email Services
+  welcomeTemplateId: "template_xm01mo4",
+  orderSuccessTemplateId: "template_5ugr1ok",
+  enabled: true
 };
 
 /* ================================================================
@@ -272,7 +271,6 @@ const fb = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(fb);
 const db = getFirestore(fb);
 
-// EmailJS lazy-load
 let emailjsReady = false;
 async function loadEmailJS() {
   if (emailjsReady || !EMAILJS_CONFIG.enabled) return;
@@ -281,7 +279,10 @@ async function loadEmailJS() {
     mod.default.init(EMAILJS_CONFIG.publicKey);
     window.__emailjs = mod.default;
     emailjsReady = true;
-  } catch (e) { console.warn("EmailJS load failed", e); }
+    console.log("EmailJS initialized");
+  } catch (e) {
+    console.warn("EmailJS load failed", e);
+  }
 }
 
 /* ================================================================
@@ -305,14 +306,13 @@ const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2
 const S = {
   user: null,
   profile: null,
-  cart: { companyId: null, companyName: null, items: [] }, // { productId, name, imageUrl, price, quantity }
+  cart: { companyId: null, companyName: null, items: [] },
   currentCompany: null,
   currentCategory: "all",
   searchQuery: "",
   customerSubs: new Set(),
   adminSubs: new Set(),
-  cached: { banners: [], companies: [], products: [], orders: [] },
-  settings: { support: { email: "", phone: "" } }
+  cached: { banners: [], companies: [], products: [], orders: [] }
 };
 
 /* ================================================================
@@ -406,7 +406,7 @@ function closeModal() { $("#modal-root").innerHTML = ""; }
 window.closeModal = closeModal;
 
 /* ================================================================
-   ICONS (inline SVG)
+   ICONS
    ================================================================ */
 const icon = {
   home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>`,
@@ -689,7 +689,7 @@ function screenAdmin() {
 }
 
 /* ================================================================
-   MOUNT ALL SCREENS
+   MOUNT
    ================================================================ */
 function mountScreens() {
   $("#root").innerHTML = `
@@ -708,7 +708,6 @@ function mountScreens() {
     <div id="scrAdmin" class="screen">${screenAdmin()}</div>
   `;
 
-  // Password toggles
   $$("[data-toggle]").forEach(b => b.onclick = () => {
     const inp = document.getElementById(b.dataset.toggle);
     if (!inp) return;
@@ -716,7 +715,6 @@ function mountScreens() {
     b.textContent = inp.type === "password" ? "Show" : "Hide";
   });
 
-  // Auth links
   $("#linkRegister").onclick = e => { e.preventDefault(); showScreen("scrRegister"); };
   $("#linkLogin").onclick = e => { e.preventDefault(); showScreen("scrLogin"); };
   $("#linkForgot").onclick = e => { e.preventDefault(); showScreen("scrForgot"); };
@@ -724,19 +722,16 @@ function mountScreens() {
   $("#linkAdminLogin").onclick = e => { e.preventDefault(); showScreen("scrAdminLogin"); };
   $("#linkCustomerLogin").onclick = e => { e.preventDefault(); showScreen("scrLogin"); };
 
-  // Auth forms
   $("#loginForm").addEventListener("submit", handleLogin);
   $("#registerForm").addEventListener("submit", handleRegister);
   $("#forgotForm").addEventListener("submit", handleForgot);
   $("#adminLoginForm").addEventListener("submit", handleAdminLogin);
 
-  // Bottom nav
   document.addEventListener("click", e => {
     const item = e.target.closest(".bnav-item[data-nav]");
     if (item) { e.preventDefault(); goTo(item.dataset.nav); }
   });
 
-  // Home buttons
   $("#btnCare").onclick = showCare;
   $("#btnNotifs").onclick = showNotifs;
   $("#btnSearchToggle").onclick = () => {
@@ -779,7 +774,7 @@ function updateCartBadge() {
 }
 
 /* ================================================================
-   AUTH HANDLERS
+   AUTH
    ================================================================ */
 async function handleLogin(e) {
   e.preventDefault();
@@ -822,17 +817,27 @@ async function handleRegister(e) {
       role: "customer",
       createdAt: serverTimestamp()
     });
-    toast("Account created. Welcome email sent.", "success");
+    toast("Account created successfully", "success");
 
-    // Welcome email (non-blocking, doesn't fail registration)
+    // Send welcome email
     loadEmailJS().then(() => {
       if (window.__emailjs) {
-        window.__emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.welcomeTemplateId, {
-          to_email: email,
-          to_name: name,
-          business_name: "Pawan Retail Limited",
-          year: new Date().getFullYear()
-        }).catch(err => console.warn("Welcome email failed", err));
+        console.log("Sending welcome email to", email);
+        window.__emailjs.send(
+          EMAILJS_CONFIG.serviceId,
+          EMAILJS_CONFIG.welcomeTemplateId,
+          {
+            to_email: email,
+            to_name: name,
+            business_name: "Pawan Retail Limited",
+            support_email: "support@pawanretail.example",
+            year: new Date().getFullYear()
+          }
+        ).then(res => {
+          console.log("Welcome email sent:", res.status, res.text);
+        }).catch(err => {
+          console.warn("Welcome email failed:", err);
+        });
       }
     });
   } catch (err) {
@@ -882,8 +887,8 @@ async function logout() {
   S.customerSubs.clear(); S.adminSubs.clear();
   S.user = null; S.profile = null;
   S.cart = { companyId: null, companyName: null, items: [] };
-  showScreen("scrLogin");
 }
+window.logout = logout;
 
 async function onAuthChanged(user) {
   if (!user) {
@@ -966,15 +971,13 @@ function paintBanners() {
   }
 
   dots.forEach(d => d.onclick = () => goToSlide(+d.dataset.dot));
-
   $$("[data-banner-idx]").forEach(btn => btn.onclick = () => {
     const b = banners[+btn.dataset.bannerIdx];
     handleBannerDestination(b);
   });
 
   if (slides > 1) {
-    let timer = setInterval(() => goToSlide(idx + 1), 6000);
-    // Cleanup on re-paint
+    const timer = setInterval(() => goToSlide(idx + 1), 6000);
     S.customerSubs.add(() => clearInterval(timer));
   }
 }
@@ -1017,19 +1020,16 @@ async function renderHome() {
   if (!S.profile) return;
   $("#homeGreeting").textContent = `Hi, ${(S.profile.name || "").split(" ")[0] || "there"}`;
 
-  // Fetch companies
   const snap = await getDocs(query(collection(db, "companies"), where("isActive", "==", true)));
   const companies = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
   S.cached.companies = companies;
 
-  // Categories (unique)
   const cats = new Set();
   companies.forEach(c => { if (c.category) cats.add(c.category); });
   $("#homeCategories").innerHTML = [...cats].slice(0, 8).map(c =>
     `<button class="chip" onclick="filterByCategory('${escapeHtml(c)}')">${escapeHtml(c)}</button>`
   ).join("");
 
-  // Companies grid
   const grid = $("#homeCompanies");
   if (!companies.length) {
     grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No companies available yet</div>`;
@@ -1113,7 +1113,6 @@ window.openCompany = async (companyId) => {
   S.currentCompany = company;
   $("#companyTitle").textContent = company.name || "Company";
 
-  // Load products (subcollection, no index)
   const prodSnap = await getDocs(collection(db, "companies", companyId, "products"));
   const products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.isActive !== false);
 
@@ -1176,7 +1175,6 @@ window.addProductToCart = async (productId, companyId) => {
 
   if (product.isActive === false) return toast("Product not available", "error");
 
-  // Cart locking — one company per order
   if (S.cart.companyId && S.cart.companyId !== companyId) {
     return confirmDialog(
       `Your cart already contains items from ${S.cart.companyName}. Clear it to add from ${company.name}?`,
@@ -1220,8 +1218,9 @@ function renderCart() {
     body.innerHTML = `
       <div class="empty">
         <div style="font-size:40px;opacity:.3;margin-bottom:10px">🛒</div>
-        <p>Your cart is empty</p>
-        <button class="btn btn-primary mt-3" onclick="goTo('products')">Browse companies</button>
+        <p style="font-weight:600;color:var(--text)">Your cart is empty</p>
+        <p class="text-sm text-soft mt-2">Add products from any company to get started.</p>
+        <button class="btn btn-primary mt-4" onclick="goTo('products')">Browse companies</button>
       </div>`;
     return;
   }
@@ -1420,7 +1419,6 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, req
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Placing order';
 
   try {
-    // Revalidate products from Firestore
     const validItems = [];
     for (const item of S.cart.items) {
       const pSnap = await getDoc(doc(db, "companies", company.id, "products", item.productId));
@@ -1466,7 +1464,6 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, req
 
     const ref = await addDoc(collection(db, "orders"), orderData);
 
-    // Status history
     await addDoc(collection(db, "orders", ref.id, "statusHistory"), {
       status: "pending",
       note: "Order placed",
@@ -1474,7 +1471,6 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, req
       createdAt: serverTimestamp()
     });
 
-    // Clear cart
     S.cart = { companyId: null, companyName: null, items: [] };
     updateCartBadge();
 
@@ -1490,7 +1486,7 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, req
 }
 
 /* ================================================================
-   ORDERS LIST
+   ORDERS
    ================================================================ */
 let orderFilter = "all";
 
@@ -1541,9 +1537,6 @@ function paintOrders() {
   }).join("");
 }
 
-/* ================================================================
-   ORDER DETAIL
-   ================================================================ */
 window.openOrderDetail = async (orderId) => {
   showScreen("scrOrderDetail");
   const body = $("#orderDetailBody");
@@ -1554,7 +1547,6 @@ window.openOrderDetail = async (orderId) => {
     if (!snap.exists()) { body.innerHTML = `<div class="empty">Order not found</div>`; return; }
     const o = { id: snap.id, ...snap.data() };
 
-    // Status history
     const histSnap = await getDocs(collection(db, "orders", orderId, "statusHistory"));
     const history = histSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
 
@@ -1569,7 +1561,6 @@ function paintOrderDetail(o, history) {
   const statusInfo = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
   const steps = ["pending", "processing", "successful"];
   const currentIdx = steps.indexOf(o.status);
-  const isTerminal = o.status === "successful" || o.status === "rejected" || o.status === "cancelled";
 
   const timeline = steps.map((s, i) => {
     const info = ORDER_STATUS[s];
@@ -1828,7 +1819,6 @@ async function renderAdminDashboard() {
     </div>`;
 }
 
-/* ---------- ADMIN COMPANIES ---------- */
 function renderAdminCompanies() {
   $("#adminContent").innerHTML = `
     <div class="mb-4"><button class="btn btn-primary" id="addCompanyBtn">Add company</button></div>
@@ -1913,7 +1903,6 @@ window.editCompany = async (id) => {
   if (snap.exists()) companyForm({ id, ...snap.data() });
 };
 
-/* ---------- ADMIN PRODUCTS ---------- */
 window.manageProducts = (companyId) => {
   openModal(`
     <div class="modal-title">Manage products</div>
@@ -1997,7 +1986,12 @@ window.deleteProduct = (companyId, productId) => {
   });
 };
 
-/* ---------- ADMIN BANNERS ---------- */
+function renderAdminProducts() {
+  $("#adminContent").innerHTML = `
+    <div class="info-box mb-4">Go to <strong>Companies</strong> tab → click "Products" on any company to manage its catalog.</div>
+  `;
+}
+
 function renderAdminBanners() {
   $("#adminContent").innerHTML = `
     <div class="mb-4"><button class="btn btn-primary" id="addBannerBtn">Add banner</button></div>
@@ -2093,9 +2087,7 @@ window.deleteBannerAdmin = (id) => confirmDialog("Delete this banner?", async ()
   catch (err) { toast(errorMsg(err), "error"); }
 });
 
-/* ---------- ADMIN ORDERS ---------- */
 let adminOrderFilter = "all";
-let adminOrderCompanyFilter = "all";
 
 function renderAdminOrders() {
   $("#adminContent").innerHTML = `
@@ -2220,7 +2212,6 @@ window.adminOpenOrder = async (orderId) => {
         createdAt: serverTimestamp()
       });
 
-      // Send success email when admin marks successful
       if (newStatus === "successful") {
         try {
           await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.pending });
@@ -2300,7 +2291,6 @@ async function sendSuccessEmail(order) {
   return result;
 }
 
-/* ---------- ADMIN CUSTOMERS ---------- */
 async function renderAdminCustomers() {
   $("#adminContent").innerHTML = `<div id="customersList"><div class="skeleton"></div></div>`;
   try {
@@ -2326,7 +2316,6 @@ async function renderAdminCustomers() {
   }
 }
 
-/* ---------- ADMIN SETTINGS ---------- */
 function renderAdminSettings() {
   $("#adminContent").innerHTML = `
     <div class="card">
