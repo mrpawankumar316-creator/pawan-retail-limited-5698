@@ -102,7 +102,7 @@ ul{list-style:none}
 .banner-dot.active{background:#fff;width:16px;border-radius:3px}
 .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .product{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;position:relative}
-.product.closed{opacity:.55}
+.product.closed{opacity:.6}
 .product-img{aspect-ratio:1/1;width:100%;object-fit:cover;background:var(--surface-2)}
 .product-body{padding:10px 12px;display:flex;flex-direction:column;flex:1;gap:4px}
 .product-cat{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-3)}
@@ -111,8 +111,8 @@ ul{list-style:none}
 .product-price{font-size:14px;font-weight:600;color:var(--text);margin-top:4px}
 .product-cta{margin-top:8px}
 .closed-overlay{position:absolute;top:8px;left:8px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.03em;text-transform:uppercase;z-index:2}
-.closed-banner{background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fff;padding:18px 20px;border-radius:var(--radius-lg);margin-bottom:14px;display:flex;align-items:center;gap:12px}
-.closed-banner .icon{font-size:30px}
+.closed-banner{background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fff;padding:18px 20px;border-radius:var(--radius-lg);margin-bottom:14px;display:flex;align-items:flex-start;gap:12px}
+.closed-banner .icon{font-size:30px;line-height:1}
 .closed-banner .content{flex:1}
 .closed-banner .title{font-weight:600;font-size:15px;margin-bottom:4px}
 .closed-banner .msg{font-size:12px;opacity:.9;line-height:1.5}
@@ -346,36 +346,63 @@ function genOrderId() {
   return `PRL-${ymd}-${rnd}`;
 }
 
-/* ===== COMPANY HOURS HELPERS ===== */
-// Returns true if company is open right now
 function isCompanyOpen(company) {
   if (!company) return true;
-  if (company.autoOpenClose !== true) return true; // auto-schedule off
-  if (!company.openTime || !company.closeTime) return true; // no hours set
-
+  if (company.autoOpenClose !== true) return true;
+  if (!company.openTime || !company.closeTime) return true;
   const now = new Date();
   const cur = now.getHours() * 60 + now.getMinutes();
   const [oh, om] = company.openTime.split(":").map(Number);
   const [ch, cm] = company.closeTime.split(":").map(Number);
   const open = oh * 60 + om;
   const close = ch * 60 + cm;
-
-  if (open === close) return true; // 24h open
-  if (open < close) {
-    // Normal: 09:00 to 22:00
-    return cur >= open && cur < close;
-  }
-  // Overnight: 22:00 to 06:00
+  if (open === close) return true;
+  if (open < close) return cur >= open && cur < close;
   return cur >= open || cur < close;
 }
 
-// Human readable hours
 function companyHoursText(company) {
   if (!company?.openTime || !company?.closeTime) return "";
   return `${company.openTime} – ${company.closeTime}`;
 }
 
-/* ===== STATUS ===== */
+function showScreen(id) {
+  $$(".screen").forEach(el => el.classList.remove("active"));
+  const el = document.getElementById(id);
+  if (el) el.classList.add("active");
+  window.scrollTo(0, 0);
+}
+
+function toast(msg, type = "") {
+  const el = document.createElement("div");
+  el.className = "toast" + (type ? " " + type : "");
+  el.textContent = msg;
+  $("#toast-root").appendChild(el);
+  setTimeout(() => {
+    el.style.transition = "opacity .2s, transform .2s";
+    el.style.opacity = "0";
+    el.style.transform = "translateY(-8px) scale(.96)";
+    setTimeout(() => el.remove(), 200);
+  }, 2500);
+}
+
+function errorMsg(err) {
+  const map = {
+    "auth/invalid-email": "Please enter a valid email address.",
+    "auth/user-not-found": "No account found with this email.",
+    "auth/wrong-password": "Incorrect password.",
+    "auth/invalid-credential": "Incorrect email or password.",
+    "auth/email-already-in-use": "This email is already registered.",
+    "auth/weak-password": "Password must be at least 6 characters.",
+    "auth/too-many-requests": "Too many attempts. Try again later.",
+    "auth/network-request-failed": "Network error. Check your connection.",
+    "permission-denied": "You don't have permission for this action.",
+    "unavailable": "Service temporarily unavailable.",
+    "not-found": "Data not found."
+  };
+  return map[err?.code] || err?.message || "Something went wrong.";
+}
+
 function getStatusMessage() {
   if (!S.profile) return { blocked: true, title: "Not signed in", message: "Please sign in." };
   const status = S.profile.status || "active";
@@ -398,10 +425,10 @@ function getStatusMessage() {
 function formatCountdown(ms) {
   if (ms <= 0) return "00:00:00";
   const total = Math.floor(ms / 1000);
-  const hours = Math.floor(total / 3600);
-  const mins = Math.floor((total % 3600) / 60);
-  const secs = total % 60;
-  return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
 function renderBlockedBanner() {
@@ -434,10 +461,7 @@ function startBlockTimer() {
     const el = $("#blockedTimer");
     if (!el) return;
     const remaining = info.until - Date.now();
-    if (remaining <= 0) {
-      clearInterval(S.blockTimerInterval); S.blockTimerInterval = null;
-      refreshProfile(); return;
-    }
+    if (remaining <= 0) { clearInterval(S.blockTimerInterval); S.blockTimerInterval = null; refreshProfile(); return; }
     el.textContent = formatCountdown(remaining);
   };
   tick();
@@ -459,7 +483,6 @@ async function refreshProfile() {
   } catch (e) { console.warn("refreshProfile:", e); }
 }
 
-/* ===== COUPONS ===== */
 function calcCouponDiscount(coupon, subtotal) {
   if (!coupon) return 0;
   let discount = 0;
@@ -495,7 +518,6 @@ async function checkFirstOrder() {
   } catch (e) { S.isFirstOrder = false; }
 }
 
-/* ===== MODAL ===== */
 function openModal(html) {
   $("#modal-root").innerHTML = `<div class="modal-backdrop"><div class="modal">${html}</div></div>`;
   const bd = $(".modal-backdrop");
@@ -516,7 +538,6 @@ function confirmDialog(message, onConfirm) {
 }
 window.confirmDialog = confirmDialog;
 
-/* ===== ICONS ===== */
 const icon = {
   home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>`,
   store: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg>`,
@@ -1229,7 +1250,6 @@ async function renderCheckout() {
   if (!companySnap.exists()) { body.innerHTML = `<div class="empty">Company unavailable</div>`; return; }
   const company = { id: companySnap.id, ...companySnap.data() };
 
-  // Re-check open status
   if (!isCompanyOpen(company)) {
     body.innerHTML = `
       <div class="closed-banner">
@@ -1606,7 +1626,6 @@ window.showNotifs = () => {
     <div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">Close</button></div>`);
 };
 
-/* ===== TRACK ORDER ===== */
 function renderTrackPage() {
   $("#trackBody").innerHTML = `
     <div class="card">
@@ -1749,7 +1768,6 @@ function paintTrackResult(o, history) {
     </div>`;
 }
 
-/* ===== ADMIN ===== */
 let adminView = "dashboard";
 function bootAdmin() {
   showScreen("scrAdmin");
