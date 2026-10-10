@@ -7,1097 +7,309 @@
 <title>Pawan Retail Limited</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  /* Core surfaces */
-  --bg:#f4f6fb;
-  --bg-gradient:linear-gradient(180deg,#f4f6fb 0%,#eef1f8 100%);
-  --surface:#ffffff;
-  --surface-2:#fafbfe;
-  --surface-3:#f1f4f9;
-
-  /* Borders */
-  --border:#e3e7f0;
-  --border-strong:#cdd5e0;
-
-  /* Text */
-  --text:#0f172a;
-  --text-2:#475569;
-  --text-3:#94a3b8;
-
-  /* Brand — Indigo (professional, trustworthy) */
-  --brand:#4f46e5;
-  --brand-dark:#4338ca;
-  --brand-light:#6366f1;
-  --brand-soft:#eef2ff;
+  --bg:#f4f6fb;--surface:#fff;--surface-2:#fafbfe;--surface-3:#f1f4f9;
+  --border:#e3e7f0;--border-strong:#cdd5e0;
+  --text:#0f172a;--text-2:#475569;--text-3:#94a3b8;
+  --brand:#4f46e5;--brand-dark:#4338ca;--brand-soft:#eef2ff;
   --brand-gradient:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);
-
-  /* Secondary accents */
-  --accent:#0ea5e9;
-  --accent-soft:#e0f2fe;
-
-  /* Success */
-  --success:#059669;
-  --success-soft:#ecfdf5;
-
-  /* Warning */
-  --warning:#d97706;
-  --warning-soft:#fffbeb;
-
-  /* Danger */
-  --danger:#dc2626;
-  --danger-soft:#fef2f2;
-
-  /* Radii */
-  --radius-sm:6px;
-  --radius:10px;
-  --radius-md:12px;
-  --radius-lg:14px;
-  --radius-xl:18px;
-
-  /* Shadows */
+  --success:#059669;--success-soft:#ecfdf5;
+  --warning:#d97706;--warning-soft:#fffbeb;
+  --danger:#dc2626;--danger-soft:#fef2f2;
+  --radius:10px;--radius-md:12px;--radius-lg:14px;--radius-xl:18px;
   --shadow-xs:0 1px 2px rgba(15,23,42,.04);
   --shadow-sm:0 2px 8px rgba(15,23,42,.05);
-  --shadow:0 4px 16px rgba(15,23,42,.06);
   --shadow-md:0 8px 24px rgba(15,23,42,.08);
   --shadow-lg:0 12px 40px rgba(15,23,42,.12);
   --shadow-brand:0 8px 24px rgba(79,70,229,.25);
-
-  /* Safe area */
-  --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
 }
-
-html,body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,"Helvetica Neue",Arial,sans-serif;
-  font-size:14px;
-  line-height:1.55;
-  color:var(--text);
-  background:var(--bg-gradient);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  -webkit-text-size-adjust:100%;
-  letter-spacing:-0.005em;
-}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;font-size:14px;line-height:1.55;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
 body{min-height:100vh;overflow-x:hidden}
-a{color:var(--brand);text-decoration:none;transition:color .15s}
-a:hover{color:var(--brand-dark)}
+a{color:var(--brand);text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;transition:all .15s}
 input,textarea,select{font:inherit;color:inherit}
 img{max-width:100%;display:block}
 ul{list-style:none}
-::selection{background:var(--brand);color:#fff}
-
-/* ============ SCREENS ============ */
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
-
-.shell{
-  max-width:520px;
-  margin:0 auto;
-  background:var(--bg);
-  min-height:100vh;
-  padding-bottom:calc(80px + var(--safe-bottom));
-  position:relative;
-}
-
-/* ============ APPBAR ============ */
-.appbar{
-  position:sticky;top:0;z-index:40;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:12px 16px;
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(14px) saturate(180%);
-  -webkit-backdrop-filter:blur(14px) saturate(180%);
-  border-bottom:1px solid var(--border);
-}
-.appbar-title{font-size:15px;font-weight:650;letter-spacing:-0.01em}
-.appbar-back{
-  width:36px;height:36px;display:grid;place-items:center;
-  border-radius:var(--radius);margin-left:-8px;
-  color:var(--text-2);
-}
+.shell{max-width:520px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:calc(80px + var(--safe-bottom));position:relative}
+.appbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.appbar-title{font-size:15px;font-weight:650}
+.appbar-back{width:36px;height:36px;display:grid;place-items:center;border-radius:var(--radius);margin-left:-8px;color:var(--text-2)}
 .appbar-back:hover{background:var(--surface-3);color:var(--text)}
 .appbar-actions{display:flex;align-items:center;gap:6px}
-
-.iconbtn{
-  position:relative;
-  width:38px;height:38px;
-  display:grid;place-items:center;
-  border-radius:var(--radius);
-  color:var(--text-2);
-}
+.iconbtn{position:relative;width:38px;height:38px;display:grid;place-items:center;border-radius:var(--radius);color:var(--text-2)}
 .iconbtn:hover{background:var(--surface-3);color:var(--text)}
 .iconbtn svg{width:20px;height:20px}
-
-.badge-dot{
-  position:absolute;top:6px;right:6px;
-  min-width:16px;height:16px;padding:0 4px;
-  background:var(--danger);color:#fff;
-  font-size:10px;font-weight:700;
-  border-radius:999px;
-  display:none;align-items:center;justify-content:center;
-  box-shadow:0 0 0 2px var(--surface);
-}
+.badge-dot{position:absolute;top:6px;right:6px;min-width:16px;height:16px;padding:0 4px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;border-radius:999px;display:none;align-items:center;justify-content:center}
 .badge-dot.show{display:flex}
-
-.brand{
-  display:flex;align-items:center;gap:10px;
-  font-weight:700;font-size:14px;letter-spacing:-0.01em;
-}
-.brand-mark{
-  width:32px;height:32px;
-  background:var(--brand-gradient);
-  color:#fff;
-  display:grid;place-items:center;
-  border-radius:8px;
-  font-size:14px;font-weight:800;
-  box-shadow:var(--shadow-brand);
-}
-
-/* ============ PAGE ============ */
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+.brand-mark{width:32px;height:32px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;border-radius:8px;font-size:14px;font-weight:800;box-shadow:var(--shadow-brand)}
 .page{padding:16px}
-
-.section-title{
-  font-size:11px;font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  color:var(--text-3);
-  margin-bottom:10px;
-}
-.section-header{
-  display:flex;align-items:baseline;justify-content:space-between;
-  margin-bottom:12px;
-}
-.section-header h2{
-  font-size:15px;font-weight:650;
-  letter-spacing:-0.01em;
-}
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.section-header h2{font-size:15px;font-weight:650}
 .section-header a{font-size:12px;font-weight:600}
-
-/* ============ CARDS ============ */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  padding:16px;
-  box-shadow:var(--shadow-sm);
-}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-sm)}
 .card+.card{margin-top:12px}
 .card-flat{padding:0;overflow:hidden}
 .card-elevated{box-shadow:var(--shadow-md)}
-
-.card-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid var(--border);
-  cursor:pointer;
-  transition:background .12s;
-}
+.card-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer}
 .card-row:last-child{border-bottom:0}
 .card-row:hover{background:var(--surface-3)}
-
-/* ============ BUTTONS ============ */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  padding:10px 16px;
-  font-size:13px;font-weight:600;
-  border-radius:var(--radius);
-  border:1px solid transparent;
-  white-space:nowrap;
-  letter-spacing:-0.005em;
-}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;font-size:13px;font-weight:600;border-radius:var(--radius);border:1px solid transparent;white-space:nowrap}
 .btn:active:not(:disabled){transform:translateY(1px)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-
-.btn-primary{
-  background:var(--brand);
-  color:#fff;
-  box-shadow:var(--shadow-brand);
-}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:var(--shadow-brand)}
 .btn-primary:hover:not(:disabled){background:var(--brand-dark)}
-
-.btn-secondary{
-  background:var(--surface);
-  color:var(--text);
-  border-color:var(--border-strong);
-  box-shadow:var(--shadow-xs);
-}
-.btn-secondary:hover:not(:disabled){background:var(--surface-3);border-color:var(--text-3)}
-
+.btn-secondary{background:var(--surface);color:var(--text);border-color:var(--border-strong)}
+.btn-secondary:hover:not(:disabled){background:var(--surface-3)}
 .btn-danger{background:var(--danger);color:#fff}
-.btn-danger:hover:not(:disabled){background:#b91c1c}
-
 .btn-success{background:var(--success);color:#fff}
-.btn-success:hover:not(:disabled){background:#047857}
-
-.btn-ghost{color:var(--brand);background:var(--brand-soft)}
-.btn-ghost:hover:not(:disabled){background:#e0e7ff}
-
 .btn-block{width:100%}
 .btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
 .btn-xs{padding:5px 10px;font-size:11px;border-radius:6px;font-weight:600}
 .btn-lg{padding:13px 22px;font-size:15px;border-radius:var(--radius-md)}
-
-/* ============ FORMS ============ */
 .form-group{margin-bottom:16px}
-.form-label{
-  display:block;font-size:12px;font-weight:600;
-  color:var(--text-2);margin-bottom:6px;
-  letter-spacing:-0.005em;
-}
-.form-input,.form-textarea,.form-select{
-  width:100%;
-  padding:11px 14px;
-  background:var(--surface);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  font-size:14px;color:var(--text);
-  transition:border-color .15s,box-shadow .15s;
-}
-.form-input:focus,.form-textarea:focus,.form-select:focus{
-  outline:none;
-  border-color:var(--brand);
-  box-shadow:0 0 0 4px var(--brand-soft);
-}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px}
+.form-input,.form-textarea,.form-select{width:100%;padding:11px 14px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--text);transition:border-color .15s,box-shadow .15s}
+.form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}
 .form-textarea{min-height:88px;resize:vertical;line-height:1.5}
 .input-wrap{position:relative}
-.input-toggle{
-  position:absolute;right:10px;top:50%;
-  transform:translateY(-50%);
-  padding:5px 8px;font-size:11px;font-weight:700;
-  color:var(--text-3);border-radius:5px;
-}
-.input-toggle:hover{color:var(--brand);background:var(--brand-soft)}
-
-.checkbox-row{
-  display:flex;align-items:center;gap:8px;
-  font-size:13px;color:var(--text-2);cursor:pointer;
-}
+.input-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:5px 8px;font-size:11px;font-weight:700;color:var(--text-3);border-radius:5px}
+.checkbox-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2);cursor:pointer}
 .checkbox-row input{accent-color:var(--brand);width:16px;height:16px}
-
-.form-split{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:18px;font-size:13px;
-}
-
-/* ============ BOTTOM NAV ============ */
-.bnav{
-  position:fixed;bottom:0;left:50%;
-  transform:translateX(-50%);
-  width:100%;max-width:520px;
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(14px) saturate(180%);
-  -webkit-backdrop-filter:blur(14px) saturate(180%);
-  border-top:1px solid var(--border);
-  display:grid;grid-template-columns:repeat(4,1fr);
-  padding:8px 0 calc(8px + var(--safe-bottom));
-  z-index:30;
-}
-.bnav-item{
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  padding:6px 4px;color:var(--text-3);
-  font-size:10px;font-weight:600;
-  cursor:pointer;position:relative;
-  transition:color .15s;
-}
+.form-split{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:13px}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0 calc(8px + var(--safe-bottom));z-index:30}
+.bnav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;color:var(--text-3);font-size:10px;font-weight:600;cursor:pointer;position:relative}
 .bnav-item svg{width:22px;height:22px}
 .bnav-item.active{color:var(--brand)}
-.bnav-item.active::before{
-  content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);
-  width:24px;height:3px;background:var(--brand);border-radius:2px;
-}
-.bnav-badge{
-  position:absolute;top:2px;right:calc(50% - 20px);
-  min-width:16px;height:16px;padding:0 4px;
-  background:var(--danger);color:#fff;
-  font-size:9px;font-weight:800;
-  border-radius:999px;
-  display:none;align-items:center;justify-content:center;
-  box-shadow:0 0 0 2px var(--surface);
-}
+.bnav-item.active::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--brand);border-radius:2px}
+.bnav-badge{position:absolute;top:2px;right:calc(50% - 20px);min-width:16px;height:16px;padding:0 4px;background:var(--danger);color:#fff;font-size:9px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
 .bnav-badge.show{display:flex}
-
-/* ============ BADGES ============ */
-.badge{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:3px 9px;
-  font-size:11px;font-weight:700;
-  border-radius:999px;
-  letter-spacing:-0.005em;
-}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;font-size:11px;font-weight:700;border-radius:999px}
 .badge-neutral{background:#f1f5f9;color:#475569}
 .badge-info{background:var(--brand-soft);color:var(--brand-dark)}
 .badge-success{background:var(--success-soft);color:var(--success)}
 .badge-warning{background:var(--warning-soft);color:var(--warning)}
 .badge-danger{background:var(--danger-soft);color:var(--danger)}
-
-/* ============ HOME BANNER ============ */
-.banner-carousel{
-  position:relative;overflow:hidden;
-  border-radius:var(--radius-xl);
-  margin-bottom:18px;
-  box-shadow:var(--shadow-md);
-}
-.banner-track{display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1)}
-.banner-slide{
-  min-width:100%;position:relative;
-  background:var(--brand-gradient);
-  color:#fff;
-  height:160px;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:22px;
-  background-size:cover;background-position:center;
-}
-.banner-slide::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(15,23,42,.78),rgba(15,23,42,.15));
-}
+.banner-carousel{position:relative;overflow:hidden;border-radius:var(--radius-xl);margin-bottom:18px;box-shadow:var(--shadow-md)}
+.banner-track{display:flex;transition:transform .35s ease}
+.banner-slide{min-width:100%;position:relative;background:var(--brand-gradient);color:#fff;height:160px;display:flex;flex-direction:column;justify-content:center;padding:22px;background-size:cover;background-position:center}
+.banner-slide::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,23,42,.78),rgba(15,23,42,.15))}
 .banner-slide>*{position:relative;z-index:1}
-.banner-slide h3{font-size:18px;font-weight:700;margin-bottom:6px;letter-spacing:-0.02em}
+.banner-slide h3{font-size:18px;font-weight:700;margin-bottom:6px}
 .banner-slide p{font-size:13px;color:#e2e8f0;margin-bottom:12px;max-width:72%;line-height:1.4}
-.banner-slide .btn{
-  align-self:flex-start;
-  background:#fff;color:var(--brand);
-  padding:8px 16px;font-size:12px;font-weight:700;
-}
-.banner-dots{
-  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
-  display:flex;gap:5px;z-index:2;
-}
-.banner-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:rgba(255,255,255,.5);
-  cursor:pointer;transition:all .2s;
-}
+.banner-slide .btn{align-self:flex-start;background:#fff;color:var(--brand);padding:8px 16px;font-size:12px;font-weight:700}
+.banner-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2}
+.banner-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer}
 .banner-dot.active{background:#fff;width:18px;border-radius:3px}
-
-/* ============ PRODUCT GRID ============ */
 .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-
-.product{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  overflow:hidden;
-  display:flex;flex-direction:column;
-  position:relative;
-  cursor:pointer;
-  transition:transform .15s,box-shadow .15s,border-color .15s;
-  box-shadow:var(--shadow-xs);
-}
-.product:hover{
-  transform:translateY(-2px);
-  box-shadow:var(--shadow-md);
-  border-color:var(--border-strong);
-}
+.product{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;position:relative;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.product:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
 .product.closed{opacity:.55}
-.product.closed:hover{transform:none;box-shadow:var(--shadow-xs)}
-.product-img{
-  aspect-ratio:1/1;width:100%;object-fit:cover;
-  background:var(--surface-3);
-}
-.product-body{
-  padding:11px 12px 12px;
-  display:flex;flex-direction:column;flex:1;gap:6px;
-}
-.product-cat{
-  font-size:10px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.06em;
-  color:var(--brand);
-}
-.product-name{
-  font-size:13px;font-weight:650;
-  line-height:1.3;letter-spacing:-0.005em;
-}
-.product-desc{
-  font-size:12px;color:var(--text-2);
-  line-height:1.4;
-  display:-webkit-box;-webkit-line-clamp:2;
-  -webkit-box-orient:vertical;overflow:hidden;
-}
-.product-price{
-  font-size:15px;font-weight:800;
-  color:var(--text);margin-top:4px;
-  letter-spacing:-0.02em;
-}
+.product.closed:hover{transform:none}
+.product-img{aspect-ratio:1/1;width:100%;object-fit:cover;background:var(--surface-3)}
+.product-body{padding:11px 12px 12px;display:flex;flex-direction:column;flex:1;gap:6px}
+.product-cat{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--brand)}
+.product-name{font-size:13px;font-weight:650;line-height:1.3}
+.product-desc{font-size:12px;color:var(--text-2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.product-price{font-size:15px;font-weight:800;color:var(--text);margin-top:4px}
 .product-cta{margin-top:8px}
-
-/* Rating stars small */
-.rating-mini{
-  display:flex;align-items:center;gap:4px;
-  font-size:11px;color:var(--text-2);
-  margin-top:2px;
-}
-.rating-mini .stars-mini{
-  display:inline-flex;gap:1px;color:#fbbf24;
-  font-size:11px;
-}
-
-.closed-overlay{
-  position:absolute;top:10px;left:10px;
-  background:var(--danger);color:#fff;
-  font-size:10px;font-weight:800;
-  padding:4px 9px;border-radius:6px;
-  letter-spacing:.05em;text-transform:uppercase;
-  z-index:2;
-  box-shadow:var(--shadow-sm);
-}
-
-.closed-banner{
-  background:linear-gradient(135deg,#dc2626,#991b1b);
-  color:#fff;
-  padding:18px 20px;
-  border-radius:var(--radius-xl);
-  margin-bottom:16px;
-  display:flex;align-items:flex-start;gap:12px;
-  box-shadow:0 8px 24px rgba(220,38,38,.2);
-}
+.closed-overlay{position:absolute;top:10px;left:10px;background:var(--danger);color:#fff;font-size:10px;font-weight:800;padding:4px 9px;border-radius:6px;letter-spacing:.05em;text-transform:uppercase;z-index:2}
+.closed-banner{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:18px 20px;border-radius:var(--radius-xl);margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 8px 24px rgba(220,38,38,.2)}
 .closed-banner .icon{font-size:30px;line-height:1}
 .closed-banner .content{flex:1}
 .closed-banner .title{font-weight:700;font-size:15px;margin-bottom:4px}
 .closed-banner .msg{font-size:13px;opacity:.92;line-height:1.5}
-.closed-banner .hrs{
-  font-size:12px;opacity:.78;margin-top:8px;
-  font-family:ui-monospace,monospace;
-}
-
-/* ============ CHIPS ============ */
-.chip-row{
-  display:flex;gap:8px;overflow-x:auto;
-  padding-bottom:6px;
-  margin-left:-16px;margin-right:-16px;
-  padding-left:16px;padding-right:16px;
-}
+.closed-banner .hrs{font-size:12px;opacity:.78;margin-top:8px;font-family:monospace}
+.chip-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin:0 -16px;padding:0 16px 6px}
 .chip-row::-webkit-scrollbar{display:none}
-.chip{
-  padding:7px 14px;
-  font-size:12px;font-weight:600;
-  background:var(--surface);
-  border:1.5px solid var(--border);
-  border-radius:999px;
-  white-space:nowrap;cursor:pointer;
-  color:var(--text-2);
-  transition:all .15s;
-}
+.chip{padding:7px 14px;font-size:12px;font-weight:600;background:var(--surface);border:1.5px solid var(--border);border-radius:999px;white-space:nowrap;cursor:pointer;color:var(--text-2)}
 .chip:hover{border-color:var(--border-strong)}
-.chip.active{
-  background:var(--brand);
-  color:#fff;
-  border-color:var(--brand);
-  box-shadow:var(--shadow-brand);
-}
+.chip.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:var(--shadow-brand)}
 
-/* ============ ORDERS ============ */
-.order{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  padding:16px;
-  box-shadow:var(--shadow-xs);
-  transition:box-shadow .15s,border-color .15s;
-}
-.order:hover{box-shadow:var(--shadow-sm);border-color:var(--border-strong)}
-.order+.order{margin-top:12px}
-.order-head{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:12px;
-}
-.order-id{
-  font-size:13px;font-weight:700;
-  font-family:ui-monospace,"SF Mono",monospace;
-  letter-spacing:-0.01em;
-}
-.order-body{display:flex;align-items:center;gap:12px}
-.order-thumb{
-  width:48px;height:48px;border-radius:10px;
-  object-fit:cover;background:var(--surface-3);
-  flex-shrink:0;
-}
-.order-info{flex:1;min-width:0}
-.order-name{
-  font-size:14px;font-weight:600;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  letter-spacing:-0.005em;
-}
-.order-date{font-size:12px;color:var(--text-3);margin-top:2px}
-.order-foot{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:14px;padding-top:14px;
-  border-top:1px solid var(--border);
-  font-size:13px;
-}
-.order-foot .amt{font-weight:700;color:var(--text);font-size:15px}
-.order-actions{
-  display:flex;gap:8px;margin-top:12px;
-}
+/* ORDERS */
+.orders-search{position:relative;margin-bottom:14px}
+.orders-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--text-3)}
+.orders-search input{padding-left:44px}
+.order-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-xs);transition:all .15s;margin-bottom:12px;cursor:pointer}
+.order-card:hover{box-shadow:var(--shadow-sm);border-color:var(--border-strong)}
+.order-card-head{padding:14px 16px;background:var(--surface-2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.order-card-id{font-size:13px;font-weight:700;font-family:monospace}
+.order-card-body{padding:14px 16px}
+.order-card-company{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.order-card-company img{width:42px;height:42px;border-radius:10px;object-fit:cover;background:var(--surface-3);flex-shrink:0}
+.order-card-company .co-name{font-size:13.5px;font-weight:650}
+.order-card-company .co-meta{font-size:11.5px;color:var(--text-3);margin-top:2px}
+.order-card-items{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.order-card-items .item-chip{background:var(--surface-3);border:1px solid var(--border);padding:5px 10px;border-radius:6px;font-size:11.5px;color:var(--text-2);font-weight:500}
+.order-card-foot{padding:12px 16px;border-top:1px solid var(--border);background:var(--surface-2);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.order-card-total .label{font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.order-card-total .amount{font-size:17px;font-weight:800;color:var(--text)}
+.order-card-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 
-/* ============ TIMELINE ============ */
-.timeline{position:relative;padding-left:28px}
-.timeline::before{
-  content:"";position:absolute;
-  left:9px;top:12px;bottom:12px;
-  width:2px;background:var(--border);
-}
-.timeline-step{position:relative;padding:10px 0}
-.timeline-step::before{
-  content:"";position:absolute;
-  left:-28px;top:14px;
-  width:18px;height:18px;
-  background:var(--surface);
-  border:2.5px solid var(--border);
-  border-radius:50%;
-  transition:all .2s;
-}
-.timeline-step.done::before{
-  background:var(--brand);
-  border-color:var(--brand);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2,6 5,9 10,3'/%3E%3C/svg%3E");
-  background-size:12px;background-position:center;background-repeat:no-repeat;
-}
-.timeline-step.current::before{
-  background:var(--surface);
-  border-color:var(--brand);
-  box-shadow:0 0 0 4px var(--brand-soft);
-}
-.timeline-step .tl-label{
-  font-size:13.5px;color:var(--text-3);
-  font-weight:500;
-}
-.timeline-step.done .tl-label,
-.timeline-step.current .tl-label{color:var(--text)}
-.timeline-step.current .tl-label{font-weight:700}
+/* STATUS STEPPER */
+.status-stepper{display:flex;align-items:center;padding:20px 0;position:relative}
+.status-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:1}
+.status-step .step-dot{width:38px;height:38px;border-radius:50%;background:var(--surface);border:2px solid var(--border);display:grid;place-items:center;color:var(--text-3);font-size:15px;font-weight:700;transition:all .3s}
+.status-step .step-dot.done{background:var(--success);border-color:var(--success);color:#fff}
+.status-step .step-dot.current{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 0 0 4px var(--brand-soft)}
+.status-step .step-label{font-size:10.5px;color:var(--text-3);font-weight:600;text-align:center;line-height:1.3}
+.status-step .step-label.done,.status-step .step-label.current{color:var(--text)}
+.status-step .step-label.current{font-weight:750}
+.status-connector{position:absolute;top:38px;left:0;right:0;height:2px;background:var(--border);z-index:0}
+.status-connector-progress{position:absolute;top:38px;left:0;height:2px;background:var(--success);z-index:0;transition:width .5s}
 
-/* ============ TOAST ============ */
-.toast-root{
-  position:fixed;top:calc(70px + var(--safe-top));
-  left:50%;transform:translateX(-50%);
-  z-index:1000;
-  display:flex;flex-direction:column;gap:8px;align-items:center;
-  pointer-events:none;
-  max-width:calc(100vw - 32px);width:100%;
-}
-.toast{
-  padding:12px 18px;
-  background:#0f172a;color:#fff;
-  border-radius:10px;
-  font-size:13.5px;font-weight:600;
-  animation:toastIn .3s cubic-bezier(.16,1,.3,1);
-  max-width:100%;text-align:center;
-  box-shadow:0 12px 32px rgba(0,0,0,.22);
-  letter-spacing:-0.005em;
-}
-.toast.success{background:var(--success)}
-.toast.error{background:var(--danger)}
-@keyframes toastIn{
-  from{opacity:0;transform:translateY(-12px) scale(.95)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
+/* TIMELINE */
+.timeline-list{padding:0}
+.timeline-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.timeline-item:last-child{border-bottom:0}
+.timeline-item .bullet{width:10px;height:10px;border-radius:50%;background:var(--brand);margin-top:6px;flex-shrink:0}
+.timeline-item .bullet.latest{background:var(--success);box-shadow:0 0 0 4px var(--success-soft)}
+.timeline-item .content{flex:1}
+.timeline-item .status-name{font-size:13px;font-weight:650}
+.timeline-item .note{font-size:12.5px;color:var(--text-2);margin-top:3px;line-height:1.5}
+.timeline-item .time{font-size:11px;color:var(--text-3);margin-top:3px}
 
-/* ============ MODAL ============ */
-.modal-backdrop{
-  position:fixed;inset:0;
-  background:rgba(15,23,42,.55);
-  backdrop-filter:blur(4px);
-  display:grid;place-items:center;
-  padding:16px;z-index:500;
-  overflow:auto;
-  animation:fadeIn .2s ease;
-}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal{
-  background:var(--surface);
-  border-radius:var(--radius-xl);
-  padding:22px;
-  width:100%;max-width:480px;
-  max-height:90vh;overflow:auto;
-  box-shadow:0 24px 60px rgba(0,0,0,.24);
-  animation:modalIn .25s cubic-bezier(.16,1,.3,1);
-}
-@keyframes modalIn{
-  from{opacity:0;transform:scale(.95) translateY(10px)}
-  to{opacity:1;transform:scale(1) translateY(0)}
-}
-.modal-title{
-  font-size:16px;font-weight:700;
-  margin-bottom:18px;letter-spacing:-0.015em;
-}
-.modal-actions{
-  display:flex;justify-content:flex-end;gap:8px;
-  margin-top:22px;
-}
-
-/* ============ AUTH ============ */
-.auth-shell{
-  min-height:100vh;
-  display:grid;place-items:center;
-  padding:24px 16px;
-  background:
-    radial-gradient(circle at 0% 0%,rgba(79,70,229,.08),transparent 40%),
-    radial-gradient(circle at 100% 100%,rgba(124,58,237,.08),transparent 40%),
-    var(--bg);
-}
-.auth-box{
-  width:100%;max-width:400px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
-  padding:32px 28px;
-  box-shadow:var(--shadow-lg);
-}
-.auth-mark{
-  width:52px;height:52px;
-  background:var(--brand-gradient);
-  color:#fff;border-radius:14px;
-  display:grid;place-items:center;
-  font-weight:800;font-size:22px;
-  margin-bottom:18px;
-  box-shadow:var(--shadow-brand);
-}
-.auth-box h1{
-  font-size:22px;font-weight:750;
-  letter-spacing:-0.025em;margin-bottom:6px;
-}
-.auth-sub{font-size:14px;color:var(--text-2);margin-bottom:26px}
-.auth-foot{
-  text-align:center;margin-top:20px;
-  font-size:13px;color:var(--text-2);
-}
-.auth-foot+.auth-foot{margin-top:8px}
-
-/* ============ EMPTY / SKELETON ============ */
-.empty{
-  text-align:center;padding:56px 20px;
-  color:var(--text-3);font-size:13.5px;
-}
-.skeleton{
-  background:linear-gradient(90deg,#eef2f7 25%,#e3e8ef 37%,#eef2f7 63%);
-  background-size:400% 100%;
-  animation:shimmer 1.4s ease infinite;
-  border-radius:var(--radius);
-  height:60px;margin-bottom:10px;
-}
-@keyframes shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
-
-/* ============ ADMIN ============ */
-.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-
-.admin-side{
-  background:#0f172a;
-  color:#cbd5e1;
-  padding:20px 14px;
-  position:sticky;top:0;
-  height:100vh;overflow-y:auto;
-}
-.admin-side-brand{
-  display:flex;align-items:center;gap:10px;
-  color:#fff;font-size:14px;font-weight:700;
-  padding:8px 10px;margin-bottom:22px;
-  letter-spacing:-0.01em;
-}
-.admin-side-brand .brand-mark{
-  width:28px;height:28px;
-  font-size:13px;background:var(--brand-gradient);
-}
-.admin-nav a{
-  display:flex;align-items:center;gap:11px;
-  padding:10px 12px;font-size:13.5px;font-weight:500;
-  color:#94a3b8;border-radius:8px;margin-bottom:3px;
-  cursor:pointer;transition:all .12s;
-}
-.admin-nav a:hover{background:#1e293b;color:#fff}
-.admin-nav a.active{background:var(--brand);color:#fff;box-shadow:var(--shadow-brand)}
-
-.admin-main{padding:26px;min-height:100vh;background:var(--bg)}
-
-.admin-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:22px;gap:12px;flex-wrap:wrap;
-}
-.admin-header h1{font-size:22px;font-weight:750;letter-spacing:-0.025em}
-.admin-user{font-size:12px;color:var(--text-3)}
-
-.stats-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:14px;margin-bottom:26px;
-}
-.stat{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  padding:16px;
-  box-shadow:var(--shadow-xs);
-  transition:box-shadow .15s,transform .15s;
-}
-.stat:hover{box-shadow:var(--shadow-sm);transform:translateY(-1px)}
-.stat-label{
-  font-size:11px;font-weight:700;
-  color:var(--text-3);
-  text-transform:uppercase;letter-spacing:.06em;
-}
-.stat-value{
-  font-size:26px;font-weight:800;
-  margin-top:8px;letter-spacing:-0.03em;
-  color:var(--text);
-}
-
-.table-wrap{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  overflow:hidden;
-  box-shadow:var(--shadow-xs);
-}
-.table-wrap.scroll{overflow-x:auto}
-.table{
-  width:100%;border-collapse:collapse;
-  font-size:13px;min-width:640px;
-}
-.table th{
-  text-align:left;padding:12px 14px;
-  background:var(--surface-2);
-  font-size:11px;font-weight:700;
-  color:var(--text-3);
-  text-transform:uppercase;letter-spacing:.05em;
-  border-bottom:1px solid var(--border);
-}
-.table td{
-  padding:14px;
-  border-bottom:1px solid var(--border);
-  vertical-align:top;
-}
-.table tr:last-child td{border-bottom:0}
-.table tr:hover td{background:var(--surface-2)}
-
-.mobile-menu-btn{
-  display:none;width:36px;height:36px;
-  border-radius:var(--radius);
-  background:#0f172a;color:#fff;
-}
-
-/* ============ CART ============ */
-.cart-item{
-  display:flex;gap:12px;padding:14px;
-  border-bottom:1px solid var(--border);
-}
-.cart-item:last-child{border-bottom:0}
-.cart-item img{
-  width:60px;height:60px;border-radius:10px;
-  object-fit:cover;background:var(--surface-3);
-}
-.cart-item-info{flex:1;min-width:0}
-.cart-item-name{
-  font-size:13.5px;font-weight:650;
-  letter-spacing:-0.005em;
-}
-.cart-item-price{font-size:12.5px;color:var(--text-3);margin-top:2px}
-
-.qty-ctrl{
-  display:inline-flex;align-items:center;
-  border:1.5px solid var(--border);
-  border-radius:8px;overflow:hidden;
-}
-.qty-ctrl button{
-  width:32px;height:32px;
-  background:var(--surface);
-  display:grid;place-items:center;
-  font-weight:700;color:var(--text-2);
-  font-size:16px;
-  transition:background .12s;
-}
-.qty-ctrl button:hover{background:var(--surface-3);color:var(--text)}
-.qty-ctrl span{
-  min-width:36px;text-align:center;
-  font-size:14px;font-weight:700;
-}
-
-/* ============ RADIO ============ */
-.radio-row{
-  display:flex;align-items:flex-start;gap:12px;
-  padding:14px;
-  border:1.5px solid var(--border);
-  border-radius:var(--radius-md);
-  margin-bottom:10px;cursor:pointer;
-  transition:all .15s;
-}
-.radio-row:hover{border-color:var(--border-strong)}
-.radio-row.selected{
-  border-color:var(--brand);
-  background:var(--brand-soft);
-  box-shadow:0 0 0 3px rgba(79,70,229,.08);
-}
-.radio-row input{margin-top:3px;accent-color:var(--brand);width:16px;height:16px}
-.radio-row-text{flex:1}
-.radio-row-title{font-size:13.5px;font-weight:650;letter-spacing:-0.005em}
-.radio-row-desc{font-size:12.5px;color:var(--text-2);margin-top:3px}
-
-/* ============ PRICE ROWS ============ */
-.price-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:7px 0;font-size:13.5px;
-}
-.price-row.total{
-  border-top:2px solid var(--border);
-  margin-top:8px;padding-top:12px;
-  font-weight:750;font-size:15.5px;
-}
-.price-row.discount span:last-child{
-  color:var(--success);font-weight:700;
-}
-
-/* ============ COUPON ============ */
-.coupon-row{display:flex;gap:8px;margin-bottom:10px}
-.coupon-row input{flex:1}
-
-/* ============ BLOCKED ============ */
-.blocked-banner{
-  background:linear-gradient(135deg,#dc2626,#991b1b);
-  color:#fff;padding:26px;
-  border-radius:var(--radius-xl);
-  text-align:center;margin-bottom:18px;
-  box-shadow:0 12px 36px rgba(220,38,38,.24);
-}
-.blocked-banner.suspended{
-  background:linear-gradient(135deg,#d97706,#b45309);
-  box-shadow:0 12px 36px rgba(217,119,6,.24);
-}
-.blocked-banner .icon{font-size:48px;margin-bottom:12px}
-.blocked-banner h2{font-size:20px;margin-bottom:8px;font-weight:750;letter-spacing:-0.02em}
-.blocked-banner p{font-size:13.5px;opacity:.92;line-height:1.55;margin-bottom:6px}
-.blocked-reason{
-  background:rgba(0,0,0,.24);
-  border-radius:10px;padding:14px;
-  margin-top:16px;text-align:left;
-}
-.blocked-reason .lbl{
-  font-size:11px;text-transform:uppercase;
-  letter-spacing:.06em;opacity:.75;
-  margin-bottom:6px;font-weight:700;
-}
-.blocked-reason .txt{font-size:13.5px;line-height:1.5}
-.blocked-timer{
-  background:rgba(0,0,0,.28);
-  border-radius:12px;padding:16px;
-  margin-top:16px;display:inline-block;min-width:220px;
-}
-.blocked-timer .label{
-  font-size:11px;text-transform:uppercase;
-  letter-spacing:.08em;opacity:.75;margin-bottom:8px;
-  font-weight:700;
-}
-.blocked-timer .time{
-  font-family:ui-monospace,monospace;
-  font-size:24px;font-weight:800;
-  letter-spacing:.05em;
-}
-
-/* ============ FREE BANNER ============ */
-.free-banner{
-  background:linear-gradient(135deg,#059669,#047857);
-  color:#fff;padding:16px 18px;
-  border-radius:var(--radius-xl);
-  margin-bottom:16px;
-  display:flex;align-items:center;gap:12px;
-  box-shadow:0 8px 24px rgba(5,150,105,.24);
-}
-.free-banner .icon{font-size:24px}
-.free-banner .title{font-weight:700;font-size:14.5px;letter-spacing:-0.01em}
-.free-banner .desc{font-size:12.5px;opacity:.92;margin-top:3px}
-
-/* ============ REASON CARD ============ */
-.reason-card{
-  background:var(--danger-soft);
-  border:1.5px solid #fecaca;
-  border-radius:var(--radius-lg);
-  padding:16px;margin-bottom:14px;
-}
-.reason-card .title{
-  font-size:11px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.06em;
-  color:var(--danger);margin-bottom:10px;
-}
-.reason-card .text{
-  font-size:14px;color:var(--danger);
-  font-weight:600;line-height:1.5;
-}
-.reason-card .meta{
-  font-size:11.5px;color:var(--danger);
-  opacity:.75;margin-top:10px;
-}
-
-/* ============ TRACK BANNER ============ */
-.track-banner{
-  background:linear-gradient(135deg,#0284c7,#0369a1);
-  color:#fff;padding:18px;
-  border-radius:var(--radius-xl);
-  margin-bottom:14px;
-  display:flex;align-items:center;gap:14px;
-  box-shadow:0 12px 32px rgba(2,132,199,.24);
-}
+.track-banner{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;padding:18px;border-radius:var(--radius-xl);margin-bottom:14px;display:flex;align-items:center;gap:14px;box-shadow:0 12px 32px rgba(2,132,199,.24)}
 .track-banner .icon{font-size:32px}
 .track-banner .content{flex:1}
-.track-banner .title{font-weight:700;font-size:15px;margin-bottom:4px;letter-spacing:-0.01em}
+.track-banner .title{font-weight:700;font-size:15px;margin-bottom:4px}
 .track-banner .desc{font-size:12.5px;opacity:.92;line-height:1.5}
-.track-banner .btn{
-  background:#fff;color:var(--accent);
-  padding:9px 16px;font-size:12.5px;font-weight:700;
-}
-
-/* ============ REVIEW CARD ============ */
-.review-card{
-  background:var(--success-soft);
-  border:1.5px solid #bbf7d0;
-  border-radius:var(--radius-lg);
-  padding:16px;margin-bottom:14px;
-}
-.review-card .title{
-  font-size:11px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.06em;
-  color:var(--success);margin-bottom:10px;
-}
-
-/* ============ STARS ============ */
+.track-banner .btn{background:#fff;color:#0284c7;padding:9px 16px;font-size:12.5px;font-weight:700}
+.reason-card{background:var(--danger-soft);border:1.5px solid #fecaca;border-radius:var(--radius-lg);padding:16px;margin-bottom:14px}
+.reason-card .title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--danger);margin-bottom:10px}
+.reason-card .text{font-size:14px;color:var(--danger);font-weight:600;line-height:1.5}
+.reason-card .meta{font-size:11.5px;color:var(--danger);opacity:.75;margin-top:10px}
+.review-card{background:var(--success-soft);border:1.5px solid #bbf7d0;border-radius:var(--radius-lg);padding:16px;margin-bottom:14px}
+.review-card .title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--success);margin-bottom:10px}
 .stars{display:inline-flex;gap:2px;font-size:18px;color:#e2e8f0}
 .stars .on{color:#fbbf24}
-.stars-input{
-  font-size:38px;display:inline-flex;gap:6px;
-  cursor:pointer;user-select:none;
-}
-.stars-input span{
-  color:#e2e8f0;
-  transition:color .15s,transform .15s;line-height:1;
-}
+.stars-input{font-size:38px;display:inline-flex;gap:6px;cursor:pointer;user-select:none}
+.stars-input span{color:#e2e8f0;transition:color .15s,transform .15s;line-height:1}
 .stars-input span.on{color:#fbbf24}
 .stars-input span:hover{transform:scale(1.15)}
-.stars-input span:active{transform:scale(1.2)}
 
-/* ============ PRODUCT DETAIL ============ */
-.product-detail{
-  background:var(--surface);
-  border-radius:var(--radius-xl);
-  overflow:hidden;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow-sm);
-}
-.product-detail-img{
-  width:100%;aspect-ratio:1;object-fit:cover;
-  background:var(--surface-3);
-}
+/* PRODUCT DETAIL */
+.product-detail{background:var(--surface);border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--border)}
+.product-detail-img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--surface-3)}
 .product-detail-body{padding:20px}
-.product-detail-cat{
-  font-size:11px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.08em;
-  color:var(--brand);margin-bottom:8px;
-}
-.product-detail-name{
-  font-size:22px;font-weight:750;
-  letter-spacing:-0.025em;margin-bottom:10px;
-  line-height:1.25;
-}
-.product-detail-price{
-  font-size:26px;font-weight:800;
-  color:var(--brand);margin-bottom:12px;
-  letter-spacing:-0.03em;
-}
-.product-detail-desc{
-  font-size:14px;color:var(--text-2);
-  line-height:1.65;margin-bottom:16px;
-}
-
-/* Rating summary box */
-.rating-summary{
-  display:flex;align-items:center;gap:14px;
-  padding:14px;
-  background:var(--surface-3);
-  border-radius:var(--radius-md);
-  margin-bottom:16px;
-}
-.rating-summary .big-num{
-  font-size:32px;font-weight:800;
-  letter-spacing:-0.03em;line-height:1;
-}
+.product-detail-cat{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--brand);margin-bottom:8px}
+.product-detail-name{font-size:22px;font-weight:750;margin-bottom:10px;line-height:1.25}
+.product-detail-price{font-size:26px;font-weight:800;color:var(--brand);margin-bottom:12px}
+.product-detail-desc{font-size:14px;color:var(--text-2);line-height:1.65;margin-bottom:16px}
+.rating-summary{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface-3);border-radius:var(--radius-md);margin-bottom:16px}
+.rating-summary .big-num{font-size:32px;font-weight:800;line-height:1}
 .rating-summary .meta{flex:1}
-.rating-summary .stars-lg{
-  display:inline-flex;gap:2px;
-  font-size:18px;color:#e2e8f0;margin-bottom:4px;
-}
+.rating-summary .stars-lg{display:inline-flex;gap:2px;font-size:18px;color:#e2e8f0;margin-bottom:4px}
 .rating-summary .stars-lg .on{color:#fbbf24}
 .rating-summary .count{font-size:12px;color:var(--text-3)}
-
-/* Review item */
-.review-item{
-  padding:14px 0;
-  border-bottom:1px solid var(--border);
-}
+.review-item{padding:14px 0;border-bottom:1px solid var(--border)}
 .review-item:last-child{border-bottom:0}
-.review-item-head{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:6px;
-}
-.review-item-name{
-  font-size:13px;font-weight:700;
-}
-.review-item-date{
-  font-size:11.5px;color:var(--text-3);
-}
-.review-item-stars{
-  display:inline-flex;gap:2px;
-  font-size:14px;color:#e2e8f0;margin-bottom:6px;
-}
+.review-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.review-item-name{font-size:13px;font-weight:700}
+.review-item-date{font-size:11.5px;color:var(--text-3)}
+.review-item-stars{display:inline-flex;gap:2px;font-size:14px;color:#e2e8f0;margin-bottom:6px}
 .review-item-stars .on{color:#fbbf24}
-.review-item-text{
-  font-size:13.5px;color:var(--text-2);
-  line-height:1.55;
-}
+.review-item-text{font-size:13.5px;color:var(--text-2);line-height:1.55}
 
-.qty-selector{
-  display:flex;align-items:center;gap:14px;
-  margin-bottom:18px;padding:14px;
-  background:var(--surface-3);
-  border-radius:var(--radius-md);
-  border:1.5px solid var(--border);
-}
-.qty-selector .label{
-  font-size:13.5px;font-weight:600;
-  color:var(--text-2);flex:1;
-}
-
-.company-mini{
-  display:flex;align-items:center;gap:12px;
-  padding:14px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  margin-bottom:14px;cursor:pointer;
-  transition:all .15s;
-}
+.qty-selector{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:14px;background:var(--surface-3);border-radius:var(--radius-md);border:1.5px solid var(--border)}
+.qty-selector .label{font-size:13.5px;font-weight:600;color:var(--text-2);flex:1}
+.company-mini{display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:14px;cursor:pointer}
 .company-mini:hover{border-color:var(--border-strong);box-shadow:var(--shadow-xs)}
-.company-mini img,.company-mini .mini-logo{
-  width:40px;height:40px;border-radius:10px;
-  object-fit:cover;
-  background:var(--brand-gradient);color:#fff;
-  display:grid;place-items:center;
-  font-weight:800;font-size:17px;
-}
-.company-mini .mini-info{flex:1;min-width:0}
-.company-mini .mini-name{
-  font-size:13.5px;font-weight:650;
-  letter-spacing:-0.005em;
-}
+.company-mini img,.company-mini .mini-logo{width:40px;height:40px;border-radius:10px;object-fit:cover;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:17px}
+.company-mini .mini-info{flex:1}
+.company-mini .mini-name{font-size:13.5px;font-weight:650}
 .company-mini .mini-cat{font-size:12px;color:var(--text-3);margin-top:2px}
 
-.cod-hint{
-  background:var(--warning-soft);
-  border:1.5px solid #fde68a;
-  color:var(--warning);
-  padding:12px 14px;
-  border-radius:8px;
-  font-size:12.5px;
-  display:flex;align-items:center;gap:8px;
-  line-height:1.5;
-}
+/* ADDRESS */
+.address-preview{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;font-size:13px;line-height:1.6;color:var(--text-2);margin-bottom:10px}
+.address-preview strong{color:var(--text);font-weight:650}
+.address-empty{background:var(--warning-soft);border:1.5px solid #fde68a;border-radius:var(--radius-md);padding:12px 14px;font-size:12.5px;color:var(--warning);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 
-/* ============ UTILS ============ */
+.toast-root{position:fixed;top:calc(70px + var(--safe-top));left:50%;transform:translateX(-50%);z-index:1000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;max-width:calc(100vw - 32px);width:100%}
+.toast{padding:12px 18px;background:#0f172a;color:#fff;border-radius:10px;font-size:13.5px;font-weight:600;animation:toastIn .3s ease;max-width:100%;text-align:center;box-shadow:0 12px 32px rgba(0,0,0,.22)}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--danger)}
+@keyframes toastIn{from{opacity:0;transform:translateY(-12px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;z-index:500;overflow:auto}
+.modal{background:var(--surface);border-radius:var(--radius-xl);padding:22px;width:100%;max-width:480px;max-height:90vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.24)}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:18px}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:22px}
+
+.auth-shell{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(circle at 0% 0%,rgba(79,70,229,.08),transparent 40%),radial-gradient(circle at 100% 100%,rgba(124,58,237,.08),transparent 40%),var(--bg)}
+.auth-box{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px 28px;box-shadow:var(--shadow-lg)}
+.auth-mark{width:52px;height:52px;background:var(--brand-gradient);color:#fff;border-radius:14px;display:grid;place-items:center;font-weight:800;font-size:22px;margin-bottom:18px;box-shadow:var(--shadow-brand)}
+.auth-box h1{font-size:22px;font-weight:750;margin-bottom:6px}
+.auth-sub{font-size:14px;color:var(--text-2);margin-bottom:26px}
+.auth-foot{text-align:center;margin-top:20px;font-size:13px;color:var(--text-2)}
+.auth-foot+.auth-foot{margin-top:8px}
+.empty{text-align:center;padding:56px 20px;color:var(--text-3);font-size:13.5px}
+.skeleton{background:linear-gradient(90deg,#eef2f7 25%,#e3e8ef 37%,#eef2f7 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:var(--radius);height:60px;margin-bottom:10px}
+@keyframes shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
+
+.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.admin-side{background:#0f172a;color:#cbd5e1;padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.admin-side-brand{display:flex;align-items:center;gap:10px;color:#fff;font-size:14px;font-weight:700;padding:8px 10px;margin-bottom:22px}
+.admin-side-brand .brand-mark{width:28px;height:28px;font-size:13px;background:var(--brand-gradient)}
+.admin-nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;font-size:13.5px;color:#94a3b8;border-radius:8px;margin-bottom:3px;cursor:pointer}
+.admin-nav a:hover{background:#1e293b;color:#fff}
+.admin-nav a.active{background:var(--brand);color:#fff;box-shadow:var(--shadow-brand)}
+.admin-main{padding:26px;min-height:100vh;background:var(--bg)}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:12px;flex-wrap:wrap}
+.admin-header h1{font-size:22px;font-weight:750}
+.admin-user{font-size:12px;color:var(--text-3)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:26px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-xs)}
+.stat-label{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em}
+.stat-value{font-size:26px;font-weight:800;margin-top:8px}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-xs)}
+.table-wrap.scroll{overflow-x:auto}
+.table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+.table th{text-align:left;padding:12px 14px;background:var(--surface-2);font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border)}
+.table td{padding:14px;border-bottom:1px solid var(--border);vertical-align:top}
+.table tr:last-child td{border-bottom:0}
+.table tr:hover td{background:var(--surface-2)}
+.mobile-menu-btn{display:none;width:36px;height:36px;border-radius:var(--radius);background:#0f172a;color:#fff}
+
+.cart-item{display:flex;gap:12px;padding:14px;border-bottom:1px solid var(--border)}
+.cart-item:last-child{border-bottom:0}
+.cart-item img{width:60px;height:60px;border-radius:10px;object-fit:cover;background:var(--surface-3)}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:13.5px;font-weight:650}
+.cart-item-price{font-size:12.5px;color:var(--text-3);margin-top:2px}
+.qty-ctrl{display:inline-flex;align-items:center;border:1.5px solid var(--border);border-radius:8px;overflow:hidden}
+.qty-ctrl button{width:32px;height:32px;background:var(--surface);display:grid;place-items:center;font-weight:700;color:var(--text-2);font-size:16px}
+.qty-ctrl span{min-width:36px;text-align:center;font-size:14px;font-weight:700}
+.radio-row{display:flex;align-items:flex-start;gap:12px;padding:14px;border:1.5px solid var(--border);border-radius:var(--radius-md);margin-bottom:10px;cursor:pointer;transition:all .15s}
+.radio-row.selected{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 3px rgba(79,70,229,.08)}
+.radio-row input{margin-top:3px;accent-color:var(--brand);width:16px;height:16px}
+.radio-row-text{flex:1}
+.radio-row-title{font-size:13.5px;font-weight:650}
+.radio-row-desc{font-size:12.5px;color:var(--text-2);margin-top:3px}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13.5px}
+.price-row.total{border-top:2px solid var(--border);margin-top:8px;padding-top:12px;font-weight:750;font-size:15.5px}
+.price-row.discount span:last-child{color:var(--success);font-weight:700}
+.coupon-row{display:flex;gap:8px;margin-bottom:10px}
+.coupon-row input{flex:1}
+.blocked-banner{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:26px;border-radius:var(--radius-xl);text-align:center;margin-bottom:18px;box-shadow:0 12px 36px rgba(220,38,38,.24)}
+.blocked-banner.suspended{background:linear-gradient(135deg,#d97706,#b45309)}
+.blocked-banner .icon{font-size:48px;margin-bottom:12px}
+.blocked-banner h2{font-size:20px;margin-bottom:8px;font-weight:750}
+.blocked-banner p{font-size:13.5px;opacity:.92;line-height:1.55}
+.blocked-reason{background:rgba(0,0,0,.24);border-radius:10px;padding:14px;margin-top:16px;text-align:left}
+.blocked-reason .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;opacity:.75;margin-bottom:6px;font-weight:700}
+.blocked-reason .txt{font-size:13.5px;line-height:1.5}
+.blocked-timer{background:rgba(0,0,0,.28);border-radius:12px;padding:16px;margin-top:16px;display:inline-block;min-width:220px}
+.blocked-timer .label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75;margin-bottom:8px;font-weight:700}
+.blocked-timer .time{font-family:monospace;font-size:24px;font-weight:800}
+.free-banner{background:linear-gradient(135deg,#059669,#047857);color:#fff;padding:16px 18px;border-radius:var(--radius-xl);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.free-banner .icon{font-size:24px}
+.free-banner .title{font-weight:700;font-size:14.5px}
+.free-banner .desc{font-size:12.5px;opacity:.92;margin-top:3px}
 .row{display:flex;align-items:center;gap:8px}
 .between{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .text-muted{color:var(--text-2)}
@@ -1107,55 +319,24 @@ ul{list-style:none}
 .font-medium{font-weight:500}
 .font-semibold{font-weight:600}
 .font-bold{font-weight:700}
-.font-mono{font-family:ui-monospace,"SF Mono",monospace}
+.font-mono{font-family:monospace}
 .text-center{text-align:center}
 .text-right{text-align:right}
 .mt-0{margin-top:0}.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:16px}
 .mb-0{margin-bottom:0}.mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}
 .hidden{display:none!important}
-
-.spin{
-  width:14px;height:14px;
-  border:2px solid rgba(255,255,255,.4);
-  border-top-color:#fff;border-radius:50%;
-  animation:rotate .7s linear infinite;
-  display:inline-block;
-}
+.spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:rotate .7s linear infinite;display:inline-block}
 @keyframes rotate{to{transform:rotate(360deg)}}
-
-.warn-box{
-  background:var(--warning-soft);
-  border:1.5px solid #fde68a;
-  color:var(--warning);
-  padding:12px 14px;border-radius:8px;
-  font-size:12.5px;line-height:1.5;
-}
-.info-box{
-  background:var(--brand-soft);
-  border:1.5px solid #c7d2fe;
-  color:var(--brand-dark);
-  padding:12px 14px;border-radius:8px;
-  font-size:12.5px;line-height:1.5;
-}
+.warn-box{background:var(--warning-soft);border:1.5px solid #fde68a;color:var(--warning);padding:12px 14px;border-radius:8px;font-size:12.5px;line-height:1.5}
+.info-box{background:var(--brand-soft);border:1.5px solid #c7d2fe;color:var(--brand-dark);padding:12px 14px;border-radius:8px;font-size:12.5px;line-height:1.5}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
 
-/* ============ RESPONSIVE ============ */
 @media (max-width:820px){
   .admin-layout{grid-template-columns:1fr}
-  .admin-side{
-    position:fixed;left:0;top:0;bottom:0;width:240px;
-    transform:translateX(-100%);
-    transition:transform .25s;
-    z-index:100;
-  }
+  .admin-side{position:fixed;left:0;top:0;bottom:0;width:240px;transform:translateX(-100%);transition:transform .25s;z-index:100}
   .admin-side.open{transform:translateX(0)}
   .admin-main{padding:16px}
   .mobile-menu-btn{display:grid;place-items:center}
-}
-@media (max-width:380px){
-  .product-grid{gap:10px}
-  .product-body{padding:10px}
-  .auth-box{padding:26px 22px}
 }
 </style>
 </head>
@@ -1191,7 +372,7 @@ const EMAILJS_CONFIG = {
   serviceId: "Pawanretaillimited2",
   welcomeTemplateId: "template_xm01mo4",
   orderSuccessTemplateId: "template_5ugr1ok",
-  orderDeliveredTemplateId: "template_delivered",   // ← apna exact ID daalo
+  orderDeliveredTemplateId: "template_delivered",
   enabled: true
 };
 
@@ -1231,6 +412,7 @@ const S = {
   appliedCoupon: null,
   isFirstOrder: false,
   currentCategory: "all", searchQuery: "",
+  orderFilter: "all", orderSearch: "",
   customerSubs: new Set(), adminSubs: new Set(),
   cached: { banners: [], companies: [], orders: [], coupons: [], reviews: [] },
   blockTimerInterval: null,
@@ -1272,8 +454,7 @@ function isCompanyOpen(company) {
   const cur = now.getHours() * 60 + now.getMinutes();
   const [oh, om] = company.openTime.split(":").map(Number);
   const [ch, cm] = company.closeTime.split(":").map(Number);
-  const open = oh * 60 + om;
-  const close = ch * 60 + cm;
+  const open = oh * 60 + om, close = ch * 60 + cm;
   if (open === close) return true;
   if (open < close) return cur >= open && cur < close;
   return cur >= open || cur < close;
@@ -1281,6 +462,26 @@ function isCompanyOpen(company) {
 function companyHoursText(c) {
   if (!c?.openTime || !c?.closeTime) return "";
   return `${c.openTime} – ${c.closeTime}`;
+}
+
+/* ===== ADDRESS HELPERS ===== */
+function formatAddress(addr) {
+  if (!addr) return "";
+  if (typeof addr === "string") return addr;
+  const parts = [
+    addr.flat && `${addr.flat}`,
+    addr.street && `${addr.street}`,
+    addr.sector && `${addr.sector}`,
+    addr.landmark && `${addr.landmark}`,
+    addr.city && `${addr.city}`,
+    addr.state && `${addr.state}`,
+    addr.pincode && `PIN ${addr.pincode}`
+  ].filter(Boolean);
+  return parts.join(", ");
+}
+function isAddressComplete(addr) {
+  if (!addr || typeof addr === "string") return false;
+  return !!(addr.flat && addr.street && addr.city && addr.state && addr.pincode);
 }
 
 function showScreen(id) {
@@ -1352,8 +553,7 @@ function renderBlockedBanner() {
   if (info.type === "blocked") {
     return `<div class="blocked-banner"><div class="icon">🚫</div><h2>${escapeHtml(info.title)}</h2>
       <p>${escapeHtml(info.message)}</p>
-      <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div>
-      <p style="margin-top:16px;font-size:12.5px;opacity:.75">Contact support if you believe this is a mistake.</p></div>`;
+      <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div></div>`;
   }
   if (info.type === "suspended") {
     return `<div class="blocked-banner suspended"><div class="icon">⏸️</div><h2>${escapeHtml(info.title)}</h2>
@@ -1389,7 +589,7 @@ async function refreshProfile() {
       if (activeScreen === "scrCheckout") renderCheckout();
       if (activeScreen === "scrCart") renderCart();
       if (activeScreen === "scrCompanies") renderBrowse();
-      if (activeScreen === "scrOrders") renderOrders();
+      if (activeScreen === "scrOrders") renderOrdersPage();
     }
   } catch (e) { console.warn("refreshProfile:", e); }
 }
@@ -1459,7 +659,9 @@ const icon = {
   back: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`,
   menu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>`,
   trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`,
-  chev: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`
+  chev: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`,
+  pin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-7.5-8-13a8 8 0 0 1 16 0c0 5.5-8 13-8 13z"/><circle cx="12" cy="9" r="3"/></svg>`,
+  edit: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`
 };
 
 function BNAV(active) {
@@ -1498,15 +700,24 @@ function screenRegister() {
   return `<div class="auth-shell"><div class="auth-box">
     <div class="auth-mark">P</div><h1>Create account</h1><p class="auth-sub">Join Pawan Retail Limited</p>
     <form id="registerForm">
-      <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required placeholder="Your full name"></div>
-      <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required placeholder="10-digit number"></div>
-      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="regEmail" type="email" required placeholder="you@example.com"></div>
+      <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required></div>
+      <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="regEmail" type="email" required></div>
       <div class="form-group"><label class="form-label">Password</label>
-        <div class="input-wrap"><input class="form-input" id="regPassword" type="password" required minlength="6" placeholder="At least 6 characters">
+        <div class="input-wrap"><input class="form-input" id="regPassword" type="password" required minlength="6">
           <button type="button" class="input-toggle" data-toggle="regPassword">Show</button></div></div>
-      <div class="form-group"><label class="form-label">Confirm password</label><input class="form-input" id="regPassword2" type="password" required placeholder="Re-enter password"></div>
-      <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="regAddress" required placeholder="Your delivery address"></textarea></div>
-      <button class="btn btn-primary btn-block btn-lg" type="submit" id="regSubmit">Create account</button>
+      <div class="form-group"><label class="form-label">Confirm password</label><input class="form-input" id="regPassword2" type="password" required></div>
+      <div class="section-title mt-4">Delivery Address</div>
+      <div class="form-group"><label class="form-label">Flat / House No. / Building</label><input class="form-input" id="regFlat" required></div>
+      <div class="form-group"><label class="form-label">Street / Area</label><input class="form-input" id="regStreet" required></div>
+      <div class="form-group"><label class="form-label">Sector / Locality (optional)</label><input class="form-input" id="regSector"></div>
+      <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="form-group"><label class="form-label">City</label><input class="form-input" id="regCity" required></div>
+        <div class="form-group"><label class="form-label">State</label><input class="form-input" id="regState" required></div>
+      </div>
+      <div class="form-group"><label class="form-label">Pincode</label><input class="form-input" id="regPincode" inputmode="numeric" maxlength="6" required></div>
+      <div class="form-group"><label class="form-label">Landmark (optional)</label><input class="form-input" id="regLandmark"></div>
+      <button class="btn btn-primary btn-block btn-lg mt-3" type="submit" id="regSubmit">Create account</button>
     </form>
     <p class="auth-foot">Already registered? <a href="#" id="linkLogin" style="font-weight:700">Sign in</a></p>
   </div></div>`;
@@ -1534,7 +745,7 @@ function screenHome() {
     </div>
     <div class="page">
       <div id="statusBannerSlot"></div>
-      <h2 class="mb-4" style="font-size:22px;font-weight:750;letter-spacing:-.025em" id="homeGreeting">Hi</h2>
+      <h2 class="mb-4" style="font-size:22px;font-weight:750" id="homeGreeting">Hi</h2>
       <div id="bannerSlot"></div>
       <div class="section-title">Categories</div>
       <div class="chip-row mb-4" id="homeCategories"></div>
@@ -1591,8 +802,13 @@ function screenCheckout() {
 }
 
 function screenOrders() {
-  return `<div class="shell"><div class="appbar"><div class="appbar-title">My Orders</div></div>
+  return `<div class="shell">
+    <div class="appbar"><div class="appbar-title">My Orders</div></div>
     <div class="page">
+      <div class="orders-search">
+        ${icon.search}
+        <input class="form-input" id="orderSearch" placeholder="Search by Order ID or company">
+      </div>
       <div class="chip-row mb-4" id="orderTabs">
         <button class="chip active" data-filter="all">All</button>
         <button class="chip" data-filter="pending">Pending</button>
@@ -1601,7 +817,9 @@ function screenOrders() {
         <button class="chip" data-filter="rejected">Rejected</button>
       </div>
       <div id="ordersList"></div>
-    </div>${BNAV("orders")}</div>`;
+    </div>
+    ${BNAV("orders")}
+  </div>`;
 }
 
 function screenOrderDetail() {
@@ -1620,22 +838,16 @@ function screenTrackOrder() {
   return `<div class="shell">
     <div class="appbar">
       <button class="appbar-back" onclick="showScreen('scrLogin')">${icon.back}</button>
-      <div class="appbar-title">Track Order</div>
-      <div style="width:36px"></div>
-    </div>
-    <div class="page" id="trackBody"></div>
-  </div>`;
+      <div class="appbar-title">Track Order</div><div style="width:36px"></div></div>
+    <div class="page" id="trackBody"></div></div>`;
 }
 
 function screenReview() {
   return `<div class="shell">
     <div class="appbar">
       <button class="appbar-back" id="reviewBack">${icon.back}</button>
-      <div class="appbar-title">Rate & Review</div>
-      <div style="width:36px"></div>
-    </div>
-    <div class="page" id="reviewBody"></div>
-  </div>`;
+      <div class="appbar-title">Rate & Review</div><div style="width:36px"></div></div>
+    <div class="page" id="reviewBody"></div></div>`;
 }
 
 function screenAdmin() {
@@ -1717,6 +929,11 @@ function mountScreens() {
     paintBrowseCompanies();
   });
 
+  $("#orderSearch").addEventListener("input", e => {
+    S.orderSearch = e.target.value.toLowerCase();
+    paintOrders();
+  });
+
   $("#companyBack").onclick = () => goTo("products");
   $("#productBack").onclick = () => {
     if (S.currentProduct?.companyId) openCompany(S.currentProduct.companyId);
@@ -1731,7 +948,7 @@ function goTo(route) {
   if (route === "home") { showScreen("scrHome"); renderHome(); }
   if (route === "products") { showScreen("scrCompanies"); renderBrowse(); }
   if (route === "cart") { showScreen("scrCart"); renderCart(); }
-  if (route === "orders") { showScreen("scrOrders"); renderOrders(); }
+  if (route === "orders") { showScreen("scrOrders"); renderOrdersPage(); }
   if (route === "account") { showScreen("scrAccount"); renderAccount(); }
   $$(".bnav-item").forEach(el => el.classList.toggle("active", el.dataset.nav === route));
   updateCartBadge();
@@ -1773,17 +990,28 @@ async function handleRegister(e) {
   const email = $("#regEmail").value.trim();
   const pass = $("#regPassword").value;
   const pass2 = $("#regPassword2").value;
-  const address = $("#regAddress").value.trim();
-  if (!name || !email || !pass || !address) return toast("Fill all required fields", "error");
+  const flat = $("#regFlat").value.trim();
+  const street = $("#regStreet").value.trim();
+  const sector = $("#regSector").value.trim();
+  const city = $("#regCity").value.trim();
+  const state = $("#regState").value.trim();
+  const pincode = $("#regPincode").value.trim();
+  const landmark = $("#regLandmark").value.trim();
+
+  if (!name || !email || !pass) return toast("Fill all required fields", "error");
   if (!/^[0-9]{10}$/.test(phone)) return toast("Enter valid 10-digit number", "error");
   if (pass.length < 6) return toast("Password 6+ chars", "error");
   if (pass !== pass2) return toast("Passwords do not match", "error");
+  if (!flat || !street || !city || !state) return toast("Complete address required", "error");
+  if (!/^[0-9]{6}$/.test(pincode)) return toast("Enter valid 6-digit pincode", "error");
+
   const btn = $("#regSubmit");
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating account';
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db, "users", cred.user.uid), {
-      name, email, phone, address,
+      name, email, phone,
+      address: { flat, street, sector, city, state, pincode, landmark },
       role: "customer", status: "active",
       blockReason: "", suspendedUntil: null,
       createdAt: serverTimestamp()
@@ -1915,25 +1143,6 @@ function watchCustomerOrders() {
   S.customerSubs.add(unsub);
 }
 
-/* ===== COMPANY RATING HELPER ===== */
-async function getCompanyRating(companyId) {
-  try {
-    const orders = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
-    if (orders.empty) return { avg: 0, count: 0 };
-    const orderIds = orders.docs.map(d => d.id);
-    // Fetch reviews for these orders (batch in chunks)
-    let allReviews = [];
-    for (let i = 0; i < orderIds.length; i += 10) {
-      const chunk = orderIds.slice(i, i + 10);
-      const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
-      allReviews = allReviews.concat(rSnap.docs.map(d => d.data()));
-    }
-    if (!allReviews.length) return { avg: 0, count: 0 };
-    const sum = allReviews.reduce((s, r) => s + (r.rating || 0), 0);
-    return { avg: sum / allReviews.length, count: allReviews.length };
-  } catch (e) { return { avg: 0, count: 0 }; }
-}
-
 async function renderHome() {
   if (!S.profile) return;
   const statusSlot = $("#statusBannerSlot");
@@ -1956,7 +1165,7 @@ function companyCard(c) {
   const open = isCompanyOpen(c);
   return `<article class="product ${open ? "" : "closed"}" onclick="openCompany('${c.id}')" style="cursor:pointer">
     ${open ? "" : `<div class="closed-overlay">CLOSED</div>`}
-    <div class="product-img" style="display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-size:28px;font-weight:800">
+    <div class="product-img" style="display:grid;place-items:center;background:var(--brand-gradient);color:#fff;font-size:28px;font-weight:800">
       ${img ? `<img src="${escapeHtml(img)}" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='<span>${escapeHtml((c.name || 'C')[0].toUpperCase())}</span>'">` : `<span>${escapeHtml((c.name || "C")[0].toUpperCase())}</span>`}
     </div>
     <div class="product-body">
@@ -2003,7 +1212,7 @@ function paintBrowseCompanies() {
 
 window.openCompany = async (companyId) => {
   showScreen("scrCompany");
-  $("#companyBody").innerHTML = `<div class="skeleton" style="height:120px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
+  $("#companyBody").innerHTML = `<div class="skeleton" style="height:120px"></div><div class="skeleton"></div>`;
   const companySnap = await getDoc(doc(db, "companies", companyId));
   if (!companySnap.exists()) { $("#companyBody").innerHTML = `<div class="empty">Company not found</div>`; return; }
   const company = { id: companySnap.id, ...companySnap.data() };
@@ -2012,7 +1221,7 @@ window.openCompany = async (companyId) => {
   const prodSnap = await getDocs(collection(db, "companies", companyId, "products"));
   const products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.isActive !== false);
 
-  // Fetch company reviews
+  // Fetch reviews
   const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
   const orderIds = ordersSnap.docs.filter(d => d.data().status === "successful").map(d => d.id);
   let reviews = [];
@@ -2036,16 +1245,8 @@ function paintCompany(company, products, reviews) {
     ? '<span class="badge badge-success">COD available</span>'
     : '<span class="badge badge-neutral">Prepaid only</span>';
 
-  // Calculate average rating
   let avgRating = 0;
-  if (reviews.length) {
-    avgRating = reviews.reduce((s, r) => s + (r.rating || 0), 0) / reviews.length;
-  }
-  const ratingHtml = reviews.length ? `
-    <div class="row mt-2" style="gap:6px">
-      <span style="color:#fbbf24;font-size:13px">${[1,2,3,4,5].map(n => n <= Math.round(avgRating) ? "★" : "☆").join("")}</span>
-      <span class="text-xs text-soft">${avgRating.toFixed(1)} · ${reviews.length} review${reviews.length > 1 ? "s" : ""}</span>
-    </div>` : "";
+  if (reviews.length) avgRating = reviews.reduce((s, r) => s + (r.rating || 0), 0) / reviews.length;
 
   $("#companyBody").innerHTML = `
     ${status.blocked ? renderBlockedBanner() : ""}
@@ -2060,16 +1261,18 @@ function paintCompany(company, products, reviews) {
       </div>` : ""}
     <div class="card card-elevated">
       <div class="row">
-        <div style="width:64px;height:64px;border-radius:14px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:24px;font-weight:800;overflow:hidden;box-shadow:var(--shadow-brand)">
+        <div style="width:64px;height:64px;border-radius:14px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:24px;font-weight:800;overflow:hidden">
           ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((company.name || "C")[0])}</span>`}
         </div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:17px;font-weight:750;letter-spacing:-.02em">${escapeHtml(company.name || "")}</div>
+          <div style="font-size:17px;font-weight:750">${escapeHtml(company.name || "")}</div>
           <div class="text-xs text-soft" style="margin-top:2px">${escapeHtml(company.category || "")}</div>
-          ${ratingHtml}
+          ${reviews.length ? `<div class="row mt-2" style="gap:6px">
+            <span style="color:#fbbf24;font-size:13px">${[1,2,3,4,5].map(n => n <= Math.round(avgRating) ? "★" : "☆").join("")}</span>
+            <span class="text-xs text-soft">${avgRating.toFixed(1)} · ${reviews.length} review${reviews.length > 1 ? "s" : ""}</span>
+          </div>` : ""}
           <div class="row mt-2" style="gap:6px">${codBadge}</div>
-          ${showHours ? `
-            <div class="text-xs mt-2" style="color:${isOpen ? "var(--success)" : "var(--danger)"};font-weight:700">
+          ${showHours ? `<div class="text-xs mt-2" style="color:${isOpen ? "var(--success)" : "var(--danger)"};font-weight:700">
               ${isOpen ? "● Open now" : "● Closed"} · ${escapeHtml(hours)}
             </div>` : ""}
         </div>
@@ -2080,37 +1283,10 @@ function paintCompany(company, products, reviews) {
 
     <div class="section-header mt-4" style="margin-bottom:12px"><h2>Products</h2></div>
     <div class="product-grid" id="companyProducts"></div>
-
-    ${reviews.length ? `
-      <div class="section-header mt-4" style="margin-bottom:12px">
-        <h2>Customer Reviews</h2>
-        <a href="#" onclick="event.preventDefault();openAllReviews('${company.id}')">See all</a>
-      </div>
-      <div class="card">
-        <div class="rating-summary">
-          <div class="big-num">${avgRating.toFixed(1)}</div>
-          <div class="meta">
-            <div class="stars-lg">${[1,2,3,4,5].map(n => `<span class="${n <= Math.round(avgRating) ? "on" : ""}">★</span>`).join("")}</div>
-            <div class="count">Based on ${reviews.length} review${reviews.length > 1 ? "s" : ""}</div>
-          </div>
-        </div>
-        ${reviews.slice(0, 3).map(r => `
-          <div class="review-item">
-            <div class="review-item-head">
-              <div class="review-item-name">${escapeHtml((r.customerName || "Customer").split(" ")[0])}</div>
-              <div class="review-item-date">${fmtDate(r.createdAt)}</div>
-            </div>
-            <div class="review-item-stars">${[1,2,3,4,5].map(n => `<span class="${n <= (r.rating||0) ? "on" : ""}">★</span>`).join("")}</div>
-            ${r.reviewText ? `<div class="review-item-text">"${escapeHtml(r.reviewText)}"</div>` : ""}
-          </div>`).join("")}
-      </div>
-    ` : ""}
   `;
   startBlockTimer();
   const grid = $("#companyProducts");
   if (!products.length) { grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No products</div>`; return; }
-
-  // Load product ratings (aggregate) - simple approach: fetch reviews per product order
   grid.innerHTML = products.map(p => `
     <article class="product ${isOpen ? "" : "closed"}" onclick="openProductDetail('${company.id}', '${p.id}')">
       <img class="product-img" src="${escapeHtml(/^https?:\/\//i.test(p.imageUrl || "") ? p.imageUrl : PLACEHOLDER_IMG)}" onerror="this.src='${PLACEHOLDER_IMG}'">
@@ -2127,48 +1303,11 @@ function paintCompany(company, products, reviews) {
     </article>`).join("");
 }
 
-window.openAllReviews = async (companyId) => {
-  const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
-  const orderIds = ordersSnap.docs.filter(d => d.data().status === "successful").map(d => d.id);
-  let reviews = [];
-  for (let i = 0; i < orderIds.length; i += 10) {
-    const chunk = orderIds.slice(i, i + 10);
-    try {
-      const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
-      reviews = reviews.concat(rSnap.docs.map(d => d.data()));
-    } catch (_) {}
-  }
-  reviews.sort(byNewest);
-  if (!reviews.length) return toast("No reviews yet", "info");
-  const avg = reviews.reduce((s, r) => s + (r.rating||0), 0) / reviews.length;
-  openModal(`
-    <div class="modal-title">Customer Reviews (${reviews.length})</div>
-    <div class="rating-summary" style="margin-bottom:12px">
-      <div class="big-num">${avg.toFixed(1)}</div>
-      <div class="meta">
-        <div class="stars-lg">${[1,2,3,4,5].map(n => `<span class="${n <= Math.round(avg) ? "on" : ""}">★</span>`).join("")}</div>
-        <div class="count">${reviews.length} reviews</div>
-      </div>
-    </div>
-    ${reviews.map(r => `
-      <div class="review-item">
-        <div class="review-item-head">
-          <div class="review-item-name">${escapeHtml(r.customerName || "Customer")}</div>
-          <div class="review-item-date">${fmtDate(r.createdAt)}</div>
-        </div>
-        <div class="review-item-stars">${[1,2,3,4,5].map(n => `<span class="${n <= (r.rating||0) ? "on" : ""}">★</span>`).join("")}</div>
-        ${r.reviewText ? `<div class="review-item-text">"${escapeHtml(r.reviewText)}"</div>` : ""}
-      </div>`).join("")}
-    <div class="modal-actions">
-      <button class="btn btn-secondary btn-block" onclick="closeModal()">Close</button>
-    </div>`);
-};
-
-/* ===== PRODUCT DETAIL PAGE WITH REVIEWS ===== */
+/* PRODUCT DETAIL */
 window.openProductDetail = async (companyId, productId) => {
   showScreen("scrProductDetail");
   S.productQty = 1;
-  $("#productBody").innerHTML = `<div class="skeleton" style="height:280px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
+  $("#productBody").innerHTML = `<div class="skeleton" style="height:280px"></div><div class="skeleton"></div>`;
 
   try {
     const [companySnap, prodSnap] = await Promise.all([
@@ -2183,10 +1322,8 @@ window.openProductDetail = async (companyId, productId) => {
     const product = { id: prodSnap.id, ...prodSnap.data() };
     S.currentProduct = { ...product, companyId };
 
-    // Fetch product reviews — reviews for orders that contained this product
     let productReviews = [];
     try {
-      // Get all delivered orders for this company
       const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
       const relevantOrderIds = ordersSnap.docs
         .filter(d => {
@@ -2204,7 +1341,7 @@ window.openProductDetail = async (companyId, productId) => {
         }
       }
       productReviews.sort(byNewest);
-    } catch (e) { console.warn("Product reviews fetch error:", e); }
+    } catch (e) { console.warn(e); }
 
     paintProductDetail(company, product, productReviews);
   } catch (err) {
@@ -2227,12 +1364,10 @@ function paintProductDetail(company, product, reviews) {
         <div class="stars-lg">${[1,2,3,4,5].map(n => `<span class="${n <= Math.round(avg) ? "on" : ""}">★</span>`).join("")}</div>
         <div class="count">Based on ${reviews.length} review${reviews.length > 1 ? "s" : ""}</div>
       </div>
-    </div>
-  ` : "";
+    </div>` : "";
 
   $("#productBody").innerHTML = `
     ${status.blocked ? renderBlockedBanner() : ""}
-
     <div class="product-detail">
       <img class="product-detail-img" src="${escapeHtml(img)}" onerror="this.src='${PLACEHOLDER_IMG}'">
       <div class="product-detail-body">
@@ -2242,18 +1377,14 @@ function paintProductDetail(company, product, reviews) {
         <div class="product-detail-desc">${escapeHtml(product.description || "No description available.")}</div>
       </div>
     </div>
-
     <div class="company-mini mt-3" onclick="openCompany('${company.id}')">
-      ${logo
-        ? `<img src="${escapeHtml(logo)}" onerror="this.outerHTML='<div class=\\'mini-logo\\'>${escapeHtml((company.name || 'C')[0])}</div>'">`
-        : `<div class="mini-logo">${escapeHtml((company.name || "C")[0])}</div>`}
+      ${logo ? `<img src="${escapeHtml(logo)}" onerror="this.outerHTML='<div class=\\'mini-logo\\'>${escapeHtml((company.name || 'C')[0])}</div>'">` : `<div class="mini-logo">${escapeHtml((company.name || "C")[0])}</div>`}
       <div class="mini-info">
         <div class="mini-name">${escapeHtml(company.name || "")}</div>
         <div class="mini-cat">${escapeHtml(company.category || "")} · ${isOpen ? '<span style="color:var(--success);font-weight:700">Open</span>' : '<span style="color:var(--danger);font-weight:700">Closed</span>'}</div>
       </div>
       <span class="text-soft">${icon.chev}</span>
     </div>
-
     <div class="qty-selector mt-3">
       <span class="label">Quantity</span>
       <div class="qty-ctrl">
@@ -2262,17 +1393,12 @@ function paintProductDetail(company, product, reviews) {
         <button onclick="changeProductQty(1)">+</button>
       </div>
     </div>
-
     <button class="btn btn-primary btn-lg btn-block" id="pdAddToCart" ${isOpen ? "" : "disabled"}>
       ${isOpen ? "🛒 Add to Cart — " + fmtINR(product.price) : "Currently Closed"}
     </button>
-
-    ${!isOpen ? `<div class="warn-box mt-3">This restaurant is currently closed. You cannot add items right now.</div>` : ""}
-
+    ${!isOpen ? `<div class="warn-box mt-3">This restaurant is currently closed.</div>` : ""}
     ${reviews.length ? `
-      <div class="section-header mt-4" style="margin-bottom:12px">
-        <h2>Customer Reviews</h2>
-      </div>
+      <div class="section-header mt-4" style="margin-bottom:12px"><h2>Customer Reviews</h2></div>
       <div class="card">
         ${ratingHtml}
         ${reviews.map(r => `
@@ -2285,15 +1411,10 @@ function paintProductDetail(company, product, reviews) {
             ${r.reviewText ? `<div class="review-item-text">"${escapeHtml(r.reviewText)}"</div>` : ""}
           </div>`).join("")}
       </div>
-    ` : `
-      <div class="card mt-4">
-        <div class="text-center" style="padding:20px 0">
-          <div style="font-size:40px;opacity:.3;margin-bottom:8px">⭐</div>
-          <div class="text-sm text-soft">No reviews yet for this product</div>
-          <div class="text-xs text-soft mt-2">Be the first to review after your order is delivered!</div>
-        </div>
-      </div>
-    `}
+    ` : `<div class="card mt-4"><div class="text-center" style="padding:20px 0">
+        <div style="font-size:40px;opacity:.3;margin-bottom:8px">⭐</div>
+        <div class="text-sm text-soft">No reviews yet for this product</div>
+      </div></div>`}
   `;
 
   $("#pdAddToCart").onclick = () => addProductToCartWithQty(product.id, company.id, S.productQty);
@@ -2311,9 +1432,7 @@ async function addProductToCartWithQty(productId, companyId, qty) {
   const companySnap = await getDoc(doc(db, "companies", companyId));
   if (!companySnap.exists()) return toast("Company not found", "error");
   const company = { id: companyId, ...companySnap.data() };
-  if (!isCompanyOpen(company)) {
-    return toast(`${company.name} is currently closed. Please try during opening hours.`, "error");
-  }
+  if (!isCompanyOpen(company)) return toast(`${company.name} is currently closed.`, "error");
   const prodSnap = await getDoc(doc(db, "companies", companyId, "products", productId));
   if (!prodSnap.exists()) return toast("Product not found", "error");
   const product = { id: productId, ...prodSnap.data() };
@@ -2331,7 +1450,7 @@ async function addProductToCartWithQty(productId, companyId, qty) {
   if (existing) existing.quantity += qty;
   else S.cart.items.push({ productId, name: product.name, imageUrl: product.imageUrl || "", price: Number(product.price) || 0, quantity: qty });
   updateCartBadge();
-  toast(`${product.name} × ${qty} added to cart`, "success");
+  toast(`${product.name} × ${qty} added`, "success");
   setTimeout(() => goTo("cart"), 400);
 }
 window.addProductToCart = async (productId, companyId) => {
@@ -2380,7 +1499,6 @@ function renderCart() {
     </div>
     <div class="card">
       <div class="price-row"><span class="text-muted">Subtotal</span><span class="font-bold">${fmtINR(subtotal)}</span></div>
-      <div class="price-row text-xs text-soft"><span>Delivery + service</span><span>At checkout</span></div>
     </div>
     <div class="row mt-3" style="gap:10px">
       <button class="btn btn-secondary btn-block" onclick="goTo('products')">Continue shopping</button>
@@ -2442,6 +1560,10 @@ async function renderCheckout() {
   const serviceCharge = isFirstOrder ? 0 : Number(company.serviceCharge || 0);
   const couponDiscount = S.appliedCoupon ? S.appliedCoupon.discount : 0;
 
+  const addr = S.profile.address || {};
+  const addressComplete = isAddressComplete(addr);
+  const addrText = formatAddress(addr);
+
   body.innerHTML = `
     ${isFirstOrder ? `<div class="free-banner"><span class="icon">🎉</span><div>
       <div class="title">First Order — Delivery & Service FREE</div>
@@ -2451,18 +1573,35 @@ async function renderCheckout() {
       <div class="font-bold mb-2" style="font-size:14.5px">${escapeHtml(company.name || "")}</div>
       <div class="text-xs text-soft">${S.cart.items.length} product(s)</div>
     </div>
+
     <div class="card">
-      <div class="section-title">Delivery Details</div>
-      <div class="form-group"><label class="form-label">Name</label>
-        <input class="form-input" id="coName" value="${escapeHtml(S.profile.name || "")}" readonly></div>
-      <div class="form-group"><label class="form-label">Phone</label>
-        <input class="form-input" id="coPhone" value="${escapeHtml(String(S.profile.phone || ""))}" maxlength="10" inputmode="numeric"></div>
-      <div class="form-group"><label class="form-label">Email</label>
-        <input class="form-input" id="coEmail" value="${escapeHtml(S.profile.email || "")}" readonly></div>
-      <div class="form-group"><label class="form-label">Address</label>
-        <textarea class="form-textarea" id="coAddress">${escapeHtml(typeof S.profile.address === "string" ? S.profile.address : "")}</textarea></div>
-      <div class="form-group"><label class="form-label">Notes (optional)</label>
-        <textarea class="form-textarea" id="coNotes" placeholder="Any instructions"></textarea></div>
+      <div class="section-header" style="margin-bottom:10px">
+        <div class="section-title" style="margin-bottom:0">Delivery Address</div>
+        <button class="btn btn-ghost btn-xs" id="editAddrBtn">${icon.edit} Edit</button>
+      </div>
+      ${addressComplete ? `
+        <div class="address-preview">
+          <strong>${escapeHtml(addr.flat || "")}</strong>, ${escapeHtml(addr.street || "")}
+          ${addr.sector ? `, ${escapeHtml(addr.sector)}` : ""}
+          ${addr.landmark ? `<br>Landmark: ${escapeHtml(addr.landmark)}` : ""}
+          <br>${escapeHtml(addr.city || "")}, ${escapeHtml(addr.state || "")} - ${escapeHtml(addr.pincode || "")}
+        </div>
+      ` : `
+        <div class="address-empty">
+          <span>⚠️</span>
+          <span>Please add a complete delivery address to continue.</span>
+        </div>
+        <button class="btn btn-primary btn-block btn-sm" id="addAddrBtn">+ Add Address</button>
+      `}
+      <div class="mt-3" style="padding-top:12px;border-top:1px solid var(--border)">
+        <div class="text-xs text-soft mb-2">Contact</div>
+        <div class="text-sm"><strong>${escapeHtml(S.profile.name || "")}</strong></div>
+        <div class="text-sm text-muted">${escapeHtml(S.profile.phone || "")}</div>
+      </div>
+      <div class="form-group mt-3">
+        <label class="form-label">Notes (optional)</label>
+        <textarea class="form-textarea" id="coNotes" placeholder="Any instructions"></textarea>
+      </div>
     </div>
 
     <div class="card">
@@ -2566,6 +1705,9 @@ async function renderCheckout() {
     });
   }
 
+  const editBtn = $("#editAddrBtn") || $("#addAddrBtn");
+  if (editBtn) editBtn.onclick = editAddress;
+
   $("#couponApplyBtn").onclick = async () => {
     if (S.appliedCoupon) { S.appliedCoupon = null; toast("Coupon removed", "success"); renderCheckout(); return; }
     const code = $("#couponInput").value.trim();
@@ -2585,17 +1727,67 @@ async function renderCheckout() {
   });
 }
 
+function editAddress() {
+  const a = (typeof S.profile.address === "object" && S.profile.address) ? S.profile.address : {};
+  openModal(`
+    <div class="modal-title">Delivery Address</div>
+    <div class="form-group"><label class="form-label">Flat / House No. / Building</label>
+      <input class="form-input" id="eaFlat" value="${escapeHtml(a.flat || "")}" placeholder="e.g. A-101"></div>
+    <div class="form-group"><label class="form-label">Street / Area</label>
+      <input class="form-input" id="eaStreet" value="${escapeHtml(a.street || "")}" placeholder="e.g. MG Road"></div>
+    <div class="form-group"><label class="form-label">Sector / Locality (optional)</label>
+      <input class="form-input" id="eaSector" value="${escapeHtml(a.sector || "")}" placeholder="e.g. Sector 12"></div>
+    <div class="row" style="gap:10px">
+      <div class="form-group" style="flex:1"><label class="form-label">City</label>
+        <input class="form-input" id="eaCity" value="${escapeHtml(a.city || "")}" placeholder="City"></div>
+      <div class="form-group" style="flex:1"><label class="form-label">State</label>
+        <input class="form-input" id="eaState" value="${escapeHtml(a.state || "")}" placeholder="State"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Pincode</label>
+      <input class="form-input" id="eaPincode" value="${escapeHtml(a.pincode || "")}" maxlength="6" inputmode="numeric" placeholder="6-digit"></div>
+    <div class="form-group"><label class="form-label">Landmark (optional)</label>
+      <input class="form-input" id="eaLandmark" value="${escapeHtml(a.landmark || "")}"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="eaSave">Save Address</button>
+    </div>
+  `);
+  $("#eaSave").onclick = async () => {
+    const flat = $("#eaFlat").value.trim();
+    const street = $("#eaStreet").value.trim();
+    const sector = $("#eaSector").value.trim();
+    const city = $("#eaCity").value.trim();
+    const state = $("#eaState").value.trim();
+    const pincode = $("#eaPincode").value.trim();
+    const landmark = $("#eaLandmark").value.trim();
+    if (!flat || !street || !city || !state) return toast("Fill all required fields", "error");
+    if (!/^[0-9]{6}$/.test(pincode)) return toast("Enter valid 6-digit pincode", "error");
+
+    try {
+      const address = { flat, street, sector, city, state, pincode, landmark };
+      await updateDoc(doc(db, "users", S.user.uid), { address });
+      S.profile = { ...S.profile, address };
+      toast("Address saved", "success");
+      closeModal();
+      renderCheckout();
+    } catch (err) { toast(errorMsg(err), "error"); }
+  };
+}
+window.editAddress = editAddress;
+
 async function placeOrder({ company, subtotal, selectedChoice, numberCharge, deliveryCharge, serviceCharge, requiresNumber, paymentMethod }) {
   await refreshProfile();
   const status = getStatusMessage();
   if (status.blocked) return toast(status.title + ": " + status.message, "error");
   if (!isCompanyOpen(company)) return toast(`${company.name} is currently closed.`, "error");
-  const phone = $("#coPhone").value.trim();
-  const address = $("#coAddress").value.trim();
+
+  const addr = S.profile.address || {};
+  if (!isAddressComplete(addr)) {
+    return toast("Please complete your delivery address first", "error");
+  }
+
   const notes = $("#coNotes").value.trim();
   const ownNumber = requiresNumber ? $("#coOwnNumber")?.value.trim() : "";
-  if (!/^[0-9]{10}$/.test(phone)) return toast("Enter valid phone", "error");
-  if (!address) return toast("Address required", "error");
   if (requiresNumber && selectedChoice === "own" && !ownNumber) return toast("Enter your number", "error");
   if (requiresNumber && !selectedChoice) return toast("Choose a number option", "error");
   const codEnabled = company.codEnabled !== false;
@@ -2620,10 +1812,15 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
     const couponDiscount = S.appliedCoupon?.discount || 0;
     const finalTotal = Math.max(0, finalSubtotal + numberCharge + deliveryCharge + serviceCharge - couponDiscount);
     const orderId = genOrderId();
+    const addressString = formatAddress(addr);
+
     const orderData = {
       orderId, customerId: S.user.uid,
       customerName: S.profile.name || "", customerEmail: S.profile.email || "",
-      customerPhone: phone, address, notes,
+      customerPhone: S.profile.phone || "",
+      address: addr,
+      addressString,
+      notes,
       companyId: company.id, companyName: company.name, companyLogo: company.logoUrl || "",
       items: validItems, subtotal: finalSubtotal,
       numberOption: selectedChoice, numberCharge, customerOwnNumber: ownNumber || "",
@@ -2651,11 +1848,13 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
   } finally { btn.disabled = false; btn.textContent = "Place Order"; }
 }
 
-let orderFilter = "all";
-function renderOrders() {
+/* ===== ORDERS PAGE ===== */
+function renderOrdersPage() {
   $$("#orderTabs .chip").forEach(chip => chip.onclick = () => {
     $$("#orderTabs .chip").forEach(c => c.classList.remove("active"));
-    chip.classList.add("active"); orderFilter = chip.dataset.filter; paintOrders();
+    chip.classList.add("active");
+    S.orderFilter = chip.dataset.filter;
+    paintOrders();
   });
   paintOrders();
 }
@@ -2664,51 +1863,68 @@ function paintOrders() {
   const el = $("#ordersList");
   if (!el) return;
   let list = S.cached.orders;
-  if (orderFilter !== "all") list = list.filter(o => o.status === orderFilter);
-  if (!list.length) { el.innerHTML = `<div class="empty">No orders in this category</div>`; return; }
+  if (S.orderFilter !== "all") list = list.filter(o => o.status === S.orderFilter);
+  if (S.orderSearch) {
+    list = list.filter(o =>
+      (o.orderId || "").toLowerCase().includes(S.orderSearch) ||
+      (o.companyName || "").toLowerCase().includes(S.orderSearch)
+    );
+  }
+  if (!list.length) {
+    el.innerHTML = `<div class="empty"><div style="font-size:48px;opacity:.3;margin-bottom:12px">📦</div>
+      <p style="font-weight:700;font-size:15px;color:var(--text)">No orders found</p>
+      <p class="text-sm text-soft mt-2">Try a different filter or place a new order.</p>
+      <button class="btn btn-primary mt-4" onclick="goTo('products')">Browse Products</button></div>`;
+    return;
+  }
+
   el.innerHTML = list.map(o => {
     const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
     const firstItem = o.items?.[0];
     const delivered = o.status === "successful";
     const hasReview = o.hasReview === true;
     const hasTracking = !!o.trackingUrl;
+    const itemCount = (o.items || []).reduce((s, i) => s + (i.quantity || 0), 0);
+    const paymentLabel = o.paymentMethod === "cod" ? "COD" : "UPI";
 
-    return `<article class="order">
-      <div class="order-head"><span class="order-id">#${escapeHtml(o.orderId || o.id)}</span>
-        <span class="badge badge-${info.tone}">${info.label}</span></div>
-      <div class="order-body">
-        ${firstItem?.imageUrl ? `<img class="order-thumb" src="${escapeHtml(firstItem.imageUrl)}" onerror="this.style.display='none'">` : ""}
-        <div class="order-info">
-          <div class="order-name">${escapeHtml(o.companyName || "")}</div>
-          <div class="order-date">${(o.items || []).length} item(s) · ${fmtDate(o.createdAt)}</div>
+    return `<article class="order-card" onclick="openOrderDetail('${o.id}')">
+      <div class="order-card-head">
+        <div class="order-card-id">#${escapeHtml(o.orderId || o.id)}</div>
+        <span class="badge badge-${info.tone}">${info.label}</span>
+      </div>
+      <div class="order-card-body">
+        <div class="order-card-company">
+          ${firstItem?.imageUrl ? `<img src="${escapeHtml(firstItem.imageUrl)}" onerror="this.style.display='none'">` : `<div style="width:42px;height:42px;border-radius:10px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800">${escapeHtml((o.companyName||'C')[0])}</div>`}
+          <div style="flex:1;min-width:0">
+            <div class="co-name">${escapeHtml(o.companyName || "")}</div>
+            <div class="co-meta">${itemCount} item(s) · ${fmtDate(o.createdAt, true)}</div>
+          </div>
+        </div>
+        <div class="order-card-items">
+          <span class="item-chip">${escapeHtml(paymentLabel)}</span>
+          ${o.finalAmount !== null && o.finalAmount !== undefined ? `<span class="item-chip">₹${Number(o.grandTotal).toLocaleString("en-IN")}</span>` : ""}
+          ${delivered && hasReview ? `<span class="item-chip" style="background:var(--success-soft);border-color:#bbf7d0;color:var(--success)">★ Reviewed</span>` : ""}
+        </div>
+        ${hasTracking && delivered ? `
+          <button class="btn btn-primary btn-sm btn-block" onclick="event.stopPropagation();openTrackingLink('${escapeHtml(o.trackingUrl)}')">
+            🚚 Track Delivery
+          </button>` : ""}
+        ${delivered && !hasReview ? `
+          <button class="btn btn-success btn-sm btn-block mt-2" onclick="event.stopPropagation();openReviewForm('${o.id}')">
+            ⭐ Rate & Review
+          </button>` : ""}
+      </div>
+      <div class="order-card-foot">
+        <div class="order-card-total">
+          <span class="label">Total</span>
+          <span class="amount">${fmtINR(o.grandTotal)}</span>
+        </div>
+        <div class="order-card-actions">
+          <button class="btn btn-secondary btn-xs" onclick="event.stopPropagation();openOrderDetail('${o.id}')">
+            View Details ${icon.chev}
+          </button>
         </div>
       </div>
-      <div class="order-foot"><span class="text-muted">Total</span>
-        <span class="amt">${fmtINR(o.grandTotal)}</span></div>
-      ${delivered && hasTracking ? `
-        <div class="order-actions">
-          <button class="btn btn-primary btn-sm btn-block" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">
-            🚚 Track Delivery
-          </button>
-        </div>` : ""}
-      ${delivered && !hasReview ? `
-        <div class="order-actions">
-          <button class="btn btn-success btn-sm btn-block" onclick="openReviewForm('${o.id}')">
-            ⭐ Rate & Review
-          </button>
-        </div>` : ""}
-      ${delivered && hasReview ? `
-        <div class="order-actions">
-          <button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">
-            ✓ Reviewed · View Details
-          </button>
-        </div>` : ""}
-      ${!delivered ? `
-        <div class="order-actions">
-          <button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">
-            View Details
-          </button>
-        </div>` : ""}
     </article>`;
   }).join("");
 }
@@ -2742,19 +1958,38 @@ window.openOrderDetail = async (orderId) => {
 
 function paintOrderDetail(o, history, review) {
   const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
-  const steps = ["pending", "processing", "successful"];
-  const currentIdx = steps.indexOf(o.status);
-  const timeline = steps.map((s, i) => {
-    let cls = "";
-    if (o.status === "cancelled" || o.status === "rejected") cls = i === 0 ? "done" : "";
-    else if (i < currentIdx) cls = "done";
-    else if (i === currentIdx) cls = "current";
-    return `<div class="timeline-step ${cls}"><div class="tl-label">${ORDER_STATUS[s].label}</div></div>`;
-  }).join("");
-
   const isDelivered = o.status === "successful";
+  const isCancelled = o.status === "cancelled" || o.status === "rejected";
   const hasTracking = !!o.trackingUrl;
   const paymentLabel = o.paymentMethod === "cod" ? "Cash on Delivery" : "Online (UPI)";
+
+  // Build stepper
+  let stepperHtml = "";
+  if (!isCancelled) {
+    const steps = [
+      { key: "pending", label: "Pending", icon: "1" },
+      { key: "processing", label: "Processing", icon: "2" },
+      { key: "successful", label: "Delivered", icon: "✓" }
+    ];
+    const currentIdx = o.status === "pending" ? 0 : o.status === "processing" ? 1 : o.status === "successful" ? 2 : -1;
+    const progressPct = currentIdx >= 2 ? "100%" : currentIdx === 1 ? "50%" : "0%";
+    stepperHtml = `
+      <div class="card">
+        <div class="section-title">Order Progress</div>
+        <div class="status-stepper">
+          <div class="status-connector"></div>
+          <div class="status-connector-progress" style="width:${progressPct}"></div>
+          ${steps.map((s, i) => {
+            const done = i < currentIdx;
+            const cur = i === currentIdx;
+            return `<div class="status-step">
+              <div class="step-dot ${done ? "done" : ""} ${cur ? "current" : ""}">${done ? "✓" : s.icon}</div>
+              <div class="step-label ${done ? "done" : ""} ${cur ? "current" : ""}">${s.label}</div>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>`;
+  }
 
   $("#orderDetailBody").innerHTML = `
     ${isDelivered && hasTracking ? `
@@ -2769,15 +2004,19 @@ function paintOrderDetail(o, history, review) {
 
     <div class="card card-elevated">
       <div class="between mb-3">
-        <div><div class="text-xs text-soft">Order ID</div>
-          <div class="font-bold font-mono" style="font-size:16px">#${escapeHtml(o.orderId || o.id)}</div></div>
+        <div>
+          <div class="text-xs text-soft">Order ID</div>
+          <div class="font-bold font-mono" style="font-size:16px">#${escapeHtml(o.orderId || o.id)}</div>
+        </div>
         <span class="badge badge-${info.tone}">${info.label}</span>
       </div>
       <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
-      <div class="text-xs text-soft mt-2">${fmtDate(o.createdAt, true)}</div>
+      <div class="text-xs text-soft mt-2">Placed on ${fmtDate(o.createdAt, true)}</div>
     </div>
 
-    ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
+    ${stepperHtml}
+
+    ${isCancelled && o.cancelReason ? `
       <div class="reason-card">
         <div class="title">${o.status === "rejected" ? "Rejection Reason" : "Cancellation Reason"}</div>
         <div class="text">${escapeHtml(o.cancelReason)}</div>
@@ -2814,6 +2053,25 @@ function paintOrderDetail(o, history, review) {
     </div>
 
     <div class="card">
+      <div class="section-title">Delivery Address</div>
+      ${typeof o.address === "object" && o.address ? `
+        <div class="address-preview" style="margin-bottom:0">
+          <strong>${escapeHtml(o.address.flat || "")}</strong>, ${escapeHtml(o.address.street || "")}
+          ${o.address.sector ? `, ${escapeHtml(o.address.sector)}` : ""}
+          ${o.address.landmark ? `<br>Landmark: ${escapeHtml(o.address.landmark)}` : ""}
+          <br>${escapeHtml(o.address.city || "")}, ${escapeHtml(o.address.state || "")} - ${escapeHtml(o.address.pincode || "")}
+        </div>
+      ` : `
+        <div class="text-sm">${escapeHtml(o.addressString || o.address || "")}</div>
+      `}
+      <div class="divider" style="height:1px;background:var(--border);margin:14px 0"></div>
+      <div class="text-sm"><span class="text-muted">Name:</span> <strong>${escapeHtml(o.customerName || "")}</strong></div>
+      <div class="text-sm mt-2"><span class="text-muted">Phone:</span> ${escapeHtml(o.customerPhone || "")}</div>
+      ${o.notes ? `<div class="divider" style="height:1px;background:var(--border);margin:14px 0"></div>
+        <div class="text-sm"><span class="text-muted">Notes:</span> ${escapeHtml(o.notes)}</div>` : ""}
+    </div>
+
+    <div class="card">
       <div class="section-title">Price Breakdown</div>
       <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
       ${o.deliveryCharge > 0 ? `<div class="price-row"><span class="text-muted">Delivery</span><span>${fmtINR(o.deliveryCharge)}</span></div>` : ""}
@@ -2821,26 +2079,32 @@ function paintOrderDetail(o, history, review) {
       ${o.numberCharge > 0 ? `<div class="price-row"><span class="text-muted">Number charge</span><span>${fmtINR(o.numberCharge)}</span></div>` : ""}
       ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon (${escapeHtml(o.couponCode || "")})</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
       <div class="price-row total"><span>Grand Total</span><span>${fmtINR(o.grandTotal)}</span></div>
-      <div class="price-row" style="padding-top:10px"><span class="text-muted">Payment Method</span><span class="font-bold">${escapeHtml(paymentLabel)}</span></div>
+      <div class="price-row" style="padding-top:10px">
+        <span class="text-muted">Payment Method</span>
+        <span class="font-bold">${escapeHtml(paymentLabel)}</span>
+      </div>
+      <div class="price-row">
+        <span class="text-muted">Payment Status</span>
+        <span class="badge badge-${o.paymentStatus === "verified" ? "success" : o.paymentStatus === "rejected" ? "danger" : "warning"}">${escapeHtml(o.paymentStatus || "pending")}</span>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="section-title">Delivery Address</div>
-      <div class="text-sm"><span class="text-muted">Name:</span> ${escapeHtml(o.customerName)}</div>
-      <div class="text-sm"><span class="text-muted">Phone:</span> ${escapeHtml(o.customerPhone)}</div>
-      <div class="text-sm"><span class="text-muted">Email:</span> ${escapeHtml(o.customerEmail)}</div>
-      <div class="text-sm mt-2"><span class="text-muted">Address:</span> ${escapeHtml(o.address)}</div>
-    </div>
-
-    <div class="card">
-      <div class="section-title">Progress</div>
-      <div class="timeline">${timeline}</div>
-      ${history.length ? `<div class="section-title mt-4">History</div>
-        ${history.map(h => `<div class="text-xs text-soft" style="padding:8px 0;border-bottom:1px solid var(--border)">
-          <div style="font-weight:600;color:var(--text)">${fmtDate(h.createdAt, true)} — ${escapeHtml(ORDER_STATUS[h.status]?.label || h.status)}</div>
-          ${h.note ? `<div style="margin-top:3px">Note: ${escapeHtml(h.note)}</div>` : ""}
-        </div>`).join("")}` : ""}
-    </div>
+    ${history.length ? `
+      <div class="card">
+        <div class="section-title">Activity Timeline</div>
+        <div class="timeline-list">
+          ${history.map((h, i) => `
+            <div class="timeline-item">
+              <div class="bullet ${i === 0 ? "latest" : ""}"></div>
+              <div class="content">
+                <div class="status-name">${escapeHtml(ORDER_STATUS[h.status]?.label || h.status)}</div>
+                ${h.note ? `<div class="note">${escapeHtml(h.note)}</div>` : ""}
+                <div class="time">${fmtDate(h.createdAt, true)}</div>
+              </div>
+            </div>`).join("")}
+        </div>
+      </div>
+    ` : ""}
 
     ${isDelivered && !review ? `
       <button class="btn btn-success btn-lg btn-block mt-3" onclick="openReviewForm('${o.id}')">⭐ Rate & Review This Order</button>
@@ -2870,7 +2134,6 @@ window.openReviewForm = async (orderId) => {
       <div class="form-group">
         <label class="form-label">Location on Google Maps (optional)</label>
         <input class="form-input" id="reviewMaps" type="url" placeholder="https://maps.google.com/...">
-        <div class="text-xs text-soft mt-2">Paste a Google Maps link to help us locate the delivery address.</div>
       </div>
       <button class="btn btn-primary btn-lg btn-block" id="reviewSubmit">Submit Review</button>
       <p class="text-xs text-soft text-center mt-3">Reviews cannot be edited after submission.</p>
@@ -2924,17 +2187,37 @@ function renderAccount() {
   if (!body || !S.profile) return;
   const initial = (S.profile.name || "?").trim().charAt(0).toUpperCase();
   const status = getStatusMessage();
+  const addr = typeof S.profile.address === "object" ? S.profile.address : {};
   body.innerHTML = `
     ${status.blocked ? renderBlockedBanner() : ""}
     <div class="card card-elevated">
       <div class="row">
-        <div style="width:56px;height:56px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:var(--shadow-brand)">${escapeHtml(initial)}</div>
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:22px">${escapeHtml(initial)}</div>
         <div style="flex:1;min-width:0">
-          <div class="font-bold" style="font-size:16px;letter-spacing:-.01em">${escapeHtml(S.profile.name || "")}</div>
+          <div class="font-bold" style="font-size:16px">${escapeHtml(S.profile.name || "")}</div>
           <div class="text-xs text-soft mt-2">${escapeHtml(S.profile.email || "")}</div>
           <div class="text-xs text-soft">${escapeHtml(S.profile.phone || "")}</div>
         </div>
       </div>
+    </div>
+    <div class="card">
+      <div class="section-header" style="margin-bottom:10px">
+        <div class="section-title" style="margin-bottom:0">Delivery Address</div>
+        <button class="btn btn-ghost btn-xs" onclick="editAddress()">${icon.edit} Edit</button>
+      </div>
+      ${isAddressComplete(addr) ? `
+        <div class="address-preview" style="margin-bottom:0">
+          <strong>${escapeHtml(addr.flat || "")}</strong>, ${escapeHtml(addr.street || "")}
+          ${addr.sector ? `, ${escapeHtml(addr.sector)}` : ""}
+          <br>${escapeHtml(addr.city || "")}, ${escapeHtml(addr.state || "")} - ${escapeHtml(addr.pincode || "")}
+        </div>
+      ` : `
+        <div class="address-empty">
+          <span>⚠️</span>
+          <span>No address saved yet.</span>
+        </div>
+        <button class="btn btn-primary btn-block btn-sm mt-2" onclick="editAddress()">+ Add Address</button>
+      `}
     </div>
     <div class="card card-flat">
       <div class="card-row" onclick="editProfile()"><span style="font-weight:600">Edit profile</span><span class="text-soft">${icon.chev}</span></div>
@@ -2954,8 +2237,6 @@ window.editProfile = () => {
       <input class="form-input" id="epName" value="${escapeHtml(S.profile.name || "")}"></div>
     <div class="form-group"><label class="form-label">Phone</label>
       <input class="form-input" id="epPhone" value="${escapeHtml(S.profile.phone || "")}" maxlength="10" inputmode="numeric"></div>
-    <div class="form-group"><label class="form-label">Address</label>
-      <textarea class="form-textarea" id="epAddress">${escapeHtml(typeof S.profile.address === "string" ? S.profile.address : "")}</textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" id="epSave">Save</button>
@@ -2963,12 +2244,11 @@ window.editProfile = () => {
   $("#epSave").onclick = async () => {
     const name = $("#epName").value.trim();
     const phone = $("#epPhone").value.trim();
-    const address = $("#epAddress").value.trim();
     if (!name) return toast("Name required", "error");
     if (phone && !/^[0-9]{10}$/.test(phone)) return toast("Enter valid phone", "error");
     try {
-      await updateDoc(doc(db, "users", S.user.uid), { name, phone, address });
-      S.profile = { ...S.profile, name, phone, address };
+      await updateDoc(doc(db, "users", S.user.uid), { name, phone });
+      S.profile = { ...S.profile, name, phone };
       toast("Profile updated", "success");
       closeModal(); renderAccount();
     } catch (err) { toast(errorMsg(err), "error"); }
@@ -3033,11 +2313,8 @@ async function trackOrder() {
       btn.disabled = false; btn.textContent = "Track Order"; return;
     }
     const o = { id: matching.id, ...matching.data() };
-    let history = [];
-    try {
-      const histSnap = await getDocs(collection(db, "orders", o.id, "statusHistory"));
-      history = histSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
-    } catch (_) {}
+    const histSnap = await getDocs(collection(db, "orders", o.id, "statusHistory"));
+    const history = histSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
     paintTrackResult(o, history);
   } catch (err) {
     console.error("Track error:", err);
@@ -3047,15 +2324,6 @@ async function trackOrder() {
 
 function paintTrackResult(o, history) {
   const statusInfo = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
-  const steps = ["pending", "processing", "successful"];
-  const currentIdx = steps.indexOf(o.status);
-  const timeline = steps.map((s, i) => {
-    let cls = "";
-    if (o.status === "cancelled" || o.status === "rejected") cls = i === 0 ? "done" : "";
-    else if (i < currentIdx) cls = "done";
-    else if (i === currentIdx) cls = "current";
-    return `<div class="timeline-step ${cls}"><div class="tl-label">${ORDER_STATUS[s].label}</div></div>`;
-  }).join("");
   const isDelivered = o.status === "successful";
   const hasTracking = !!o.trackingUrl;
   const paymentLabel = o.paymentMethod === "cod" ? "Cash on Delivery" : "Online (UPI)";
@@ -3063,7 +2331,7 @@ function paintTrackResult(o, history) {
   $("#trackResult").innerHTML = `
     <div class="card" style="margin-top:14px;background:var(--success-soft);border-color:#bbf7d0">
       <div class="text-xs" style="color:var(--success);text-transform:uppercase;letter-spacing:.06em;font-weight:800">✓ Order Verified</div>
-      <div class="text-sm" style="color:var(--success);margin-top:4px;font-weight:500">Order ID and email matched successfully.</div>
+      <div class="text-sm" style="color:var(--success);margin-top:4px;font-weight:500">Order ID and email matched.</div>
     </div>
 
     ${isDelivered && hasTracking ? `
@@ -3086,39 +2354,21 @@ function paintTrackResult(o, history) {
       <div class="text-xs text-soft mt-2">Placed on ${fmtDate(o.createdAt, true)}</div>
     </div>
 
-    ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
-      <div class="reason-card">
-        <div class="title">Cancellation Reason</div>
-        <div class="text">${escapeHtml(o.cancelReason)}</div>
-      </div>` : ""}
-
     <div class="card">
       <div class="section-title">Items</div>
       ${(o.items || []).map(i => `
         <div class="row" style="padding:10px 0;border-bottom:1px solid var(--border)">
           <img src="${escapeHtml(/^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : PLACEHOLDER_IMG)}" style="width:52px;height:52px;border-radius:10px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
-          <div style="flex:1;min-width:0">
-            <div class="text-sm font-bold">${escapeHtml(i.name)}</div>
-            <div class="text-xs text-soft mt-2">Qty: ${i.quantity} × ${fmtINR(i.unitPrice)}</div>
-          </div>
+          <div style="flex:1"><div class="text-sm font-bold">${escapeHtml(i.name)}</div>
+            <div class="text-xs text-soft mt-2">Qty: ${i.quantity} × ${fmtINR(i.unitPrice)}</div></div>
           <div class="font-bold text-sm">${fmtINR(i.lineTotal)}</div>
         </div>`).join("")}
     </div>
 
     <div class="card">
-      <div class="section-title">Price Breakdown</div>
-      <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
-      ${o.deliveryCharge > 0 ? `<div class="price-row"><span class="text-muted">Delivery</span><span>${fmtINR(o.deliveryCharge)}</span></div>` : ""}
-      ${o.serviceCharge > 0 ? `<div class="price-row"><span class="text-muted">Service</span><span>${fmtINR(o.serviceCharge)}</span></div>` : ""}
-      ${o.numberCharge > 0 ? `<div class="price-row"><span class="text-muted">Number charge</span><span>${fmtINR(o.numberCharge)}</span></div>` : ""}
-      ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
+      <div class="section-title">Total</div>
       <div class="price-row total"><span>Grand Total</span><span>${fmtINR(o.grandTotal)}</span></div>
-      <div class="price-row" style="padding-top:10px"><span class="text-muted">Payment Method</span><span class="font-bold">${escapeHtml(paymentLabel)}</span></div>
-    </div>
-
-    <div class="card">
-      <div class="section-title">Progress</div>
-      <div class="timeline">${timeline}</div>
+      <div class="price-row" style="padding-top:10px"><span class="text-muted">Payment</span><span class="font-bold">${escapeHtml(paymentLabel)}</span></div>
     </div>
   `;
 }
@@ -3168,13 +2418,13 @@ async function renderAdminDashboard() {
     <div class="stat-value">${s.value}</div></div>`).join("");
   const recent = orders.map((o, i) => ({ id: ordersSnap.docs[i].id, ...o })).sort(byNewest).slice(0, 10);
   $("#recentOrders").innerHTML = `
-    <div class="section-header"><h2 style="font-size:14px;font-weight:700">Recent Orders</h2></div>
+    <div class="section-header"><h2>Recent Orders</h2></div>
     <div class="table-wrap scroll"><table class="table">
       <thead><tr><th>Order</th><th>Customer</th><th>Company</th><th>Total</th><th>Status</th><th></th></tr></thead>
       <tbody>${recent.length ? recent.map(o => {
         const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
         return `<tr>
-          <td class="font-mono text-xs">#${escapeHtml(o.orderId || o.id)}</td>
+          <td class="font-mono text-xs font-bold">#${escapeHtml(o.orderId || o.id)}</td>
           <td>${escapeHtml(o.customerName || "")}</td>
           <td>${escapeHtml(o.companyName || "")}</td>
           <td class="font-bold">${fmtINR(o.grandTotal)}</td>
@@ -3202,11 +2452,9 @@ function renderAdminCompanies() {
         <td><div class="font-semibold">${escapeHtml(c.name || "")}</div></td>
         <td>${escapeHtml(c.category || "")}</td>
         <td class="text-xs">
-          ${c.autoOpenClose && hours ? `
-            <div>${escapeHtml(hours)}</div>
-            <div style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:700;margin-top:3px">
-              ${open ? "● Open" : "● Closed"}
-            </div>` : `<span class="text-soft">Always open</span>`}
+          ${c.autoOpenClose && hours ? `<div>${escapeHtml(hours)}</div>
+            <div style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:700;margin-top:3px">${open ? "● Open" : "● Closed"}</div>`
+          : `<span class="text-soft">Always open</span>`}
         </td>
         <td>${c.codEnabled !== false ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-neutral">No</span>'}</td>
         <td>${c.isActive !== false ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Hidden</span>'}</td>
@@ -3230,7 +2478,7 @@ window.companyForm = (company = null) => {
     <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="cName" value="${escapeHtml(company?.name || "")}"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="cDesc">${escapeHtml(company?.description || "")}</textarea></div>
     <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="cCategory" value="${escapeHtml(company?.category || "")}" placeholder="e.g. Food, Pizza"></div>
-    <div class="form-group"><label class="form-label">Logo URL (HTTPS)</label><input class="form-input" id="cLogo" value="${escapeHtml(company?.logoUrl || "")}" placeholder="https://…"></div>
+    <div class="form-group"><label class="form-label">Logo URL (HTTPS)</label><input class="form-input" id="cLogo" value="${escapeHtml(company?.logoUrl || "")}"></div>
     <div class="form-group"><label class="form-label">Delivery charge (₹)</label><input class="form-input" type="number" id="cDelivery" value="${company?.deliveryCharge || 0}"></div>
     <div class="form-group"><label class="form-label">Service charge (₹)</label><input class="form-input" type="number" id="cService" value="${company?.serviceCharge || 0}"></div>
 
@@ -3240,7 +2488,6 @@ window.companyForm = (company = null) => {
         <input type="checkbox" id="cCOD" ${company?.codEnabled !== false ? "checked" : ""}>
         Cash on Delivery available
       </label>
-      <div class="text-xs text-soft mt-2">If unchecked, customers can only pay via UPI.</div>
     </div>
 
     <div class="card" style="background:var(--surface-3);border:1px solid var(--border);padding:14px;margin-bottom:16px">
@@ -3258,7 +2505,6 @@ window.companyForm = (company = null) => {
           <input class="form-input" type="time" id="cCloseTime" value="${escapeHtml(company?.closeTime || "22:00")}"></div>
         <div class="form-group"><label class="form-label">Message when closed (optional)</label>
           <textarea class="form-textarea" id="cClosedMsg" placeholder="We are currently closed.">${escapeHtml(company?.closedMessage || "")}</textarea></div>
-        <div class="text-xs text-soft">Overnight hours supported: e.g. 22:00 → 06:00</div>
       </div>
     </div>
 
@@ -3316,10 +2562,10 @@ window.manageProducts = (companyId) => {
     $("#prodList").innerHTML = list.length ? list.map(p => `
       <div class="row" style="padding:12px 0;border-bottom:1px solid var(--border)">
         <img src="${escapeHtml(/^https?:\/\//i.test(p.imageUrl || "") ? p.imageUrl : PLACEHOLDER_IMG)}" style="width:44px;height:44px;border-radius:8px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
-        <div style="flex:1;min-width:0"><div class="text-sm font-semibold">${escapeHtml(p.name)}</div><div class="text-xs text-soft">${fmtINR(p.price)}</div></div>
+        <div style="flex:1"><div class="text-sm font-semibold">${escapeHtml(p.name)}</div><div class="text-xs text-soft">${fmtINR(p.price)}</div></div>
         <button class="btn btn-secondary btn-xs" onclick="editProduct('${companyId}','${p.id}')">Edit</button>
         <button class="btn btn-danger btn-xs" onclick="deleteProduct('${companyId}','${p.id}')">${icon.trash}</button>
-      </div>`).join("") : `<div class="text-soft text-sm" style="padding:20px 0;text-align:center">No products yet</div>`;
+      </div>`).join("") : `<div class="text-soft text-sm" style="padding:20px;text-align:center">No products yet</div>`;
   };
   renderList();
   $("#addProdBtn").onclick = () => productForm(companyId, null, renderList);
@@ -3330,7 +2576,7 @@ window.productForm = (companyId, product, onSaved) => {
   openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} Product</div>
     <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="pName" value="${escapeHtml(product?.name || "")}"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="pDesc">${escapeHtml(product?.description || "")}</textarea></div>
-    <div class="form-group"><label class="form-label">Image URL (HTTPS)</label><input class="form-input" id="pImage" value="${escapeHtml(product?.imageUrl || "")}" placeholder="https://…"></div>
+    <div class="form-group"><label class="form-label">Image URL (HTTPS)</label><input class="form-input" id="pImage" value="${escapeHtml(product?.imageUrl || "")}"></div>
     <div class="form-group"><label class="form-label">Price (₹)</label><input class="form-input" type="number" id="pPrice" value="${product?.price || 0}"></div>
     <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="pActive" ${product?.isActive !== false ? "checked" : ""}> Available</label></div>
     <div class="modal-actions">
@@ -3485,7 +2731,7 @@ window.couponForm = (coupon = null) => {
       isActive: $("#cpActive").checked, updatedAt: serverTimestamp()
     };
     if (!data.code) return toast("Code required", "error");
-    if (data.discountValue <= 0) return toast("Discount value must be > 0", "error");
+    if (data.discountValue <= 0) return toast("Discount > 0 required", "error");
     try {
       if (editing) await updateDoc(doc(db, "coupons", coupon.id), data);
       else await addDoc(collection(db, "coupons"), { ...data, createdAt: serverTimestamp() });
@@ -3530,10 +2776,9 @@ function paintAdminOrders() {
   if (adminOrderFilter !== "all") list = list.filter(o => o.status === adminOrderFilter);
   if (!list.length) { el.innerHTML = `<div class="empty">No orders</div>`; return; }
   el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-    <thead><tr><th>Order</th><th>Customer</th><th>Company</th><th>Total</th><th>Pay</th><th>Status</th><th>Email</th><th></th></tr></thead>
+    <thead><tr><th>Order</th><th>Customer</th><th>Company</th><th>Total</th><th>Pay</th><th>Status</th><th></th></tr></thead>
     <tbody>${list.map(o => {
       const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
-      const emailTone = o.emailStatus === "SENT" ? "success" : o.emailStatus === "FAILED" ? "danger" : "warning";
       const payLabel = o.paymentMethod === "cod" ? "COD" : "UPI";
       return `<tr>
         <td class="font-mono text-xs font-bold">#${escapeHtml(o.orderId || o.id)}</td>
@@ -3542,7 +2787,6 @@ function paintAdminOrders() {
         <td class="font-bold">${fmtINR(o.grandTotal)}</td>
         <td><span class="badge badge-${payLabel === "COD" ? "warning" : "info"}">${payLabel}</span></td>
         <td><span class="badge badge-${info.tone}">${info.label}</span></td>
-        <td><span class="badge badge-${emailTone}">${escapeHtml(o.emailStatus || "PENDING")}</span></td>
         <td><button class="btn btn-secondary btn-xs" onclick="adminOpenOrder('${o.id}')">Manage</button></td>
       </tr>`;
     }).join("")}</tbody></table></div>`;
@@ -3554,6 +2798,7 @@ window.adminOpenOrder = async (orderId) => {
   const o = { id: snap.id, ...snap.data() };
   const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
   const payLabel = o.paymentMethod === "cod" ? "Cash on Delivery" : "Online (UPI)";
+  const addrText = typeof o.address === "object" ? formatAddress(o.address) : (o.addressString || o.address || "");
   openModal(`
     <div class="modal-title">Order #${escapeHtml(o.orderId || o.id)}</div>
     <div class="mb-3"><span class="badge badge-${info.tone}">${info.label}</span></div>
@@ -3561,6 +2806,8 @@ window.adminOpenOrder = async (orderId) => {
     <div class="text-sm font-semibold">${escapeHtml(o.customerName || "")}</div>
     <div class="text-sm text-muted">${escapeHtml(o.customerPhone || "")}</div>
     <div class="text-sm text-muted">${escapeHtml(o.customerEmail || "")}</div>
+    <div class="section-title mt-4">Delivery Address</div>
+    <div class="text-sm text-muted">${escapeHtml(addrText)}</div>
     <div class="section-title mt-4">Items</div>
     ${(o.items || []).map(i => `<div class="row" style="padding:8px 0">
       <img src="${escapeHtml(/^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : PLACEHOLDER_IMG)}" style="width:44px;height:44px;border-radius:8px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
@@ -3568,8 +2815,8 @@ window.adminOpenOrder = async (orderId) => {
     </div>`).join("")}
     <div class="section-title mt-4">Pricing</div>
     <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
-    ${o.deliveryCharge > 0 ? `<div class="price-row"><span class="text-muted">Delivery</span><span>${fmtINR(o.deliveryCharge)}</span></div>` : ""}
-    ${o.serviceCharge > 0 ? `<div class="price-row"><span class="text-muted">Service</span><span>${fmtINR(o.serviceCharge)}</span></div>` : ""}
+    <div class="price-row"><span class="text-muted">Delivery</span><span>${fmtINR(o.deliveryCharge || 0)}</span></div>
+    <div class="price-row"><span class="text-muted">Service</span><span>${fmtINR(o.serviceCharge || 0)}</span></div>
     <div class="price-row"><span class="text-muted">Number</span><span>${fmtINR(o.numberCharge || 0)}</span></div>
     ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
     <div class="price-row total"><span>Total</span><span>${fmtINR(o.grandTotal)}</span></div>
@@ -3606,7 +2853,7 @@ window.adminOpenOrder = async (orderId) => {
       $("#cancelBack").onclick = () => adminOpenOrder(o.id);
       $("#cancelConfirm").onclick = async () => {
         const reason = $("#cancelReasonInput").value.trim();
-        if (!reason) return toast("Reason is required", "error");
+        if (!reason) return toast("Reason required", "error");
         await updateOrderStatusWithReason(o, newStatus, reason);
       };
       return;
@@ -3625,8 +2872,8 @@ window.adminOpenOrder = async (orderId) => {
       $("#trackBack").onclick = () => adminOpenOrder(o.id);
       $("#trackConfirm").onclick = async () => {
         const url = $("#trackUrlInput").value.trim();
-        if (!url) return toast("Tracking URL is required", "error");
-        if (!/^https?:\/\//i.test(url)) return toast("URL must start with http:// or https://", "error");
+        if (!url) return toast("Tracking URL required", "error");
+        if (!/^https?:\/\//i.test(url)) return toast("URL must start with http(s)://", "error");
         await markOrderDeliveredWithTracking(o, url);
       };
       return;
@@ -3657,7 +2904,6 @@ async function markOrderDeliveredWithTracking(o, trackingUrl) {
       note: "Delivered · Tracking: " + trackingUrl,
       changedBy: S.user.uid, createdAt: serverTimestamp()
     });
-
     try {
       await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.pending });
       const updated = { ...o, ...updates };
@@ -3670,7 +2916,7 @@ async function markOrderDeliveredWithTracking(o, trackingUrl) {
         emailStatus: EMAIL_STATUS.failed,
         emailError: String(mailErr?.message || mailErr).slice(0, 200)
       });
-      toast("Order marked delivered. Email failed.", "error");
+      toast("Marked delivered. Email failed.", "error");
     }
     closeModal();
   } catch (err) { toast(errorMsg(err), "error"); }
@@ -3710,24 +2956,15 @@ async function sendSuccessEmail(order) {
     ? (EMAILJS_CONFIG.orderDeliveredTemplateId || EMAILJS_CONFIG.orderSuccessTemplateId)
     : EMAILJS_CONFIG.orderSuccessTemplateId;
 
-  return window.__emailjs.send(
-    EMAILJS_CONFIG.serviceId,
-    templateId,
-    {
-      to_email: order.customerEmail,
-      to_name: order.customerName,
-      business_name: "Pawan Retail Limited",
-      order_id: order.orderId,
-      company_name: order.companyName,
-      order_date: fmtDate(order.createdAt, true),
-      subtotal: fmtINR(order.subtotal),
-      number_charge: fmtINR(order.numberCharge || 0),
-      grand_total: fmtINR(order.grandTotal),
-      products_html: productsHtml,
-      tracking_url: order.trackingUrl || "",
-      year: new Date().getFullYear()
-    }
-  );
+  return window.__emailjs.send(EMAILJS_CONFIG.serviceId, templateId, {
+    to_email: order.customerEmail, to_name: order.customerName,
+    business_name: "Pawan Retail Limited", order_id: order.orderId,
+    company_name: order.companyName, order_date: fmtDate(order.createdAt, true),
+    subtotal: fmtINR(order.subtotal), number_charge: fmtINR(order.numberCharge || 0),
+    grand_total: fmtINR(order.grandTotal), products_html: productsHtml,
+    tracking_url: order.trackingUrl || "",
+    year: new Date().getFullYear()
+  });
 }
 
 function renderAdminReviews() {
@@ -3742,7 +2979,7 @@ function renderAdminReviews() {
       <tbody>${list.map(r => `
         <tr>
           <td class="font-mono text-xs font-bold">#${escapeHtml(r.orderId || "")}</td>
-          <td>${escapeHtml(r.customerName || "")}<div class="text-xs text-soft">${escapeHtml(r.customerEmail || "")}</div></td>
+          <td>${escapeHtml(r.customerName || "")}</td>
           <td><span class="stars">${[1,2,3,4,5].map(n => `<span class="${n <= (r.rating || 0) ? "on" : ""}">★</span>`).join("")}</span></td>
           <td class="text-xs">${escapeHtml(r.reviewText || "—")}</td>
           <td>${r.mapsLink ? `<a href="${escapeHtml(r.mapsLink)}" target="_blank" rel="noopener">📍 Open</a>` : "—"}</td>
@@ -3760,27 +2997,23 @@ async function renderAdminCustomers() {
     const el = $("#customersList");
     if (!users.length) { el.innerHTML = `<div class="empty">No customers</div>`; return; }
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Name</th><th>Contact</th><th>Address</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${users.map(u => {
         const status = u.status || "active";
         const statusInfo = ACCOUNT_STATUS[status] || ACCOUNT_STATUS.active;
-        const suspendUntil = u.suspendedUntil?.toMillis?.();
-        const suspendActive = status === "suspended" && suspendUntil && suspendUntil > Date.now();
+        const addr = typeof u.address === "object" ? u.address : {};
+        const addrText = typeof u.address === "object" ? [addr.flat, addr.street, addr.city, addr.state, addr.pincode].filter(Boolean).join(", ") : (u.address || "—");
         return `<tr>
-          <td class="font-semibold">${escapeHtml(u.name || "")}<div class="text-xs text-soft">${escapeHtml(u.phone || "")}</div></td>
-          <td>${escapeHtml(u.email || "")}</td>
+          <td class="font-semibold">${escapeHtml(u.name || "")}</td>
+          <td class="text-xs">${escapeHtml(u.email || "")}<br>${escapeHtml(u.phone || "")}</td>
+          <td class="text-xs">${escapeHtml(addrText || "—")}</td>
           <td class="text-xs">${fmtDate(u.createdAt)}</td>
-          <td>
-            <span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span>
-            ${suspendActive ? `<div class="text-xs text-soft" style="margin-top:4px">Until ${fmtDate({ toDate: () => new Date(suspendUntil) }, true)}</div>` : ""}
-          </td>
+          <td><span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span></td>
           <td class="acts">
             ${status === "active" ? `
               <button class="btn btn-secondary btn-xs" onclick="adminSuspendUser('${u.id}')">Suspend</button>
               <button class="btn btn-danger btn-xs" onclick="adminBlockUser('${u.id}')">Block</button>
-            ` : `
-              <button class="btn btn-success btn-xs" onclick="adminUnblockUser('${u.id}')">Unblock</button>
-            `}
+            ` : `<button class="btn btn-success btn-xs" onclick="adminUnblockUser('${u.id}')">Unblock</button>`}
             <button class="btn btn-danger btn-xs" onclick="adminDeleteUser('${u.id}', '${escapeHtml(u.email || '')}')">Delete</button>
           </td>
         </tr>`;
@@ -3790,7 +3023,7 @@ async function renderAdminCustomers() {
 
 window.adminDeleteUser = (userId, email) => {
   openModal(`<div class="modal-title">Delete User</div>
-    <div class="warn-box mb-3"><strong>⚠️ Warning:</strong> This permanently deletes the user's profile.</div>
+    <div class="warn-box mb-3"><strong>⚠️ Warning:</strong> Permanently deletes the user profile.</div>
     <p class="text-sm text-muted mb-3">User: <strong>${escapeHtml(email)}</strong></p>
     <div class="form-group"><label class="form-label">Type the email to confirm</label>
       <input class="form-input font-mono" id="deleteConfirmEmail" placeholder="${escapeHtml(email)}"></div>
@@ -3813,14 +3046,14 @@ window.adminBlockUser = (userId) => {
   openModal(`<div class="modal-title">Block User</div>
     <p class="text-sm text-muted mb-3">User will be permanently blocked.</p>
     <div class="form-group"><label class="form-label">Reason (visible to user)</label>
-      <textarea class="form-textarea" id="blockReason" placeholder="Reason for blocking"></textarea></div>
+      <textarea class="form-textarea" id="blockReason" placeholder="Reason"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-danger" id="blockConfirm">Block User</button>
     </div>`);
   $("#blockConfirm").onclick = async () => {
     const reason = $("#blockReason").value.trim();
-    if (!reason) return toast("Reason is required", "error");
+    if (!reason) return toast("Reason required", "error");
     try {
       await updateDoc(doc(db, "users", userId), {
         status: "blocked", blockReason: reason,
@@ -3852,7 +3085,7 @@ window.adminSuspendUser = (userId) => {
   $("#suspendConfirm").onclick = async () => {
     const reason = $("#suspendReason").value.trim();
     const hours = parseInt($("#suspendDuration").value, 10);
-    if (!reason) return toast("Reason is required", "error");
+    if (!reason) return toast("Reason required", "error");
     const until = new Date(Date.now() + hours * 60 * 60 * 1000);
     try {
       await updateDoc(doc(db, "users", userId), {
