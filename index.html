@@ -132,6 +132,7 @@ ul{list-style:none}
 .order-date{font-size:11px;color:var(--text-3);margin-top:2px}
 .order-foot{display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:12px}
 .order-foot .amt{font-weight:600;color:var(--text)}
+.order-actions{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
 .timeline{position:relative;padding-left:24px}
 .timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--border)}
 .timeline-step{position:relative;padding:8px 0}
@@ -220,6 +221,20 @@ ul{list-style:none}
 .reason-card .title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--danger);margin-bottom:8px}
 .reason-card .text{font-size:14px;color:var(--danger);font-weight:500;line-height:1.5}
 .reason-card .meta{font-size:11px;color:var(--danger);opacity:.75;margin-top:8px}
+.track-banner{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;padding:16px;border-radius:var(--radius-lg);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.track-banner .icon{font-size:28px}
+.track-banner .content{flex:1}
+.track-banner .title{font-weight:600;font-size:15px;margin-bottom:4px}
+.track-banner .desc{font-size:12px;opacity:.9;line-height:1.5}
+.track-banner .btn{background:#fff;color:var(--accent);padding:8px 14px;font-size:12px}
+.review-card{background:var(--success-soft);border:1px solid #bbf7d0;border-radius:var(--radius-lg);padding:14px;margin-bottom:12px}
+.review-card .title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--success);margin-bottom:8px}
+.stars{display:inline-flex;gap:2px;font-size:20px;color:#d4d4d8}
+.stars .on{color:#f59e0b}
+.stars-input{font-size:34px;display:inline-flex;gap:4px;cursor:pointer;user-select:none}
+.stars-input span{color:#d1d5db;transition:color .1s,transform .1s;line-height:1}
+.stars-input span.on{color:#f59e0b}
+.stars-input span:active{transform:scale(1.15)}
 @media (max-width:820px){
   .admin-layout{grid-template-columns:1fr}
   .admin-side{position:fixed;left:0;top:0;bottom:0;width:220px;transform:translateX(-100%);transition:transform .2s;z-index:100}
@@ -297,7 +312,7 @@ async function loadEmailJS() {
 const ORDER_STATUS = {
   pending: { label: "Pending", tone: "warning" },
   processing: { label: "Processing", tone: "info" },
-  successful: { label: "Successful", tone: "success" },
+  successful: { label: "Delivered", tone: "success" },
   rejected: { label: "Rejected", tone: "danger" },
   cancelled: { label: "Cancelled", tone: "neutral" }
 };
@@ -316,7 +331,7 @@ const S = {
   isFirstOrder: false,
   currentCategory: "all", searchQuery: "",
   customerSubs: new Set(), adminSubs: new Set(),
-  cached: { banners: [], companies: [], orders: [], coupons: [] },
+  cached: { banners: [], companies: [], orders: [], coupons: [], reviews: [] },
   blockTimerInterval: null
 };
 
@@ -360,10 +375,9 @@ function isCompanyOpen(company) {
   if (open < close) return cur >= open && cur < close;
   return cur >= open || cur < close;
 }
-
-function companyHoursText(company) {
-  if (!company?.openTime || !company?.closeTime) return "";
-  return `${company.openTime} – ${company.closeTime}`;
+function companyHoursText(c) {
+  if (!c?.openTime || !c?.closeTime) return "";
+  return `${c.openTime} – ${c.closeTime}`;
 }
 
 function showScreen(id) {
@@ -425,9 +439,7 @@ function getStatusMessage() {
 function formatCountdown(ms) {
   if (ms <= 0) return "00:00:00";
   const total = Math.floor(ms / 1000);
-  const h = Math.floor(total / 3600);
-  const m = Math.floor((total % 3600) / 60);
-  const s = total % 60;
+  const h = Math.floor(total / 3600), m = Math.floor((total % 3600) / 60), s = total % 60;
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
@@ -435,20 +447,16 @@ function renderBlockedBanner() {
   const info = getStatusMessage();
   if (!info.blocked) return "";
   if (info.type === "blocked") {
-    return `<div class="blocked-banner">
-      <div class="icon">🚫</div><h2>${escapeHtml(info.title)}</h2>
+    return `<div class="blocked-banner"><div class="icon">🚫</div><h2>${escapeHtml(info.title)}</h2>
       <p>${escapeHtml(info.message)}</p>
       <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div>
-      <p style="margin-top:14px;font-size:12px;opacity:.75">Contact support if you believe this is a mistake.</p>
-    </div>`;
+      <p style="margin-top:14px;font-size:12px;opacity:.75">Contact support if you believe this is a mistake.</p></div>`;
   }
   if (info.type === "suspended") {
-    return `<div class="blocked-banner suspended">
-      <div class="icon">⏸️</div><h2>${escapeHtml(info.title)}</h2>
+    return `<div class="blocked-banner suspended"><div class="icon">⏸️</div><h2>${escapeHtml(info.title)}</h2>
       <p>${escapeHtml(info.message)}</p>
       <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div>
-      <div class="blocked-timer"><div class="label">Time Remaining</div><div class="time" id="blockedTimer">--:--:--</div></div>
-    </div>`;
+      <div class="blocked-timer"><div class="label">Time Remaining</div><div class="time" id="blockedTimer">--:--:--</div></div></div>`;
   }
   return "";
 }
@@ -527,8 +535,7 @@ function closeModal() { $("#modal-root").innerHTML = ""; }
 window.closeModal = closeModal;
 
 function confirmDialog(message, onConfirm) {
-  openModal(`
-    <div class="modal-title">Confirm action</div>
+  openModal(`<div class="modal-title">Confirm action</div>
     <p class="text-sm text-muted">${escapeHtml(message)}</p>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
@@ -548,7 +555,8 @@ const icon = {
   search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>`,
   back: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`,
   menu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>`,
-  trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`
+  trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>`
 };
 
 function BNAV(active) {
@@ -696,7 +704,7 @@ function screenOrders() {
         <button class="chip active" data-filter="all">All</button>
         <button class="chip" data-filter="pending">Pending</button>
         <button class="chip" data-filter="processing">Processing</button>
-        <button class="chip" data-filter="successful">Successful</button>
+        <button class="chip" data-filter="successful">Delivered</button>
         <button class="chip" data-filter="rejected">Rejected</button>
       </div>
       <div id="ordersList"></div>
@@ -726,6 +734,17 @@ function screenTrackOrder() {
   </div>`;
 }
 
+function screenReview() {
+  return `<div class="shell">
+    <div class="appbar">
+      <button class="appbar-back" id="reviewBack">${icon.back}</button>
+      <div class="appbar-title">Review Order</div>
+      <div style="width:32px"></div>
+    </div>
+    <div class="page" id="reviewBody"></div>
+  </div>`;
+}
+
 function screenAdmin() {
   return `<div class="admin-layout">
     <aside class="admin-side" id="adminSide">
@@ -736,6 +755,7 @@ function screenAdmin() {
         <a data-view="banners">Banners</a>
         <a data-view="coupons">Coupons</a>
         <a data-view="orders">Orders</a>
+        <a data-view="reviews">Reviews</a>
         <a data-view="customers">Customers</a>
         <a id="adminLogout" style="color:#f87171;margin-top:16px">Sign out</a>
       </nav>
@@ -766,6 +786,7 @@ function mountScreens() {
     <div id="scrOrderDetail" class="screen">${screenOrderDetail()}</div>
     <div id="scrAccount" class="screen">${screenAccount()}</div>
     <div id="scrTrackOrder" class="screen">${screenTrackOrder()}</div>
+    <div id="scrReview" class="screen">${screenReview()}</div>
     <div id="scrAdmin" class="screen">${screenAdmin()}</div>
   `;
 
@@ -809,6 +830,7 @@ function mountScreens() {
   $("#companyBack").onclick = () => goTo("products");
   $("#checkoutBack").onclick = () => goTo("cart");
   $("#orderDetailBack").onclick = () => goTo("orders");
+  $("#reviewBack").onclick = () => goTo("orders");
 }
 
 function goTo(route) {
@@ -1421,6 +1443,7 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
       isFirstOrder: S.isFirstOrder,
       grandTotal: finalTotal,
       status: "pending", emailStatus: EMAIL_STATUS.pending,
+      trackingUrl: "",
       createdAt: serverTimestamp(), updatedAt: serverTimestamp()
     };
     const ref = await addDoc(collection(db, "orders"), orderData);
@@ -1456,7 +1479,11 @@ function paintOrders() {
   el.innerHTML = list.map(o => {
     const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
     const firstItem = o.items?.[0];
-    return `<article class="order" onclick="openOrderDetail('${o.id}')">
+    const delivered = o.status === "successful";
+    const hasReview = o.hasReview === true;
+    const hasTracking = !!o.trackingUrl;
+
+    return `<article class="order">
       <div class="order-head"><span class="order-id">${escapeHtml(o.orderId || o.id)}</span>
         <span class="badge badge-${info.tone}">${info.label}</span></div>
       <div class="order-body">
@@ -1468,9 +1495,39 @@ function paintOrders() {
       </div>
       <div class="order-foot"><span class="text-muted">Total</span>
         <span class="amt">${fmtINR(o.grandTotal)}</span></div>
+      ${delivered && hasTracking ? `
+        <div class="order-actions">
+          <button class="btn btn-primary btn-sm btn-block" onclick="event.stopPropagation();openTrackingLink('${escapeHtml(o.trackingUrl)}')">
+            🚚 Track Delivery
+          </button>
+        </div>` : ""}
+      ${delivered && !hasReview ? `
+        <div class="order-actions">
+          <button class="btn btn-success btn-sm btn-block" onclick="event.stopPropagation();openReviewForm('${o.id}')">
+            ⭐ Rate & Review
+          </button>
+        </div>` : ""}
+      ${delivered && hasReview ? `
+        <div class="order-actions">
+          <button class="btn btn-secondary btn-sm btn-block" onclick="event.stopPropagation();openOrderDetail('${o.id}')">
+            ✓ Reviewed · View Details
+          </button>
+        </div>` : ""}
+      ${!delivered ? `
+        <div class="order-actions">
+          <button class="btn btn-secondary btn-sm btn-block" onclick="event.stopPropagation();openOrderDetail('${o.id}')">
+            View Details
+          </button>
+        </div>` : ""}
     </article>`;
   }).join("");
 }
+
+window.openTrackingLink = (url) => {
+  if (!url) return toast("No tracking link available", "error");
+  if (!/^https?:\/\//i.test(url)) return toast("Invalid tracking link", "error");
+  window.open(url, "_blank", "noopener");
+};
 
 window.openOrderDetail = async (orderId) => {
   showScreen("scrOrderDetail");
@@ -1482,11 +1539,19 @@ window.openOrderDetail = async (orderId) => {
     const o = { id: snap.id, ...snap.data() };
     const histSnap = await getDocs(collection(db, "orders", orderId, "statusHistory"));
     const history = histSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
-    paintOrderDetail(o, history);
+
+    // Check for review
+    let review = null;
+    try {
+      const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "==", orderId)));
+      if (!rSnap.empty) review = rSnap.docs[0].data();
+    } catch (_) {}
+
+    paintOrderDetail(o, history, review);
   } catch (err) { body.innerHTML = `<div class="empty">Failed to load</div>`; }
 };
 
-function paintOrderDetail(o, history) {
+function paintOrderDetail(o, history, review) {
   const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
   const steps = ["pending", "processing", "successful"];
   const currentIdx = steps.indexOf(o.status);
@@ -1498,7 +1563,20 @@ function paintOrderDetail(o, history) {
     return `<div class="timeline-step ${cls}"><div class="tl-label">${ORDER_STATUS[s].label}</div></div>`;
   }).join("");
 
+  const isDelivered = o.status === "successful";
+  const hasTracking = !!o.trackingUrl;
+
   $("#orderDetailBody").innerHTML = `
+    ${isDelivered && hasTracking ? `
+      <div class="track-banner">
+        <span class="icon">🚚</span>
+        <div class="content">
+          <div class="title">Your order is on the way</div>
+          <div class="desc">Click below to track your delivery in real time.</div>
+        </div>
+        <button class="btn" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">Track</button>
+      </div>` : ""}
+
     <div class="card">
       <div class="between mb-3">
         <div><div class="text-xs text-soft">Order</div>
@@ -1508,12 +1586,30 @@ function paintOrderDetail(o, history) {
       <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
       <div class="text-xs text-soft mt-2">${fmtDate(o.createdAt, true)}</div>
     </div>
+
     ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
       <div class="reason-card">
         <div class="title">${o.status === "rejected" ? "Rejection Reason" : "Cancellation Reason"}</div>
         <div class="text">${escapeHtml(o.cancelReason)}</div>
         ${o.cancelledAt ? `<div class="meta">on ${fmtDate(o.cancelledAt, true)}</div>` : ""}
       </div>` : ""}
+
+    ${isDelivered && review ? `
+      <div class="review-card">
+        <div class="title">Your Review</div>
+        <div style="margin-bottom:6px">
+          <span class="stars">
+            ${[1,2,3,4,5].map(n => `<span class="${n <= review.rating ? "on" : ""}">★</span>`).join("")}
+          </span>
+        </div>
+        ${review.reviewText ? `<div class="text-sm text-muted mb-2">"${escapeHtml(review.reviewText)}"</div>` : ""}
+        ${review.mapsLink ? `
+          <a href="${escapeHtml(review.mapsLink)}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm mt-2" style="display:inline-flex">
+            📍 View on Maps
+          </a>` : ""}
+        <div class="text-xs text-soft mt-2">Submitted on ${fmtDate(review.createdAt, true)}</div>
+      </div>` : ""}
+
     <div class="card">
       <div class="section-title">Items</div>
       ${(o.items || []).map(i => `
@@ -1526,6 +1622,7 @@ function paintOrderDetail(o, history) {
           <div class="font-semibold text-sm">${fmtINR(i.lineTotal)}</div>
         </div>`).join("")}
     </div>
+
     <div class="card">
       <div class="section-title">Price breakdown</div>
       <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
@@ -1535,6 +1632,7 @@ function paintOrderDetail(o, history) {
       ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon (${escapeHtml(o.couponCode || "")})</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
       <div class="price-row total"><span>Grand Total</span><span>${fmtINR(o.grandTotal)}</span></div>
     </div>
+
     <div class="card">
       <div class="section-title">Delivery</div>
       <div class="text-sm"><span class="text-muted">Name:</span> ${escapeHtml(o.customerName)}</div>
@@ -1542,6 +1640,7 @@ function paintOrderDetail(o, history) {
       <div class="text-sm"><span class="text-muted">Email:</span> ${escapeHtml(o.customerEmail)}</div>
       <div class="text-sm"><span class="text-muted">Address:</span> ${escapeHtml(o.address)}</div>
     </div>
+
     <div class="card">
       <div class="section-title">Progress</div>
       <div class="timeline">${timeline}</div>
@@ -1550,8 +1649,105 @@ function paintOrderDetail(o, history) {
           <div style="font-weight:500;color:var(--text)">${fmtDate(h.createdAt, true)} — ${escapeHtml(ORDER_STATUS[h.status]?.label || h.status)}</div>
           ${h.note ? `<div style="margin-top:2px">Reason: ${escapeHtml(h.note)}</div>` : ""}
         </div>`).join("")}` : ""}
-    </div>`;
+    </div>
+
+    ${isDelivered && !review ? `
+      <button class="btn btn-primary btn-block mt-3" onclick="openReviewForm('${o.id}')">⭐ Rate & Review This Order</button>
+    ` : ""}
+  `;
 }
+
+/* ===== REVIEW FORM ===== */
+window.openReviewForm = async (orderId) => {
+  // Check if already reviewed
+  try {
+    const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "==", orderId)));
+    if (!rSnap.empty) {
+      toast("You already reviewed this order", "info");
+      return;
+    }
+  } catch (_) {}
+
+  showScreen("scrReview");
+  $("#reviewBody").innerHTML = `
+    <div class="card">
+      <div class="section-title">Rate your experience</div>
+      <div class="text-center mb-4">
+        <div class="stars-input" id="reviewStars">
+          ${[1,2,3,4,5].map(n => `<span data-n="${n}">★</span>`).join("")}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your review (optional)</label>
+        <textarea class="form-textarea" id="reviewText" placeholder="Share your experience with this order"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location on Google Maps (optional)</label>
+        <input class="form-input" id="reviewMaps" type="url" placeholder="https://maps.google.com/... or share location">
+        <div class="text-xs text-soft mt-2">
+          Paste a Google Maps link to help us locate the delivery address.
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" id="reviewSubmit">Submit Review</button>
+      <p class="text-xs text-soft text-center mt-3">Reviews cannot be edited after submission.</p>
+    </div>
+  `;
+
+  let rating = 0;
+  $$("#reviewStars span").forEach(s => s.onclick = () => {
+    rating = +s.dataset.n;
+    $$("#reviewStars span").forEach(x => x.classList.toggle("on", +x.dataset.n <= rating));
+  });
+
+  $("#reviewSubmit").onclick = async () => {
+    if (!rating) return toast("Please select a rating", "error");
+    const reviewText = $("#reviewText").value.trim();
+    const mapsLink = $("#reviewMaps").value.trim();
+
+    // Validate maps link if provided
+    if (mapsLink && !/^https?:\/\//i.test(mapsLink)) {
+      return toast("Maps link must start with http:// or https://", "error");
+    }
+
+    const btn = $("#reviewSubmit");
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Submitting';
+
+    try {
+      // Double-check
+      const existing = await getDocs(query(collection(db, "reviews"), where("orderId", "==", orderId)));
+      if (!existing.empty) {
+        toast("Already reviewed", "info");
+        goTo("orders");
+        return;
+      }
+
+      await addDoc(collection(db, "reviews"), {
+        orderId,
+        customerId: S.user.uid,
+        customerName: S.profile.name || "",
+        customerEmail: S.profile.email || "",
+        rating,
+        reviewText,
+        mapsLink,
+        createdAt: serverTimestamp()
+      });
+
+      // Mark order as reviewed
+      await updateDoc(doc(db, "orders", orderId), {
+        hasReview: true,
+        reviewedAt: serverTimestamp()
+      });
+
+      toast("Thanks for your review!", "success");
+      goTo("orders");
+    } catch (err) {
+      console.error("Review submit failed:", err);
+      toast(err.message || errorMsg(err), "error");
+    } finally {
+      btn.disabled = false; btn.textContent = "Submit Review";
+    }
+  };
+};
 
 function renderAccount() {
   const body = $("#accountBody");
@@ -1642,8 +1838,7 @@ function renderTrackPage() {
       <div style="padding:14px">
         <div class="text-xs text-soft">
           <strong style="color:var(--text)">Where do I find my Order ID?</strong><br>
-          Your Order ID was shown when you placed the order and is included in the confirmation email.<br>
-          Example: <span class="font-mono">PRL-20261010-A7K9M2XP</span>
+          Your Order ID was shown when you placed the order and is included in the confirmation email.
         </div>
       </div>
     </div>`;
@@ -1667,7 +1862,6 @@ async function trackOrder() {
     if (snap.empty) {
       result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca">
         <div class="text-sm" style="color:var(--danger);font-weight:500">No order found with ID "${escapeHtml(orderId)}".</div>
-        <div class="text-xs mt-2" style="color:var(--danger);opacity:.8">Please check your Order ID and try again.</div>
       </div>`;
       btn.disabled = false; btn.textContent = "Track Order"; return;
     }
@@ -1675,7 +1869,6 @@ async function trackOrder() {
     if (!matching) {
       result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca">
         <div class="text-sm" style="color:var(--danger);font-weight:500">Email does not match our records.</div>
-        <div class="text-xs mt-2" style="color:var(--danger);opacity:.8">The email you entered does not match the email used for this order.</div>
       </div>`;
       btn.disabled = false; btn.textContent = "Track Order"; return;
     }
@@ -1707,11 +1900,25 @@ function paintTrackResult(o, history) {
     return `<div class="timeline-step ${cls}"><div class="tl-label">${ORDER_STATUS[s].label}</div></div>`;
   }).join("");
 
+  const isDelivered = o.status === "successful";
+  const hasTracking = !!o.trackingUrl;
+
   $("#trackResult").innerHTML = `
     <div class="card" style="margin-top:14px;background:var(--success-soft);border-color:#bbf7d0">
       <div class="text-xs" style="color:var(--success);text-transform:uppercase;letter-spacing:.05em;font-weight:600">Order Verified</div>
       <div class="text-sm" style="color:var(--success);margin-top:4px">Order ID and email matched successfully.</div>
     </div>
+
+    ${isDelivered && hasTracking ? `
+      <div class="track-banner">
+        <span class="icon">🚚</span>
+        <div class="content">
+          <div class="title">Your order is on the way</div>
+          <div class="desc">Click below to track your delivery.</div>
+        </div>
+        <button class="btn" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">Track</button>
+      </div>` : ""}
+
     <div class="card">
       <div class="between mb-3">
         <div><div class="text-xs text-soft">Order</div>
@@ -1721,12 +1928,13 @@ function paintTrackResult(o, history) {
       <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
       <div class="text-xs text-soft mt-2">Placed on ${fmtDate(o.createdAt, true)}</div>
     </div>
+
     ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
       <div class="reason-card">
-        <div class="title">${o.status === "rejected" ? "Rejection Reason" : "Cancellation Reason"}</div>
+        <div class="title">Cancellation Reason</div>
         <div class="text">${escapeHtml(o.cancelReason)}</div>
-        ${o.cancelledAt ? `<div class="meta">on ${fmtDate(o.cancelledAt, true)}</div>` : ""}
       </div>` : ""}
+
     <div class="card">
       <div class="section-title">Items</div>
       ${(o.items || []).map(i => `
@@ -1739,6 +1947,7 @@ function paintTrackResult(o, history) {
           <div class="font-semibold text-sm">${fmtINR(i.lineTotal)}</div>
         </div>`).join("")}
     </div>
+
     <div class="card">
       <div class="section-title">Price breakdown</div>
       <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
@@ -1748,26 +1957,15 @@ function paintTrackResult(o, history) {
       ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
       <div class="price-row total"><span>Grand Total</span><span>${fmtINR(o.grandTotal)}</span></div>
     </div>
-    <div class="card">
-      <div class="section-title">Delivery</div>
-      <div class="text-sm"><span class="text-muted">Name:</span> ${escapeHtml(o.customerName)}</div>
-      <div class="text-sm"><span class="text-muted">Phone:</span> ${escapeHtml(o.customerPhone)}</div>
-      <div class="text-sm"><span class="text-muted">Address:</span> ${escapeHtml(o.address)}</div>
-    </div>
+
     <div class="card">
       <div class="section-title">Progress</div>
       <div class="timeline">${timeline}</div>
-      ${history.length ? `<div class="section-title mt-4">History</div>
-        ${history.map(h => `<div class="text-xs text-soft" style="padding:6px 0;border-bottom:1px solid var(--border)">
-          <div style="font-weight:500;color:var(--text)">${fmtDate(h.createdAt, true)} — ${escapeHtml(ORDER_STATUS[h.status]?.label || h.status)}</div>
-          ${h.note ? `<div style="margin-top:2px">Note: ${escapeHtml(h.note)}</div>` : ""}
-        </div>`).join("")}` : ""}
     </div>
-    <div class="card card-flat" style="background:var(--surface-2);border:1px solid var(--border)">
-      <div style="padding:14px"><div class="text-xs text-soft">This is a read-only view. To modify or cancel, sign in to your account.</div></div>
-    </div>`;
+  `;
 }
 
+/* ===== ADMIN ===== */
 let adminView = "dashboard";
 function bootAdmin() {
   showScreen("scrAdmin");
@@ -1785,13 +1983,14 @@ function bootAdmin() {
 }
 
 function renderAdmin() {
-  const titles = { dashboard: "Dashboard", companies: "Companies", banners: "Banners", coupons: "Coupons", orders: "Orders", customers: "Customers" };
+  const titles = { dashboard: "Dashboard", companies: "Companies", banners: "Banners", coupons: "Coupons", orders: "Orders", reviews: "Reviews", customers: "Customers" };
   $("#adminTitle").textContent = titles[adminView] || "Admin";
   if (adminView === "dashboard") renderAdminDashboard();
   if (adminView === "companies") renderAdminCompanies();
   if (adminView === "banners") renderAdminBanners();
   if (adminView === "coupons") renderAdminCoupons();
   if (adminView === "orders") renderAdminOrders();
+  if (adminView === "reviews") renderAdminReviews();
   if (adminView === "customers") renderAdminCustomers();
 }
 
@@ -1803,7 +2002,7 @@ async function renderAdminDashboard() {
     { label: "Total orders", value: orders.length },
     { label: "Pending", value: orders.filter(o => o.status === "pending").length },
     { label: "Processing", value: orders.filter(o => o.status === "processing").length },
-    { label: "Successful", value: orders.filter(o => o.status === "successful").length },
+    { label: "Delivered", value: orders.filter(o => o.status === "successful").length },
     { label: "Rejected", value: orders.filter(o => o.status === "rejected").length }
   ];
   $("#statsGrid").innerHTML = stats.map(s => `<div class="stat">
@@ -2092,7 +2291,7 @@ function renderAdminCoupons() {
 window.couponForm = (coupon = null) => {
   const editing = !!coupon;
   openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} coupon</div>
-    <div class="form-group"><label class="form-label">Code (e.g. SAVE50)</label>
+    <div class="form-group"><label class="form-label">Code</label>
       <input class="form-input font-mono" id="cpCode" value="${escapeHtml(coupon?.code || "")}" style="text-transform:uppercase"></div>
     <div class="form-group"><label class="form-label">Discount type</label>
       <select class="form-select" id="cpType">
@@ -2217,7 +2416,7 @@ window.adminOpenOrder = async (orderId) => {
     </select>
     <input class="form-input mb-2" id="admNote" placeholder="Note (optional)">
     <button class="btn btn-primary btn-block mb-2" id="admUpdateStatus">Update status</button>
-    ${o.status === "successful" ? `<button class="btn btn-secondary btn-block mb-2" id="admResendEmail">Resend success email</button>` : ""}
+    ${o.status === "successful" ? `<button class="btn btn-secondary btn-block mb-2" id="admResendEmail">Resend delivery email</button>` : ""}
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Close</button>
     </div>`);
@@ -2225,10 +2424,11 @@ window.adminOpenOrder = async (orderId) => {
   $("#admUpdateStatus").onclick = async () => {
     const newStatus = $("#admStatus").value;
     if (newStatus === o.status) return toast("Status unchanged", "info");
+
     if (newStatus === "rejected" || newStatus === "cancelled") {
       openModal(`<div class="modal-title">Reason for ${newStatus}</div>
         <div class="form-group"><label class="form-label">Reason (visible to customer)</label>
-          <textarea class="form-textarea" id="cancelReasonInput" placeholder="e.g. Out of stock, Payment verification failed"></textarea></div>
+          <textarea class="form-textarea" id="cancelReasonInput" placeholder="e.g. Out of stock"></textarea></div>
         <div class="modal-actions">
           <button class="btn btn-secondary" id="cancelBack">Back</button>
           <button class="btn btn-danger" id="cancelConfirm">Confirm ${newStatus}</button>
@@ -2241,6 +2441,33 @@ window.adminOpenOrder = async (orderId) => {
       };
       return;
     }
+
+    // If successful (delivered), require tracking URL
+    if (newStatus === "successful") {
+      openModal(`<div class="modal-title">Delivery Confirmed — Tracking Link</div>
+        <div class="info-box mb-3">
+          Order is being marked as <strong>Delivered</strong>. Please add a tracking link so the customer can track their delivery.
+        </div>
+        <div class="form-group"><label class="form-label">Tracking URL (required)</label>
+          <input class="form-input" id="trackUrlInput" type="url" placeholder="https://track.delhivery.com/..." value="${escapeHtml(o.trackingUrl || "")}">
+          <div class="text-xs text-soft mt-2">
+            Customer will click "Track Delivery" button which opens this URL in their browser.
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" id="trackBack">Back</button>
+          <button class="btn btn-success" id="trackConfirm">Confirm Delivery</button>
+        </div>`);
+      $("#trackBack").onclick = () => adminOpenOrder(o.id);
+      $("#trackConfirm").onclick = async () => {
+        const url = $("#trackUrlInput").value.trim();
+        if (!url) return toast("Tracking URL is required", "error");
+        if (!/^https?:\/\//i.test(url)) return toast("URL must start with http:// or https://", "error");
+        await markOrderDeliveredWithTracking(o, url);
+      };
+      return;
+    }
+
     await updateOrderStatusWithReason(o, newStatus, "");
   };
 
@@ -2250,9 +2477,46 @@ window.adminOpenOrder = async (orderId) => {
     try { await sendSuccessEmail(o); await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.sent });
       toast("Email re-sent", "success"); }
     catch (err) { toast("Failed: " + (err.message || "unknown"), "error"); }
-    finally { resendBtn.disabled = false; resendBtn.textContent = "Resend success email"; }
+    finally { resendBtn.disabled = false; resendBtn.textContent = "Resend delivery email"; }
   };
 };
+
+async function markOrderDeliveredWithTracking(o, trackingUrl) {
+  try {
+    const updates = {
+      status: "successful",
+      trackingUrl,
+      deliveredAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    };
+    await updateDoc(doc(db, "orders", o.id), updates);
+    await addDoc(collection(db, "orders", o.id, "statusHistory"), {
+      status: "successful",
+      note: "Delivered · Tracking: " + trackingUrl,
+      changedBy: S.user.uid,
+      createdAt: serverTimestamp()
+    });
+
+    // Send delivery email
+    try {
+      await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.pending });
+      const updated = { ...o, ...updates };
+      await sendSuccessEmail(updated);
+      await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.sent });
+      toast("Order delivered. Email sent.", "success");
+    } catch (mailErr) {
+      console.warn("Email failed:", mailErr);
+      await updateDoc(doc(db, "orders", o.id), {
+        emailStatus: EMAIL_STATUS.failed,
+        emailError: String(mailErr?.message || mailErr).slice(0, 200)
+      });
+      toast("Order marked delivered. Email failed.", "error");
+    }
+    closeModal();
+  } catch (err) {
+    toast(errorMsg(err), "error");
+  }
+}
 
 async function updateOrderStatusWithReason(o, newStatus, reason) {
   try {
@@ -2262,19 +2526,7 @@ async function updateOrderStatusWithReason(o, newStatus, reason) {
     await addDoc(collection(db, "orders", o.id, "statusHistory"), {
       status: newStatus, note: reason || "", changedBy: S.user.uid, createdAt: serverTimestamp()
     });
-    if (newStatus === "successful") {
-      try {
-        await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.pending });
-        await sendSuccessEmail(o);
-        await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.sent });
-        toast("Order successful. Email sent.", "success");
-      } catch (mailErr) {
-        await updateDoc(doc(db, "orders", o.id), {
-          emailStatus: EMAIL_STATUS.failed, emailError: String(mailErr?.message || mailErr).slice(0, 200)
-        });
-        toast("Order updated. Email failed.", "error");
-      }
-    } else { toast("Status updated", "success"); }
+    toast("Status updated", "success");
     closeModal();
   } catch (err) { toast(errorMsg(err), "error"); }
 }
@@ -2300,8 +2552,32 @@ async function sendSuccessEmail(order) {
     company_name: order.companyName, order_date: fmtDate(order.createdAt, true),
     subtotal: fmtINR(order.subtotal), number_charge: fmtINR(order.numberCharge || 0),
     grand_total: fmtINR(order.grandTotal), products_html: productsHtml,
+    tracking_url: order.trackingUrl || "",
     year: new Date().getFullYear()
   });
+}
+
+/* ===== ADMIN REVIEWS ===== */
+function renderAdminReviews() {
+  $("#adminContent").innerHTML = `<div id="reviewsList"><div class="skeleton"></div></div>`;
+  const unsub = onSnapshot(collection(db, "reviews"), snap => {
+    const list = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
+    const el = $("#reviewsList");
+    if (!el) return;
+    if (!list.length) { el.innerHTML = `<div class="empty">No reviews yet</div>`; return; }
+    el.innerHTML = `<div class="table-wrap scroll"><table class="table">
+      <thead><tr><th>Order</th><th>Customer</th><th>Rating</th><th>Review</th><th>Maps</th><th>Date</th></tr></thead>
+      <tbody>${list.map(r => `
+        <tr>
+          <td class="font-mono text-xs">${escapeHtml(r.orderId || "")}</td>
+          <td>${escapeHtml(r.customerName || "")}<div class="text-xs text-soft">${escapeHtml(r.customerEmail || "")}</div></td>
+          <td><span class="stars">${[1,2,3,4,5].map(n => `<span class="${n <= (r.rating || 0) ? "on" : ""}">★</span>`).join("")}</span></td>
+          <td class="text-xs">${escapeHtml(r.reviewText || "—")}</td>
+          <td>${r.mapsLink ? `<a href="${escapeHtml(r.mapsLink)}" target="_blank" rel="noopener">📍 Open</a>` : "—"}</td>
+          <td class="text-xs text-soft">${fmtDate(r.createdAt)}</td>
+        </tr>`).join("")}</tbody></table></div>`;
+  });
+  S.adminSubs.add(unsub);
 }
 
 async function renderAdminCustomers() {
@@ -2342,11 +2618,8 @@ async function renderAdminCustomers() {
 
 window.adminDeleteUser = (userId, email) => {
   openModal(`<div class="modal-title">Delete User</div>
-    <div class="warn-box mb-3">
-      <strong>⚠️ Warning:</strong> This will permanently delete the user's profile from Firestore. This action cannot be undone.
-    </div>
+    <div class="warn-box mb-3"><strong>⚠️ Warning:</strong> This permanently deletes the user's Firestore profile.</div>
     <p class="text-sm text-muted mb-3">User: <strong>${escapeHtml(email)}</strong></p>
-    <p class="text-sm text-soft mb-3">Note: Firebase Authentication account may remain unless deleted manually from Firebase Console → Authentication.</p>
     <div class="form-group"><label class="form-label">Type the email to confirm</label>
       <input class="form-input font-mono" id="deleteConfirmEmail" placeholder="${escapeHtml(email)}"></div>
     <div class="modal-actions">
@@ -2358,7 +2631,7 @@ window.adminDeleteUser = (userId, email) => {
     if (typed !== email) return toast("Email does not match", "error");
     try {
       await deleteDoc(doc(db, "users", userId));
-      toast("User profile deleted", "success");
+      toast("User deleted", "success");
       closeModal();
       renderAdminCustomers();
     } catch (err) { toast(errorMsg(err), "error"); }
@@ -2367,9 +2640,9 @@ window.adminDeleteUser = (userId, email) => {
 
 window.adminBlockUser = (userId) => {
   openModal(`<div class="modal-title">Block User</div>
-    <p class="text-sm text-muted mb-3">User will be permanently blocked and cannot place orders.</p>
+    <p class="text-sm text-muted mb-3">User will be permanently blocked.</p>
     <div class="form-group"><label class="form-label">Reason (visible to user)</label>
-      <textarea class="form-textarea" id="blockReason" placeholder="e.g. Violation of terms, fraudulent activity"></textarea></div>
+      <textarea class="form-textarea" id="blockReason" placeholder="Reason for blocking"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-danger" id="blockConfirm">Block User</button>
@@ -2389,7 +2662,6 @@ window.adminBlockUser = (userId) => {
 
 window.adminSuspendUser = (userId) => {
   openModal(`<div class="modal-title">Suspend User</div>
-    <p class="text-sm text-muted mb-3">User cannot place orders until suspension expires.</p>
     <div class="form-group"><label class="form-label">Duration</label>
       <select class="form-select" id="suspendDuration">
         <option value="1">1 hour</option>
@@ -2401,7 +2673,7 @@ window.adminSuspendUser = (userId) => {
         <option value="168">7 days</option>
       </select></div>
     <div class="form-group"><label class="form-label">Reason (visible to user)</label>
-      <textarea class="form-textarea" id="suspendReason" placeholder="e.g. Payment failed multiple times"></textarea></div>
+      <textarea class="form-textarea" id="suspendReason" placeholder="Reason"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" id="suspendConfirm">Suspend User</button>
@@ -2416,7 +2688,7 @@ window.adminSuspendUser = (userId) => {
         status: "suspended", blockReason: reason, suspendedUntil: until,
         suspendedAt: serverTimestamp(), suspendedBy: S.user.uid
       });
-      toast(`User suspended for ${hours} hour${hours > 1 ? "s" : ""}`, "success");
+      toast(`Suspended for ${hours}h`, "success");
       closeModal(); renderAdminCustomers();
     } catch (err) { toast(errorMsg(err), "error"); }
   };
