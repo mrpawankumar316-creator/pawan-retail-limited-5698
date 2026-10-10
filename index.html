@@ -101,7 +101,8 @@ ul{list-style:none}
 .banner-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer}
 .banner-dot.active{background:#fff;width:16px;border-radius:3px}
 .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.product{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column}
+.product{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.product.closed{opacity:.55}
 .product-img{aspect-ratio:1/1;width:100%;object-fit:cover;background:var(--surface-2)}
 .product-body{padding:10px 12px;display:flex;flex-direction:column;flex:1;gap:4px}
 .product-cat{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-3)}
@@ -109,6 +110,13 @@ ul{list-style:none}
 .product-desc{font-size:12px;color:var(--text-2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .product-price{font-size:14px;font-weight:600;color:var(--text);margin-top:4px}
 .product-cta{margin-top:8px}
+.closed-overlay{position:absolute;top:8px;left:8px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.03em;text-transform:uppercase;z-index:2}
+.closed-banner{background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fff;padding:18px 20px;border-radius:var(--radius-lg);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.closed-banner .icon{font-size:30px}
+.closed-banner .content{flex:1}
+.closed-banner .title{font-weight:600;font-size:15px;margin-bottom:4px}
+.closed-banner .msg{font-size:12px;opacity:.9;line-height:1.5}
+.closed-banner .hrs{font-size:11px;opacity:.75;margin-top:6px;font-family:ui-monospace,monospace}
 .chip-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
 .chip-row::-webkit-scrollbar{display:none}
 .chip{padding:6px 12px;font-size:12px;font-weight:500;background:var(--surface);border:1px solid var(--border);border-radius:999px;white-space:nowrap;cursor:pointer}
@@ -338,41 +346,33 @@ function genOrderId() {
   return `PRL-${ymd}-${rnd}`;
 }
 
-function showScreen(id) {
-  $$(".screen").forEach(el => el.classList.remove("active"));
-  const el = document.getElementById(id);
-  if (el) el.classList.add("active");
-  window.scrollTo(0, 0);
+/* ===== COMPANY HOURS HELPERS ===== */
+// Returns true if company is open right now
+function isCompanyOpen(company) {
+  if (!company) return true;
+  if (company.autoOpenClose !== true) return true; // auto-schedule off
+  if (!company.openTime || !company.closeTime) return true; // no hours set
+
+  const now = new Date();
+  const cur = now.getHours() * 60 + now.getMinutes();
+  const [oh, om] = company.openTime.split(":").map(Number);
+  const [ch, cm] = company.closeTime.split(":").map(Number);
+  const open = oh * 60 + om;
+  const close = ch * 60 + cm;
+
+  if (open === close) return true; // 24h open
+  if (open < close) {
+    // Normal: 09:00 to 22:00
+    return cur >= open && cur < close;
+  }
+  // Overnight: 22:00 to 06:00
+  return cur >= open || cur < close;
 }
 
-function toast(msg, type = "") {
-  const el = document.createElement("div");
-  el.className = "toast" + (type ? " " + type : "");
-  el.textContent = msg;
-  $("#toast-root").appendChild(el);
-  setTimeout(() => {
-    el.style.transition = "opacity .2s, transform .2s";
-    el.style.opacity = "0";
-    el.style.transform = "translateY(-8px) scale(.96)";
-    setTimeout(() => el.remove(), 200);
-  }, 2500);
-}
-
-function errorMsg(err) {
-  const map = {
-    "auth/invalid-email": "Please enter a valid email address.",
-    "auth/user-not-found": "No account found with this email.",
-    "auth/wrong-password": "Incorrect password.",
-    "auth/invalid-credential": "Incorrect email or password.",
-    "auth/email-already-in-use": "This email is already registered.",
-    "auth/weak-password": "Password must be at least 6 characters.",
-    "auth/too-many-requests": "Too many attempts. Try again later.",
-    "auth/network-request-failed": "Network error. Check your connection.",
-    "permission-denied": "You don't have permission for this action.",
-    "unavailable": "Service temporarily unavailable.",
-    "not-found": "Data not found."
-  };
-  return map[err?.code] || err?.message || "Something went wrong.";
+// Human readable hours
+function companyHoursText(company) {
+  if (!company?.openTime || !company?.closeTime) return "";
+  return `${company.openTime} – ${company.closeTime}`;
 }
 
 /* ===== STATUS ===== */
@@ -527,8 +527,7 @@ const icon = {
   search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>`,
   back: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`,
   menu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>`,
-  trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`,
-  track: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>`
+  trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`
 };
 
 function BNAV(active) {
@@ -1005,7 +1004,9 @@ async function renderHome() {
 
 function companyCard(c) {
   const img = /^https?:\/\//i.test(c.logoUrl || "") ? c.logoUrl : "";
-  return `<article class="product" onclick="openCompany('${c.id}')" style="cursor:pointer">
+  const open = isCompanyOpen(c);
+  return `<article class="product ${open ? "" : "closed"}" onclick="openCompany('${c.id}')" style="cursor:pointer">
+    ${open ? "" : `<div class="closed-overlay">CLOSED</div>`}
     <div class="product-img" style="display:grid;place-items:center;background:#18181b;color:#fff;font-size:26px;font-weight:700">
       ${img ? `<img src="${escapeHtml(img)}" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='<span>${escapeHtml((c.name || 'C')[0].toUpperCase())}</span>'">` : `<span>${escapeHtml((c.name || "C")[0].toUpperCase())}</span>`}
     </div>
@@ -1013,7 +1014,12 @@ function companyCard(c) {
       <div class="product-cat">${escapeHtml(c.category || "Service")}</div>
       <div class="product-name">${escapeHtml(c.name || "")}</div>
       <div class="product-desc">${escapeHtml(c.description || "")}</div>
-    </div></article>`;
+      ${c.autoOpenClose && c.openTime && c.closeTime ? `
+        <div class="text-xs mt-2" style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:500">
+          ${open ? "● Open" : "● Closed"} · ${escapeHtml(companyHoursText(c))}
+        </div>` : ""}
+    </div>
+  </article>`;
 }
 
 window.filterByCategory = (cat) => {
@@ -1061,8 +1067,21 @@ window.openCompany = async (companyId) => {
 function paintCompany(company, products) {
   const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
   const status = getStatusMessage();
+  const isOpen = isCompanyOpen(company);
+  const hours = companyHoursText(company);
+  const showHours = company.autoOpenClose === true && hours;
+
   $("#companyBody").innerHTML = `
     ${status.blocked ? renderBlockedBanner() : ""}
+    ${!isOpen ? `
+      <div class="closed-banner">
+        <span class="icon">🚫</span>
+        <div class="content">
+          <div class="title">Currently Closed</div>
+          <div class="msg">${escapeHtml(company.closedMessage || "This restaurant is currently closed. Please come back during opening hours.")}</div>
+          ${hours ? `<div class="hrs">Opening hours: ${escapeHtml(hours)}</div>` : ""}
+        </div>
+      </div>` : ""}
     <div class="card">
       <div class="row">
         <div style="width:60px;height:60px;border-radius:10px;background:#18181b;color:#fff;display:grid;place-items:center;font-size:22px;font-weight:700;overflow:hidden">
@@ -1072,6 +1091,10 @@ function paintCompany(company, products) {
           <div class="font-semibold" style="font-size:16px">${escapeHtml(company.name || "")}</div>
           <div class="text-xs text-soft">${escapeHtml(company.category || "")}</div>
           <div class="text-sm text-muted mt-2">${escapeHtml(company.description || "")}</div>
+          ${showHours ? `
+            <div class="text-xs mt-2" style="color:${isOpen ? "var(--success)" : "var(--danger)"};font-weight:500">
+              ${isOpen ? "● Open now" : "● Closed"} · ${escapeHtml(hours)}
+            </div>` : ""}
         </div>
       </div>
       ${company.requiresNumber ? `<div class="info-box mt-3">ℹ️ Number required: choose "own" (₹0) or "company" (₹${company.numberCharge || 0}).</div>` : ""}
@@ -1082,13 +1105,17 @@ function paintCompany(company, products) {
   const grid = $("#companyProducts");
   if (!products.length) { grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No products</div>`; return; }
   grid.innerHTML = products.map(p => `
-    <article class="product">
+    <article class="product ${isOpen ? "" : "closed"}">
       <img class="product-img" src="${escapeHtml(/^https?:\/\//i.test(p.imageUrl || "") ? p.imageUrl : PLACEHOLDER_IMG)}" onerror="this.src='${PLACEHOLDER_IMG}'">
       <div class="product-body">
         <div class="product-name">${escapeHtml(p.name || "")}</div>
         <div class="product-desc">${escapeHtml(p.description || "")}</div>
         <div class="product-price">${fmtINR(p.price)}</div>
-        <div class="product-cta"><button class="btn btn-primary btn-sm btn-block" onclick="addProductToCart('${p.id}', '${company.id}')">Add to cart</button></div>
+        <div class="product-cta">
+          <button class="btn btn-primary btn-sm btn-block" ${isOpen ? "" : "disabled"} onclick="addProductToCart('${p.id}', '${company.id}')">
+            ${isOpen ? "Add to cart" : "Closed"}
+          </button>
+        </div>
       </div>
     </article>`).join("");
 }
@@ -1099,6 +1126,9 @@ window.addProductToCart = async (productId, companyId) => {
   const companySnap = await getDoc(doc(db, "companies", companyId));
   if (!companySnap.exists()) return toast("Company not found", "error");
   const company = { id: companyId, ...companySnap.data() };
+  if (!isCompanyOpen(company)) {
+    return toast(`${company.name} is currently closed. Please try during opening hours.`, "error");
+  }
   const prodSnap = await getDoc(doc(db, "companies", companyId, "products", productId));
   if (!prodSnap.exists()) return toast("Product not found", "error");
   const product = { id: productId, ...prodSnap.data() };
@@ -1198,6 +1228,22 @@ async function renderCheckout() {
   const companySnap = await getDoc(doc(db, "companies", S.cart.companyId));
   if (!companySnap.exists()) { body.innerHTML = `<div class="empty">Company unavailable</div>`; return; }
   const company = { id: companySnap.id, ...companySnap.data() };
+
+  // Re-check open status
+  if (!isCompanyOpen(company)) {
+    body.innerHTML = `
+      <div class="closed-banner">
+        <span class="icon">🚫</span>
+        <div class="content">
+          <div class="title">Restaurant Currently Closed</div>
+          <div class="msg">${escapeHtml(company.closedMessage || "You cannot place an order right now. Please come back during opening hours.")}</div>
+          ${companyHoursText(company) ? `<div class="hrs">Opening hours: ${escapeHtml(companyHoursText(company))}</div>` : ""}
+        </div>
+      </div>
+      <button class="btn btn-secondary btn-block" onclick="goTo('cart')">Back to cart</button>`;
+    return;
+  }
+
   const subtotal = S.cart.items.reduce((s, i) => s + i.price * i.quantity, 0);
   const requiresNumber = company.requiresNumber === true;
   const numberCharge = requiresNumber ? Number(company.numberCharge || 0) : 0;
@@ -1313,6 +1359,9 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
   await refreshProfile();
   const status = getStatusMessage();
   if (status.blocked) return toast(status.title + ": " + status.message, "error");
+  if (!isCompanyOpen(company)) {
+    return toast(`${company.name} is currently closed. Please try later.`, "error");
+  }
   const phone = $("#coPhone").value.trim();
   const address = $("#coAddress").value.trim();
   const notes = $("#coNotes").value.trim();
@@ -1770,16 +1819,27 @@ function renderAdminCompanies() {
     if (!el) return;
     if (!list.length) { el.innerHTML = `<div class="empty">No companies yet</div>`; return; }
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Name</th><th>Category</th><th>Number</th><th>Status</th><th></th></tr></thead>
-      <tbody>${list.map(c => `<tr>
+      <thead><tr><th>Name</th><th>Category</th><th>Hours</th><th>Number</th><th>Status</th><th></th></tr></thead>
+      <tbody>${list.map(c => {
+        const open = isCompanyOpen(c);
+        const hours = companyHoursText(c);
+        return `<tr>
         <td><div class="font-medium">${escapeHtml(c.name || "")}</div></td>
         <td>${escapeHtml(c.category || "")}</td>
+        <td class="text-xs">
+          ${c.autoOpenClose && hours ? `
+            <div>${escapeHtml(hours)}</div>
+            <div style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:500;margin-top:2px">
+              ${open ? "● Open" : "● Closed"}
+            </div>` : `<span class="text-soft">Always open</span>`}
+        </td>
         <td>${c.requiresNumber ? `₹${c.numberCharge || 0}` : "—"}</td>
         <td>${c.isActive !== false ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Hidden</span>'}</td>
         <td class="acts"><button class="btn btn-secondary btn-xs" onclick="editCompany('${c.id}')">Edit</button>
           <button class="btn btn-secondary btn-xs" onclick="manageProducts('${c.id}')">Products</button>
           <button class="btn btn-danger btn-xs" onclick="deleteCompanyAdmin('${c.id}')">Delete</button></td>
-      </tr>`).join("")}</tbody></table></div>`;
+      </tr>`;
+      }).join("")}</tbody></table></div>`;
   });
   S.adminSubs.add(unsub);
 }
@@ -1798,6 +1858,26 @@ window.companyForm = (company = null) => {
     <div class="form-group"><label class="form-label">Logo URL (HTTPS)</label><input class="form-input" id="cLogo" value="${escapeHtml(company?.logoUrl || "")}"></div>
     <div class="form-group"><label class="form-label">Delivery charge (₹)</label><input class="form-input" type="number" id="cDelivery" value="${company?.deliveryCharge || 0}"></div>
     <div class="form-group"><label class="form-label">Service charge (₹)</label><input class="form-input" type="number" id="cService" value="${company?.serviceCharge || 0}"></div>
+
+    <div class="card" style="background:var(--surface-2);border:1px solid var(--border);padding:12px;margin-bottom:14px">
+      <div class="section-title" style="margin-bottom:8px">Operating Hours</div>
+      <div class="form-group">
+        <label class="checkbox-row">
+          <input type="checkbox" id="cAutoHours" ${company?.autoOpenClose ? "checked" : ""}>
+          Enable open/close schedule
+        </label>
+      </div>
+      <div id="hoursFields" class="${company?.autoOpenClose ? "" : "hidden"}">
+        <div class="form-group"><label class="form-label">Opening time</label>
+          <input class="form-input" type="time" id="cOpenTime" value="${escapeHtml(company?.openTime || "09:00")}"></div>
+        <div class="form-group"><label class="form-label">Closing time</label>
+          <input class="form-input" type="time" id="cCloseTime" value="${escapeHtml(company?.closeTime || "22:00")}"></div>
+        <div class="form-group"><label class="form-label">Message when closed (optional)</label>
+          <textarea class="form-textarea" id="cClosedMsg" placeholder="We are currently closed. Please order during opening hours.">${escapeHtml(company?.closedMessage || "")}</textarea></div>
+        <div class="text-xs text-soft">Overnight hours supported: e.g. 22:00 → 06:00</div>
+      </div>
+    </div>
+
     <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cActive" ${company?.isActive !== false ? "checked" : ""}> Active</label></div>
     <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cRequiresNumber" ${company?.requiresNumber ? "checked" : ""}> Requires new number</label></div>
     <div class="form-group"><label class="form-label">Number charge (₹)</label><input class="form-input" type="number" id="cNumberCharge" value="${company?.numberCharge || 0}"></div>
@@ -1805,6 +1885,12 @@ window.companyForm = (company = null) => {
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" id="cSave">Save</button>
     </div>`);
+
+  const autoHours = $("#cAutoHours");
+  autoHours.onchange = () => {
+    $("#hoursFields").classList.toggle("hidden", !autoHours.checked);
+  };
+
   $("#cSave").onclick = async () => {
     const data = {
       name: $("#cName").value.trim(), description: $("#cDesc").value.trim(),
@@ -1815,6 +1901,10 @@ window.companyForm = (company = null) => {
       isActive: $("#cActive").checked,
       requiresNumber: $("#cRequiresNumber").checked,
       numberCharge: parseFloat($("#cNumberCharge").value) || 0,
+      autoOpenClose: $("#cAutoHours").checked,
+      openTime: $("#cAutoHours").checked ? ($("#cOpenTime").value || "09:00") : "",
+      closeTime: $("#cAutoHours").checked ? ($("#cCloseTime").value || "22:00") : "",
+      closedMessage: $("#cClosedMsg")?.value.trim() || "",
       updatedAt: serverTimestamp()
     };
     if (!data.name) return toast("Name required", "error");
@@ -2326,7 +2416,6 @@ window.adminUnblockUser = (userId) => {
   });
 };
 
-/* ===== BOOT ===== */
 mountScreens();
 onAuthStateChanged(auth, onAuthChanged);
 loadEmailJS();
