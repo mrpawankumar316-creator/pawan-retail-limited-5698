@@ -3,33 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
-<title>Pawan Retail Limited</title>
+<meta name="theme-color" content="#7f1d1d">
+<title>🪔 Pawan Retail Limited — Durga Puja Special</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
 :root{
-  --bg:#f4f6fb;--bg-gradient:linear-gradient(180deg,#f4f6fb 0%,#eef1f8 100%);
-  --surface:#ffffff;--surface-2:#fafbfe;--surface-3:#f1f4f9;
-  --border:#e3e7f0;--border-strong:#cdd5e0;
-  --text:#0f172a;--text-2:#475569;--text-3:#94a3b8;
-  --brand:#4f46e5;--brand-dark:#4338ca;--brand-light:#6366f1;
-  --brand-soft:#eef2ff;--brand-gradient:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);
-  --accent:#0ea5e9;--accent-soft:#e0f2fe;
-  --success:#059669;--success-soft:#ecfdf5;
-  --warning:#d97706;--warning-soft:#fffbeb;
-  --danger:#dc2626;--danger-soft:#fef2f2;
+  /* === DURGA PUJA PALETTE === */
+  --bg:#fff8f0;--bg-gradient:linear-gradient(180deg,#fff8f0 0%,#fdf0e0 100%);
+  --surface:#fffbf5;--surface-2:#fff5e6;--surface-3:#fdecd2;
+  --border:#f0d5b1;--border-strong:#d9a86c;
+  --text:#3d0f0f;--text-2:#7c3a1d;--text-3:#a67c52;
+
+  /* Brand — Sindoor Red + Gold */
+  --brand:#b91c1c;--brand-dark:#991b1b;--brand-light:#dc2626;
+  --brand-soft:#fef2f2;
+  --brand-gradient:linear-gradient(135deg,#b91c1c 0%,#d97706 100%);
+  --brand-gradient-reverse:linear-gradient(135deg,#d97706 0%,#b91c1c 100%);
+
+  --accent:#ea580c;--accent-soft:#ffedd5;
+  --gold:#d97706;--gold-soft:#fef3c7;--gold-dark:#92400e;
+  --marigold:#f59e0b;--marigold-soft:#fef9c3;
+
+  --success:#15803d;--success-soft:#f0fdf4;
+  --warning:#ea580c;--warning-soft:#fff7ed;
+  --danger:#991b1b;--danger-soft:#fef2f2;
+
   --radius-sm:6px;--radius:10px;--radius-md:12px;--radius-lg:14px;--radius-xl:18px;
-  --shadow-xs:0 1px 2px rgba(15,23,42,.04);
-  --shadow-sm:0 2px 8px rgba(15,23,42,.05);
-  --shadow:0 4px 16px rgba(15,23,42,.06);
-  --shadow-md:0 8px 24px rgba(15,23,42,.08);
-  --shadow-lg:0 12px 40px rgba(15,23,42,.12);
-  --shadow-brand:0 8px 24px rgba(79,70,229,.25);
+  --shadow-xs:0 1px 2px rgba(120,53,15,.06);
+  --shadow-sm:0 2px 8px rgba(120,53,15,.08);
+  --shadow:0 4px 16px rgba(120,53,15,.10);
+  --shadow-md:0 8px 24px rgba(120,53,15,.14);
+  --shadow-lg:0 12px 40px rgba(120,53,15,.18);
+  --shadow-brand:0 8px 24px rgba(185,28,28,.30);
+  --shadow-gold:0 8px 24px rgba(217,119,6,.32);
+
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
+
+  --font-display:'Yatra One',serif;
+  --font-body:'Poppins',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
-html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.55;color:var(--text);background:var(--bg-gradient);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%;letter-spacing:-0.005em}
-body{min-height:100vh;overflow-x:hidden}
+
+html,body{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--text);background:var(--bg-gradient);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%;letter-spacing:-0.005em}
+body{min-height:100vh;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#b91c1c 0%,#d97706 25%,#f59e0b 50%,#d97706 75%,#b91c1c 100%);z-index:1000;pointer-events:none;box-shadow:0 2px 8px rgba(185,28,28,.35)}
+
 a{color:var(--brand);text-decoration:none;transition:color .15s}
 a:hover{color:var(--brand-dark)}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;transition:all .15s}
@@ -37,210 +59,335 @@ input,textarea,select{font:inherit;color:inherit}
 img{max-width:100%;display:block}
 ul{list-style:none}
 ::selection{background:var(--brand);color:#fff}
+
+/* Decorative floating diyas */
+.diya-float{position:fixed;font-size:24px;opacity:.15;pointer-events:none;z-index:1;animation:diyaFloat 8s ease-in-out infinite}
+@keyframes diyaFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-15px) rotate(5deg)}}
+
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
 .shell{max-width:520px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:calc(80px + var(--safe-bottom));position:relative}
-.appbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);border-bottom:1px solid var(--border)}
-.appbar-title{font-size:15px;font-weight:650;letter-spacing:-0.01em}
-.appbar-back{width:36px;height:36px;display:grid;place-items:center;border-radius:var(--radius);margin-left:-8px;color:var(--text-2)}
-.appbar-back:hover{background:var(--surface-3);color:var(--text)}
+
+/* === APPBAR === */
+.appbar{position:sticky;top:5px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:linear-gradient(180deg,rgba(255,251,245,.98),rgba(255,248,240,.94));backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);border-bottom:2px solid var(--gold)}
+.appbar-title{font-size:16px;font-weight:700;letter-spacing:-0.01em;color:var(--brand);font-family:var(--font-display)}
+.appbar-back{width:36px;height:36px;display:grid;place-items:center;border-radius:var(--radius);margin-left:-8px;color:var(--brand)}
+.appbar-back:hover{background:var(--brand-soft);color:var(--brand-dark)}
 .appbar-actions{display:flex;align-items:center;gap:6px}
-.iconbtn{position:relative;width:38px;height:38px;display:grid;place-items:center;border-radius:var(--radius);color:var(--text-2)}
-.iconbtn:hover{background:var(--surface-3);color:var(--text)}
+
+.iconbtn{position:relative;width:38px;height:38px;display:grid;place-items:center;border-radius:var(--radius);color:var(--brand)}
+.iconbtn:hover{background:var(--brand-soft);color:var(--brand-dark)}
 .iconbtn svg{width:20px;height:20px}
-.badge-dot{position:absolute;top:6px;right:6px;min-width:16px;height:16px;padding:0 4px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
+
+.badge-dot{position:absolute;top:6px;right:6px;min-width:16px;height:16px;padding:0 4px;background:var(--gold);color:#fff;font-size:10px;font-weight:700;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
 .badge-dot.show{display:flex}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;letter-spacing:-0.01em}
-.brand-mark{width:32px;height:32px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;border-radius:8px;font-size:14px;font-weight:800;box-shadow:var(--shadow-brand)}
+
+/* === BRAND === */
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;letter-spacing:-0.01em;font-family:var(--font-display);color:var(--brand)}
+.brand-mark{width:36px;height:36px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;border-radius:10px;font-size:18px;font-weight:800;font-family:var(--font-display);box-shadow:var(--shadow-brand);position:relative}
+.brand-mark::after{content:'';position:absolute;inset:-3px;border-radius:13px;border:1.5px dashed var(--gold);pointer-events:none;animation:rotateSlow 20s linear infinite}
+@keyframes rotateSlow{to{transform:rotate(360deg)}}
+
 .page{padding:16px}
-.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px}
+.section-title{font-size:14px;font-weight:700;color:var(--brand);margin-bottom:10px;font-family:var(--font-display);display:flex;align-items:center;gap:6px}
+.section-title::before{content:'🪔';font-size:16px}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
-.section-header h2{font-size:15px;font-weight:650;letter-spacing:-0.01em}
-.section-header a{font-size:12px;font-weight:600}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-sm)}
+.section-header h2{font-size:17px;font-weight:700;letter-spacing:-0.01em;font-family:var(--font-display);color:var(--text);display:flex;align-items:center;gap:6px}
+.section-header h2::before{content:'🌺';font-size:14px}
+.section-header a{font-size:12px;font-weight:600;color:var(--brand)}
+
+/* === CARDS — Rangoli border === */
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-sm);position:relative}
 .card+.card{margin-top:12px}
 .card-flat{padding:0;overflow:hidden}
-.card-elevated{box-shadow:var(--shadow-md)}
-.card-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.card-elevated{box-shadow:var(--shadow-md);border-color:var(--gold)}
+
+.card-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px dashed var(--border);cursor:pointer;transition:background .12s}
 .card-row:last-child{border-bottom:0}
-.card-row:hover{background:var(--surface-3)}
+.card-row:hover{background:var(--surface-2)}
+
+/* === BUTTONS === */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;font-size:13px;font-weight:600;border-radius:var(--radius);border:1px solid transparent;white-space:nowrap;letter-spacing:-0.005em}
 .btn:active:not(:disabled){transform:translateY(1px)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-primary{background:var(--brand);color:#fff;box-shadow:var(--shadow-brand)}
-.btn-primary:hover:not(:disabled){background:var(--brand-dark)}
-.btn-secondary{background:var(--surface);color:var(--text);border-color:var(--border-strong);box-shadow:var(--shadow-xs)}
-.btn-secondary:hover:not(:disabled){background:var(--surface-3);border-color:var(--text-3)}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-danger:hover:not(:disabled){background:#b91c1c}
-.btn-success{background:var(--success);color:#fff}
-.btn-success:hover:not(:disabled){background:#047857}
-.btn-ghost{color:var(--brand);background:var(--brand-soft)}
-.btn-ghost:hover:not(:disabled){background:#e0e7ff}
+.btn-primary{background:var(--brand-gradient);color:#fff;box-shadow:var(--shadow-brand);position:relative;overflow:hidden}
+.btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s}
+.btn-primary:hover:not(:disabled)::after{left:100%}
+.btn-primary:hover:not(:disabled){background:var(--brand-gradient-reverse);box-shadow:var(--shadow-gold)}
+.btn-secondary{background:var(--surface);color:var(--brand);border-color:var(--border-strong);box-shadow:var(--shadow-xs)}
+.btn-secondary:hover:not(:disabled){background:var(--gold-soft);border-color:var(--gold);color:var(--gold-dark)}
+.btn-danger{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff}
+.btn-danger:hover:not(:disabled){background:#7f1d1d}
+.btn-success{background:linear-gradient(135deg,#15803d,#166534);color:#fff}
+.btn-success:hover:not(:disabled){background:#166534}
+.btn-ghost{color:var(--brand);background:var(--brand-soft);border:1px dashed var(--brand-light)}
+.btn-ghost:hover:not(:disabled){background:#fee2e2}
 .btn-block{width:100%}
 .btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
 .btn-xs{padding:5px 10px;font-size:11px;border-radius:6px;font-weight:600}
-.btn-lg{padding:13px 22px;font-size:15px;border-radius:var(--radius-md)}
+.btn-lg{padding:13px 22px;font-size:15px;border-radius:var(--radius-md);font-weight:700;font-family:var(--font-display);letter-spacing:0.01em}
+
 .form-group{margin-bottom:16px}
 .form-label{display:block;font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px;letter-spacing:-0.005em}
 .form-input,.form-textarea,.form-select{width:100%;padding:11px 14px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--text);transition:border-color .15s,box-shadow .15s}
-.form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}
+.form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px rgba(185,28,28,.12)}
 .form-textarea{min-height:88px;resize:vertical;line-height:1.5}
 .input-wrap{position:relative}
-.input-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:5px 8px;font-size:11px;font-weight:700;color:var(--text-3);border-radius:5px}
-.input-toggle:hover{color:var(--brand);background:var(--brand-soft)}
+.input-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:5px 8px;font-size:11px;font-weight:700;color:var(--brand);border-radius:5px}
+.input-toggle:hover{color:var(--brand-dark);background:var(--brand-soft)}
 .checkbox-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2);cursor:pointer}
 .checkbox-row input{accent-color:var(--brand);width:16px;height:16px}
 .form-split{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:13px}
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0 calc(8px + var(--safe-bottom));z-index:30}
+
+/* === BOTTOM NAV === */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:linear-gradient(180deg,rgba(255,251,245,.98),rgba(255,248,240,.98));backdrop-filter:blur(14px) saturate(180%);-webkit-backdrop-filter:blur(14px) saturate(180%);border-top:2px solid var(--gold);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0 calc(8px + var(--safe-bottom));z-index:30}
 .bnav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;color:var(--text-3);font-size:10px;font-weight:600;cursor:pointer;position:relative;transition:color .15s}
 .bnav-item svg{width:22px;height:22px}
 .bnav-item.active{color:var(--brand)}
-.bnav-item.active::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--brand);border-radius:2px}
-.bnav-badge{position:absolute;top:2px;right:calc(50% - 20px);min-width:16px;height:16px;padding:0 4px;background:var(--danger);color:#fff;font-size:9px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
+.bnav-item.active::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:32px;height:3px;background:var(--brand-gradient);border-radius:2px;box-shadow:0 0 12px var(--marigold)}
+.bnav-badge{position:absolute;top:2px;right:calc(50% - 20px);min-width:16px;height:16px;padding:0 4px;background:var(--gold);color:#fff;font-size:9px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
 .bnav-badge.show{display:flex}
+
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;font-size:11px;font-weight:700;border-radius:999px;letter-spacing:-0.005em}
-.badge-neutral{background:#f1f5f9;color:#475569}
+.badge-neutral{background:#f5e6d3;color:#7c3a1d}
 .badge-info{background:var(--brand-soft);color:var(--brand-dark)}
 .badge-success{background:var(--success-soft);color:var(--success)}
 .badge-warning{background:var(--warning-soft);color:var(--warning)}
 .badge-danger{background:var(--danger-soft);color:var(--danger)}
-.banner-carousel{position:relative;overflow:hidden;border-radius:var(--radius-xl);margin-bottom:18px;box-shadow:var(--shadow-md)}
+
+/* === BANNER === */
+.banner-carousel{position:relative;overflow:hidden;border-radius:var(--radius-xl);margin-bottom:18px;box-shadow:var(--shadow-md);border:2px solid var(--gold)}
 .banner-track{display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1)}
-.banner-slide{min-width:100%;position:relative;background:var(--brand-gradient);color:#fff;height:160px;display:flex;flex-direction:column;justify-content:center;padding:22px;background-size:cover;background-position:center}
-.banner-slide::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,23,42,.78),rgba(15,23,42,.15))}
+.banner-slide{min-width:100%;position:relative;background:var(--brand-gradient);color:#fff;height:180px;display:flex;flex-direction:column;justify-content:center;padding:22px;background-size:cover;background-position:center}
+.banner-slide::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(61,15,15,.85),rgba(61,15,15,.35))}
 .banner-slide>*{position:relative;z-index:1}
-.banner-slide h3{font-size:18px;font-weight:700;margin-bottom:6px;letter-spacing:-0.02em}
-.banner-slide p{font-size:13px;color:#e2e8f0;margin-bottom:12px;max-width:72%;line-height:1.4}
-.banner-slide .btn{align-self:flex-start;background:#fff;color:var(--brand);padding:8px 16px;font-size:12px;font-weight:700}
+.banner-slide h3{font-size:20px;font-weight:700;margin-bottom:6px;letter-spacing:-0.02em;font-family:var(--font-display);text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.banner-slide p{font-size:13px;color:#fef3c7;margin-bottom:12px;max-width:72%;line-height:1.4}
+.banner-slide .btn{align-self:flex-start;background:var(--gold-soft);color:var(--brand-dark);padding:8px 16px;font-size:12px;font-weight:700;border:1px solid var(--gold)}
 .banner-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2}
 .banner-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:all .2s}
-.banner-dot.active{background:#fff;width:18px;border-radius:3px}
+.banner-dot.active{background:var(--marigold);width:18px;border-radius:3px}
+
+/* === PRODUCT GRID === */
 .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.product{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;position:relative;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;box-shadow:var(--shadow-xs)}
-.product:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--border-strong)}
+.product{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;position:relative;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;box-shadow:var(--shadow-xs)}
+.product:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--gold)}
 .product.closed{opacity:.55}
 .product.closed:hover{transform:none;box-shadow:var(--shadow-xs)}
 .product-img{aspect-ratio:1/1;width:100%;object-fit:cover;background:var(--surface-3)}
 .product-body{padding:11px 12px 12px;display:flex;flex-direction:column;flex:1;gap:6px}
-.product-cat{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--brand)}
-.product-name{font-size:13px;font-weight:650;line-height:1.3;letter-spacing:-0.005em}
+.product-cat{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--brand)}
+.product-name{font-size:13px;font-weight:700;line-height:1.3;letter-spacing:-0.005em;color:var(--text)}
 .product-desc{font-size:12px;color:var(--text-2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.product-price{font-size:15px;font-weight:800;color:var(--text);margin-top:4px;letter-spacing:-0.02em}
+.product-price{font-size:15px;font-weight:800;color:var(--brand);margin-top:4px;letter-spacing:-0.02em}
 .product-cta{margin-top:8px}
+
 .closed-overlay{position:absolute;top:10px;left:10px;background:var(--danger);color:#fff;font-size:10px;font-weight:800;padding:4px 9px;border-radius:6px;letter-spacing:.05em;text-transform:uppercase;z-index:2;box-shadow:var(--shadow-sm)}
-.closed-banner{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:18px 20px;border-radius:var(--radius-xl);margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 8px 24px rgba(220,38,38,.2)}
+
+.closed-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff;padding:18px 20px;border-radius:var(--radius-xl);margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 8px 24px rgba(153,27,27,.3)}
 .closed-banner .icon{font-size:30px;line-height:1}
 .closed-banner .content{flex:1}
-.closed-banner .title{font-weight:700;font-size:15px;margin-bottom:4px}
+.closed-banner .title{font-weight:700;font-size:15px;margin-bottom:4px;font-family:var(--font-display)}
 .closed-banner .msg{font-size:13px;opacity:.92;line-height:1.5}
 .closed-banner .hrs{font-size:12px;opacity:.78;margin-top:8px;font-family:ui-monospace,monospace}
+
 .chip-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px}
 .chip-row::-webkit-scrollbar{display:none}
 .chip{padding:7px 14px;font-size:12px;font-weight:600;background:var(--surface);border:1.5px solid var(--border);border-radius:999px;white-space:nowrap;cursor:pointer;color:var(--text-2);transition:all .15s}
-.chip:hover{border-color:var(--border-strong)}
-.chip.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:var(--shadow-brand)}
-.order{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-xs);transition:box-shadow .15s,border-color .15s}
-.order:hover{box-shadow:var(--shadow-sm);border-color:var(--border-strong)}
+.chip:hover{border-color:var(--gold);color:var(--brand)}
+.chip.active{background:var(--brand-gradient);color:#fff;border-color:transparent;box-shadow:var(--shadow-brand)}
+
+.order{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-xs);transition:box-shadow .15s,border-color .15s}
+.order:hover{box-shadow:var(--shadow-sm);border-color:var(--gold)}
 .order+.order{margin-top:12px}
 .order-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.order-id{font-size:13px;font-weight:700;font-family:ui-monospace,"SF Mono",monospace;letter-spacing:-0.01em}
+.order-id{font-size:13px;font-weight:700;font-family:ui-monospace,"SF Mono",monospace;letter-spacing:-0.01em;color:var(--brand-dark)}
 .order-body{display:flex;align-items:center;gap:12px}
-.order-thumb{width:48px;height:48px;border-radius:10px;object-fit:cover;background:var(--surface-3);flex-shrink:0}
+.order-thumb{width:48px;height:48px;border-radius:10px;object-fit:cover;background:var(--surface-3);flex-shrink:0;border:1px solid var(--border)}
 .order-info{flex:1;min-width:0}
 .order-name{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-0.005em}
 .order-date{font-size:12px;color:var(--text-3);margin-top:2px}
-.order-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:13px}
-.order-foot .amt{font-weight:700;color:var(--text);font-size:15px}
+.order-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);font-size:13px}
+.order-foot .amt{font-weight:700;color:var(--brand);font-size:15px}
 .order-actions{display:flex;gap:8px;margin-top:12px}
+
 .timeline{position:relative;padding-left:28px}
 .timeline::before{content:"";position:absolute;left:9px;top:12px;bottom:12px;width:2px;background:var(--border)}
 .timeline-step{position:relative;padding:10px 0}
 .timeline-step::before{content:"";position:absolute;left:-28px;top:14px;width:18px;height:18px;background:var(--surface);border:2.5px solid var(--border);border-radius:50%;transition:all .2s}
-.timeline-step.done::before{background:var(--brand);border-color:var(--brand);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2,6 5,9 10,3'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat}
-.timeline-step.current::before{background:var(--surface);border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}
+.timeline-step.done::before{background:var(--brand-gradient);border-color:var(--brand);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2,6 5,9 10,3'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat}
+.timeline-step.current::before{background:var(--surface);border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
 .timeline-step .tl-label{font-size:13.5px;color:var(--text-3);font-weight:500}
 .timeline-step.done .tl-label,.timeline-step.current .tl-label{color:var(--text)}
-.timeline-step.current .tl-label{font-weight:700}
+.timeline-step.current .tl-label{font-weight:700;color:var(--brand)}
+
 .toast-root{position:fixed;top:calc(70px + var(--safe-top));left:50%;transform:translateX(-50%);z-index:1000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;max-width:calc(100vw - 32px);width:100%}
-.toast{padding:12px 18px;background:#0f172a;color:#fff;border-radius:10px;font-size:13.5px;font-weight:600;animation:toastIn .3s cubic-bezier(.16,1,.3,1);max-width:100%;text-align:center;box-shadow:0 12px 32px rgba(0,0,0,.22);letter-spacing:-0.005em}
-.toast.success{background:var(--success)}
-.toast.error{background:var(--danger)}
+.toast{padding:12px 18px;background:var(--brand-gradient);color:#fff;border-radius:10px;font-size:13.5px;font-weight:600;animation:toastIn .3s cubic-bezier(.16,1,.3,1);max-width:100%;text-align:center;box-shadow:0 12px 32px rgba(61,15,15,.3);letter-spacing:-0.005em;border:1px solid var(--gold)}
+.toast.success{background:linear-gradient(135deg,#15803d,#166534);border-color:#4ade80}
+.toast.error{background:linear-gradient(135deg,#991b1b,#7f1d1d);border-color:#f87171}
 @keyframes toastIn{from{opacity:0;transform:translateY(-12px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;z-index:500;overflow:auto;animation:fadeIn .2s ease}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(61,15,15,.6);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;z-index:500;overflow:auto;animation:fadeIn .2s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal{background:var(--surface);border-radius:var(--radius-xl);padding:22px;width:100%;max-width:480px;max-height:90vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.24);animation:modalIn .25s cubic-bezier(.16,1,.3,1)}
+.modal{background:var(--surface);border-radius:var(--radius-xl);padding:22px;width:100%;max-width:480px;max-height:90vh;overflow:auto;box-shadow:0 24px 60px rgba(61,15,15,.4);animation:modalIn .25s cubic-bezier(.16,1,.3,1);border:2px solid var(--gold);position:relative}
+.modal::before{content:'🪔';position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:26px;background:var(--surface);padding:0 10px;line-height:1}
 @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-title{font-size:16px;font-weight:700;margin-bottom:18px;letter-spacing:-0.015em}
+.modal-title{font-size:18px;font-weight:700;margin-bottom:18px;letter-spacing:-0.015em;font-family:var(--font-display);color:var(--brand);text-align:center}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:22px}
-.auth-shell{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(circle at 0% 0%,rgba(79,70,229,.08),transparent 40%),radial-gradient(circle at 100% 100%,rgba(124,58,237,.08),transparent 40%),var(--bg)}
-.auth-box{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px 28px;box-shadow:var(--shadow-lg)}
-.auth-mark{width:52px;height:52px;background:var(--brand-gradient);color:#fff;border-radius:14px;display:grid;place-items:center;font-weight:800;font-size:22px;margin-bottom:18px;box-shadow:var(--shadow-brand)}
-.auth-box h1{font-size:22px;font-weight:750;letter-spacing:-0.025em;margin-bottom:6px}
-.auth-sub{font-size:14px;color:var(--text-2);margin-bottom:26px}
-.auth-foot{text-align:center;margin-top:20px;font-size:13px;color:var(--text-2)}
+
+/* === AUTH — Durga Maa image === */
+.auth-shell{min-height:100vh;display:grid;place-items:center;padding:24px 16px;
+  background:
+    radial-gradient(circle at 0% 0%,rgba(185,28,28,.12),transparent 45%),
+    radial-gradient(circle at 100% 100%,rgba(217,119,6,.14),transparent 45%),
+    radial-gradient(circle at 50% 50%,rgba(245,158,11,.08),transparent 60%),
+    var(--bg);
+  position:relative;
+  overflow:hidden;
+}
+.auth-box{width:100%;max-width:420px;background:var(--surface);border:2px solid var(--gold);border-radius:var(--radius-xl);padding:0 28px 32px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;animation:fadeInUp .6s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* Durga Maa image banner at top of auth box */
+.auth-mata{
+  margin:0 -28px 20px;
+  height:200px;
+  background:linear-gradient(180deg,#7f1d1d 0%,#b91c1c 50%,#d97706 100%);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:3px solid var(--gold);
+}
+.auth-mata img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(.95) saturate(1.1);
+}
+.auth-mata::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(255,251,245,.35) 100%);
+  pointer-events:none;
+}
+/* Fallback — puja symbols if image fails */
+.auth-mata .fallback{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  text-align:center;
+  gap:8px;
+  z-index:2;
+  position:relative;
+}
+.auth-mata .fallback .big{font-size:56px;line-height:1}
+.auth-mata .fallback .name{font-family:var(--font-display);font-size:20px;letter-spacing:.05em;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.auth-mata .fallback .sub{font-size:12px;opacity:.9;letter-spacing:.15em;text-transform:uppercase}
+
+/* Mata invocation text on top of image */
+.auth-mata .invocation{
+  position:absolute;
+  bottom:8px;left:50%;transform:translateX(-50%);
+  font-family:var(--font-display);
+  color:#fff;
+  font-size:14px;
+  letter-spacing:.08em;
+  text-shadow:0 2px 8px rgba(0,0,0,.8);
+  z-index:3;
+  white-space:nowrap;
+  background:rgba(61,15,15,.55);
+  padding:4px 14px;
+  border-radius:999px;
+  border:1px solid var(--gold);
+}
+
+.auth-box h1{font-size:26px;font-weight:700;letter-spacing:-0.025em;margin-bottom:6px;font-family:var(--font-display);color:var(--brand);text-align:center}
+.auth-sub{font-size:13.5px;color:var(--text-2);margin-bottom:24px;text-align:center}
+.auth-foot{text-align:center;margin-top:18px;font-size:13px;color:var(--text-2)}
 .auth-foot+.auth-foot{margin-top:8px}
+
+/* Small brand mark decoration */
+.auth-mark{width:56px;height:56px;background:var(--brand-gradient);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:22px;margin:-32px auto 18px;box-shadow:var(--shadow-brand);font-family:var(--font-display);position:relative;z-index:5;border:3px solid var(--surface)}
+.auth-mark::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px dashed var(--gold);pointer-events:none;animation:rotateSlow 30s linear infinite reverse}
+
 .empty{text-align:center;padding:56px 20px;color:var(--text-3);font-size:13.5px}
-.skeleton{background:linear-gradient(90deg,#eef2f7 25%,#e3e8ef 37%,#eef2f7 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:var(--radius);height:60px;margin-bottom:10px}
+.skeleton{background:linear-gradient(90deg,#fdecd2 25%,#f0d5b1 37%,#fdecd2 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:var(--radius);height:60px;margin-bottom:10px}
 @keyframes shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
+
+/* === ADMIN === */
 .admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-.admin-side{background:#0f172a;color:#cbd5e1;padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto}
-.admin-side-brand{display:flex;align-items:center;gap:10px;color:#fff;font-size:14px;font-weight:700;padding:8px 10px;margin-bottom:22px;letter-spacing:-0.01em}
-.admin-side-brand .brand-mark{width:28px;height:28px;font-size:13px;background:var(--brand-gradient)}
-.admin-nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;font-size:13.5px;font-weight:500;color:#94a3b8;border-radius:8px;margin-bottom:3px;cursor:pointer;transition:all .12s}
-.admin-nav a:hover{background:#1e293b;color:#fff}
-.admin-nav a.active{background:var(--brand);color:#fff;box-shadow:var(--shadow-brand)}
+.admin-side{background:linear-gradient(180deg,#3d0f0f 0%,#5c1a1a 100%);color:#fdecd2;padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:2px solid var(--gold)}
+.admin-side-brand{display:flex;align-items:center;gap:10px;color:#fff;font-size:16px;font-weight:700;padding:8px 10px;margin-bottom:22px;letter-spacing:-0.01em;font-family:var(--font-display)}
+.admin-side-brand .brand-mark{width:32px;height:32px;font-size:15px;background:var(--brand-gradient);box-shadow:var(--shadow-gold)}
+.admin-nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;font-size:13.5px;font-weight:500;color:#fdecd2;border-radius:8px;margin-bottom:3px;cursor:pointer;transition:all .12s}
+.admin-nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.admin-nav a.active{background:var(--brand-gradient);color:#fff;box-shadow:var(--shadow-gold)}
 .admin-main{padding:26px;min-height:100vh;background:var(--bg)}
 .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:12px;flex-wrap:wrap}
-.admin-header h1{font-size:22px;font-weight:750;letter-spacing:-0.025em}
+.admin-header h1{font-size:24px;font-weight:700;letter-spacing:-0.025em;font-family:var(--font-display);color:var(--brand)}
 .admin-user{font-size:12px;color:var(--text-3)}
+
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:26px}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-xs);transition:box-shadow .15s,transform .15s}
-.stat:hover{box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.stat{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-xs);transition:box-shadow .15s,transform .15s;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--brand-gradient)}
+.stat::after{content:'🪔';position:absolute;bottom:8px;right:10px;font-size:20px;opacity:.15}
+.stat:hover{box-shadow:var(--shadow-sm);transform:translateY(-1px);border-color:var(--gold)}
 .stat-label{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em}
-.stat-value{font-size:26px;font-weight:800;margin-top:8px;letter-spacing:-0.03em;color:var(--text)}
-.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-xs)}
+.stat-value{font-size:26px;font-weight:800;margin-top:8px;letter-spacing:-0.03em;color:var(--brand)}
+
+.table-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-xs)}
 .table-wrap.scroll{overflow-x:auto}
 .table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
-.table th{text-align:left;padding:12px 14px;background:var(--surface-2);font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border)}
+.table th{text-align:left;padding:12px 14px;background:var(--surface-3);font-size:11px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border)}
 .table td{padding:14px;border-bottom:1px solid var(--border);vertical-align:top}
 .table tr:last-child td{border-bottom:0}
 .table tr:hover td{background:var(--surface-2)}
-.mobile-menu-btn{display:none;width:36px;height:36px;border-radius:var(--radius);background:#0f172a;color:#fff}
-.cart-item{display:flex;gap:12px;padding:14px;border-bottom:1px solid var(--border)}
+
+.mobile-menu-btn{display:none;width:36px;height:36px;border-radius:var(--radius);background:var(--brand-gradient);color:#fff}
+
+.cart-item{display:flex;gap:12px;padding:14px;border-bottom:1px dashed var(--border)}
 .cart-item:last-child{border-bottom:0}
-.cart-item img{width:60px;height:60px;border-radius:10px;object-fit:cover;background:var(--surface-3)}
+.cart-item img{width:60px;height:60px;border-radius:10px;object-fit:cover;background:var(--surface-3);border:1px solid var(--border)}
 .cart-item-info{flex:1;min-width:0}
-.cart-item-name{font-size:13.5px;font-weight:650;letter-spacing:-0.005em}
+.cart-item-name{font-size:13.5px;font-weight:700;letter-spacing:-0.005em}
 .cart-item-price{font-size:12.5px;color:var(--text-3);margin-top:2px}
+
 .qty-ctrl{display:inline-flex;align-items:center;border:1.5px solid var(--border);border-radius:8px;overflow:hidden}
-.qty-ctrl button{width:32px;height:32px;background:var(--surface);display:grid;place-items:center;font-weight:700;color:var(--text-2);font-size:16px;transition:background .12s}
-.qty-ctrl button:hover{background:var(--surface-3);color:var(--text)}
+.qty-ctrl button{width:32px;height:32px;background:var(--surface);display:grid;place-items:center;font-weight:700;color:var(--brand);font-size:16px;transition:background .12s}
+.qty-ctrl button:hover{background:var(--gold-soft);color:var(--brand-dark)}
 .qty-ctrl span{min-width:36px;text-align:center;font-size:14px;font-weight:700}
-.radio-row{display:flex;align-items:flex-start;gap:12px;padding:14px;border:1.5px solid var(--border);border-radius:var(--radius-md);margin-bottom:10px;cursor:pointer;transition:all .15s}
-.radio-row:hover{border-color:var(--border-strong)}
-.radio-row.selected{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 3px rgba(79,70,229,.08)}
+
+.radio-row{display:flex;align-items:flex-start;gap:12px;padding:14px;border:1.5px solid var(--border);border-radius:var(--radius-md);margin-bottom:10px;cursor:pointer;transition:all .15s;background:var(--surface)}
+.radio-row:hover{border-color:var(--gold)}
+.radio-row.selected{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 3px rgba(185,28,28,.1)}
 .radio-row input{margin-top:3px;accent-color:var(--brand);width:16px;height:16px}
 .radio-row-text{flex:1}
 .radio-row-title{font-size:13.5px;font-weight:650;letter-spacing:-0.005em}
 .radio-row-desc{font-size:12.5px;color:var(--text-2);margin-top:3px}
+
 .price-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13.5px}
-.price-row.total{border-top:2px solid var(--border);margin-top:8px;padding-top:12px;font-weight:750;font-size:15.5px}
+.price-row.total{border-top:2px solid var(--border);margin-top:8px;padding-top:12px;font-weight:750;font-size:15.5px;color:var(--brand)}
 .price-row.discount span:last-child{color:var(--success);font-weight:700}
 .coupon-row{display:flex;gap:8px;margin-bottom:10px}
 .coupon-row input{flex:1}
-.blocked-banner{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:26px;border-radius:var(--radius-xl);text-align:center;margin-bottom:18px;box-shadow:0 12px 36px rgba(220,38,38,.24)}
-.blocked-banner.suspended{background:linear-gradient(135deg,#d97706,#b45309);box-shadow:0 12px 36px rgba(217,119,6,.24)}
+
+.blocked-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff;padding:26px;border-radius:var(--radius-xl);text-align:center;margin-bottom:18px;box-shadow:0 12px 36px rgba(153,27,27,.4);border:2px solid var(--gold)}
+.blocked-banner.suspended{background:linear-gradient(135deg,#d97706,#b45309);box-shadow:0 12px 36px rgba(217,119,6,.3)}
 .blocked-banner .icon{font-size:48px;margin-bottom:12px}
-.blocked-banner h2{font-size:20px;margin-bottom:8px;font-weight:750;letter-spacing:-0.02em}
+.blocked-banner h2{font-size:20px;margin-bottom:8px;font-weight:700;letter-spacing:-0.02em;font-family:var(--font-display)}
 .blocked-banner p{font-size:13.5px;opacity:.92;line-height:1.55;margin-bottom:6px}
-.blocked-reason{background:rgba(0,0,0,.24);border-radius:10px;padding:14px;margin-top:16px;text-align:left}
+.blocked-reason{background:rgba(0,0,0,.28);border-radius:10px;padding:14px;margin-top:16px;text-align:left}
 .blocked-reason .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;opacity:.75;margin-bottom:6px;font-weight:700}
 .blocked-reason .txt{font-size:13.5px;line-height:1.5}
-.blocked-timer{background:rgba(0,0,0,.28);border-radius:12px;padding:16px;margin-top:16px;display:inline-block;min-width:220px}
+.blocked-timer{background:rgba(0,0,0,.32);border-radius:12px;padding:16px;margin-top:16px;display:inline-block;min-width:220px}
 .blocked-timer .label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75;margin-bottom:8px;font-weight:700}
 .blocked-timer .time{font-family:ui-monospace,monospace;font-size:24px;font-weight:800;letter-spacing:.05em}
-.free-banner{background:linear-gradient(135deg,#059669,#047857);color:#fff;padding:16px 18px;border-radius:var(--radius-xl);margin-bottom:16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(5,150,105,.24)}
+
+.free-banner{background:linear-gradient(135deg,#15803d,#166534);color:#fff;padding:16px 18px;border-radius:var(--radius-xl);margin-bottom:16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(21,128,61,.3);border:1.5px solid #4ade80}
 .free-banner .icon{font-size:24px}
 .free-banner .title{font-weight:700;font-size:14.5px;letter-spacing:-0.01em}
 .free-banner .desc{font-size:12.5px;opacity:.92;margin-top:3px}
@@ -248,7 +395,7 @@ ul{list-style:none}
 .reason-card .title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--danger);margin-bottom:10px}
 .reason-card .text{font-size:14px;color:var(--danger);font-weight:600;line-height:1.5}
 .reason-card .meta{font-size:11.5px;color:var(--danger);opacity:.75;margin-top:10px}
-.track-banner{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;padding:18px;border-radius:var(--radius-xl);margin-bottom:14px;display:flex;align-items:center;gap:14px;box-shadow:0 12px 32px rgba(2,132,199,.24)}
+.track-banner{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;padding:18px;border-radius:var(--radius-xl);margin-bottom:14px;display:flex;align-items:center;gap:14px;box-shadow:0 12px 32px rgba(2,132,199,.3);border:1.5px solid #38bdf8}
 .track-banner .icon{font-size:32px}
 .track-banner .content{flex:1}
 .track-banner .title{font-weight:700;font-size:15px;margin-bottom:4px;letter-spacing:-0.01em}
@@ -256,42 +403,47 @@ ul{list-style:none}
 .track-banner .btn{background:#fff;color:var(--accent);padding:9px 16px;font-size:12.5px;font-weight:700}
 .review-card{background:var(--success-soft);border:1.5px solid #bbf7d0;border-radius:var(--radius-lg);padding:16px;margin-bottom:14px}
 .review-card .title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--success);margin-bottom:10px}
-.stars{display:inline-flex;gap:2px;font-size:18px;color:#e2e8f0}
-.stars .on{color:#fbbf24}
+
+.stars{display:inline-flex;gap:2px;font-size:18px;color:#e5e7eb}
+.stars .on{color:var(--marigold)}
 .stars-input{font-size:38px;display:inline-flex;gap:6px;cursor:pointer;user-select:none}
-.stars-input span{color:#e2e8f0;transition:color .15s,transform .15s;line-height:1}
-.stars-input span.on{color:#fbbf24}
+.stars-input span{color:#e5e7eb;transition:color .15s,transform .15s;line-height:1}
+.stars-input span.on{color:var(--marigold)}
 .stars-input span:hover{transform:scale(1.15)}
 .stars-input span:active{transform:scale(1.2)}
-.product-detail{background:var(--surface);border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-sm)}
+
+.product-detail{background:var(--surface);border-radius:var(--radius-xl);overflow:hidden;border:2px solid var(--border);box-shadow:var(--shadow-sm)}
 .product-detail-img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--surface-3)}
 .product-detail-body{padding:20px}
 .product-detail-cat{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--brand);margin-bottom:8px}
-.product-detail-name{font-size:22px;font-weight:750;letter-spacing:-0.025em;margin-bottom:10px;line-height:1.25}
+.product-detail-name{font-size:22px;font-weight:700;letter-spacing:-0.025em;margin-bottom:10px;line-height:1.25;font-family:var(--font-display);color:var(--text)}
 .product-detail-price{font-size:26px;font-weight:800;color:var(--brand);margin-bottom:12px;letter-spacing:-0.03em}
 .product-detail-desc{font-size:14px;color:var(--text-2);line-height:1.65;margin-bottom:16px}
-.rating-summary{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface-3);border-radius:var(--radius-md);margin-bottom:16px}
-.rating-summary .big-num{font-size:32px;font-weight:800;letter-spacing:-0.03em;line-height:1}
+
+.rating-summary{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface-3);border-radius:var(--radius-md);margin-bottom:16px;border:1px solid var(--border)}
+.rating-summary .big-num{font-size:32px;font-weight:800;letter-spacing:-0.03em;line-height:1;color:var(--brand)}
 .rating-summary .meta{flex:1}
-.rating-summary .stars-lg{display:inline-flex;gap:2px;font-size:18px;color:#e2e8f0;margin-bottom:4px}
-.rating-summary .stars-lg .on{color:#fbbf24}
+.rating-summary .stars-lg{display:inline-flex;gap:2px;font-size:18px;color:#e5e7eb;margin-bottom:4px}
+.rating-summary .stars-lg .on{color:var(--marigold)}
 .rating-summary .count{font-size:12px;color:var(--text-3)}
-.review-item{padding:14px 0;border-bottom:1px solid var(--border)}
+.review-item{padding:14px 0;border-bottom:1px dashed var(--border)}
 .review-item:last-child{border-bottom:0}
 .review-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .review-item-name{font-size:13px;font-weight:700}
 .review-item-date{font-size:11.5px;color:var(--text-3)}
-.review-item-stars{display:inline-flex;gap:2px;font-size:14px;color:#e2e8f0;margin-bottom:6px}
-.review-item-stars .on{color:#fbbf24}
+.review-item-stars{display:inline-flex;gap:2px;font-size:14px;color:#e5e7eb;margin-bottom:6px}
+.review-item-stars .on{color:var(--marigold)}
 .review-item-text{font-size:13.5px;color:var(--text-2);line-height:1.55}
+
 .qty-selector{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:14px;background:var(--surface-3);border-radius:var(--radius-md);border:1.5px solid var(--border)}
 .qty-selector .label{font-size:13.5px;font-weight:600;color:var(--text-2);flex:1}
-.company-mini{display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:14px;cursor:pointer;transition:all .15s}
-.company-mini:hover{border-color:var(--border-strong);box-shadow:var(--shadow-xs)}
+.company-mini{display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-md);margin-bottom:14px;cursor:pointer;transition:all .15s}
+.company-mini:hover{border-color:var(--gold);box-shadow:var(--shadow-xs)}
 .company-mini img,.company-mini .mini-logo{width:40px;height:40px;border-radius:10px;object-fit:cover;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:17px}
 .company-mini .mini-info{flex:1;min-width:0}
 .company-mini .mini-name{font-size:13.5px;font-weight:650;letter-spacing:-0.005em}
 .company-mini .mini-cat{font-size:12px;color:var(--text-3);margin-top:2px}
+
 .cod-hint{background:var(--warning-soft);border:1.5px solid #fde68a;color:var(--warning);padding:12px 14px;border-radius:8px;font-size:12.5px;display:flex;align-items:center;gap:8px;line-height:1.5}
 .row{display:flex;align-items:center;gap:8px}
 .between{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -313,6 +465,58 @@ ul{list-style:none}
 .warn-box{background:var(--warning-soft);border:1.5px solid #fde68a;color:var(--warning);padding:12px 14px;border-radius:8px;font-size:12.5px;line-height:1.5}
 .info-box{background:var(--brand-soft);border:1.5px solid #c7d2fe;color:var(--brand-dark);padding:12px 14px;border-radius:8px;font-size:12.5px;line-height:1.5}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
+
+/* Festive welcome banner on home */
+.puja-welcome{
+  background:linear-gradient(135deg,#7f1d1d 0%,#b91c1c 45%,#d97706 100%);
+  color:#fff;
+  border-radius:var(--radius-xl);
+  padding:18px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  box-shadow:var(--shadow-md);
+  border:2px solid var(--gold);
+  position:relative;
+  overflow:hidden;
+}
+.puja-welcome::before{
+  content:'';
+  position:absolute;
+  top:-50%;right:-20%;
+  width:180px;height:180px;
+  background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%);
+  border-radius:50%;
+}
+.puja-welcome .mata-img{
+  width:64px;height:64px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--marigold);
+  box-shadow:0 4px 16px rgba(0,0,0,.35);
+  flex-shrink:0;
+  background:var(--brand-dark);
+}
+.puja-welcome .mata-fallback{
+  width:64px;height:64px;
+  border-radius:50%;
+  background:var(--marigold);
+  color:var(--brand-dark);
+  display:grid;place-items:center;
+  font-size:32px;
+  border:3px solid var(--marigold);
+  box-shadow:0 4px 16px rgba(0,0,0,.35);
+  flex-shrink:0;
+}
+.puja-welcome .txt{flex:1;min-width:0;position:relative;z-index:2}
+.puja-welcome .greet{font-size:11px;letter-spacing:.15em;text-transform:uppercase;opacity:.85;margin-bottom:2px}
+.puja-welcome .msg{font-family:var(--font-display);font-size:18px;line-height:1.2;margin-bottom:4px}
+.puja-welcome .sub{font-size:12px;opacity:.92;line-height:1.4}
+
+/* Fallback classes */
+.fallback-hide{display:none!important}
+
 @media (max-width:820px){
   .admin-layout{grid-template-columns:1fr}
   .admin-side{position:fixed;left:0;top:0;bottom:0;width:240px;transform:translateX(-100%);transition:transform .25s;z-index:100}
@@ -323,7 +527,8 @@ ul{list-style:none}
 @media (max-width:380px){
   .product-grid{gap:10px}
   .product-body{padding:10px}
-  .auth-box{padding:26px 22px}
+  .auth-box{padding:0 22px 26px}
+  .auth-mata{height:170px;margin:0 -22px 16px}
 }
 </style>
 </head>
@@ -361,8 +566,18 @@ const EMAILJS_CONFIG = {
   orderSuccessTemplateId: "template_5ugr1ok",
   orderDeliveredTemplateId: "template_5ugr1ok",
   supportEmail: "support@pawanretail.example",
-  websiteUrl: "https://pawan-retail-limited07.web.app",
+  websiteUrl: "https://limited-5698.vercel.app",
   enabled: true
+};
+
+/* ==== DURGA MAA IMAGE URLs ==== */
+const MATA_IMAGES = {
+  // Primary — high quality Durga Maa image (URL-safe, CORS-friendly)
+  main: "https://images.unsplash.com/photo-1604608672516-f1b9b1d370b1?w=800&auto=format&fit=crop&q=80",
+  // Fallback 1 — another source
+  alt1: "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=800&auto=format&fit=crop&q=80",
+  // Fallback 2 — decorative
+  alt2: "https://images.unsplash.com/photo-1604423043492-41303788de56?w=800&auto=format&fit=crop&q=80"
 };
 
 const fb = initializeApp(FIREBASE_CONFIG);
@@ -393,7 +608,7 @@ const ACCOUNT_STATUS = {
   suspended: { label: "Suspended", tone: "warning" },
   blocked: { label: "Blocked", tone: "danger" }
 };
-const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23f1f4f9'/><text x='100' y='105' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'>No image</text></svg>";
+const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23fdecd2'/><text x='100' y='105' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23a67c52'>No image</text></svg>";
 const CART_STORAGE_KEY = "prl_cart_v1";
 
 const S = {
@@ -426,7 +641,6 @@ const fmtDate = (ts, withTime = false) => {
 const millis = (ts) => ts?.toMillis?.() || 0;
 const byNewest = (a, b) => millis(b.createdAt) - millis(a.createdAt);
 
-/* ===== CART PERSISTENCE ===== */
 function saveCart() {
   try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(S.cart)); } catch (_) {}
 }
@@ -490,7 +704,7 @@ function toast(msg, type = "") {
     el.style.opacity = "0";
     el.style.transform = "translateY(-10px) scale(.95)";
     setTimeout(() => el.remove(), 250);
-  }, 2600);
+  }, 3000);
 }
 
 function errorMsg(err) {
@@ -505,7 +719,8 @@ function errorMsg(err) {
     "auth/network-request-failed": "Network error. Check your connection.",
     "permission-denied": "You don't have permission for this action.",
     "unavailable": "Service temporarily unavailable.",
-    "not-found": "Data not found."
+    "not-found": "Data not found.",
+    "failed-precondition": "Query needs index. Contact admin."
   };
   return map[err?.code] || err?.message || "Something went wrong.";
 }
@@ -631,7 +846,7 @@ function closeModal() { $("#modal-root").innerHTML = ""; }
 window.closeModal = closeModal;
 
 function confirmDialog(message, onConfirm) {
-  openModal(`<div class="modal-title">Confirm action</div>
+  openModal(`<div class="modal-title">🙏 Confirm action</div>
     <p class="text-sm text-muted">${escapeHtml(message)}</p>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
@@ -664,9 +879,32 @@ function BNAV(active) {
   </nav>`;
 }
 
+/* === MATA IMAGE HELPER === */
+function mataImageHtml(size = "small") {
+  const img = MATA_IMAGES.main;
+  if (size === "banner") {
+    return `<div class="auth-mata">
+      <img src="${img}" alt="Maa Durga" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="fallback">
+        <div class="big">🕉️</div>
+        <div class="name">Maa Durga</div>
+        <div class="sub">Jai Mata Di</div>
+      </div>
+      <div class="invocation">🪔 শুভ দুর্গা পূজা 🪔</div>
+    </div>`;
+  }
+  if (size === "welcome") {
+    return `<img class="mata-img" src="${img}" alt="Maa Durga" onerror="this.outerHTML='<div class=\\'mata-fallback\\'>🕉️</div>'">`;
+  }
+  return `<img src="${img}" alt="Maa Durga" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+}
+
 function screenLogin() {
   return `<div class="auth-shell"><div class="auth-box">
-    <div class="auth-mark">P</div><h1>Welcome back</h1><p class="auth-sub">Sign in to Pawan Retail Limited</p>
+    ${mataImageHtml("banner")}
+    <div class="auth-mark">P</div>
+    <h1>Welcome Back</h1>
+    <p class="auth-sub">🪔 Sign in to Pawan Retail Limited 🪔</p>
     <form id="loginForm">
       <div class="form-group"><label class="form-label">Email</label>
         <input class="form-input" id="loginEmail" type="email" required placeholder="you@example.com"></div>
@@ -676,11 +914,11 @@ function screenLogin() {
       <div class="form-split">
         <label class="checkbox-row"><input type="checkbox" id="loginRemember" checked> Remember me</label>
         <a href="#" id="linkForgot" style="font-size:12.5px;font-weight:600">Forgot password?</a></div>
-      <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginSubmit">Sign in</button>
+      <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginSubmit">🙏 Sign in</button>
     </form>
     <p class="auth-foot">New here? <a href="#" id="linkRegister" style="font-weight:700">Create an account</a></p>
     <p class="auth-foot">
-      <a href="#" id="linkTrackOrder" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:var(--brand-soft);border-radius:10px;color:var(--brand);font-weight:700;font-size:13px">
+      <a href="#" id="linkTrackOrder" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:var(--brand-soft);border-radius:10px;color:var(--brand);font-weight:700;font-size:13px;border:1px dashed var(--gold)">
         📦 Track your order
       </a>
     </p>
@@ -689,7 +927,10 @@ function screenLogin() {
 
 function screenRegister() {
   return `<div class="auth-shell"><div class="auth-box">
-    <div class="auth-mark">P</div><h1>Create account</h1><p class="auth-sub">Join Pawan Retail Limited</p>
+    ${mataImageHtml("banner")}
+    <div class="auth-mark">P</div>
+    <h1>Create Account</h1>
+    <p class="auth-sub">🌺 Join Pawan Retail Limited 🌺</p>
     <form id="registerForm">
       <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required placeholder="Your full name"></div>
       <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required placeholder="10-digit number"></div>
@@ -699,7 +940,7 @@ function screenRegister() {
           <button type="button" class="input-toggle" data-toggle="regPassword">Show</button></div></div>
       <div class="form-group"><label class="form-label">Confirm password</label><input class="form-input" id="regPassword2" type="password" required placeholder="Re-enter password"></div>
       <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="regAddress" required placeholder="Your delivery address"></textarea></div>
-      <button class="btn btn-primary btn-block btn-lg" type="submit" id="regSubmit">Create account</button>
+      <button class="btn btn-primary btn-block btn-lg" type="submit" id="regSubmit">🌺 Create account</button>
     </form>
     <p class="auth-foot">Already registered? <a href="#" id="linkLogin" style="font-weight:700">Sign in</a></p>
   </div></div>`;
@@ -707,11 +948,14 @@ function screenRegister() {
 
 function screenForgot() {
   return `<div class="auth-shell"><div class="auth-box">
-    <div class="auth-mark">P</div><h1>Reset password</h1><p class="auth-sub">We'll email you a secure reset link</p>
+    ${mataImageHtml("banner")}
+    <div class="auth-mark">P</div>
+    <h1>Reset Password</h1>
+    <p class="auth-sub">We'll email you a secure reset link</p>
     <form id="forgotForm">
       <div class="form-group"><label class="form-label">Registered email</label>
         <input class="form-input" id="forgotEmail" type="email" required placeholder="you@example.com"></div>
-      <button class="btn btn-primary btn-block btn-lg" type="submit" id="forgotSubmit">Send reset link</button>
+      <button class="btn btn-primary btn-block btn-lg" type="submit" id="forgotSubmit">🙏 Send reset link</button>
     </form>
     <p class="auth-foot"><a href="#" id="linkBackLogin" style="font-weight:700">← Back to sign in</a></p>
   </div></div>`;
@@ -727,7 +971,14 @@ function screenHome() {
     </div>
     <div class="page">
       <div id="statusBannerSlot"></div>
-      <h2 class="mb-4" style="font-size:22px;font-weight:750;letter-spacing:-.025em" id="homeGreeting">Hi</h2>
+      <div class="puja-welcome" id="pujaWelcome">
+        ${mataImageHtml("welcome")}
+        <div class="txt">
+          <div class="greet">🪔 শুভ দুর্গা পূজা 🪔</div>
+          <div class="msg" id="homeGreeting">Hi</div>
+          <div class="sub">May Maa Durga bless you with joy & prosperity</div>
+        </div>
+      </div>
       <div id="bannerSlot"></div>
       <div class="section-title">Categories</div>
       <div class="chip-row mb-4" id="homeCategories"></div>
@@ -742,7 +993,7 @@ function screenHome() {
 
 function screenCompanies() {
   return `<div class="shell">
-    <div class="appbar"><div class="appbar-title">Browse</div>
+    <div class="appbar"><div class="appbar-title">🌺 Browse</div>
       <button class="iconbtn" id="btnSearchToggle">${icon.search}</button></div>
     <div class="page">
       <input class="form-input hidden mb-3" id="searchInput" placeholder="Search companies">
@@ -765,26 +1016,26 @@ function screenCompany() {
 function screenProductDetail() {
   return `<div class="shell">
     <div class="appbar"><button class="appbar-back" id="productBack">${icon.back}</button>
-      <div class="appbar-title">Product</div>
+      <div class="appbar-title">🪔 Product</div>
       <button class="iconbtn" onclick="goTo('cart')">${icon.cart}<span class="bnav-badge" id="productCartBadge"></span></button></div>
     <div class="page" id="productBody"></div>
   </div>`;
 }
 
 function screenCart() {
-  return `<div class="shell"><div class="appbar"><div class="appbar-title">Cart</div></div>
+  return `<div class="shell"><div class="appbar"><div class="appbar-title">🛒 Cart</div></div>
     <div class="page" id="cartBody"></div>${BNAV("cart")}</div>`;
 }
 
 function screenCheckout() {
   return `<div class="shell">
     <div class="appbar"><button class="appbar-back" id="checkoutBack">${icon.back}</button>
-      <div class="appbar-title">Checkout</div><div style="width:36px"></div></div>
+      <div class="appbar-title">🙏 Checkout</div><div style="width:36px"></div></div>
     <div class="page" id="checkoutBody"></div>${BNAV("cart")}</div>`;
 }
 
 function screenOrders() {
-  return `<div class="shell"><div class="appbar"><div class="appbar-title">My Orders</div></div>
+  return `<div class="shell"><div class="appbar"><div class="appbar-title">📦 My Orders</div></div>
     <div class="page">
       <div class="chip-row mb-4" id="orderTabs">
         <button class="chip active" data-filter="all">All</button>
@@ -805,7 +1056,7 @@ function screenOrderDetail() {
 }
 
 function screenAccount() {
-  return `<div class="shell"><div class="appbar"><div class="appbar-title">Account</div></div>
+  return `<div class="shell"><div class="appbar"><div class="appbar-title">👤 Account</div></div>
     <div class="page" id="accountBody"></div>${BNAV("account")}</div>`;
 }
 
@@ -813,7 +1064,7 @@ function screenTrackOrder() {
   return `<div class="shell">
     <div class="appbar">
       <button class="appbar-back" onclick="showScreen('scrLogin')">${icon.back}</button>
-      <div class="appbar-title">Track Order</div>
+      <div class="appbar-title">📦 Track Order</div>
       <div style="width:36px"></div>
     </div>
     <div class="page" id="trackBody"></div>
@@ -824,7 +1075,7 @@ function screenReview() {
   return `<div class="shell">
     <div class="appbar">
       <button class="appbar-back" id="reviewBack">${icon.back}</button>
-      <div class="appbar-title">Rate & Review</div>
+      <div class="appbar-title">⭐ Rate & Review</div>
       <div style="width:36px"></div>
     </div>
     <div class="page" id="reviewBody"></div>
@@ -843,7 +1094,7 @@ function screenAdmin() {
         <a data-view="orders">📦 Orders</a>
         <a data-view="reviews">⭐ Reviews</a>
         <a data-view="customers">👥 Customers</a>
-        <a id="adminLogout" style="color:#f87171;margin-top:16px">🚪 Sign out</a>
+        <a id="adminLogout" style="color:#fbbf24;margin-top:16px">🚪 Sign out</a>
       </nav>
     </aside>
     <main class="admin-main">
@@ -875,6 +1126,16 @@ function mountScreens() {
     <div id="scrReview" class="screen">${screenReview()}</div>
     <div id="scrAdmin" class="screen">${screenAdmin()}</div>
   `;
+
+  // Floating diya decoration
+  const diyaContainer = document.createElement("div");
+  diyaContainer.innerHTML = `
+    <div class="diya-float" style="top:15%;left:5%">🪔</div>
+    <div class="diya-float" style="top:35%;right:6%;animation-delay:1s">🌺</div>
+    <div class="diya-float" style="top:55%;left:8%;animation-delay:2s">🪔</div>
+    <div class="diya-float" style="top:75%;right:10%;animation-delay:1.5s">🌺</div>
+  `;
+  document.body.appendChild(diyaContainer);
 
   $$("[data-toggle]").forEach(b => b.onclick = () => {
     const inp = document.getElementById(b.dataset.toggle);
@@ -956,7 +1217,7 @@ async function handleLogin(e) {
     await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
     await signInWithEmailAndPassword(auth, email, pass);
   } catch (err) { toast(errorMsg(err), "error"); }
-  finally { btn.disabled = false; btn.textContent = "Sign in"; }
+  finally { btn.disabled = false; btn.textContent = "🙏 Sign in"; }
 }
 
 async function handleRegister(e) {
@@ -992,7 +1253,7 @@ async function handleRegister(e) {
       }
     });
   } catch (err) { toast(errorMsg(err), "error"); }
-  finally { btn.disabled = false; btn.textContent = "Create account"; }
+  finally { btn.disabled = false; btn.textContent = "🌺 Create account"; }
 }
 
 async function handleForgot(e) {
@@ -1003,7 +1264,7 @@ async function handleForgot(e) {
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Sending';
   try { await sendPasswordResetEmail(auth, email); toast("Reset link sent", "success"); showScreen("scrLogin"); }
   catch (err) { toast(errorMsg(err), "error"); }
-  finally { btn.disabled = false; btn.textContent = "Send reset link"; }
+  finally { btn.disabled = false; btn.textContent = "🙏 Send reset link"; }
 }
 
 async function logout() {
@@ -1041,7 +1302,7 @@ function watchBanners() {
     S.cached.banners = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
     paintBanners();
-  });
+  }, err => console.warn("Banners:", err?.code));
   S.customerSubs.add(unsub);
 }
 
@@ -1104,7 +1365,7 @@ function watchCustomerOrders() {
   const unsub = onSnapshot(q, snap => {
     S.cached.orders = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
     if ($("#ordersList")) paintOrders();
-  }, () => {});
+  }, err => console.warn("Orders:", err?.code));
   S.customerSubs.add(unsub);
 }
 
@@ -1112,7 +1373,8 @@ async function renderHome() {
   if (!S.profile) return;
   const statusSlot = $("#statusBannerSlot");
   if (statusSlot) { statusSlot.innerHTML = renderBlockedBanner(); startBlockTimer(); }
-  $("#homeGreeting").textContent = `Hi, ${(S.profile.name || "").split(" ")[0] || "there"} 👋`;
+  const greeting = $("#homeGreeting");
+  if (greeting) greeting.textContent = `Hi, ${(S.profile.name || "").split(" ")[0] || "there"} 🙏`;
   try {
     const snap = await getDocs(query(collection(db, "companies"), where("isActive", "==", true)));
     const companies = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
@@ -1122,9 +1384,9 @@ async function renderHome() {
     $("#homeCategories").innerHTML = [...cats].slice(0, 8).map(c =>
       `<button class="chip" onclick="filterByCategory('${escapeHtml(c)}')">${escapeHtml(c)}</button>`).join("");
     const grid = $("#homeCompanies");
-    if (!companies.length) grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No companies available yet</div>`;
+    if (!companies.length) grid.innerHTML = `<div class="empty" style="grid-column:1/-1">🪔 No companies available yet</div>`;
     else grid.innerHTML = companies.slice(0, 6).map(companyCard).join("");
-  } catch (e) { console.warn(e); }
+  } catch (e) { console.warn("Home:", e); }
 }
 
 function companyCard(c) {
@@ -1132,7 +1394,7 @@ function companyCard(c) {
   const open = isCompanyOpen(c);
   return `<article class="product ${open ? "" : "closed"}" onclick="openCompany('${c.id}')" style="cursor:pointer">
     ${open ? "" : `<div class="closed-overlay">CLOSED</div>`}
-    <div class="product-img" style="display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-size:28px;font-weight:800">
+    <div class="product-img" style="display:grid;place-items:center;background:linear-gradient(135deg,#b91c1c,#d97706);color:#fff;font-size:28px;font-weight:800">
       ${img ? `<img src="${escapeHtml(img)}" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='<span>${escapeHtml((c.name || 'C')[0].toUpperCase())}</span>'">` : `<span>${escapeHtml((c.name || "C")[0].toUpperCase())}</span>`}
     </div>
     <div class="product-body">
@@ -1156,7 +1418,7 @@ async function renderBrowse() {
   try {
     const snap = await getDocs(query(collection(db, "companies"), where("isActive", "==", true)));
     S.cached.companies = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
-  } catch (e) { console.warn(e); }
+  } catch (e) { console.warn("Browse:", e); }
   const cats = new Set();
   S.cached.companies.forEach(c => { if (c.category) cats.add(c.category); });
   $("#browseCategories").innerHTML =
@@ -1175,43 +1437,82 @@ function paintBrowseCompanies() {
     (c.description || "").toLowerCase().includes(S.searchQuery));
   const grid = $("#browseCompanies");
   if (!grid) return;
-  if (!list.length) { grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No companies found</div>`; return; }
+  if (!list.length) { grid.innerHTML = `<div class="empty" style="grid-column:1/-1">🪔 No companies found</div>`; return; }
   grid.innerHTML = list.map(companyCard).join("");
 }
 
+/* === FIXED: openCompany === */
 window.openCompany = async (companyId) => {
   showScreen("scrCompany");
   $("#companyBody").innerHTML = `<div class="skeleton" style="height:120px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
+  
+  let company = null;
+  let products = [];
+  let reviews = [];
+
   try {
     const companySnap = await getDoc(doc(db, "companies", companyId));
-    if (!companySnap.exists()) { $("#companyBody").innerHTML = `<div class="empty">Company not found</div>`; return; }
-    const company = { id: companySnap.id, ...companySnap.data() };
-    $("#companyTitle").textContent = company.name || "Company";
-
-    const prodSnap = await getDocs(collection(db, "companies", companyId, "products"));
-    const products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.isActive !== false);
-
-    const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
-    const orderIds = ordersSnap.docs.filter(d => d.data().status === "successful").map(d => d.id);
-    let reviews = [];
-    if (orderIds.length) {
-      try {
-        for (let i = 0; i < orderIds.length; i += 10) {
-          const chunk = orderIds.slice(i, i + 10);
-          const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
-          reviews = reviews.concat(rSnap.docs.map(d => d.data()));
-        }
-        reviews.sort(byNewest);
-      } catch (_) {}
+    if (!companySnap.exists()) {
+      $("#companyBody").innerHTML = `<div class="empty">Company not found</div>`;
+      return;
     }
-    paintCompany(company, products, reviews);
-  } catch (e) {
-    console.warn(e);
-    $("#companyBody").innerHTML = `<div class="empty">Failed to load</div>`;
+    company = { id: companySnap.id, ...companySnap.data() };
+    $("#companyTitle").textContent = "🪔 " + (company.name || "Company");
+  } catch (err) {
+    console.error("Company fetch error:", err);
+    $("#companyBody").innerHTML = `<div class="empty">Failed to load company</div>`;
+    return;
   }
+
+  try {
+    const prodSnap = await getDocs(collection(db, "companies", companyId, "products"));
+    products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.isActive !== false);
+  } catch (err) {
+    console.warn("Products fetch error:", err);
+    products = [];
+  }
+
+  paintCompany(company, products, []);
+
+  (async () => {
+    try {
+      const ordersSnap = await getDocs(query(
+        collection(db, "orders"),
+        where("companyId", "==", companyId)
+      ));
+      const deliveredOrderIds = ordersSnap.docs
+        .filter(d => d.data().status === "successful")
+        .map(d => d.id);
+      
+      if (!deliveredOrderIds.length) return;
+
+      const allReviews = [];
+      for (let i = 0; i < deliveredOrderIds.length; i += 10) {
+        const chunk = deliveredOrderIds.slice(i, i + 10);
+        try {
+          const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
+          rSnap.docs.forEach(d => allReviews.push(d.data()));
+        } catch (e) {}
+      }
+
+      if (allReviews.length) {
+        allReviews.sort(byNewest);
+        paintCompany(company, products, allReviews);
+      }
+    } catch (err) {
+      console.warn("Reviews background load skipped:", err?.code || err?.message);
+    }
+  })();
 };
 
 function paintCompany(company, products, reviews) {
+  if (!company) {
+    $("#companyBody").innerHTML = `<div class="empty">Company data missing</div>`;
+    return;
+  }
+  reviews = reviews || [];
+  products = products || [];
+
   const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
   const status = getStatusMessage();
   const isOpen = isCompanyOpen(company);
@@ -1227,7 +1528,7 @@ function paintCompany(company, products, reviews) {
   }
   const ratingHtml = reviews.length ? `
     <div class="row mt-2" style="gap:6px">
-      <span style="color:#fbbf24;font-size:13px">${[1,2,3,4,5].map(n => n <= Math.round(avgRating) ? "★" : "☆").join("")}</span>
+      <span style="color:var(--marigold);font-size:13px">${[1,2,3,4,5].map(n => n <= Math.round(avgRating) ? "★" : "☆").join("")}</span>
       <span class="text-xs text-soft">${avgRating.toFixed(1)} · ${reviews.length} review${reviews.length > 1 ? "s" : ""}</span>
     </div>` : "";
 
@@ -1244,11 +1545,11 @@ function paintCompany(company, products, reviews) {
       </div>` : ""}
     <div class="card card-elevated">
       <div class="row">
-        <div style="width:64px;height:64px;border-radius:14px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:24px;font-weight:800;overflow:hidden;box-shadow:var(--shadow-brand)">
+        <div style="width:64px;height:64px;border-radius:14px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:24px;font-weight:800;overflow:hidden;box-shadow:var(--shadow-brand);border:2px solid var(--gold)">
           ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((company.name || "C")[0])}</span>`}
         </div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:17px;font-weight:750;letter-spacing:-.02em">${escapeHtml(company.name || "")}</div>
+          <div style="font-size:17px;font-weight:750;letter-spacing:-.02em;font-family:var(--font-display);color:var(--brand)">${escapeHtml(company.name || "")}</div>
           <div class="text-xs text-soft" style="margin-top:2px">${escapeHtml(company.category || "")}</div>
           ${ratingHtml}
           <div class="row mt-2" style="gap:6px">${codBadge}</div>
@@ -1292,7 +1593,11 @@ function paintCompany(company, products, reviews) {
   `;
   startBlockTimer();
   const grid = $("#companyProducts");
-  if (!products.length) { grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No products</div>`; return; }
+  if (!grid) return;
+  if (!products.length) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">🪔 No products available</div>`;
+    return;
+  }
 
   grid.innerHTML = products.map(p => `
     <article class="product ${isOpen ? "" : "closed"}" onclick="openProductDetail('${company.id}', '${p.id}')">
@@ -1311,46 +1616,51 @@ function paintCompany(company, products, reviews) {
 }
 
 window.openAllReviews = async (companyId) => {
-  const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
-  const orderIds = ordersSnap.docs.filter(d => d.data().status === "successful").map(d => d.id);
-  let reviews = [];
-  for (let i = 0; i < orderIds.length; i += 10) {
-    const chunk = orderIds.slice(i, i + 10);
-    try {
-      const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
-      reviews = reviews.concat(rSnap.docs.map(d => d.data()));
-    } catch (_) {}
-  }
-  reviews.sort(byNewest);
-  if (!reviews.length) return toast("No reviews yet", "info");
-  const avg = reviews.reduce((s, r) => s + (r.rating||0), 0) / reviews.length;
-  openModal(`
-    <div class="modal-title">Customer Reviews (${reviews.length})</div>
-    <div class="rating-summary" style="margin-bottom:12px">
-      <div class="big-num">${avg.toFixed(1)}</div>
-      <div class="meta">
-        <div class="stars-lg">${[1,2,3,4,5].map(n => `<span class="${n <= Math.round(avg) ? "on" : ""}">★</span>`).join("")}</div>
-        <div class="count">${reviews.length} reviews</div>
-      </div>
-    </div>
-    ${reviews.map(r => `
-      <div class="review-item">
-        <div class="review-item-head">
-          <div class="review-item-name">${escapeHtml(r.customerName || "Customer")}</div>
-          <div class="review-item-date">${fmtDate(r.createdAt)}</div>
+  try {
+    const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
+    const orderIds = ordersSnap.docs.filter(d => d.data().status === "successful").map(d => d.id);
+    let reviews = [];
+    for (let i = 0; i < orderIds.length; i += 10) {
+      const chunk = orderIds.slice(i, i + 10);
+      try {
+        const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
+        reviews = reviews.concat(rSnap.docs.map(d => d.data()));
+      } catch (_) {}
+    }
+    reviews.sort(byNewest);
+    if (!reviews.length) return toast("No reviews yet", "info");
+    const avg = reviews.reduce((s, r) => s + (r.rating||0), 0) / reviews.length;
+    openModal(`
+      <div class="modal-title">Customer Reviews (${reviews.length})</div>
+      <div class="rating-summary" style="margin-bottom:12px">
+        <div class="big-num">${avg.toFixed(1)}</div>
+        <div class="meta">
+          <div class="stars-lg">${[1,2,3,4,5].map(n => `<span class="${n <= Math.round(avg) ? "on" : ""}">★</span>`).join("")}</div>
+          <div class="count">${reviews.length} reviews</div>
         </div>
-        <div class="review-item-stars">${[1,2,3,4,5].map(n => `<span class="${n <= (r.rating||0) ? "on" : ""}">★</span>`).join("")}</div>
-        ${r.reviewText ? `<div class="review-item-text">"${escapeHtml(r.reviewText)}"</div>` : ""}
-      </div>`).join("")}
-    <div class="modal-actions">
-      <button class="btn btn-secondary btn-block" onclick="closeModal()">Close</button>
-    </div>`);
+      </div>
+      ${reviews.map(r => `
+        <div class="review-item">
+          <div class="review-item-head">
+            <div class="review-item-name">${escapeHtml(r.customerName || "Customer")}</div>
+            <div class="review-item-date">${fmtDate(r.createdAt)}</div>
+          </div>
+          <div class="review-item-stars">${[1,2,3,4,5].map(n => `<span class="${n <= (r.rating||0) ? "on" : ""}">★</span>`).join("")}</div>
+          ${r.reviewText ? `<div class="review-item-text">"${escapeHtml(r.reviewText)}"</div>` : ""}
+        </div>`).join("")}
+      <div class="modal-actions">
+        <button class="btn btn-secondary btn-block" onclick="closeModal()">Close</button>
+      </div>`);
+  } catch (e) { toast("Failed to load reviews", "error"); }
 };
 
 window.openProductDetail = async (companyId, productId) => {
   showScreen("scrProductDetail");
   S.productQty = 1;
   $("#productBody").innerHTML = `<div class="skeleton" style="height:280px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
+  
+  let company, product;
+  
   try {
     const [companySnap, prodSnap] = await Promise.all([
       getDoc(doc(db, "companies", companyId)),
@@ -1360,11 +1670,18 @@ window.openProductDetail = async (companyId, productId) => {
       $("#productBody").innerHTML = `<div class="empty">Product not found</div>`;
       return;
     }
-    const company = { id: companySnap.id, ...companySnap.data() };
-    const product = { id: prodSnap.id, ...prodSnap.data() };
+    company = { id: companySnap.id, ...companySnap.data() };
+    product = { id: prodSnap.id, ...prodSnap.data() };
     S.currentProduct = { ...product, companyId };
+  } catch (err) {
+    console.error(err);
+    $("#productBody").innerHTML = `<div class="empty">Failed to load</div>`;
+    return;
+  }
 
-    let productReviews = [];
+  paintProductDetail(company, product, []);
+
+  (async () => {
     try {
       const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
       const relevantOrderIds = ordersSnap.docs
@@ -1375,24 +1692,26 @@ window.openProductDetail = async (companyId, productId) => {
         })
         .map(d => d.id);
 
-      if (relevantOrderIds.length) {
-        for (let i = 0; i < relevantOrderIds.length; i += 10) {
-          const chunk = relevantOrderIds.slice(i, i + 10);
+      if (!relevantOrderIds.length) return;
+      
+      let productReviews = [];
+      for (let i = 0; i < relevantOrderIds.length; i += 10) {
+        const chunk = relevantOrderIds.slice(i, i + 10);
+        try {
           const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
           productReviews = productReviews.concat(rSnap.docs.map(d => ({ id: d.id, ...d.data() })));
-        }
+        } catch (_) {}
       }
-      productReviews.sort(byNewest);
-    } catch (e) { console.warn("Product reviews fetch error:", e); }
-
-    paintProductDetail(company, product, productReviews);
-  } catch (err) {
-    console.error(err);
-    $("#productBody").innerHTML = `<div class="empty">Failed to load product</div>`;
-  }
+      if (productReviews.length) {
+        productReviews.sort(byNewest);
+        paintProductDetail(company, product, productReviews);
+      }
+    } catch (err) { console.warn("Product reviews:", err?.code); }
+  })();
 };
 
 function paintProductDetail(company, product, reviews) {
+  reviews = reviews || [];
   const img = /^https?:\/\//i.test(product.imageUrl || "") ? product.imageUrl : PLACEHOLDER_IMG;
   const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
   const isOpen = isCompanyOpen(company);
@@ -1475,7 +1794,8 @@ function paintProductDetail(company, product, reviews) {
     `}
   `;
 
-  $("#pdAddToCart").onclick = () => addProductToCartWithQty(product.id, company.id, S.productQty);
+  const addBtn = $("#pdAddToCart");
+  if (addBtn) addBtn.onclick = () => addProductToCartWithQty(product.id, company.id, S.productQty);
 }
 
 window.changeProductQty = (delta) => {
@@ -1487,31 +1807,36 @@ window.changeProductQty = (delta) => {
 async function addProductToCartWithQty(productId, companyId, qty) {
   const status = getStatusMessage();
   if (status.blocked) { toast(status.title + ": " + status.message, "error"); return; }
-  const companySnap = await getDoc(doc(db, "companies", companyId));
-  if (!companySnap.exists()) return toast("Company not found", "error");
-  const company = { id: companyId, ...companySnap.data() };
-  if (!isCompanyOpen(company)) {
-    return toast(`${company.name} is currently closed. Please try during opening hours.`, "error");
-  }
-  const prodSnap = await getDoc(doc(db, "companies", companyId, "products", productId));
-  if (!prodSnap.exists()) return toast("Product not found", "error");
-  const product = { id: productId, ...prodSnap.data() };
-  if (product.isActive === false) return toast("Not available", "error");
+  try {
+    const companySnap = await getDoc(doc(db, "companies", companyId));
+    if (!companySnap.exists()) return toast("Company not found", "error");
+    const company = { id: companyId, ...companySnap.data() };
+    if (!isCompanyOpen(company)) {
+      return toast(`${company.name} is currently closed. Please try during opening hours.`, "error");
+    }
+    const prodSnap = await getDoc(doc(db, "companies", companyId, "products", productId));
+    if (!prodSnap.exists()) return toast("Product not found", "error");
+    const product = { id: productId, ...prodSnap.data() };
+    if (product.isActive === false) return toast("Not available", "error");
 
-  if (S.cart.companyId && S.cart.companyId !== companyId) {
-    return confirmDialog(`Your cart has items from ${S.cart.companyName}. Clear it?`, () => {
-      clearCart();
-      addProductToCartWithQty(productId, companyId, qty);
-    });
+    if (S.cart.companyId && S.cart.companyId !== companyId) {
+      return confirmDialog(`Your cart has items from ${S.cart.companyName}. Clear it?`, () => {
+        clearCart();
+        addProductToCartWithQty(productId, companyId, qty);
+      });
+    }
+    if (!S.cart.companyId) { S.cart.companyId = companyId; S.cart.companyName = company.name; }
+    const existing = S.cart.items.find(i => i.productId === productId);
+    if (existing) existing.quantity += qty;
+    else S.cart.items.push({ productId, name: product.name, imageUrl: product.imageUrl || "", price: Number(product.price) || 0, quantity: qty });
+    saveCart();
+    updateCartBadge();
+    toast(`${product.name} × ${qty} added to cart`, "success");
+    setTimeout(() => goTo("cart"), 400);
+  } catch (err) {
+    console.error(err);
+    toast("Failed to add to cart", "error");
   }
-  if (!S.cart.companyId) { S.cart.companyId = companyId; S.cart.companyName = company.name; }
-  const existing = S.cart.items.find(i => i.productId === productId);
-  if (existing) existing.quantity += qty;
-  else S.cart.items.push({ productId, name: product.name, imageUrl: product.imageUrl || "", price: Number(product.price) || 0, quantity: qty });
-  saveCart();
-  updateCartBadge();
-  toast(`${product.name} × ${qty} added to cart`, "success");
-  setTimeout(() => goTo("cart"), 400);
 }
 window.addProductToCart = async (productId, companyId) => {
   await addProductToCartWithQty(productId, companyId, 1);
@@ -1529,14 +1854,14 @@ function renderCart() {
     body.innerHTML = `<div class="empty"><div style="font-size:48px;opacity:.3;margin-bottom:12px">🛒</div>
       <p style="font-weight:700;font-size:15px;color:var(--text)">Your cart is empty</p>
       <p class="text-sm text-soft mt-2">Add products to get started</p>
-      <button class="btn btn-primary mt-4" onclick="goTo('products')">Browse companies</button></div>`;
+      <button class="btn btn-primary mt-4" onclick="goTo('products')">🌺 Browse companies</button></div>`;
     return;
   }
   const subtotal = S.cart.items.reduce((s, i) => s + i.price * i.quantity, 0);
   body.innerHTML = `
     <div class="card card-flat card-elevated">
       <div class="card-row" style="cursor:default">
-        <div><div class="font-bold" style="font-size:14.5px">${escapeHtml(S.cart.companyName || "")}</div>
+        <div><div class="font-bold" style="font-size:14.5px;color:var(--brand)">${escapeHtml(S.cart.companyName || "")}</div>
           <div class="text-xs text-soft">${S.cart.items.length} item(s)</div></div>
       </div>
       ${S.cart.items.map(i => `
@@ -1596,9 +1921,13 @@ async function renderCheckout() {
   if (!body) return;
   const status = getStatusMessage();
   if (status.blocked) { body.innerHTML = renderBlockedBanner(); startBlockTimer(); return; }
-  const companySnap = await getDoc(doc(db, "companies", S.cart.companyId));
-  if (!companySnap.exists()) { body.innerHTML = `<div class="empty">Company unavailable</div>`; return; }
-  const company = { id: companySnap.id, ...companySnap.data() };
+  
+  let company;
+  try {
+    const companySnap = await getDoc(doc(db, "companies", S.cart.companyId));
+    if (!companySnap.exists()) { body.innerHTML = `<div class="empty">Company unavailable</div>`; return; }
+    company = { id: companySnap.id, ...companySnap.data() };
+  } catch (e) { body.innerHTML = `<div class="empty">Failed to load</div>`; return; }
 
   if (!isCompanyOpen(company)) {
     body.innerHTML = `
@@ -1629,7 +1958,7 @@ async function renderCheckout() {
       <div class="desc">No delivery or service charges on your first order.</div>
     </div></div>` : ""}
     <div class="card">
-      <div class="font-bold mb-2" style="font-size:14.5px">${escapeHtml(company.name || "")}</div>
+      <div class="font-bold mb-2" style="font-size:14.5px;color:var(--brand)">${escapeHtml(company.name || "")}</div>
       <div class="text-xs text-soft">${S.cart.items.length} product(s)</div>
     </div>
     <div class="card">
@@ -1714,7 +2043,7 @@ async function renderCheckout() {
       ${couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon discount</span><span id="sumDiscount">- ${fmtINR(couponDiscount)}</span></div>` : ""}
       <div class="price-row total"><span>Total</span><span id="sumTotal">${fmtINR(subtotal + numberCharge + deliveryCharge + serviceCharge - couponDiscount)}</span></div>
     </div>
-    <button class="btn btn-primary btn-lg btn-block mt-3" id="placeOrderBtn">Place Order</button>`;
+    <button class="btn btn-primary btn-lg btn-block mt-3" id="placeOrderBtn">🙏 Place Order</button>`;
 
   let selectedChoice = requiresNumber ? null : "none";
   let selectedNumberCharge = 0;
@@ -1823,12 +2152,12 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
     });
     clearCart();
     updateCartBadge();
-    toast(`Order ${orderId} placed`, "success");
+    toast(`Order ${orderId} placed 🙏`, "success");
     goTo("orders");
   } catch (err) {
     console.error("Order failed:", err);
     toast(err.message || errorMsg(err), "error");
-  } finally { btn.disabled = false; btn.textContent = "Place Order"; }
+  } finally { btn.disabled = false; btn.textContent = "🙏 Place Order"; }
 }
 
 let orderFilter = "all";
@@ -1845,7 +2174,7 @@ function paintOrders() {
   if (!el) return;
   let list = S.cached.orders;
   if (orderFilter !== "all") list = list.filter(o => o.status === orderFilter);
-  if (!list.length) { el.innerHTML = `<div class="empty">No orders in this category</div>`; return; }
+  if (!list.length) { el.innerHTML = `<div class="empty">🪔 No orders in this category</div>`; return; }
   el.innerHTML = list.map(o => {
     const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
     const firstItem = o.items?.[0];
@@ -1950,7 +2279,7 @@ function paintOrderDetail(o, history, review) {
     <div class="card card-elevated">
       <div class="between mb-3">
         <div><div class="text-xs text-soft">Order ID</div>
-          <div class="font-bold font-mono" style="font-size:16px">#${escapeHtml(o.orderId || o.id)}</div></div>
+          <div class="font-bold font-mono" style="font-size:16px;color:var(--brand)">#${escapeHtml(o.orderId || o.id)}</div></div>
         <span class="badge badge-${info.tone}">${info.label}</span>
       </div>
       <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
@@ -2108,9 +2437,9 @@ function renderAccount() {
     ${status.blocked ? renderBlockedBanner() : ""}
     <div class="card card-elevated">
       <div class="row">
-        <div style="width:56px;height:56px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:var(--shadow-brand)">${escapeHtml(initial)}</div>
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:var(--shadow-brand);border:2px solid var(--gold)">${escapeHtml(initial)}</div>
         <div style="flex:1;min-width:0">
-          <div class="font-bold" style="font-size:16px;letter-spacing:-.01em">${escapeHtml(S.profile.name || "")}</div>
+          <div class="font-bold" style="font-size:16px;letter-spacing:-.01em;color:var(--brand)">${escapeHtml(S.profile.name || "")}</div>
           <div class="text-xs text-soft mt-2">${escapeHtml(S.profile.email || "")}</div>
           <div class="text-xs text-soft">${escapeHtml(S.profile.phone || "")}</div>
         </div>
@@ -2124,6 +2453,10 @@ function renderAccount() {
     </div>
     <div class="card card-flat" style="margin-top:12px">
       <div class="card-row" onclick="logout()" style="color:var(--danger)"><span style="font-weight:600">Log out</span></div>
+    </div>
+    <div class="text-center mt-4" style="padding:16px">
+      <div style="font-family:var(--font-display);color:var(--brand);font-size:16px">🪔 শুভ দুর্গা পূজা 🪔</div>
+      <div class="text-xs text-soft mt-2">May Maa Durga bless you</div>
     </div>`;
   startBlockTimer();
 }
@@ -2160,16 +2493,16 @@ window.changePassword = () => {
 };
 
 window.showCare = () => {
-  openModal(`<div class="modal-title">Customer Care</div>
+  openModal(`<div class="modal-title">🙏 Customer Care</div>
     <p class="text-sm text-muted mb-3">Reach out for help.</p>
     <div class="text-center" style="padding:16px 0">
-      <div class="font-mono" style="font-size:14px;font-weight:600">${escapeHtml(EMAILJS_CONFIG.supportEmail)}</div>
+      <div class="font-mono" style="font-size:14px;font-weight:600;color:var(--brand)">${escapeHtml(EMAILJS_CONFIG.supportEmail)}</div>
     </div>
     <div class="modal-actions"><button class="btn btn-secondary btn-block" onclick="closeModal()">Close</button></div>`);
 };
 
 window.showNotifs = () => {
-  openModal(`<div class="modal-title">Notifications</div>
+  openModal(`<div class="modal-title">🔔 Notifications</div>
     <p class="text-sm text-soft">No new notifications.</p>
     <div class="modal-actions"><button class="btn btn-secondary btn-block" onclick="closeModal()">Close</button></div>`);
 };
@@ -2183,7 +2516,7 @@ function renderTrackPage() {
         <input class="form-input font-mono" id="trackOrderId" placeholder="PRL-20261010-XXXXXXXX" style="text-transform:uppercase"></div>
       <div class="form-group"><label class="form-label">Registered email</label>
         <input class="form-input" id="trackEmail" type="email" placeholder="you@example.com"></div>
-      <button class="btn btn-primary btn-lg btn-block" id="trackBtn">Track Order</button>
+      <button class="btn btn-primary btn-lg btn-block" id="trackBtn">🔍 Track Order</button>
     </div>
     <div id="trackResult"></div>`;
   $("#trackBtn").onclick = trackOrder;
@@ -2205,12 +2538,12 @@ async function trackOrder() {
     const snap = await getDocs(query(collection(db, "orders"), where("orderId", "==", orderId)));
     if (snap.empty) {
       result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca"><div class="text-sm" style="color:var(--danger);font-weight:600">No order found with ID "${escapeHtml(orderId)}".</div></div>`;
-      btn.disabled = false; btn.textContent = "Track Order"; return;
+      btn.disabled = false; btn.textContent = "🔍 Track Order"; return;
     }
     const matching = snap.docs.find(d => ((d.data().customerEmail || "").toLowerCase() === email));
     if (!matching) {
       result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca"><div class="text-sm" style="color:var(--danger);font-weight:600">Email does not match our records.</div></div>`;
-      btn.disabled = false; btn.textContent = "Track Order"; return;
+      btn.disabled = false; btn.textContent = "🔍 Track Order"; return;
     }
     const o = { id: matching.id, ...matching.data() };
     let history = [];
@@ -2222,7 +2555,7 @@ async function trackOrder() {
   } catch (err) {
     console.error("Track error:", err);
     result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca"><div class="text-sm" style="color:var(--danger);font-weight:600">Failed to track order</div></div>`;
-  } finally { btn.disabled = false; btn.textContent = "Track Order"; }
+  } finally { btn.disabled = false; btn.textContent = "🔍 Track Order"; }
 }
 
 function paintTrackResult(o, history) {
@@ -2259,7 +2592,7 @@ function paintTrackResult(o, history) {
     <div class="card card-elevated">
       <div class="between mb-3">
         <div><div class="text-xs text-soft">Order ID</div>
-          <div class="font-bold font-mono" style="font-size:16px">#${escapeHtml(o.orderId || o.id)}</div></div>
+          <div class="font-bold font-mono" style="font-size:16px;color:var(--brand)">#${escapeHtml(o.orderId || o.id)}</div></div>
         <span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span>
       </div>
       <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
@@ -2320,7 +2653,7 @@ function bootAdmin() {
 }
 
 function renderAdmin() {
-  const titles = { dashboard: "Dashboard", companies: "Companies", banners: "Banners", coupons: "Coupons", orders: "Orders", reviews: "Reviews", customers: "Customers" };
+  const titles = { dashboard: "📊 Dashboard", companies: "🏢 Companies", banners: "🖼️ Banners", coupons: "🎟️ Coupons", orders: "📦 Orders", reviews: "⭐ Reviews", customers: "👥 Customers" };
   $("#adminTitle").textContent = titles[adminView] || "Admin";
   if (adminView === "dashboard") renderAdminDashboard();
   if (adminView === "companies") renderAdminCompanies();
@@ -2347,7 +2680,7 @@ async function renderAdminDashboard() {
     <div class="stat-value">${s.value}</div></div>`).join("");
   const recent = orders.map((o, i) => ({ id: ordersSnap.docs[i].id, ...o })).sort(byNewest).slice(0, 10);
   $("#recentOrders").innerHTML = `
-    <div class="section-header"><h2 style="font-size:14px;font-weight:700">Recent Orders</h2></div>
+    <div class="section-header"><h2>Recent Orders</h2></div>
     <div class="table-wrap scroll"><table class="table">
       <thead><tr><th>Order</th><th>Customer</th><th>Company</th><th>Total</th><th>Status</th><th></th></tr></thead>
       <tbody>${recent.length ? recent.map(o => {
@@ -2405,7 +2738,7 @@ window.deleteCompanyAdmin = (id) => confirmDialog("Delete this company permanent
 
 window.companyForm = (company = null) => {
   const editing = !!company;
-  openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} Company</div>
+  openModal(`<div class="modal-title">${editing ? "✏️ Edit" : "➕ Add"} Company</div>
     <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="cName" value="${escapeHtml(company?.name || "")}"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="cDesc">${escapeHtml(company?.description || "")}</textarea></div>
     <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="cCategory" value="${escapeHtml(company?.category || "")}" placeholder="e.g. Food, Pizza"></div>
@@ -2419,7 +2752,6 @@ window.companyForm = (company = null) => {
         <input type="checkbox" id="cCOD" ${company?.codEnabled !== false ? "checked" : ""}>
         Cash on Delivery available
       </label>
-      <div class="text-xs text-soft mt-2">If unchecked, customers can only pay via UPI.</div>
     </div>
 
     <div class="card" style="background:var(--surface-3);border:1px solid var(--border);padding:14px;margin-bottom:16px">
@@ -2437,7 +2769,6 @@ window.companyForm = (company = null) => {
           <input class="form-input" type="time" id="cCloseTime" value="${escapeHtml(company?.closeTime || "22:00")}"></div>
         <div class="form-group"><label class="form-label">Message when closed (optional)</label>
           <textarea class="form-textarea" id="cClosedMsg" placeholder="We are currently closed.">${escapeHtml(company?.closedMessage || "")}</textarea></div>
-        <div class="text-xs text-soft">Overnight hours supported: e.g. 22:00 → 06:00</div>
       </div>
     </div>
 
@@ -2506,7 +2837,7 @@ window.manageProducts = (companyId) => {
 
 window.productForm = (companyId, product, onSaved) => {
   const editing = !!product;
-  openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} Product</div>
+  openModal(`<div class="modal-title">${editing ? "✏️ Edit" : "➕ Add"} Product</div>
     <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="pName" value="${escapeHtml(product?.name || "")}"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="pDesc">${escapeHtml(product?.description || "")}</textarea></div>
     <div class="form-group"><label class="form-label">Image URL (HTTPS)</label><input class="form-input" id="pImage" value="${escapeHtml(product?.imageUrl || "")}" placeholder="https://…"></div>
@@ -2554,7 +2885,7 @@ function renderAdminBanners() {
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
       <thead><tr><th>Preview</th><th>Title</th><th>Status</th><th></th></tr></thead>
       <tbody>${list.map(b => `<tr>
-        <td>${/^https?:\/\//i.test(b.imageUrl || "") ? `<img src="${escapeHtml(b.imageUrl)}" style="width:90px;height:45px;object-fit:cover;border-radius:6px" onerror="this.style.display='none'">` : "—"}</td>
+        <td>${/^https?:\/\//i.test(b.imageUrl || "") ? `<img src="${escapeHtml(b.imageUrl)}" style="width:90px;height:45px;object-fit:cover;border-radius:6px;border:1px solid var(--gold)" onerror="this.style.display='none'">` : "—"}</td>
         <td><div class="font-semibold">${escapeHtml(b.title || "")}</div><div class="text-xs text-soft">${escapeHtml(b.subtitle || "")}</div></td>
         <td>${b.isActive ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Hidden</span>'}</td>
         <td><button class="btn btn-secondary btn-xs" onclick="editBanner('${b.id}')">Edit</button>
@@ -2566,7 +2897,7 @@ function renderAdminBanners() {
 
 window.bannerForm = (banner = null) => {
   const editing = !!banner;
-  openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} Banner</div>
+  openModal(`<div class="modal-title">${editing ? "✏️ Edit" : "➕ Add"} Banner</div>
     <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="bTitle" value="${escapeHtml(banner?.title || "")}"></div>
     <div class="form-group"><label class="form-label">Subtitle</label><input class="form-input" id="bSubtitle" value="${escapeHtml(banner?.subtitle || "")}"></div>
     <div class="form-group"><label class="form-label">Image URL</label><input class="form-input" id="bImage" value="${escapeHtml(banner?.imageUrl || "")}"></div>
@@ -2635,7 +2966,7 @@ function renderAdminCoupons() {
 
 window.couponForm = (coupon = null) => {
   const editing = !!coupon;
-  openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} Coupon</div>
+  openModal(`<div class="modal-title">${editing ? "✏️ Edit" : "➕ Add"} Coupon</div>
     <div class="form-group"><label class="form-label">Code</label>
       <input class="form-input font-mono" id="cpCode" value="${escapeHtml(coupon?.code || "")}" style="text-transform:uppercase"></div>
     <div class="form-group"><label class="form-label">Discount type</label>
@@ -2735,7 +3066,7 @@ window.adminOpenOrder = async (orderId) => {
   const payLabel = o.paymentMethod === "cod" ? "Cash on Delivery" : "Online (UPI)";
   openModal(`
     <div class="modal-title">Order #${escapeHtml(o.orderId || o.id)}</div>
-    <div class="mb-3"><span class="badge badge-${info.tone}">${info.label}</span></div>
+    <div class="mb-3" style="text-align:center"><span class="badge badge-${info.tone}">${info.label}</span></div>
     <div class="section-title">Customer</div>
     <div class="text-sm font-semibold">${escapeHtml(o.customerName || "")}</div>
     <div class="text-sm text-muted">${escapeHtml(o.customerPhone || "")}</div>
@@ -2792,7 +3123,7 @@ window.adminOpenOrder = async (orderId) => {
     }
 
     if (newStatus === "successful") {
-      openModal(`<div class="modal-title">Delivery Confirmed — Tracking Link</div>
+      openModal(`<div class="modal-title">Delivery Confirmed</div>
         <div class="info-box mb-3">Add a tracking URL so the customer can track delivery.</div>
         <div class="form-group"><label class="form-label">Tracking URL (required)</label>
           <input class="form-input" id="trackUrlInput" type="url" placeholder="https://track.delhivery.com/..." value="${escapeHtml(o.trackingUrl || "")}">
@@ -2875,18 +3206,18 @@ async function sendSuccessEmail(order) {
   const productsHtml = (order.items || []).map(i => {
     const img = /^https?:\/\//i.test(i.imageUrl || "")
       ? `<img src="${i.imageUrl}" width="48" height="48" style="border-radius:8px;object-fit:cover;display:block;" alt="${escapeHtml(i.name)}">`
-      : `<div style="width:48px;height:48px;background:#f1f4f9;border-radius:8px;display:block;"></div>`;
+      : `<div style="width:48px;height:48px;background:#fdecd2;border-radius:8px;display:block;"></div>`;
     return `<tr>
-      <td style="padding:10px 12px;border-bottom:1px solid #f1f4f9;">
+      <td style="padding:10px 12px;border-bottom:1px solid #fdecd2;">
         <table role="presentation" cellspacing="0" cellpadding="0" border="0">
           <tr>
             <td style="padding-right:10px;">${img}</td>
-            <td style="font-size:13px;color:#0f172a;font-weight:600;">${escapeHtml(i.name)}</td>
+            <td style="font-size:13px;color:#3d0f0f;font-weight:600;">${escapeHtml(i.name)}</td>
           </tr>
         </table>
       </td>
-      <td align="center" style="padding:10px 12px;border-bottom:1px solid #f1f4f9;font-size:13px;color:#475569;">${i.quantity}</td>
-      <td align="right" style="padding:10px 12px;border-bottom:1px solid #f1f4f9;font-size:13px;color:#0f172a;font-weight:600;">₹${i.lineTotal}</td>
+      <td align="center" style="padding:10px 12px;border-bottom:1px solid #fdecd2;font-size:13px;color:#7c3a1d;">${i.quantity}</td>
+      <td align="right" style="padding:10px 12px;border-bottom:1px solid #fdecd2;font-size:13px;color:#b91c1c;font-weight:600;">₹${i.lineTotal}</td>
     </tr>`;
   }).join("");
 
@@ -2895,17 +3226,17 @@ async function sendSuccessEmail(order) {
 
   const emailData = isDelivered
     ? {
-        email_heading: "Order Delivered!",
+        email_heading: "Order Delivered! 🪔",
         email_subheading: "We hope you enjoy your purchase",
-        email_message: `Great news! Your order from <strong style="color:#0f172a;">${escapeHtml(order.companyName)}</strong> has been delivered successfully. We'd love to hear your feedback.`,
+        email_message: `Great news! Your order from <strong style="color:#3d0f0f;">${escapeHtml(order.companyName)}</strong> has been delivered successfully. We'd love to hear your feedback.`,
         action_btn_text: hasTracking ? "🚚 Track Your Delivery" : "⭐ Rate Your Order",
         action_url: hasTracking ? order.trackingUrl : EMAILJS_CONFIG.websiteUrl,
         info_note: "<strong>📝 Your feedback matters!</strong><br>Open the app and rate this order — it helps other customers and the vendor."
       }
     : {
-        email_heading: "Order Confirmed!",
+        email_heading: "Order Confirmed! 🌺",
         email_subheading: "Thank you for shopping with us",
-        email_message: `Your order from <strong style="color:#0f172a;">${escapeHtml(order.companyName)}</strong> has been successfully placed. We're preparing it right away!`,
+        email_message: `Your order from <strong style="color:#3d0f0f;">${escapeHtml(order.companyName)}</strong> has been successfully placed. We're preparing it right away!`,
         action_btn_text: "🛍️ Continue Shopping",
         action_url: EMAILJS_CONFIG.websiteUrl,
         info_note: "<strong>📌 What happens next?</strong><br>Our team will confirm your order shortly. You'll receive another email once your order is out for delivery."
