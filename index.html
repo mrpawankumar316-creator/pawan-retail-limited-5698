@@ -18,320 +18,168 @@
   --surface-2:#fff8ee;
   --surface-3:#f9e9d3;
   --glass:rgba(255,253,249,.72);
-  --glass-dark:rgba(61,15,15,.55);
-
   --border:#ecd4ab;
   --border-strong:#d4a860;
-
   --text:#2d0a0a;
   --text-2:#6b2c14;
   --text-3:#a0714a;
-
   --brand:#b91c1c;
   --brand-dark:#991b1b;
-  --brand-light:#dc2626;
   --brand-soft:#fee8e8;
   --brand-gradient:linear-gradient(135deg,#b91c1c 0%,#dc2626 35%,#d97706 100%);
   --brand-gradient-reverse:linear-gradient(135deg,#d97706 0%,#dc2626 65%,#b91c1c 100%);
-  --brand-gradient-soft:linear-gradient(135deg,#fef3c7 0%,#fee8e8 100%);
-
-  --accent:#ea580c;
   --gold:#d97706;
-  --gold-dark:#92400e;
   --gold-soft:#fef3c7;
   --marigold:#f59e0b;
   --marigold-light:#fbbf24;
-
   --success:#15803d;
   --success-soft:#ecfdf5;
   --warning:#ea580c;
   --warning-soft:#fff7ed;
   --danger:#991b1b;
   --danger-soft:#fee8e8;
-
-  --r-sm:8px;
-  --r:12px;
-  --r-md:14px;
-  --r-lg:18px;
-  --r-xl:22px;
-  --r-2xl:28px;
-
+  --r-sm:8px;--r:12px;--r-md:14px;--r-lg:18px;--r-xl:22px;--r-2xl:28px;
   --sh-xs:0 1px 2px rgba(120,53,15,.06);
   --sh-sm:0 2px 10px rgba(120,53,15,.08);
-  --sh:0 6px 20px rgba(120,53,15,.10);
   --sh-md:0 12px 32px rgba(120,53,15,.14);
   --sh-lg:0 20px 48px rgba(120,53,15,.18);
-  --sh-xl:0 32px 64px rgba(120,53,15,.22);
   --sh-brand:0 10px 28px rgba(185,28,28,.35);
   --sh-gold:0 10px 28px rgba(217,119,6,.35);
   --sh-inset:inset 0 1px 0 rgba(255,255,255,.6);
-
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
-
   --font-display:'Yatra One',serif;
   --font-bangla:'Tiro Bangla',serif;
   --font-body:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 
-html,body{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--text);background:var(--bg-gradient);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%;letter-spacing:-0.008em}
+html,body{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--text);background:var(--bg-gradient);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%}
 body{min-height:100vh;overflow-x:hidden;position:relative}
-
-/* Top festive stripe */
 body::before{content:'';position:fixed;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#b91c1c 0%,#dc2626 20%,#f59e0b 50%,#dc2626 80%,#b91c1c 100%);z-index:1000;pointer-events:none;box-shadow:0 2px 12px rgba(185,28,28,.4)}
-
-a{color:var(--brand);text-decoration:none;transition:color .15s}
-a:hover{color:var(--brand-dark)}
+a{color:var(--brand);text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1)}
 input,textarea,select{font:inherit;color:inherit}
 img{max-width:100%;display:block}
-ul{list-style:none}
 ::selection{background:var(--brand);color:#fff}
-
-/* Floating diya background */
-.diya-float{position:fixed;font-size:22px;opacity:.18;pointer-events:none;z-index:1;animation:diyaFloat 9s ease-in-out infinite;filter:drop-shadow(0 4px 8px rgba(185,28,28,.3))}
-@keyframes diyaFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-18px) rotate(5deg)}}
 
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
 .shell{max-width:520px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:calc(84px + var(--safe-bottom));position:relative}
 
-/* === APPBAR — Glass effect === */
 .appbar{position:sticky;top:5px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1.5px solid var(--border);box-shadow:0 4px 20px rgba(120,53,15,.06)}
-.appbar-title{font-size:15px;font-weight:700;letter-spacing:-0.01em;color:var(--brand);font-family:var(--font-display)}
-.appbar-back{width:38px;height:38px;display:grid;place-items:center;border-radius:var(--r);margin-left:-8px;color:var(--brand);transition:all .2s}
-.appbar-back:hover{background:var(--brand-soft);color:var(--brand-dark);transform:translateX(-2px)}
+.appbar-title{font-size:15px;font-weight:700;color:var(--brand);font-family:var(--font-display)}
+.appbar-back{width:38px;height:38px;display:grid;place-items:center;border-radius:var(--r);margin-left:-8px;color:var(--brand)}
+.appbar-back:hover{background:var(--brand-soft);color:var(--brand-dark)}
 .appbar-actions{display:flex;align-items:center;gap:6px}
-
-.iconbtn{position:relative;width:40px;height:40px;display:grid;place-items:center;border-radius:var(--r);color:var(--brand);transition:all .2s}
-.iconbtn:hover{background:var(--brand-soft);color:var(--brand-dark);transform:scale(1.05)}
+.iconbtn{position:relative;width:40px;height:40px;display:grid;place-items:center;border-radius:var(--r);color:var(--brand)}
+.iconbtn:hover{background:var(--brand-soft);color:var(--brand-dark)}
 .iconbtn svg{width:20px;height:20px}
-
-.badge-dot{position:absolute;top:6px;right:6px;min-width:18px;height:18px;padding:0 5px;background:var(--brand-gradient);color:#fff;font-size:10px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface),0 2px 8px rgba(185,28,28,.4)}
+.badge-dot{position:absolute;top:6px;right:6px;min-width:18px;height:18px;padding:0 5px;background:var(--brand-gradient);color:#fff;font-size:10px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
 .badge-dot.show{display:flex}
 
-/* === BRAND === */
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:-0.015em;font-family:var(--font-display);color:var(--brand)}
-.brand-mark{width:38px;height:38px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;border-radius:11px;font-size:18px;font-weight:800;font-family:var(--font-display);box-shadow:var(--sh-brand);position:relative}
-.brand-mark::after{content:'';position:absolute;inset:-3px;border-radius:14px;border:1.5px dashed var(--gold);pointer-events:none;animation:rotateSlow 24s linear infinite}
-@keyframes rotateSlow{to{transform:rotate(360deg)}}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;font-family:var(--font-display);color:var(--brand)}
+.brand-mark{width:38px;height:38px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;border-radius:11px;font-size:18px;font-weight:800;font-family:var(--font-display);box-shadow:var(--sh-brand)}
 
 .page{padding:16px}
-.section-title{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:12px;font-family:var(--font-display);display:flex;align-items:center;gap:6px;letter-spacing:.01em}
+.section-title{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:12px;font-family:var(--font-display);display:flex;align-items:center;gap:6px}
 .section-title::before{content:'🪔';font-size:15px}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
-.section-header h2{font-size:17px;font-weight:800;letter-spacing:-0.015em;font-family:var(--font-display);color:var(--text);display:flex;align-items:center;gap:6px}
+.section-header h2{font-size:17px;font-weight:800;font-family:var(--font-display);color:var(--text);display:flex;align-items:center;gap:6px}
 .section-header h2::before{content:'🌺';font-size:13px}
-.section-header a{font-size:12px;font-weight:700;color:var(--brand);padding:4px 10px;border-radius:8px;transition:all .15s}
-.section-header a:hover{background:var(--brand-soft)}
 
-/* === CARDS === */
-.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:16px;box-shadow:var(--sh-sm),var(--sh-inset);position:relative;transition:all .25s}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:16px;box-shadow:var(--sh-sm),var(--sh-inset)}
 .card+.card{margin-top:12px}
 .card-flat{padding:0;overflow:hidden}
 .card-elevated{box-shadow:var(--sh-md),var(--sh-inset);border-color:var(--gold)}
-
-.card-row{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px dashed var(--border);cursor:pointer;transition:background .2s}
+.card-row{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px dashed var(--border);cursor:pointer}
 .card-row:last-child{border-bottom:0}
-.card-row:hover{background:var(--surface-2);padding-left:22px}
+.card-row:hover{background:var(--surface-2)}
 
-/* === BUTTONS === */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 18px;font-size:13px;font-weight:700;border-radius:var(--r);border:1px solid transparent;white-space:nowrap;letter-spacing:-0.005em;transition:all .2s cubic-bezier(.4,0,.2,1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 18px;font-size:13px;font-weight:700;border-radius:var(--r);border:1px solid transparent;white-space:nowrap}
 .btn:active:not(:disabled){transform:translateY(1px) scale(.98)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-primary{background:var(--brand-gradient);color:#fff;box-shadow:var(--sh-brand);position:relative;overflow:hidden}
-.btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transition:left .6s}
-.btn-primary:hover:not(:disabled)::after{left:150%}
-.btn-primary:hover:not(:disabled){background:var(--brand-gradient-reverse);box-shadow:var(--sh-gold);transform:translateY(-1px)}
+.btn-primary{background:var(--brand-gradient);color:#fff;box-shadow:var(--sh-brand)}
+.btn-primary:hover:not(:disabled){background:var(--brand-gradient-reverse);box-shadow:var(--sh-gold)}
 .btn-secondary{background:var(--surface);color:var(--brand);border-color:var(--border-strong);box-shadow:var(--sh-xs)}
-.btn-secondary:hover:not(:disabled){background:var(--gold-soft);border-color:var(--gold);color:var(--gold-dark);transform:translateY(-1px)}
-.btn-danger{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff;box-shadow:0 6px 18px rgba(153,27,27,.35)}
-.btn-danger:hover:not(:disabled){background:#7f1d1d;transform:translateY(-1px)}
-.btn-success{background:linear-gradient(135deg,#15803d,#166534);color:#fff;box-shadow:0 6px 18px rgba(21,128,61,.35)}
-.btn-success:hover:not(:disabled){background:#166534;transform:translateY(-1px)}
-.btn-ghost{color:var(--brand);background:var(--brand-soft);border:1.5px dashed var(--brand-light)}
-.btn-ghost:hover:not(:disabled){background:#fee2e2}
+.btn-secondary:hover:not(:disabled){background:var(--gold-soft);border-color:var(--gold)}
+.btn-danger{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff}
+.btn-success{background:linear-gradient(135deg,#15803d,#166534);color:#fff}
 .btn-block{width:100%}
 .btn-sm{padding:8px 14px;font-size:12px;border-radius:9px}
 .btn-xs{padding:6px 11px;font-size:11px;border-radius:7px;font-weight:700}
-.btn-lg{padding:15px 24px;font-size:15px;border-radius:var(--r-md);font-weight:800;font-family:var(--font-display);letter-spacing:0.01em}
+.btn-lg{padding:15px 24px;font-size:15px;border-radius:var(--r-md);font-weight:800;font-family:var(--font-display)}
 
-/* === FORMS === */
 .form-group{margin-bottom:16px}
-.form-label{display:block;font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:7px;letter-spacing:-0.005em}
-.form-input,.form-textarea,.form-select{width:100%;padding:12px 15px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);font-size:14px;color:var(--text);transition:all .2s}
+.form-label{display:block;font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:7px}
+.form-input,.form-textarea,.form-select{width:100%;padding:12px 15px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);font-size:14px}
 .form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px rgba(185,28,28,.14)}
-.form-input::placeholder{color:var(--text-3)}
-.form-textarea{min-height:92px;resize:vertical;line-height:1.55}
+.form-textarea{min-height:92px;resize:vertical}
 .input-wrap{position:relative}
-.input-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:6px 10px;font-size:11px;font-weight:800;color:var(--brand);border-radius:6px;text-transform:uppercase;letter-spacing:.05em}
-.input-toggle:hover{color:var(--brand-dark);background:var(--brand-soft)}
-.checkbox-row{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-2);cursor:pointer;font-weight:500}
-.checkbox-row input{accent-color:var(--brand);width:17px;height:17px;cursor:pointer}
+.input-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:6px 10px;font-size:11px;font-weight:800;color:var(--brand);border-radius:6px;text-transform:uppercase}
+.checkbox-row{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-2);cursor:pointer}
+.checkbox-row input{accent-color:var(--brand);width:17px;height:17px}
 .form-split{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:13px}
 
-/* === BOTTOM NAV === */
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-top:1.5px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 0 calc(10px + var(--safe-bottom));z-index:30;box-shadow:0 -8px 32px rgba(120,53,15,.08)}
-.bnav-item{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 4px;color:var(--text-3);font-size:10px;font-weight:700;cursor:pointer;position:relative;transition:all .2s;letter-spacing:.02em}
-.bnav-item svg{width:23px;height:23px;transition:transform .2s}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--glass);backdrop-filter:blur(20px) saturate(180%);border-top:1.5px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 0 calc(10px + var(--safe-bottom));z-index:30;box-shadow:0 -8px 32px rgba(120,53,15,.08)}
+.bnav-item{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 4px;color:var(--text-3);font-size:10px;font-weight:700;cursor:pointer;position:relative}
+.bnav-item svg{width:23px;height:23px}
 .bnav-item.active{color:var(--brand)}
-.bnav-item.active svg{transform:scale(1.08)}
 .bnav-item.active::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:34px;height:3px;background:var(--brand-gradient);border-radius:2px;box-shadow:0 0 14px var(--marigold)}
-.bnav-badge{position:absolute;top:2px;right:calc(50% - 22px);min-width:17px;height:17px;padding:0 5px;background:var(--brand-gradient);color:#fff;font-size:9px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface),0 2px 6px rgba(185,28,28,.4)}
+.bnav-badge{position:absolute;top:2px;right:calc(50% - 22px);min-width:17px;height:17px;padding:0 5px;background:var(--brand-gradient);color:#fff;font-size:9px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
 .bnav-badge.show{display:flex}
 
-.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;font-size:11px;font-weight:700;border-radius:999px;letter-spacing:-0.005em}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;font-size:11px;font-weight:700;border-radius:999px}
 .badge-neutral{background:#f5e6d3;color:#7c3a1d}
 .badge-info{background:var(--brand-soft);color:var(--brand-dark)}
 .badge-success{background:var(--success-soft);color:var(--success)}
 .badge-warning{background:var(--warning-soft);color:var(--warning)}
 .badge-danger{background:var(--danger-soft);color:var(--danger)}
 
-/* === AUTH — MATA BACKGROUND === */
-.auth-shell{min-height:100vh;display:grid;place-items:center;padding:24px 16px;position:relative;overflow:hidden;
-  background:
-    linear-gradient(180deg,rgba(61,15,15,.72) 0%,rgba(127,29,29,.62) 50%,rgba(180,83,9,.55) 100%),
-    url('https://i.pinimg.com/736x/5c/8c/8c/5c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c.jpg') center/cover no-repeat fixed;
-  background-color:#3d0f0f;
-}
-/* Mata image layer */
-.auth-shell::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background-image:url('https://w0.peakpx.com/wallpaper/54/800/HD-wallpaper-durga-maa-hindu-god-goddess.jpg');
-  background-size:cover;
-  background-position:center top;
-  background-repeat:no-repeat;
-  opacity:.55;
-  mix-blend-mode:luminosity;
-  z-index:0;
-}
-/* Decorative glow */
-.auth-shell::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 50% 30%,rgba(251,191,36,.35) 0%,transparent 50%),
-    radial-gradient(circle at 20% 80%,rgba(185,28,28,.4) 0%,transparent 45%),
-    radial-gradient(circle at 80% 70%,rgba(217,119,6,.35) 0%,transparent 45%);
-  z-index:0;
-  pointer-events:none;
-}
-.auth-box{width:100%;max-width:430px;position:relative;z-index:2;animation:fadeInUp .7s cubic-bezier(.16,1,.3,1)}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+/* === AUTH with Mata image === */
+.auth-shell{min-height:100vh;display:grid;place-items:center;padding:24px 16px;position:relative;overflow:hidden;background:#3d0f0f}
+.auth-shell::before{content:'';position:absolute;inset:0;background-image:url('https://i.pinimg.com/736x/7d/4d/22/7d4d22a2f8f1e0e1c5c0e0e5c0e0e5c0.jpg');background-size:cover;background-position:center;opacity:.5;filter:blur(2px) brightness(.7);z-index:0}
+.auth-shell::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(251,191,36,.4) 0%,transparent 55%),radial-gradient(circle at 20% 80%,rgba(185,28,28,.5) 0%,transparent 50%);z-index:0;pointer-events:none}
+.auth-box{width:100%;max-width:430px;position:relative;z-index:2}
 
-/* Mata invocation banner above card */
-.mata-invocation{
-  text-align:center;
-  margin-bottom:20px;
+/* Mata image circle at top */
+.auth-mata-frame{
+  width:130px;height:130px;margin:0 auto 16px;border-radius:50%;
+  background:linear-gradient(135deg,#b91c1c 0%,#d97706 50%,#f59e0b 100%);
+  padding:5px;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 80px rgba(251,191,36,.4);
   position:relative;
 }
-.mata-invocation .om{
-  font-size:56px;
-  line-height:1;
-  color:#fbbf24;
-  text-shadow:0 0 24px rgba(251,191,36,.8),0 4px 12px rgba(0,0,0,.6);
-  margin-bottom:10px;
-  animation:glowPulse 3s ease-in-out infinite;
-  font-family:var(--font-display);
-}
-@keyframes glowPulse{0%,100%{transform:scale(1);text-shadow:0 0 24px rgba(251,191,36,.8),0 4px 12px rgba(0,0,0,.6)}50%{transform:scale(1.08);text-shadow:0 0 40px rgba(251,191,36,1),0 4px 16px rgba(0,0,0,.7)}}
-.mata-invocation .bangla{
-  font-family:var(--font-bangla);
-  font-size:26px;
-  color:#fbbf24;
-  text-shadow:0 2px 16px rgba(0,0,0,.8),0 0 32px rgba(251,191,36,.5);
-  letter-spacing:.02em;
-  margin-bottom:6px;
-}
-.mata-invocation .sub{
-  font-size:12px;
-  color:rgba(255,251,245,.9);
-  letter-spacing:.2em;
-  text-transform:uppercase;
-  font-weight:600;
-  text-shadow:0 2px 8px rgba(0,0,0,.6);
-}
+.auth-mata-frame::after{content:'';position:absolute;inset:-10px;border-radius:50%;border:2px dashed rgba(251,191,36,.6);animation:rotateSlow 30s linear infinite}
+@keyframes rotateSlow{to{transform:rotate(360deg)}}
+.auth-mata-frame img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid #fffdf9;background:#f9e9d3}
 
-/* Glass card on auth */
-.auth-card{
-  background:rgba(255,253,249,.96);
-  backdrop-filter:blur(28px) saturate(180%);
-  -webkit-backdrop-filter:blur(28px) saturate(180%);
-  border:1.5px solid rgba(251,191,36,.5);
-  border-radius:var(--r-2xl);
-  padding:32px 28px;
-  box-shadow:0 32px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.8);
-  position:relative;
-  overflow:hidden;
-}
-.auth-card::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:4px;
-  background:var(--brand-gradient);
-}
-.auth-card h1{font-size:26px;font-weight:800;letter-spacing:-0.025em;margin-bottom:6px;font-family:var(--font-display);color:var(--brand);text-align:center}
-.auth-sub{font-size:13.5px;color:var(--text-2);margin-bottom:26px;text-align:center;font-weight:500}
-.auth-foot{text-align:center;margin-top:20px;font-size:13px;color:var(--text-2)}
+.mata-invocation{text-align:center;margin-bottom:16px}
+.mata-invocation .bangla{font-family:var(--font-bangla);font-size:26px;color:#fbbf24;text-shadow:0 2px 16px rgba(0,0,0,.9);letter-spacing:.02em;margin-bottom:6px}
+.mata-invocation .sub{font-size:11px;color:rgba(255,251,245,.9);letter-spacing:.25em;text-transform:uppercase;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.7)}
+
+.auth-card{background:rgba(255,253,249,.97);backdrop-filter:blur(28px);border:1.5px solid rgba(251,191,36,.5);border-radius:var(--r-2xl);padding:28px 26px;box-shadow:0 32px 80px rgba(0,0,0,.5);position:relative;overflow:hidden}
+.auth-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--brand-gradient)}
+.auth-card h1{font-size:24px;font-weight:800;font-family:var(--font-display);color:var(--brand);text-align:center;margin-bottom:6px}
+.auth-sub{font-size:13px;color:var(--text-2);margin-bottom:22px;text-align:center}
+.auth-foot{text-align:center;margin-top:18px;font-size:13px;color:var(--text-2)}
 .auth-foot+.auth-foot{margin-top:10px}
 
-.empty{text-align:center;padding:56px 20px;color:var(--text-3);font-size:13.5px}
-.skeleton{background:linear-gradient(90deg,#f9e9d3 25%,#f0d5b1 37%,#f9e9d3 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:var(--r);height:60px;margin-bottom:10px}
-@keyframes shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
-
-/* === HOME PUJA WELCOME BANNER — MATA BACKGROUND === */
+/* === PUJA HERO with Mata image === */
 .puja-hero{
-  position:relative;
-  border-radius:var(--r-xl);
-  overflow:hidden;
-  margin-bottom:18px;
-  height:190px;
-  box-shadow:var(--sh-md);
-  border:2px solid var(--gold);
-  background:linear-gradient(135deg,#3d0f0f,#b91c1c);
+  position:relative;border-radius:var(--r-xl);overflow:hidden;margin-bottom:18px;
+  min-height:200px;box-shadow:var(--sh-md);border:2px solid var(--gold);
+  background:#3d0f0f;
 }
 .puja-hero .mata-bg{
-  position:absolute;
-  inset:0;
-  background-image:url('https://w0.peakpx.com/wallpaper/54/800/HD-wallpaper-durga-maa-hindu-god-goddess.jpg');
-  background-size:cover;
-  background-position:center 20%;
-  opacity:.7;
-  transition:transform 6s ease-in-out;
+  position:absolute;inset:0;
+  background-image:url('https://i.pinimg.com/736x/7d/4d/22/7d4d22a2f8f1e0e1c5c0e0e5c0e0e5c0.jpg');
+  background-size:cover;background-position:center;
+  opacity:.85;
 }
-.puja-hero:hover .mata-bg{transform:scale(1.06)}
-.puja-hero::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:linear-gradient(105deg,rgba(61,15,15,.92) 0%,rgba(61,15,15,.65) 45%,rgba(61,15,15,.15) 100%);
-  z-index:2;
-}
-.puja-hero::after{
-  content:'🪔';
-  position:absolute;
-  top:14px;right:16px;
-  font-size:24px;
-  z-index:3;
-  animation:diyaFloat 3s ease-in-out infinite;
-  filter:drop-shadow(0 0 12px rgba(251,191,36,.9));
-}
-.puja-hero .content{
-  position:relative;
-  z-index:3;
-  padding:22px;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
+.puja-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,rgba(45,10,10,.92) 0%,rgba(45,10,10,.7) 50%,rgba(45,10,10,.3) 100%);z-index:2}
+.puja-hero .content{position:relative;z-index:3;padding:22px;height:100%;min-height:200px;display:flex;flex-direction:column;justify-content:center}
 .puja-hero .greet{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--marigold-light);font-weight:800;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,.6)}
-.puja-hero .msg{font-family:var(--font-bangla);font-size:24px;line-height:1.2;margin-bottom:8px;color:#fff;text-shadow:0 3px 16px rgba(0,0,0,.85),0 0 40px rgba(251,191,36,.4)}
-.puja-hero .sub{font-size:12px;color:rgba(255,251,245,.92);line-height:1.5;max-width:80%;text-shadow:0 2px 8px rgba(0,0,0,.7)}
+.puja-hero .msg{font-family:var(--font-bangla);font-size:24px;line-height:1.2;margin-bottom:8px;color:#fff;text-shadow:0 3px 16px rgba(0,0,0,.9)}
+.puja-hero .sub{font-size:12px;color:rgba(255,251,245,.95);line-height:1.5;max-width:75%;text-shadow:0 2px 8px rgba(0,0,0,.8)}
 
 /* === BANNER CAROUSEL === */
 .banner-carousel{position:relative;overflow:hidden;border-radius:var(--r-xl);margin-bottom:18px;box-shadow:var(--sh-md);border:2px solid var(--gold)}
@@ -339,52 +187,59 @@ ul{list-style:none}
 .banner-slide{min-width:100%;position:relative;background:var(--brand-gradient);color:#fff;height:180px;display:flex;flex-direction:column;justify-content:center;padding:24px;background-size:cover;background-position:center}
 .banner-slide::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(61,15,15,.85),rgba(61,15,15,.25))}
 .banner-slide>*{position:relative;z-index:1}
-.banner-slide h3{font-size:20px;font-weight:800;margin-bottom:6px;letter-spacing:-0.02em;font-family:var(--font-display);text-shadow:0 3px 12px rgba(0,0,0,.5)}
-.banner-slide p{font-size:13px;color:#fef3c7;margin-bottom:14px;max-width:75%;line-height:1.45}
-.banner-slide .btn{align-self:flex-start;background:var(--gold-soft);color:var(--brand-dark);padding:9px 18px;font-size:12px;font-weight:800;border:1.5px solid var(--gold);box-shadow:0 4px 14px rgba(0,0,0,.3)}
-.banner-slide .btn:hover{background:var(--marigold);color:#fff}
+.banner-slide h3{font-size:20px;font-weight:800;font-family:var(--font-display);text-shadow:0 3px 12px rgba(0,0,0,.5)}
+.banner-slide p{font-size:13px;color:#fef3c7;margin:6px 0 14px 0;max-width:75%;line-height:1.45}
+.banner-slide .btn{align-self:flex-start;background:var(--gold-soft);color:var(--brand-dark);padding:9px 18px;font-size:12px;font-weight:800;border:1.5px solid var(--gold)}
 .banner-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:2}
-.banner-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:all .25s}
-.banner-dot.active{background:var(--marigold);width:22px;border-radius:4px;box-shadow:0 0 12px var(--marigold)}
+.banner-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer}
+.banner-dot.active{background:var(--marigold);width:22px;border-radius:4px}
 
-/* === PRODUCT GRID === */
+/* === PRODUCTS === */
 .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
-.product{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;position:relative;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);box-shadow:var(--sh-xs)}
+.product{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;position:relative;cursor:pointer;transition:all .25s}
 .product:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:var(--gold)}
 .product.closed{opacity:.55}
-.product.closed:hover{transform:none;box-shadow:var(--sh-xs)}
 .product-img{aspect-ratio:1/1;width:100%;object-fit:cover;background:var(--surface-3)}
 .product-body{padding:12px 13px 13px;display:flex;flex-direction:column;flex:1;gap:6px}
 .product-cat{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--brand)}
-.product-name{font-size:13.5px;font-weight:700;line-height:1.3;letter-spacing:-0.005em;color:var(--text)}
+.product-name{font-size:13.5px;font-weight:700;line-height:1.3}
 .product-desc{font-size:12px;color:var(--text-2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.product-price{font-size:16px;font-weight:800;color:var(--brand);margin-top:4px;letter-spacing:-0.025em}
+.product-price{font-size:16px;font-weight:800;color:var(--brand);margin-top:4px}
 .product-cta{margin-top:8px}
 
-.closed-overlay{position:absolute;top:10px;left:10px;background:var(--brand-gradient);color:#fff;font-size:10px;font-weight:800;padding:5px 10px;border-radius:7px;letter-spacing:.06em;text-transform:uppercase;z-index:2;box-shadow:var(--sh-sm)}
+/* === RESTAURANT CARD === */
+.restaurant-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;display:flex;gap:14px;padding:14px;cursor:pointer;transition:all .25s;box-shadow:var(--sh-xs);margin-bottom:12px;position:relative}
+.restaurant-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:var(--gold)}
+.restaurant-card .rc-logo{width:76px;height:76px;border-radius:14px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:30px;overflow:hidden;flex-shrink:0;border:2px solid var(--gold)}
+.restaurant-card .rc-logo img{width:100%;height:100%;object-fit:cover}
+.restaurant-card .rc-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.restaurant-card .rc-name{font-size:16px;font-weight:800;font-family:var(--font-display);color:var(--brand)}
+.restaurant-card .rc-cat{font-size:12px;color:var(--text-3);font-weight:600}
+.restaurant-card .rc-meta{display:flex;gap:10px;flex-wrap:wrap}
+.restaurant-card .rc-meta span{font-size:11.5px;color:var(--text-2);font-weight:600}
+.restaurant-card .rc-desc{font-size:12.5px;color:var(--text-2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-.closed-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff;padding:20px;border-radius:var(--r-xl);margin-bottom:16px;display:flex;align-items:flex-start;gap:14px;box-shadow:0 12px 32px rgba(153,27,27,.35);border:1.5px solid var(--gold)}
+.closed-overlay{position:absolute;top:10px;left:10px;background:var(--brand-gradient);color:#fff;font-size:10px;font-weight:800;padding:5px 10px;border-radius:7px;letter-spacing:.06em;text-transform:uppercase;z-index:2}
+
+.closed-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff;padding:20px;border-radius:var(--r-xl);margin-bottom:16px;display:flex;align-items:flex-start;gap:14px;border:1.5px solid var(--gold)}
 .closed-banner .icon{font-size:32px;line-height:1}
 .closed-banner .content{flex:1}
 .closed-banner .title{font-weight:800;font-size:15px;margin-bottom:5px;font-family:var(--font-display)}
 .closed-banner .msg{font-size:13px;opacity:.94;line-height:1.55}
-.closed-banner .hrs{font-size:12px;opacity:.8;margin-top:8px;font-family:ui-monospace,monospace}
 
 .chip-row{display:flex;gap:8px;overflow-x:auto;padding:6px 16px 12px;margin-left:-16px;margin-right:-16px}
 .chip-row::-webkit-scrollbar{display:none}
 .chip{padding:9px 16px;font-size:12px;font-weight:700;background:var(--surface);border:1.5px solid var(--border);border-radius:999px;white-space:nowrap;cursor:pointer;color:var(--text-2);transition:all .2s}
-.chip:hover{border-color:var(--gold);color:var(--brand);transform:translateY(-1px)}
-.chip.active{background:var(--brand-gradient);color:#fff;border-color:transparent;box-shadow:var(--sh-brand);transform:translateY(-1px)}
+.chip.active{background:var(--brand-gradient);color:#fff;border-color:transparent;box-shadow:var(--sh-brand)}
 
-.order{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:16px;box-shadow:var(--sh-xs);transition:all .2s}
-.order:hover{box-shadow:var(--sh-sm);border-color:var(--gold);transform:translateY(-1px)}
+.order{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:16px;box-shadow:var(--sh-xs)}
 .order+.order{margin-top:12px}
 .order-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.order-id{font-size:13px;font-weight:800;font-family:ui-monospace,"SF Mono",monospace;letter-spacing:-0.01em;color:var(--brand-dark)}
+.order-id{font-size:13px;font-weight:800;font-family:ui-monospace,monospace;color:var(--brand-dark)}
 .order-body{display:flex;align-items:center;gap:12px}
 .order-thumb{width:52px;height:52px;border-radius:11px;object-fit:cover;background:var(--surface-3);flex-shrink:0;border:1.5px solid var(--border)}
 .order-info{flex:1;min-width:0}
-.order-name{font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-0.005em}
+.order-name{font-size:14px;font-weight:700}
 .order-date{font-size:12px;color:var(--text-3);margin-top:3px}
 .order-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);font-size:13px}
 .order-foot .amt{font-weight:800;color:var(--brand);font-size:16px}
@@ -393,140 +248,125 @@ ul{list-style:none}
 .timeline{position:relative;padding-left:30px}
 .timeline::before{content:"";position:absolute;left:10px;top:12px;bottom:12px;width:2px;background:var(--border)}
 .timeline-step{position:relative;padding:11px 0}
-.timeline-step::before{content:"";position:absolute;left:-30px;top:14px;width:20px;height:20px;background:var(--surface);border:2.5px solid var(--border);border-radius:50%;transition:all .25s}
-.timeline-step.done::before{background:var(--brand-gradient);border-color:var(--brand);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2,6 5,9 10,3'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat;box-shadow:0 0 12px rgba(185,28,28,.4)}
-.timeline-step.current::before{background:var(--surface);border-color:var(--gold);box-shadow:0 0 0 5px var(--gold-soft),0 0 16px rgba(217,119,6,.5)}
-.timeline-step .tl-label{font-size:13.5px;color:var(--text-3);font-weight:500}
+.timeline-step::before{content:"";position:absolute;left:-30px;top:14px;width:20px;height:20px;background:var(--surface);border:2.5px solid var(--border);border-radius:50%}
+.timeline-step.done::before{background:var(--brand-gradient);border-color:var(--brand);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2.5'%3E%3Cpolyline points='2,6 5,9 10,3'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat}
+.timeline-step.current::before{border-color:var(--gold);box-shadow:0 0 0 5px var(--gold-soft)}
+.timeline-step .tl-label{font-size:13.5px;color:var(--text-3)}
 .timeline-step.done .tl-label,.timeline-step.current .tl-label{color:var(--text)}
 .timeline-step.current .tl-label{font-weight:800;color:var(--brand)}
 
 .toast-root{position:fixed;top:calc(72px + var(--safe-top));left:50%;transform:translateX(-50%);z-index:1000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;max-width:calc(100vw - 32px);width:100%}
-.toast{padding:13px 20px;background:var(--brand-gradient);color:#fff;border-radius:12px;font-size:13.5px;font-weight:700;animation:toastIn .35s cubic-bezier(.16,1,.3,1);max-width:100%;text-align:center;box-shadow:0 14px 40px rgba(61,15,15,.4);letter-spacing:-0.005em;border:1.5px solid var(--gold)}
-.toast.success{background:linear-gradient(135deg,#15803d,#166534);border-color:#4ade80;box-shadow:0 14px 40px rgba(21,128,61,.35)}
-.toast.error{background:linear-gradient(135deg,#991b1b,#7f1d1d);border-color:#f87171;box-shadow:0 14px 40px rgba(153,27,27,.4)}
+.toast{padding:13px 20px;background:var(--brand-gradient);color:#fff;border-radius:12px;font-size:13.5px;font-weight:700;animation:toastIn .35s;max-width:100%;text-align:center;border:1.5px solid var(--gold)}
+.toast.success{background:linear-gradient(135deg,#15803d,#166534)}
+.toast.error{background:linear-gradient(135deg,#991b1b,#7f1d1d)}
 @keyframes toastIn{from{opacity:0;transform:translateY(-16px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
 
-.modal-backdrop{position:fixed;inset:0;background:rgba(61,15,15,.65);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px;z-index:500;overflow:auto;animation:fadeIn .2s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal{background:var(--surface);border-radius:var(--r-xl);padding:24px;width:100%;max-width:480px;max-height:90vh;overflow:auto;box-shadow:0 28px 80px rgba(61,15,15,.5);animation:modalIn .3s cubic-bezier(.16,1,.3,1);border:2px solid var(--gold);position:relative}
-.modal::before{content:'🪔';position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:28px;background:var(--surface);padding:0 12px;line-height:1;filter:drop-shadow(0 4px 8px rgba(217,119,6,.4))}
-@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-title{font-size:18px;font-weight:800;margin-bottom:18px;letter-spacing:-0.015em;font-family:var(--font-display);color:var(--brand);text-align:center}
+.modal-backdrop{position:fixed;inset:0;background:rgba(61,15,15,.65);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px;z-index:500;overflow:auto}
+.modal{background:var(--surface);border-radius:var(--r-xl);padding:24px;width:100%;max-width:480px;max-height:90vh;overflow:auto;border:2px solid var(--gold);position:relative}
+.modal::before{content:'🪔';position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:28px;background:var(--surface);padding:0 12px;line-height:1}
+.modal-title{font-size:18px;font-weight:800;margin-bottom:18px;font-family:var(--font-display);color:var(--brand);text-align:center}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:22px}
 
-/* === ADMIN === */
 .admin-layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
-.admin-side{background:linear-gradient(180deg,#2d0a0a 0%,#4a1414 50%,#5c1a1a 100%);color:#fdecd2;padding:22px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:2px solid var(--gold);position:relative}
-.admin-side::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#b91c1c,#f59e0b,#b91c1c)}
-.admin-side-brand{display:flex;align-items:center;gap:11px;color:#fff;font-size:16px;font-weight:800;padding:8px 10px;margin-bottom:24px;letter-spacing:-0.015em;font-family:var(--font-display)}
-.admin-side-brand .brand-mark{width:34px;height:34px;font-size:16px;background:var(--brand-gradient);box-shadow:var(--sh-gold)}
-.admin-nav a{display:flex;align-items:center;gap:12px;padding:11px 13px;font-size:13.5px;font-weight:600;color:#fdecd2;border-radius:10px;margin-bottom:4px;cursor:pointer;transition:all .15s}
-.admin-nav a:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateX(2px)}
-.admin-nav a.active{background:var(--brand-gradient);color:#fff;box-shadow:var(--sh-gold)}
+.admin-side{background:linear-gradient(180deg,#2d0a0a 0%,#4a1414 50%,#5c1a1a 100%);color:#fdecd2;padding:22px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:2px solid var(--gold)}
+.admin-side-brand{display:flex;align-items:center;gap:11px;color:#fff;font-size:16px;font-weight:800;padding:8px 10px;margin-bottom:24px;font-family:var(--font-display)}
+.admin-side-brand .brand-mark{width:34px;height:34px;font-size:16px;background:var(--brand-gradient)}
+.admin-nav a{display:flex;align-items:center;gap:12px;padding:11px 13px;font-size:13.5px;font-weight:600;color:#fdecd2;border-radius:10px;margin-bottom:4px;cursor:pointer}
+.admin-nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.admin-nav a.active{background:var(--brand-gradient);color:#fff}
 .admin-main{padding:28px;min-height:100vh;background:var(--bg)}
 .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:12px;flex-wrap:wrap}
-.admin-header h1{font-size:24px;font-weight:800;letter-spacing:-0.025em;font-family:var(--font-display);color:var(--brand)}
-.admin-user{font-size:12px;color:var(--text-3);padding:6px 12px;background:var(--surface);border:1.5px solid var(--border);border-radius:999px;font-weight:600}
-
+.admin-header h1{font-size:24px;font-weight:800;font-family:var(--font-display);color:var(--brand)}
+.admin-user{font-size:12px;color:var(--text-3);padding:6px 12px;background:var(--surface);border:1.5px solid var(--border);border-radius:999px}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;margin-bottom:28px}
-.stat{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-xs);transition:all .25s;position:relative;overflow:hidden}
+.stat{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-xs);position:relative;overflow:hidden}
 .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--brand-gradient)}
 .stat::after{content:'🪔';position:absolute;bottom:10px;right:12px;font-size:22px;opacity:.15}
-.stat:hover{box-shadow:var(--sh-md);transform:translateY(-3px);border-color:var(--gold)}
 .stat-label{font-size:11px;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em}
-.stat-value{font-size:30px;font-weight:800;margin-top:8px;letter-spacing:-0.03em;color:var(--brand);font-family:var(--font-display)}
-
-.table-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-xs)}
+.stat-value{font-size:30px;font-weight:800;margin-top:8px;color:var(--brand);font-family:var(--font-display)}
+.table-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
 .table-wrap.scroll{overflow-x:auto}
 .table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
-.table th{text-align:left;padding:14px 16px;background:var(--surface-3);font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.06em;border-bottom:1.5px solid var(--border)}
+.table th{text-align:left;padding:14px 16px;background:var(--surface-3);font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;border-bottom:1.5px solid var(--border)}
 .table td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top}
 .table tr:last-child td{border-bottom:0}
-.table tr:hover td{background:var(--surface-2)}
-
-.mobile-menu-btn{display:none;width:38px;height:38px;border-radius:var(--r);background:var(--brand-gradient);color:#fff;box-shadow:var(--sh-sm)}
+.mobile-menu-btn{display:none;width:38px;height:38px;border-radius:var(--r);background:var(--brand-gradient);color:#fff}
 
 .cart-item{display:flex;gap:12px;padding:15px;border-bottom:1px dashed var(--border)}
 .cart-item:last-child{border-bottom:0}
-.cart-item img{width:64px;height:64px;border-radius:11px;object-fit:cover;background:var(--surface-3);border:1.5px solid var(--border)}
+.cart-item img{width:64px;height:64px;border-radius:11px;object-fit:cover;border:1.5px solid var(--border)}
 .cart-item-info{flex:1;min-width:0}
-.cart-item-name{font-size:13.5px;font-weight:700;letter-spacing:-0.005em}
+.cart-item-name{font-size:13.5px;font-weight:700}
 .cart-item-price{font-size:12.5px;color:var(--text-3);margin-top:3px}
 
 .qty-ctrl{display:inline-flex;align-items:center;border:1.5px solid var(--border);border-radius:9px;overflow:hidden;background:var(--surface)}
-.qty-ctrl button{width:34px;height:34px;background:var(--surface);display:grid;place-items:center;font-weight:800;color:var(--brand);font-size:16px;transition:background .15s}
-.qty-ctrl button:hover{background:var(--gold-soft);color:var(--brand-dark)}
+.qty-ctrl button{width:34px;height:34px;background:var(--surface);display:grid;place-items:center;font-weight:800;color:var(--brand);font-size:16px}
+.qty-ctrl button:hover{background:var(--gold-soft)}
 .qty-ctrl span{min-width:38px;text-align:center;font-size:14px;font-weight:800}
 
-.radio-row{display:flex;align-items:flex-start;gap:12px;padding:15px;border:1.5px solid var(--border);border-radius:var(--r-md);margin-bottom:10px;cursor:pointer;transition:all .2s;background:var(--surface)}
-.radio-row:hover{border-color:var(--gold);transform:translateX(2px)}
-.radio-row.selected{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 3px rgba(185,28,28,.12),var(--sh-xs)}
-.radio-row input{margin-top:3px;accent-color:var(--brand);width:17px;height:17px;cursor:pointer}
+.radio-row{display:flex;align-items:flex-start;gap:12px;padding:15px;border:1.5px solid var(--border);border-radius:var(--r-md);margin-bottom:10px;cursor:pointer;background:var(--surface)}
+.radio-row.selected{border-color:var(--brand);background:var(--brand-soft)}
+.radio-row input{margin-top:3px;accent-color:var(--brand);width:17px;height:17px}
 .radio-row-text{flex:1}
-.radio-row-title{font-size:13.5px;font-weight:700;letter-spacing:-0.005em}
+.radio-row-title{font-size:13.5px;font-weight:700}
 .radio-row-desc{font-size:12.5px;color:var(--text-2);margin-top:3px}
 
 .price-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13.5px}
-.price-row.total{border-top:2px solid var(--border);margin-top:8px;padding-top:14px;font-weight:800;font-size:16px;color:var(--brand);font-family:var(--font-display);letter-spacing:.005em}
+.price-row.total{border-top:2px solid var(--border);margin-top:8px;padding-top:14px;font-weight:800;font-size:16px;color:var(--brand);font-family:var(--font-display)}
 .price-row.discount span:last-child{color:var(--success);font-weight:700}
 .coupon-row{display:flex;gap:8px;margin-bottom:10px}
 .coupon-row input{flex:1}
 
-.blocked-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff;padding:28px;border-radius:var(--r-xl);text-align:center;margin-bottom:18px;box-shadow:0 20px 48px rgba(153,27,27,.45);border:2px solid var(--gold);position:relative;overflow:hidden}
-.blocked-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(251,191,36,.15) 0%,transparent 60%);pointer-events:none}
-.blocked-banner.suspended{background:linear-gradient(135deg,#d97706,#b45309);box-shadow:0 20px 48px rgba(217,119,6,.4)}
-.blocked-banner .icon{font-size:52px;margin-bottom:14px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
-.blocked-banner h2{font-size:22px;margin-bottom:10px;font-weight:800;letter-spacing:-0.02em;font-family:var(--font-display)}
+.blocked-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);color:#fff;padding:28px;border-radius:var(--r-xl);text-align:center;margin-bottom:18px;border:2px solid var(--gold)}
+.blocked-banner.suspended{background:linear-gradient(135deg,#d97706,#b45309)}
+.blocked-banner .icon{font-size:52px;margin-bottom:14px}
+.blocked-banner h2{font-size:22px;margin-bottom:10px;font-weight:800;font-family:var(--font-display)}
 .blocked-banner p{font-size:13.5px;opacity:.94;line-height:1.6;margin-bottom:6px}
 .blocked-reason{background:rgba(0,0,0,.3);border-radius:12px;padding:15px;margin-top:18px;text-align:left;border:1px solid rgba(251,191,36,.3)}
-.blocked-reason .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.8;margin-bottom:7px;font-weight:800}
+.blocked-reason .lbl{font-size:11px;text-transform:uppercase;opacity:.8;margin-bottom:7px;font-weight:800}
 .blocked-reason .txt{font-size:13.5px;line-height:1.55}
-.blocked-timer{background:rgba(0,0,0,.35);border-radius:14px;padding:18px;margin-top:18px;display:inline-block;min-width:230px;border:1px solid rgba(251,191,36,.3)}
-.blocked-timer .label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.8;margin-bottom:10px;font-weight:800}
-.blocked-timer .time{font-family:ui-monospace,monospace;font-size:26px;font-weight:800;letter-spacing:.05em;color:var(--marigold-light)}
+.blocked-timer{background:rgba(0,0,0,.35);border-radius:14px;padding:18px;margin-top:18px;display:inline-block;min-width:230px}
+.blocked-timer .label{font-size:11px;text-transform:uppercase;opacity:.8;margin-bottom:10px;font-weight:800}
+.blocked-timer .time{font-family:ui-monospace,monospace;font-size:26px;font-weight:800;color:var(--marigold-light)}
 
-.free-banner{background:linear-gradient(135deg,#15803d,#166534);color:#fff;padding:18px 20px;border-radius:var(--r-xl);margin-bottom:16px;display:flex;align-items:center;gap:14px;box-shadow:0 12px 32px rgba(21,128,61,.35);border:1.5px solid #4ade80}
+.free-banner{background:linear-gradient(135deg,#15803d,#166534);color:#fff;padding:18px 20px;border-radius:var(--r-xl);margin-bottom:16px;display:flex;align-items:center;gap:14px;border:1.5px solid #4ade80}
 .free-banner .icon{font-size:26px}
-.free-banner .title{font-weight:800;font-size:15px;letter-spacing:-0.01em}
+.free-banner .title{font-weight:800;font-size:15px}
 .free-banner .desc{font-size:12.5px;opacity:.94;margin-top:4px}
 
 .reason-card{background:var(--danger-soft);border:1.5px solid #fecaca;border-radius:var(--r-lg);padding:16px;margin-bottom:14px}
-.reason-card .title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--danger);margin-bottom:10px}
+.reason-card .title{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--danger);margin-bottom:10px}
 .reason-card .text{font-size:14px;color:var(--danger);font-weight:700;line-height:1.55}
-.reason-card .meta{font-size:11.5px;color:var(--danger);opacity:.75;margin-top:10px}
 
-.track-banner{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;padding:20px;border-radius:var(--r-xl);margin-bottom:14px;display:flex;align-items:center;gap:14px;box-shadow:0 16px 40px rgba(2,132,199,.35);border:1.5px solid #38bdf8}
+.track-banner{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;padding:20px;border-radius:var(--r-xl);margin-bottom:14px;display:flex;align-items:center;gap:14px;border:1.5px solid #38bdf8}
 .track-banner .icon{font-size:36px}
 .track-banner .content{flex:1}
-.track-banner .title{font-weight:800;font-size:15px;margin-bottom:5px;letter-spacing:-0.01em}
+.track-banner .title{font-weight:800;font-size:15px}
 .track-banner .desc{font-size:12.5px;opacity:.94;line-height:1.55}
-.track-banner .btn{background:#fff;color:var(--accent);padding:10px 18px;font-size:12.5px;font-weight:800}
+.track-banner .btn{background:#fff;color:#0284c7;padding:10px 18px;font-size:12.5px;font-weight:800}
 
 .review-card{background:var(--success-soft);border:1.5px solid #bbf7d0;border-radius:var(--r-lg);padding:16px;margin-bottom:14px}
-.review-card .title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--success);margin-bottom:10px}
+.review-card .title{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--success);margin-bottom:10px}
 
 .stars{display:inline-flex;gap:2px;font-size:18px;color:#e5e7eb}
 .stars .on{color:var(--marigold)}
 .stars-input{font-size:42px;display:inline-flex;gap:8px;cursor:pointer;user-select:none}
 .stars-input span{color:#e5e7eb;transition:all .2s;line-height:1}
 .stars-input span.on{color:var(--marigold);filter:drop-shadow(0 0 12px rgba(245,158,11,.6))}
-.stars-input span:hover{transform:scale(1.18) rotate(-5deg)}
-.stars-input span:active{transform:scale(1.25)}
 
 .product-detail{background:var(--surface);border-radius:var(--r-xl);overflow:hidden;border:2px solid var(--border);box-shadow:var(--sh-sm)}
 .product-detail-img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--surface-3)}
 .product-detail-body{padding:22px}
-.product-detail-cat{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--brand);margin-bottom:8px}
-.product-detail-name{font-size:23px;font-weight:800;letter-spacing:-0.025em;margin-bottom:10px;line-height:1.25;font-family:var(--font-display);color:var(--text)}
-.product-detail-price{font-size:28px;font-weight:800;color:var(--brand);margin-bottom:14px;letter-spacing:-0.03em}
+.product-detail-cat{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+.product-detail-name{font-size:23px;font-weight:800;font-family:var(--font-display);margin-bottom:10px}
+.product-detail-price{font-size:28px;font-weight:800;color:var(--brand);margin-bottom:14px}
 .product-detail-desc{font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:16px}
 
 .rating-summary{display:flex;align-items:center;gap:16px;padding:16px;background:var(--surface-3);border-radius:var(--r-md);margin-bottom:16px;border:1.5px solid var(--border)}
-.rating-summary .big-num{font-size:36px;font-weight:800;letter-spacing:-0.03em;line-height:1;color:var(--brand);font-family:var(--font-display)}
-.rating-summary .meta{flex:1}
-.rating-summary .stars-lg{display:inline-flex;gap:2px;font-size:20px;color:#e5e7eb;margin-bottom:5px}
+.rating-summary .big-num{font-size:36px;font-weight:800;color:var(--brand);font-family:var(--font-display)}
+.rating-summary .stars-lg{display:inline-flex;gap:2px;font-size:20px;color:#e5e7eb}
 .rating-summary .stars-lg .on{color:var(--marigold)}
-.rating-summary .count{font-size:12px;color:var(--text-3);font-weight:600}
+.rating-summary .count{font-size:12px;color:var(--text-3)}
 
 .review-item{padding:15px 0;border-bottom:1px dashed var(--border)}
 .review-item:last-child{border-bottom:0}
@@ -540,53 +380,46 @@ ul{list-style:none}
 .qty-selector{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:15px;background:var(--surface-3);border-radius:var(--r-md);border:1.5px solid var(--border)}
 .qty-selector .label{font-size:13.5px;font-weight:700;color:var(--text-2);flex:1}
 
-.company-mini{display:flex;align-items:center;gap:13px;padding:15px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-md);margin-bottom:14px;cursor:pointer;transition:all .2s}
-.company-mini:hover{border-color:var(--gold);box-shadow:var(--sh-sm);transform:translateX(2px)}
-.company-mini img,.company-mini .mini-logo{width:44px;height:44px;border-radius:11px;object-fit:cover;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;border:1.5px solid var(--border)}
+.company-mini{display:flex;align-items:center;gap:13px;padding:15px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-md);margin-bottom:14px;cursor:pointer}
+.company-mini:hover{border-color:var(--gold)}
+.company-mini img,.company-mini .mini-logo{width:44px;height:44px;border-radius:11px;object-fit:cover;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px}
 .company-mini .mini-info{flex:1;min-width:0}
-.company-mini .mini-name{font-size:13.5px;font-weight:700;letter-spacing:-0.005em}
+.company-mini .mini-name{font-size:13.5px;font-weight:700}
 .company-mini .mini-cat{font-size:12px;color:var(--text-3);margin-top:3px}
 
-.cod-hint{background:var(--warning-soft);border:1.5px solid #fde68a;color:var(--warning);padding:13px 15px;border-radius:10px;font-size:12.5px;display:flex;align-items:center;gap:9px;line-height:1.55}
+.cod-hint{background:var(--warning-soft);border:1.5px solid #fde68a;color:var(--warning);padding:13px 15px;border-radius:10px;font-size:12.5px;display:flex;gap:9px;line-height:1.55}
 .row{display:flex;align-items:center;gap:8px}
 .between{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .text-muted{color:var(--text-2)}
 .text-soft{color:var(--text-3)}
 .text-sm{font-size:12.5px}
 .text-xs{font-size:11.5px}
-.font-medium{font-weight:500}
-.font-semibold{font-weight:600}
 .font-bold{font-weight:700}
-.font-mono{font-family:ui-monospace,"SF Mono",monospace}
+.font-mono{font-family:ui-monospace,monospace}
 .text-center{text-align:center}
-.text-right{text-align:right}
-.mt-0{margin-top:0}.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:16px}
-.mb-0{margin-bottom:0}.mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}
+.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:16px}
+.mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}
 .hidden{display:none!important}
 .spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:rotate .7s linear infinite;display:inline-block}
 @keyframes rotate{to{transform:rotate(360deg)}}
 .warn-box{background:var(--warning-soft);border:1.5px solid #fde68a;color:var(--warning);padding:13px 15px;border-radius:10px;font-size:12.5px;line-height:1.55}
 .info-box{background:var(--brand-soft);border:1.5px solid #fecaca;color:var(--brand-dark);padding:13px 15px;border-radius:10px;font-size:12.5px;line-height:1.55}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
-
-/* Footer blessings */
 .blessing-footer{text-align:center;padding:24px 16px;margin-top:20px}
 .blessing-footer .bangla{font-family:var(--font-bangla);color:var(--brand);font-size:20px;margin-bottom:6px}
 .blessing-footer .sub{font-size:11px;color:var(--text-3);letter-spacing:.15em;text-transform:uppercase;font-weight:700}
 
 @media (max-width:820px){
   .admin-layout{grid-template-columns:1fr}
-  .admin-side{position:fixed;left:0;top:0;bottom:0;width:250px;transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:100;box-shadow:8px 0 32px rgba(0,0,0,.4)}
+  .admin-side{position:fixed;left:0;top:0;bottom:0;width:250px;transform:translateX(-100%);transition:transform .3s;z-index:100}
   .admin-side.open{transform:translateX(0)}
   .admin-main{padding:16px}
   .mobile-menu-btn{display:grid;place-items:center}
 }
 @media (max-width:380px){
   .product-grid{gap:10px}
-  .product-body{padding:11px}
-  .auth-card{padding:26px 22px}
-  .puja-hero{height:170px}
-  .puja-hero .msg{font-size:20px}
+  .restaurant-card .rc-logo{width:64px;height:64px;font-size:26px}
+  .auth-mata-frame{width:110px;height:110px}
 }
 </style>
 </head>
@@ -622,15 +455,21 @@ const EMAILJS_CONFIG = {
   serviceId: "Pawanretaillimited2",
   welcomeTemplateId: "template_xm01mo4",
   orderSuccessTemplateId: "template_5ugr1ok",
-  orderDeliveredTemplateId: "template_5ugr1ok",
   supportEmail: "support@pawanretail.example",
   websiteUrl: "https://limited-5698.vercel.app",
   enabled: true
 };
 
-/* ==== MATA IMAGE URLS ==== */
-const MATA_BG = "https://w0.peakpx.com/wallpaper/54/800/HD-wallpaper-durga-maa-hindu-god-goddess.jpg";
-const MATA_ALT = "https://i.pinimg.com/originals/1e/28/33/1e2833b0e0e5c0e0e5c0e0e5c0e0e5c0.jpg";
+/* ==== MAA DURGA IMAGE URLS ==== */
+/* Recommended: Upload your own images to /public/images/ and replace below */
+const MATA_IMAGES = {
+  // Login/Register — Mata Durga image (red background)
+  auth: "https://i.pinimg.com/736x/7d/4d/22/7d4d22a2f8f1e0e1c5c0e0e5c0e0e5c0.jpg",
+  // Home hero
+  hero: "https://i.pinimg.com/736x/7d/4d/22/7d4d22a2f8f1e0e1c5c0e0e5c0e0e5c0.jpg",
+  // Fallback (if main fails)
+  fallback: "https://i.pinimg.com/originals/1e/28/33/1e2833b0e0e5c0e0e5c0e0e5c0e0e5c0.jpg"
+};
 
 const fb = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(fb);
@@ -661,11 +500,11 @@ const ACCOUNT_STATUS = {
   blocked: { label: "Blocked", tone: "danger" }
 };
 const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23f9e9d3'/><text x='100' y='105' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23a0714a'>No image</text></svg>";
-const CART_STORAGE_KEY = "prl_cart_v1";
+const CART_STORAGE_KEY = "prl_cart_v2";
 
 const S = {
   user: null, profile: null,
-  cart: { companyId: null, companyName: null, items: [] },
+  cart: { companyId: null, companyName: null, restaurantId: null, restaurantName: null, items: [] },
   appliedCoupon: null,
   isFirstOrder: false,
   currentCategory: "all", searchQuery: "",
@@ -673,6 +512,8 @@ const S = {
   cached: { banners: [], companies: [], orders: [], coupons: [], reviews: [] },
   blockTimerInterval: null,
   currentProduct: null,
+  currentCompany: null,
+  currentRestaurant: null,
   productQty: 1
 };
 
@@ -693,20 +534,15 @@ const fmtDate = (ts, withTime = false) => {
 const millis = (ts) => ts?.toMillis?.() || 0;
 const byNewest = (a, b) => millis(b.createdAt) - millis(a.createdAt);
 
-function saveCart() {
-  try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(S.cart)); } catch (_) {}
-}
+function saveCart() { try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(S.cart)); } catch (_) {} }
 function loadCart() {
   try {
     const raw = localStorage.getItem(CART_STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.items)) S.cart = parsed;
-    }
+    if (raw) { const parsed = JSON.parse(raw); if (parsed && Array.isArray(parsed.items)) S.cart = { companyId: null, companyName: null, restaurantId: null, restaurantName: null, items: [], ...parsed }; }
   } catch (_) {}
 }
 function clearCart() {
-  S.cart = { companyId: null, companyName: null, items: [] };
+  S.cart = { companyId: null, companyName: null, restaurantId: null, restaurantName: null, items: [] };
   S.appliedCoupon = null;
   try { localStorage.removeItem(CART_STORAGE_KEY); } catch (_) {}
 }
@@ -720,23 +556,23 @@ function genOrderId() {
   return `PRL-${ymd}-${rnd}`;
 }
 
-function isCompanyOpen(company) {
-  if (!company) return true;
-  if (company.autoOpenClose !== true) return true;
-  if (!company.openTime || !company.closeTime) return true;
+function isRestaurantOpen(rest) {
+  if (!rest) return true;
+  if (rest.autoOpenClose !== true) return true;
+  if (!rest.openTime || !rest.closeTime) return true;
   const now = new Date();
   const cur = now.getHours() * 60 + now.getMinutes();
-  const [oh, om] = company.openTime.split(":").map(Number);
-  const [ch, cm] = company.closeTime.split(":").map(Number);
+  const [oh, om] = rest.openTime.split(":").map(Number);
+  const [ch, cm] = rest.closeTime.split(":").map(Number);
   const open = oh * 60 + om;
   const close = ch * 60 + cm;
   if (open === close) return true;
   if (open < close) return cur >= open && cur < close;
   return cur >= open || cur < close;
 }
-function companyHoursText(c) {
-  if (!c?.openTime || !c?.closeTime) return "";
-  return `${c.openTime} – ${c.closeTime}`;
+function restaurantHoursText(r) {
+  if (!r?.openTime || !r?.closeTime) return "";
+  return `${r.openTime} – ${r.closeTime}`;
 }
 
 function showScreen(id) {
@@ -789,7 +625,7 @@ function getStatusMessage() {
     const until = S.profile.suspendedUntil?.toMillis?.() || 0;
     if (until > Date.now()) {
       return { blocked: true, type: "suspended", title: "Account Temporarily Suspended",
-        message: "Your account is temporarily suspended. Please wait for the timer to end.",
+        message: "Your account is temporarily suspended.",
         reason: S.profile.blockReason || "Not specified", until };
     }
   }
@@ -829,10 +665,7 @@ function startBlockTimer() {
     const el = $("#blockedTimer");
     if (!el) { clearInterval(S.blockTimerInterval); S.blockTimerInterval = null; return; }
     const remaining = info.until - Date.now();
-    if (remaining <= 0) {
-      clearInterval(S.blockTimerInterval); S.blockTimerInterval = null;
-      refreshProfile(); return;
-    }
+    if (remaining <= 0) { clearInterval(S.blockTimerInterval); S.blockTimerInterval = null; refreshProfile(); return; }
     el.textContent = formatCountdown(remaining);
   };
   tick();
@@ -860,9 +693,7 @@ function calcCouponDiscount(coupon, subtotal) {
   if (coupon.discountType === "percent") {
     discount = subtotal * (coupon.discountValue / 100);
     if (coupon.maxDiscount) discount = Math.min(discount, coupon.maxDiscount);
-  } else {
-    discount = coupon.discountValue;
-  }
+  } else { discount = coupon.discountValue; }
   return Math.min(discount, subtotal);
 }
 
@@ -873,9 +704,7 @@ async function validateCoupon(code, subtotal) {
     if (snap.empty) return { valid: false, error: "Invalid coupon code" };
     const c = { id: snap.docs[0].id, ...snap.docs[0].data() };
     if (!c.isActive) return { valid: false, error: "This coupon is no longer active" };
-    if (c.expiresAt && c.expiresAt.toMillis && c.expiresAt.toMillis() < Date.now()) {
-      return { valid: false, error: "This coupon has expired" };
-    }
+    if (c.expiresAt && c.expiresAt.toMillis && c.expiresAt.toMillis() < Date.now()) return { valid: false, error: "This coupon has expired" };
     if (subtotal < (c.minOrder || 0)) return { valid: false, error: `Minimum order ₹${c.minOrder} required` };
     const discount = calcCouponDiscount(c, subtotal);
     return { valid: true, coupon: c, discount };
@@ -931,11 +760,13 @@ function BNAV(active) {
   </nav>`;
 }
 
-/* === AUTH — MATA BACKGROUND === */
+/* ==== AUTH SCREENS with Mata image circle ==== */
 function screenLogin() {
   return `<div class="auth-shell"><div class="auth-box">
+    <div class="auth-mata-frame">
+      <img src="${MATA_IMAGES.auth}" alt="Maa Durga" onerror="this.src='${MATA_IMAGES.fallback}';this.onerror=null;">
+    </div>
     <div class="mata-invocation">
-      <div class="om">ॐ</div>
       <div class="bangla">শুভ দুর্গা পূজা</div>
       <div class="sub">✦ Jai Mata Di ✦</div>
     </div>
@@ -960,17 +791,15 @@ function screenLogin() {
         </a>
       </p>
     </div>
-    <div class="blessing-footer" style="margin-top:24px">
-      <div class="bangla" style="color:#fbbf24;text-shadow:0 2px 12px rgba(0,0,0,.8)">🪔 মা এসেছেন 🪔</div>
-      <div class="sub" style="color:rgba(255,251,245,.75);text-shadow:0 2px 8px rgba(0,0,0,.5)">Maa Durga has arrived</div>
-    </div>
   </div></div>`;
 }
 
 function screenRegister() {
   return `<div class="auth-shell"><div class="auth-box">
+    <div class="auth-mata-frame">
+      <img src="${MATA_IMAGES.auth}" alt="Maa Durga" onerror="this.src='${MATA_IMAGES.fallback}';this.onerror=null;">
+    </div>
     <div class="mata-invocation">
-      <div class="om">ॐ</div>
       <div class="bangla">শুভ আগমন</div>
       <div class="sub">✦ Welcome to Pawan Retail ✦</div>
     </div>
@@ -978,25 +807,27 @@ function screenRegister() {
       <h1>Create Account</h1>
       <p class="auth-sub">Join Pawan Retail Limited</p>
       <form id="registerForm">
-        <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required placeholder="Your full name"></div>
-        <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required placeholder="10-digit number"></div>
-        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="regEmail" type="email" required placeholder="you@example.com"></div>
+        <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required></div>
+        <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="regEmail" type="email" required></div>
         <div class="form-group"><label class="form-label">Password</label>
-          <div class="input-wrap"><input class="form-input" id="regPassword" type="password" required minlength="6" placeholder="At least 6 characters">
+          <div class="input-wrap"><input class="form-input" id="regPassword" type="password" required minlength="6">
             <button type="button" class="input-toggle" data-toggle="regPassword">Show</button></div></div>
-        <div class="form-group"><label class="form-label">Confirm password</label><input class="form-input" id="regPassword2" type="password" required placeholder="Re-enter password"></div>
-        <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="regAddress" required placeholder="Your delivery address"></textarea></div>
+        <div class="form-group"><label class="form-label">Confirm password</label><input class="form-input" id="regPassword2" type="password" required></div>
+        <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="regAddress" required></textarea></div>
         <button class="btn btn-primary btn-block btn-lg" type="submit" id="regSubmit">🌺 Create account</button>
       </form>
-      <p class="auth-foot">Already registered? <a href="#" id="linkLogin" style="font-weight:800">Sign in</a></p>
+      <p class="auth-foot">Already registered? <a href="#" id="loginLink2" style="font-weight:800">Sign in</a></p>
     </div>
   </div></div>`;
 }
 
 function screenForgot() {
   return `<div class="auth-shell"><div class="auth-box">
+    <div class="auth-mata-frame">
+      <img src="${MATA_IMAGES.auth}" alt="Maa Durga" onerror="this.src='${MATA_IMAGES.fallback}';this.onerror=null;">
+    </div>
     <div class="mata-invocation">
-      <div class="om">ॐ</div>
       <div class="bangla">পাসওয়ার্ড রিসেট</div>
       <div class="sub">✦ Password Reset ✦</div>
     </div>
@@ -1005,7 +836,7 @@ function screenForgot() {
       <p class="auth-sub">We'll email you a secure reset link</p>
       <form id="forgotForm">
         <div class="form-group"><label class="form-label">Registered email</label>
-          <input class="form-input" id="forgotEmail" type="email" required placeholder="you@example.com"></div>
+          <input class="form-input" id="forgotEmail" type="email" required></div>
         <button class="btn btn-primary btn-block btn-lg" type="submit" id="forgotSubmit">🙏 Send reset link</button>
       </form>
       <p class="auth-foot"><a href="#" id="linkBackLogin" style="font-weight:700">← Back to sign in</a></p>
@@ -1024,7 +855,7 @@ function screenHome() {
     <div class="page">
       <div id="statusBannerSlot"></div>
       <div class="puja-hero">
-        <div class="mata-bg"></div>
+        <div class="mata-bg" style="background-image:url('${MATA_IMAGES.hero}')"></div>
         <div class="content">
           <div class="greet">🪔 শুভ দুর্গা পূজা 🪔</div>
           <div class="msg" id="homeGreeting">স্বাগতম</div>
@@ -1065,6 +896,15 @@ function screenCompany() {
     <div class="appbar"><button class="appbar-back" id="companyBack">${icon.back}</button>
       <div class="appbar-title" id="companyTitle">Company</div><div style="width:38px"></div></div>
     <div class="page" id="companyBody"></div>
+    ${BNAV("products")}
+  </div>`;
+}
+
+function screenRestaurant() {
+  return `<div class="shell">
+    <div class="appbar"><button class="appbar-back" id="restaurantBack">${icon.back}</button>
+      <div class="appbar-title" id="restaurantTitle">Restaurant</div><div style="width:38px"></div></div>
+    <div class="page" id="restaurantBody"></div>
     ${BNAV("products")}
   </div>`;
 }
@@ -1172,6 +1012,7 @@ function mountScreens() {
     <div id="scrHome" class="screen">${screenHome()}</div>
     <div id="scrCompanies" class="screen">${screenCompanies()}</div>
     <div id="scrCompany" class="screen">${screenCompany()}</div>
+    <div id="scrRestaurant" class="screen">${screenRestaurant()}</div>
     <div id="scrProductDetail" class="screen">${screenProductDetail()}</div>
     <div id="scrCart" class="screen">${screenCart()}</div>
     <div id="scrCheckout" class="screen">${screenCheckout()}</div>
@@ -1183,15 +1024,6 @@ function mountScreens() {
     <div id="scrAdmin" class="screen">${screenAdmin()}</div>
   `;
 
-  const diyaContainer = document.createElement("div");
-  diyaContainer.innerHTML = `
-    <div class="diya-float" style="top:15%;left:4%">🪔</div>
-    <div class="diya-float" style="top:35%;right:5%;animation-delay:1.2s">🌺</div>
-    <div class="diya-float" style="top:55%;left:6%;animation-delay:2.4s">🪔</div>
-    <div class="diya-float" style="top:75%;right:8%;animation-delay:1.8s">🌺</div>
-  `;
-  document.body.appendChild(diyaContainer);
-
   $$("[data-toggle]").forEach(b => b.onclick = () => {
     const inp = document.getElementById(b.dataset.toggle);
     if (!inp) return;
@@ -1200,6 +1032,7 @@ function mountScreens() {
   });
 
   $("#linkRegister").onclick = e => { e.preventDefault(); showScreen("scrRegister"); };
+  $("#loginLink2").onclick = e => { e.preventDefault(); showScreen("scrLogin"); };
   $("#linkLogin").onclick = e => { e.preventDefault(); showScreen("scrLogin"); };
   $("#linkForgot").onclick = e => { e.preventDefault(); showScreen("scrForgot"); };
   $("#linkBackLogin").onclick = e => { e.preventDefault(); showScreen("scrLogin"); };
@@ -1227,8 +1060,13 @@ function mountScreens() {
   });
 
   $("#companyBack").onclick = () => goTo("products");
+  $("#restaurantBack").onclick = () => {
+    if (S.currentCompany?.id) openCompany(S.currentCompany.id);
+    else goTo("products");
+  };
   $("#productBack").onclick = () => {
-    if (S.currentProduct?.companyId) openCompany(S.currentProduct.companyId);
+    if (S.currentRestaurant?.id && S.currentCompany?.id) openRestaurant(S.currentCompany.id, S.currentRestaurant.id);
+    else if (S.currentCompany?.id) openCompany(S.currentCompany.id);
     else goTo("products");
   };
   $("#checkoutBack").onclick = () => goTo("cart");
@@ -1446,9 +1284,7 @@ async function renderHome() {
 
 function companyCard(c) {
   const img = /^https?:\/\//i.test(c.logoUrl || "") ? c.logoUrl : "";
-  const open = isCompanyOpen(c);
-  return `<article class="product ${open ? "" : "closed"}" onclick="openCompany('${c.id}')" style="cursor:pointer">
-    ${open ? "" : `<div class="closed-overlay">CLOSED</div>`}
+  return `<article class="product" onclick="openCompany('${c.id}')" style="cursor:pointer">
     <div class="product-img" style="display:grid;place-items:center;background:linear-gradient(135deg,#b91c1c,#d97706);color:#fff;font-size:28px;font-weight:800">
       ${img ? `<img src="${escapeHtml(img)}" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='<span>${escapeHtml((c.name || 'C')[0].toUpperCase())}</span>'">` : `<span>${escapeHtml((c.name || "C")[0].toUpperCase())}</span>`}
     </div>
@@ -1456,10 +1292,7 @@ function companyCard(c) {
       <div class="product-cat">${escapeHtml(c.category || "Service")}</div>
       <div class="product-name">${escapeHtml(c.name || "")}</div>
       <div class="product-desc">${escapeHtml(c.description || "")}</div>
-      ${c.autoOpenClose && c.openTime && c.closeTime ? `
-        <div class="text-xs mt-2" style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:700">
-          ${open ? "● Open" : "● Closed"} · ${escapeHtml(companyHoursText(c))}
-        </div>` : ""}
+      <div class="text-xs mt-2" style="color:var(--brand);font-weight:700">🏢 View Restaurants →</div>
     </div>
   </article>`;
 }
@@ -1496,18 +1329,19 @@ function paintBrowseCompanies() {
   grid.innerHTML = list.map(companyCard).join("");
 }
 
+/* ============ COMPANY PAGE — shows restaurants ============ */
 window.openCompany = async (companyId) => {
   showScreen("scrCompany");
   $("#companyBody").innerHTML = `<div class="skeleton" style="height:120px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
   let company = null;
-  let products = [];
-  let reviews = [];
+  let restaurants = [];
 
   try {
     const companySnap = await getDoc(doc(db, "companies", companyId));
     if (!companySnap.exists()) { $("#companyBody").innerHTML = `<div class="empty">Company not found</div>`; return; }
     company = { id: companySnap.id, ...companySnap.data() };
-    $("#companyTitle").textContent = "🪔 " + (company.name || "Company");
+    S.currentCompany = company;
+    $("#companyTitle").textContent = "🏢 " + (company.name || "Company");
   } catch (err) {
     console.error("Company fetch error:", err);
     $("#companyBody").innerHTML = `<div class="empty">Failed to load company</div>`;
@@ -1515,15 +1349,115 @@ window.openCompany = async (companyId) => {
   }
 
   try {
-    const prodSnap = await getDocs(collection(db, "companies", companyId, "products"));
+    const restSnap = await getDocs(collection(db, "companies", companyId, "restaurants"));
+    restaurants = restSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(r => r.isActive !== false);
+  } catch (err) { console.warn("Restaurants fetch error:", err); restaurants = []; }
+
+  paintCompany(company, restaurants);
+};
+
+function paintCompany(company, restaurants) {
+  if (!company) { $("#companyBody").innerHTML = `<div class="empty">Company data missing</div>`; return; }
+  restaurants = restaurants || [];
+  const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
+  const status = getStatusMessage();
+
+  $("#companyBody").innerHTML = `
+    ${status.blocked ? renderBlockedBanner() : ""}
+    <div class="card card-elevated">
+      <div class="row">
+        <div style="width:68px;height:68px;border-radius:14px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:800;overflow:hidden;border:2px solid var(--gold)">
+          ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((company.name || "C")[0])}</span>`}
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:18px;font-weight:800;font-family:var(--font-display);color:var(--brand)">${escapeHtml(company.name || "")}</div>
+          <div class="text-xs text-soft" style="margin-top:3px">${escapeHtml(company.category || "")}</div>
+        </div>
+      </div>
+      <div class="text-sm text-muted mt-3" style="line-height:1.6">${escapeHtml(company.description || "")}</div>
+    </div>
+
+    <div class="section-header mt-4" style="margin-bottom:12px">
+      <h2>Restaurants</h2>
+      <span class="text-xs text-soft">${restaurants.length} available</span>
+    </div>
+    <div id="restaurantList"></div>
+  `;
+  startBlockTimer();
+
+  const list = $("#restaurantList");
+  if (!restaurants.length) {
+    list.innerHTML = `<div class="empty">🪔 No restaurants available in this company</div>`;
+    return;
+  }
+  list.innerHTML = restaurants.map(r => restaurantCard(r, company.id)).join("");
+}
+
+function restaurantCard(r, companyId) {
+  const img = /^https?:\/\//i.test(r.logoUrl || "") ? r.logoUrl : "";
+  const open = isRestaurantOpen(r);
+  const hours = restaurantHoursText(r);
+  const showHours = r.autoOpenClose === true && hours;
+  const codBadge = r.codEnabled !== false ? '<span class="badge badge-success">COD</span>' : '<span class="badge badge-neutral">Prepaid</span>';
+
+  return `<article class="restaurant-card" onclick="openRestaurant('${companyId}', '${r.id}')">
+    ${!open ? `<div class="closed-overlay">CLOSED</div>` : ""}
+    <div class="rc-logo">
+      ${img ? `<img src="${escapeHtml(img)}" onerror="this.outerHTML='<span>${escapeHtml((r.name || 'R')[0].toUpperCase())}</span>'">` : `<span>${escapeHtml((r.name || "R")[0].toUpperCase())}</span>`}
+    </div>
+    <div class="rc-body">
+      <div class="rc-name">${escapeHtml(r.name || "")}</div>
+      <div class="rc-cat">${escapeHtml(r.cuisine || r.category || "Multi-cuisine")}</div>
+      <div class="rc-meta">
+        ${codBadge}
+        ${showHours ? `<span style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:700">${open ? "● Open" : "● Closed"} · ${escapeHtml(hours)}</span>` : ""}
+      </div>
+      ${r.description ? `<div class="rc-desc">${escapeHtml(r.description)}</div>` : ""}
+    </div>
+    <div class="rc-arrow">${icon.chev}</div>
+  </article>`;
+}
+
+/* ============ RESTAURANT PAGE — shows products ============ */
+window.openRestaurant = async (companyId, restaurantId) => {
+  showScreen("scrRestaurant");
+  $("#restaurantBody").innerHTML = `<div class="skeleton" style="height:120px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
+  let company = null, restaurant = null, products = [], reviews = [];
+
+  try {
+    const [companySnap, restSnap] = await Promise.all([
+      getDoc(doc(db, "companies", companyId)),
+      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId))
+    ]);
+    if (!companySnap.exists() || !restSnap.exists()) {
+      $("#restaurantBody").innerHTML = `<div class="empty">Restaurant not found</div>`;
+      return;
+    }
+    company = { id: companySnap.id, ...companySnap.data() };
+    restaurant = { id: restSnap.id, ...restSnap.data() };
+    S.currentCompany = company;
+    S.currentRestaurant = restaurant;
+    $("#restaurantTitle").textContent = "🍽️ " + (restaurant.name || "Restaurant");
+  } catch (err) {
+    console.error("Restaurant fetch error:", err);
+    $("#restaurantBody").innerHTML = `<div class="empty">Failed to load restaurant</div>`;
+    return;
+  }
+
+  try {
+    const prodSnap = await getDocs(collection(db, "companies", companyId, "restaurants", restaurantId, "products"));
     products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.isActive !== false);
   } catch (err) { console.warn("Products fetch error:", err); products = []; }
 
-  paintCompany(company, products, []);
+  paintRestaurant(company, restaurant, products, []);
 
+  // Background reviews
   (async () => {
     try {
-      const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
+      const ordersSnap = await getDocs(query(
+        collection(db, "orders"),
+        where("restaurantId", "==", restaurantId)
+      ));
       const deliveredOrderIds = ordersSnap.docs.filter(d => d.data().status === "successful").map(d => d.id);
       if (!deliveredOrderIds.length) return;
       const allReviews = [];
@@ -1536,22 +1470,22 @@ window.openCompany = async (companyId) => {
       }
       if (allReviews.length) {
         allReviews.sort(byNewest);
-        paintCompany(company, products, allReviews);
+        paintRestaurant(company, restaurant, products, allReviews);
       }
-    } catch (err) { console.warn("Reviews bg load skipped:", err?.code); }
+    } catch (err) { console.warn("Reviews bg skipped:", err?.code); }
   })();
 };
 
-function paintCompany(company, products, reviews) {
-  if (!company) { $("#companyBody").innerHTML = `<div class="empty">Company data missing</div>`; return; }
+function paintRestaurant(company, restaurant, products, reviews) {
+  if (!company || !restaurant) { $("#restaurantBody").innerHTML = `<div class="empty">Data missing</div>`; return; }
   reviews = reviews || []; products = products || [];
 
-  const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
+  const logo = /^https?:\/\//i.test(restaurant.logoUrl || "") ? restaurant.logoUrl : "";
   const status = getStatusMessage();
-  const isOpen = isCompanyOpen(company);
-  const hours = companyHoursText(company);
-  const showHours = company.autoOpenClose === true && hours;
-  const codBadge = company.codEnabled !== false
+  const isOpen = isRestaurantOpen(restaurant);
+  const hours = restaurantHoursText(restaurant);
+  const showHours = restaurant.autoOpenClose === true && hours;
+  const codBadge = restaurant.codEnabled !== false
     ? '<span class="badge badge-success">COD available</span>'
     : '<span class="badge badge-neutral">Prepaid only</span>';
 
@@ -1563,44 +1497,50 @@ function paintCompany(company, products, reviews) {
       <span class="text-xs text-soft">${avgRating.toFixed(1)} · ${reviews.length} review${reviews.length > 1 ? "s" : ""}</span>
     </div>` : "";
 
-  $("#companyBody").innerHTML = `
+  $("#restaurantBody").innerHTML = `
     ${status.blocked ? renderBlockedBanner() : ""}
+    <div class="company-mini" onclick="openCompany('${company.id}')">
+      ${/^https?:\/\//i.test(company.logoUrl || "") ? `<img src="${escapeHtml(company.logoUrl)}">` : `<div class="mini-logo">${escapeHtml((company.name || "C")[0])}</div>`}
+      <div class="mini-info">
+        <div class="mini-name">${escapeHtml(company.name || "")}</div>
+        <div class="mini-cat">${escapeHtml(company.category || "")}</div>
+      </div>
+      <span class="text-soft">${icon.chev}</span>
+    </div>
+
     ${!isOpen ? `
       <div class="closed-banner">
         <span class="icon">🚫</span>
         <div class="content">
           <div class="title">Currently Closed</div>
-          <div class="msg">${escapeHtml(company.closedMessage || "This restaurant is currently closed. Please come back during opening hours.")}</div>
+          <div class="msg">${escapeHtml(restaurant.closedMessage || "This restaurant is currently closed.")}</div>
           ${hours ? `<div class="hrs">Opening hours: ${escapeHtml(hours)}</div>` : ""}
         </div>
       </div>` : ""}
+
     <div class="card card-elevated">
       <div class="row">
-        <div style="width:68px;height:68px;border-radius:14px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:800;overflow:hidden;box-shadow:var(--sh-brand);border:2px solid var(--gold)">
-          ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((company.name || "C")[0])}</span>`}
+        <div style="width:68px;height:68px;border-radius:14px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:800;overflow:hidden;border:2px solid var(--gold)">
+          ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((restaurant.name || "R")[0])}</span>`}
         </div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:18px;font-weight:800;letter-spacing:-.02em;font-family:var(--font-display);color:var(--brand)">${escapeHtml(company.name || "")}</div>
-          <div class="text-xs text-soft" style="margin-top:3px">${escapeHtml(company.category || "")}</div>
+          <div style="font-size:18px;font-weight:800;font-family:var(--font-display);color:var(--brand)">${escapeHtml(restaurant.name || "")}</div>
+          <div class="text-xs text-soft" style="margin-top:3px">${escapeHtml(restaurant.cuisine || restaurant.category || "Multi-cuisine")}</div>
           ${ratingHtml}
           <div class="row mt-2" style="gap:6px">${codBadge}</div>
-          ${showHours ? `
-            <div class="text-xs mt-2" style="color:${isOpen ? "var(--success)" : "var(--danger)"};font-weight:800">
-              ${isOpen ? "● Open now" : "● Closed"} · ${escapeHtml(hours)}
-            </div>` : ""}
+          ${showHours ? `<div class="text-xs mt-2" style="color:${isOpen ? "var(--success)" : "var(--danger)"};font-weight:800">${isOpen ? "● Open now" : "● Closed"} · ${escapeHtml(hours)}</div>` : ""}
         </div>
       </div>
-      <div class="text-sm text-muted mt-3" style="line-height:1.6">${escapeHtml(company.description || "")}</div>
-      ${company.requiresNumber ? `<div class="info-box mt-3">ℹ️ Number required: choose "own" (₹0) or "company" (₹${company.numberCharge || 0}).</div>` : ""}
+      <div class="text-sm text-muted mt-3" style="line-height:1.6">${escapeHtml(restaurant.description || "")}</div>
     </div>
 
-    <div class="section-header mt-4" style="margin-bottom:12px"><h2>Products</h2></div>
-    <div class="product-grid" id="companyProducts"></div>
+    <div class="section-header mt-4" style="margin-bottom:12px"><h2>Menu</h2></div>
+    <div class="product-grid" id="restaurantProducts"></div>
 
     ${reviews.length ? `
       <div class="section-header mt-4" style="margin-bottom:12px">
         <h2>Customer Reviews</h2>
-        <a href="#" onclick="event.preventDefault();openAllReviews('${company.id}')">See all</a>
+        <a href="#" onclick="event.preventDefault();openAllReviews('${restaurant.id}')">See all</a>
       </div>
       <div class="card">
         <div class="rating-summary">
@@ -1623,19 +1563,19 @@ function paintCompany(company, products, reviews) {
     ` : ""}
   `;
   startBlockTimer();
-  const grid = $("#companyProducts");
+  const grid = $("#restaurantProducts");
   if (!grid) return;
   if (!products.length) { grid.innerHTML = `<div class="empty" style="grid-column:1/-1">🪔 No products available</div>`; return; }
 
   grid.innerHTML = products.map(p => `
-    <article class="product ${isOpen ? "" : "closed"}" onclick="openProductDetail('${company.id}', '${p.id}')">
+    <article class="product ${isOpen ? "" : "closed"}" onclick="openProductDetail('${company.id}', '${restaurant.id}', '${p.id}')">
       <img class="product-img" src="${escapeHtml(/^https?:\/\//i.test(p.imageUrl || "") ? p.imageUrl : PLACEHOLDER_IMG)}" onerror="this.src='${PLACEHOLDER_IMG}'">
       <div class="product-body">
         <div class="product-name">${escapeHtml(p.name || "")}</div>
         <div class="product-desc">${escapeHtml(p.description || "")}</div>
         <div class="product-price">${fmtINR(p.price)}</div>
         <div class="product-cta">
-          <button class="btn btn-primary btn-sm btn-block" ${isOpen ? "" : "disabled"} onclick="event.stopPropagation();addProductToCart('${p.id}', '${company.id}')">
+          <button class="btn btn-primary btn-sm btn-block" ${isOpen ? "" : "disabled"} onclick="event.stopPropagation();addProductToCart('${p.id}', '${company.id}', '${restaurant.id}')">
             ${isOpen ? "Add to Cart" : "Closed"}
           </button>
         </div>
@@ -1643,9 +1583,9 @@ function paintCompany(company, products, reviews) {
     </article>`).join("");
 }
 
-window.openAllReviews = async (companyId) => {
+window.openAllReviews = async (restaurantId) => {
   try {
-    const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
+    const ordersSnap = await getDocs(query(collection(db, "orders"), where("restaurantId", "==", restaurantId)));
     const orderIds = ordersSnap.docs.filter(d => d.data().status === "successful").map(d => d.id);
     let reviews = [];
     for (let i = 0; i < orderIds.length; i += 10) {
@@ -1682,32 +1622,36 @@ window.openAllReviews = async (companyId) => {
   } catch (e) { toast("Failed to load reviews", "error"); }
 };
 
-window.openProductDetail = async (companyId, productId) => {
+window.openProductDetail = async (companyId, restaurantId, productId) => {
   showScreen("scrProductDetail");
   S.productQty = 1;
   $("#productBody").innerHTML = `<div class="skeleton" style="height:280px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
-  let company, product;
+  let company, restaurant, product;
   try {
-    const [companySnap, prodSnap] = await Promise.all([
+    const [cS, rS, pS] = await Promise.all([
       getDoc(doc(db, "companies", companyId)),
-      getDoc(doc(db, "companies", companyId, "products", productId))
+      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId)),
+      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", productId))
     ]);
-    if (!companySnap.exists() || !prodSnap.exists()) {
+    if (!cS.exists() || !rS.exists() || !pS.exists()) {
       $("#productBody").innerHTML = `<div class="empty">Product not found</div>`; return;
     }
-    company = { id: companySnap.id, ...companySnap.data() };
-    product = { id: prodSnap.id, ...prodSnap.data() };
-    S.currentProduct = { ...product, companyId };
+    company = { id: cS.id, ...cS.data() };
+    restaurant = { id: rS.id, ...rS.data() };
+    product = { id: pS.id, ...pS.data() };
+    S.currentCompany = company;
+    S.currentRestaurant = restaurant;
+    S.currentProduct = { ...product, companyId, restaurantId };
   } catch (err) {
     console.error(err);
     $("#productBody").innerHTML = `<div class="empty">Failed to load</div>`; return;
   }
 
-  paintProductDetail(company, product, []);
+  paintProductDetail(company, restaurant, product, []);
 
   (async () => {
     try {
-      const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
+      const ordersSnap = await getDocs(query(collection(db, "orders"), where("restaurantId", "==", restaurantId)));
       const relevantOrderIds = ordersSnap.docs
         .filter(d => {
           const data = d.data();
@@ -1726,17 +1670,17 @@ window.openProductDetail = async (companyId, productId) => {
       }
       if (productReviews.length) {
         productReviews.sort(byNewest);
-        paintProductDetail(company, product, productReviews);
+        paintProductDetail(company, restaurant, product, productReviews);
       }
     } catch (err) { console.warn("Product reviews:", err?.code); }
   })();
 };
 
-function paintProductDetail(company, product, reviews) {
+function paintProductDetail(company, restaurant, product, reviews) {
   reviews = reviews || [];
   const img = /^https?:\/\//i.test(product.imageUrl || "") ? product.imageUrl : PLACEHOLDER_IMG;
-  const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
-  const isOpen = isCompanyOpen(company);
+  const logo = /^https?:\/\//i.test(restaurant.logoUrl || "") ? restaurant.logoUrl : "";
+  const isOpen = isRestaurantOpen(restaurant);
   const status = getStatusMessage();
 
   const avg = reviews.length ? (reviews.reduce((s, r) => s + (r.rating||0), 0) / reviews.length) : 0;
@@ -1755,18 +1699,18 @@ function paintProductDetail(company, product, reviews) {
     <div class="product-detail">
       <img class="product-detail-img" src="${escapeHtml(img)}" onerror="this.src='${PLACEHOLDER_IMG}'">
       <div class="product-detail-body">
-        <div class="product-detail-cat">${escapeHtml(product.category || company.category || "Product")}</div>
+        <div class="product-detail-cat">${escapeHtml(product.category || restaurant.cuisine || "Product")}</div>
         <div class="product-detail-name">${escapeHtml(product.name || "")}</div>
         <div class="product-detail-price">${fmtINR(product.price)}</div>
         <div class="product-detail-desc">${escapeHtml(product.description || "No description available.")}</div>
       </div>
     </div>
 
-    <div class="company-mini mt-3" onclick="openCompany('${company.id}')">
-      ${logo ? `<img src="${escapeHtml(logo)}" onerror="this.outerHTML='<div class=\\'mini-logo\\'>${escapeHtml((company.name || 'C')[0])}</div>'">` : `<div class="mini-logo">${escapeHtml((company.name || "C")[0])}</div>`}
+    <div class="company-mini mt-3" onclick="openRestaurant('${company.id}', '${restaurant.id}')">
+      ${logo ? `<img src="${escapeHtml(logo)}">` : `<div class="mini-logo">${escapeHtml((restaurant.name || "R")[0])}</div>`}
       <div class="mini-info">
-        <div class="mini-name">${escapeHtml(company.name || "")}</div>
-        <div class="mini-cat">${escapeHtml(company.category || "")} · ${isOpen ? '<span style="color:var(--success);font-weight:800">Open</span>' : '<span style="color:var(--danger);font-weight:800">Closed</span>'}</div>
+        <div class="mini-name">${escapeHtml(restaurant.name || "")}</div>
+        <div class="mini-cat">${escapeHtml(company.name || "")} · ${isOpen ? '<span style="color:var(--success);font-weight:800">Open</span>' : '<span style="color:var(--danger);font-weight:800">Closed</span>'}</div>
       </div>
       <span class="text-soft">${icon.chev}</span>
     </div>
@@ -1784,12 +1728,10 @@ function paintProductDetail(company, product, reviews) {
       ${isOpen ? "🛒 Add to Cart — " + fmtINR(product.price) : "Currently Closed"}
     </button>
 
-    ${!isOpen ? `<div class="warn-box mt-3">This restaurant is currently closed. You cannot add items right now.</div>` : ""}
+    ${!isOpen ? `<div class="warn-box mt-3">Restaurant is currently closed. You cannot add items right now.</div>` : ""}
 
     ${reviews.length ? `
-      <div class="section-header mt-4" style="margin-bottom:12px">
-        <h2>Customer Reviews</h2>
-      </div>
+      <div class="section-header mt-4" style="margin-bottom:12px"><h2>Customer Reviews</h2></div>
       <div class="card">
         ${ratingHtml}
         ${reviews.map(r => `
@@ -1813,7 +1755,7 @@ function paintProductDetail(company, product, reviews) {
     `}
   `;
   const addBtn = $("#pdAddToCart");
-  if (addBtn) addBtn.onclick = () => addProductToCartWithQty(product.id, company.id, S.productQty);
+  if (addBtn) addBtn.onclick = () => addProductToCartWithQty(product.id, company.id, restaurant.id, S.productQty);
 }
 
 window.changeProductQty = (delta) => {
@@ -1822,26 +1764,37 @@ window.changeProductQty = (delta) => {
   if (el) el.textContent = S.productQty;
 };
 
-async function addProductToCartWithQty(productId, companyId, qty) {
+async function addProductToCartWithQty(productId, companyId, restaurantId, qty) {
   const status = getStatusMessage();
   if (status.blocked) { toast(status.title + ": " + status.message, "error"); return; }
   try {
-    const companySnap = await getDoc(doc(db, "companies", companyId));
-    if (!companySnap.exists()) return toast("Company not found", "error");
-    const company = { id: companyId, ...companySnap.data() };
-    if (!isCompanyOpen(company)) return toast(`${company.name} is currently closed. Please try during opening hours.`, "error");
-    const prodSnap = await getDoc(doc(db, "companies", companyId, "products", productId));
-    if (!prodSnap.exists()) return toast("Product not found", "error");
-    const product = { id: productId, ...prodSnap.data() };
+    const [cS, rS, pS] = await Promise.all([
+      getDoc(doc(db, "companies", companyId)),
+      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId)),
+      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", productId))
+    ]);
+    if (!cS.exists()) return toast("Company not found", "error");
+    if (!rS.exists()) return toast("Restaurant not found", "error");
+    if (!pS.exists()) return toast("Product not found", "error");
+    const company = { id: companyId, ...cS.data() };
+    const restaurant = { id: restaurantId, ...rS.data() };
+    const product = { id: productId, ...pS.data() };
+    if (!isRestaurantOpen(restaurant)) return toast(`${restaurant.name} is currently closed.`, "error");
     if (product.isActive === false) return toast("Not available", "error");
 
-    if (S.cart.companyId && S.cart.companyId !== companyId) {
-      return confirmDialog(`Your cart has items from ${S.cart.companyName}. Clear it?`, () => {
+    // Different restaurant? Clear cart
+    if (S.cart.restaurantId && S.cart.restaurantId !== restaurantId) {
+      return confirmDialog(`Your cart has items from ${S.cart.restaurantName}. Clear it?`, () => {
         clearCart();
-        addProductToCartWithQty(productId, companyId, qty);
+        addProductToCartWithQty(productId, companyId, restaurantId, qty);
       });
     }
-    if (!S.cart.companyId) { S.cart.companyId = companyId; S.cart.companyName = company.name; }
+    if (!S.cart.restaurantId) {
+      S.cart.companyId = companyId;
+      S.cart.companyName = company.name;
+      S.cart.restaurantId = restaurantId;
+      S.cart.restaurantName = restaurant.name;
+    }
     const existing = S.cart.items.find(i => i.productId === productId);
     if (existing) existing.quantity += qty;
     else S.cart.items.push({ productId, name: product.name, imageUrl: product.imageUrl || "", price: Number(product.price) || 0, quantity: qty });
@@ -1854,7 +1807,9 @@ async function addProductToCartWithQty(productId, companyId, qty) {
     toast("Failed to add to cart", "error");
   }
 }
-window.addProductToCart = async (productId, companyId) => { await addProductToCartWithQty(productId, companyId, 1); };
+window.addProductToCart = async (productId, companyId, restaurantId) => {
+  await addProductToCartWithQty(productId, companyId, restaurantId, 1);
+};
 
 function renderCart() {
   const body = $("#cartBody");
@@ -1868,15 +1823,15 @@ function renderCart() {
     body.innerHTML = `<div class="empty"><div style="font-size:52px;opacity:.35;margin-bottom:14px">🛒</div>
       <p style="font-weight:800;font-size:15px;color:var(--text)">Your cart is empty</p>
       <p class="text-sm text-soft mt-2">Add products to get started</p>
-      <button class="btn btn-primary mt-4" onclick="goTo('products')">🌺 Browse companies</button></div>`;
+      <button class="btn btn-primary mt-4" onclick="goTo('products')">🌺 Browse restaurants</button></div>`;
     return;
   }
   const subtotal = S.cart.items.reduce((s, i) => s + i.price * i.quantity, 0);
   body.innerHTML = `
     <div class="card card-flat card-elevated">
       <div class="card-row" style="cursor:default">
-        <div><div class="font-bold" style="font-size:15px;color:var(--brand)">${escapeHtml(S.cart.companyName || "")}</div>
-          <div class="text-xs text-soft">${S.cart.items.length} item(s)</div></div>
+        <div><div class="font-bold" style="font-size:15px;color:var(--brand)">${escapeHtml(S.cart.restaurantName || S.cart.companyName || "")}</div>
+          <div class="text-xs text-soft">${escapeHtml(S.cart.companyName || "")} · ${S.cart.items.length} item(s)</div></div>
       </div>
       ${S.cart.items.map(i => `
         <div class="cart-item">
@@ -1933,20 +1888,25 @@ async function renderCheckout() {
   if (!body) return;
   const status = getStatusMessage();
   if (status.blocked) { body.innerHTML = renderBlockedBanner(); startBlockTimer(); return; }
-  let company;
+
+  let company, restaurant;
   try {
-    const companySnap = await getDoc(doc(db, "companies", S.cart.companyId));
-    if (!companySnap.exists()) { body.innerHTML = `<div class="empty">Company unavailable</div>`; return; }
-    company = { id: companySnap.id, ...companySnap.data() };
+    const [cS, rS] = await Promise.all([
+      getDoc(doc(db, "companies", S.cart.companyId)),
+      getDoc(doc(db, "companies", S.cart.companyId, "restaurants", S.cart.restaurantId))
+    ]);
+    if (!cS.exists() || !rS.exists()) { body.innerHTML = `<div class="empty">Restaurant unavailable</div>`; return; }
+    company = { id: cS.id, ...cS.data() };
+    restaurant = { id: rS.id, ...rS.data() };
   } catch (e) { body.innerHTML = `<div class="empty">Failed to load</div>`; return; }
 
-  if (!isCompanyOpen(company)) {
+  if (!isRestaurantOpen(restaurant)) {
     body.innerHTML = `
       <div class="closed-banner">
         <span class="icon">🚫</span>
         <div class="content">
           <div class="title">Restaurant Currently Closed</div>
-          <div class="msg">${escapeHtml(company.closedMessage || "You cannot place an order right now.")}</div>
+          <div class="msg">${escapeHtml(restaurant.closedMessage || "You cannot place an order right now.")}</div>
         </div>
       </div>
       <button class="btn btn-secondary btn-block" onclick="goTo('cart')">Back to cart</button>`;
@@ -1954,13 +1914,13 @@ async function renderCheckout() {
   }
 
   const subtotal = S.cart.items.reduce((s, i) => s + i.price * i.quantity, 0);
-  const requiresNumber = company.requiresNumber === true;
-  const numberCharge = requiresNumber ? Number(company.numberCharge || 0) : 0;
-  const codEnabled = company.codEnabled !== false;
+  const requiresNumber = restaurant.requiresNumber === true;
+  const numberCharge = requiresNumber ? Number(restaurant.numberCharge || 0) : 0;
+  const codEnabled = restaurant.codEnabled !== false;
   await checkFirstOrder();
   const isFirstOrder = S.isFirstOrder;
-  const deliveryCharge = isFirstOrder ? 0 : Number(company.deliveryCharge || 0);
-  const serviceCharge = isFirstOrder ? 0 : Number(company.serviceCharge || 0);
+  const deliveryCharge = isFirstOrder ? 0 : Number(restaurant.deliveryCharge || 0);
+  const serviceCharge = isFirstOrder ? 0 : Number(restaurant.serviceCharge || 0);
   const couponDiscount = S.appliedCoupon ? S.appliedCoupon.discount : 0;
 
   body.innerHTML = `
@@ -1969,21 +1929,16 @@ async function renderCheckout() {
       <div class="desc">No delivery or service charges on your first order.</div>
     </div></div>` : ""}
     <div class="card">
-      <div class="font-bold mb-2" style="font-size:15px;color:var(--brand)">${escapeHtml(company.name || "")}</div>
-      <div class="text-xs text-soft">${S.cart.items.length} product(s)</div>
+      <div class="font-bold mb-2" style="font-size:15px;color:var(--brand)">${escapeHtml(restaurant.name || "")}</div>
+      <div class="text-xs text-soft">${escapeHtml(company.name || "")} · ${S.cart.items.length} product(s)</div>
     </div>
     <div class="card">
       <div class="section-title">Delivery Details</div>
-      <div class="form-group"><label class="form-label">Name</label>
-        <input class="form-input" id="coName" value="${escapeHtml(S.profile.name || "")}" readonly></div>
-      <div class="form-group"><label class="form-label">Phone</label>
-        <input class="form-input" id="coPhone" value="${escapeHtml(String(S.profile.phone || ""))}" maxlength="10" inputmode="numeric"></div>
-      <div class="form-group"><label class="form-label">Email</label>
-        <input class="form-input" id="coEmail" value="${escapeHtml(S.profile.email || "")}" readonly></div>
-      <div class="form-group"><label class="form-label">Address</label>
-        <textarea class="form-textarea" id="coAddress">${escapeHtml(typeof S.profile.address === "string" ? S.profile.address : "")}</textarea></div>
-      <div class="form-group"><label class="form-label">Notes (optional)</label>
-        <textarea class="form-textarea" id="coNotes" placeholder="Any instructions"></textarea></div>
+      <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="coName" value="${escapeHtml(S.profile.name || "")}" readonly></div>
+      <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="coPhone" value="${escapeHtml(String(S.profile.phone || ""))}" maxlength="10" inputmode="numeric"></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="coEmail" value="${escapeHtml(S.profile.email || "")}" readonly></div>
+      <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="coAddress">${escapeHtml(typeof S.profile.address === "string" ? S.profile.address : "")}</textarea></div>
+      <div class="form-group"><label class="form-label">Notes (optional)</label><textarea class="form-textarea" id="coNotes" placeholder="Any instructions"></textarea></div>
     </div>
 
     <div class="card">
@@ -1996,10 +1951,7 @@ async function renderCheckout() {
             <div class="radio-row-desc">Pay in cash when your order arrives</div>
           </label>
         </div>` : `
-        <div class="cod-hint" style="margin-bottom:10px">
-          <span>ℹ️</span>
-          <span>Cash on Delivery not available. Please pay online via UPI.</span>
-        </div>`}
+        <div class="cod-hint" style="margin-bottom:10px"><span>ℹ️</span><span>COD not available. Pay online via UPI.</span></div>`}
       <div class="radio-row selected" data-pay="upi">
         <input type="radio" name="paymentMethod" value="upi" id="pmUPI" checked>
         <label for="pmUPI" class="radio-row-text">
@@ -2023,7 +1975,7 @@ async function renderCheckout() {
         <div class="radio-row" data-choice="company">
           <input type="radio" name="numberChoice" value="company" id="choiceCompany">
           <label for="choiceCompany" class="radio-row-text">
-            <div class="radio-row-title">Company provides the number</div>
+            <div class="radio-row-title">Restaurant provides the number</div>
             <div class="radio-row-desc">Additional charge: ${fmtINR(numberCharge)}</div>
           </label>
         </div>
@@ -2099,18 +2051,18 @@ async function renderCheckout() {
   };
 
   $("#placeOrderBtn").onclick = () => placeOrder({
-    company, subtotal, selectedChoice,
+    company, restaurant, subtotal, selectedChoice,
     numberCharge: selectedNumberCharge,
     deliveryCharge, serviceCharge, requiresNumber,
     paymentMethod: selectedPaymentMethod
   });
 }
 
-async function placeOrder({ company, subtotal, selectedChoice, numberCharge, deliveryCharge, serviceCharge, requiresNumber, paymentMethod }) {
+async function placeOrder({ company, restaurant, subtotal, selectedChoice, numberCharge, deliveryCharge, serviceCharge, requiresNumber, paymentMethod }) {
   await refreshProfile();
   const status = getStatusMessage();
   if (status.blocked) return toast(status.title + ": " + status.message, "error");
-  if (!isCompanyOpen(company)) return toast(`${company.name} is currently closed.`, "error");
+  if (!isRestaurantOpen(restaurant)) return toast(`${restaurant.name} is currently closed.`, "error");
   const phone = $("#coPhone").value.trim();
   const address = $("#coAddress").value.trim();
   const notes = $("#coNotes").value.trim();
@@ -2119,7 +2071,7 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
   if (!address) return toast("Address required", "error");
   if (requiresNumber && selectedChoice === "own" && !ownNumber) return toast("Enter your number", "error");
   if (requiresNumber && !selectedChoice) return toast("Choose a number option", "error");
-  const codEnabled = company.codEnabled !== false;
+  const codEnabled = restaurant.codEnabled !== false;
   if (paymentMethod === "cod" && !codEnabled) return toast("COD not available", "error");
 
   const btn = $("#placeOrderBtn");
@@ -2127,7 +2079,7 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
   try {
     const validItems = [];
     for (const item of S.cart.items) {
-      const pSnap = await getDoc(doc(db, "companies", company.id, "products", item.productId));
+      const pSnap = await getDoc(doc(db, "companies", company.id, "restaurants", restaurant.id, "products", item.productId));
       if (!pSnap.exists()) throw new Error(`Product "${item.name}" unavailable`);
       const p = pSnap.data();
       if (p.isActive === false) throw new Error(`Product "${p.name}" not available`);
@@ -2146,6 +2098,7 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
       customerName: S.profile.name || "", customerEmail: S.profile.email || "",
       customerPhone: phone, address, notes,
       companyId: company.id, companyName: company.name, companyLogo: company.logoUrl || "",
+      restaurantId: restaurant.id, restaurantName: restaurant.name, restaurantLogo: restaurant.logoUrl || "",
       items: validItems, subtotal: finalSubtotal,
       numberOption: selectedChoice, numberCharge, customerOwnNumber: ownNumber || "",
       deliveryCharge, serviceCharge,
@@ -2199,28 +2152,16 @@ function paintOrders() {
       <div class="order-body">
         ${firstItem?.imageUrl ? `<img class="order-thumb" src="${escapeHtml(firstItem.imageUrl)}" onerror="this.style.display='none'">` : ""}
         <div class="order-info">
-          <div class="order-name">${escapeHtml(o.companyName || "")}</div>
-          <div class="order-date">${(o.items || []).length} item(s) · ${fmtDate(o.createdAt)}</div>
+          <div class="order-name">${escapeHtml(o.restaurantName || o.companyName || "")}</div>
+          <div class="order-date">${escapeHtml(o.companyName || "")} · ${(o.items || []).length} item(s) · ${fmtDate(o.createdAt)}</div>
         </div>
       </div>
       <div class="order-foot"><span class="text-muted">Total</span>
         <span class="amt">${fmtINR(o.grandTotal)}</span></div>
-      ${delivered && hasTracking ? `
-        <div class="order-actions">
-          <button class="btn btn-primary btn-sm btn-block" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">🚚 Track Delivery</button>
-        </div>` : ""}
-      ${delivered && !hasReview ? `
-        <div class="order-actions">
-          <button class="btn btn-success btn-sm btn-block" onclick="openReviewForm('${o.id}')">⭐ Rate & Review</button>
-        </div>` : ""}
-      ${delivered && hasReview ? `
-        <div class="order-actions">
-          <button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">✓ Reviewed · View Details</button>
-        </div>` : ""}
-      ${!delivered ? `
-        <div class="order-actions">
-          <button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">View Details</button>
-        </div>` : ""}
+      ${delivered && hasTracking ? `<div class="order-actions"><button class="btn btn-primary btn-sm btn-block" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">🚚 Track Delivery</button></div>` : ""}
+      ${delivered && !hasReview ? `<div class="order-actions"><button class="btn btn-success btn-sm btn-block" onclick="openReviewForm('${o.id}')">⭐ Rate & Review</button></div>` : ""}
+      ${delivered && hasReview ? `<div class="order-actions"><button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">✓ Reviewed · View Details</button></div>` : ""}
+      ${!delivered ? `<div class="order-actions"><button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">View Details</button></div>` : ""}
     </article>`;
   }).join("");
 }
@@ -2261,7 +2202,6 @@ function paintOrderDetail(o, history, review) {
     else if (i === currentIdx) cls = "current";
     return `<div class="timeline-step ${cls}"><div class="tl-label">${ORDER_STATUS[s].label}</div></div>`;
   }).join("");
-
   const isDelivered = o.status === "successful";
   const hasTracking = !!o.trackingUrl;
   const paymentLabel = o.paymentMethod === "cod" ? "Cash on Delivery" : "Online (UPI)";
@@ -2283,15 +2223,14 @@ function paintOrderDetail(o, history, review) {
           <div class="font-bold font-mono" style="font-size:16px;color:var(--brand)">#${escapeHtml(o.orderId || o.id)}</div></div>
         <span class="badge badge-${info.tone}">${info.label}</span>
       </div>
-      <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
-      <div class="text-xs text-soft mt-2">${fmtDate(o.createdAt, true)}</div>
+      <div class="text-sm text-muted">${escapeHtml(o.restaurantName || o.companyName || "")}</div>
+      <div class="text-xs text-soft mt-2">${escapeHtml(o.companyName || "")} · ${fmtDate(o.createdAt, true)}</div>
     </div>
 
     ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
       <div class="reason-card">
         <div class="title">${o.status === "rejected" ? "Rejection Reason" : "Cancellation Reason"}</div>
         <div class="text">${escapeHtml(o.cancelReason)}</div>
-        ${o.cancelledAt ? `<div class="meta">on ${fmtDate(o.cancelledAt, true)}</div>` : ""}
       </div>` : ""}
 
     ${isDelivered && review ? `
@@ -2302,7 +2241,6 @@ function paintOrderDetail(o, history, review) {
         </div>
         ${review.reviewText ? `<div class="text-sm text-muted mb-2">"${escapeHtml(review.reviewText)}"</div>` : ""}
         ${review.mapsLink ? `<a href="${escapeHtml(review.mapsLink)}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm mt-2" style="display:inline-flex">📍 View on Maps</a>` : ""}
-        <div class="text-xs text-soft mt-2">Submitted on ${fmtDate(review.createdAt, true)}</div>
       </div>` : ""}
 
     <div class="card">
@@ -2324,9 +2262,9 @@ function paintOrderDetail(o, history, review) {
       ${o.deliveryCharge > 0 ? `<div class="price-row"><span class="text-muted">Delivery</span><span>${fmtINR(o.deliveryCharge)}</span></div>` : ""}
       ${o.serviceCharge > 0 ? `<div class="price-row"><span class="text-muted">Service</span><span>${fmtINR(o.serviceCharge)}</span></div>` : ""}
       ${o.numberCharge > 0 ? `<div class="price-row"><span class="text-muted">Number charge</span><span>${fmtINR(o.numberCharge)}</span></div>` : ""}
-      ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon (${escapeHtml(o.couponCode || "")})</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
+      ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
       <div class="price-row total"><span>Grand Total</span><span>${fmtINR(o.grandTotal)}</span></div>
-      <div class="price-row" style="padding-top:10px"><span class="text-muted">Payment Method</span><span class="font-bold">${escapeHtml(paymentLabel)}</span></div>
+      <div class="price-row" style="padding-top:10px"><span class="text-muted">Payment</span><span class="font-bold">${escapeHtml(paymentLabel)}</span></div>
     </div>
 
     <div class="card">
@@ -2340,11 +2278,6 @@ function paintOrderDetail(o, history, review) {
     <div class="card">
       <div class="section-title">Progress</div>
       <div class="timeline">${timeline}</div>
-      ${history.length ? `<div class="section-title mt-4">History</div>
-        ${history.map(h => `<div class="text-xs text-soft" style="padding:8px 0;border-bottom:1px solid var(--border)">
-          <div style="font-weight:700;color:var(--text)">${fmtDate(h.createdAt, true)} — ${escapeHtml(ORDER_STATUS[h.status]?.label || h.status)}</div>
-          ${h.note ? `<div style="margin-top:3px">Note: ${escapeHtml(h.note)}</div>` : ""}
-        </div>`).join("")}` : ""}
     </div>
 
     ${isDelivered && !review ? `<button class="btn btn-success btn-lg btn-block mt-3" onclick="openReviewForm('${o.id}')">⭐ Rate & Review This Order</button>` : ""}
@@ -2366,17 +2299,11 @@ window.openReviewForm = async (orderId) => {
           ${[1,2,3,4,5].map(n => `<span data-n="${n}">★</span>`).join("")}
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Your review (optional)</label>
-        <textarea class="form-textarea" id="reviewText" placeholder="Share your experience with this order"></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Location on Google Maps (optional)</label>
-        <input class="form-input" id="reviewMaps" type="url" placeholder="https://maps.google.com/...">
-        <div class="text-xs text-soft mt-2">Paste a Google Maps link to help us locate the delivery address.</div>
-      </div>
+      <div class="form-group"><label class="form-label">Your review (optional)</label>
+        <textarea class="form-textarea" id="reviewText"></textarea></div>
+      <div class="form-group"><label class="form-label">Google Maps link (optional)</label>
+        <input class="form-input" id="reviewMaps" type="url" placeholder="https://maps.google.com/..."></div>
       <button class="btn btn-primary btn-lg btn-block" id="reviewSubmit">Submit Review</button>
-      <p class="text-xs text-soft text-center mt-3">Reviews cannot be edited after submission.</p>
     </div>`;
 
   let rating = 0;
@@ -2389,7 +2316,7 @@ window.openReviewForm = async (orderId) => {
     if (!rating) return toast("Please select a rating", "error");
     const reviewText = $("#reviewText").value.trim();
     const mapsLink = $("#reviewMaps").value.trim();
-    if (mapsLink && !/^https?:\/\//i.test(mapsLink)) return toast("Maps link must start with http:// or https://", "error");
+    if (mapsLink && !/^https?:\/\//i.test(mapsLink)) return toast("Maps link must start with http://", "error");
     const btn = $("#reviewSubmit");
     btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Submitting';
     try {
@@ -2404,7 +2331,7 @@ window.openReviewForm = async (orderId) => {
       toast("Thanks for your review!", "success");
       goTo("orders");
     } catch (err) {
-      console.error("Review submit failed:", err);
+      console.error("Review failed:", err);
       toast(err.message || errorMsg(err), "error");
     } finally { btn.disabled = false; btn.textContent = "Submit Review"; }
   };
@@ -2419,9 +2346,9 @@ function renderAccount() {
     ${status.blocked ? renderBlockedBanner() : ""}
     <div class="card card-elevated">
       <div class="row">
-        <div style="width:60px;height:60px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:23px;box-shadow:var(--sh-brand);border:2.5px solid var(--gold)">${escapeHtml(initial)}</div>
+        <div style="width:60px;height:60px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:23px;border:2.5px solid var(--gold)">${escapeHtml(initial)}</div>
         <div style="flex:1;min-width:0">
-          <div class="font-bold" style="font-size:16px;letter-spacing:-.01em;color:var(--brand)">${escapeHtml(S.profile.name || "")}</div>
+          <div class="font-bold" style="font-size:16px;color:var(--brand)">${escapeHtml(S.profile.name || "")}</div>
           <div class="text-xs text-soft mt-2">${escapeHtml(S.profile.email || "")}</div>
           <div class="text-xs text-soft">${escapeHtml(S.profile.phone || "")}</div>
         </div>
@@ -2445,12 +2372,9 @@ function renderAccount() {
 
 window.editProfile = () => {
   openModal(`<div class="modal-title">Edit Profile</div>
-    <div class="form-group"><label class="form-label">Name</label>
-      <input class="form-input" id="epName" value="${escapeHtml(S.profile.name || "")}"></div>
-    <div class="form-group"><label class="form-label">Phone</label>
-      <input class="form-input" id="epPhone" value="${escapeHtml(S.profile.phone || "")}" maxlength="10" inputmode="numeric"></div>
-    <div class="form-group"><label class="form-label">Address</label>
-      <textarea class="form-textarea" id="epAddress">${escapeHtml(typeof S.profile.address === "string" ? S.profile.address : "")}</textarea></div>
+    <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="epName" value="${escapeHtml(S.profile.name || "")}"></div>
+    <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="epPhone" value="${escapeHtml(S.profile.phone || "")}" maxlength="10" inputmode="numeric"></div>
+    <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="epAddress">${escapeHtml(typeof S.profile.address === "string" ? S.profile.address : "")}</textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" id="epSave">Save</button>
@@ -2502,8 +2426,6 @@ function renderTrackPage() {
     </div>
     <div id="trackResult"></div>`;
   $("#trackBtn").onclick = trackOrder;
-  $("#trackOrderId").addEventListener("keypress", (e) => { if (e.key === "Enter") trackOrder(); });
-  $("#trackEmail").addEventListener("keypress", (e) => { if (e.key === "Enter") trackOrder(); });
 }
 
 async function trackOrder() {
@@ -2513,7 +2435,6 @@ async function trackOrder() {
   const btn = $("#trackBtn");
   if (!orderId) return toast("Enter your order ID", "error");
   if (!email) return toast("Enter your registered email", "error");
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("Enter a valid email", "error");
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Searching';
   result.innerHTML = `<div class="skeleton" style="height:140px"></div>`;
   try {
@@ -2557,17 +2478,14 @@ function paintTrackResult(o, history) {
 
   $("#trackResult").innerHTML = `
     <div class="card" style="margin-top:14px;background:var(--success-soft);border-color:#bbf7d0">
-      <div class="text-xs" style="color:var(--success);text-transform:uppercase;letter-spacing:.08em;font-weight:800">✓ Order Verified</div>
-      <div class="text-sm" style="color:var(--success);margin-top:5px;font-weight:600">Order ID and email matched successfully.</div>
+      <div class="text-xs" style="color:var(--success);text-transform:uppercase;font-weight:800">✓ Order Verified</div>
+      <div class="text-sm" style="color:var(--success);margin-top:5px;font-weight:600">Order ID and email matched.</div>
     </div>
 
     ${isDelivered && hasTracking ? `
       <div class="track-banner">
         <span class="icon">🚚</span>
-        <div class="content">
-          <div class="title">Your order is on the way</div>
-          <div class="desc">Click below to track your delivery.</div>
-        </div>
+        <div class="content"><div class="title">Your order is on the way</div><div class="desc">Click below to track.</div></div>
         <button class="btn" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">Track</button>
       </div>` : ""}
 
@@ -2577,25 +2495,16 @@ function paintTrackResult(o, history) {
           <div class="font-bold font-mono" style="font-size:16px;color:var(--brand)">#${escapeHtml(o.orderId || o.id)}</div></div>
         <span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span>
       </div>
-      <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
+      <div class="text-sm text-muted">${escapeHtml(o.restaurantName || o.companyName || "")}</div>
       <div class="text-xs text-soft mt-2">Placed on ${fmtDate(o.createdAt, true)}</div>
     </div>
-
-    ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
-      <div class="reason-card">
-        <div class="title">Cancellation Reason</div>
-        <div class="text">${escapeHtml(o.cancelReason)}</div>
-      </div>` : ""}
 
     <div class="card">
       <div class="section-title">Items</div>
       ${(o.items || []).map(i => `
         <div class="row" style="padding:10px 0;border-bottom:1px solid var(--border)">
-          <img src="${escapeHtml(/^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : PLACEHOLDER_IMG)}" style="width:52px;height:52px;border-radius:11px;object-fit:cover;border:1.5px solid var(--border)" onerror="this.src='${PLACEHOLDER_IMG}'">
-          <div style="flex:1;min-width:0">
-            <div class="text-sm font-bold">${escapeHtml(i.name)}</div>
-            <div class="text-xs text-soft mt-2">Qty: ${i.quantity} × ${fmtINR(i.unitPrice)}</div>
-          </div>
+          <img src="${escapeHtml(/^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : PLACEHOLDER_IMG)}" style="width:52px;height:52px;border-radius:11px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
+          <div style="flex:1;min-width:0"><div class="text-sm font-bold">${escapeHtml(i.name)}</div><div class="text-xs text-soft mt-2">Qty: ${i.quantity} × ${fmtINR(i.unitPrice)}</div></div>
           <div class="font-bold text-sm">${fmtINR(i.lineTotal)}</div>
         </div>`).join("")}
     </div>
@@ -2605,19 +2514,15 @@ function paintTrackResult(o, history) {
       <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
       ${o.deliveryCharge > 0 ? `<div class="price-row"><span class="text-muted">Delivery</span><span>${fmtINR(o.deliveryCharge)}</span></div>` : ""}
       ${o.serviceCharge > 0 ? `<div class="price-row"><span class="text-muted">Service</span><span>${fmtINR(o.serviceCharge)}</span></div>` : ""}
-      ${o.numberCharge > 0 ? `<div class="price-row"><span class="text-muted">Number charge</span><span>${fmtINR(o.numberCharge)}</span></div>` : ""}
-      ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
       <div class="price-row total"><span>Grand Total</span><span>${fmtINR(o.grandTotal)}</span></div>
-      <div class="price-row" style="padding-top:10px"><span class="text-muted">Payment Method</span><span class="font-bold">${escapeHtml(paymentLabel)}</span></div>
+      <div class="price-row" style="padding-top:10px"><span class="text-muted">Payment</span><span class="font-bold">${escapeHtml(paymentLabel)}</span></div>
     </div>
 
-    <div class="card">
-      <div class="section-title">Progress</div>
-      <div class="timeline">${timeline}</div>
-    </div>
+    <div class="card"><div class="section-title">Progress</div><div class="timeline">${timeline}</div></div>
   `;
 }
 
+/* ============ ADMIN ============ */
 let adminView = "dashboard";
 function bootAdmin() {
   showScreen("scrAdmin");
@@ -2664,13 +2569,13 @@ async function renderAdminDashboard() {
   $("#recentOrders").innerHTML = `
     <div class="section-header"><h2>Recent Orders</h2></div>
     <div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Order</th><th>Customer</th><th>Company</th><th>Total</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th>Order</th><th>Customer</th><th>Restaurant</th><th>Total</th><th>Status</th><th></th></tr></thead>
       <tbody>${recent.length ? recent.map(o => {
         const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
         return `<tr>
           <td class="font-mono text-xs">#${escapeHtml(o.orderId || o.id)}</td>
           <td>${escapeHtml(o.customerName || "")}</td>
-          <td>${escapeHtml(o.companyName || "")}</td>
+          <td>${escapeHtml(o.restaurantName || o.companyName || "")}</td>
           <td class="font-bold">${fmtINR(o.grandTotal)}</td>
           <td><span class="badge badge-${info.tone}">${info.label}</span></td>
           <td><button class="btn btn-secondary btn-xs" onclick="adminOpenOrder('${o.id}')">Open</button></td>
@@ -2688,26 +2593,17 @@ function renderAdminCompanies() {
     if (!el) return;
     if (!list.length) { el.innerHTML = `<div class="empty">No companies yet</div>`; return; }
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Name</th><th>Category</th><th>Hours</th><th>COD</th><th>Status</th><th></th></tr></thead>
-      <tbody>${list.map(c => {
-        const open = isCompanyOpen(c);
-        const hours = companyHoursText(c);
-        return `<tr>
+      <thead><tr><th>Name</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>${list.map(c => `<tr>
         <td><div class="font-semibold">${escapeHtml(c.name || "")}</div></td>
         <td>${escapeHtml(c.category || "")}</td>
-        <td class="text-xs">
-          ${c.autoOpenClose && hours ? `
-            <div>${escapeHtml(hours)}</div>
-            <div style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:700;margin-top:3px">${open ? "● Open" : "● Closed"}</div>
-          ` : `<span class="text-soft">Always open</span>`}
-        </td>
-        <td>${c.codEnabled !== false ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-neutral">No</span>'}</td>
         <td>${c.isActive !== false ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Hidden</span>'}</td>
-        <td class="acts"><button class="btn btn-secondary btn-xs" onclick="editCompany('${c.id}')">Edit</button>
-          <button class="btn btn-secondary btn-xs" onclick="manageProducts('${c.id}')">Products</button>
-          <button class="btn btn-danger btn-xs" onclick="deleteCompanyAdmin('${c.id}')">Delete</button></td>
-      </tr>`;
-      }).join("")}</tbody></table></div>`;
+        <td class="acts">
+          <button class="btn btn-secondary btn-xs" onclick="editCompany('${c.id}')">Edit</button>
+          <button class="btn btn-secondary btn-xs" onclick="manageRestaurants('${c.id}')">🏢 Restaurants</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteCompanyAdmin('${c.id}')">Delete</button>
+        </td>
+      </tr>`).join("")}</tbody></table></div>`;
   });
   S.adminSubs.add(unsub);
 }
@@ -2722,49 +2618,19 @@ window.companyForm = (company = null) => {
   openModal(`<div class="modal-title">${editing ? "✏️ Edit" : "➕ Add"} Company</div>
     <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="cName" value="${escapeHtml(company?.name || "")}"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="cDesc">${escapeHtml(company?.description || "")}</textarea></div>
-    <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="cCategory" value="${escapeHtml(company?.category || "")}" placeholder="e.g. Food, Pizza"></div>
-    <div class="form-group"><label class="form-label">Logo URL (HTTPS)</label><input class="form-input" id="cLogo" value="${escapeHtml(company?.logoUrl || "")}" placeholder="https://…"></div>
-    <div class="form-group"><label class="form-label">Delivery charge (₹)</label><input class="form-input" type="number" id="cDelivery" value="${company?.deliveryCharge || 0}"></div>
-    <div class="form-group"><label class="form-label">Service charge (₹)</label><input class="form-input" type="number" id="cService" value="${company?.serviceCharge || 0}"></div>
-    <div class="card" style="background:var(--surface-3);border:1px solid var(--border);padding:14px;margin-bottom:16px">
-      <div class="section-title" style="margin-bottom:10px">Payment Options</div>
-      <label class="checkbox-row"><input type="checkbox" id="cCOD" ${company?.codEnabled !== false ? "checked" : ""}> Cash on Delivery available</label>
-    </div>
-    <div class="card" style="background:var(--surface-3);border:1px solid var(--border);padding:14px;margin-bottom:16px">
-      <div class="section-title" style="margin-bottom:10px">Operating Hours</div>
-      <label class="checkbox-row"><input type="checkbox" id="cAutoHours" ${company?.autoOpenClose ? "checked" : ""}> Enable open/close schedule</label>
-      <div id="hoursFields" class="${company?.autoOpenClose ? "" : "hidden"}" style="margin-top:12px">
-        <div class="form-group"><label class="form-label">Opening time</label><input class="form-input" type="time" id="cOpenTime" value="${escapeHtml(company?.openTime || "09:00")}"></div>
-        <div class="form-group"><label class="form-label">Closing time</label><input class="form-input" type="time" id="cCloseTime" value="${escapeHtml(company?.closeTime || "22:00")}"></div>
-        <div class="form-group"><label class="form-label">Message when closed (optional)</label><textarea class="form-textarea" id="cClosedMsg">${escapeHtml(company?.closedMessage || "")}</textarea></div>
-      </div>
-    </div>
+    <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="cCategory" value="${escapeHtml(company?.category || "")}" placeholder="e.g. Food Delivery, Grocery"></div>
+    <div class="form-group"><label class="form-label">Logo URL</label><input class="form-input" id="cLogo" value="${escapeHtml(company?.logoUrl || "")}" placeholder="https://…"></div>
     <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cActive" ${company?.isActive !== false ? "checked" : ""}> Active</label></div>
-    <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cRequiresNumber" ${company?.requiresNumber ? "checked" : ""}> Requires new number</label></div>
-    <div class="form-group"><label class="form-label">Number charge (₹)</label><input class="form-input" type="number" id="cNumberCharge" value="${company?.numberCharge || 0}"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" id="cSave">Save</button>
     </div>`);
-
-  const autoHours = $("#cAutoHours");
-  autoHours.onchange = () => { $("#hoursFields").classList.toggle("hidden", !autoHours.checked); };
-
   $("#cSave").onclick = async () => {
     const data = {
       name: $("#cName").value.trim(), description: $("#cDesc").value.trim(),
       category: $("#cCategory").value.trim() || "General",
       logoUrl: $("#cLogo").value.trim(),
-      deliveryCharge: parseFloat($("#cDelivery").value) || 0,
-      serviceCharge: parseFloat($("#cService").value) || 0,
       isActive: $("#cActive").checked,
-      requiresNumber: $("#cRequiresNumber").checked,
-      numberCharge: parseFloat($("#cNumberCharge").value) || 0,
-      codEnabled: $("#cCOD").checked,
-      autoOpenClose: $("#cAutoHours").checked,
-      openTime: $("#cAutoHours").checked ? ($("#cOpenTime").value || "09:00") : "",
-      closeTime: $("#cAutoHours").checked ? ($("#cCloseTime").value || "22:00") : "",
-      closedMessage: $("#cClosedMsg")?.value.trim() || "",
       updatedAt: serverTimestamp()
     };
     if (!data.name) return toast("Name required", "error");
@@ -2781,33 +2647,143 @@ window.editCompany = async (id) => {
   if (snap.exists()) companyForm({ id, ...snap.data() });
 };
 
-window.manageProducts = (companyId) => {
-  openModal(`<div class="modal-title">Products</div><div id="prodList"></div>
+/* ============ MANAGE RESTAURANTS ============ */
+window.manageRestaurants = async (companyId) => {
+  const companySnap = await getDoc(doc(db, "companies", companyId));
+  if (!companySnap.exists()) return toast("Company not found", "error");
+  const company = { id: companyId, ...companySnap.data() };
+
+  openModal(`<div class="modal-title">🏢 ${escapeHtml(company.name)} — Restaurants</div>
+    <div id="restList"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+      <button class="btn btn-primary" id="addRestBtn">+ Add Restaurant</button>
+    </div>`);
+
+  const renderList = async () => {
+    const snap = await getDocs(collection(db, "companies", companyId, "restaurants"));
+    const list = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
+    $("#restList").innerHTML = list.length ? list.map(r => `
+      <div class="row" style="padding:12px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px">
+        <img src="${escapeHtml(/^https?:\/\//i.test(r.logoUrl || "") ? r.logoUrl : PLACEHOLDER_IMG)}" style="width:44px;height:44px;border-radius:10px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
+        <div style="flex:1;min-width:120px">
+          <div class="text-sm font-semibold">${escapeHtml(r.name)}</div>
+          <div class="text-xs text-soft">${escapeHtml(r.cuisine || r.category || "")}</div>
+        </div>
+        <button class="btn btn-secondary btn-xs" onclick="editRestaurant('${companyId}','${r.id}')">Edit</button>
+        <button class="btn btn-secondary btn-xs" onclick="manageRestaurantProducts('${companyId}','${r.id}')">🍕 Products</button>
+        <button class="btn btn-danger btn-xs" onclick="deleteRestaurant('${companyId}','${r.id}')">${icon.trash}</button>
+      </div>`).join("") : `<div class="text-soft text-sm" style="padding:20px 0;text-align:center">No restaurants yet</div>`;
+  };
+  renderList();
+  $("#addRestBtn").onclick = () => restaurantForm(companyId, null, renderList);
+};
+
+window.restaurantForm = (companyId, restaurant, onSaved) => {
+  const editing = !!restaurant;
+  openModal(`<div class="modal-title">${editing ? "✏️ Edit" : "➕ Add"} Restaurant</div>
+    <div class="form-group"><label class="form-label">Restaurant Name</label><input class="form-input" id="rName" value="${escapeHtml(restaurant?.name || "")}"></div>
+    <div class="form-group"><label class="form-label">Cuisine / Category</label><input class="form-input" id="rCuisine" value="${escapeHtml(restaurant?.cuisine || restaurant?.category || "")}" placeholder="e.g. Italian, North Indian"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="rDesc">${escapeHtml(restaurant?.description || "")}</textarea></div>
+    <div class="form-group"><label class="form-label">Logo URL</label><input class="form-input" id="rLogo" value="${escapeHtml(restaurant?.logoUrl || "")}" placeholder="https://…"></div>
+    <div class="form-group"><label class="form-label">Delivery charge (₹)</label><input class="form-input" type="number" id="rDelivery" value="${restaurant?.deliveryCharge || 0}"></div>
+    <div class="form-group"><label class="form-label">Service charge (₹)</label><input class="form-input" type="number" id="rService" value="${restaurant?.serviceCharge || 0}"></div>
+    <div class="card" style="background:var(--surface-3);padding:14px;margin-bottom:16px">
+      <div class="section-title" style="margin-bottom:10px">Options</div>
+      <label class="checkbox-row"><input type="checkbox" id="rCOD" ${restaurant?.codEnabled !== false ? "checked" : ""}> Cash on Delivery available</label>
+      <label class="checkbox-row" style="margin-top:10px"><input type="checkbox" id="rActive" ${restaurant?.isActive !== false ? "checked" : ""}> Active</label>
+      <label class="checkbox-row" style="margin-top:10px"><input type="checkbox" id="rAutoHours" ${restaurant?.autoOpenClose ? "checked" : ""}> Enable open/close schedule</label>
+      <label class="checkbox-row" style="margin-top:10px"><input type="checkbox" id="rRequiresNumber" ${restaurant?.requiresNumber ? "checked" : ""}> Requires new number</label>
+      <div class="form-group" style="margin-top:12px"><label class="form-label">Number charge (₹)</label><input class="form-input" type="number" id="rNumberCharge" value="${restaurant?.numberCharge || 0}"></div>
+    </div>
+    <div id="rHoursFields" class="${restaurant?.autoOpenClose ? "" : "hidden"}">
+      <div class="form-group"><label class="form-label">Opening time</label><input class="form-input" type="time" id="rOpenTime" value="${escapeHtml(restaurant?.openTime || "09:00")}"></div>
+      <div class="form-group"><label class="form-label">Closing time</label><input class="form-input" type="time" id="rCloseTime" value="${escapeHtml(restaurant?.closeTime || "22:00")}"></div>
+      <div class="form-group"><label class="form-label">Message when closed</label><textarea class="form-textarea" id="rClosedMsg">${escapeHtml(restaurant?.closedMessage || "")}</textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="rSave">Save</button>
+    </div>`);
+
+  const autoHours = $("#rAutoHours");
+  autoHours.onchange = () => { $("#rHoursFields").classList.toggle("hidden", !autoHours.checked); };
+
+  $("#rSave").onclick = async () => {
+    const data = {
+      name: $("#rName").value.trim(),
+      cuisine: $("#rCuisine").value.trim(),
+      category: $("#rCuisine").value.trim() || "Multi-cuisine",
+      description: $("#rDesc").value.trim(),
+      logoUrl: $("#rLogo").value.trim(),
+      deliveryCharge: parseFloat($("#rDelivery").value) || 0,
+      serviceCharge: parseFloat($("#rService").value) || 0,
+      codEnabled: $("#rCOD").checked,
+      isActive: $("#rActive").checked,
+      autoOpenClose: $("#rAutoHours").checked,
+      openTime: $("#rAutoHours").checked ? ($("#rOpenTime").value || "09:00") : "",
+      closeTime: $("#rAutoHours").checked ? ($("#rCloseTime").value || "22:00") : "",
+      closedMessage: $("#rClosedMsg")?.value.trim() || "",
+      requiresNumber: $("#rRequiresNumber").checked,
+      numberCharge: parseFloat($("#rNumberCharge").value) || 0,
+      updatedAt: serverTimestamp()
+    };
+    if (!data.name) return toast("Name required", "error");
+    try {
+      if (editing) await updateDoc(doc(db, "companies", companyId, "restaurants", restaurant.id), data);
+      else await addDoc(collection(db, "companies", companyId, "restaurants"), { ...data, createdAt: serverTimestamp() });
+      toast("Saved", "success"); closeModal(); if (onSaved) onSaved();
+    } catch (err) { toast(errorMsg(err), "error"); }
+  };
+};
+
+window.editRestaurant = async (companyId, restaurantId) => {
+  const snap = await getDoc(doc(db, "companies", companyId, "restaurants", restaurantId));
+  if (snap.exists()) restaurantForm(companyId, { id: restaurantId, ...snap.data() }, () => manageRestaurants(companyId));
+};
+
+window.deleteRestaurant = (companyId, restaurantId) => {
+  confirmDialog("Delete this restaurant and all its products?", async () => {
+    try { await deleteDoc(doc(db, "companies", companyId, "restaurants", restaurantId)); toast("Deleted", "success"); manageRestaurants(companyId); }
+    catch (err) { toast(errorMsg(err), "error"); }
+  });
+};
+
+/* ============ MANAGE PRODUCTS (nested under restaurant) ============ */
+window.manageRestaurantProducts = async (companyId, restaurantId) => {
+  const restSnap = await getDoc(doc(db, "companies", companyId, "restaurants", restaurantId));
+  if (!restSnap.exists()) return toast("Restaurant not found", "error");
+  const restaurant = { id: restaurantId, ...restSnap.data() };
+
+  openModal(`<div class="modal-title">🍕 ${escapeHtml(restaurant.name)} — Products</div>
+    <div id="prodList"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Close</button>
       <button class="btn btn-primary" id="addProdBtn">+ Add Product</button>
     </div>`);
+
   const renderList = async () => {
-    const snap = await getDocs(collection(db, "companies", companyId, "products"));
+    const snap = await getDocs(collection(db, "companies", companyId, "restaurants", restaurantId, "products"));
     const list = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
     $("#prodList").innerHTML = list.length ? list.map(p => `
       <div class="row" style="padding:12px 0;border-bottom:1px solid var(--border)">
-        <img src="${escapeHtml(/^https?:\/\//i.test(p.imageUrl || "") ? p.imageUrl : PLACEHOLDER_IMG)}" style="width:46px;height:46px;border-radius:10px;object-fit:cover;border:1.5px solid var(--border)" onerror="this.src='${PLACEHOLDER_IMG}'">
+        <img src="${escapeHtml(/^https?:\/\//i.test(p.imageUrl || "") ? p.imageUrl : PLACEHOLDER_IMG)}" style="width:44px;height:44px;border-radius:10px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
         <div style="flex:1;min-width:0"><div class="text-sm font-semibold">${escapeHtml(p.name)}</div><div class="text-xs text-soft">${fmtINR(p.price)}</div></div>
-        <button class="btn btn-secondary btn-xs" onclick="editProduct('${companyId}','${p.id}')">Edit</button>
-        <button class="btn btn-danger btn-xs" onclick="deleteProduct('${companyId}','${p.id}')">${icon.trash}</button>
+        <button class="btn btn-secondary btn-xs" onclick="editProduct('${companyId}','${restaurantId}','${p.id}')">Edit</button>
+        <button class="btn btn-danger btn-xs" onclick="deleteProduct('${companyId}','${restaurantId}','${p.id}')">${icon.trash}</button>
       </div>`).join("") : `<div class="text-soft text-sm" style="padding:20px 0;text-align:center">No products yet</div>`;
   };
   renderList();
-  $("#addProdBtn").onclick = () => productForm(companyId, null, renderList);
+  $("#addProdBtn").onclick = () => productForm(companyId, restaurantId, null, renderList);
 };
 
-window.productForm = (companyId, product, onSaved) => {
+window.productForm = (companyId, restaurantId, product, onSaved) => {
   const editing = !!product;
   openModal(`<div class="modal-title">${editing ? "✏️ Edit" : "➕ Add"} Product</div>
     <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="pName" value="${escapeHtml(product?.name || "")}"></div>
+    <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="pCategory" value="${escapeHtml(product?.category || "")}" placeholder="e.g. Pizza, Starters"></div>
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="pDesc">${escapeHtml(product?.description || "")}</textarea></div>
-    <div class="form-group"><label class="form-label">Image URL (HTTPS)</label><input class="form-input" id="pImage" value="${escapeHtml(product?.imageUrl || "")}" placeholder="https://…"></div>
+    <div class="form-group"><label class="form-label">Image URL</label><input class="form-input" id="pImage" value="${escapeHtml(product?.imageUrl || "")}" placeholder="https://…"></div>
     <div class="form-group"><label class="form-label">Price (₹)</label><input class="form-input" type="number" id="pPrice" value="${product?.price || 0}"></div>
     <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="pActive" ${product?.isActive !== false ? "checked" : ""}> Available</label></div>
     <div class="modal-actions">
@@ -2816,31 +2792,35 @@ window.productForm = (companyId, product, onSaved) => {
     </div>`);
   $("#pSave").onclick = async () => {
     const data = {
-      name: $("#pName").value.trim(), description: $("#pDesc").value.trim(),
-      imageUrl: $("#pImage").value.trim(), price: parseFloat($("#pPrice").value) || 0,
+      name: $("#pName").value.trim(),
+      category: $("#pCategory").value.trim(),
+      description: $("#pDesc").value.trim(),
+      imageUrl: $("#pImage").value.trim(),
+      price: parseFloat($("#pPrice").value) || 0,
       isActive: $("#pActive").checked, updatedAt: serverTimestamp()
     };
     if (!data.name) return toast("Name required", "error");
     try {
-      if (editing) await updateDoc(doc(db, "companies", companyId, "products", product.id), data);
-      else await addDoc(collection(db, "companies", companyId, "products"), { ...data, createdAt: serverTimestamp() });
+      if (editing) await updateDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", product.id), data);
+      else await addDoc(collection(db, "companies", companyId, "restaurants", restaurantId, "products"), { ...data, createdAt: serverTimestamp() });
       toast("Saved", "success"); closeModal(); if (onSaved) onSaved();
     } catch (err) { toast(errorMsg(err), "error"); }
   };
 };
 
-window.editProduct = async (companyId, productId) => {
-  const snap = await getDoc(doc(db, "companies", companyId, "products", productId));
-  if (snap.exists()) productForm(companyId, { id: productId, ...snap.data() });
+window.editProduct = async (companyId, restaurantId, productId) => {
+  const snap = await getDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", productId));
+  if (snap.exists()) productForm(companyId, restaurantId, { id: productId, ...snap.data() }, () => manageRestaurantProducts(companyId, restaurantId));
 };
 
-window.deleteProduct = (companyId, productId) => {
+window.deleteProduct = (companyId, restaurantId, productId) => {
   confirmDialog("Delete this product?", async () => {
-    try { await deleteDoc(doc(db, "companies", companyId, "products", productId)); toast("Deleted", "success"); }
+    try { await deleteDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", productId)); toast("Deleted", "success"); manageRestaurantProducts(companyId, restaurantId); }
     catch (err) { toast(errorMsg(err), "error"); }
   });
 };
 
+/* ==== BANNERS ==== */
 function renderAdminBanners() {
   $("#adminContent").innerHTML = `<div class="mb-4"><button class="btn btn-primary" id="addBannerBtn">+ Add Banner</button></div><div id="bannersList"></div>`;
   $("#addBannerBtn").onclick = () => bannerForm();
@@ -2852,7 +2832,7 @@ function renderAdminBanners() {
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
       <thead><tr><th>Preview</th><th>Title</th><th>Status</th><th></th></tr></thead>
       <tbody>${list.map(b => `<tr>
-        <td>${/^https?:\/\//i.test(b.imageUrl || "") ? `<img src="${escapeHtml(b.imageUrl)}" style="width:92px;height:48px;object-fit:cover;border-radius:7px;border:1px solid var(--gold)" onerror="this.style.display='none'">` : "—"}</td>
+        <td>${/^https?:\/\//i.test(b.imageUrl || "") ? `<img src="${escapeHtml(b.imageUrl)}" style="width:92px;height:48px;object-fit:cover;border-radius:7px;border:1px solid var(--gold)">` : "—"}</td>
         <td><div class="font-semibold">${escapeHtml(b.title || "")}</div><div class="text-xs text-soft">${escapeHtml(b.subtitle || "")}</div></td>
         <td>${b.isActive ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Hidden</span>'}</td>
         <td><button class="btn btn-secondary btn-xs" onclick="editBanner('${b.id}')">Edit</button>
@@ -2909,6 +2889,7 @@ window.deleteBannerAdmin = (id) => confirmDialog("Delete banner?", async () => {
   catch (err) { toast(errorMsg(err), "error"); }
 });
 
+/* ==== COUPONS ==== */
 function renderAdminCoupons() {
   $("#adminContent").innerHTML = `<div class="mb-4"><button class="btn btn-primary" id="addCouponBtn">+ Add Coupon</button></div><div id="couponsList"></div>`;
   $("#addCouponBtn").onclick = () => couponForm();
@@ -2921,7 +2902,7 @@ function renderAdminCoupons() {
       <thead><tr><th>Code</th><th>Discount</th><th>Min order</th><th>Status</th><th></th></tr></thead>
       <tbody>${list.map(c => `<tr>
         <td class="font-mono font-bold">${escapeHtml(c.code || "")}</td>
-        <td>${c.discountType === "percent" ? `${c.discountValue}%${c.maxDiscount ? ` (max ₹${c.maxDiscount})` : ""}` : `₹${c.discountValue}`}</td>
+        <td>${c.discountType === "percent" ? `${c.discountValue}%` : `₹${c.discountValue}`}</td>
         <td>${c.minOrder ? `₹${c.minOrder}` : "—"}</td>
         <td>${c.isActive ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Inactive</span>'}</td>
         <td><button class="btn btn-secondary btn-xs" onclick="editCoupon('${c.id}')">Edit</button>
@@ -2934,19 +2915,15 @@ function renderAdminCoupons() {
 window.couponForm = (coupon = null) => {
   const editing = !!coupon;
   openModal(`<div class="modal-title">${editing ? "✏️ Edit" : "➕ Add"} Coupon</div>
-    <div class="form-group"><label class="form-label">Code</label>
-      <input class="form-input font-mono" id="cpCode" value="${escapeHtml(coupon?.code || "")}" style="text-transform:uppercase"></div>
+    <div class="form-group"><label class="form-label">Code</label><input class="form-input font-mono" id="cpCode" value="${escapeHtml(coupon?.code || "")}" style="text-transform:uppercase"></div>
     <div class="form-group"><label class="form-label">Discount type</label>
       <select class="form-select" id="cpType">
         <option value="flat" ${coupon?.discountType === "flat" ? "selected" : ""}>Flat (₹)</option>
         <option value="percent" ${coupon?.discountType === "percent" ? "selected" : ""}>Percent (%)</option>
       </select></div>
-    <div class="form-group"><label class="form-label">Discount value</label>
-      <input class="form-input" type="number" id="cpValue" value="${coupon?.discountValue || 0}"></div>
-    <div class="form-group"><label class="form-label">Max discount (for percent)</label>
-      <input class="form-input" type="number" id="cpMax" value="${coupon?.maxDiscount || 0}"></div>
-    <div class="form-group"><label class="form-label">Minimum order (₹)</label>
-      <input class="form-input" type="number" id="cpMin" value="${coupon?.minOrder || 0}"></div>
+    <div class="form-group"><label class="form-label">Discount value</label><input class="form-input" type="number" id="cpValue" value="${coupon?.discountValue || 0}"></div>
+    <div class="form-group"><label class="form-label">Max discount (percent only)</label><input class="form-input" type="number" id="cpMax" value="${coupon?.maxDiscount || 0}"></div>
+    <div class="form-group"><label class="form-label">Minimum order (₹)</label><input class="form-input" type="number" id="cpMin" value="${coupon?.minOrder || 0}"></div>
     <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cpActive" ${coupon?.isActive !== false ? "checked" : ""}> Active</label></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
@@ -2962,7 +2939,7 @@ window.couponForm = (coupon = null) => {
       isActive: $("#cpActive").checked, updatedAt: serverTimestamp()
     };
     if (!data.code) return toast("Code required", "error");
-    if (data.discountValue <= 0) return toast("Discount value must be > 0", "error");
+    if (data.discountValue <= 0) return toast("Discount > 0", "error");
     try {
       if (editing) await updateDoc(doc(db, "coupons", coupon.id), data);
       else await addDoc(collection(db, "coupons"), { ...data, createdAt: serverTimestamp() });
@@ -2981,6 +2958,7 @@ window.deleteCoupon = (id) => confirmDialog("Delete coupon?", async () => {
   catch (err) { toast(errorMsg(err), "error"); }
 });
 
+/* ==== ADMIN ORDERS ==== */
 let adminOrderFilter = "all";
 function renderAdminOrders() {
   $("#adminContent").innerHTML = `
@@ -3007,19 +2985,15 @@ function paintAdminOrders() {
   if (adminOrderFilter !== "all") list = list.filter(o => o.status === adminOrderFilter);
   if (!list.length) { el.innerHTML = `<div class="empty">No orders</div>`; return; }
   el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-    <thead><tr><th>Order</th><th>Customer</th><th>Company</th><th>Total</th><th>Pay</th><th>Status</th><th>Email</th><th></th></tr></thead>
+    <thead><tr><th>Order</th><th>Customer</th><th>Restaurant</th><th>Total</th><th>Status</th><th></th></tr></thead>
     <tbody>${list.map(o => {
       const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
-      const emailTone = o.emailStatus === "SENT" ? "success" : o.emailStatus === "FAILED" ? "danger" : "warning";
-      const payLabel = o.paymentMethod === "cod" ? "COD" : "UPI";
       return `<tr>
         <td class="font-mono text-xs font-bold">#${escapeHtml(o.orderId || o.id)}</td>
         <td>${escapeHtml(o.customerName || "")}</td>
-        <td>${escapeHtml(o.companyName || "")}</td>
+        <td>${escapeHtml(o.restaurantName || o.companyName || "")}<div class="text-xs text-soft">${escapeHtml(o.companyName || "")}</div></td>
         <td class="font-bold">${fmtINR(o.grandTotal)}</td>
-        <td><span class="badge badge-${payLabel === "COD" ? "warning" : "info"}">${payLabel}</span></td>
         <td><span class="badge badge-${info.tone}">${info.label}</span></td>
-        <td><span class="badge badge-${emailTone}">${escapeHtml(o.emailStatus || "PENDING")}</span></td>
         <td><button class="btn btn-secondary btn-xs" onclick="adminOpenOrder('${o.id}')">Manage</button></td>
       </tr>`;
     }).join("")}</tbody></table></div>`;
@@ -3038,32 +3012,24 @@ window.adminOpenOrder = async (orderId) => {
     <div class="text-sm font-semibold">${escapeHtml(o.customerName || "")}</div>
     <div class="text-sm text-muted">${escapeHtml(o.customerPhone || "")}</div>
     <div class="text-sm text-muted">${escapeHtml(o.customerEmail || "")}</div>
+    <div class="section-title mt-4">Restaurant</div>
+    <div class="text-sm font-semibold">${escapeHtml(o.restaurantName || "")}</div>
+    <div class="text-xs text-soft">${escapeHtml(o.companyName || "")}</div>
     <div class="section-title mt-4">Items</div>
     ${(o.items || []).map(i => `<div class="row" style="padding:8px 0">
-      <img src="${escapeHtml(/^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : PLACEHOLDER_IMG)}" style="width:46px;height:46px;border-radius:9px;object-fit:cover;border:1.5px solid var(--border)" onerror="this.src='${PLACEHOLDER_IMG}'">
+      <img src="${escapeHtml(/^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : PLACEHOLDER_IMG)}" style="width:46px;height:46px;border-radius:9px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
       <div style="flex:1"><div class="text-sm font-semibold">${escapeHtml(i.name)}</div><div class="text-xs text-soft">${i.quantity} × ${fmtINR(i.unitPrice)}</div></div>
     </div>`).join("")}
     <div class="section-title mt-4">Pricing</div>
     <div class="price-row"><span class="text-muted">Subtotal</span><span>${fmtINR(o.subtotal)}</span></div>
-    ${o.deliveryCharge > 0 ? `<div class="price-row"><span class="text-muted">Delivery</span><span>${fmtINR(o.deliveryCharge)}</span></div>` : ""}
-    ${o.serviceCharge > 0 ? `<div class="price-row"><span class="text-muted">Service</span><span>${fmtINR(o.serviceCharge)}</span></div>` : ""}
     <div class="price-row"><span class="text-muted">Number</span><span>${fmtINR(o.numberCharge || 0)}</span></div>
-    ${o.couponDiscount > 0 ? `<div class="price-row discount"><span class="text-muted">Coupon</span><span>- ${fmtINR(o.couponDiscount)}</span></div>` : ""}
     <div class="price-row total"><span>Total</span><span>${fmtINR(o.grandTotal)}</span></div>
     <div class="price-row" style="padding-top:10px"><span class="text-muted">Payment</span><span class="font-bold">${escapeHtml(payLabel)}</span></div>
-
-    ${o.cancelReason ? `<div class="reason-card mt-3">
-      <div class="title">Cancellation Reason</div>
-      <div class="text">${escapeHtml(o.cancelReason)}</div>
-    </div>` : ""}
-
     <div class="section-title mt-4">Update Status</div>
     <select class="form-select mb-2" id="admStatus">
       ${Object.keys(ORDER_STATUS).map(k => `<option value="${k}" ${o.status === k ? "selected" : ""}>${ORDER_STATUS[k].label}</option>`).join("")}
     </select>
-    <input class="form-input mb-2" id="admNote" placeholder="Note (optional)">
     <button class="btn btn-primary btn-block mb-2" id="admUpdateStatus">Update Status</button>
-    ${o.status === "successful" ? `<button class="btn btn-secondary btn-block mb-2" id="admResendEmail">Resend Delivery Email</button>` : ""}
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Close</button>
     </div>`);
@@ -3071,81 +3037,59 @@ window.adminOpenOrder = async (orderId) => {
   $("#admUpdateStatus").onclick = async () => {
     const newStatus = $("#admStatus").value;
     if (newStatus === o.status) return toast("Status unchanged", "info");
-
     if (newStatus === "rejected" || newStatus === "cancelled") {
       openModal(`<div class="modal-title">Reason for ${newStatus}</div>
-        <div class="form-group"><label class="form-label">Reason (visible to customer)</label>
-          <textarea class="form-textarea" id="cancelReasonInput" placeholder="e.g. Out of stock"></textarea></div>
+        <div class="form-group"><label class="form-label">Reason</label><textarea class="form-textarea" id="cancelReasonInput"></textarea></div>
         <div class="modal-actions">
           <button class="btn btn-secondary" id="cancelBack">Back</button>
-          <button class="btn btn-danger" id="cancelConfirm">Confirm ${newStatus}</button>
+          <button class="btn btn-danger" id="cancelConfirm">Confirm</button>
         </div>`);
       $("#cancelBack").onclick = () => adminOpenOrder(o.id);
       $("#cancelConfirm").onclick = async () => {
         const reason = $("#cancelReasonInput").value.trim();
-        if (!reason) return toast("Reason is required", "error");
+        if (!reason) return toast("Reason required", "error");
         await updateOrderStatusWithReason(o, newStatus, reason);
       };
       return;
     }
-
     if (newStatus === "successful") {
       openModal(`<div class="modal-title">Delivery Confirmed</div>
-        <div class="info-box mb-3">Add a tracking URL so the customer can track delivery.</div>
-        <div class="form-group"><label class="form-label">Tracking URL (required)</label>
-          <input class="form-input" id="trackUrlInput" type="url" placeholder="https://track.delhivery.com/..." value="${escapeHtml(o.trackingUrl || "")}">
+        <div class="form-group"><label class="form-label">Tracking URL</label>
+          <input class="form-input" id="trackUrlInput" type="url" value="${escapeHtml(o.trackingUrl || "")}">
         </div>
         <div class="modal-actions">
           <button class="btn btn-secondary" id="trackBack">Back</button>
-          <button class="btn btn-success" id="trackConfirm">Confirm Delivery</button>
+          <button class="btn btn-success" id="trackConfirm">Confirm</button>
         </div>`);
       $("#trackBack").onclick = () => adminOpenOrder(o.id);
       $("#trackConfirm").onclick = async () => {
         const url = $("#trackUrlInput").value.trim();
-        if (!url) return toast("Tracking URL is required", "error");
-        if (!/^https?:\/\//i.test(url)) return toast("URL must start with http:// or https://", "error");
+        if (!url) return toast("URL required", "error");
+        if (!/^https?:\/\//i.test(url)) return toast("Invalid URL", "error");
         await markOrderDeliveredWithTracking(o, url);
       };
       return;
     }
-
-    await updateOrderStatusWithReason(o, newStatus, $("#admNote")?.value.trim() || "");
-  };
-
-  const resendBtn = $("#admResendEmail");
-  if (resendBtn) resendBtn.onclick = async () => {
-    resendBtn.disabled = true; resendBtn.innerHTML = '<span class="spin"></span> Sending';
-    try { await sendSuccessEmail(o); await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.sent });
-      toast("Email re-sent", "success"); }
-    catch (err) { toast("Failed: " + (err.message || "unknown"), "error"); }
-    finally { resendBtn.disabled = false; resendBtn.textContent = "Resend Delivery Email"; }
+    await updateOrderStatusWithReason(o, newStatus, "");
   };
 };
 
 async function markOrderDeliveredWithTracking(o, trackingUrl) {
   try {
-    const updates = {
-      status: "successful", trackingUrl,
-      deliveredAt: serverTimestamp(), updatedAt: serverTimestamp()
-    };
+    const updates = { status: "successful", trackingUrl, deliveredAt: serverTimestamp(), updatedAt: serverTimestamp() };
     await updateDoc(doc(db, "orders", o.id), updates);
     await addDoc(collection(db, "orders", o.id, "statusHistory"), {
-      status: "successful", note: "Delivered · Tracking: " + trackingUrl,
-      changedBy: S.user.uid, createdAt: serverTimestamp()
+      status: "successful", note: "Delivered · " + trackingUrl, changedBy: S.user.uid, createdAt: serverTimestamp()
     });
     try {
       await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.pending });
-      const updated = { ...o, ...updates };
-      await sendSuccessEmail(updated);
+      await sendSuccessEmail({ ...o, ...updates });
       await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.sent });
-      toast("Order delivered. Email sent.", "success");
+      toast("Delivered. Email sent.", "success");
     } catch (mailErr) {
       console.warn("Email failed:", mailErr);
-      await updateDoc(doc(db, "orders", o.id), {
-        emailStatus: EMAIL_STATUS.failed,
-        emailError: String(mailErr?.message || mailErr).slice(0, 200)
-      });
-      toast("Order marked delivered. Email failed.", "error");
+      await updateDoc(doc(db, "orders", o.id), { emailStatus: EMAIL_STATUS.failed });
+      toast("Delivered. Email failed.", "error");
     }
     closeModal();
   } catch (err) { toast(errorMsg(err), "error"); }
@@ -3159,8 +3103,7 @@ async function updateOrderStatusWithReason(o, newStatus, reason) {
     await addDoc(collection(db, "orders", o.id, "statusHistory"), {
       status: newStatus, note: reason || "", changedBy: S.user.uid, createdAt: serverTimestamp()
     });
-    toast("Status updated", "success");
-    closeModal();
+    toast("Status updated", "success"); closeModal();
   } catch (err) { toast(errorMsg(err), "error"); }
 }
 
@@ -3169,20 +3112,13 @@ async function sendSuccessEmail(order) {
   if (!window.__emailjs) throw new Error("EmailJS not configured");
 
   const productsHtml = (order.items || []).map(i => {
-    const img = /^https?:\/\//i.test(i.imageUrl || "")
-      ? `<img src="${i.imageUrl}" width="48" height="48" style="border-radius:8px;object-fit:cover;display:block;" alt="${escapeHtml(i.name)}">`
-      : `<div style="width:48px;height:48px;background:#fdecd2;border-radius:8px;display:block;"></div>`;
+    const link = /^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : EMAILJS_CONFIG.websiteUrl;
     return `<tr>
-      <td style="padding:10px 12px;border-bottom:1px solid #fdecd2;">
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0">
-          <tr>
-            <td style="padding-right:10px;">${img}</td>
-            <td style="font-size:13px;color:#3d0f0f;font-weight:600;">${escapeHtml(i.name)}</td>
-          </tr>
-        </table>
+      <td style="padding:12px 14px;border-bottom:1px solid #fdecd2;">
+        <a href="${link}" target="_blank" style="color:#b91c1c;text-decoration:none;font-size:13px;font-weight:700;display:block;">${escapeHtml(i.name)}</a>
       </td>
-      <td align="center" style="padding:10px 12px;border-bottom:1px solid #fdecd2;font-size:13px;color:#7c3a1d;">${i.quantity}</td>
-      <td align="right" style="padding:10px 12px;border-bottom:1px solid #fdecd2;font-size:13px;color:#b91c1c;font-weight:600;">₹${i.lineTotal}</td>
+      <td align="center" style="padding:12px 14px;border-bottom:1px solid #fdecd2;font-size:13px;color:#7c3a1d;font-weight:600;">${i.quantity}</td>
+      <td align="right" style="padding:12px 14px;border-bottom:1px solid #fdecd2;font-size:13px;color:#b91c1c;font-weight:700;">₹${i.lineTotal}</td>
     </tr>`;
   }).join("");
 
@@ -3193,18 +3129,18 @@ async function sendSuccessEmail(order) {
     ? {
         email_heading: "Order Delivered! 🪔",
         email_subheading: "We hope you enjoy your purchase",
-        email_message: `Great news! Your order from <strong style="color:#3d0f0f;">${escapeHtml(order.companyName)}</strong> has been delivered successfully. We'd love to hear your feedback.`,
+        email_message: `Great news! Your order from <strong style="color:#3d0f0f;">${escapeHtml(order.restaurantName || order.companyName)}</strong> has been delivered successfully.`,
         action_btn_text: hasTracking ? "🚚 Track Your Delivery" : "⭐ Rate Your Order",
         action_url: hasTracking ? order.trackingUrl : EMAILJS_CONFIG.websiteUrl,
-        info_note: "<strong>📝 Your feedback matters!</strong><br>Open the app and rate this order — it helps other customers and the vendor."
+        info_note: "<strong>📝 Your feedback matters!</strong><br>Open the app and rate this order."
       }
     : {
         email_heading: "Order Confirmed! 🌺",
         email_subheading: "Thank you for shopping with us",
-        email_message: `Your order from <strong style="color:#3d0f0f;">${escapeHtml(order.companyName)}</strong> has been successfully placed. We're preparing it right away!`,
+        email_message: `Your order from <strong style="color:#3d0f0f;">${escapeHtml(order.restaurantName || order.companyName)}</strong> has been successfully placed.`,
         action_btn_text: "🛍️ Continue Shopping",
         action_url: EMAILJS_CONFIG.websiteUrl,
-        info_note: "<strong>📌 What happens next?</strong><br>Our team will confirm your order shortly. You'll receive another email once your order is out for delivery."
+        info_note: "<strong>📌 What happens next?</strong><br>We'll notify you once your order is out for delivery."
       };
 
   return window.__emailjs.send(
@@ -3216,7 +3152,7 @@ async function sendSuccessEmail(order) {
       business_name: "Pawan Retail Limited",
       support_email: EMAILJS_CONFIG.supportEmail,
       order_id: order.orderId,
-      company_name: order.companyName,
+      company_name: order.restaurantName || order.companyName,
       order_date: fmtDate(order.createdAt, true),
       subtotal: fmtINR(order.subtotal),
       number_charge: fmtINR(order.numberCharge || 0),
@@ -3236,14 +3172,13 @@ function renderAdminReviews() {
     if (!el) return;
     if (!list.length) { el.innerHTML = `<div class="empty">No reviews yet</div>`; return; }
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Order</th><th>Customer</th><th>Rating</th><th>Review</th><th>Maps</th><th>Date</th></tr></thead>
+      <thead><tr><th>Order</th><th>Customer</th><th>Rating</th><th>Review</th><th>Date</th></tr></thead>
       <tbody>${list.map(r => `
         <tr>
           <td class="font-mono text-xs font-bold">#${escapeHtml(r.orderId || "")}</td>
-          <td>${escapeHtml(r.customerName || "")}<div class="text-xs text-soft">${escapeHtml(r.customerEmail || "")}</div></td>
+          <td>${escapeHtml(r.customerName || "")}</td>
           <td><span class="stars">${[1,2,3,4,5].map(n => `<span class="${n <= (r.rating || 0) ? "on" : ""}">★</span>`).join("")}</span></td>
           <td class="text-xs">${escapeHtml(r.reviewText || "—")}</td>
-          <td>${r.mapsLink ? `<a href="${escapeHtml(r.mapsLink)}" target="_blank" rel="noopener">📍 Open</a>` : "—"}</td>
           <td class="text-xs text-soft">${fmtDate(r.createdAt)}</td>
         </tr>`).join("")}</tbody></table></div>`;
   });
@@ -3258,20 +3193,14 @@ async function renderAdminCustomers() {
     const el = $("#customersList");
     if (!users.length) { el.innerHTML = `<div class="empty">No customers</div>`; return; }
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${users.map(u => {
         const status = u.status || "active";
         const statusInfo = ACCOUNT_STATUS[status] || ACCOUNT_STATUS.active;
-        const suspendUntil = u.suspendedUntil?.toMillis?.();
-        const suspendActive = status === "suspended" && suspendUntil && suspendUntil > Date.now();
         return `<tr>
           <td class="font-semibold">${escapeHtml(u.name || "")}<div class="text-xs text-soft">${escapeHtml(u.phone || "")}</div></td>
           <td>${escapeHtml(u.email || "")}</td>
-          <td class="text-xs">${fmtDate(u.createdAt)}</td>
-          <td>
-            <span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span>
-            ${suspendActive ? `<div class="text-xs text-soft" style="margin-top:4px">Until ${fmtDate({ toDate: () => new Date(suspendUntil) }, true)}</div>` : ""}
-          </td>
+          <td><span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span></td>
           <td class="acts">
             ${status === "active" ? `
               <button class="btn btn-secondary btn-xs" onclick="adminSuspendUser('${u.id}')">Suspend</button>
@@ -3279,52 +3208,25 @@ async function renderAdminCustomers() {
             ` : `
               <button class="btn btn-success btn-xs" onclick="adminUnblockUser('${u.id}')">Unblock</button>
             `}
-            <button class="btn btn-danger btn-xs" onclick="adminDeleteUser('${u.id}', '${escapeHtml(u.email || '')}')">Delete</button>
           </td>
         </tr>`;
       }).join("")}</tbody></table></div>`;
-  } catch (err) { $("#customersList").innerHTML = `<div class="empty">Failed to load</div>`; }
+  } catch (err) { $("#customersList").innerHTML = `<div class="empty">Failed</div>`; }
 }
-
-window.adminDeleteUser = (userId, email) => {
-  openModal(`<div class="modal-title">Delete User</div>
-    <div class="warn-box mb-3"><strong>⚠️ Warning:</strong> This permanently deletes the user's profile.</div>
-    <p class="text-sm text-muted mb-3">User: <strong>${escapeHtml(email)}</strong></p>
-    <div class="form-group"><label class="form-label">Type the email to confirm</label>
-      <input class="form-input font-mono" id="deleteConfirmEmail" placeholder="${escapeHtml(email)}"></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="deleteConfirmBtn">Delete Permanently</button>
-    </div>`);
-  $("#deleteConfirmBtn").onclick = async () => {
-    const typed = $("#deleteConfirmEmail").value.trim();
-    if (typed !== email) return toast("Email does not match", "error");
-    try {
-      await deleteDoc(doc(db, "users", userId));
-      toast("User deleted", "success");
-      closeModal(); renderAdminCustomers();
-    } catch (err) { toast(errorMsg(err), "error"); }
-  };
-};
 
 window.adminBlockUser = (userId) => {
   openModal(`<div class="modal-title">Block User</div>
-    <p class="text-sm text-muted mb-3">User will be permanently blocked.</p>
-    <div class="form-group"><label class="form-label">Reason (visible to user)</label>
-      <textarea class="form-textarea" id="blockReason" placeholder="Reason for blocking"></textarea></div>
+    <div class="form-group"><label class="form-label">Reason</label><textarea class="form-textarea" id="blockReason"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="blockConfirm">Block User</button>
+      <button class="btn btn-danger" id="blockConfirm">Block</button>
     </div>`);
   $("#blockConfirm").onclick = async () => {
     const reason = $("#blockReason").value.trim();
-    if (!reason) return toast("Reason is required", "error");
+    if (!reason) return toast("Reason required", "error");
     try {
-      await updateDoc(doc(db, "users", userId), {
-        status: "blocked", blockReason: reason,
-        blockedAt: serverTimestamp(), blockedBy: S.user.uid, suspendedUntil: null
-      });
-      toast("User blocked", "success"); closeModal(); renderAdminCustomers();
+      await updateDoc(doc(db, "users", userId), { status: "blocked", blockReason: reason, blockedAt: serverTimestamp(), blockedBy: S.user.uid });
+      toast("Blocked", "success"); closeModal(); renderAdminCustomers();
     } catch (err) { toast(errorMsg(err), "error"); }
   };
 };
@@ -3333,44 +3235,32 @@ window.adminSuspendUser = (userId) => {
   openModal(`<div class="modal-title">Suspend User</div>
     <div class="form-group"><label class="form-label">Duration</label>
       <select class="form-select" id="suspendDuration">
-        <option value="1">1 hour</option>
-        <option value="6">6 hours</option>
-        <option value="12">12 hours</option>
-        <option value="24" selected>24 hours</option>
-        <option value="48">48 hours</option>
-        <option value="72">3 days</option>
+        <option value="1">1 hour</option><option value="6">6 hours</option>
+        <option value="24" selected>24 hours</option><option value="72">3 days</option>
         <option value="168">7 days</option>
       </select></div>
-    <div class="form-group"><label class="form-label">Reason (visible to user)</label>
-      <textarea class="form-textarea" id="suspendReason" placeholder="Reason"></textarea></div>
+    <div class="form-group"><label class="form-label">Reason</label><textarea class="form-textarea" id="suspendReason"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="suspendConfirm">Suspend User</button>
+      <button class="btn btn-primary" id="suspendConfirm">Suspend</button>
     </div>`);
   $("#suspendConfirm").onclick = async () => {
     const reason = $("#suspendReason").value.trim();
     const hours = parseInt($("#suspendDuration").value, 10);
-    if (!reason) return toast("Reason is required", "error");
+    if (!reason) return toast("Reason required", "error");
     const until = new Date(Date.now() + hours * 60 * 60 * 1000);
     try {
-      await updateDoc(doc(db, "users", userId), {
-        status: "suspended", blockReason: reason, suspendedUntil: until,
-        suspendedAt: serverTimestamp(), suspendedBy: S.user.uid
-      });
-      toast(`Suspended for ${hours}h`, "success");
-      closeModal(); renderAdminCustomers();
+      await updateDoc(doc(db, "users", userId), { status: "suspended", blockReason: reason, suspendedUntil: until, suspendedAt: serverTimestamp(), suspendedBy: S.user.uid });
+      toast("Suspended", "success"); closeModal(); renderAdminCustomers();
     } catch (err) { toast(errorMsg(err), "error"); }
   };
 };
 
 window.adminUnblockUser = (userId) => {
-  confirmDialog("Unblock and restore to active?", async () => {
+  confirmDialog("Unblock user?", async () => {
     try {
-      await updateDoc(doc(db, "users", userId), {
-        status: "active", blockReason: "", suspendedUntil: null,
-        unblockedAt: serverTimestamp(), unblockedBy: S.user.uid
-      });
-      toast("User unblocked", "success"); renderAdminCustomers();
+      await updateDoc(doc(db, "users", userId), { status: "active", blockReason: "", suspendedUntil: null, unblockedAt: serverTimestamp(), unblockedBy: S.user.uid });
+      toast("Unblocked", "success"); renderAdminCustomers();
     } catch (err) { toast(errorMsg(err), "error"); }
   });
 };
