@@ -174,17 +174,6 @@ img{max-width:100%;display:block}
 .product-price{font-size:17px;font-weight:800;color:var(--brand);margin-top:6px;font-family:var(--font-display)}
 .product-cta{margin-top:10px}
 
-.restaurant-card{background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--r-lg);overflow:hidden;display:flex;gap:14px;padding:16px;cursor:pointer;transition:all .3s;box-shadow:var(--sh-xs);margin-bottom:14px;position:relative}
-.restaurant-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--brand-light)}
-.restaurant-card .rc-logo{width:80px;height:80px;border-radius:16px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:32px;overflow:hidden;flex-shrink:0}
-.restaurant-card .rc-logo img{width:100%;height:100%;object-fit:cover}
-.restaurant-card .rc-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:5px}
-.restaurant-card .rc-name{font-size:17px;font-weight:800;font-family:var(--font-display);color:var(--text)}
-.restaurant-card .rc-cat{font-size:12.5px;color:var(--text-3);font-weight:600}
-.restaurant-card .rc-meta{display:flex;gap:10px;flex-wrap:wrap}
-.restaurant-card .rc-meta span{font-size:11.5px;color:var(--text-2);font-weight:600}
-.restaurant-card .rc-desc{font-size:12.5px;color:var(--text-2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
 .closed-overlay{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;font-size:10px;font-weight:800;padding:5px 10px;border-radius:8px;letter-spacing:.06em;text-transform:uppercase;z-index:2}
 
 .order{background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-xs)}
@@ -364,7 +353,6 @@ img{max-width:100%;display:block}
 }
 @media (max-width:380px){
   .product-grid{gap:10px}
-  .restaurant-card .rc-logo{width:68px;height:68px;font-size:28px}
   .hero-banner{height:220px}
   .hero-banner .hero-title{font-size:24px}
 }
@@ -377,7 +365,6 @@ img{max-width:100%;display:block}
     <div style="text-align:center;padding:24px">
       <div style="font-size:56px;margin-bottom:16px">⏳</div>
       <div style="font-size:18px;font-weight:700;margin-bottom:8px">Loading Pawan Retail…</div>
-      <div style="font-size:13px;opacity:.85">Please wait</div>
     </div>
   </div>
 </div>
@@ -385,14 +372,13 @@ img{max-width:100%;display:block}
 <div class="toast-root" id="toast-root"></div>
 
 <script>
-// Global error handler — screen pe exact error dikhega
 window.addEventListener('error', function(e) {
   const root = document.getElementById('root');
   if (root && !document.querySelector('.screen.active')) {
     root.innerHTML = `
       <div style="padding:24px;font-family:sans-serif;background:#fee2e2;min-height:100vh;color:#991b1b">
         <h2 style="margin:0 0 12px 0;font-size:18px">⚠️ App Error</h2>
-        <p style="margin:0 0 8px 0;font-size:13px"><strong>Message:</strong> ${e.message || 'Unknown'}</p>
+        <p style="margin:0 0 8px 0;font-size:13px"><strong>${e.message || 'Unknown'}</strong></p>
         <p style="margin:0;font-size:11px;opacity:.7">Line: ${e.lineno || '?'}:${e.colno || '?'}</p>
       </div>
     `;
@@ -460,11 +446,11 @@ const ACCOUNT_STATUS = {
   blocked: { label: "Blocked", tone: "danger" }
 };
 const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23f1f5f9'/><text x='100' y='105' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'>No image</text></svg>";
-const CART_STORAGE_KEY = "prl_cart_v4";
+const CART_STORAGE_KEY = "prl_cart_v5";
 
 const S = {
   user: null, profile: null,
-  cart: { companyId: null, companyName: null, restaurantId: null, restaurantName: null, items: [] },
+  cart: { companyId: null, companyName: null, items: [] },
   appliedCoupon: null,
   isFirstOrder: false,
   currentCategory: "all", searchQuery: "",
@@ -473,7 +459,6 @@ const S = {
   blockTimerInterval: null,
   currentProduct: null,
   currentCompany: null,
-  currentRestaurant: null,
   productQty: 1
 };
 
@@ -498,11 +483,11 @@ function saveCart() { try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringif
 function loadCart() {
   try {
     const raw = localStorage.getItem(CART_STORAGE_KEY);
-    if (raw) { const parsed = JSON.parse(raw); if (parsed && Array.isArray(parsed.items)) S.cart = { companyId: null, companyName: null, restaurantId: null, restaurantName: null, items: [], ...parsed }; }
+    if (raw) { const parsed = JSON.parse(raw); if (parsed && Array.isArray(parsed.items)) S.cart = { companyId: null, companyName: null, items: [], ...parsed }; }
   } catch (_) {}
 }
 function clearCart() {
-  S.cart = { companyId: null, companyName: null, restaurantId: null, restaurantName: null, items: [] };
+  S.cart = { companyId: null, companyName: null, items: [] };
   S.appliedCoupon = null;
   try { localStorage.removeItem(CART_STORAGE_KEY); } catch (_) {}
 }
@@ -516,23 +501,23 @@ function genOrderId() {
   return `PRL-${ymd}-${rnd}`;
 }
 
-function isRestaurantOpen(rest) {
-  if (!rest) return true;
-  if (rest.autoOpenClose !== true) return true;
-  if (!rest.openTime || !rest.closeTime) return true;
+function isCompanyOpen(company) {
+  if (!company) return true;
+  if (company.autoOpenClose !== true) return true;
+  if (!company.openTime || !company.closeTime) return true;
   const now = new Date();
   const cur = now.getHours() * 60 + now.getMinutes();
-  const [oh, om] = rest.openTime.split(":").map(Number);
-  const [ch, cm] = rest.closeTime.split(":").map(Number);
+  const [oh, om] = company.openTime.split(":").map(Number);
+  const [ch, cm] = company.closeTime.split(":").map(Number);
   const open = oh * 60 + om;
   const close = ch * 60 + cm;
   if (open === close) return true;
   if (open < close) return cur >= open && cur < close;
   return cur >= open || cur < close;
 }
-function restaurantHoursText(r) {
-  if (!r?.openTime || !r?.closeTime) return "";
-  return `${r.openTime} – ${r.closeTime}`;
+function companyHoursText(c) {
+  if (!c?.openTime || !c?.closeTime) return "";
+  return `${c.openTime} – ${c.closeTime}`;
 }
 
 function showScreen(id) {
@@ -806,14 +791,14 @@ function screenHome() {
         <div class="hero-content">
           <span class="hero-tag">🪔 Limited Time Offer</span>
           <h1 class="hero-title">Everything you need,<br>delivered in minutes</h1>
-          <p class="hero-sub">From your favourite restaurants & stores — free delivery on your first order.</p>
+          <p class="hero-sub">From your favourite stores — free delivery on your first order.</p>
           <button class="hero-cta" onclick="goTo('products')">Order Now →</button>
         </div>
       </div>
       <div id="bannerSlot"></div>
       <div class="section-title">Categories</div>
       <div class="chip-row mb-4" id="homeCategories"></div>
-      <div class="section-header"><h2>Featured</h2></div>
+      <div class="section-header"><h2>Featured Companies</h2></div>
       <div class="product-grid" id="homeCompanies"></div>
       <div class="mt-4"></div>
       <button class="btn btn-secondary btn-block" id="btnCare">📞 Contact customer care</button>
@@ -824,7 +809,7 @@ function screenHome() {
 
 function screenCompanies() {
   return `<div class="shell">
-    <div class="appbar"><div class="appbar-title">Browse Stores</div>
+    <div class="appbar"><div class="appbar-title">Browse Companies</div>
       <button class="iconbtn" id="btnSearchToggle">${icon.search}</button></div>
     <div class="page">
       <input class="form-input hidden mb-3" id="searchInput" placeholder="Search companies…">
@@ -840,15 +825,6 @@ function screenCompany() {
     <div class="appbar"><button class="appbar-back" id="companyBack">${icon.back}</button>
       <div class="appbar-title" id="companyTitle">Company</div><div style="width:40px"></div></div>
     <div class="page" id="companyBody"></div>
-    ${BNAV("products")}
-  </div>`;
-}
-
-function screenRestaurant() {
-  return `<div class="shell">
-    <div class="appbar"><button class="appbar-back" id="restaurantBack">${icon.back}</button>
-      <div class="appbar-title" id="restaurantTitle">Restaurant</div><div style="width:40px"></div></div>
-    <div class="page" id="restaurantBody"></div>
     ${BNAV("products")}
   </div>`;
 }
@@ -956,7 +932,6 @@ function mountScreens() {
     <div id="scrHome" class="screen">${screenHome()}</div>
     <div id="scrCompanies" class="screen">${screenCompanies()}</div>
     <div id="scrCompany" class="screen">${screenCompany()}</div>
-    <div id="scrRestaurant" class="screen">${screenRestaurant()}</div>
     <div id="scrProductDetail" class="screen">${screenProductDetail()}</div>
     <div id="scrCart" class="screen">${screenCart()}</div>
     <div id="scrCheckout" class="screen">${screenCheckout()}</div>
@@ -968,7 +943,6 @@ function mountScreens() {
     <div id="scrAdmin" class="screen">${screenAdmin()}</div>
   `;
 
-  // Password toggles
   document.querySelectorAll("[data-toggle]").forEach(b => {
     b.onclick = () => {
       const inp = document.getElementById(b.dataset.toggle);
@@ -978,7 +952,6 @@ function mountScreens() {
     };
   });
 
-  // Safe binding helper
   const safe = (sel, fn) => { const el = document.querySelector(sel); if (el) fn(el); };
 
   safe("#linkRegister", el => el.onclick = e => { e.preventDefault(); showScreen("scrRegister"); });
@@ -1005,20 +978,14 @@ function mountScreens() {
   }));
 
   safe("#companyBack", el => el.onclick = () => goTo("products"));
-  safe("#restaurantBack", el => el.onclick = () => {
-    if (S.currentCompany?.id) openCompany(S.currentCompany.id);
-    else goTo("products");
-  });
   safe("#productBack", el => el.onclick = () => {
-    if (S.currentRestaurant?.id && S.currentCompany?.id) openRestaurant(S.currentCompany.id, S.currentRestaurant.id);
-    else if (S.currentCompany?.id) openCompany(S.currentCompany.id);
+    if (S.currentCompany?.id) openCompany(S.currentCompany.id);
     else goTo("products");
   });
   safe("#checkoutBack", el => el.onclick = () => goTo("cart"));
   safe("#orderDetailBack", el => el.onclick = () => goTo("orders"));
   safe("#reviewBack", el => el.onclick = () => goTo("orders"));
 
-  // Bottom nav
   document.addEventListener("click", e => {
     const item = e.target.closest(".bnav-item[data-nav]");
     if (item) { e.preventDefault(); goTo(item.dataset.nav); }
@@ -1233,7 +1200,9 @@ async function renderHome() {
 
 function companyCard(c) {
   const img = /^https?:\/\//i.test(c.logoUrl || "") ? c.logoUrl : "";
-  return `<article class="product" onclick="openCompany('${c.id}')" style="cursor:pointer">
+  const open = isCompanyOpen(c);
+  return `<article class="product ${open ? "" : "closed"}" onclick="openCompany('${c.id}')" style="cursor:pointer">
+    ${open ? "" : `<div class="closed-overlay">CLOSED</div>`}
     <div class="product-img" style="display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;font-size:32px;font-weight:800">
       ${img ? `<img src="${escapeHtml(img)}" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='<span>${escapeHtml((c.name || 'C')[0].toUpperCase())}</span>'">` : `<span>${escapeHtml((c.name || "C")[0].toUpperCase())}</span>`}
     </div>
@@ -1241,7 +1210,10 @@ function companyCard(c) {
       <div class="product-cat">${escapeHtml(c.category || "Store")}</div>
       <div class="product-name">${escapeHtml(c.name || "")}</div>
       <div class="product-desc">${escapeHtml(c.description || "")}</div>
-      <div class="text-xs mt-2" style="color:var(--brand);font-weight:800">View restaurants →</div>
+      ${c.autoOpenClose && c.openTime && c.closeTime ? `
+        <div class="text-xs mt-2" style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:800">
+          ${open ? "● Open" : "● Closed"} · ${escapeHtml(companyHoursText(c))}
+        </div>` : ""}
     </div>
   </article>`;
 }
@@ -1278,10 +1250,14 @@ function paintBrowseCompanies() {
   grid.innerHTML = list.map(companyCard).join("");
 }
 
+/* ============ COMPANY PAGE — shows PRODUCTS directly ============ */
 window.openCompany = async (companyId) => {
   showScreen("scrCompany");
   $("#companyBody").innerHTML = `<div class="skeleton" style="height:120px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
-  let company = null, restaurants = [];
+  let company = null;
+  let products = [];
+  let reviews = [];
+
   try {
     const companySnap = await getDoc(doc(db, "companies", companyId));
     if (!companySnap.exists()) { $("#companyBody").innerHTML = `<div class="empty">Company not found</div>`; return; }
@@ -1292,120 +1268,46 @@ window.openCompany = async (companyId) => {
     console.error(err);
     $("#companyBody").innerHTML = `<div class="empty">Failed to load</div>`; return;
   }
+
   try {
-    const restSnap = await getDocs(collection(db, "companies", companyId, "restaurants"));
-    restaurants = restSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(r => r.isActive !== false);
-  } catch (err) { console.warn(err); }
-  paintCompany(company, restaurants);
-};
+    const prodSnap = await getDocs(collection(db, "companies", companyId, "products"));
+    products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.isActive !== false);
+  } catch (err) { console.warn(err); products = []; }
 
-function paintCompany(company, restaurants) {
-  if (!company) { $("#companyBody").innerHTML = `<div class="empty">Data missing</div>`; return; }
-  restaurants = restaurants || [];
-  const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
-  const status = getStatusMessage();
+  paintCompany(company, products, []);
 
-  $("#companyBody").innerHTML = `
-    ${status.blocked ? renderBlockedBanner() : ""}
-    <div class="card card-elevated">
-      <div class="row">
-        <div style="width:72px;height:72px;border-radius:16px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:28px;font-weight:800;overflow:hidden">
-          ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((company.name || "C")[0])}</span>`}
-        </div>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:19px;font-weight:800;font-family:var(--font-display);color:var(--text)">${escapeHtml(company.name || "")}</div>
-          <div class="text-xs text-soft" style="margin-top:4px">${escapeHtml(company.category || "")}</div>
-        </div>
-      </div>
-      <div class="text-sm text-muted mt-3" style="line-height:1.6">${escapeHtml(company.description || "")}</div>
-    </div>
-    <div class="section-header mt-4" style="margin-bottom:12px">
-      <h2>Restaurants</h2>
-      <span class="text-xs text-soft">${restaurants.length} available</span>
-    </div>
-    <div id="restaurantList"></div>
-  `;
-  startBlockTimer();
-  const list = $("#restaurantList");
-  if (!restaurants.length) { list.innerHTML = `<div class="empty">No restaurants in this company</div>`; return; }
-  list.innerHTML = restaurants.map(r => restaurantCard(r, company.id)).join("");
-}
-
-function restaurantCard(r, companyId) {
-  const img = /^https?:\/\//i.test(r.logoUrl || "") ? r.logoUrl : "";
-  const open = isRestaurantOpen(r);
-  const hours = restaurantHoursText(r);
-  const showHours = r.autoOpenClose === true && hours;
-  const codBadge = r.codEnabled !== false ? '<span class="badge badge-success">COD</span>' : '<span class="badge badge-neutral">Prepaid</span>';
-  return `<article class="restaurant-card" onclick="openRestaurant('${companyId}', '${r.id}')">
-    ${!open ? `<div class="closed-overlay">CLOSED</div>` : ""}
-    <div class="rc-logo">
-      ${img ? `<img src="${escapeHtml(img)}" onerror="this.outerHTML='<span>${escapeHtml((r.name || 'R')[0].toUpperCase())}</span>'">` : `<span>${escapeHtml((r.name || "R")[0].toUpperCase())}</span>`}
-    </div>
-    <div class="rc-body">
-      <div class="rc-name">${escapeHtml(r.name || "")}</div>
-      <div class="rc-cat">${escapeHtml(r.cuisine || r.category || "Multi-cuisine")}</div>
-      <div class="rc-meta">
-        ${codBadge}
-        ${showHours ? `<span style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:800">${open ? "● Open" : "● Closed"} · ${escapeHtml(hours)}</span>` : ""}
-      </div>
-      ${r.description ? `<div class="rc-desc">${escapeHtml(r.description)}</div>` : ""}
-    </div>
-    <div style="display:flex;align-items:center;color:var(--text-3)">${icon.chev}</div>
-  </article>`;
-}
-
-window.openRestaurant = async (companyId, restaurantId) => {
-  showScreen("scrRestaurant");
-  $("#restaurantBody").innerHTML = `<div class="skeleton" style="height:120px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
-  let company, restaurant, products = [], reviews = [];
-  try {
-    const [cS, rS] = await Promise.all([
-      getDoc(doc(db, "companies", companyId)),
-      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId))
-    ]);
-    if (!cS.exists() || !rS.exists()) { $("#restaurantBody").innerHTML = `<div class="empty">Not found</div>`; return; }
-    company = { id: cS.id, ...cS.data() };
-    restaurant = { id: rS.id, ...rS.data() };
-    S.currentCompany = company;
-    S.currentRestaurant = restaurant;
-    $("#restaurantTitle").textContent = restaurant.name || "Restaurant";
-  } catch (err) {
-    console.error(err);
-    $("#restaurantBody").innerHTML = `<div class="empty">Failed</div>`; return;
-  }
-  try {
-    const pS = await getDocs(collection(db, "companies", companyId, "restaurants", restaurantId, "products"));
-    products = pS.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.isActive !== false);
-  } catch (err) { console.warn(err); }
-  paintRestaurant(company, restaurant, products, []);
+  // Background: load reviews
   (async () => {
     try {
-      const oS = await getDocs(query(collection(db, "orders"), where("restaurantId", "==", restaurantId)));
-      const ids = oS.docs.filter(d => d.data().status === "successful").map(d => d.id);
-      if (!ids.length) return;
-      const all = [];
-      for (let i = 0; i < ids.length; i += 10) {
-        const chunk = ids.slice(i, i + 10);
+      const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
+      const deliveredOrderIds = ordersSnap.docs.filter(d => d.data().status === "successful").map(d => d.id);
+      if (!deliveredOrderIds.length) return;
+      const allReviews = [];
+      for (let i = 0; i < deliveredOrderIds.length; i += 10) {
+        const chunk = deliveredOrderIds.slice(i, i + 10);
         try {
-          const rS = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
-          rS.docs.forEach(d => all.push(d.data()));
+          const rSnap = await getDocs(query(collection(db, "reviews"), where("orderId", "in", chunk)));
+          rSnap.docs.forEach(d => allReviews.push(d.data()));
         } catch (e) {}
       }
-      if (all.length) { all.sort(byNewest); paintRestaurant(company, restaurant, products, all); }
-    } catch (err) { console.warn(err?.code); }
+      if (allReviews.length) {
+        allReviews.sort(byNewest);
+        paintCompany(company, products, allReviews);
+      }
+    } catch (err) { console.warn("Reviews bg:", err?.code); }
   })();
 };
 
-function paintRestaurant(company, restaurant, products, reviews) {
-  if (!company || !restaurant) { $("#restaurantBody").innerHTML = `<div class="empty">Data missing</div>`; return; }
+function paintCompany(company, products, reviews) {
+  if (!company) { $("#companyBody").innerHTML = `<div class="empty">Data missing</div>`; return; }
   reviews = reviews || []; products = products || [];
-  const logo = /^https?:\/\//i.test(restaurant.logoUrl || "") ? restaurant.logoUrl : "";
+
+  const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
   const status = getStatusMessage();
-  const isOpen = isRestaurantOpen(restaurant);
-  const hours = restaurantHoursText(restaurant);
-  const showHours = restaurant.autoOpenClose === true && hours;
-  const codBadge = restaurant.codEnabled !== false
+  const isOpen = isCompanyOpen(company);
+  const hours = companyHoursText(company);
+  const showHours = company.autoOpenClose === true && hours;
+  const codBadge = company.codEnabled !== false
     ? '<span class="badge badge-success">COD available</span>'
     : '<span class="badge badge-neutral">Prepaid only</span>';
 
@@ -1417,46 +1319,40 @@ function paintRestaurant(company, restaurant, products, reviews) {
       <span class="text-xs text-soft">${avgRating.toFixed(1)} · ${reviews.length} review${reviews.length > 1 ? "s" : ""}</span>
     </div>` : "";
 
-  $("#restaurantBody").innerHTML = `
+  $("#companyBody").innerHTML = `
     ${status.blocked ? renderBlockedBanner() : ""}
-    <div class="company-mini" onclick="openCompany('${company.id}')">
-      ${/^https?:\/\//i.test(company.logoUrl || "") ? `<img src="${escapeHtml(company.logoUrl)}">` : `<div class="mini-logo">${escapeHtml((company.name || "C")[0])}</div>`}
-      <div class="mini-info">
-        <div class="mini-name">${escapeHtml(company.name || "")}</div>
-        <div class="mini-cat">${escapeHtml(company.category || "")}</div>
-      </div>
-      <span class="text-soft">${icon.chev}</span>
-    </div>
     ${!isOpen ? `
       <div class="closed-banner" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:20px;border-radius:var(--r-lg);margin-bottom:16px;display:flex;gap:14px">
         <span style="font-size:32px">🚫</span>
         <div style="flex:1">
           <div style="font-weight:800;font-size:15px;margin-bottom:5px;font-family:var(--font-display)">Currently Closed</div>
-          <div style="font-size:13px;opacity:.94">${escapeHtml(restaurant.closedMessage || "Restaurant is closed.")}</div>
+          <div style="font-size:13px;opacity:.94">${escapeHtml(company.closedMessage || "This store is closed.")}</div>
           ${hours ? `<div style="font-size:12px;opacity:.8;margin-top:8px">Hours: ${escapeHtml(hours)}</div>` : ""}
         </div>
       </div>` : ""}
     <div class="card card-elevated">
       <div class="row">
         <div style="width:72px;height:72px;border-radius:16px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-size:28px;font-weight:800;overflow:hidden">
-          ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((restaurant.name || "R")[0])}</span>`}
+          ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((company.name || "C")[0])}</span>`}
         </div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:19px;font-weight:800;font-family:var(--font-display)">${escapeHtml(restaurant.name || "")}</div>
-          <div class="text-xs text-soft" style="margin-top:4px">${escapeHtml(restaurant.cuisine || restaurant.category || "Multi-cuisine")}</div>
+          <div style="font-size:19px;font-weight:800;font-family:var(--font-display);color:var(--text)">${escapeHtml(company.name || "")}</div>
+          <div class="text-xs text-soft" style="margin-top:4px">${escapeHtml(company.category || "")}</div>
           ${ratingHtml}
           <div class="row mt-2" style="gap:6px">${codBadge}</div>
           ${showHours ? `<div class="text-xs mt-2" style="color:${isOpen ? "var(--success)" : "var(--danger)"};font-weight:800">${isOpen ? "● Open now" : "● Closed"} · ${escapeHtml(hours)}</div>` : ""}
         </div>
       </div>
-      <div class="text-sm text-muted mt-3" style="line-height:1.6">${escapeHtml(restaurant.description || "")}</div>
+      <div class="text-sm text-muted mt-3" style="line-height:1.6">${escapeHtml(company.description || "")}</div>
     </div>
-    <div class="section-header mt-4" style="margin-bottom:12px"><h2>Menu</h2></div>
-    <div class="product-grid" id="restaurantProducts"></div>
+
+    <div class="section-header mt-4" style="margin-bottom:12px"><h2>Products</h2></div>
+    <div class="product-grid" id="companyProducts"></div>
+
     ${reviews.length ? `
       <div class="section-header mt-4" style="margin-bottom:12px">
-        <h2>Reviews</h2>
-        <a href="#" onclick="event.preventDefault();openAllReviews('${restaurant.id}')" style="font-size:12px;font-weight:700;color:var(--brand)">See all</a>
+        <h2>Customer Reviews</h2>
+        <a href="#" onclick="event.preventDefault();openAllReviews('${company.id}')" style="font-size:12px;font-weight:700;color:var(--brand)">See all</a>
       </div>
       <div class="card">
         <div class="rating-summary">
@@ -1478,18 +1374,18 @@ function paintRestaurant(company, restaurant, products, reviews) {
       </div>` : ""}
   `;
   startBlockTimer();
-  const grid = $("#restaurantProducts");
+  const grid = $("#companyProducts");
   if (!grid) return;
   if (!products.length) { grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No products available</div>`; return; }
   grid.innerHTML = products.map(p => `
-    <article class="product ${isOpen ? "" : "closed"}" onclick="openProductDetail('${company.id}', '${restaurant.id}', '${p.id}')">
+    <article class="product ${isOpen ? "" : "closed"}" onclick="openProductDetail('${company.id}', '${p.id}')">
       <img class="product-img" src="${escapeHtml(/^https?:\/\//i.test(p.imageUrl || "") ? p.imageUrl : PLACEHOLDER_IMG)}" onerror="this.src='${PLACEHOLDER_IMG}'">
       <div class="product-body">
         <div class="product-name">${escapeHtml(p.name || "")}</div>
         <div class="product-desc">${escapeHtml(p.description || "")}</div>
         <div class="product-price">${fmtINR(p.price)}</div>
         <div class="product-cta">
-          <button class="btn btn-primary btn-sm btn-block" ${isOpen ? "" : "disabled"} onclick="event.stopPropagation();addProductToCart('${p.id}', '${company.id}', '${restaurant.id}')">
+          <button class="btn btn-primary btn-sm btn-block" ${isOpen ? "" : "disabled"} onclick="event.stopPropagation();addProductToCart('${p.id}', '${company.id}')">
             ${isOpen ? "Add to Cart" : "Closed"}
           </button>
         </div>
@@ -1497,9 +1393,9 @@ function paintRestaurant(company, restaurant, products, reviews) {
     </article>`).join("");
 }
 
-window.openAllReviews = async (restaurantId) => {
+window.openAllReviews = async (companyId) => {
   try {
-    const oS = await getDocs(query(collection(db, "orders"), where("restaurantId", "==", restaurantId)));
+    const oS = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
     const ids = oS.docs.filter(d => d.data().status === "successful").map(d => d.id);
     let reviews = [];
     for (let i = 0; i < ids.length; i += 10) {
@@ -1513,7 +1409,7 @@ window.openAllReviews = async (restaurantId) => {
     if (!reviews.length) return toast("No reviews yet", "info");
     const avg = reviews.reduce((s, r) => s + (r.rating||0), 0) / reviews.length;
     openModal(`
-      <div class="modal-title">Reviews (${reviews.length})</div>
+      <div class="modal-title">Customer Reviews (${reviews.length})</div>
       <div class="rating-summary">
         <div class="big-num">${avg.toFixed(1)}</div>
         <div style="flex:1">
@@ -1536,29 +1432,26 @@ window.openAllReviews = async (restaurantId) => {
   } catch (e) { toast("Failed to load reviews", "error"); }
 };
 
-window.openProductDetail = async (companyId, restaurantId, productId) => {
+window.openProductDetail = async (companyId, productId) => {
   showScreen("scrProductDetail");
   S.productQty = 1;
   $("#productBody").innerHTML = `<div class="skeleton" style="height:280px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
-  let company, restaurant, product;
+  let company, product;
   try {
-    const [cS, rS, pS] = await Promise.all([
+    const [cS, pS] = await Promise.all([
       getDoc(doc(db, "companies", companyId)),
-      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId)),
-      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", productId))
+      getDoc(doc(db, "companies", companyId, "products", productId))
     ]);
-    if (!cS.exists() || !rS.exists() || !pS.exists()) { $("#productBody").innerHTML = `<div class="empty">Not found</div>`; return; }
+    if (!cS.exists() || !pS.exists()) { $("#productBody").innerHTML = `<div class="empty">Not found</div>`; return; }
     company = { id: cS.id, ...cS.data() };
-    restaurant = { id: rS.id, ...rS.data() };
     product = { id: pS.id, ...pS.data() };
     S.currentCompany = company;
-    S.currentRestaurant = restaurant;
-    S.currentProduct = { ...product, companyId, restaurantId };
+    S.currentProduct = { ...product, companyId };
   } catch (err) { console.error(err); $("#productBody").innerHTML = `<div class="empty">Failed</div>`; return; }
-  paintProductDetail(company, restaurant, product, []);
+  paintProductDetail(company, product, []);
   (async () => {
     try {
-      const oS = await getDocs(query(collection(db, "orders"), where("restaurantId", "==", restaurantId)));
+      const oS = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
       const ids = oS.docs.filter(d => {
         const data = d.data();
         if (data.status !== "successful") return false;
@@ -1573,16 +1466,16 @@ window.openProductDetail = async (companyId, restaurantId, productId) => {
           pr = pr.concat(rS.docs.map(d => ({ id: d.id, ...d.data() })));
         } catch (_) {}
       }
-      if (pr.length) { pr.sort(byNewest); paintProductDetail(company, restaurant, product, pr); }
+      if (pr.length) { pr.sort(byNewest); paintProductDetail(company, product, pr); }
     } catch (err) { console.warn(err?.code); }
   })();
 };
 
-function paintProductDetail(company, restaurant, product, reviews) {
+function paintProductDetail(company, product, reviews) {
   reviews = reviews || [];
   const img = /^https?:\/\//i.test(product.imageUrl || "") ? product.imageUrl : PLACEHOLDER_IMG;
-  const logo = /^https?:\/\//i.test(restaurant.logoUrl || "") ? restaurant.logoUrl : "";
-  const isOpen = isRestaurantOpen(restaurant);
+  const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
+  const isOpen = isCompanyOpen(company);
   const status = getStatusMessage();
   const avg = reviews.length ? (reviews.reduce((s, r) => s + (r.rating||0), 0) / reviews.length) : 0;
   const ratingHtml = reviews.length ? `
@@ -1599,17 +1492,17 @@ function paintProductDetail(company, restaurant, product, reviews) {
     <div class="product-detail">
       <img class="product-detail-img" src="${escapeHtml(img)}" onerror="this.src='${PLACEHOLDER_IMG}'">
       <div class="product-detail-body">
-        <div class="product-detail-cat">${escapeHtml(product.category || restaurant.cuisine || "Product")}</div>
+        <div class="product-detail-cat">${escapeHtml(product.category || company.category || "Product")}</div>
         <div class="product-detail-name">${escapeHtml(product.name || "")}</div>
         <div class="product-detail-price">${fmtINR(product.price)}</div>
         <div class="product-detail-desc">${escapeHtml(product.description || "No description.")}</div>
       </div>
     </div>
-    <div class="company-mini mt-3" onclick="openRestaurant('${company.id}', '${restaurant.id}')">
-      ${logo ? `<img src="${escapeHtml(logo)}">` : `<div class="mini-logo">${escapeHtml((restaurant.name || "R")[0])}</div>`}
+    <div class="company-mini mt-3" onclick="openCompany('${company.id}')">
+      ${logo ? `<img src="${escapeHtml(logo)}">` : `<div class="mini-logo">${escapeHtml((company.name || "C")[0])}</div>`}
       <div class="mini-info">
-        <div class="mini-name">${escapeHtml(restaurant.name || "")}</div>
-        <div class="mini-cat">${escapeHtml(company.name || "")} · ${isOpen ? '<span style="color:var(--success);font-weight:800">Open</span>' : '<span style="color:var(--danger);font-weight:800">Closed</span>'}</div>
+        <div class="mini-name">${escapeHtml(company.name || "")}</div>
+        <div class="mini-cat">${escapeHtml(company.category || "")} · ${isOpen ? '<span style="color:var(--success);font-weight:800">Open</span>' : '<span style="color:var(--danger);font-weight:800">Closed</span>'}</div>
       </div>
       <span class="text-soft">${icon.chev}</span>
     </div>
@@ -1624,7 +1517,7 @@ function paintProductDetail(company, restaurant, product, reviews) {
     <button class="btn btn-primary btn-lg btn-block" id="pdAddToCart" ${isOpen ? "" : "disabled"}>
       ${isOpen ? "Add to Cart — " + fmtINR(product.price) : "Currently Closed"}
     </button>
-    ${!isOpen ? `<div class="warn-box mt-3">Restaurant closed.</div>` : ""}
+    ${!isOpen ? `<div class="warn-box mt-3">Store is closed.</div>` : ""}
     ${reviews.length ? `
       <div class="section-header mt-4"><h2>Reviews</h2></div>
       <div class="card">
@@ -1647,7 +1540,7 @@ function paintProductDetail(company, restaurant, product, reviews) {
       </div>`}
   `;
   const addBtn = $("#pdAddToCart");
-  if (addBtn) addBtn.onclick = () => addProductToCartWithQty(product.id, company.id, restaurant.id, S.productQty);
+  if (addBtn) addBtn.onclick = () => addProductToCartWithQty(product.id, company.id, S.productQty);
 }
 
 window.changeProductQty = (delta) => {
@@ -1656,35 +1549,28 @@ window.changeProductQty = (delta) => {
   if (el) el.textContent = S.productQty;
 };
 
-async function addProductToCartWithQty(productId, companyId, restaurantId, qty) {
+async function addProductToCartWithQty(productId, companyId, qty) {
   const status = getStatusMessage();
   if (status.blocked) { toast(status.title + ": " + status.message, "error"); return; }
   try {
-    const [cS, rS, pS] = await Promise.all([
-      getDoc(doc(db, "companies", companyId)),
-      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId)),
-      getDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", productId))
-    ]);
+    const cS = await getDoc(doc(db, "companies", companyId));
     if (!cS.exists()) return toast("Company not found", "error");
-    if (!rS.exists()) return toast("Restaurant not found", "error");
+    const pS = await getDoc(doc(db, "companies", companyId, "products", productId));
     if (!pS.exists()) return toast("Product not found", "error");
     const company = { id: companyId, ...cS.data() };
-    const restaurant = { id: restaurantId, ...rS.data() };
     const product = { id: productId, ...pS.data() };
-    if (!isRestaurantOpen(restaurant)) return toast(`${restaurant.name} closed`, "error");
+    if (!isCompanyOpen(company)) return toast(`${company.name} closed`, "error");
     if (product.isActive === false) return toast("Not available", "error");
 
-    if (S.cart.restaurantId && S.cart.restaurantId !== restaurantId) {
-      return confirmDialog(`Cart has items from ${S.cart.restaurantName}. Clear it?`, () => {
+    if (S.cart.companyId && S.cart.companyId !== companyId) {
+      return confirmDialog(`Cart has items from ${S.cart.companyName}. Clear it?`, () => {
         clearCart();
-        addProductToCartWithQty(productId, companyId, restaurantId, qty);
+        addProductToCartWithQty(productId, companyId, qty);
       });
     }
-    if (!S.cart.restaurantId) {
+    if (!S.cart.companyId) {
       S.cart.companyId = companyId;
       S.cart.companyName = company.name;
-      S.cart.restaurantId = restaurantId;
-      S.cart.restaurantName = restaurant.name;
     }
     const existing = S.cart.items.find(i => i.productId === productId);
     if (existing) existing.quantity += qty;
@@ -1695,8 +1581,8 @@ async function addProductToCartWithQty(productId, companyId, restaurantId, qty) 
     setTimeout(() => goTo("cart"), 400);
   } catch (err) { console.error(err); toast("Failed to add", "error"); }
 }
-window.addProductToCart = async (productId, companyId, restaurantId) => {
-  await addProductToCartWithQty(productId, companyId, restaurantId, 1);
+window.addProductToCart = async (productId, companyId) => {
+  await addProductToCartWithQty(productId, companyId, 1);
 };
 
 function renderCart() {
@@ -1708,15 +1594,15 @@ function renderCart() {
     body.innerHTML = `<div class="empty"><div style="font-size:64px;opacity:.3;margin-bottom:16px">🛒</div>
       <p style="font-weight:800;font-size:16px;color:var(--text);font-family:var(--font-display)">Your cart is empty</p>
       <p class="text-sm text-soft mt-2">Add products to get started</p>
-      <button class="btn btn-primary mt-4" onclick="goTo('products')">Browse restaurants</button></div>`;
+      <button class="btn btn-primary mt-4" onclick="goTo('products')">Browse companies</button></div>`;
     return;
   }
   const subtotal = S.cart.items.reduce((s, i) => s + i.price * i.quantity, 0);
   body.innerHTML = `
     <div class="card card-flat card-elevated">
       <div class="card-row" style="cursor:default">
-        <div><div class="font-bold" style="font-size:15px;color:var(--brand);font-family:var(--font-display)">${escapeHtml(S.cart.restaurantName || "")}</div>
-          <div class="text-xs text-soft">${escapeHtml(S.cart.companyName || "")} · ${S.cart.items.length} item(s)</div></div>
+        <div><div class="font-bold" style="font-size:15px;color:var(--brand);font-family:var(--font-display)">${escapeHtml(S.cart.companyName || "")}</div>
+          <div class="text-xs text-soft">${S.cart.items.length} item(s)</div></div>
       </div>
       ${S.cart.items.map(i => `
         <div class="cart-item">
@@ -1773,35 +1659,31 @@ async function renderCheckout() {
   if (!body) return;
   const status = getStatusMessage();
   if (status.blocked) { body.innerHTML = renderBlockedBanner(); startBlockTimer(); return; }
-  let company, restaurant;
+  let company;
   try {
-    const [cS, rS] = await Promise.all([
-      getDoc(doc(db, "companies", S.cart.companyId)),
-      getDoc(doc(db, "companies", S.cart.companyId, "restaurants", S.cart.restaurantId))
-    ]);
-    if (!cS.exists() || !rS.exists()) { body.innerHTML = `<div class="empty">Unavailable</div>`; return; }
+    const cS = await getDoc(doc(db, "companies", S.cart.companyId));
+    if (!cS.exists()) { body.innerHTML = `<div class="empty">Unavailable</div>`; return; }
     company = { id: cS.id, ...cS.data() };
-    restaurant = { id: rS.id, ...rS.data() };
   } catch (e) { body.innerHTML = `<div class="empty">Failed</div>`; return; }
 
-  if (!isRestaurantOpen(restaurant)) {
+  if (!isCompanyOpen(company)) {
     body.innerHTML = `<div class="closed-banner" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:22px;border-radius:var(--r-lg);margin-bottom:16px;display:flex;gap:14px">
       <span style="font-size:32px">🚫</span>
-      <div><div style="font-weight:800;font-size:15px;font-family:var(--font-display);margin-bottom:5px">Restaurant Closed</div>
-        <div style="font-size:13px;opacity:.94">${escapeHtml(restaurant.closedMessage || "Cannot order now.")}</div></div>
+      <div><div style="font-weight:800;font-size:15px;font-family:var(--font-display);margin-bottom:5px">Store Closed</div>
+        <div style="font-size:13px;opacity:.94">${escapeHtml(company.closedMessage || "Cannot order now.")}</div></div>
     </div>
     <button class="btn btn-secondary btn-block" onclick="goTo('cart')">Back</button>`;
     return;
   }
 
   const subtotal = S.cart.items.reduce((s, i) => s + i.price * i.quantity, 0);
-  const requiresNumber = restaurant.requiresNumber === true;
-  const numberCharge = requiresNumber ? Number(restaurant.numberCharge || 0) : 0;
-  const codEnabled = restaurant.codEnabled !== false;
+  const requiresNumber = company.requiresNumber === true;
+  const numberCharge = requiresNumber ? Number(company.numberCharge || 0) : 0;
+  const codEnabled = company.codEnabled !== false;
   await checkFirstOrder();
   const isFirstOrder = S.isFirstOrder;
-  const deliveryCharge = isFirstOrder ? 0 : Number(restaurant.deliveryCharge || 0);
-  const serviceCharge = isFirstOrder ? 0 : Number(restaurant.serviceCharge || 0);
+  const deliveryCharge = isFirstOrder ? 0 : Number(company.deliveryCharge || 0);
+  const serviceCharge = isFirstOrder ? 0 : Number(company.serviceCharge || 0);
   const couponDiscount = S.appliedCoupon ? S.appliedCoupon.discount : 0;
 
   body.innerHTML = `
@@ -1810,8 +1692,8 @@ async function renderCheckout() {
       <div class="desc">No delivery or service charges.</div>
     </div></div>` : ""}
     <div class="card">
-      <div class="font-bold mb-2" style="font-size:15px;color:var(--brand);font-family:var(--font-display)">${escapeHtml(restaurant.name || "")}</div>
-      <div class="text-xs text-soft">${escapeHtml(company.name || "")} · ${S.cart.items.length} item(s)</div>
+      <div class="font-bold mb-2" style="font-size:15px;color:var(--brand);font-family:var(--font-display)">${escapeHtml(company.name || "")}</div>
+      <div class="text-xs text-soft">${S.cart.items.length} item(s)</div>
     </div>
     <div class="card">
       <div class="section-title">Delivery Details</div>
@@ -1852,7 +1734,7 @@ async function renderCheckout() {
         <div class="radio-row" data-choice="company">
           <input type="radio" name="numberChoice" value="company" id="choiceCompany">
           <label for="choiceCompany" class="radio-row-text">
-            <div class="radio-row-title">Restaurant provides number</div>
+            <div class="radio-row-title">Company provides number</div>
             <div class="radio-row-desc">+${fmtINR(numberCharge)}</div>
           </label>
         </div>
@@ -1926,18 +1808,18 @@ async function renderCheckout() {
   };
 
   $("#placeOrderBtn").onclick = () => placeOrder({
-    company, restaurant, subtotal, selectedChoice,
+    company, subtotal, selectedChoice,
     numberCharge: selectedNumberCharge,
     deliveryCharge, serviceCharge, requiresNumber,
     paymentMethod: selectedPaymentMethod
   });
 }
 
-async function placeOrder({ company, restaurant, subtotal, selectedChoice, numberCharge, deliveryCharge, serviceCharge, requiresNumber, paymentMethod }) {
+async function placeOrder({ company, subtotal, selectedChoice, numberCharge, deliveryCharge, serviceCharge, requiresNumber, paymentMethod }) {
   await refreshProfile();
   const status = getStatusMessage();
   if (status.blocked) return toast(status.title + ": " + status.message, "error");
-  if (!isRestaurantOpen(restaurant)) return toast(`${restaurant.name} closed.`, "error");
+  if (!isCompanyOpen(company)) return toast(`${company.name} closed.`, "error");
   const phone = $("#coPhone").value.trim();
   const address = $("#coAddress").value.trim();
   const notes = $("#coNotes").value.trim();
@@ -1946,7 +1828,7 @@ async function placeOrder({ company, restaurant, subtotal, selectedChoice, numbe
   if (!address) return toast("Address required", "error");
   if (requiresNumber && selectedChoice === "own" && !ownNumber) return toast("Enter number", "error");
   if (requiresNumber && !selectedChoice) return toast("Choose option", "error");
-  const codEnabled = restaurant.codEnabled !== false;
+  const codEnabled = company.codEnabled !== false;
   if (paymentMethod === "cod" && !codEnabled) return toast("COD not available", "error");
 
   const btn = $("#placeOrderBtn");
@@ -1954,7 +1836,7 @@ async function placeOrder({ company, restaurant, subtotal, selectedChoice, numbe
   try {
     const validItems = [];
     for (const item of S.cart.items) {
-      const pS = await getDoc(doc(db, "companies", company.id, "restaurants", restaurant.id, "products", item.productId));
+      const pS = await getDoc(doc(db, "companies", company.id, "products", item.productId));
       if (!pS.exists()) throw new Error(`"${item.name}" unavailable`);
       const p = pS.data();
       if (p.isActive === false) throw new Error(`"${p.name}" not available`);
@@ -1973,7 +1855,6 @@ async function placeOrder({ company, restaurant, subtotal, selectedChoice, numbe
       customerName: S.profile.name || "", customerEmail: S.profile.email || "",
       customerPhone: phone, address, notes,
       companyId: company.id, companyName: company.name, companyLogo: company.logoUrl || "",
-      restaurantId: restaurant.id, restaurantName: restaurant.name, restaurantLogo: restaurant.logoUrl || "",
       items: validItems, subtotal: finalSubtotal,
       numberOption: selectedChoice, numberCharge, customerOwnNumber: ownNumber || "",
       deliveryCharge, serviceCharge,
@@ -2026,8 +1907,8 @@ function paintOrders() {
       <div class="order-body">
         ${firstItem?.imageUrl ? `<img class="order-thumb" src="${escapeHtml(firstItem.imageUrl)}" onerror="this.style.display='none'">` : ""}
         <div class="order-info">
-          <div class="order-name">${escapeHtml(o.restaurantName || o.companyName || "")}</div>
-          <div class="order-date">${escapeHtml(o.companyName || "")} · ${(o.items || []).length} item(s) · ${fmtDate(o.createdAt)}</div>
+          <div class="order-name">${escapeHtml(o.companyName || "")}</div>
+          <div class="order-date">${(o.items || []).length} item(s) · ${fmtDate(o.createdAt)}</div>
         </div>
       </div>
       <div class="order-foot"><span class="text-muted">Total</span>
@@ -2093,8 +1974,8 @@ function paintOrderDetail(o, history, review) {
           <div class="font-bold font-mono" style="font-size:16px;color:var(--brand)">#${escapeHtml(o.orderId || o.id)}</div></div>
         <span class="badge badge-${info.tone}">${info.label}</span>
       </div>
-      <div class="text-sm text-muted">${escapeHtml(o.restaurantName || o.companyName || "")}</div>
-      <div class="text-xs text-soft mt-2">${escapeHtml(o.companyName || "")} · ${fmtDate(o.createdAt, true)}</div>
+      <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
+      <div class="text-xs text-soft mt-2">${fmtDate(o.createdAt, true)}</div>
     </div>
     ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
       <div class="reason-card"><div class="title">Reason</div><div class="text">${escapeHtml(o.cancelReason)}</div></div>` : ""}
@@ -2336,7 +2217,7 @@ function paintTrackResult(o, history) {
           <div class="font-bold font-mono" style="font-size:16px;color:var(--brand)">#${escapeHtml(o.orderId || o.id)}</div></div>
         <span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span>
       </div>
-      <div class="text-sm text-muted">${escapeHtml(o.restaurantName || o.companyName || "")}</div>
+      <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
       <div class="text-xs text-soft mt-2">Placed on ${fmtDate(o.createdAt, true)}</div>
     </div>
     <div class="card"><div class="section-title">Progress</div><div class="timeline">${timeline}</div></div>
@@ -2390,13 +2271,13 @@ async function renderAdminDashboard() {
   $("#recentOrders").innerHTML = `
     <div class="section-header"><h2>Recent Orders</h2></div>
     <div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Order</th><th>Customer</th><th>Restaurant</th><th>Total</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th>Order</th><th>Customer</th><th>Company</th><th>Total</th><th>Status</th><th></th></tr></thead>
       <tbody>${recent.length ? recent.map(o => {
         const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
         return `<tr>
           <td class="font-mono text-xs">#${escapeHtml(o.orderId || o.id)}</td>
           <td>${escapeHtml(o.customerName || "")}</td>
-          <td>${escapeHtml(o.restaurantName || o.companyName || "")}</td>
+          <td>${escapeHtml(o.companyName || "")}</td>
           <td class="font-bold">${fmtINR(o.grandTotal)}</td>
           <td><span class="badge badge-${info.tone}">${info.label}</span></td>
           <td><button class="btn btn-secondary btn-xs" onclick="adminOpenOrder('${o.id}')">Open</button></td>
@@ -2414,14 +2295,15 @@ function renderAdminCompanies() {
     if (!el) return;
     if (!list.length) { el.innerHTML = `<div class="empty">No companies</div>`; return; }
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-      <thead><tr><th>Name</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Name</th><th>Category</th><th>COD</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${list.map(c => `<tr>
         <td><div class="font-semibold">${escapeHtml(c.name || "")}</div></td>
         <td>${escapeHtml(c.category || "")}</td>
+        <td>${c.codEnabled !== false ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-neutral">No</span>'}</td>
         <td>${c.isActive !== false ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-neutral">Hidden</span>'}</td>
         <td class="acts">
           <button class="btn btn-secondary btn-xs" onclick="editCompany('${c.id}')">Edit</button>
-          <button class="btn btn-secondary btn-xs" onclick="manageRestaurants('${c.id}')">Restaurants</button>
+          <button class="btn btn-secondary btn-xs" onclick="manageProducts('${c.id}')">Products</button>
           <button class="btn btn-danger btn-xs" onclick="deleteCompanyAdmin('${c.id}')">Delete</button>
         </td>
       </tr>`).join("")}</tbody></table></div>`;
@@ -2441,17 +2323,39 @@ window.companyForm = (company = null) => {
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="cDesc">${escapeHtml(company?.description || "")}</textarea></div>
     <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="cCategory" value="${escapeHtml(company?.category || "")}"></div>
     <div class="form-group"><label class="form-label">Logo URL</label><input class="form-input" id="cLogo" value="${escapeHtml(company?.logoUrl || "")}"></div>
+    <div class="form-group"><label class="form-label">Delivery charge (₹)</label><input class="form-input" type="number" id="cDelivery" value="${company?.deliveryCharge || 0}"></div>
+    <div class="form-group"><label class="form-label">Service charge (₹)</label><input class="form-input" type="number" id="cService" value="${company?.serviceCharge || 0}"></div>
+    <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cCOD" ${company?.codEnabled !== false ? "checked" : ""}> COD available</label></div>
     <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cActive" ${company?.isActive !== false ? "checked" : ""}> Active</label></div>
+    <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cAutoHours" ${company?.autoOpenClose ? "checked" : ""}> Auto open/close hours</label></div>
+    <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="cRequiresNumber" ${company?.requiresNumber ? "checked" : ""}> Requires number</label></div>
+    <div class="form-group"><label class="form-label">Number charge (₹)</label><input class="form-input" type="number" id="cNumberCharge" value="${company?.numberCharge || 0}"></div>
+    <div id="cHoursFields" class="${company?.autoOpenClose ? "" : "hidden"}">
+      <div class="form-group"><label class="form-label">Open time</label><input class="form-input" type="time" id="cOpenTime" value="${escapeHtml(company?.openTime || "09:00")}"></div>
+      <div class="form-group"><label class="form-label">Close time</label><input class="form-input" type="time" id="cCloseTime" value="${escapeHtml(company?.closeTime || "22:00")}"></div>
+      <div class="form-group"><label class="form-label">Closed message</label><textarea class="form-textarea" id="cClosedMsg">${escapeHtml(company?.closedMessage || "")}</textarea></div>
+    </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" id="cSave">Save</button>
     </div>`);
+  $("#cAutoHours").onchange = () => { $("#cHoursFields").classList.toggle("hidden", !$("#cAutoHours").checked); };
   $("#cSave").onclick = async () => {
     const data = {
       name: $("#cName").value.trim(), description: $("#cDesc").value.trim(),
       category: $("#cCategory").value.trim() || "General",
       logoUrl: $("#cLogo").value.trim(),
-      isActive: $("#cActive").checked, updatedAt: serverTimestamp()
+      deliveryCharge: parseFloat($("#cDelivery").value) || 0,
+      serviceCharge: parseFloat($("#cService").value) || 0,
+      codEnabled: $("#cCOD").checked,
+      isActive: $("#cActive").checked,
+      autoOpenClose: $("#cAutoHours").checked,
+      openTime: $("#cAutoHours").checked ? ($("#cOpenTime").value || "09:00") : "",
+      closeTime: $("#cAutoHours").checked ? ($("#cCloseTime").value || "22:00") : "",
+      closedMessage: $("#cClosedMsg")?.value.trim() || "",
+      requiresNumber: $("#cRequiresNumber").checked,
+      numberCharge: parseFloat($("#cNumberCharge").value) || 0,
+      updatedAt: serverTimestamp()
     };
     if (!data.name) return toast("Name required", "error");
     try {
@@ -2467,122 +2371,32 @@ window.editCompany = async (id) => {
   if (snap.exists()) companyForm({ id, ...snap.data() });
 };
 
-window.manageRestaurants = async (companyId) => {
+window.manageProducts = async (companyId) => {
   const cS = await getDoc(doc(db, "companies", companyId));
   if (!cS.exists()) return toast("Not found", "error");
   const company = { id: companyId, ...cS.data() };
-  openModal(`<div class="modal-title">${escapeHtml(company.name)} — Restaurants</div>
-    <div id="restList"></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
-      <button class="btn btn-primary" id="addRestBtn">+ Add</button>
-    </div>`);
-  const renderList = async () => {
-    const snap = await getDocs(collection(db, "companies", companyId, "restaurants"));
-    const list = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
-    $("#restList").innerHTML = list.length ? list.map(r => `
-      <div class="row" style="padding:12px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px">
-        <img src="${escapeHtml(/^https?:\/\//i.test(r.logoUrl || "") ? r.logoUrl : PLACEHOLDER_IMG)}" style="width:48px;height:48px;border-radius:12px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
-        <div style="flex:1;min-width:120px"><div class="text-sm font-semibold">${escapeHtml(r.name)}</div><div class="text-xs text-soft">${escapeHtml(r.cuisine || r.category || "")}</div></div>
-        <button class="btn btn-secondary btn-xs" onclick="editRestaurant('${companyId}','${r.id}')">Edit</button>
-        <button class="btn btn-secondary btn-xs" onclick="manageRestaurantProducts('${companyId}','${r.id}')">Products</button>
-        <button class="btn btn-danger btn-xs" onclick="deleteRestaurant('${companyId}','${r.id}')">${icon.trash}</button>
-      </div>`).join("") : `<div class="text-soft text-sm" style="padding:20px 0;text-align:center">No restaurants</div>`;
-  };
-  renderList();
-  $("#addRestBtn").onclick = () => restaurantForm(companyId, null, renderList);
-};
-
-window.restaurantForm = (companyId, restaurant, onSaved) => {
-  const editing = !!restaurant;
-  openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} Restaurant</div>
-    <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="rName" value="${escapeHtml(restaurant?.name || "")}"></div>
-    <div class="form-group"><label class="form-label">Cuisine</label><input class="form-input" id="rCuisine" value="${escapeHtml(restaurant?.cuisine || restaurant?.category || "")}"></div>
-    <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="rDesc">${escapeHtml(restaurant?.description || "")}</textarea></div>
-    <div class="form-group"><label class="form-label">Logo URL</label><input class="form-input" id="rLogo" value="${escapeHtml(restaurant?.logoUrl || "")}"></div>
-    <div class="form-group"><label class="form-label">Delivery (₹)</label><input class="form-input" type="number" id="rDelivery" value="${restaurant?.deliveryCharge || 0}"></div>
-    <div class="form-group"><label class="form-label">Service (₹)</label><input class="form-input" type="number" id="rService" value="${restaurant?.serviceCharge || 0}"></div>
-    <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="rCOD" ${restaurant?.codEnabled !== false ? "checked" : ""}> COD</label></div>
-    <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="rActive" ${restaurant?.isActive !== false ? "checked" : ""}> Active</label></div>
-    <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="rAutoHours" ${restaurant?.autoOpenClose ? "checked" : ""}> Auto hours</label></div>
-    <div class="form-group"><label class="checkbox-row"><input type="checkbox" id="rRequiresNumber" ${restaurant?.requiresNumber ? "checked" : ""}> Requires number</label></div>
-    <div class="form-group"><label class="form-label">Number charge (₹)</label><input class="form-input" type="number" id="rNumberCharge" value="${restaurant?.numberCharge || 0}"></div>
-    <div id="rHoursFields" class="${restaurant?.autoOpenClose ? "" : "hidden"}">
-      <div class="form-group"><label class="form-label">Open</label><input class="form-input" type="time" id="rOpenTime" value="${escapeHtml(restaurant?.openTime || "09:00")}"></div>
-      <div class="form-group"><label class="form-label">Close</label><input class="form-input" type="time" id="rCloseTime" value="${escapeHtml(restaurant?.closeTime || "22:00")}"></div>
-      <div class="form-group"><label class="form-label">Closed message</label><textarea class="form-textarea" id="rClosedMsg">${escapeHtml(restaurant?.closedMessage || "")}</textarea></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="rSave">Save</button>
-    </div>`);
-  $("#rAutoHours").onchange = () => { $("#rHoursFields").classList.toggle("hidden", !$("#rAutoHours").checked); };
-  $("#rSave").onclick = async () => {
-    const data = {
-      name: $("#rName").value.trim(),
-      cuisine: $("#rCuisine").value.trim(),
-      category: $("#rCuisine").value.trim() || "Multi-cuisine",
-      description: $("#rDesc").value.trim(),
-      logoUrl: $("#rLogo").value.trim(),
-      deliveryCharge: parseFloat($("#rDelivery").value) || 0,
-      serviceCharge: parseFloat($("#rService").value) || 0,
-      codEnabled: $("#rCOD").checked,
-      isActive: $("#rActive").checked,
-      autoOpenClose: $("#rAutoHours").checked,
-      openTime: $("#rAutoHours").checked ? ($("#rOpenTime").value || "09:00") : "",
-      closeTime: $("#rAutoHours").checked ? ($("#rCloseTime").value || "22:00") : "",
-      closedMessage: $("#rClosedMsg")?.value.trim() || "",
-      requiresNumber: $("#rRequiresNumber").checked,
-      numberCharge: parseFloat($("#rNumberCharge").value) || 0,
-      updatedAt: serverTimestamp()
-    };
-    if (!data.name) return toast("Name required", "error");
-    try {
-      if (editing) await updateDoc(doc(db, "companies", companyId, "restaurants", restaurant.id), data);
-      else await addDoc(collection(db, "companies", companyId, "restaurants"), { ...data, createdAt: serverTimestamp() });
-      toast("Saved", "success"); closeModal(); if (onSaved) onSaved();
-    } catch (err) { toast(errorMsg(err), "error"); }
-  };
-};
-
-window.editRestaurant = async (companyId, restaurantId) => {
-  const snap = await getDoc(doc(db, "companies", companyId, "restaurants", restaurantId));
-  if (snap.exists()) restaurantForm(companyId, { id: restaurantId, ...snap.data() }, () => manageRestaurants(companyId));
-};
-
-window.deleteRestaurant = (companyId, restaurantId) => {
-  confirmDialog("Delete restaurant?", async () => {
-    try { await deleteDoc(doc(db, "companies", companyId, "restaurants", restaurantId)); toast("Deleted", "success"); manageRestaurants(companyId); }
-    catch (err) { toast(errorMsg(err), "error"); }
-  });
-};
-
-window.manageRestaurantProducts = async (companyId, restaurantId) => {
-  const rS = await getDoc(doc(db, "companies", companyId, "restaurants", restaurantId));
-  if (!rS.exists()) return toast("Not found", "error");
-  const restaurant = { id: restaurantId, ...rS.data() };
-  openModal(`<div class="modal-title">${escapeHtml(restaurant.name)} — Products</div>
+  openModal(`<div class="modal-title">${escapeHtml(company.name)} — Products</div>
     <div id="prodList"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Close</button>
       <button class="btn btn-primary" id="addProdBtn">+ Add</button>
     </div>`);
   const renderList = async () => {
-    const snap = await getDocs(collection(db, "companies", companyId, "restaurants", restaurantId, "products"));
+    const snap = await getDocs(collection(db, "companies", companyId, "products"));
     const list = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
     $("#prodList").innerHTML = list.length ? list.map(p => `
       <div class="row" style="padding:12px 0;border-bottom:1px solid var(--border)">
         <img src="${escapeHtml(/^https?:\/\//i.test(p.imageUrl || "") ? p.imageUrl : PLACEHOLDER_IMG)}" style="width:48px;height:48px;border-radius:12px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
         <div style="flex:1;min-width:0"><div class="text-sm font-semibold">${escapeHtml(p.name)}</div><div class="text-xs text-soft">${fmtINR(p.price)}</div></div>
-        <button class="btn btn-secondary btn-xs" onclick="editProduct('${companyId}','${restaurantId}','${p.id}')">Edit</button>
-        <button class="btn btn-danger btn-xs" onclick="deleteProduct('${companyId}','${restaurantId}','${p.id}')">${icon.trash}</button>
+        <button class="btn btn-secondary btn-xs" onclick="editProduct('${companyId}','${p.id}')">Edit</button>
+        <button class="btn btn-danger btn-xs" onclick="deleteProduct('${companyId}','${p.id}')">${icon.trash}</button>
       </div>`).join("") : `<div class="text-soft text-sm" style="padding:20px 0;text-align:center">No products</div>`;
   };
   renderList();
-  $("#addProdBtn").onclick = () => productForm(companyId, restaurantId, null, renderList);
+  $("#addProdBtn").onclick = () => productForm(companyId, null, renderList);
 };
 
-window.productForm = (companyId, restaurantId, product, onSaved) => {
+window.productForm = (companyId, product, onSaved) => {
   const editing = !!product;
   openModal(`<div class="modal-title">${editing ? "Edit" : "Add"} Product</div>
     <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="pName" value="${escapeHtml(product?.name || "")}"></div>
@@ -2606,21 +2420,21 @@ window.productForm = (companyId, restaurantId, product, onSaved) => {
     };
     if (!data.name) return toast("Name required", "error");
     try {
-      if (editing) await updateDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", product.id), data);
-      else await addDoc(collection(db, "companies", companyId, "restaurants", restaurantId, "products"), { ...data, createdAt: serverTimestamp() });
+      if (editing) await updateDoc(doc(db, "companies", companyId, "products", product.id), data);
+      else await addDoc(collection(db, "companies", companyId, "products"), { ...data, createdAt: serverTimestamp() });
       toast("Saved", "success"); closeModal(); if (onSaved) onSaved();
     } catch (err) { toast(errorMsg(err), "error"); }
   };
 };
 
-window.editProduct = async (companyId, restaurantId, productId) => {
-  const snap = await getDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", productId));
-  if (snap.exists()) productForm(companyId, restaurantId, { id: productId, ...snap.data() }, () => manageRestaurantProducts(companyId, restaurantId));
+window.editProduct = async (companyId, productId) => {
+  const snap = await getDoc(doc(db, "companies", companyId, "products", productId));
+  if (snap.exists()) productForm(companyId, { id: productId, ...snap.data() }, () => manageProducts(companyId));
 };
 
-window.deleteProduct = (companyId, restaurantId, productId) => {
+window.deleteProduct = (companyId, productId) => {
   confirmDialog("Delete product?", async () => {
-    try { await deleteDoc(doc(db, "companies", companyId, "restaurants", restaurantId, "products", productId)); toast("Deleted", "success"); manageRestaurantProducts(companyId, restaurantId); }
+    try { await deleteDoc(doc(db, "companies", companyId, "products", productId)); toast("Deleted", "success"); manageProducts(companyId); }
     catch (err) { toast(errorMsg(err), "error"); }
   });
 };
@@ -2787,13 +2601,13 @@ function paintAdminOrders() {
   if (adminOrderFilter !== "all") list = list.filter(o => o.status === adminOrderFilter);
   if (!list.length) { el.innerHTML = `<div class="empty">No orders</div>`; return; }
   el.innerHTML = `<div class="table-wrap scroll"><table class="table">
-    <thead><tr><th>Order</th><th>Customer</th><th>Restaurant</th><th>Total</th><th>Status</th><th></th></tr></thead>
+    <thead><tr><th>Order</th><th>Customer</th><th>Company</th><th>Total</th><th>Status</th><th></th></tr></thead>
     <tbody>${list.map(o => {
       const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
       return `<tr>
         <td class="font-mono text-xs font-bold">#${escapeHtml(o.orderId || o.id)}</td>
         <td>${escapeHtml(o.customerName || "")}</td>
-        <td>${escapeHtml(o.restaurantName || o.companyName || "")}<div class="text-xs text-soft">${escapeHtml(o.companyName || "")}</div></td>
+        <td>${escapeHtml(o.companyName || "")}</td>
         <td class="font-bold">${fmtINR(o.grandTotal)}</td>
         <td><span class="badge badge-${info.tone}">${info.label}</span></td>
         <td><button class="btn btn-secondary btn-xs" onclick="adminOpenOrder('${o.id}')">Manage</button></td>
@@ -2813,9 +2627,8 @@ window.adminOpenOrder = async (orderId) => {
     <div class="section-title">Customer</div>
     <div class="text-sm font-semibold">${escapeHtml(o.customerName || "")}</div>
     <div class="text-sm text-muted">${escapeHtml(o.customerPhone || "")}</div>
-    <div class="section-title mt-4">Restaurant</div>
-    <div class="text-sm font-semibold">${escapeHtml(o.restaurantName || "")}</div>
-    <div class="text-xs text-soft">${escapeHtml(o.companyName || "")}</div>
+    <div class="section-title mt-4">Company</div>
+    <div class="text-sm font-semibold">${escapeHtml(o.companyName || "")}</div>
     <div class="section-title mt-4">Items</div>
     ${(o.items || []).map(i => `<div class="row" style="padding:8px 0">
       <img src="${escapeHtml(/^https?:\/\//i.test(i.imageUrl || "") ? i.imageUrl : PLACEHOLDER_IMG)}" style="width:48px;height:48px;border-radius:12px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
@@ -2921,7 +2734,7 @@ async function sendSuccessEmail(order) {
     ? {
         email_heading: "Order Delivered!",
         email_subheading: "Hope you enjoy it",
-        email_message: `Your order from <strong>${escapeHtml(order.restaurantName || order.companyName)}</strong> has been delivered.`,
+        email_message: `Your order from <strong>${escapeHtml(order.companyName)}</strong> has been delivered.`,
         action_btn_text: hasTracking ? "Track" : "Rate Order",
         action_url: hasTracking ? order.trackingUrl : EMAILJS_CONFIG.websiteUrl,
         info_note: "<strong>Feedback matters!</strong><br>Rate this order in the app."
@@ -2929,7 +2742,7 @@ async function sendSuccessEmail(order) {
     : {
         email_heading: "Order Confirmed!",
         email_subheading: "Thank you",
-        email_message: `Your order from <strong>${escapeHtml(order.restaurantName || order.companyName)}</strong> has been placed.`,
+        email_message: `Your order from <strong>${escapeHtml(order.companyName)}</strong> has been placed.`,
         action_btn_text: "Continue Shopping",
         action_url: EMAILJS_CONFIG.websiteUrl,
         info_note: "<strong>What's next?</strong><br>We'll notify you soon."
@@ -2942,7 +2755,7 @@ async function sendSuccessEmail(order) {
       business_name: "Pawan Retail Limited",
       support_email: EMAILJS_CONFIG.supportEmail,
       order_id: order.orderId,
-      company_name: order.restaurantName || order.companyName,
+      company_name: order.companyName,
       order_date: fmtDate(order.createdAt, true),
       subtotal: fmtINR(order.subtotal),
       number_charge: fmtINR(order.numberCharge || 0),
@@ -3053,25 +2866,21 @@ window.adminUnblockUser = (userId) => {
   });
 };
 
-// ============ BOOTSTRAP ============
 try {
   mountScreens();
-  console.log("Screens mounted successfully");
+  console.log("Mounted");
 } catch (e) {
   console.error("Mount error:", e);
   $("#root").innerHTML = `<div style="padding:24px;background:#fee2e2;min-height:100vh;color:#991b1b;font-family:sans-serif">
     <h2 style="margin:0 0 12px 0">⚠️ Mount Error</h2>
     <p style="margin:0 0 8px 0"><strong>${e.message || 'Unknown'}</strong></p>
-    <p style="margin:0;font-size:11px;opacity:.7">Please refresh or contact support</p>
   </div>`;
 }
 
 try {
   onAuthStateChanged(auth, onAuthChanged);
   loadEmailJS();
-} catch (e) {
-  console.error("Auth error:", e);
-}
+} catch (e) { console.error("Auth error:", e); }
 </script>
 </body>
 </html>
