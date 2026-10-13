@@ -10,31 +10,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
   --bg:#eef2f9;--bg-gradient:linear-gradient(180deg,#eef2f9 0%,#e4ebf7 100%);
   --surface:#ffffff;--glass:rgba(255,255,255,.72);--glass-strong:rgba(255,255,255,.88);--glass-border:rgba(255,255,255,.6);
-  --surface-2:#f8fafc;--surface-3:#f1f5f9;
+  --surface-3:#f1f5f9;
   --border:#e2e8f0;--border-strong:#cbd5e1;
   --text:#0f172a;--text-2:#475569;--text-3:#94a3b8;
   --brand:#4f46e5;--brand-dark:#4338ca;--brand-light:#6366f1;--brand-soft:#eef2ff;
   --brand-gradient:linear-gradient(135deg,#4f46e5 0%,#06b6d4 100%);
-  --brand-gradient-reverse:linear-gradient(135deg,#06b6d4 0%,#4f46e5 100%);
   --accent:#06b6d4;--accent-soft:#cffafe;
-  --amber:#f59e0b;--amber-soft:#fef3c7;
+  --amber:#f59e0b;
   --success:#059669;--success-soft:#ecfdf5;
   --warning:#d97706;--warning-soft:#fffbeb;
   --danger:#dc2626;--danger-soft:#fef2f2;
   --r-sm:8px;--r:12px;--r-md:16px;--r-lg:20px;--r-xl:24px;--r-2xl:32px;
   --sh-xs:0 1px 2px rgba(15,23,42,.04);--sh-sm:0 2px 8px rgba(15,23,42,.06);
-  --sh:0 8px 24px rgba(15,23,42,.08);--sh-md:0 12px 32px rgba(15,23,42,.10);
+  --sh-md:0 12px 32px rgba(15,23,42,.10);
   --sh-lg:0 20px 48px rgba(15,23,42,.14);--sh-brand:0 12px 32px rgba(79,70,229,.30);
   --sh-inset:inset 0 1px 0 rgba(255,255,255,.7);
   --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
   --font-display:'Outfit',sans-serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
-
-html,body{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--text);background:var(--bg-gradient);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;letter-spacing:-0.008em}
+html,body{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--text);background:var(--bg-gradient);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
 body{min-height:100vh;overflow-x:hidden;position:relative}
 body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#4f46e5,#06b6d4,#ec4899,#f59e0b,#4f46e5);background-size:200% 100%;animation:gradientShift 6s linear infinite;z-index:1000;pointer-events:none}
 @keyframes gradientShift{to{background-position:200% 0}}
@@ -47,26 +44,23 @@ img{max-width:100%;display:block}
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
 .shell{max-width:560px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:calc(90px + var(--safe-bottom));position:relative}
-
 .appbar{position:sticky;top:4px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;background:var(--glass-strong);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--glass-border);box-shadow:0 4px 24px rgba(15,23,42,.06)}
-.appbar-title{font-size:15px;font-weight:700;color:var(--text);font-family:var(--font-display);letter-spacing:-.01em}
+.appbar-title{font-size:15px;font-weight:700;color:var(--text);font-family:var(--font-display)}
 .appbar-back{width:40px;height:40px;display:grid;place-items:center;border-radius:var(--r);margin-left:-8px;color:var(--text-2);background:var(--glass);border:1px solid var(--glass-border);box-shadow:var(--sh-xs)}
 .appbar-back:hover{background:var(--brand-soft);color:var(--brand)}
 .appbar-actions{display:flex;align-items:center;gap:8px}
 .iconbtn{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:var(--r);color:var(--text-2);background:var(--glass);border:1px solid var(--glass-border);box-shadow:var(--sh-xs)}
-.iconbtn:hover{background:var(--brand-soft);color:var(--brand);transform:translateY(-2px)}
+.iconbtn:hover{background:var(--brand-soft);color:var(--brand)}
 .iconbtn svg{width:20px;height:20px}
-.badge-dot{position:absolute;top:4px;right:4px;min-width:18px;height:18px;padding:0 5px;background:var(--brand-gradient);color:#fff;font-size:10px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface),0 2px 8px rgba(79,70,229,.4)}
+.badge-dot{position:absolute;top:4px;right:4px;min-width:18px;height:18px;padding:0 5px;background:var(--brand-gradient);color:#fff;font-size:10px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
 .badge-dot.show{display:flex}
-
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:-.015em;font-family:var(--font-display);color:var(--text)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;font-family:var(--font-display);color:var(--text)}
 .brand-mark{width:42px;height:42px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;border-radius:12px;font-size:20px;font-weight:800;font-family:var(--font-display);box-shadow:var(--sh-brand)}
-
 .page{padding:16px}
 .section-title{font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:12px;font-family:var(--font-display);display:flex;align-items:center;gap:8px;letter-spacing:.02em;text-transform:uppercase}
 .section-title::before{content:'';width:3px;height:16px;background:var(--brand-gradient);border-radius:2px}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
-.section-header h2{font-size:20px;font-weight:800;font-family:var(--font-display);color:var(--text);letter-spacing:-.02em}
+.section-header h2{font-size:20px;font-weight:800;font-family:var(--font-display);color:var(--text)}
 
 .card{background:var(--glass-strong);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border:1px solid var(--glass-border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-sm),var(--sh-inset)}
 .card+.card{margin-top:14px}
@@ -76,12 +70,10 @@ img{max-width:100%;display:block}
 .card-row:last-child{border-bottom:0}
 .card-row:hover{background:var(--brand-soft);padding-left:24px}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;font-size:13px;font-weight:700;border-radius:var(--r);border:1px solid transparent;white-space:nowrap;letter-spacing:-.005em;transition:all .25s cubic-bezier(.4,0,.2,1);font-family:var(--font-display)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;font-size:13px;font-weight:700;border-radius:var(--r);border:1px solid transparent;white-space:nowrap;transition:all .25s cubic-bezier(.4,0,.2,1);font-family:var(--font-display)}
 .btn:active:not(:disabled){transform:scale(.97)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-primary{background:var(--brand-gradient);color:#fff;box-shadow:var(--sh-brand);position:relative;overflow:hidden}
-.btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transition:left .6s}
-.btn-primary:hover:not(:disabled)::after{left:150%}
+.btn-primary{background:var(--brand-gradient);color:#fff;box-shadow:var(--sh-brand)}
 .btn-primary:hover:not(:disabled){transform:translateY(-2px)}
 .btn-secondary{background:var(--glass-strong);color:var(--text);border-color:var(--border-strong);box-shadow:var(--sh-xs)}
 .btn-secondary:hover:not(:disabled){background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
@@ -99,15 +91,14 @@ img{max-width:100%;display:block}
 .form-textarea{min-height:92px;resize:vertical}
 .input-wrap{position:relative}
 .input-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);padding:6px 10px;font-size:11px;font-weight:800;color:var(--brand);border-radius:8px;background:var(--brand-soft);text-transform:uppercase}
-.checkbox-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2);cursor:pointer;font-weight:500}
-.checkbox-row input{accent-color:var(--brand);width:18px;height:18px;cursor:pointer}
+.checkbox-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2);cursor:pointer}
+.checkbox-row input{accent-color:var(--brand);width:18px;height:18px}
 .form-split{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:13px}
 
 .bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;background:var(--glass-strong);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-top:1px solid var(--glass-border);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 0 calc(10px + var(--safe-bottom));z-index:30;box-shadow:0 -12px 40px rgba(15,23,42,.08)}
 .bnav-item{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 4px;color:var(--text-3);font-size:10px;font-weight:700;cursor:pointer;position:relative;transition:all .25s}
-.bnav-item svg{width:24px;height:24px;transition:transform .25s}
+.bnav-item svg{width:24px;height:24px}
 .bnav-item.active{color:var(--brand)}
-.bnav-item.active svg{transform:scale(1.1) translateY(-2px)}
 .bnav-item.active::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:36px;height:3px;background:var(--brand-gradient);border-radius:2px}
 .bnav-badge{position:absolute;top:2px;right:calc(50% - 22px);min-width:18px;height:18px;padding:0 5px;background:var(--brand-gradient);color:#fff;font-size:9px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
 .bnav-badge.show{display:flex}
@@ -173,7 +164,6 @@ img{max-width:100%;display:block}
 .product-desc{font-size:12px;color:var(--text-2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .product-price{font-size:17px;font-weight:800;color:var(--brand);margin-top:6px;font-family:var(--font-display)}
 .product-cta{margin-top:10px}
-
 .closed-overlay{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;font-size:10px;font-weight:800;padding:5px 10px;border-radius:8px;letter-spacing:.06em;text-transform:uppercase;z-index:2}
 
 .order{background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-xs)}
@@ -200,15 +190,13 @@ img{max-width:100%;display:block}
 .timeline-step.current .tl-label{font-weight:800;color:var(--brand)}
 
 .toast-root{position:fixed;top:calc(76px + var(--safe-top));left:50%;transform:translateX(-50%);z-index:1000;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;max-width:calc(100vw - 32px);width:100%}
-.toast{padding:14px 22px;background:rgba(15,23,42,.95);backdrop-filter:blur(20px);color:#fff;border-radius:14px;font-size:13.5px;font-weight:700;animation:toastIn .35s cubic-bezier(.16,1,.3,1);max-width:100%;text-align:center;box-shadow:0 20px 48px rgba(0,0,0,.3)}
+.toast{padding:14px 22px;background:rgba(15,23,42,.95);backdrop-filter:blur(20px);color:#fff;border-radius:14px;font-size:13.5px;font-weight:700;animation:toastIn .35s;max-width:100%;text-align:center;box-shadow:0 20px 48px rgba(0,0,0,.3)}
 .toast.success{background:linear-gradient(135deg,#059669,#047857)}
 .toast.error{background:linear-gradient(135deg,#dc2626,#991b1b)}
 @keyframes toastIn{from{opacity:0;transform:translateY(-16px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
 
-.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(8px);display:grid;place-items:center;padding:16px;z-index:500;overflow:auto;animation:fadeIn .2s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal{background:var(--surface);border-radius:var(--r-xl);padding:26px;width:100%;max-width:480px;max-height:90vh;overflow:auto;box-shadow:0 32px 80px rgba(15,23,42,.4);animation:modalIn .3s cubic-bezier(.16,1,.3,1)}
-@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(8px);display:grid;place-items:center;padding:16px;z-index:500;overflow:auto}
+.modal{background:var(--surface);border-radius:var(--r-xl);padding:26px;width:100%;max-width:480px;max-height:90vh;overflow:auto;box-shadow:0 32px 80px rgba(15,23,42,.4)}
 .modal-title{font-size:19px;font-weight:800;margin-bottom:20px;font-family:var(--font-display);color:var(--text)}
 .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px}
 
@@ -263,16 +251,12 @@ img{max-width:100%;display:block}
 .coupon-row input{flex:1}
 
 .blocked-banner{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:32px;border-radius:var(--r-xl);text-align:center;margin-bottom:20px}
-.blocked-banner.suspended{background:linear-gradient(135deg,#d97706,#b45309)}
 .blocked-banner .icon{font-size:56px;margin-bottom:14px}
 .blocked-banner h2{font-size:22px;margin-bottom:10px;font-weight:800;font-family:var(--font-display)}
 .blocked-banner p{font-size:13.5px;opacity:.94;line-height:1.6;margin-bottom:6px}
 .blocked-reason{background:rgba(0,0,0,.28);border-radius:12px;padding:16px;margin-top:18px;text-align:left}
 .blocked-reason .lbl{font-size:11px;text-transform:uppercase;opacity:.8;margin-bottom:8px;font-weight:800}
 .blocked-reason .txt{font-size:13.5px}
-.blocked-timer{background:rgba(0,0,0,.32);border-radius:14px;padding:20px;margin-top:18px;display:inline-block;min-width:240px}
-.blocked-timer .label{font-size:11px;text-transform:uppercase;opacity:.8;margin-bottom:10px;font-weight:800}
-.blocked-timer .time{font-family:ui-monospace,monospace;font-size:28px;font-weight:800}
 
 .empty{text-align:center;padding:64px 20px;color:var(--text-3);font-size:13.5px}
 .skeleton{background:linear-gradient(90deg,#eef2f9 25%,#e2e8f0 37%,#eef2f9 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:var(--r);height:60px;margin-bottom:10px}
@@ -324,7 +308,7 @@ img{max-width:100%;display:block}
 .review-item-text{font-size:13.5px;color:var(--text-2);line-height:1.6}
 .qty-selector{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:16px;background:var(--surface-3);border-radius:var(--r-md);border:1px solid var(--border)}
 .qty-selector .label{font-size:13.5px;font-weight:700;color:var(--text-2);flex:1}
-.company-mini{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:16px;cursor:pointer;transition:all .25s}
+.company-mini{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:16px;cursor:pointer}
 .company-mini:hover{border-color:var(--brand)}
 .company-mini img,.company-mini .mini-logo{width:48px;height:48px;border-radius:12px;object-fit:cover;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}
 .company-mini .mini-info{flex:1;min-width:0}
@@ -364,7 +348,7 @@ img{max-width:100%;display:block}
   <div style="min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5 0%,#06b6d4 100%);color:#fff;font-family:sans-serif">
     <div style="text-align:center;padding:24px">
       <div style="font-size:56px;margin-bottom:16px">⏳</div>
-      <div style="font-size:18px;font-weight:700;margin-bottom:8px">Loading Pawan Retail…</div>
+      <div style="font-size:18px;font-weight:700">Loading…</div>
     </div>
   </div>
 </div>
@@ -375,13 +359,10 @@ img{max-width:100%;display:block}
 window.addEventListener('error', function(e) {
   const root = document.getElementById('root');
   if (root && !document.querySelector('.screen.active')) {
-    root.innerHTML = `
-      <div style="padding:24px;font-family:sans-serif;background:#fee2e2;min-height:100vh;color:#991b1b">
-        <h2 style="margin:0 0 12px 0;font-size:18px">⚠️ App Error</h2>
-        <p style="margin:0 0 8px 0;font-size:13px"><strong>${e.message || 'Unknown'}</strong></p>
-        <p style="margin:0;font-size:11px;opacity:.7">Line: ${e.lineno || '?'}:${e.colno || '?'}</p>
-      </div>
-    `;
+    root.innerHTML = `<div style="padding:24px;font-family:sans-serif;background:#fee2e2;min-height:100vh;color:#991b1b">
+      <h2 style="margin:0 0 12px 0">⚠️ App Error</h2>
+      <p style="margin:0 0 8px 0;font-size:13px"><strong>${e.message || 'Unknown'}</strong></p>
+    </div>`;
   }
 });
 </script>
@@ -391,7 +372,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendPasswordResetEmail, signOut, onAuthStateChanged,
-  setPersistence, browserLocalPersistence, browserSessionPersistence
+  setPersistence, browserLocalPersistence, browserSessionPersistence,
+  fetchSignInMethodsForEmail
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore, doc, getDoc, setDoc, updateDoc, addDoc, deleteDoc,
@@ -442,11 +424,12 @@ const ORDER_STATUS = {
 const EMAIL_STATUS = { pending: "PENDING", sent: "SENT", failed: "FAILED" };
 const ACCOUNT_STATUS = {
   active: { label: "Active", tone: "success" },
+  pending_password: { label: "Pending Password", tone: "warning" },
   suspended: { label: "Suspended", tone: "warning" },
   blocked: { label: "Blocked", tone: "danger" }
 };
 const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23f1f5f9'/><text x='100' y='105' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'>No image</text></svg>";
-const CART_STORAGE_KEY = "prl_cart_v5";
+const CART_STORAGE_KEY = "prl_cart_v6";
 
 const S = {
   user: null, profile: null,
@@ -459,7 +442,8 @@ const S = {
   blockTimerInterval: null,
   currentProduct: null,
   currentCompany: null,
-  productQty: 1
+  productQty: 1,
+  pendingUserDocId: null  // for create-password flow
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -483,7 +467,7 @@ function saveCart() { try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringif
 function loadCart() {
   try {
     const raw = localStorage.getItem(CART_STORAGE_KEY);
-    if (raw) { const parsed = JSON.parse(raw); if (parsed && Array.isArray(parsed.items)) S.cart = { companyId: null, companyName: null, items: [], ...parsed }; }
+    if (raw) { const p = JSON.parse(raw); if (p && Array.isArray(p.items)) S.cart = { companyId: null, companyName: null, items: [], ...p }; }
   } catch (_) {}
 }
 function clearCart() {
@@ -501,21 +485,21 @@ function genOrderId() {
   return `PRL-${ymd}-${rnd}`;
 }
 
-function isCompanyOpen(company) {
-  if (!company) return true;
-  if (company.autoOpenClose !== true) return true;
-  if (!company.openTime || !company.closeTime) return true;
+function isCompanyOpen(c) {
+  if (!c) return true;
+  if (c.autoOpenClose !== true) return true;
+  if (!c.openTime || !c.closeTime) return true;
   const now = new Date();
   const cur = now.getHours() * 60 + now.getMinutes();
-  const [oh, om] = company.openTime.split(":").map(Number);
-  const [ch, cm] = company.closeTime.split(":").map(Number);
+  const [oh, om] = c.openTime.split(":").map(Number);
+  const [ch, cm] = c.closeTime.split(":").map(Number);
   const open = oh * 60 + om;
   const close = ch * 60 + cm;
   if (open === close) return true;
   if (open < close) return cur >= open && cur < close;
   return cur >= open || cur < close;
 }
-function companyHoursText(c) {
+function hoursText(c) {
   if (!c?.openTime || !c?.closeTime) return "";
   return `${c.openTime} – ${c.closeTime}`;
 }
@@ -552,8 +536,7 @@ function errorMsg(err) {
     "auth/network-request-failed": "Network error. Check your connection.",
     "permission-denied": "You don't have permission for this action.",
     "unavailable": "Service temporarily unavailable.",
-    "not-found": "Data not found.",
-    "failed-precondition": "Query needs index. Contact admin."
+    "not-found": "Data not found."
   };
   return map[err?.code] || err?.message || "Something went wrong.";
 }
@@ -561,14 +544,10 @@ function errorMsg(err) {
 function getStatusMessage() {
   if (!S.profile) return { blocked: true, title: "Not signed in", message: "Please sign in." };
   const status = S.profile.status || "active";
-  if (status === "blocked") {
-    return { blocked: true, type: "blocked", title: "Account Blocked", message: "Your account has been blocked.", reason: S.profile.blockReason || "Not specified" };
-  }
+  if (status === "blocked") return { blocked: true, type: "blocked", title: "Account Blocked", message: "Your account has been blocked.", reason: S.profile.blockReason || "Not specified" };
   if (status === "suspended") {
     const until = S.profile.suspendedUntil?.toMillis?.() || 0;
-    if (until > Date.now()) {
-      return { blocked: true, type: "suspended", title: "Account Suspended", message: "Your account is temporarily suspended.", reason: S.profile.blockReason || "Not specified", until };
-    }
+    if (until > Date.now()) return { blocked: true, type: "suspended", title: "Account Suspended", message: "Temporarily suspended.", reason: S.profile.blockReason || "Not specified", until };
   }
   return { blocked: false };
 }
@@ -589,10 +568,13 @@ function renderBlockedBanner() {
       <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div></div>`;
   }
   if (info.type === "suspended") {
-    return `<div class="blocked-banner suspended"><div class="icon">⏸️</div><h2>${escapeHtml(info.title)}</h2>
+    return `<div class="blocked-banner"><div class="icon">⏸️</div><h2>${escapeHtml(info.title)}</h2>
       <p>${escapeHtml(info.message)}</p>
       <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div>
-      <div class="blocked-timer"><div class="label">Time Remaining</div><div class="time" id="blockedTimer">--:--:--</div></div></div>`;
+      <div style="background:rgba(0,0,0,.32);border-radius:14px;padding:20px;margin-top:18px;display:inline-block;min-width:240px">
+        <div style="font-size:11px;text-transform:uppercase;opacity:.8;margin-bottom:10px;font-weight:800">Time Remaining</div>
+        <div style="font-family:ui-monospace,monospace;font-size:28px;font-weight:800" id="blockedTimer">--:--:--</div>
+      </div></div>`;
   }
   return "";
 }
@@ -624,31 +606,30 @@ async function refreshProfile() {
       if (activeScreen === "scrCompanies") renderBrowse();
       if (activeScreen === "scrOrders") renderOrders();
     }
-  } catch (e) { console.warn("refreshProfile:", e); }
+  } catch (e) { console.warn(e); }
 }
 
-function calcCouponDiscount(coupon, subtotal) {
-  if (!coupon) return 0;
-  let discount = 0;
-  if (coupon.discountType === "percent") {
-    discount = subtotal * (coupon.discountValue / 100);
-    if (coupon.maxDiscount) discount = Math.min(discount, coupon.maxDiscount);
-  } else { discount = coupon.discountValue; }
-  return Math.min(discount, subtotal);
+function calcCouponDiscount(c, subtotal) {
+  if (!c) return 0;
+  let d = 0;
+  if (c.discountType === "percent") {
+    d = subtotal * (c.discountValue / 100);
+    if (c.maxDiscount) d = Math.min(d, c.maxDiscount);
+  } else d = c.discountValue;
+  return Math.min(d, subtotal);
 }
 
 async function validateCoupon(code, subtotal) {
-  if (!code) return { valid: false, error: "Enter a coupon code" };
+  if (!code) return { valid: false, error: "Enter a code" };
   try {
     const snap = await getDocs(query(collection(db, "coupons"), where("code", "==", code.toUpperCase().trim())));
-    if (snap.empty) return { valid: false, error: "Invalid coupon code" };
+    if (snap.empty) return { valid: false, error: "Invalid code" };
     const c = { id: snap.docs[0].id, ...snap.docs[0].data() };
     if (!c.isActive) return { valid: false, error: "Coupon inactive" };
     if (c.expiresAt && c.expiresAt.toMillis && c.expiresAt.toMillis() < Date.now()) return { valid: false, error: "Coupon expired" };
     if (subtotal < (c.minOrder || 0)) return { valid: false, error: `Min ₹${c.minOrder} required` };
-    const discount = calcCouponDiscount(c, subtotal);
-    return { valid: true, coupon: c, discount };
-  } catch (e) { return { valid: false, error: "Failed to check coupon" }; }
+    return { valid: true, coupon: c, discount: calcCouponDiscount(c, subtotal) };
+  } catch (e) { return { valid: false, error: "Failed to check" }; }
 }
 
 async function checkFirstOrder() {
@@ -700,6 +681,7 @@ function BNAV(active) {
   </nav>`;
 }
 
+/* ============ LOGIN SCREEN ============ */
 function screenLogin() {
   return `<div class="auth-shell"><div class="auth-box">
     <div class="auth-logo-wrap">
@@ -721,12 +703,45 @@ function screenLogin() {
           <a href="#" id="linkForgot" style="font-size:12.5px;font-weight:700">Forgot password?</a></div>
         <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginSubmit">Sign in →</button>
       </form>
-      <p class="auth-foot">New here? <a href="#" id="linkRegister" style="font-weight:800">Create account</a></p>
       <p class="auth-foot">
-        <a href="#" id="linkTrackOrder" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--brand-soft);border-radius:12px;color:var(--brand);font-weight:800;font-size:13px">
-          📦 Track order
+        <a href="#" id="linkFirstTime" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--brand-soft);border-radius:12px;color:var(--brand);font-weight:800;font-size:13px">
+          🔑 First time? Create your password
         </a>
       </p>
+      <p class="auth-foot">
+        <a href="#" id="linkTrackOrder" style="font-size:12.5px;font-weight:700">📦 Track order</a>
+      </p>
+    </div>
+  </div></div>`;
+}
+
+/* ============ FIRST TIME / CREATE PASSWORD ============ */
+function screenFirstTime() {
+  return `<div class="auth-shell"><div class="auth-box">
+    <div class="auth-logo-wrap">
+      <div class="auth-logo">🔑</div>
+      <div class="auth-brand">First Time Login</div>
+      <div class="auth-tagline">✦ Create Your Password ✦</div>
+    </div>
+    <div class="auth-card">
+      <h1>Create Password</h1>
+      <p class="auth-sub">Enter your registered email to continue</p>
+      <div id="firstTimeStep1">
+        <div class="form-group"><label class="form-label">Registered Email</label>
+          <input class="form-input" id="ftEmail" type="email" required placeholder="you@example.com"></div>
+        <button class="btn btn-primary btn-block btn-lg" id="ftCheckBtn">Continue →</button>
+      </div>
+      <div id="firstTimeStep2" class="hidden">
+        <div class="info-box mb-4">✅ Email verified! Now create your password.</div>
+        <div class="form-group"><label class="form-label">Create Password</label>
+          <div class="input-wrap"><input class="form-input" id="ftPass" type="password" minlength="6" placeholder="Min 6 characters">
+            <button type="button" class="input-toggle" data-toggle="ftPass">Show</button></div></div>
+        <div class="form-group"><label class="form-label">Confirm Password</label>
+          <div class="input-wrap"><input class="form-input" id="ftPass2" type="password" placeholder="Re-enter">
+            <button type="button" class="input-toggle" data-toggle="ftPass2">Show</button></div></div>
+        <button class="btn btn-primary btn-block btn-lg" id="ftCreateBtn">Create Password →</button>
+      </div>
+      <p class="auth-foot"><a href="#" id="linkBackLogin2" style="font-weight:700">← Back to sign in</a></p>
     </div>
   </div></div>`;
 }
@@ -762,7 +777,7 @@ function screenForgot() {
     <div class="auth-logo-wrap">
       <div class="auth-logo">🔐</div>
       <div class="auth-brand">Reset Password</div>
-      <div class="auth-tagline">✦ We'll email you a link ✦</div>
+      <div class="auth-tagline">✦ Email Link ✦</div>
     </div>
     <div class="auth-card">
       <h1>Forgot Password?</h1>
@@ -929,6 +944,7 @@ function mountScreens() {
     <div id="scrLogin" class="screen active">${screenLogin()}</div>
     <div id="scrRegister" class="screen">${screenRegister()}</div>
     <div id="scrForgot" class="screen">${screenForgot()}</div>
+    <div id="scrFirstTime" class="screen">${screenFirstTime()}</div>
     <div id="scrHome" class="screen">${screenHome()}</div>
     <div id="scrCompanies" class="screen">${screenCompanies()}</div>
     <div id="scrCompany" class="screen">${screenCompany()}</div>
@@ -958,11 +974,16 @@ function mountScreens() {
   safe("#linkLogin", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
   safe("#linkForgot", el => el.onclick = e => { e.preventDefault(); showScreen("scrForgot"); });
   safe("#linkBackLogin", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
+  safe("#linkBackLogin2", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
   safe("#linkTrackOrder", el => el.onclick = e => { e.preventDefault(); showScreen("scrTrackOrder"); renderTrackPage(); });
+  safe("#linkFirstTime", el => el.onclick = e => { e.preventDefault(); showScreen("scrFirstTime"); });
 
   safe("#loginForm", el => el.addEventListener("submit", handleLogin));
   safe("#registerForm", el => el.addEventListener("submit", handleRegister));
   safe("#forgotForm", el => el.addEventListener("submit", handleForgot));
+
+  safe("#ftCheckBtn", el => el.onclick = handleFirstTimeCheck);
+  safe("#ftCreateBtn", el => el.onclick = handleFirstTimeCreate);
 
   safe("#btnCare", el => el.onclick = showCare);
   safe("#btnNotifs", el => el.onclick = showNotifs);
@@ -1031,6 +1052,104 @@ async function handleLogin(e) {
   finally { btn.disabled = false; btn.textContent = "Sign in →"; }
 }
 
+/* ============ FIRST TIME CHECK ============ */
+async function handleFirstTimeCheck() {
+  const email = $("#ftEmail").value.trim().toLowerCase();
+  if (!email) return toast("Enter your email", "error");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("Invalid email", "error");
+  const btn = $("#ftCheckBtn");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking';
+  try {
+    // Find user doc by email in Firestore
+    const snap = await getDocs(query(collection(db, "users"), where("email", "==", email)));
+    if (snap.empty) {
+      toast("No account found with this email. Please contact admin.", "error");
+      return;
+    }
+    const userDoc = snap.docs[0];
+    const userData = userDoc.data();
+    if (userData.status !== "pending_password") {
+      if (userData.status === "active") {
+        toast("Password already created. Please sign in.", "info");
+        showScreen("scrLogin");
+        $("#loginEmail").value = email;
+      } else {
+        toast(`Account ${userData.status}. Contact support.`, "error");
+      }
+      return;
+    }
+    // Store doc id for later
+    S.pendingUserDocId = userDoc.id;
+    // Show step 2
+    $("#firstTimeStep1").classList.add("hidden");
+    $("#firstTimeStep2").classList.remove("hidden");
+    toast("Email verified! Create your password.", "success");
+  } catch (err) {
+    console.error(err);
+    toast("Failed to check email", "error");
+  } finally { btn.disabled = false; btn.textContent = "Continue →"; }
+}
+
+/* ============ FIRST TIME CREATE PASSWORD ============ */
+async function handleFirstTimeCreate() {
+  const pass = $("#ftPass").value;
+  const pass2 = $("#ftPass2").value;
+  if (!pass || !pass2) return toast("Fill both fields", "error");
+  if (pass.length < 6) return toast("Password must be 6+ characters", "error");
+  if (pass !== pass2) return toast("Passwords don't match", "error");
+
+  const email = $("#ftEmail").value.trim().toLowerCase();
+  const btn = $("#ftCreateBtn");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating';
+
+  try {
+    // Step 1: Create Firebase Auth user (now they appear in Authentication)
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const uid = cred.user.uid;
+
+    // Step 2: Update the admin-created Firestore doc
+    // Since admin-created doc has a temporary random ID, we need to migrate:
+    // - Get old data
+    const oldSnap = await getDoc(doc(db, "users", S.pendingUserDocId));
+    const oldData = oldSnap.exists() ? oldSnap.data() : {};
+
+    // Step 3: Create new user doc with UID as document ID
+    await setDoc(doc(db, "users", uid), {
+      name: oldData.name || "",
+      email: email,
+      phone: oldData.phone || "",
+      address: oldData.address || "",
+      role: "customer",
+      status: "active",  // ← now active
+      blockReason: "",
+      suspendedUntil: null,
+      createdBy: oldData.createdBy || "admin",
+      passwordCreatedAt: serverTimestamp(),
+      createdAt: oldData.createdAt || serverTimestamp()
+    });
+
+    // Step 4: Delete old pending doc
+    try { await deleteDoc(doc(db, "users", S.pendingUserDocId)); } catch (_) {}
+
+    // Step 5: Sign out (so customer can login fresh)
+    await signOut(auth);
+
+    toast("✅ Password created! Please sign in.", "success");
+    showScreen("scrLogin");
+    $("#loginEmail").value = email;
+    $("#loginPassword").value = "";
+    $("#firstTimeStep1").classList.remove("hidden");
+    $("#firstTimeStep2").classList.add("hidden");
+    $("#ftEmail").value = "";
+    S.pendingUserDocId = null;
+  } catch (err) {
+    console.error("Create password error:", err);
+    toast(errorMsg(err), "error");
+  } finally {
+    btn.disabled = false; btn.textContent = "Create Password →";
+  }
+}
+
 async function handleRegister(e) {
   e.preventDefault();
   const name = $("#regName").value.trim();
@@ -1040,7 +1159,7 @@ async function handleRegister(e) {
   const pass2 = $("#regPassword2").value;
   const address = $("#regAddress").value.trim();
   if (!name || !email || !pass || !address) return toast("Fill all fields", "error");
-  if (!/^[0-9]{10}$/.test(phone)) return toast("Enter valid 10-digit number", "error");
+  if (!/^[0-9]{10}$/.test(phone)) return toast("Enter valid 10-digit", "error");
   if (pass.length < 6) return toast("Password 6+ chars", "error");
   if (pass !== pass2) return toast("Passwords don't match", "error");
   const btn = $("#regSubmit");
@@ -1051,6 +1170,7 @@ async function handleRegister(e) {
       name, email, phone, address,
       role: "customer", status: "active",
       blockReason: "", suspendedUntil: null,
+      createdBy: "self",
       createdAt: serverTimestamp()
     });
     toast("Account created!", "success");
@@ -1212,7 +1332,7 @@ function companyCard(c) {
       <div class="product-desc">${escapeHtml(c.description || "")}</div>
       ${c.autoOpenClose && c.openTime && c.closeTime ? `
         <div class="text-xs mt-2" style="color:${open ? "var(--success)" : "var(--danger)"};font-weight:800">
-          ${open ? "● Open" : "● Closed"} · ${escapeHtml(companyHoursText(c))}
+          ${open ? "● Open" : "● Closed"} · ${escapeHtml(hoursText(c))}
         </div>` : ""}
     </div>
   </article>`;
@@ -1250,7 +1370,6 @@ function paintBrowseCompanies() {
   grid.innerHTML = list.map(companyCard).join("");
 }
 
-/* ============ COMPANY PAGE — shows PRODUCTS directly ============ */
 window.openCompany = async (companyId) => {
   showScreen("scrCompany");
   $("#companyBody").innerHTML = `<div class="skeleton" style="height:120px"></div><div class="skeleton"></div><div class="skeleton"></div>`;
@@ -1276,7 +1395,6 @@ window.openCompany = async (companyId) => {
 
   paintCompany(company, products, []);
 
-  // Background: load reviews
   (async () => {
     try {
       const ordersSnap = await getDocs(query(collection(db, "orders"), where("companyId", "==", companyId)));
@@ -1294,7 +1412,7 @@ window.openCompany = async (companyId) => {
         allReviews.sort(byNewest);
         paintCompany(company, products, allReviews);
       }
-    } catch (err) { console.warn("Reviews bg:", err?.code); }
+    } catch (err) { console.warn(err?.code); }
   })();
 };
 
@@ -1305,7 +1423,7 @@ function paintCompany(company, products, reviews) {
   const logo = /^https?:\/\//i.test(company.logoUrl || "") ? company.logoUrl : "";
   const status = getStatusMessage();
   const isOpen = isCompanyOpen(company);
-  const hours = companyHoursText(company);
+  const hours = hoursText(company);
   const showHours = company.autoOpenClose === true && hours;
   const codBadge = company.codEnabled !== false
     ? '<span class="badge badge-success">COD available</span>'
@@ -1322,7 +1440,7 @@ function paintCompany(company, products, reviews) {
   $("#companyBody").innerHTML = `
     ${status.blocked ? renderBlockedBanner() : ""}
     ${!isOpen ? `
-      <div class="closed-banner" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:20px;border-radius:var(--r-lg);margin-bottom:16px;display:flex;gap:14px">
+      <div style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:20px;border-radius:var(--r-lg);margin-bottom:16px;display:flex;gap:14px">
         <span style="font-size:32px">🚫</span>
         <div style="flex:1">
           <div style="font-weight:800;font-size:15px;margin-bottom:5px;font-family:var(--font-display)">Currently Closed</div>
@@ -1336,7 +1454,7 @@ function paintCompany(company, products, reviews) {
           ${logo ? `<img src="${escapeHtml(logo)}" style="width:100%;height:100%;object-fit:cover">` : `<span>${escapeHtml((company.name || "C")[0])}</span>`}
         </div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:19px;font-weight:800;font-family:var(--font-display);color:var(--text)">${escapeHtml(company.name || "")}</div>
+          <div style="font-size:19px;font-weight:800;font-family:var(--font-display)">${escapeHtml(company.name || "")}</div>
           <div class="text-xs text-soft" style="margin-top:4px">${escapeHtml(company.category || "")}</div>
           ${ratingHtml}
           <div class="row mt-2" style="gap:6px">${codBadge}</div>
@@ -1345,10 +1463,8 @@ function paintCompany(company, products, reviews) {
       </div>
       <div class="text-sm text-muted mt-3" style="line-height:1.6">${escapeHtml(company.description || "")}</div>
     </div>
-
     <div class="section-header mt-4" style="margin-bottom:12px"><h2>Products</h2></div>
     <div class="product-grid" id="companyProducts"></div>
-
     ${reviews.length ? `
       <div class="section-header mt-4" style="margin-bottom:12px">
         <h2>Customer Reviews</h2>
@@ -1409,7 +1525,7 @@ window.openAllReviews = async (companyId) => {
     if (!reviews.length) return toast("No reviews yet", "info");
     const avg = reviews.reduce((s, r) => s + (r.rating||0), 0) / reviews.length;
     openModal(`
-      <div class="modal-title">Customer Reviews (${reviews.length})</div>
+      <div class="modal-title">Reviews (${reviews.length})</div>
       <div class="rating-summary">
         <div class="big-num">${avg.toFixed(1)}</div>
         <div style="flex:1">
@@ -1568,10 +1684,7 @@ async function addProductToCartWithQty(productId, companyId, qty) {
         addProductToCartWithQty(productId, companyId, qty);
       });
     }
-    if (!S.cart.companyId) {
-      S.cart.companyId = companyId;
-      S.cart.companyName = company.name;
-    }
+    if (!S.cart.companyId) { S.cart.companyId = companyId; S.cart.companyName = company.name; }
     const existing = S.cart.items.find(i => i.productId === productId);
     if (existing) existing.quantity += qty;
     else S.cart.items.push({ productId, name: product.name, imageUrl: product.imageUrl || "", price: Number(product.price) || 0, quantity: qty });
@@ -1667,7 +1780,7 @@ async function renderCheckout() {
   } catch (e) { body.innerHTML = `<div class="empty">Failed</div>`; return; }
 
   if (!isCompanyOpen(company)) {
-    body.innerHTML = `<div class="closed-banner" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:22px;border-radius:var(--r-lg);margin-bottom:16px;display:flex;gap:14px">
+    body.innerHTML = `<div style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:22px;border-radius:var(--r-lg);margin-bottom:16px;display:flex;gap:14px">
       <span style="font-size:32px">🚫</span>
       <div><div style="font-weight:800;font-size:15px;font-family:var(--font-display);margin-bottom:5px">Store Closed</div>
         <div style="font-size:13px;opacity:.94">${escapeHtml(company.closedMessage || "Cannot order now.")}</div></div>
@@ -2788,8 +2901,19 @@ function renderAdminReviews() {
   S.adminSubs.add(unsub);
 }
 
+/* ============ ADMIN CUSTOMERS — WITH ADD BUTTON ============ */
 async function renderAdminCustomers() {
-  $("#adminContent").innerHTML = `<div id="customersList"><div class="skeleton"></div></div>`;
+  $("#adminContent").innerHTML = `
+    <div class="mb-4" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn btn-primary" id="addCustomerBtn">+ Add Customer</button>
+      <div class="info-box" style="flex:1;min-width:200px;margin:0">
+        ℹ️ Admin creates account → Customer gets email link → Customer sets password on first login.
+      </div>
+    </div>
+    <div id="customersList"><div class="skeleton"></div></div>`;
+
+  $("#addCustomerBtn").onclick = () => addCustomerForm();
+
   try {
     const snap = await getDocs(collection(db, "users"));
     const users = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(u => u.role !== "admin");
@@ -2808,12 +2932,82 @@ async function renderAdminCustomers() {
             ${status === "active" ? `
               <button class="btn btn-secondary btn-xs" onclick="adminSuspendUser('${u.id}')">Suspend</button>
               <button class="btn btn-danger btn-xs" onclick="adminBlockUser('${u.id}')">Block</button>
-            ` : `<button class="btn btn-success btn-xs" onclick="adminUnblockUser('${u.id}')">Unblock</button>`}
+            ` : status === "pending_password" ? `
+              <button class="btn btn-danger btn-xs" onclick="adminDeleteUser('${u.id}', '${escapeHtml(u.email || '')}')">Remove Invite</button>
+            ` : `
+              <button class="btn btn-success btn-xs" onclick="adminUnblockUser('${u.id}')">Unblock</button>
+            `}
           </td>
         </tr>`;
       }).join("")}</tbody></table></div>`;
   } catch (err) { $("#customersList").innerHTML = `<div class="empty">Failed</div>`; }
 }
+
+/* ============ ADMIN ADD CUSTOMER ============ */
+window.addCustomerForm = () => {
+  openModal(`<div class="modal-title">➕ Add New Customer</div>
+    <div class="info-box mb-4">📩 Customer will login with this email and create their own password on first login.</div>
+    <div class="form-group"><label class="form-label">Full Name</label>
+      <input class="form-input" id="ncName" placeholder="Customer full name"></div>
+    <div class="form-group"><label class="form-label">Email</label>
+      <input class="form-input" id="ncEmail" type="email" placeholder="customer@example.com"></div>
+    <div class="form-group"><label class="form-label">Mobile Number</label>
+      <input class="form-input" id="ncPhone" inputmode="numeric" maxlength="10" placeholder="10-digit"></div>
+    <div class="form-group"><label class="form-label">Address</label>
+      <textarea class="form-textarea" id="ncAddress" placeholder="Delivery address"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="ncSave">Create Account</button>
+    </div>`);
+
+  $("#ncSave").onclick = async () => {
+    const name = $("#ncName").value.trim();
+    const email = $("#ncEmail").value.trim().toLowerCase();
+    const phone = $("#ncPhone").value.trim();
+    const address = $("#ncAddress").value.trim();
+
+    if (!name) return toast("Name required", "error");
+    if (!email) return toast("Email required", "error");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("Invalid email", "error");
+    if (!/^[0-9]{10}$/.test(phone)) return toast("Valid 10-digit phone required", "error");
+    if (!address) return toast("Address required", "error");
+
+    const btn = $("#ncSave");
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating';
+
+    try {
+      // Check if email already exists
+      const existing = await getDocs(query(collection(db, "users"), where("email", "==", email)));
+      if (!existing.empty) {
+        toast("Email already registered", "error");
+        return;
+      }
+
+      // Create user doc in Firestore with pending_password status
+      // Document ID will be a random auto-generated ID (temp)
+      // When customer creates password, we'll migrate to Firebase Auth UID
+      await addDoc(collection(db, "users"), {
+        name, email, phone, address,
+        role: "customer",
+        status: "pending_password",
+        blockReason: "",
+        suspendedUntil: null,
+        createdBy: "admin",
+        createdByUid: S.user.uid,
+        createdAt: serverTimestamp()
+      });
+
+      toast("✅ Account created! Share login link with customer.", "success");
+      closeModal();
+      renderAdminCustomers();
+    } catch (err) {
+      console.error(err);
+      toast(errorMsg(err), "error");
+    } finally {
+      btn.disabled = false; btn.textContent = "Create Account";
+    }
+  };
+};
 
 window.adminBlockUser = (userId) => {
   openModal(`<div class="modal-title">Block User</div>
@@ -2864,6 +3058,26 @@ window.adminUnblockUser = (userId) => {
       toast("Unblocked", "success"); renderAdminCustomers();
     } catch (err) { toast(errorMsg(err), "error"); }
   });
+};
+
+window.adminDeleteUser = (userId, email) => {
+  openModal(`<div class="modal-title">Delete User</div>
+    <div class="warn-box mb-3"><strong>⚠️ Warning:</strong> This permanently deletes the user.</div>
+    <p class="text-sm text-muted mb-3">Email: <strong>${escapeHtml(email)}</strong></p>
+    <div class="form-group"><label class="form-label">Type email to confirm</label>
+      <input class="form-input font-mono" id="delConfirmEmail" placeholder="${escapeHtml(email)}"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" id="delConfirmBtn">Delete</button>
+    </div>`);
+  $("#delConfirmBtn").onclick = async () => {
+    const typed = $("#delConfirmEmail").value.trim().toLowerCase();
+    if (typed !== email.toLowerCase()) return toast("Email does not match", "error");
+    try {
+      await deleteDoc(doc(db, "users", userId));
+      toast("Deleted", "success"); closeModal(); renderAdminCustomers();
+    } catch (err) { toast(errorMsg(err), "error"); }
+  };
 };
 
 try {
