@@ -44,6 +44,7 @@ img{max-width:100%;display:block}
 .screen{display:none;min-height:100vh}
 .screen.active{display:block}
 .shell{max-width:560px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:calc(90px + var(--safe-bottom));position:relative}
+
 .appbar{position:sticky;top:4px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;background:var(--glass-strong);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--glass-border);box-shadow:0 4px 24px rgba(15,23,42,.06)}
 .appbar-title{font-size:15px;font-weight:700;color:var(--text);font-family:var(--font-display)}
 .appbar-back{width:40px;height:40px;display:grid;place-items:center;border-radius:var(--r);margin-left:-8px;color:var(--text-2);background:var(--glass);border:1px solid var(--glass-border);box-shadow:var(--sh-xs)}
@@ -372,8 +373,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendPasswordResetEmail, signOut, onAuthStateChanged,
-  setPersistence, browserLocalPersistence, browserSessionPersistence,
-  fetchSignInMethodsForEmail
+  setPersistence, browserLocalPersistence, browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore, doc, getDoc, setDoc, updateDoc, addDoc, deleteDoc,
@@ -429,7 +429,7 @@ const ACCOUNT_STATUS = {
   blocked: { label: "Blocked", tone: "danger" }
 };
 const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23f1f5f9'/><text x='100' y='105' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'>No image</text></svg>";
-const CART_STORAGE_KEY = "prl_cart_v6";
+const CART_STORAGE_KEY = "prl_cart_v8";
 
 const S = {
   user: null, profile: null,
@@ -443,7 +443,7 @@ const S = {
   currentProduct: null,
   currentCompany: null,
   productQty: 1,
-  pendingUserDocId: null  // for create-password flow
+  pendingUserDocId: null
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -681,7 +681,7 @@ function BNAV(active) {
   </nav>`;
 }
 
-/* ============ LOGIN SCREEN ============ */
+/* ============ LOGIN SCREEN with AUTO-DETECT ============ */
 function screenLogin() {
   return `<div class="auth-shell"><div class="auth-box">
     <div class="auth-logo-wrap">
@@ -690,58 +690,43 @@ function screenLogin() {
       <div class="auth-tagline">✦ Premium Delivery ✦</div>
     </div>
     <div class="auth-card">
-      <h1>Welcome Back</h1>
-      <p class="auth-sub">Sign in to continue</p>
-      <form id="loginForm">
+      <!-- STEP 1: LOGIN FORM -->
+      <div id="loginStep1">
+        <h1>Welcome Back</h1>
+        <p class="auth-sub">Sign in to continue</p>
+        <form id="loginForm">
+          <div class="form-group"><label class="form-label">Email</label>
+            <input class="form-input" id="loginEmail" type="email" required placeholder="you@example.com"></div>
+          <div class="form-group"><label class="form-label">Password</label>
+            <div class="input-wrap"><input class="form-input" id="loginPassword" type="password" required placeholder="••••••••">
+              <button type="button" class="input-toggle" data-toggle="loginPassword">Show</button></div></div>
+          <div class="form-split">
+            <label class="checkbox-row"><input type="checkbox" id="loginRemember" checked> Remember me</label>
+            <a href="#" id="linkForgot" style="font-size:12.5px;font-weight:700">Forgot password?</a></div>
+          <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginSubmit">Sign in →</button>
+        </form>
+        <p class="auth-foot">New here? <a href="#" id="linkRegister" style="font-weight:800">Create an account</a></p>
+        <p class="auth-foot">
+          <a href="#" id="linkTrackOrder" style="font-size:12.5px;font-weight:700">📦 Track order</a>
+        </p>
+      </div>
+      
+      <!-- STEP 2: CREATE PASSWORD (auto-shown if pending) -->
+      <div id="loginStep2" class="hidden">
+        <h1>Create Your Password</h1>
+        <p class="auth-sub">Welcome! Set your password to continue</p>
+        <div class="info-box mb-4" id="welcomeMsg">👋 Hi there! Please create your password.</div>
         <div class="form-group"><label class="form-label">Email</label>
-          <input class="form-input" id="loginEmail" type="email" required placeholder="you@example.com"></div>
-        <div class="form-group"><label class="form-label">Password</label>
-          <div class="input-wrap"><input class="form-input" id="loginPassword" type="password" required placeholder="••••••••">
-            <button type="button" class="input-toggle" data-toggle="loginPassword">Show</button></div></div>
-        <div class="form-split">
-          <label class="checkbox-row"><input type="checkbox" id="loginRemember" checked> Remember me</label>
-          <a href="#" id="linkForgot" style="font-size:12.5px;font-weight:700">Forgot password?</a></div>
-        <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginSubmit">Sign in →</button>
-      </form>
-      <p class="auth-foot">
-        <a href="#" id="linkFirstTime" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--brand-soft);border-radius:12px;color:var(--brand);font-weight:800;font-size:13px">
-          🔑 First time? Create your password
-        </a>
-      </p>
-      <p class="auth-foot">
-        <a href="#" id="linkTrackOrder" style="font-size:12.5px;font-weight:700">📦 Track order</a>
-      </p>
-    </div>
-  </div></div>`;
-}
-
-/* ============ FIRST TIME / CREATE PASSWORD ============ */
-function screenFirstTime() {
-  return `<div class="auth-shell"><div class="auth-box">
-    <div class="auth-logo-wrap">
-      <div class="auth-logo">🔑</div>
-      <div class="auth-brand">First Time Login</div>
-      <div class="auth-tagline">✦ Create Your Password ✦</div>
-    </div>
-    <div class="auth-card">
-      <h1>Create Password</h1>
-      <p class="auth-sub">Enter your registered email to continue</p>
-      <div id="firstTimeStep1">
-        <div class="form-group"><label class="form-label">Registered Email</label>
-          <input class="form-input" id="ftEmail" type="email" required placeholder="you@example.com"></div>
-        <button class="btn btn-primary btn-block btn-lg" id="ftCheckBtn">Continue →</button>
-      </div>
-      <div id="firstTimeStep2" class="hidden">
-        <div class="info-box mb-4">✅ Email verified! Now create your password.</div>
+          <input class="form-input" id="cpEmail" type="email" readonly></div>
         <div class="form-group"><label class="form-label">Create Password</label>
-          <div class="input-wrap"><input class="form-input" id="ftPass" type="password" minlength="6" placeholder="Min 6 characters">
-            <button type="button" class="input-toggle" data-toggle="ftPass">Show</button></div></div>
+          <div class="input-wrap"><input class="form-input" id="cpPass" type="password" minlength="6" placeholder="Min 6 characters">
+            <button type="button" class="input-toggle" data-toggle="cpPass">Show</button></div></div>
         <div class="form-group"><label class="form-label">Confirm Password</label>
-          <div class="input-wrap"><input class="form-input" id="ftPass2" type="password" placeholder="Re-enter">
-            <button type="button" class="input-toggle" data-toggle="ftPass2">Show</button></div></div>
-        <button class="btn btn-primary btn-block btn-lg" id="ftCreateBtn">Create Password →</button>
+          <div class="input-wrap"><input class="form-input" id="cpPass2" type="password" placeholder="Re-enter">
+            <button type="button" class="input-toggle" data-toggle="cpPass2">Show</button></div></div>
+        <button class="btn btn-primary btn-block btn-lg" id="cpCreateBtn">Create Password →</button>
+        <p class="auth-foot"><a href="#" id="linkBackToLogin" style="font-weight:700">← Back to sign in</a></p>
       </div>
-      <p class="auth-foot"><a href="#" id="linkBackLogin2" style="font-weight:700">← Back to sign in</a></p>
     </div>
   </div></div>`;
 }
@@ -804,7 +789,7 @@ function screenHome() {
       <div id="statusBannerSlot"></div>
       <div class="hero-banner">
         <div class="hero-content">
-          <span class="hero-tag">🪔 Limited Time Offer</span>
+          <span class="hero-tag">🎁 Limited Time Offer</span>
           <h1 class="hero-title">Everything you need,<br>delivered in minutes</h1>
           <p class="hero-sub">From your favourite stores — free delivery on your first order.</p>
           <button class="hero-cta" onclick="goTo('products')">Order Now →</button>
@@ -944,7 +929,6 @@ function mountScreens() {
     <div id="scrLogin" class="screen active">${screenLogin()}</div>
     <div id="scrRegister" class="screen">${screenRegister()}</div>
     <div id="scrForgot" class="screen">${screenForgot()}</div>
-    <div id="scrFirstTime" class="screen">${screenFirstTime()}</div>
     <div id="scrHome" class="screen">${screenHome()}</div>
     <div id="scrCompanies" class="screen">${screenCompanies()}</div>
     <div id="scrCompany" class="screen">${screenCompany()}</div>
@@ -974,16 +958,19 @@ function mountScreens() {
   safe("#linkLogin", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
   safe("#linkForgot", el => el.onclick = e => { e.preventDefault(); showScreen("scrForgot"); });
   safe("#linkBackLogin", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
-  safe("#linkBackLogin2", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
+  safe("#linkBackToLogin", el => el.onclick = e => { 
+    e.preventDefault(); 
+    $("#loginStep1").classList.remove("hidden");
+    $("#loginStep2").classList.add("hidden");
+    $("#cpPass").value = ""; $("#cpPass2").value = "";
+    S.pendingUserDocId = null;
+  });
   safe("#linkTrackOrder", el => el.onclick = e => { e.preventDefault(); showScreen("scrTrackOrder"); renderTrackPage(); });
-  safe("#linkFirstTime", el => el.onclick = e => { e.preventDefault(); showScreen("scrFirstTime"); });
 
   safe("#loginForm", el => el.addEventListener("submit", handleLogin));
   safe("#registerForm", el => el.addEventListener("submit", handleRegister));
   safe("#forgotForm", el => el.addEventListener("submit", handleForgot));
-
-  safe("#ftCheckBtn", el => el.onclick = handleFirstTimeCheck);
-  safe("#ftCreateBtn", el => el.onclick = handleFirstTimeCreate);
+  safe("#cpCreateBtn", el => el.onclick = handleCreatePassword);
 
   safe("#btnCare", el => el.onclick = showCare);
   safe("#btnNotifs", el => el.onclick = showNotifs);
@@ -1037,111 +1024,102 @@ function updateCartBadge() {
   }
 }
 
+/* ============ LOGIN with AUTO-DETECT pending_password ============ */
 async function handleLogin(e) {
   e.preventDefault();
   const email = $("#loginEmail").value.trim();
   const pass = $("#loginPassword").value;
   const remember = $("#loginRemember").checked;
   if (!email || !pass) return toast("Fill all fields", "error");
+  
   const btn = $("#loginSubmit");
-  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Signing in';
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking';
+
   try {
+    // Check if this is a pending_password user
+    const userSnap = await getDocs(query(collection(db, "users"), where("email", "==", email.toLowerCase())));
+    const pendingDoc = userSnap.docs.find(d => d.data().status === "pending_password");
+    
+    if (pendingDoc) {
+      // Show create password form
+      S.pendingUserDocId = pendingDoc.id;
+      const userData = pendingDoc.data();
+      $("#cpEmail").value = email;
+      $("#welcomeMsg").textContent = `👋 Hi ${userData.name || ""}! Please create your password to continue.`;
+      $("#loginStep1").classList.add("hidden");
+      $("#loginStep2").classList.remove("hidden");
+      toast("Welcome! Please create your password.", "info");
+      btn.disabled = false; btn.textContent = "Sign in →";
+      return;
+    }
+
+    // Normal login
+    btn.innerHTML = '<span class="spin"></span> Signing in';
     await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
     await signInWithEmailAndPassword(auth, email, pass);
-  } catch (err) { toast(errorMsg(err), "error"); }
-  finally { btn.disabled = false; btn.textContent = "Sign in →"; }
-}
-
-/* ============ FIRST TIME CHECK ============ */
-async function handleFirstTimeCheck() {
-  const email = $("#ftEmail").value.trim().toLowerCase();
-  if (!email) return toast("Enter your email", "error");
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("Invalid email", "error");
-  const btn = $("#ftCheckBtn");
-  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking';
-  try {
-    // Find user doc by email in Firestore
-    const snap = await getDocs(query(collection(db, "users"), where("email", "==", email)));
-    if (snap.empty) {
-      toast("No account found with this email. Please contact admin.", "error");
-      return;
-    }
-    const userDoc = snap.docs[0];
-    const userData = userDoc.data();
-    if (userData.status !== "pending_password") {
-      if (userData.status === "active") {
-        toast("Password already created. Please sign in.", "info");
-        showScreen("scrLogin");
-        $("#loginEmail").value = email;
-      } else {
-        toast(`Account ${userData.status}. Contact support.`, "error");
-      }
-      return;
-    }
-    // Store doc id for later
-    S.pendingUserDocId = userDoc.id;
-    // Show step 2
-    $("#firstTimeStep1").classList.add("hidden");
-    $("#firstTimeStep2").classList.remove("hidden");
-    toast("Email verified! Create your password.", "success");
   } catch (err) {
-    console.error(err);
-    toast("Failed to check email", "error");
-  } finally { btn.disabled = false; btn.textContent = "Continue →"; }
+    toast(errorMsg(err), "error");
+  } finally { 
+    btn.disabled = false; 
+    btn.textContent = "Sign in →"; 
+  }
 }
 
-/* ============ FIRST TIME CREATE PASSWORD ============ */
-async function handleFirstTimeCreate() {
-  const pass = $("#ftPass").value;
-  const pass2 = $("#ftPass2").value;
+/* ============ CREATE PASSWORD (integrated) ============ */
+async function handleCreatePassword() {
+  const pass = $("#cpPass").value;
+  const pass2 = $("#cpPass2").value;
   if (!pass || !pass2) return toast("Fill both fields", "error");
   if (pass.length < 6) return toast("Password must be 6+ characters", "error");
   if (pass !== pass2) return toast("Passwords don't match", "error");
 
-  const email = $("#ftEmail").value.trim().toLowerCase();
-  const btn = $("#ftCreateBtn");
+  const email = $("#cpEmail").value.trim().toLowerCase();
+  const btn = $("#cpCreateBtn");
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating';
 
   try {
-    // Step 1: Create Firebase Auth user (now they appear in Authentication)
+    // 1. Create Firebase Auth user (now appears in Authentication tab)
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     const uid = cred.user.uid;
 
-    // Step 2: Update the admin-created Firestore doc
-    // Since admin-created doc has a temporary random ID, we need to migrate:
-    // - Get old data
+    // 2. Get old pending data
     const oldSnap = await getDoc(doc(db, "users", S.pendingUserDocId));
     const oldData = oldSnap.exists() ? oldSnap.data() : {};
 
-    // Step 3: Create new user doc with UID as document ID
+    // 3. Create new user doc with UID as ID, status active
     await setDoc(doc(db, "users", uid), {
       name: oldData.name || "",
       email: email,
       phone: oldData.phone || "",
       address: oldData.address || "",
       role: "customer",
-      status: "active",  // ← now active
+      status: "active",
       blockReason: "",
       suspendedUntil: null,
       createdBy: oldData.createdBy || "admin",
+      createdByUid: oldData.createdByUid || null,
       passwordCreatedAt: serverTimestamp(),
       createdAt: oldData.createdAt || serverTimestamp()
     });
 
-    // Step 4: Delete old pending doc
+    // 4. Delete old pending doc
     try { await deleteDoc(doc(db, "users", S.pendingUserDocId)); } catch (_) {}
 
-    // Step 5: Sign out (so customer can login fresh)
-    await signOut(auth);
+    // 5. Send welcome email
+    loadEmailJS().then(() => {
+      if (window.__emailjs) {
+        window.__emailjs.send(
+          EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.welcomeTemplateId,
+          { to_email: email, to_name: oldData.name || "Customer", business_name: "Pawan Retail Limited",
+            support_email: EMAILJS_CONFIG.supportEmail, year: new Date().getFullYear() }
+        ).catch(err => console.warn("Welcome email failed:", err));
+      }
+    });
 
-    toast("✅ Password created! Please sign in.", "success");
-    showScreen("scrLogin");
-    $("#loginEmail").value = email;
-    $("#loginPassword").value = "";
-    $("#firstTimeStep1").classList.remove("hidden");
-    $("#firstTimeStep2").classList.add("hidden");
-    $("#ftEmail").value = "";
-    S.pendingUserDocId = null;
+    toast("✅ Password created! Welcome aboard.", "success");
+    
+    // 6. onAuthChanged will fire automatically, and customer will go to home
+    // No need to sign out
   } catch (err) {
     console.error("Create password error:", err);
     toast(errorMsg(err), "error");
@@ -1205,7 +1183,13 @@ async function logout() {
   S.customerSubs.clear(); S.adminSubs.clear();
   if (S.blockTimerInterval) { clearInterval(S.blockTimerInterval); S.blockTimerInterval = null; }
   S.user = null; S.profile = null;
+  S.pendingUserDocId = null;
   clearCart();
+  // Reset login step
+  const step1 = document.getElementById("loginStep1");
+  const step2 = document.getElementById("loginStep2");
+  if (step1) step1.classList.remove("hidden");
+  if (step2) step2.classList.add("hidden");
 }
 window.logout = logout;
 
@@ -2901,13 +2885,12 @@ function renderAdminReviews() {
   S.adminSubs.add(unsub);
 }
 
-/* ============ ADMIN CUSTOMERS — WITH ADD BUTTON ============ */
 async function renderAdminCustomers() {
   $("#adminContent").innerHTML = `
     <div class="mb-4" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
       <button class="btn btn-primary" id="addCustomerBtn">+ Add Customer</button>
       <div class="info-box" style="flex:1;min-width:200px;margin:0">
-        ℹ️ Admin creates account → Customer gets email link → Customer sets password on first login.
+        ℹ️ Admin creates → Customer logs in with email → Auto-detects and shows password creation.
       </div>
     </div>
     <div id="customersList"><div class="skeleton"></div></div>`;
@@ -2943,10 +2926,9 @@ async function renderAdminCustomers() {
   } catch (err) { $("#customersList").innerHTML = `<div class="empty">Failed</div>`; }
 }
 
-/* ============ ADMIN ADD CUSTOMER ============ */
 window.addCustomerForm = () => {
   openModal(`<div class="modal-title">➕ Add New Customer</div>
-    <div class="info-box mb-4">📩 Customer will login with this email and create their own password on first login.</div>
+    <div class="info-box mb-4">📩 Customer will login with this email — the app will auto-detect and ask them to create a password.</div>
     <div class="form-group"><label class="form-label">Full Name</label>
       <input class="form-input" id="ncName" placeholder="Customer full name"></div>
     <div class="form-group"><label class="form-label">Email</label>
@@ -2976,16 +2958,12 @@ window.addCustomerForm = () => {
     btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating';
 
     try {
-      // Check if email already exists
       const existing = await getDocs(query(collection(db, "users"), where("email", "==", email)));
       if (!existing.empty) {
         toast("Email already registered", "error");
         return;
       }
 
-      // Create user doc in Firestore with pending_password status
-      // Document ID will be a random auto-generated ID (temp)
-      // When customer creates password, we'll migrate to Firebase Auth UID
       await addDoc(collection(db, "users"), {
         name, email, phone, address,
         role: "customer",
@@ -2997,7 +2975,7 @@ window.addCustomerForm = () => {
         createdAt: serverTimestamp()
       });
 
-      toast("✅ Account created! Share login link with customer.", "success");
+      toast("✅ Account created! Customer will set password on first login.", "success");
       closeModal();
       renderAdminCustomers();
     } catch (err) {
