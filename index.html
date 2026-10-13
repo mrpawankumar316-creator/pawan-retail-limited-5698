@@ -80,6 +80,7 @@ img{max-width:100%;display:block}
 .btn-secondary:hover:not(:disabled){background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
 .btn-danger{background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff}
 .btn-success{background:linear-gradient(135deg,#059669,#047857);color:#fff}
+.btn-warning{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
 .btn-block{width:100%}
 .btn-sm{padding:8px 14px;font-size:12px;border-radius:10px}
 .btn-xs{padding:6px 11px;font-size:11px;border-radius:8px}
@@ -394,6 +395,7 @@ const EMAILJS_CONFIG = {
   serviceId: "Pawanretaillimited2",
   welcomeTemplateId: "template_xm01mo4",
   orderSuccessTemplateId: "template_5ugr1ok",
+  complaintTemplateId: "template_5ugr1ok",
   supportEmail: "support@pawanretail.example",
   websiteUrl: "https://limited-5698.vercel.app",
   enabled: true
@@ -428,8 +430,13 @@ const ACCOUNT_STATUS = {
   suspended: { label: "Suspended", tone: "warning" },
   blocked: { label: "Blocked", tone: "danger" }
 };
+const COMPLAINT_STATUS = {
+  pending: { label: "Pending", tone: "warning" },
+  resolved: { label: "Resolved", tone: "success" },
+  rejected: { label: "Rejected", tone: "danger" }
+};
 const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23f1f5f9'/><text x='100' y='105' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'>No image</text></svg>";
-const CART_STORAGE_KEY = "prl_cart_v8";
+const CART_STORAGE_KEY = "prl_cart_v9";
 
 const S = {
   user: null, profile: null,
@@ -443,7 +450,8 @@ const S = {
   currentProduct: null,
   currentCompany: null,
   productQty: 1,
-  pendingUserDocId: null
+  pendingUserDocId: null,
+  activeOrderId: null
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -521,7 +529,7 @@ function toast(msg, type = "") {
     el.style.opacity = "0";
     el.style.transform = "translateY(-16px) scale(.9)";
     setTimeout(() => el.remove(), 300);
-  }, 3200);
+  }, 3500);
 }
 
 function errorMsg(err) {
@@ -681,7 +689,6 @@ function BNAV(active) {
   </nav>`;
 }
 
-/* ============ LOGIN SCREEN with AUTO-DETECT ============ */
 function screenLogin() {
   return `<div class="auth-shell"><div class="auth-box">
     <div class="auth-logo-wrap">
@@ -690,7 +697,6 @@ function screenLogin() {
       <div class="auth-tagline">✦ Premium Delivery ✦</div>
     </div>
     <div class="auth-card">
-      <!-- STEP 1: LOGIN FORM -->
       <div id="loginStep1">
         <h1>Welcome Back</h1>
         <p class="auth-sub">Sign in to continue</p>
@@ -711,7 +717,6 @@ function screenLogin() {
         </p>
       </div>
       
-      <!-- STEP 2: CREATE PASSWORD (auto-shown if pending) -->
       <div id="loginStep2" class="hidden">
         <h1>Create Your Password</h1>
         <p class="auth-sub">Welcome! Set your password to continue</p>
@@ -871,6 +876,17 @@ function screenOrderDetail() {
     <div class="page" id="orderDetailBody"></div></div>`;
 }
 
+function screenComplaint() {
+  return `<div class="shell">
+    <div class="appbar">
+      <button class="appbar-back" onclick="goTo('orders')">${icon.back}</button>
+      <div class="appbar-title">Complaint</div>
+      <div style="width:40px"></div>
+    </div>
+    <div class="page" id="complaintBody"></div>
+  </div>`;
+}
+
 function screenAccount() {
   return `<div class="shell"><div class="appbar"><div class="appbar-title">Account</div></div>
     <div class="page" id="accountBody"></div>${BNAV("account")}</div>`;
@@ -908,6 +924,7 @@ function screenAdmin() {
         <a data-view="banners">🖼️ Banners</a>
         <a data-view="coupons">🎟️ Coupons</a>
         <a data-view="orders">📦 Orders</a>
+        <a data-view="complaints">⚠️ Complaints</a>
         <a data-view="reviews">⭐ Reviews</a>
         <a data-view="customers">👥 Customers</a>
         <a id="adminLogout" style="color:#f87171;margin-top:18px">🚪 Sign out</a>
@@ -937,6 +954,7 @@ function mountScreens() {
     <div id="scrCheckout" class="screen">${screenCheckout()}</div>
     <div id="scrOrders" class="screen">${screenOrders()}</div>
     <div id="scrOrderDetail" class="screen">${screenOrderDetail()}</div>
+    <div id="scrComplaint" class="screen">${screenComplaint()}</div>
     <div id="scrAccount" class="screen">${screenAccount()}</div>
     <div id="scrTrackOrder" class="screen">${screenTrackOrder()}</div>
     <div id="scrReview" class="screen">${screenReview()}</div>
@@ -960,9 +978,9 @@ function mountScreens() {
   safe("#linkBackLogin", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
   safe("#linkBackToLogin", el => el.onclick = e => { 
     e.preventDefault(); 
-    $("#loginStep1").classList.remove("hidden");
-    $("#loginStep2").classList.add("hidden");
-    $("#cpPass").value = ""; $("#cpPass2").value = "";
+    document.getElementById("loginStep1").classList.remove("hidden");
+    document.getElementById("loginStep2").classList.add("hidden");
+    document.getElementById("cpPass").value = ""; document.getElementById("cpPass2").value = "";
     S.pendingUserDocId = null;
   });
   safe("#linkTrackOrder", el => el.onclick = e => { e.preventDefault(); showScreen("scrTrackOrder"); renderTrackPage(); });
@@ -1024,7 +1042,6 @@ function updateCartBadge() {
   }
 }
 
-/* ============ LOGIN with AUTO-DETECT pending_password ============ */
 async function handleLogin(e) {
   e.preventDefault();
   const email = $("#loginEmail").value.trim();
@@ -1036,24 +1053,21 @@ async function handleLogin(e) {
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking';
 
   try {
-    // Check if this is a pending_password user
     const userSnap = await getDocs(query(collection(db, "users"), where("email", "==", email.toLowerCase())));
     const pendingDoc = userSnap.docs.find(d => d.data().status === "pending_password");
     
     if (pendingDoc) {
-      // Show create password form
       S.pendingUserDocId = pendingDoc.id;
       const userData = pendingDoc.data();
       $("#cpEmail").value = email;
       $("#welcomeMsg").textContent = `👋 Hi ${userData.name || ""}! Please create your password to continue.`;
-      $("#loginStep1").classList.add("hidden");
-      $("#loginStep2").classList.remove("hidden");
+      document.getElementById("loginStep1").classList.add("hidden");
+      document.getElementById("loginStep2").classList.remove("hidden");
       toast("Welcome! Please create your password.", "info");
       btn.disabled = false; btn.textContent = "Sign in →";
       return;
     }
 
-    // Normal login
     btn.innerHTML = '<span class="spin"></span> Signing in';
     await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
     await signInWithEmailAndPassword(auth, email, pass);
@@ -1065,7 +1079,6 @@ async function handleLogin(e) {
   }
 }
 
-/* ============ CREATE PASSWORD (integrated) ============ */
 async function handleCreatePassword() {
   const pass = $("#cpPass").value;
   const pass2 = $("#cpPass2").value;
@@ -1078,15 +1091,12 @@ async function handleCreatePassword() {
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating';
 
   try {
-    // 1. Create Firebase Auth user (now appears in Authentication tab)
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     const uid = cred.user.uid;
 
-    // 2. Get old pending data
     const oldSnap = await getDoc(doc(db, "users", S.pendingUserDocId));
     const oldData = oldSnap.exists() ? oldSnap.data() : {};
 
-    // 3. Create new user doc with UID as ID, status active
     await setDoc(doc(db, "users", uid), {
       name: oldData.name || "",
       email: email,
@@ -1102,10 +1112,8 @@ async function handleCreatePassword() {
       createdAt: oldData.createdAt || serverTimestamp()
     });
 
-    // 4. Delete old pending doc
     try { await deleteDoc(doc(db, "users", S.pendingUserDocId)); } catch (_) {}
 
-    // 5. Send welcome email
     loadEmailJS().then(() => {
       if (window.__emailjs) {
         window.__emailjs.send(
@@ -1117,9 +1125,6 @@ async function handleCreatePassword() {
     });
 
     toast("✅ Password created! Welcome aboard.", "success");
-    
-    // 6. onAuthChanged will fire automatically, and customer will go to home
-    // No need to sign out
   } catch (err) {
     console.error("Create password error:", err);
     toast(errorMsg(err), "error");
@@ -1185,7 +1190,6 @@ async function logout() {
   S.user = null; S.profile = null;
   S.pendingUserDocId = null;
   clearCart();
-  // Reset login step
   const step1 = document.getElementById("loginStep1");
   const step2 = document.getElementById("loginStep2");
   if (step1) step1.classList.remove("hidden");
@@ -1961,6 +1965,8 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
       grandTotal: finalTotal,
       status: "pending", emailStatus: EMAIL_STATUS.pending,
       trackingUrl: "",
+      hasReview: false,
+      hasComplaint: false,
       createdAt: serverTimestamp(), updatedAt: serverTimestamp()
     };
     const ref = await addDoc(collection(db, "orders"), orderData);
@@ -1972,7 +1978,7 @@ async function placeOrder({ company, subtotal, selectedChoice, numberCharge, del
     toast(`Order placed — ${orderId}`, "success");
     goTo("orders");
   } catch (err) {
-    console.error(err);
+    console.error("ORDER ERROR:", err);
     toast(err.message || errorMsg(err), "error");
   } finally { btn.disabled = false; btn.textContent = "Place Order →"; }
 }
@@ -1998,6 +2004,7 @@ function paintOrders() {
     const delivered = o.status === "successful";
     const hasReview = o.hasReview === true;
     const hasTracking = !!o.trackingUrl;
+    const hasComplaint = o.hasComplaint === true;
     return `<article class="order">
       <div class="order-head"><span class="order-id">#${escapeHtml(o.orderId || o.id)}</span>
         <span class="badge badge-${info.tone}">${info.label}</span></div>
@@ -2010,10 +2017,16 @@ function paintOrders() {
       </div>
       <div class="order-foot"><span class="text-muted">Total</span>
         <span class="amt">${fmtINR(o.grandTotal)}</span></div>
-      ${delivered && hasTracking ? `<div class="order-actions"><button class="btn btn-primary btn-sm btn-block" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">Track Delivery</button></div>` : ""}
-      ${delivered && !hasReview ? `<div class="order-actions"><button class="btn btn-success btn-sm btn-block" onclick="openReviewForm('${o.id}')">Rate & Review</button></div>` : ""}
-      ${delivered && hasReview ? `<div class="order-actions"><button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">✓ Reviewed · View</button></div>` : ""}
-      ${!delivered ? `<div class="order-actions"><button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">View Details</button></div>` : ""}
+      
+      ${delivered && hasTracking ? `<div class="order-actions"><button class="btn btn-primary btn-sm btn-block" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">🚚 Track Delivery</button></div>` : ""}
+      ${delivered && !hasReview ? `<div class="order-actions"><button class="btn btn-success btn-sm btn-block" onclick="openReviewForm('${o.id}')">⭐ Rate & Review</button></div>` : ""}
+      
+      <div class="order-actions">
+        <button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">📋 View Details</button>
+      </div>
+      
+      ${delivered && !hasComplaint ? `<div class="order-actions"><button class="btn btn-sm btn-block" style="background:var(--warning-soft);border:1px solid var(--warning);color:var(--warning)" onclick="openComplaintForm('${o.id}')">⚠️ Raise Complaint</button></div>` : ""}
+      ${delivered && hasComplaint ? `<div class="order-actions"><button class="btn btn-sm btn-block" style="background:var(--danger-soft);border:1px solid var(--danger);color:var(--danger)" onclick="openOrderDetail('${o.id}')">⚠️ Complaint Filed · View</button></div>` : ""}
     </article>`;
   }).join("");
 }
@@ -2035,15 +2048,20 @@ window.openOrderDetail = async (orderId) => {
     const hS = await getDocs(collection(db, "orders", orderId, "statusHistory"));
     const history = hS.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
     let review = null;
+    let complaint = null;
     try {
       const rS = await getDocs(query(collection(db, "reviews"), where("orderId", "==", orderId)));
       if (!rS.empty) review = rS.docs[0].data();
     } catch (_) {}
-    paintOrderDetail(o, history, review);
+    try {
+      const cS = await getDocs(query(collection(db, "complaints"), where("orderId", "==", orderId)));
+      if (!cS.empty) complaint = cS.docs[0].data();
+    } catch (_) {}
+    paintOrderDetail(o, history, review, complaint);
   } catch (err) { body.innerHTML = `<div class="empty">Failed</div>`; }
 };
 
-function paintOrderDetail(o, history, review) {
+function paintOrderDetail(o, history, review, complaint) {
   const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
   const steps = ["pending", "processing", "successful"];
   const currentIdx = steps.indexOf(o.status);
@@ -2074,6 +2092,14 @@ function paintOrderDetail(o, history, review) {
       <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
       <div class="text-xs text-soft mt-2">${fmtDate(o.createdAt, true)}</div>
     </div>
+    
+    ${complaint ? `
+      <div class="reason-card" style="background:var(--warning-soft);border-color:#fcd34d">
+        <div class="title" style="color:var(--warning)">⚠️ Complaint Filed</div>
+        <div class="text" style="color:var(--warning)">${escapeHtml(complaint.complaintType || "")} — ${escapeHtml((complaint.complaintText || "").slice(0, 100))}${(complaint.complaintText || "").length > 100 ? "..." : ""}</div>
+        <div class="meta" style="color:var(--warning)">Status: ${escapeHtml(complaint.status || "pending")} · ${fmtDate(complaint.createdAt)}</div>
+      </div>` : ""}
+    
     ${(o.status === "rejected" || o.status === "cancelled") && o.cancelReason ? `
       <div class="reason-card"><div class="title">Reason</div><div class="text">${escapeHtml(o.cancelReason)}</div></div>` : ""}
     ${isDelivered && review ? `
@@ -2114,8 +2140,136 @@ function paintOrderDetail(o, history, review) {
       <div class="section-title">Progress</div>
       <div class="timeline">${timeline}</div>
     </div>
-    ${isDelivered && !review ? `<button class="btn btn-success btn-lg btn-block mt-3" onclick="openReviewForm('${o.id}')">Rate & Review</button>` : ""}
+    ${isDelivered && !review ? `<button class="btn btn-success btn-lg btn-block mt-3" onclick="openReviewForm('${o.id}')">⭐ Rate & Review</button>` : ""}
+    ${isDelivered && !complaint ? `<button class="btn btn-lg btn-block mt-2" style="background:var(--warning-soft);border:1px solid var(--warning);color:var(--warning)" onclick="openComplaintForm('${o.id}')">⚠️ Raise Complaint</button>` : ""}
   `;
+}
+
+/* ============ COMPLAINT FORM ============ */
+window.openComplaintForm = async (orderId) => {
+  try {
+    const cSnap = await getDocs(query(collection(db, "complaints"), where("orderId", "==", orderId)));
+    if (!cSnap.empty) { toast("Complaint already filed", "info"); return; }
+  } catch (_) {}
+
+  showScreen("scrComplaint");
+  $("#complaintBody").innerHTML = `
+    <div class="card card-elevated">
+      <div class="section-title">Raise a Complaint</div>
+      <div class="info-box mb-4">
+        ℹ️ Please describe the issue you faced. Our team will respond within 24 hours.
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">What went wrong?</label>
+        <select class="form-select" id="complaintType">
+          <option value="Less quantity received">📦 Less quantity received</option>
+          <option value="Quality issue">⭐ Quality issue</option>
+          <option value="Damaged product">💔 Damaged product</option>
+          <option value="Wrong item received">❌ Wrong item received</option>
+          <option value="Missing items">🚫 Missing items</option>
+          <option value="Late delivery">⏰ Late delivery</option>
+          <option value="Other">📝 Other</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Describe your issue</label>
+        <textarea class="form-textarea" id="complaintText" placeholder="Please explain in detail..." minlength="10" required></textarea>
+        <div class="text-xs text-soft mt-2">Minimum 10 characters</div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Photo URL (optional)</label>
+        <input class="form-input" id="complaintPhoto" type="url" placeholder="https://... (upload photo, paste link)">
+        <div class="text-xs text-soft mt-2">Upload your product photo and paste the link here</div>
+      </div>
+      
+      <button class="btn btn-primary btn-lg btn-block" id="complaintSubmit">Submit Complaint</button>
+      <p class="text-xs text-soft text-center mt-3">We'll respond within 24 hours</p>
+    </div>`;
+
+  $("#complaintSubmit").onclick = async () => {
+    const type = $("#complaintType").value;
+    const text = $("#complaintText").value.trim();
+    const photo = $("#complaintPhoto").value.trim();
+    
+    if (!text || text.length < 10) return toast("Please describe your issue (min 10 chars)", "error");
+    if (photo && !/^https?:\/\//i.test(photo)) return toast("Photo URL must start with http://", "error");
+    
+    const btn = $("#complaintSubmit");
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Submitting';
+    
+    try {
+      const orderSnap = await getDoc(doc(db, "orders", orderId));
+      const order = orderSnap.exists() ? orderSnap.data() : {};
+      
+      const complaintRef = await addDoc(collection(db, "complaints"), {
+        orderId,
+        orderNumber: order.orderId || orderId,
+        customerId: S.user.uid,
+        customerName: S.profile.name || "",
+        customerEmail: S.profile.email || "",
+        customerPhone: S.profile.phone || "",
+        companyId: order.companyId || "",
+        companyName: order.companyName || "",
+        complaintType: type,
+        complaintText: text,
+        photoUrl: photo,
+        status: "pending",
+        createdAt: serverTimestamp()
+      });
+      
+      await updateDoc(doc(db, "orders", orderId), {
+        hasComplaint: true,
+        complaintId: complaintRef.id,
+        complaintAt: serverTimestamp()
+      });
+      
+      await addDoc(collection(db, "orders", orderId, "statusHistory"), {
+        status: order.status || "successful",
+        note: "⚠️ Complaint filed by customer: " + type,
+        changedBy: S.user.uid,
+        createdAt: serverTimestamp()
+      });
+      
+      try { await sendComplaintEmail(order, type, text, photo); } catch (e) { console.warn("Complaint email failed:", e); }
+      
+      toast("✅ Complaint submitted! We'll respond within 24 hours.", "success");
+      goTo("orders");
+    } catch (err) {
+      console.error("Complaint error:", err);
+      toast(err.message || errorMsg(err), "error");
+    } finally {
+      btn.disabled = false; btn.textContent = "Submit Complaint";
+    }
+  };
+};
+
+async function sendComplaintEmail(order, complaintType, complaintText, photoUrl) {
+  await loadEmailJS();
+  if (!window.__emailjs) throw new Error("EmailJS not configured");
+  
+  return window.__emailjs.send(
+    EMAILJS_CONFIG.serviceId,
+    EMAILJS_CONFIG.complaintTemplateId || EMAILJS_CONFIG.orderSuccessTemplateId,
+    {
+      to_email: EMAILJS_CONFIG.supportEmail,
+      to_name: "Pawan Retail Team",
+      customer_name: order.customerName || S.profile.name || "",
+      customer_email: order.customerEmail || S.profile.email || "",
+      customer_phone: order.customerPhone || S.profile.phone || "",
+      order_id: order.orderId || order.id,
+      company_name: order.companyName || "",
+      complaint_type: complaintType,
+      complaint_text: complaintText,
+      photo_url: photoUrl || "Not provided",
+      grand_total: fmtINR(order.grandTotal),
+      order_date: fmtDate(order.createdAt, true),
+      business_name: "Pawan Retail Limited",
+      year: new Date().getFullYear()
+    }
+  );
 }
 
 window.openReviewForm = async (orderId) => {
@@ -2339,13 +2493,23 @@ function bootAdmin() {
 }
 
 function renderAdmin() {
-  const titles = { dashboard: "Dashboard", companies: "Companies", banners: "Banners", coupons: "Coupons", orders: "Orders", reviews: "Reviews", customers: "Customers" };
+  const titles = { 
+    dashboard: "Dashboard", 
+    companies: "Companies", 
+    banners: "Banners", 
+    coupons: "Coupons", 
+    orders: "Orders", 
+    complaints: "Complaints",
+    reviews: "Reviews", 
+    customers: "Customers"
+  };
   $("#adminTitle").textContent = titles[adminView] || "Admin";
   if (adminView === "dashboard") renderAdminDashboard();
   if (adminView === "companies") renderAdminCompanies();
   if (adminView === "banners") renderAdminBanners();
   if (adminView === "coupons") renderAdminCoupons();
   if (adminView === "orders") renderAdminOrders();
+  if (adminView === "complaints") renderAdminComplaints();
   if (adminView === "reviews") renderAdminReviews();
   if (adminView === "customers") renderAdminCustomers();
 }
@@ -2354,12 +2518,14 @@ async function renderAdminDashboard() {
   $("#adminContent").innerHTML = `<div class="stats-grid" id="statsGrid"></div><div id="recentOrders"></div>`;
   const oS = await getDocs(collection(db, "orders"));
   const orders = oS.docs.map(d => d.data());
+  const cS = await getDocs(collection(db, "complaints"));
+  const complaints = cS.docs.map(d => d.data());
   const stats = [
     { label: "Total Orders", value: orders.length },
     { label: "Pending", value: orders.filter(o => o.status === "pending").length },
-    { label: "Processing", value: orders.filter(o => o.status === "processing").length },
     { label: "Delivered", value: orders.filter(o => o.status === "successful").length },
-    { label: "Rejected", value: orders.filter(o => o.status === "rejected").length }
+    { label: "Complaints", value: complaints.length },
+    { label: "Open Complaints", value: complaints.filter(c => c.status !== "resolved").length }
   ];
   $("#statsGrid").innerHTML = stats.map(s => `<div class="stat">
     <div class="stat-label">${escapeHtml(s.label)}</div>
@@ -2706,7 +2872,7 @@ function paintAdminOrders() {
         <td>${escapeHtml(o.customerName || "")}</td>
         <td>${escapeHtml(o.companyName || "")}</td>
         <td class="font-bold">${fmtINR(o.grandTotal)}</td>
-        <td><span class="badge badge-${info.tone}">${info.label}</span></td>
+        <td><span class="badge badge-${info.tone}">${info.label}</span>${o.hasComplaint ? ' <span class="badge badge-danger">⚠️</span>' : ""}</td>
         <td><button class="btn btn-secondary btn-xs" onclick="adminOpenOrder('${o.id}')">Manage</button></td>
       </tr>`;
     }).join("")}</tbody></table></div>`;
@@ -2718,12 +2884,29 @@ window.adminOpenOrder = async (orderId) => {
   const o = { id: snap.id, ...snap.data() };
   const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
   const payLabel = o.paymentMethod === "cod" ? "Cash on Delivery" : "Online (UPI)";
+  
+  let complaint = null;
+  try {
+    const cS = await getDocs(query(collection(db, "complaints"), where("orderId", "==", orderId)));
+    if (!cS.empty) complaint = { id: cS.docs[0].id, ...cS.docs[0].data() };
+  } catch (_) {}
+  
   openModal(`
     <div class="modal-title">Order #${escapeHtml(o.orderId || o.id)}</div>
-    <div class="mb-3" style="text-align:center"><span class="badge badge-${info.tone}">${info.label}</span></div>
+    <div class="mb-3" style="text-align:center"><span class="badge badge-${info.tone}">${info.label}</span>${o.hasComplaint ? ' <span class="badge badge-danger">⚠️ Complaint</span>' : ""}</div>
+    
+    ${complaint ? `
+      <div class="reason-card" style="background:var(--warning-soft);border-color:#fcd34d">
+        <div class="title" style="color:var(--warning)">⚠️ Complaint Filed</div>
+        <div class="text" style="color:var(--warning)">${escapeHtml(complaint.complaintType || "")}</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--warning)">${escapeHtml(complaint.complaintText || "")}</div>
+        ${complaint.photoUrl ? `<a href="${escapeHtml(complaint.photoUrl)}" target="_blank" class="btn btn-secondary btn-xs mt-2" style="display:inline-flex">📸 View Photo</a>` : ""}
+      </div>` : ""}
+    
     <div class="section-title">Customer</div>
     <div class="text-sm font-semibold">${escapeHtml(o.customerName || "")}</div>
     <div class="text-sm text-muted">${escapeHtml(o.customerPhone || "")}</div>
+    <div class="text-sm text-muted">${escapeHtml(o.customerEmail || "")}</div>
     <div class="section-title mt-4">Company</div>
     <div class="text-sm font-semibold">${escapeHtml(o.companyName || "")}</div>
     <div class="section-title mt-4">Items</div>
@@ -2863,6 +3046,64 @@ async function sendSuccessEmail(order) {
     }
   );
 }
+
+function renderAdminComplaints() {
+  $("#adminContent").innerHTML = `<div id="complaintsList"><div class="skeleton"></div></div>`;
+  const unsub = onSnapshot(collection(db, "complaints"), snap => {
+    const list = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
+    const el = $("#complaintsList");
+    if (!el) return;
+    if (!list.length) { el.innerHTML = `<div class="empty">No complaints yet</div>`; return; }
+    el.innerHTML = `<div class="table-wrap scroll"><table class="table">
+      <thead><tr><th>Order</th><th>Customer</th><th>Type</th><th>Issue</th><th>Status</th><th>Date</th><th></th></tr></thead>
+      <tbody>${list.map(c => `
+        <tr>
+          <td class="font-mono text-xs font-bold">#${escapeHtml(c.orderNumber || c.orderId)}</td>
+          <td>${escapeHtml(c.customerName || "")}<div class="text-xs text-soft">${escapeHtml(c.customerPhone || "")}</div></td>
+          <td><span class="badge badge-warning">${escapeHtml(c.complaintType || "")}</span></td>
+          <td class="text-xs">${escapeHtml((c.complaintText || "").slice(0, 60))}${(c.complaintText || "").length > 60 ? "..." : ""}</td>
+          <td><span class="badge badge-${c.status === "resolved" ? "success" : "warning"}">${escapeHtml(c.status || "pending")}</span></td>
+          <td class="text-xs text-soft">${fmtDate(c.createdAt)}</td>
+          <td><button class="btn btn-secondary btn-xs" onclick="adminViewComplaint('${c.id}')">View</button></td>
+        </tr>`).join("")}</tbody></table></div>`;
+  });
+  S.adminSubs.add(unsub);
+}
+
+window.adminViewComplaint = async (complaintId) => {
+  const snap = await getDoc(doc(db, "complaints", complaintId));
+  if (!snap.exists()) return toast("Not found", "error");
+  const c = { id: snap.id, ...snap.data() };
+  openModal(`
+    <div class="modal-title">⚠️ Complaint Details</div>
+    <div class="section-title">Order</div>
+    <div class="text-sm font-mono font-bold">#${escapeHtml(c.orderNumber || c.orderId)}</div>
+    <div class="text-xs text-soft">${escapeHtml(c.companyName || "")}</div>
+    <div class="section-title mt-4">Customer</div>
+    <div class="text-sm font-semibold">${escapeHtml(c.customerName)}</div>
+    <div class="text-sm">${escapeHtml(c.customerPhone)}</div>
+    <div class="text-sm">${escapeHtml(c.customerEmail)}</div>
+    <div class="section-title mt-4">Complaint</div>
+    <div class="badge badge-warning mb-2">${escapeHtml(c.complaintType)}</div>
+    <div class="text-sm" style="padding:12px;background:var(--surface-3);border-radius:8px;line-height:1.6">${escapeHtml(c.complaintText)}</div>
+    ${c.photoUrl ? `<div class="mt-3"><a href="${escapeHtml(c.photoUrl)}" target="_blank" class="btn btn-secondary btn-sm">📸 View Photo</a></div>` : ""}
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+      ${c.status !== "resolved" ? `<button class="btn btn-success" onclick="resolveComplaint('${c.id}')">✓ Mark Resolved</button>` : ""}
+    </div>`);
+};
+
+window.resolveComplaint = async (complaintId) => {
+  try {
+    await updateDoc(doc(db, "complaints", complaintId), {
+      status: "resolved",
+      resolvedAt: serverTimestamp(),
+      resolvedBy: S.user.uid
+    });
+    toast("Complaint resolved", "success");
+    closeModal();
+  } catch (err) { toast(errorMsg(err), "error"); }
+};
 
 function renderAdminReviews() {
   $("#adminContent").innerHTML = `<div id="reviewsList"><div class="skeleton"></div></div>`;
