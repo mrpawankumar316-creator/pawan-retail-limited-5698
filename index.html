@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#4f46e5">
 <title>Pawan Retail Limited — A Priya Electricals Venture</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,18 +17,18 @@
   --text:#0f172a;--text-2:#475569;--text-3:#94a3b8;
   --brand:#4f46e5;--brand-dark:#4338ca;--brand-light:#6366f1;--brand-soft:#eef2ff;
   --brand-gradient:linear-gradient(135deg,#4f46e5 0%,#06b6d4 100%);
-  --accent:#06b6d4;--accent-soft:#cffafe;--amber:#f59e0b;
+  --accent:#06b6d4;--amber:#f59e0b;
   --success:#059669;--success-soft:#ecfdf5;--warning:#d97706;--warning-soft:#fffbeb;
   --danger:#dc2626;--danger-soft:#fef2f2;
-  --r-sm:8px;--r:12px;--r-md:16px;--r-lg:20px;--r-xl:24px;--r-2xl:32px;
+  --r:12px;--r-md:16px;--r-lg:20px;--r-xl:24px;--r-2xl:32px;
   --sh-xs:0 1px 2px rgba(15,23,42,.04);--sh-sm:0 2px 8px rgba(15,23,42,.06);
   --sh-md:0 12px 32px rgba(15,23,42,.10);--sh-lg:0 20px 48px rgba(15,23,42,.14);
-  --sh-brand:0 12px 32px rgba(79,70,229,.30);--sh-inset:inset 0 1px 0 rgba(255,255,255,.7);
+  --sh-brand:0 12px 32px rgba(79,70,229,.30);
   --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
   --font-display:'Outfit',sans-serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 html,body{font-family:var(--font-body);font-size:14px;line-height:1.55;color:var(--text);background:var(--bg-gradient);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
-body{min-height:100vh;overflow-x:hidden;position:relative}
+body{min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#4f46e5,#06b6d4,#ec4899,#f59e0b,#4f46e5);background-size:200% 100%;animation:gradientShift 6s linear infinite;z-index:1000;pointer-events:none}
 @keyframes gradientShift{to{background-position:200% 0}}
 a{color:var(--brand);text-decoration:none}
@@ -46,8 +46,6 @@ img{max-width:100%;display:block}
 .iconbtn{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:var(--r);color:var(--text-2);background:var(--glass);border:1px solid var(--glass-border);box-shadow:var(--sh-xs)}
 .iconbtn:hover{background:var(--brand-soft);color:var(--brand)}
 .iconbtn svg{width:20px;height:20px}
-.badge-dot{position:absolute;top:4px;right:4px;min-width:18px;height:18px;padding:0 5px;background:var(--brand-gradient);color:#fff;font-size:10px;font-weight:800;border-radius:999px;display:none;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--surface)}
-.badge-dot.show{display:flex}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;font-family:var(--font-display);color:var(--text)}
 .brand-mark{width:42px;height:42px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;border-radius:12px;font-size:20px;font-weight:800;font-family:var(--font-display);box-shadow:var(--sh-brand)}
 .page{padding:16px}
@@ -55,10 +53,10 @@ img{max-width:100%;display:block}
 .section-title::before{content:'';width:3px;height:16px;background:var(--brand-gradient);border-radius:2px}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
 .section-header h2{font-size:20px;font-weight:800;font-family:var(--font-display);color:var(--text)}
-.card{background:var(--glass-strong);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border:1px solid var(--glass-border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-sm),var(--sh-inset)}
+.card{background:var(--glass-strong);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border:1px solid var(--glass-border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-sm)}
 .card+.card{margin-top:14px}
 .card-flat{padding:0;overflow:hidden}
-.card-elevated{box-shadow:var(--sh-md),var(--sh-inset)}
+.card-elevated{box-shadow:var(--sh-md)}
 .card-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:all .2s}
 .card-row:last-child{border-bottom:0}
 .card-row:hover{background:var(--brand-soft);padding-left:24px}
@@ -120,11 +118,9 @@ img{max-width:100%;display:block}
 .hero-banner .hero-title{font-family:var(--font-display);font-size:26px;font-weight:900;line-height:1.15;letter-spacing:-.03em;margin-bottom:8px;text-shadow:0 4px 20px rgba(0,0,0,.3)}
 .hero-banner .hero-sub{font-size:13px;opacity:.95;line-height:1.5;max-width:85%;margin-bottom:16px}
 .hero-banner .hero-cta{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--brand);padding:11px 20px;border-radius:12px;font-size:13px;font-weight:800;font-family:var(--font-display);box-shadow:0 12px 32px rgba(0,0,0,.25);align-self:flex-start;transition:all .25s;border:0;cursor:pointer}
-.hero-banner .hero-cta:hover{transform:translateY(-2px)}
 .chip-row{display:flex;gap:10px;overflow-x:auto;padding:4px 18px 14px;margin:0 -18px}
 .chip-row::-webkit-scrollbar{display:none}
 .chip{padding:10px 17px;font-size:12.5px;font-weight:700;background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:999px;white-space:nowrap;cursor:pointer;color:var(--text-2);transition:all .25s;box-shadow:var(--sh-xs);font-family:var(--font-display)}
-.chip:hover{transform:translateY(-2px);color:var(--brand);border-color:var(--brand)}
 .chip.active{background:var(--brand-gradient);color:#fff;border-color:transparent;box-shadow:var(--sh-brand)}
 .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .product{background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;position:relative;cursor:pointer;transition:all .3s;box-shadow:var(--sh-xs)}
@@ -137,27 +133,16 @@ img{max-width:100%;display:block}
 .product-desc{font-size:12px;color:var(--text-2);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .product-price{font-size:17px;font-weight:800;color:var(--brand);margin-top:6px;font-family:var(--font-display)}
 .product-cta{margin-top:10px}
-.closed-overlay{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;font-size:10px;font-weight:800;padding:5px 10px;border-radius:8px;letter-spacing:.06em;text-transform:uppercase;z-index:2}
-.link-card{background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh-xs);transition:all .3s;cursor:pointer;position:relative}
+.link-card{background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh-xs);transition:all .3s;cursor:pointer}
 .link-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--brand-light)}
-.link-card-img{width:100%;height:170px;object-fit:cover;background:linear-gradient(135deg,#4f46e5,#06b6d4)}
+.link-card-img{width:100%;height:160px;object-fit:cover;background:linear-gradient(135deg,#4f46e5,#06b6d4)}
 .link-card-body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
 .link-card-tag{display:inline-block;background:var(--brand-soft);color:var(--brand);padding:3px 9px;border-radius:6px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;align-self:flex-start}
 .link-card-title{font-size:15px;font-weight:800;font-family:var(--font-display);line-height:1.3}
 .link-card-desc{font-size:12px;color:var(--text-2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .link-card-price{font-size:19px;font-weight:900;color:var(--brand);font-family:var(--font-display)}
-.link-card-actions{display:flex;gap:8px;margin-top:auto;padding-top:10px}
-.link-save-btn{width:42px;height:42px;border-radius:12px;background:var(--surface-3);border:1px solid var(--border);display:grid;place-items:center;color:var(--text-3);flex-shrink:0}
-.link-save-btn.saved{background:var(--brand-soft);color:var(--brand);border-color:var(--brand)}
-.link-save-btn:hover{background:var(--brand-soft);color:var(--brand);border-color:var(--brand)}
+.link-card-actions{display:flex;gap:8px;margin-top:auto;padding-top:8px}
 .deals-grid{display:grid;grid-template-columns:1fr;gap:14px}
-.saved-link-row{display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:10px;cursor:pointer}
-.saved-link-row:hover{border-color:var(--brand)}
-.saved-link-row img{width:56px;height:56px;border-radius:12px;object-fit:cover;background:var(--surface-3);flex-shrink:0}
-.saved-link-info{flex:1;min-width:0}
-.saved-link-info .t{font-size:13px;font-weight:700;font-family:var(--font-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.saved-link-info .p{font-size:12px;color:var(--brand);font-weight:700;margin-top:2px}
-.saved-link-info .u{font-size:10.5px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
 .empty{text-align:center;padding:60px 20px;color:var(--text-3);font-size:13.5px}
 .skeleton{background:linear-gradient(90deg,#eef2f9 25%,#e2e8f0 37%,#eef2f9 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:var(--r);height:60px;margin-bottom:10px}
 @keyframes shimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
@@ -204,10 +189,8 @@ img{max-width:100%;display:block}
 .cart-item-price{font-size:12.5px;color:var(--text-3);margin-top:3px}
 .qty-ctrl{display:inline-flex;align-items:center;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface)}
 .qty-ctrl button{width:36px;height:36px;background:var(--surface);display:grid;place-items:center;font-weight:800;color:var(--brand);font-size:17px}
-.qty-ctrl button:hover{background:var(--brand-soft)}
 .qty-ctrl span{min-width:40px;text-align:center;font-size:14px;font-weight:800}
 .radio-row{display:flex;align-items:flex-start;gap:12px;padding:16px;border:1.5px solid var(--border);border-radius:var(--r-md);margin-bottom:10px;cursor:pointer;background:var(--surface)}
-.radio-row:hover{border-color:var(--brand-light)}
 .radio-row.selected{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 0 0 3px rgba(79,70,229,.12)}
 .radio-row input{margin-top:3px;accent-color:var(--brand);width:18px;height:18px}
 .radio-row-text{flex:1}
@@ -224,18 +207,10 @@ img{max-width:100%;display:block}
 .blocked-banner p{font-size:13.5px;opacity:.94;line-height:1.6;margin-bottom:6px}
 .blocked-reason{background:rgba(0,0,0,.28);border-radius:12px;padding:16px;margin-top:18px;text-align:left}
 .blocked-reason .lbl{font-size:11px;text-transform:uppercase;opacity:.8;margin-bottom:8px;font-weight:800}
-.blocked-reason .txt{font-size:13.5px}
 .warn-box{background:var(--warning-soft);border:1px solid #fcd34d;color:var(--warning);padding:14px 16px;border-radius:12px;font-size:12.5px}
 .info-box{background:var(--brand-soft);border:1px solid #c7d2fe;color:var(--brand-dark);padding:14px 16px;border-radius:12px;font-size:12.5px}
 .free-banner{background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:18px 22px;border-radius:var(--r-lg);margin-bottom:18px;display:flex;align-items:center;gap:14px}
-.free-banner .icon{font-size:28px}
-.free-banner .title{font-weight:800;font-size:14.5px;font-family:var(--font-display)}
-.free-banner .desc{font-size:12.5px;opacity:.94;margin-top:4px}
 .track-banner{background:linear-gradient(135deg,#06b6d4,#0891b2);color:#fff;padding:22px;border-radius:var(--r-xl);margin-bottom:16px;display:flex;align-items:center;gap:16px}
-.track-banner .icon{font-size:38px}
-.track-banner .content{flex:1}
-.track-banner .title{font-weight:800;font-size:15px;font-family:var(--font-display)}
-.track-banner .desc{font-size:12.5px;opacity:.94}
 .track-banner .btn{background:#fff;color:var(--accent);padding:11px 20px;font-size:13px;font-weight:800}
 .product-detail{background:var(--surface);border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--glass-border);box-shadow:var(--sh-md)}
 .product-detail-img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--surface-3)}
@@ -257,27 +232,6 @@ img{max-width:100%;display:block}
 .mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}
 .hidden{display:none!important}
 .acts{display:flex;gap:8px;flex-wrap:wrap}
-.chat-container{display:flex;flex-direction:column;height:calc(100vh - 130px);background:var(--bg)}
-.chat-header{background:var(--glass-strong);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.chat-header .info{flex:1;min-width:0}
-.chat-header .title{font-size:14px;font-weight:800;font-family:var(--font-display);margin-bottom:2px}
-.chat-header .subtitle{font-size:11.5px;color:var(--text-3)}
-.chat-messages{flex:1;overflow-y:auto;padding:16px;background:var(--bg);display:flex;flex-direction:column;gap:10px}
-.chat-bubble{max-width:78%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.5;box-shadow:0 2px 8px rgba(15,23,42,.06);word-wrap:break-word;position:relative}
-.chat-bubble.customer{align-self:flex-end;background:var(--brand-gradient);color:#fff;border-bottom-right-radius:4px}
-.chat-bubble.admin{align-self:flex-start;background:var(--surface);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px}
-.chat-bubble.system{align-self:center;background:var(--surface-3);color:var(--text-2);font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;text-align:center;max-width:90%}
-.chat-bubble .meta{font-size:10.5px;opacity:.7;margin-top:4px;display:flex;align-items:center;gap:6px;justify-content:flex-end}
-.chat-bubble.admin .meta{color:var(--text-3);justify-content:flex-start}
-.chat-bubble .sender{font-size:10.5px;font-weight:800;letter-spacing:.03em;margin-bottom:4px;opacity:.85;text-transform:uppercase}
-.chat-input-area{background:var(--glass-strong);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:8px;flex-shrink:0;align-items:flex-end}
-.chat-input-area textarea{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:22px;resize:none;min-height:40px;max-height:100px;font-size:13.5px;background:var(--surface)}
-.chat-input-area textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(79,70,229,.12)}
-.chat-send-btn{width:42px;height:42px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;flex-shrink:0;box-shadow:var(--sh-brand)}
-.chat-send-btn:disabled{opacity:.5;cursor:not-allowed}
-.chat-send-btn svg{width:20px;height:20px}
-.chat-closed-banner{background:var(--success-soft);border:1.5px solid #a7f3d0;color:var(--success);padding:14px 18px;margin:12px 16px 0;border-radius:12px;text-align:center;font-size:13px;font-weight:700;flex-shrink:0}
-.complaint-info-box{margin:12px 16px 0;padding:14px;background:var(--warning-soft);border:1px solid #fcd34d;border-radius:12px;font-size:12.5px;color:var(--warning);flex-shrink:0}
 @media (max-width:820px){
   .admin-layout{grid-template-columns:1fr}
   .admin-side{position:fixed;left:0;top:0;bottom:0;width:260px;transform:translateX(-100%);transition:transform .3s;z-index:100;box-shadow:8px 0 40px rgba(0,0,0,.4)}
@@ -331,7 +285,7 @@ const auth = getAuth(fb);
 const db = getFirestore(fb);
 
 const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23f1f5f9'/><text x='100' y='105' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%2394a3b8'>No image</text></svg>";
-const CART_STORAGE_KEY = "prl_cart_v12";
+const CART_STORAGE_KEY = "prl_cart_v13";
 
 const S = {
   user: null, profile: null,
@@ -340,7 +294,7 @@ const S = {
   isFirstOrder: false,
   currentCategory: "all", searchQuery: "",
   customerSubs: new Set(), adminSubs: new Set(),
-  cached: { banners: [], companies: [], orders: [], coupons: [], links: [], savedLinks: [] },
+  cached: { companies: [], orders: [], links: [], savedLinks: [] },
   blockTimerInterval: null,
   currentProduct: null,
   currentCompany: null,
@@ -435,13 +389,14 @@ function toast(msg, type = "") {
 function errorMsg(err) {
   const map = {
     "auth/invalid-email":"Please enter a valid email address.",
-    "auth/user-not-found":"No account found with this email.",
+    "auth/user-not-found":"No account found with this email. Please create an account.",
     "auth/wrong-password":"Incorrect password.",
     "auth/invalid-credential":"Incorrect email or password.",
-    "auth/email-already-in-use":"This email is already registered.",
+    "auth/email-already-in-use":"This email is already registered. Please sign in.",
     "auth/weak-password":"Password must be at least 6 characters.",
     "auth/too-many-requests":"Too many attempts. Try again later.",
     "auth/network-request-failed":"Network error. Check your connection.",
+    "auth/operation-not-allowed":"Email/Password sign-in is disabled in Firebase. Enable it in Firebase Console → Authentication → Sign-in method.",
     "permission-denied":"You don't have permission for this action.",
     "unavailable":"Service temporarily unavailable.",
     "not-found":"Data not found."
@@ -473,12 +428,12 @@ function renderBlockedBanner() {
   if (info.type === "blocked") {
     return `<div class="blocked-banner"><div class="icon">🚫</div><h2>${escapeHtml(info.title)}</h2>
       <p>${escapeHtml(info.message)}</p>
-      <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div></div>`;
+      <div class="blocked-reason"><div class="lbl">Reason</div><div>${escapeHtml(info.reason)}</div></div></div>`;
   }
   if (info.type === "suspended") {
     return `<div class="blocked-banner"><div class="icon">⏸️</div><h2>${escapeHtml(info.title)}</h2>
       <p>${escapeHtml(info.message)}</p>
-      <div class="blocked-reason"><div class="lbl">Reason</div><div class="txt">${escapeHtml(info.reason)}</div></div>
+      <div class="blocked-reason"><div class="lbl">Reason</div><div>${escapeHtml(info.reason)}</div></div>
       <div style="background:rgba(0,0,0,.32);border-radius:14px;padding:20px;margin-top:18px;display:inline-block;min-width:240px">
         <div style="font-size:11px;text-transform:uppercase;opacity:.8;margin-bottom:10px;font-weight:800">Time Remaining</div>
         <div style="font-family:ui-monospace,monospace;font-size:28px;font-weight:800" id="blockedTimer">--:--:--</div>
@@ -568,21 +523,20 @@ function confirmDialog(message, onConfirm) {
 window.confirmDialog = confirmDialog;
 
 const icon = {
-  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>`,
-  store: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg>`,
-  cart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 3h2l2.5 12h11L21 8H6"/></svg>`,
-  deals: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></svg>`,
-  user: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`,
-  bell: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16H6a2 2 0 0 1 0-4l1-1V8a5 5 0 0 1 10 0v3l1 1a2 2 0 0 1 0 4z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>`,
-  search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>`,
-  back: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`,
-  menu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>`,
-  trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`,
-  chev: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`,
-  send: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
-  bookmark: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
-  bookmarkFill: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
-  external: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`
+  home:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>`,
+  store:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg>`,
+  cart:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 3h2l2.5 12h11L21 8H6"/></svg>`,
+  deals:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></svg>`,
+  user:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`,
+  search:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.5" y2="16.5"/></svg>`,
+  back:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`,
+  menu:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>`,
+  trash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`,
+  chev:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`,
+  send:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+  bookmark:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
+  bookmarkFill:`<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
+  external:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`
 };
 
 function BNAV(active) {
@@ -607,12 +561,12 @@ function screenLogin() {
     <div class="auth-card">
       <div id="loginStep1">
         <h1>Welcome Back</h1>
-        <p class="auth-sub">Sign in to continue</p>
+        <p class="auth-sub">Sign in or create a new account</p>
         <form id="loginForm">
           <div class="form-group"><label class="form-label">Email</label>
-            <input class="form-input" id="loginEmail" type="email" required placeholder="you@example.com"></div>
+            <input class="form-input" id="loginEmail" type="email" required placeholder="you@example.com" autocomplete="email"></div>
           <div class="form-group"><label class="form-label">Password</label>
-            <div class="input-wrap"><input class="form-input" id="loginPassword" type="password" required placeholder="••••••••">
+            <div class="input-wrap"><input class="form-input" id="loginPassword" type="password" required placeholder="••••••••" autocomplete="current-password">
               <button type="button" class="input-toggle" data-toggle="loginPassword">Show</button></div></div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:13px">
             <label class="checkbox-row"><input type="checkbox" id="loginRemember" checked> Remember me</label>
@@ -620,7 +574,14 @@ function screenLogin() {
           </div>
           <button class="btn btn-primary btn-block btn-lg" type="submit" id="loginSubmit">Sign in →</button>
         </form>
-        <p class="auth-foot">New here? <a href="#" id="linkRegister" style="font-weight:800">Create an account</a></p>
+        <div style="text-align:center;margin:22px 0 6px;position:relative">
+          <div style="border-top:1px solid var(--border);position:absolute;top:50%;left:0;right:0"></div>
+          <span style="background:rgba(255,255,255,.96);padding:0 12px;position:relative;color:var(--text-3);font-size:12px;font-weight:700">OR</span>
+        </div>
+        <button class="btn btn-secondary btn-block btn-lg" id="linkRegister" style="margin-top:6px">➕ Create New Account</button>
+        <p class="auth-foot" style="margin-top:16px">
+          <a href="#" id="linkTrackOrder" style="font-size:12.5px;font-weight:700">📦 Track order without login</a>
+        </p>
       </div>
       <div id="loginStep2" class="hidden">
         <h1>Create Your Password</h1>
@@ -645,22 +606,22 @@ function screenRegister() {
   return `<div class="auth-shell"><div class="auth-box">
     <div class="auth-logo-wrap">
       <div class="auth-logo">P</div>
-      <div class="auth-brand">Join Pawan Retail</div>
-      <div class="auth-tagline">✦ Start Ordering ✦</div>
+      <div class="auth-brand">Create Account</div>
+      <div class="auth-tagline">✦ Join Pawan Retail ✦</div>
       <div class="auth-parent">A Priya Electricals Venture</div>
     </div>
     <div class="auth-card">
-      <h1>Create Account</h1>
-      <p class="auth-sub">Get started in a minute</p>
+      <h1>Get Started</h1>
+      <p class="auth-sub">Fill in your details to register</p>
       <form id="registerForm">
-        <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required></div>
-        <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required></div>
-        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="regEmail" type="email" required></div>
+        <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required placeholder="Your name"></div>
+        <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required placeholder="10-digit number"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="regEmail" type="email" required placeholder="you@example.com"></div>
         <div class="form-group"><label class="form-label">Password</label>
-          <div class="input-wrap"><input class="form-input" id="regPassword" type="password" required minlength="6">
+          <div class="input-wrap"><input class="form-input" id="regPassword" type="password" required minlength="6" placeholder="Min 6 characters">
             <button type="button" class="input-toggle" data-toggle="regPassword">Show</button></div></div>
-        <div class="form-group"><label class="form-label">Confirm password</label><input class="form-input" id="regPassword2" type="password" required></div>
-        <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="regAddress" required></textarea></div>
+        <div class="form-group"><label class="form-label">Confirm password</label><input class="form-input" id="regPassword2" type="password" required placeholder="Re-enter"></div>
+        <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="regAddress" required placeholder="Full delivery address"></textarea></div>
         <button class="btn btn-primary btn-block btn-lg" type="submit" id="regSubmit">Create account →</button>
       </form>
       <p class="auth-foot">Already have account? <a href="#" id="linkLogin" style="font-weight:800">Sign in</a></p>
@@ -677,15 +638,36 @@ function screenForgot() {
     </div>
     <div class="auth-card">
       <h1>Forgot Password?</h1>
-      <p class="auth-sub">Enter your registered email</p>
+      <p class="auth-sub">Enter your registered email to receive a reset link</p>
       <form id="forgotForm">
         <div class="form-group"><label class="form-label">Email</label>
-          <input class="form-input" id="forgotEmail" type="email" required></div>
-        <button class="btn btn-primary btn-block btn-lg" type="submit" id="forgotSubmit">Send link →</button>
+          <input class="form-input" id="forgotEmail" type="email" required placeholder="you@example.com"></div>
+        <button class="btn btn-primary btn-block btn-lg" type="submit" id="forgotSubmit">Send reset link →</button>
       </form>
       <p class="auth-foot"><a href="#" id="linkBackLogin" style="font-weight:700">← Back to sign in</a></p>
     </div>
   </div></div>`;
+}
+
+function screenTrackOrder() {
+  return `<div class="shell">
+    <div class="appbar">
+      <button class="appbar-back" id="trackBack">${icon.back}</button>
+      <div class="appbar-title">Track Order</div>
+      <div style="width:40px"></div>
+    </div>
+    <div class="page">
+      <div class="card card-elevated">
+        <div class="section-title">Enter order details</div>
+        <div class="form-group"><label class="form-label">Order ID</label>
+          <input class="form-input font-mono" id="trackOrderId" placeholder="PRL-20261015-XXXXXXXX" style="text-transform:uppercase"></div>
+        <div class="form-group"><label class="form-label">Email</label>
+          <input class="form-input" id="trackEmail" type="email" placeholder="you@example.com"></div>
+        <button class="btn btn-primary btn-lg btn-block" id="trackBtn">Track Order →</button>
+      </div>
+      <div id="trackResult"></div>
+    </div>
+  </div>`;
 }
 
 function screenHome() {
@@ -837,7 +819,7 @@ function screenChat() {
       <div class="appbar-title">Complaint Chat</div>
       <div style="width:40px"></div>
     </div>
-    <div class="chat-container" id="chatContainer"></div>
+    <div class="chat-container" id="chatContainer" style="display:flex;flex-direction:column;height:calc(100vh - 70px);background:var(--bg)"></div>
   </div>`;
 }
 
@@ -889,6 +871,7 @@ function mountScreens() {
     <div id="scrLogin" class="screen active">${screenLogin()}</div>
     <div id="scrRegister" class="screen">${screenRegister()}</div>
     <div id="scrForgot" class="screen">${screenForgot()}</div>
+    <div id="scrTrackOrder" class="screen">${screenTrackOrder()}</div>
     <div id="scrHome" class="screen">${screenHome()}</div>
     <div id="scrCompanies" class="screen">${screenCompanies()}</div>
     <div id="scrDeals" class="screen">${screenDeals()}</div>
@@ -921,6 +904,7 @@ function mountScreens() {
   safe("#linkLogin", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
   safe("#linkForgot", el => el.onclick = e => { e.preventDefault(); showScreen("scrForgot"); });
   safe("#linkBackLogin", el => el.onclick = e => { e.preventDefault(); showScreen("scrLogin"); });
+  safe("#linkTrackOrder", el => el.onclick = e => { e.preventDefault(); showScreen("scrTrackOrder"); });
   safe("#linkBackToLogin", el => el.onclick = e => {
     e.preventDefault();
     document.getElementById("loginStep1").classList.remove("hidden");
@@ -956,6 +940,8 @@ function mountScreens() {
   safe("#checkoutBack", el => el.onclick = () => goTo("cart"));
   safe("#orderDetailBack", el => el.onclick = () => { showScreen("scrOrders"); renderOrders(); });
   safe("#reviewBack", el => el.onclick = () => { showScreen("scrOrders"); renderOrders(); });
+  safe("#trackBack", el => el.onclick = () => showScreen("scrLogin"));
+  safe("#trackBtn", el => el.onclick = trackOrder);
   safe("#chatBack", el => el.onclick = () => {
     if (S.profile?.role === "admin") { showScreen("scrAdmin"); renderAdmin(); }
     else { showScreen("scrOrders"); renderOrders(); }
@@ -992,33 +978,39 @@ function updateCartBadge() {
   }
 }
 
-/* ============ AUTH HANDLERS ============ */
+/* ============ AUTH ============ */
 async function handleLogin(e) {
   e.preventDefault();
-  const email = $("#loginEmail").value.trim();
+  const email = $("#loginEmail").value.trim().toLowerCase();
   const pass = $("#loginPassword").value;
   const remember = $("#loginRemember").checked;
   if (!email || !pass) return toast("Fill all fields", "error");
   const btn = $("#loginSubmit");
-  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking';
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Signing in';
   try {
-    const userSnap = await getDocs(query(collection(db,"users"), where("email","==",email.toLowerCase())));
-    const pendingDoc = userSnap.docs.find(d => d.data().status === "pending_password");
-    if (pendingDoc) {
-      S.pendingUserDocId = pendingDoc.id;
-      const userData = pendingDoc.data();
-      $("#cpEmail").value = email;
-      $("#welcomeMsg").textContent = `👋 Hi ${userData.name || ""}! Please create your password to continue.`;
-      document.getElementById("loginStep1").classList.add("hidden");
-      document.getElementById("loginStep2").classList.remove("hidden");
-      toast("Welcome! Please create your password.", "info");
-      btn.disabled = false; btn.textContent = "Sign in →";
-      return;
-    }
-    btn.innerHTML = '<span class="spin"></span> Signing in';
     await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
     await signInWithEmailAndPassword(auth, email, pass);
+    toast("Welcome back!", "success");
   } catch(err) {
+    console.error("Login error:", err);
+    // If user doesn't exist in Auth → check Firestore for pending_password
+    if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
+      try {
+        const userSnap = await getDocs(query(collection(db,"users"), where("email","==",email)));
+        const pendingDoc = userSnap.docs.find(d => d.data().status === "pending_password");
+        if (pendingDoc) {
+          S.pendingUserDocId = pendingDoc.id;
+          const userData = pendingDoc.data();
+          $("#cpEmail").value = email;
+          $("#welcomeMsg").textContent = `👋 Hi ${userData.name || ""}! Please create your password to continue.`;
+          document.getElementById("loginStep1").classList.add("hidden");
+          document.getElementById("loginStep2").classList.remove("hidden");
+          toast("Welcome! Please create your password.", "info");
+          btn.disabled = false; btn.textContent = "Sign in →";
+          return;
+        }
+      } catch(_){}
+    }
     toast(errorMsg(err), "error");
   } finally {
     btn.disabled = false;
@@ -1063,27 +1055,29 @@ async function handleRegister(e) {
   e.preventDefault();
   const name = $("#regName").value.trim();
   const phone = $("#regPhone").value.trim();
-  const email = $("#regEmail").value.trim();
+  const email = $("#regEmail").value.trim().toLowerCase();
   const pass = $("#regPassword").value;
   const pass2 = $("#regPassword2").value;
   const address = $("#regAddress").value.trim();
   if (!name || !email || !pass || !address) return toast("Fill all fields", "error");
-  if (!/^[0-9]{10}$/.test(phone)) return toast("Enter valid 10-digit", "error");
+  if (!/^[0-9]{10}$/.test(phone)) return toast("Enter valid 10-digit phone", "error");
   if (pass.length < 6) return toast("Password 6+ chars", "error");
   if (pass !== pass2) return toast("Passwords don't match", "error");
   const btn = $("#regSubmit");
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating';
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await setDoc(doc(db,"users",cred.user.uid), {
+    const uid = cred.user.uid;
+    await setDoc(doc(db,"users",uid), {
       name, email, phone, address,
       role: "customer", status: "active",
       blockReason: "", suspendedUntil: null,
       createdBy: "self",
       createdAt: serverTimestamp()
     });
-    toast("Account created!", "success");
+    toast("✅ Account created successfully!", "success");
   } catch(err) {
+    console.error("Register error:", err);
     toast(errorMsg(err), "error");
   } finally {
     btn.disabled = false; btn.textContent = "Create account →";
@@ -1098,12 +1092,12 @@ async function handleForgot(e) {
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Sending';
   try {
     await sendPasswordResetEmail(auth, email);
-    toast("Reset link sent", "success");
+    toast("Reset link sent! Check your email.", "success");
     showScreen("scrLogin");
   } catch(err) {
     toast(errorMsg(err), "error");
   } finally {
-    btn.disabled = false; btn.textContent = "Send link →";
+    btn.disabled = false; btn.textContent = "Send reset link →";
   }
 }
 
@@ -1129,11 +1123,28 @@ async function onAuthChanged(user) {
   S.user = user;
   try {
     const snap = await getDoc(doc(db,"users",user.uid));
-    if (!snap.exists()) { await signOut(auth); return; }
-    S.profile = { uid: user.uid, ...snap.data() };
+    if (!snap.exists()) {
+      // User exists in Auth but not Firestore → create profile
+      const profile = {
+        name: user.displayName || user.email.split("@")[0],
+        email: user.email,
+        phone: "", address: "",
+        role: "customer", status: "active",
+        blockReason: "", suspendedUntil: null,
+        createdBy: "self",
+        createdAt: serverTimestamp()
+      };
+      await setDoc(doc(db,"users",user.uid), profile);
+      S.profile = { uid: user.uid, ...profile };
+    } else {
+      S.profile = { uid: user.uid, ...snap.data() };
+    }
     if (S.profile.role === "admin") bootAdmin();
     else { loadCart(); bootCustomer(); }
-  } catch(err) { console.error(err); toast(errorMsg(err), "error"); await signOut(auth); }
+  } catch(err) {
+    console.error("Profile load error:", err);
+    toast(errorMsg(err), "error");
+  }
 }
 
 function bootCustomer() {
@@ -1185,15 +1196,11 @@ async function loadHomeDeals() {
   if (!el) return;
   try {
     const snap = await getDocs(collection(db,"links"));
-    let links = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    links.sort(byNewest);
-    links = links.filter(l => l.isFeatured === true).slice(0, 4);
-    if (!links.length) {
-      // Fallback: just take first 4
-      links = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest).slice(0, 4);
-    }
-    if (!links.length) { el.innerHTML = `<div class="empty" style="grid-column:1/-1">No deals yet</div>`; return; }
-    el.innerHTML = links.map(linkCard).join("");
+    let links = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort(byNewest);
+    let featured = links.filter(l => l.isFeatured === true).slice(0, 4);
+    if (!featured.length) featured = links.slice(0, 4);
+    if (!featured.length) { el.innerHTML = `<div class="empty" style="grid-column:1/-1">No deals yet</div>`; return; }
+    el.innerHTML = featured.map(linkCard).join("");
   } catch(e) { console.warn("Deals:", e); el.innerHTML = ""; }
 }
 
@@ -1201,7 +1208,6 @@ function companyCard(c) {
   const img = isValidUrl(c.logoUrl) ? c.logoUrl : "";
   const open = isCompanyOpen(c);
   return `<article class="product ${open?"":"closed"}" onclick="openCompany('${c.id}')" style="cursor:pointer">
-    ${open?"":`<div class="closed-overlay">CLOSED</div>`}
     <div class="product-img" style="display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;font-size:32px;font-weight:800">
       ${img ? `<img src="${escapeHtml(img)}" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='<span>${escapeHtml((c.name||'C')[0].toUpperCase())}</span>'">` : `<span>${escapeHtml((c.name||"C")[0].toUpperCase())}</span>`}
     </div>
@@ -1231,7 +1237,7 @@ function linkCard(link) {
         <button class="btn btn-primary btn-sm" style="flex:1" onclick="event.stopPropagation();openExternalLink('${link.id}')">
           ${icon.external} Open Deal
         </button>
-        <button class="link-save-btn ${saved?"saved":""}" onclick="event.stopPropagation();toggleSaveLink('${link.id}')">
+        <button class="btn btn-secondary btn-sm" style="width:auto" onclick="event.stopPropagation();toggleSaveLink('${link.id}')">
           ${saved ? icon.bookmarkFill : icon.bookmark}
         </button>
       </div>
@@ -1342,7 +1348,7 @@ function paintLinkDetail(link) {
     </div>
     <div class="row mt-3" style="gap:10px">
       <button class="btn btn-secondary" style="flex:1" onclick="toggleSaveLink('${link.id}', true)">
-        ${saved ? icon.bookmarkFill + " Saved" : icon.bookmark + " Save for later"}
+        ${saved ? icon.bookmarkFill + " Saved" : icon.bookmark + " Save"}
       </button>
       <button class="btn btn-primary" style="flex:2" onclick="openExternalLink('${link.id}')">
         ${icon.external} Open Deal
@@ -1363,12 +1369,8 @@ window.openExternalLink = async (linkId) => {
   try {
     if (S.user) {
       await addDoc(collection(db,"linkClicks"), {
-        linkId: link.id,
-        linkTitle: link.title || "",
-        url: link.url,
-        userId: S.user.uid,
-        userName: S.profile?.name || "",
-        userEmail: S.profile?.email || "",
+        linkId: link.id, linkTitle: link.title || "", url: link.url,
+        userId: S.user.uid, userName: S.profile?.name || "", userEmail: S.profile?.email || "",
         clickedAt: serverTimestamp()
       });
     }
@@ -1392,14 +1394,9 @@ window.toggleSaveLink = async (linkId, fromDetail = false) => {
       }
       if (!link) return toast("Link not found", "error");
       await setDoc(doc(db,"savedLinks",S.user.uid,"items",linkId), {
-        linkId: link.id,
-        title: link.title || "",
-        description: link.description || "",
-        imageUrl: link.imageUrl || "",
-        price: link.price || 0,
-        url: link.url || "",
-        companyName: link.companyName || "",
-        tag: link.tag || "",
+        linkId: link.id, title: link.title || "", description: link.description || "",
+        imageUrl: link.imageUrl || "", price: link.price || 0, url: link.url || "",
+        companyName: link.companyName || "", tag: link.tag || "",
         savedAt: serverTimestamp()
       });
       toast("✅ Saved for later", "success");
@@ -1409,7 +1406,7 @@ window.toggleSaveLink = async (linkId, fromDetail = false) => {
   } catch(err) { toast(errorMsg(err), "error"); }
 };
 
-/* ============ SAVED LINKS PAGE ============ */
+/* ============ SAVED LINKS ============ */
 function renderSavedLinks() {
   const body = $("#savedLinksBody");
   if (!body) return;
@@ -1424,16 +1421,13 @@ function renderSavedLinks() {
     return;
   }
   body.innerHTML = list.map(s => `
-    <div class="saved-link-row">
-      <img src="${escapeHtml(isValidUrl(s.imageUrl) ? s.imageUrl : PLACEHOLDER_IMG)}" onerror="this.src='${PLACEHOLDER_IMG}'">
-      <div class="saved-link-info" onclick="openLinkDetail('${s.linkId}')">
-        <div class="t">${escapeHtml(s.title || "")}</div>
-        ${s.price ? `<div class="p">${fmtINR(s.price)}</div>` : ""}
-        <div class="u">${escapeHtml(s.url || "")}</div>
+    <div class="saved-link-row" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:10px;cursor:pointer" onclick="openLinkDetail('${s.linkId}')">
+      <img src="${escapeHtml(isValidUrl(s.imageUrl) ? s.imageUrl : PLACEHOLDER_IMG)}" style="width:56px;height:56px;border-radius:12px;object-fit:cover" onerror="this.src='${PLACEHOLDER_IMG}'">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;font-family:var(--font-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHtml(s.title || "")}</div>
+        ${s.price ? `<div style="font-size:12px;color:var(--brand);font-weight:700;margin-top:2px">${fmtINR(s.price)}</div>` : ""}
       </div>
-      <button class="link-save-btn saved" onclick="event.stopPropagation();toggleSaveLink('${s.linkId}')" style="width:36px;height:36px">
-        ${icon.bookmarkFill}
-      </button>
+      <button class="btn btn-secondary btn-xs" onclick="event.stopPropagation();toggleSaveLink('${s.linkId}')" style="width:36px;height:36px">${icon.bookmarkFill}</button>
     </div>`).join("");
 }
 
@@ -1463,7 +1457,6 @@ function paintCompany(company, products) {
   if (!company) { $("#companyBody").innerHTML = `<div class="empty">Data missing</div>`; return; }
   products = products || [];
   const logo = isValidUrl(company.logoUrl) ? company.logoUrl : "";
-  const status = getStatusMessage();
   const isOpen = isCompanyOpen(company);
   const hours = hoursText(company);
   const showHours = company.autoOpenClose === true && hours;
@@ -1471,14 +1464,12 @@ function paintCompany(company, products) {
     ? '<span class="badge badge-success">COD available</span>'
     : '<span class="badge badge-neutral">Prepaid only</span>';
   $("#companyBody").innerHTML = `
-    ${status.blocked ? renderBlockedBanner() : ""}
     ${!isOpen ? `
       <div style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:20px;border-radius:var(--r-lg);margin-bottom:16px;display:flex;gap:14px">
         <span style="font-size:32px">🚫</span>
         <div style="flex:1">
           <div style="font-weight:800;font-size:15px;margin-bottom:5px;font-family:var(--font-display)">Currently Closed</div>
           <div style="font-size:13px;opacity:.94">${escapeHtml(company.closedMessage || "This store is closed.")}</div>
-          ${hours ? `<div style="font-size:12px;opacity:.8;margin-top:8px">Hours: ${escapeHtml(hours)}</div>` : ""}
         </div>
       </div>` : ""}
     <div class="card card-elevated">
@@ -1541,9 +1532,7 @@ function paintProductDetail(company, product) {
   const img = isValidUrl(product.imageUrl) ? product.imageUrl : PLACEHOLDER_IMG;
   const logo = isValidUrl(company.logoUrl) ? company.logoUrl : "";
   const isOpen = isCompanyOpen(company);
-  const status = getStatusMessage();
   $("#productBody").innerHTML = `
-    ${status.blocked ? renderBlockedBanner() : ""}
     <div class="product-detail">
       <img class="product-detail-img" src="${escapeHtml(img)}" onerror="this.src='${PLACEHOLDER_IMG}'">
       <div class="product-detail-body">
@@ -1553,25 +1542,28 @@ function paintProductDetail(company, product) {
         <div class="product-detail-desc">${escapeHtml(product.description || "No description.")}</div>
       </div>
     </div>
-    <div class="company-mini mt-3" onclick="openCompany('${company.id}')" style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;margin-top:12px">
-      ${logo ? `<img src="${escapeHtml(logo)}" style="width:48px;height:48px;border-radius:12px;object-fit:cover">` : `<div style="width:48px;height:48px;border-radius:12px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px">${escapeHtml((company.name||"C")[0])}</div>`}
-      <div style="flex:1;min-width:0">
-        <div style="font-size:13.5px;font-weight:700">${escapeHtml(company.name || "")}</div>
-        <div style="font-size:12px;color:var(--text-3);margin-top:3px">${escapeHtml(company.category || "")} · ${isOpen?'<span style="color:var(--success);font-weight:800">Open</span>':'<span style="color:var(--danger);font-weight:800">Closed</span>'}</div>
+    <div class="card mt-3" style="cursor:pointer" onclick="openCompany('${company.id}')">
+      <div class="row">
+        ${logo ? `<img src="${escapeHtml(logo)}" style="width:48px;height:48px;border-radius:12px;object-fit:cover">` : `<div style="width:48px;height:48px;border-radius:12px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px">${escapeHtml((company.name||"C")[0])}</div>`}
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13.5px;font-weight:700">${escapeHtml(company.name || "")}</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:3px">${escapeHtml(company.category || "")} · ${isOpen?'<span style="color:var(--success);font-weight:800">Open</span>':'<span style="color:var(--danger);font-weight:800">Closed</span>'}</div>
+        </div>
       </div>
     </div>
-    <div class="qty-selector mt-3" style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface-3);border-radius:var(--r-md);border:1px solid var(--border);margin-top:12px">
-      <span style="font-size:13.5px;font-weight:700;color:var(--text-2);flex:1">Quantity</span>
-      <div class="qty-ctrl">
-        <button onclick="changeProductQty(-1)">−</button>
-        <span id="pdQty">1</span>
-        <button onclick="changeProductQty(1)">+</button>
+    <div class="card mt-3">
+      <div class="row">
+        <span style="font-size:13.5px;font-weight:700;color:var(--text-2);flex:1">Quantity</span>
+        <div class="qty-ctrl">
+          <button onclick="changeProductQty(-1)">−</button>
+          <span id="pdQty">1</span>
+          <button onclick="changeProductQty(1)">+</button>
+        </div>
       </div>
     </div>
     <button class="btn btn-primary btn-lg btn-block mt-3" id="pdAddToCart" ${isOpen?"":"disabled"}>
       ${isOpen ? "Add to Cart — " + fmtINR(product.price) : "Currently Closed"}
-    </button>
-    ${!isOpen ? `<div class="warn-box mt-3">Store is closed.</div>` : ""}`;
+    </button>`;
   const addBtn = $("#pdAddToCart");
   if (addBtn) addBtn.onclick = () => addProductToCartWithQty(product.id, company.id, S.productQty);
 }
@@ -1607,7 +1599,6 @@ async function addProductToCartWithQty(productId, companyId, qty) {
     saveCart();
     updateCartBadge();
     toast(`${product.name} × ${qty} added`, "success");
-    setTimeout(() => goTo("cart"), 400);
   } catch(err) { console.error(err); toast("Failed to add", "error"); }
 }
 window.addProductToCart = async (productId, companyId) => { await addProductToCartWithQty(productId, companyId, 1); };
@@ -1699,12 +1690,10 @@ async function renderCheckout() {
     company = { id: cS.id, ...cS.data() };
   } catch(e) { body.innerHTML = `<div class="empty">Failed</div>`; return; }
   if (!isCompanyOpen(company)) {
-    body.innerHTML = `<div style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;padding:22px;border-radius:var(--r-lg);margin-bottom:16px;display:flex;gap:14px">
-      <span style="font-size:32px">🚫</span>
-      <div><div style="font-weight:800;font-size:15px;font-family:var(--font-display);margin-bottom:5px">Store Closed</div>
-        <div style="font-size:13px;opacity:.94">${escapeHtml(company.closedMessage || "Cannot order now.")}</div></div>
+    body.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca">
+      <div class="text-sm" style="color:var(--danger);font-weight:700">Store is currently closed.</div>
     </div>
-    <button class="btn btn-secondary btn-block" onclick="goTo('cart')">Back</button>`;
+    <button class="btn btn-secondary btn-block mt-3" onclick="goTo('cart')">Back</button>`;
     return;
   }
   const subtotal = S.cart.items.reduce((s,i) => s + i.price * i.quantity, 0);
@@ -1715,9 +1704,9 @@ async function renderCheckout() {
   const serviceCharge = isFirstOrder ? 0 : Number(company.serviceCharge || 0);
   const couponDiscount = S.appliedCoupon ? S.appliedCoupon.discount : 0;
   body.innerHTML = `
-    ${isFirstOrder ? `<div class="free-banner"><span class="icon">🎉</span><div>
-      <div class="title">First Order — Free Delivery!</div>
-      <div class="desc">No delivery or service charges.</div>
+    ${isFirstOrder ? `<div class="free-banner"><span style="font-size:28px">🎉</span><div>
+      <div style="font-weight:800;font-size:14.5px;font-family:var(--font-display)">First Order — Free Delivery!</div>
+      <div style="font-size:12.5px;opacity:.94;margin-top:4px">No delivery or service charges.</div>
     </div></div>` : ""}
     <div class="card">
       <div class="font-bold mb-2" style="font-size:15px;color:var(--brand);font-family:var(--font-display)">${escapeHtml(company.name || "")}</div>
@@ -1791,9 +1780,7 @@ async function renderCheckout() {
   };
 
   $("#placeOrderBtn").onclick = () => placeOrder({
-    company, subtotal,
-    deliveryCharge, serviceCharge,
-    paymentMethod: selectedPaymentMethod
+    company, subtotal, deliveryCharge, serviceCharge, paymentMethod: selectedPaymentMethod
   });
 }
 
@@ -1839,10 +1826,8 @@ async function placeOrder({ company, subtotal, deliveryCharge, serviceCharge, pa
       isFirstOrder: S.isFirstOrder,
       paymentMethod,
       grandTotal: finalTotal,
-      status: "pending",
-      trackingUrl: "",
-      hasReview: false,
-      hasComplaint: false,
+      status: "pending", trackingUrl: "",
+      hasReview: false, hasComplaint: false,
       createdAt: serverTimestamp(), updatedAt: serverTimestamp()
     };
     const ref = await addDoc(collection(db,"orders"), orderData);
@@ -1862,6 +1847,25 @@ async function placeOrder({ company, subtotal, deliveryCharge, serviceCharge, pa
 }
 
 /* ============ ORDERS ============ */
+const ORDER_STATUS = {
+  pending: { label: "Pending", tone: "warning" },
+  processing: { label: "Processing", tone: "info" },
+  successful: { label: "Delivered", tone: "success" },
+  rejected: { label: "Rejected", tone: "danger" },
+  cancelled: { label: "Cancelled", tone: "neutral" }
+};
+const ACCOUNT_STATUS = {
+  active: { label: "Active", tone: "success" },
+  pending_password: { label: "Pending Password", tone: "warning" },
+  suspended: { label: "Suspended", tone: "warning" },
+  blocked: { label: "Blocked", tone: "danger" }
+};
+const COMPLAINT_STATUS = {
+  pending: { label: "Pending", tone: "warning" },
+  in_progress: { label: "In Progress", tone: "info" },
+  resolved: { label: "Resolved", tone: "success" }
+};
+
 let orderFilter = "all";
 function renderOrders() {
   $$("#orderTabs .chip").forEach(chip => chip.onclick = () => {
@@ -1884,23 +1888,27 @@ function paintOrders() {
     const hasReview = o.hasReview === true;
     const hasTracking = !!o.trackingUrl;
     const hasComplaint = o.hasComplaint === true;
-    return `<article class="order">
-      <div class="order-head"><span class="order-id">#${escapeHtml(o.orderId || o.id)}</span>
-        <span class="badge badge-${info.tone}">${info.label}</span></div>
-      <div class="order-body">
-        ${firstItem?.imageUrl ? `<img class="order-thumb" src="${escapeHtml(firstItem.imageUrl)}" onerror="this.style.display='none'">` : ""}
-        <div class="order-info">
-          <div class="order-name">${escapeHtml(o.companyName || "")}</div>
-          <div class="order-date">${(o.items || []).length} item(s) · ${fmtDate(o.createdAt)}</div>
+    return `<article class="order" style="background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-xs);margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <span style="font-size:13px;font-weight:800;font-family:ui-monospace,monospace;color:var(--brand-dark)">#${escapeHtml(o.orderId || o.id)}</span>
+        <span class="badge badge-${info.tone}">${info.label}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        ${firstItem?.imageUrl ? `<img src="${escapeHtml(firstItem.imageUrl)}" style="width:56px;height:56px;border-radius:12px;object-fit:cover" onerror="this.style.display='none'">` : ""}
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14.5px;font-weight:700;font-family:var(--font-display)">${escapeHtml(o.companyName || "")}</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:3px">${(o.items || []).length} item(s) · ${fmtDate(o.createdAt)}</div>
         </div>
       </div>
-      <div class="order-foot"><span class="text-muted">Total</span>
-        <span class="amt">${fmtINR(o.grandTotal)}</span></div>
-      ${delivered && hasTracking ? `<div class="order-actions"><button class="btn btn-primary btn-sm btn-block" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">🚚 Track Delivery</button></div>` : ""}
-      ${delivered && !hasReview ? `<div class="order-actions"><button class="btn btn-success btn-sm btn-block" onclick="openReviewForm('${o.id}')">⭐ Rate & Review</button></div>` : ""}
-      <div class="order-actions"><button class="btn btn-secondary btn-sm btn-block" onclick="openOrderDetail('${o.id}')">📋 View Details</button></div>
-      ${delivered && !hasComplaint ? `<div class="order-actions"><button class="btn btn-sm btn-block" style="background:var(--warning-soft);border:1px solid var(--warning);color:var(--warning)" onclick="openComplaintForm('${o.id}')">⚠️ Raise Complaint</button></div>` : ""}
-      ${delivered && hasComplaint ? `<div class="order-actions"><button class="btn btn-sm btn-block" style="background:var(--danger-soft);border:1px solid var(--danger);color:var(--danger)" onclick="openComplaintChat('${o.id}')">💬 View Complaint Chat</button></div>` : ""}
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:13px">
+        <span class="text-muted">Total</span>
+        <span style="font-weight:800;color:var(--brand);font-size:17px;font-family:var(--font-display)">${fmtINR(o.grandTotal)}</span>
+      </div>
+      ${delivered && hasTracking ? `<button class="btn btn-primary btn-sm btn-block mt-2" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">🚚 Track Delivery</button>` : ""}
+      ${delivered && !hasReview ? `<button class="btn btn-success btn-sm btn-block mt-2" onclick="openReviewForm('${o.id}')">⭐ Rate & Review</button>` : ""}
+      <button class="btn btn-secondary btn-sm btn-block mt-2" onclick="openOrderDetail('${o.id}')">📋 View Details</button>
+      ${delivered && !hasComplaint ? `<button class="btn btn-sm btn-block mt-2" style="background:var(--warning-soft);border:1px solid var(--warning);color:var(--warning)" onclick="openComplaintForm('${o.id}')">⚠️ Raise Complaint</button>` : ""}
+      ${delivered && hasComplaint ? `<button class="btn btn-sm btn-block mt-2" style="background:var(--danger-soft);border:1px solid var(--danger);color:var(--danger)" onclick="openComplaintChat('${o.id}')">💬 View Complaint Chat</button>` : ""}
     </article>`;
   }).join("");
 }
@@ -1949,8 +1957,11 @@ function paintOrderDetail(o, review, complaint) {
   $("#orderDetailBody").innerHTML = `
     ${isDelivered && hasTracking ? `
       <div class="track-banner">
-        <span class="icon">🚚</span>
-        <div class="content"><div class="title">On the way</div><div class="desc">Track your delivery</div></div>
+        <span style="font-size:38px">🚚</span>
+        <div style="flex:1">
+          <div style="font-weight:800;font-size:15px;font-family:var(--font-display)">On the way</div>
+          <div style="font-size:12.5px;opacity:.94">Track your delivery</div>
+        </div>
         <button class="btn" onclick="openTrackingLink('${escapeHtml(o.trackingUrl)}')">Track</button>
       </div>` : ""}
     <div class="card card-elevated">
@@ -2026,7 +2037,7 @@ window.openReviewForm = async (orderId) => {
     <div class="card card-elevated">
       <div class="section-title">Rate Your Experience</div>
       <div class="text-center mb-4">
-        <div class="stars-input" id="reviewStars" style="font-size:44px;display:inline-flex;gap:8px;cursor:pointer;user-select:none">${[1,2,3,4,5].map(n => `<span data-n="${n}" style="color:#e5e7eb;transition:all .25s;line-height:1">★</span>`).join("")}</div>
+        <div id="reviewStars" style="font-size:44px;display:inline-flex;gap:8px;cursor:pointer;user-select:none">${[1,2,3,4,5].map(n => `<span data-n="${n}" style="color:#e5e7eb;transition:all .25s;line-height:1">★</span>`).join("")}</div>
       </div>
       <div class="form-group"><label class="form-label">Review (optional)</label>
         <textarea class="form-textarea" id="reviewText"></textarea></div>
@@ -2047,8 +2058,6 @@ window.openReviewForm = async (orderId) => {
     const btn = $("#reviewSubmit");
     btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Submitting';
     try {
-      const ex = await getDocs(query(collection(db,"reviews"), where("orderId","==",orderId)));
-      if (!ex.empty) { toast("Already reviewed", "info"); showScreen("scrOrders"); renderOrders(); return; }
       await addDoc(collection(db,"reviews"), {
         orderId, customerId: S.user.uid,
         customerName: S.profile.name || "", customerEmail: S.profile.email || "",
@@ -2062,7 +2071,7 @@ window.openReviewForm = async (orderId) => {
   };
 };
 
-/* ============ COMPLAINT CHAT ============ */
+/* ============ COMPLAINT ============ */
 window.openComplaintForm = async (orderId) => {
   try {
     const cSnap = await getDocs(query(collection(db,"complaints"), where("orderId","==",orderId)));
@@ -2101,37 +2110,19 @@ window.openComplaintForm = async (orderId) => {
       const orderSnap = await getDoc(doc(db,"orders",orderId));
       const order = orderSnap.exists() ? orderSnap.data() : {};
       const complaintRef = await addDoc(collection(db,"complaints"), {
-        orderId,
-        orderNumber: order.orderId || orderId,
-        customerId: S.user.uid,
-        customerName: S.profile.name || "",
-        customerEmail: S.profile.email || "",
-        customerPhone: S.profile.phone || "",
-        companyId: order.companyId || "",
-        companyName: order.companyName || "",
-        complaintType: type,
-        complaintText: text,
-        status: "pending",
-        lastMessageAt: serverTimestamp(),
-        createdAt: serverTimestamp()
+        orderId, orderNumber: order.orderId || orderId,
+        customerId: S.user.uid, customerName: S.profile.name || "",
+        customerEmail: S.profile.email || "", customerPhone: S.profile.phone || "",
+        companyId: order.companyId || "", companyName: order.companyName || "",
+        complaintType: type, complaintText: text,
+        status: "pending", lastMessageAt: serverTimestamp(), createdAt: serverTimestamp()
       });
       await addDoc(collection(db,"complaints",complaintRef.id,"messages"), {
-        senderId: S.user.uid,
-        senderName: S.profile.name || "Customer",
-        senderRole: "customer",
-        text: text,
-        createdAt: serverTimestamp()
+        senderId: S.user.uid, senderName: S.profile.name || "Customer",
+        senderRole: "customer", text: text, createdAt: serverTimestamp()
       });
       await updateDoc(doc(db,"orders",orderId), {
-        hasComplaint: true,
-        complaintId: complaintRef.id,
-        complaintAt: serverTimestamp()
-      });
-      await addDoc(collection(db,"orders",orderId,"statusHistory"), {
-        status: order.status || "successful",
-        note: "⚠️ Complaint filed: " + type,
-        changedBy: S.user.uid,
-        createdAt: serverTimestamp()
+        hasComplaint: true, complaintId: complaintRef.id, complaintAt: serverTimestamp()
       });
       toast("✅ Complaint submitted!", "success");
       setTimeout(() => openComplaintChat(orderId), 500);
@@ -2180,30 +2171,27 @@ window.openComplaintChat = async (orderId) => {
     const statusInfo = COMPLAINT_STATUS[complaint.status] || COMPLAINT_STATUS.pending;
     const isResolved = complaint.status === "resolved";
     container.innerHTML = `
-      <div class="chat-header">
-        <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800;flex-shrink:0">
+      <div style="background:var(--glass-strong);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;font-weight:800">
           ${escapeHtml((complaint.customerName || "C")[0].toUpperCase())}
         </div>
-        <div class="info">
-          <div class="title">${isAdmin ? escapeHtml(complaint.customerName || "Customer") : "Pawan Retail Support"}</div>
-          <div class="subtitle">Order #${escapeHtml(complaint.orderNumber || orderId)} · <span class="badge badge-${statusInfo.tone}" style="font-size:10px;padding:2px 7px">${statusInfo.label}</span></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:800;font-family:var(--font-display)">${isAdmin ? escapeHtml(complaint.customerName || "Customer") : "Pawan Retail Support"}</div>
+          <div style="font-size:11.5px;color:var(--text-3)">Order #${escapeHtml(complaint.orderNumber || orderId)} · <span class="badge badge-${statusInfo.tone}" style="font-size:10px;padding:2px 7px">${statusInfo.label}</span></div>
         </div>
         ${isAdmin && !isResolved ? `<button class="btn btn-success btn-xs" id="resolveChatBtn">✓ Resolve</button>` : ""}
       </div>
-      <div class="complaint-info-box">
+      <div style="margin:12px 16px 0;padding:14px;background:var(--warning-soft);border:1px solid #fcd34d;border-radius:12px;font-size:12.5px;color:var(--warning)">
         <strong>⚠️ Complaint:</strong> ${escapeHtml(complaint.complaintType || "")}
       </div>
-      ${isResolved ? `<div class="chat-closed-banner">✓ This complaint has been resolved. Thank you!</div>` : ""}
-      <div class="chat-messages" id="chatMessages">
-        <div style="text-align:center;padding:40px 20px;color:var(--text-3);font-size:13px">
-          <div class="spin" style="border-color:rgba(79,70,229,.3);border-top-color:var(--brand);width:20px;height:20px;display:inline-block;border-width:3px"></div>
-          <div style="margin-top:10px">Loading messages…</div>
-        </div>
+      ${isResolved ? `<div style="background:var(--success-soft);border:1.5px solid #a7f3d0;color:var(--success);padding:14px 18px;margin:12px 16px 0;border-radius:12px;text-align:center;font-size:13px;font-weight:700">✓ This complaint has been resolved. Thank you!</div>` : ""}
+      <div class="chat-messages" id="chatMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px">
+        <div style="text-align:center;padding:40px 20px;color:var(--text-3);font-size:13px">Loading messages…</div>
       </div>
       ${!isResolved ? `
-        <div class="chat-input-area">
-          <textarea id="chatInput" placeholder="Type your message…" rows="1"></textarea>
-          <button class="chat-send-btn" id="chatSendBtn">${icon.send}</button>
+        <div style="background:var(--glass-strong);border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:8px;align-items:flex-end">
+          <textarea id="chatInput" placeholder="Type your message…" rows="1" style="flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:22px;resize:none;min-height:40px;max-height:100px;font-size:13.5px;background:var(--surface)"></textarea>
+          <button class="chat-send-btn" id="chatSendBtn" style="width:42px;height:42px;border-radius:50%;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;flex-shrink:0">${icon.send}</button>
         </div>` : ""}
     `;
     const textarea = $("#chatInput");
@@ -2227,10 +2215,8 @@ window.openComplaintChat = async (orderId) => {
           status: "resolved", resolvedAt: serverTimestamp(), resolvedBy: S.user.uid
         });
         await addDoc(collection(db,"complaints",complaintId,"messages"), {
-          senderId: S.user.uid,
-          senderName: S.profile?.name || "Admin",
-          senderRole: "admin",
-          text: "✅ This complaint has been marked as resolved. Thank you for your patience!",
+          senderId: S.user.uid, senderName: S.profile?.name || "Admin",
+          senderRole: "admin", text: "✅ This complaint has been marked as resolved. Thank you for your patience!",
           createdAt: serverTimestamp()
         });
         toast("Complaint resolved", "success");
@@ -2250,10 +2236,9 @@ window.openComplaintChat = async (orderId) => {
       console.error("Chat listener error:", err);
       const msgBox = $("#chatMessages");
       if (msgBox) {
-        msgBox.innerHTML = `<div style="text-align:center;padding:30px 20px;color:var(--danger);font-size:13px;line-height:1.6">
+        msgBox.innerHTML = `<div style="text-align:center;padding:30px 20px;color:var(--danger);font-size:13px">
           <div style="font-size:36px;margin-bottom:10px">⚠️</div>
-          <div style="font-weight:700;margin-bottom:6px">Could not load messages</div>
-          <div style="font-size:11px;opacity:.7;font-family:monospace;word-break:break-all">${escapeHtml(err?.code || err?.message || "Unknown error")}</div>
+          <div style="font-weight:700">Could not load messages</div>
           <button class="btn btn-secondary mt-4" onclick="openComplaintChat('${orderId}')">Retry</button>
         </div>`;
       }
@@ -2262,9 +2247,7 @@ window.openComplaintChat = async (orderId) => {
     console.error("Chat open error:", err);
     container.innerHTML = `<div class="empty" style="padding:40px 20px;text-align:center">
       <div style="font-size:40px;margin-bottom:10px">⚠️</div>
-      <div style="color:var(--danger);font-weight:700;margin-bottom:6px">Failed to open chat</div>
-      <div style="color:var(--text-3);font-size:11px;font-family:monospace;word-break:break-all">${escapeHtml(err?.code || err?.message || "Unknown")}</div>
-      <button class="btn btn-secondary mt-4" onclick="goTo('orders')">Back to Orders</button>
+      <div style="color:var(--danger);font-weight:700">Failed to open chat</div>
     </div>`;
   }
 };
@@ -2280,11 +2263,8 @@ async function sendChatMessage() {
   try {
     const isAdmin = S.profile?.role === "admin";
     await addDoc(collection(db,"complaints",S.activeComplaintId,"messages"), {
-      senderId: S.user.uid,
-      senderName: S.profile?.name || (isAdmin ? "Admin" : "Customer"),
-      senderRole: isAdmin ? "admin" : "customer",
-      text: text,
-      createdAt: serverTimestamp()
+      senderId: S.user.uid, senderName: S.profile?.name || (isAdmin ? "Admin" : "Customer"),
+      senderRole: isAdmin ? "admin" : "customer", text: text, createdAt: serverTimestamp()
     });
     const updates = { lastMessageAt: serverTimestamp() };
     if (isAdmin) updates.status = "in_progress";
@@ -2311,12 +2291,12 @@ function paintChatMessages(messages) {
     return;
   }
   box.innerHTML = messages.map(m => {
-    if (m.senderRole === "system") return `<div class="chat-bubble system">${escapeHtml(m.text || "")}</div>`;
+    if (m.senderRole === "system") return `<div style="align-self:center;background:var(--surface-3);color:var(--text-2);font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;text-align:center;max-width:90%">${escapeHtml(m.text || "")}</div>`;
     const isCustomer = m.senderRole === "customer";
-    return `<div class="chat-bubble ${isCustomer ? "customer" : "admin"}">
-      ${!isCustomer ? `<div class="sender">${escapeHtml(m.senderName || "Admin")}</div>` : ""}
+    return `<div style="max-width:78%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.5;box-shadow:0 2px 8px rgba(15,23,42,.06);word-wrap:break-word;${isCustomer ? "align-self:flex-end;background:var(--brand-gradient);color:#fff;border-bottom-right-radius:4px" : "align-self:flex-start;background:var(--surface);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px"}">
+      ${!isCustomer ? `<div style="font-size:10.5px;font-weight:800;letter-spacing:.03em;margin-bottom:4px;opacity:.85;text-transform:uppercase">${escapeHtml(m.senderName || "Admin")}</div>` : ""}
       <div>${escapeHtml(m.text || "").replace(/\n/g, "<br>")}</div>
-      <div class="meta">${fmtTime(m.createdAt)}</div>
+      <div style="font-size:10.5px;opacity:.7;margin-top:4px;${isCustomer ? "text-align:right" : ""}">${fmtTime(m.createdAt)}</div>
     </div>`;
   }).join("");
   setTimeout(() => { box.scrollTop = box.scrollHeight; }, 50);
@@ -2387,6 +2367,50 @@ window.editProfile = () => {
 window.changePassword = () => {
   sendPasswordResetEmail(auth, S.profile.email).then(() => toast("Reset link sent", "success")).catch(err => toast(errorMsg(err), "error"));
 };
+
+/* ============ TRACK ORDER ============ */
+async function trackOrder() {
+  const orderId = ($("#trackOrderId").value || "").trim().toUpperCase();
+  const email = ($("#trackEmail").value || "").trim().toLowerCase();
+  const result = $("#trackResult");
+  const btn = $("#trackBtn");
+  if (!orderId) return toast("Enter order ID", "error");
+  if (!email) return toast("Enter email", "error");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Searching';
+  result.innerHTML = `<div class="skeleton" style="height:140px"></div>`;
+  try {
+    const snap = await getDocs(query(collection(db,"orders"), where("orderId","==",orderId)));
+    if (snap.empty) {
+      result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca"><div class="text-sm" style="color:var(--danger);font-weight:700">No order found with this ID.</div></div>`;
+      return;
+    }
+    const matching = snap.docs.find(d => ((d.data().customerEmail || "").toLowerCase() === email));
+    if (!matching) {
+      result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca"><div class="text-sm" style="color:var(--danger);font-weight:700">Email does not match this order.</div></div>`;
+      return;
+    }
+    const o = { id: matching.id, ...matching.data() };
+    const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
+    result.innerHTML = `
+      <div class="card" style="margin-top:16px;background:var(--success-soft);border-color:#a7f3d0">
+        <div class="text-xs" style="color:var(--success);text-transform:uppercase;font-weight:800">✓ Order found</div>
+      </div>
+      <div class="card card-elevated">
+        <div class="between mb-3">
+          <div><div class="text-xs text-soft">Order ID</div>
+            <div class="font-bold font-mono" style="font-size:16px;color:var(--brand)">#${escapeHtml(o.orderId)}</div></div>
+          <span class="badge badge-${info.tone}">${info.label}</span>
+        </div>
+        <div class="text-sm text-muted">${escapeHtml(o.companyName || "")}</div>
+        <div class="text-xs text-soft mt-2">Placed on ${fmtDate(o.createdAt, true)}</div>
+        <div class="price-row total" style="margin-top:12px"><span>Total</span><span>${fmtINR(o.grandTotal)}</span></div>
+      </div>`;
+  } catch(err) {
+    result.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca"><div class="text-sm" style="color:var(--danger);font-weight:700">Failed to fetch order.</div></div>`;
+  } finally {
+    btn.disabled = false; btn.textContent = "Track Order →";
+  }
+}
 
 /* ============ ADMIN ============ */
 let adminView = "dashboard";
@@ -2612,9 +2636,7 @@ function renderAdminLinks() {
   $("#adminContent").innerHTML = `
     <div class="mb-4" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
       <button class="btn btn-primary" id="addLinkBtn">+ Add Product Link</button>
-      <div class="info-box" style="flex:1;min-width:200px;margin:0">
-        🔗 Add deal links manually — Title, Image URL, Price, Description, URL
-      </div>
+      <div class="info-box" style="flex:1;min-width:200px;margin:0">🔗 Add deal links manually — Title, Image URL, Price, Description, URL</div>
     </div>
     <div id="linksList"></div>`;
   $("#addLinkBtn").onclick = () => linkForm();
@@ -2668,7 +2690,7 @@ window.linkForm = (link = null) => {
     };
     if (!data.title) return toast("Title required", "error");
     if (!data.url) return toast("URL required", "error");
-    if (!isValidUrl(data.url)) return toast("URL must start with http:// or https://", "error");
+    if (!isValidUrl(data.url)) return toast("URL must start with http://", "error");
     if (data.imageUrl && !isValidUrl(data.imageUrl)) return toast("Image URL invalid", "error");
     try {
       if (editing) await updateDoc(doc(db,"links",link.id), data);
@@ -2792,7 +2814,7 @@ function paintAdminOrders() {
         <td>${escapeHtml(o.customerName || "")}</td>
         <td>${escapeHtml(o.companyName || "")}</td>
         <td class="font-bold">${fmtINR(o.grandTotal)}</td>
-        <td><span class="badge badge-${info.tone}">${info.label}</span>${o.hasComplaint ? ' <span class="badge badge-danger">⚠️</span>' : ""}</td>
+        <td><span class="badge badge-${info.tone}">${info.label}</span></td>
         <td><button class="btn btn-secondary btn-xs" onclick="adminOpenOrder('${o.id}')">Manage</button></td>
       </tr>`;
     }).join("")}</tbody></table></div>`;
@@ -2804,20 +2826,9 @@ window.adminOpenOrder = async (orderId) => {
   const o = { id: snap.id, ...snap.data() };
   const info = ORDER_STATUS[o.status] || { label: o.status, tone: "neutral" };
   const payLabel = o.paymentMethod === "cod" ? "Cash on Delivery" : "Online (UPI)";
-  let complaint = null;
-  try {
-    const cS = await getDocs(query(collection(db,"complaints"), where("orderId","==",orderId)));
-    if (!cS.empty) complaint = { id: cS.docs[0].id, ...cS.docs[0].data() };
-  } catch(_){}
   openModal(`
     <div class="modal-title">Order #${escapeHtml(o.orderId || o.id)}</div>
-    <div class="mb-3" style="text-align:center"><span class="badge badge-${info.tone}">${info.label}</span>${o.hasComplaint ? ' <span class="badge badge-danger">⚠️ Complaint</span>' : ""}</div>
-    ${complaint ? `
-      <div class="card" style="background:var(--warning-soft);border:1.5px solid #fcd34d;margin-bottom:12px">
-        <div class="text-xs" style="color:var(--warning);text-transform:uppercase;font-weight:800;margin-bottom:8px">⚠️ Complaint</div>
-        <div class="text-sm" style="color:var(--warning);font-weight:700;margin-bottom:10px">${escapeHtml(complaint.complaintType || "")}</div>
-        <button class="btn btn-warning btn-sm" onclick="closeModal();openComplaintChat('${orderId}')" style="width:100%">💬 Open Chat</button>
-      </div>` : ""}
+    <div class="mb-3" style="text-align:center"><span class="badge badge-${info.tone}">${info.label}</span></div>
     <div class="section-title">Customer</div>
     <div class="text-sm font-semibold">${escapeHtml(o.customerName || "")}</div>
     <div class="text-sm text-muted">${escapeHtml(o.customerPhone || "")}</div>
@@ -2835,25 +2846,11 @@ window.adminOpenOrder = async (orderId) => {
     <select class="form-select mb-2" id="admStatus">
       ${Object.keys(ORDER_STATUS).map(k => `<option value="${k}" ${o.status === k ? "selected" : ""}>${ORDER_STATUS[k].label}</option>`).join("")}
     </select>
-    <button class="btn btn-primary btn-block mb-2" id="admUpdateStatus">Update Status</button>
+    <button class="btn btn-primary btn-block" id="admUpdateStatus">Update Status</button>
     <div class="modal-actions"><button class="btn btn-secondary" onclick="closeModal()">Close</button></div>`);
   $("#admUpdateStatus").onclick = async () => {
     const newStatus = $("#admStatus").value;
     if (newStatus === o.status) return toast("Unchanged", "info");
-    if (newStatus === "rejected" || newStatus === "cancelled") {
-      openModal(`<div class="modal-title">Reason</div>
-        <div class="form-group"><textarea class="form-textarea" id="cancelReasonInput" placeholder="Why?"></textarea></div>
-        <div class="modal-actions">
-          <button class="btn btn-secondary" onclick="adminOpenOrder('${o.id}')">Back</button>
-          <button class="btn btn-danger" id="cancelConfirm">Confirm</button>
-        </div>`);
-      $("#cancelConfirm").onclick = async () => {
-        const reason = $("#cancelReasonInput").value.trim();
-        if (!reason) return toast("Reason required", "error");
-        await updateOrderStatusWithReason(o, newStatus, reason);
-      };
-      return;
-    }
     if (newStatus === "successful") {
       openModal(`<div class="modal-title">Tracking URL</div>
         <div class="form-group"><input class="form-input" id="trackUrlInput" type="url" value="${escapeHtml(o.trackingUrl || "")}" placeholder="https://..."></div>
@@ -2865,35 +2862,25 @@ window.adminOpenOrder = async (orderId) => {
         const url = $("#trackUrlInput").value.trim();
         if (!url) return toast("URL required", "error");
         if (!isValidUrl(url)) return toast("Invalid URL", "error");
-        await markOrderDeliveredWithTracking(o, url);
+        try {
+          await updateDoc(doc(db,"orders",o.id), { status: "successful", trackingUrl: url, deliveredAt: serverTimestamp(), updatedAt: serverTimestamp() });
+          await addDoc(collection(db,"orders",o.id,"statusHistory"), {
+            status: "successful", note: "Delivered", changedBy: S.user.uid, createdAt: serverTimestamp()
+          });
+          toast("Delivered!", "success"); closeModal();
+        } catch(err) { toast(errorMsg(err), "error"); }
       };
       return;
     }
-    await updateOrderStatusWithReason(o, newStatus, "");
+    try {
+      await updateDoc(doc(db,"orders",o.id), { status: newStatus, updatedAt: serverTimestamp() });
+      await addDoc(collection(db,"orders",o.id,"statusHistory"), {
+        status: newStatus, note: "", changedBy: S.user.uid, createdAt: serverTimestamp()
+      });
+      toast("Updated", "success"); closeModal();
+    } catch(err) { toast(errorMsg(err), "error"); }
   };
 };
-
-async function markOrderDeliveredWithTracking(o, trackingUrl) {
-  try {
-    await updateDoc(doc(db,"orders",o.id), { status: "successful", trackingUrl, deliveredAt: serverTimestamp(), updatedAt: serverTimestamp() });
-    await addDoc(collection(db,"orders",o.id,"statusHistory"), {
-      status: "successful", note: "Delivered", changedBy: S.user.uid, createdAt: serverTimestamp()
-    });
-    toast("Delivered!", "success"); closeModal();
-  } catch(err) { toast(errorMsg(err), "error"); }
-}
-
-async function updateOrderStatusWithReason(o, newStatus, reason) {
-  try {
-    const updates = { status: newStatus, updatedAt: serverTimestamp() };
-    if (reason) { updates.cancelReason = reason; updates.cancelledAt = serverTimestamp(); updates.cancelledBy = S.user.uid; }
-    await updateDoc(doc(db,"orders",o.id), updates);
-    await addDoc(collection(db,"orders",o.id,"statusHistory"), {
-      status: newStatus, note: reason || "", changedBy: S.user.uid, createdAt: serverTimestamp()
-    });
-    toast("Updated", "success"); closeModal();
-  } catch(err) { toast(errorMsg(err), "error"); }
-}
 
 function renderAdminComplaints() {
   $("#adminContent").innerHTML = `<div id="complaintsList"><div class="skeleton"></div></div>`;
@@ -2908,7 +2895,7 @@ function renderAdminComplaints() {
         const statusInfo = COMPLAINT_STATUS[c.status] || COMPLAINT_STATUS.pending;
         return `<tr>
           <td class="font-mono text-xs font-bold">#${escapeHtml(c.orderNumber || c.orderId)}</td>
-          <td>${escapeHtml(c.customerName || "")}<div class="text-xs text-soft">${escapeHtml(c.customerPhone || "")}</div></td>
+          <td>${escapeHtml(c.customerName || "")}</td>
           <td><span class="badge badge-warning">${escapeHtml((c.complaintType || "").slice(0, 30))}</span></td>
           <td><span class="badge badge-${statusInfo.tone}">${statusInfo.label}</span></td>
           <td class="text-xs text-soft">${fmtDate(c.createdAt)}</td>
@@ -2941,15 +2928,7 @@ function renderAdminReviews() {
 }
 
 async function renderAdminCustomers() {
-  $("#adminContent").innerHTML = `
-    <div class="mb-4" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-      <button class="btn btn-primary" id="addCustomerBtn">+ Add Customer</button>
-      <div class="info-box" style="flex:1;min-width:200px;margin:0">
-        ℹ️ Admin creates → Customer logs in → Auto password creation
-      </div>
-    </div>
-    <div id="customersList"><div class="skeleton"></div></div>`;
-  $("#addCustomerBtn").onclick = () => addCustomerForm();
+  $("#adminContent").innerHTML = `<div id="customersList"><div class="skeleton"></div></div>`;
   try {
     const snap = await getDocs(collection(db,"users"));
     const users = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(u => u.role !== "admin");
@@ -2968,8 +2947,6 @@ async function renderAdminCustomers() {
             ${status === "active" ? `
               <button class="btn btn-secondary btn-xs" onclick="adminSuspendUser('${u.id}')">Suspend</button>
               <button class="btn btn-danger btn-xs" onclick="adminBlockUser('${u.id}')">Block</button>
-            ` : status === "pending_password" ? `
-              <button class="btn btn-danger btn-xs" onclick="adminDeleteUser('${u.id}', '${escapeHtml(u.email || '')}')">Remove</button>
             ` : `
               <button class="btn btn-success btn-xs" onclick="adminUnblockUser('${u.id}')">Unblock</button>
             `}
@@ -2978,51 +2955,6 @@ async function renderAdminCustomers() {
       }).join("")}</tbody></table></div>`;
   } catch(err) { $("#customersList").innerHTML = `<div class="empty">Failed</div>`; }
 }
-
-window.addCustomerForm = () => {
-  openModal(`<div class="modal-title">➕ Add New Customer</div>
-    <div class="info-box mb-4">📩 Customer will login with this email — app will ask for password.</div>
-    <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="ncName"></div>
-    <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="ncEmail" type="email"></div>
-    <div class="form-group"><label class="form-label">Mobile</label><input class="form-input" id="ncPhone" inputmode="numeric" maxlength="10"></div>
-    <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="ncAddress"></textarea></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="ncSave">Create</button>
-    </div>`);
-  $("#ncSave").onclick = async () => {
-    const name = $("#ncName").value.trim();
-    const email = $("#ncEmail").value.trim().toLowerCase();
-    const phone = $("#ncPhone").value.trim();
-    const address = $("#ncAddress").value.trim();
-    if (!name) return toast("Name required", "error");
-    if (!email) return toast("Email required", "error");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("Invalid email", "error");
-    if (!/^[0-9]{10}$/.test(phone)) return toast("Valid 10-digit phone", "error");
-    if (!address) return toast("Address required", "error");
-    const btn = $("#ncSave");
-    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creating';
-    try {
-      const existing = await getDocs(query(collection(db,"users"), where("email","==",email)));
-      if (!existing.empty) return toast("Email already registered", "error");
-      await addDoc(collection(db,"users"), {
-        name, email, phone, address,
-        role: "customer",
-        status: "pending_password",
-        blockReason: "", suspendedUntil: null,
-        createdBy: "admin", createdByUid: S.user.uid,
-        createdAt: serverTimestamp()
-      });
-      toast("✅ Account created!", "success");
-      closeModal(); renderAdminCustomers();
-    } catch(err) {
-      console.error(err);
-      toast(errorMsg(err), "error");
-    } finally {
-      btn.disabled = false; btn.textContent = "Create";
-    }
-  };
-};
 
 window.adminBlockUser = (userId) => {
   openModal(`<div class="modal-title">Block User</div>
@@ -3075,61 +3007,20 @@ window.adminUnblockUser = (userId) => {
   });
 };
 
-window.adminDeleteUser = (userId, email) => {
-  openModal(`<div class="modal-title">Delete User</div>
-    <div class="warn-box mb-3"><strong>⚠️ Warning:</strong> This permanently deletes the user.</div>
-    <p class="text-sm text-muted mb-3">Email: <strong>${escapeHtml(email)}</strong></p>
-    <div class="form-group"><label class="form-label">Type email to confirm</label>
-      <input class="form-input font-mono" id="delConfirmEmail"></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="delConfirmBtn">Delete</button>
-    </div>`);
-  $("#delConfirmBtn").onclick = async () => {
-    const typed = $("#delConfirmEmail").value.trim().toLowerCase();
-    if (typed !== email.toLowerCase()) return toast("Email does not match", "error");
-    try {
-      await deleteDoc(doc(db,"users",userId));
-      toast("Deleted", "success"); closeModal(); renderAdminCustomers();
-    } catch(err) { toast(errorMsg(err), "error"); }
-  };
-};
-
-/* ============ ORDER STATUS MAP ============ */
-const ORDER_STATUS = {
-  pending: { label: "Pending", tone: "warning" },
-  processing: { label: "Processing", tone: "info" },
-  successful: { label: "Delivered", tone: "success" },
-  rejected: { label: "Rejected", tone: "danger" },
-  cancelled: { label: "Cancelled", tone: "neutral" }
-};
-const ACCOUNT_STATUS = {
-  active: { label: "Active", tone: "success" },
-  pending_password: { label: "Pending Password", tone: "warning" },
-  suspended: { label: "Suspended", tone: "warning" },
-  blocked: { label: "Blocked", tone: "danger" }
-};
-const COMPLAINT_STATUS = {
-  pending: { label: "Pending", tone: "warning" },
-  in_progress: { label: "In Progress", tone: "info" },
-  resolved: { label: "Resolved", tone: "success" }
-};
-
 /* ============ INIT ============ */
 try {
   mountScreens();
-  console.log("✅ Mounted");
+  console.log("✅ App mounted");
 } catch(e) {
   console.error("Mount error:", e);
   $("#root").innerHTML = `<div style="padding:24px;background:#fee2e2;min-height:100vh;color:#991b1b;font-family:sans-serif">
-    <h2 style="margin:0 0 12px 0">⚠️ Mount Error</h2>
-    <p><strong>${e.message || 'Unknown'}</strong></p>
+    <h2>⚠️ Mount Error</h2><p>${e.message || 'Unknown'}</p>
   </div>`;
 }
 
 try {
   onAuthStateChanged(auth, onAuthChanged);
-} catch(e) { console.error("Auth error:", e); }
+} catch(e) { console.error("Auth init error:", e); }
 
 </script>
 </body>
