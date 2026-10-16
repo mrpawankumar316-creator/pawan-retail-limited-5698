@@ -576,6 +576,21 @@ input,select,textarea{font-size:16px!important;max-width:100%;box-sizing:border-
  #homeDeals .deal-img,#dealsList .deal-img,.deals-grid .deal-img{height:clamp(180px,55vw,260px)!important}
 }
 
+
+/* Delightful micro-interactions and mobile-friendly admin productivity */
+@keyframes prlFadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes prlSoftPop{0%{transform:scale(.985);opacity:.7}100%{transform:scale(1);opacity:1}}
+@keyframes prlGlow{0%,100%{box-shadow:0 10px 25px rgba(24,59,35,.06)}50%{box-shadow:0 16px 34px rgba(24,59,35,.13)}}
+.product,.deal-card,.company-mini,.stat,.auth-card{animation:prlFadeUp .42s ease both}
+.product:nth-child(2n),.deal-card:nth-child(2n){animation-delay:.05s}
+.product:nth-child(3n),.deal-card:nth-child(3n){animation-delay:.09s}
+.btn-primary{transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 12px 25px rgba(24,59,35,.2)}
+.product:active,.deal-card:active{transform:scale(.99)}
+#adminLinkSearch{min-height:44px}
+#adminLinkCount{font-size:12px;font-weight:800}
+@media(prefers-reduced-motion:reduce){.product,.deal-card,.company-mini,.stat,.auth-card{animation:none!important}*{scroll-behavior:auto!important;transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -2805,6 +2820,19 @@ function renderAdmin(){
 const EMAIL_SETTINGS_DOC = "adminSettings/emailjs";
 const EMAIL_TEMPLATES_DOC = "adminSettings/emailTemplates";
 const DEFAULT_EMAIL_TEMPLATES = {
+  master: {subject:"{{email_title}} | Pawan Retail", html:`<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#edf3e4;font-family:Arial,Helvetica,sans-serif;color:#183b23">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#edf3e4;padding:28px 10px"><tr><td align="center">
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" style="width:100%;max-width:600px;background:#fffefb;border-radius:24px;overflow:hidden">
+<tr><td style="padding:24px 28px;background:#183b23;color:#fff"><div style="font-size:12px;letter-spacing:2px;color:#dce9c7;font-weight:bold">PAWAN RETAIL LIMITED</div><div style="font-size:25px;font-weight:800;margin-top:8px">A better way to shop.</div><div style="font-size:13px;color:#dce9c7;margin-top:6px">Priya Electricals — Sales &amp; Service</div></td></tr>
+<tr><td style="padding:30px 28px"><div style="display:inline-block;padding:7px 12px;border-radius:99px;background:#e5efdc;color:#285536;font-size:12px;font-weight:bold">OFFICIAL UPDATE</div><h1 style="font-size:27px;line-height:1.2;margin:18px 0 12px;color:#183b23">{{email_title}}</h1><p style="font-size:16px;line-height:1.7;margin:0 0 12px">Hello {{to_name}},</p><div style="font-size:15px;line-height:1.8;color:#526451;white-space:pre-line">{{message}}</div>
+<div style="margin:24px 0;padding:18px;background:#f3f7ee;border:1px solid #e1ead8;border-radius:16px"><div style="font-size:12px;color:#71816c;font-weight:bold;letter-spacing:1px">DETAILS</div><div style="font-size:15px;line-height:1.8;margin-top:8px;color:#183b23">{{details}}</div></div>
+<div style="margin:28px 0"><a href="{{action_url}}" style="display:inline-block;background:#183b23;color:#fff;text-decoration:none;font-weight:bold;padding:14px 24px;border-radius:999px">{{action_label}}</a></div>
+<p style="font-size:13px;line-height:1.7;color:#687765">If you need help, please contact our support team. Thank you for choosing us.</p></td></tr>
+<tr><td style="padding:20px 28px;background:#f5f8f1;border-top:1px solid #e5ecdf"><div style="font-size:14px;font-weight:bold;color:#183b23">Priya Electricals — Sales &amp; Service</div><div style="font-size:12px;color:#71816c;margin-top:5px">A venture of Pawan Retail Limited</div><div style="font-size:11px;color:#8b9687;margin-top:14px">This is an automated email. {{footer_note}}</div></td></tr>
+</table></td></tr></table></body></html>`},
+
   welcome: {subject:"Welcome to Pawan Retail", html:"<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:24px;color:#183b23'><h1>Welcome, {{to_name}}!</h1><p>Welcome to <b>Pawan Retail Limited</b>.</p><p><b>Priya Electricals — Sales & Service</b> is a venture of Pawan Retail Limited.</p><p>We're glad you're here.</p></div>"},
   order: {subject:"Order confirmation — {{order_id}}", html:"<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:24px;color:#183b23'><h1>Order confirmed</h1><p>Hello {{to_name}}, your order <b>{{order_id}}</b> has been received.</p><p>{{product_list}}</p><p><b>Total: {{total}}</b></p><p>Thank you for shopping with Pawan Retail Limited.</p><p style='font-size:12px;color:#68756b'>Priya Electricals — Sales & Service, a venture of Pawan Retail Limited.</p></div>"},
   otp: {subject:"Your Pawan Retail verification code", html:"<div style='font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:24px;color:#183b23'><h2>Verify your account</h2><p>Hello {{to_name}}, your verification code is:</p><div style='font-size:32px;font-weight:bold;letter-spacing:6px'>{{otp_code}}</div><p>Valid until {{expiry_time}}.</p></div>"}
@@ -2818,10 +2846,10 @@ function renderEmailSettings(){
   <label>Order Template ID<input id="ejOrder" class="input" placeholder="template_xxxxx"></label>
   <label>OTP Template ID<input id="ejOtp" class="input" placeholder="template_xxxxx"></label>
   </div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><button class="btn btn-primary" id="ejSave">Save Configuration</button><button class="btn btn-secondary" id="ejTest">Test Email Setup</button></div><p id="ejStatus" class="text-sm text-muted" style="margin-top:10px"></p></div>
-  <div class="card" style="padding:20px"><h2 style="font-size:20px;margin:0 0 8px">Automatic HTML Email Templates</h2><p class="text-sm text-muted">Choose a template, edit the subject/body, preview it, or generate the starter HTML automatically. Variables are written as {{variable_name}}.</p><label style="display:block;margin-top:14px">Template<select id="tplType" class="input"><option value="welcome">Welcome / Account Created</option><option value="order">Order Successful</option><option value="otp">OTP Verification</option></select></label>
+  <div class="card" style="padding:20px"><h2 style="font-size:20px;margin:0 0 8px">Automatic HTML Email Templates</h2><p class="text-sm text-muted">Generate one premium master HTML template once and reuse its design. Edit the subject/body, preview, copy and save it. Variables are written as {{variable_name}}.</p><label style="display:block;margin-top:14px">Template<select id="tplType" class="input"><option value="master">One Premium Master Template (Reusable)</option><option value="welcome">Welcome / Account Created</option><option value="order">Order Successful</option><option value="otp">OTP Verification</option></select></label>
   <label style="display:block;margin-top:12px">Email subject<input id="tplSubject" class="input"></label>
   <label style="display:block;margin-top:12px">HTML template<textarea id="tplHtml" class="input" rows="10" style="width:100%;font-family:monospace"></textarea></label>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-primary" id="tplGenerate">Generate HTML Automatically</button><button class="btn btn-secondary" id="tplPreview">Preview</button><button class="btn btn-secondary" id="tplSave">Save Template</button><button class="btn btn-secondary" id="tplCopy">Copy HTML</button></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-primary" id="tplGenerate">Generate Stylish Template</button><button class="btn btn-secondary" id="tplUseMaster">Use One Master Template</button><button class="btn btn-secondary" id="tplPreview">Preview</button><button class="btn btn-secondary" id="tplSave">Save Template</button><button class="btn btn-secondary" id="tplCopy">Copy HTML</button></div>
   <div id="tplPreviewBox" style="margin-top:16px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff"><div style="padding:8px 12px;background:#f3f5f0;font-size:12px;font-weight:700">EMAIL PREVIEW</div><iframe id="tplFrame" title="Email template preview" sandbox style="width:100%;height:320px;border:0;background:white"></iframe></div>
   <p class="text-sm text-muted" style="margin-top:12px">Brand line used across templates: <b>Priya Electricals — Sales & Service</b>, a venture of <b>Pawan Retail Limited</b>.</p></div>`;
   const setStatus=t=>$("#ejStatus").textContent=t;
@@ -2838,11 +2866,18 @@ function renderEmailSettings(){
   };
   const current=()=>window.__prlEmailTemplates[$("#tplType").value]||DEFAULT_EMAIL_TEMPLATES[$("#tplType").value];
   function updateTemplateEditor(){const x=current();$("#tplSubject").value=x.subject;$("#tplHtml").value=x.html;previewTemplate();}
-  function previewTemplate(){const html=$("#tplHtml").value.replaceAll("{{to_name}}","Customer").replaceAll("{{order_id}}","PRL-1001").replaceAll("{{product_list}}","Sample product × 1").replaceAll("{{total}}","₹499.00").replaceAll("{{otp_code}}","123456").replaceAll("{{expiry_time}}","5 minutes");$("#tplFrame").srcdoc=html;}
+  function previewTemplate(){const html=$("#tplHtml").value.replaceAll("{{email_title}}","Your latest update").replaceAll("{{message}}","Here is the latest update from Pawan Retail Limited.").replaceAll("{{details}}","Order / account details will appear here.").replaceAll("{{action_url}}","#").replaceAll("{{action_label}}","View Details").replaceAll("{{footer_note}}","Please do not reply to this email.").replaceAll("{{to_name}}","Customer").replaceAll("{{order_id}}","PRL-1001").replaceAll("{{product_list}}","Sample product × 1").replaceAll("{{total}}","₹499.00").replaceAll("{{otp_code}}","123456").replaceAll("{{expiry_time}}","5 minutes");$("#tplFrame").srcdoc=html;}
   $("#tplType").onchange=updateTemplateEditor;
   $("#tplSubject").oninput=()=>{const x=current();x.subject=$("#tplSubject").value;};
   $("#tplHtml").oninput=()=>{const x=current();x.html=$("#tplHtml").value;};
   $("#tplGenerate").onclick=()=>{const type=$("#tplType").value;const d=DEFAULT_EMAIL_TEMPLATES[type];$("#tplSubject").value=d.subject;$("#tplHtml").value=d.html;current().subject=d.subject;current().html=d.html;previewTemplate();toast("HTML template generated","success");};
+  $("#tplUseMaster").onclick=()=>{
+    const master=DEFAULT_EMAIL_TEMPLATES.master;
+    window.__prlEmailTemplates.master={...master};
+    $("#tplType").value="master";
+    updateTemplateEditor();
+    toast("Single premium master template loaded","success");
+  };
   $("#tplPreview").onclick=previewTemplate;
   $("#tplSave").onclick=async()=>{try{const type=$("#tplType").value;current().subject=$("#tplSubject").value;current().html=$("#tplHtml").value;await setDoc(doc(db,EMAIL_TEMPLATES_DOC),window.__prlEmailTemplates,{merge:true});toast("Template saved to Firestore","success");}catch(e){toast("Save failed: "+(e.message||e),"error");}};
   $("#tplCopy").onclick=async()=>{try{await navigator.clipboard.writeText($("#tplHtml").value);toast("HTML copied","success");}catch(e){toast("Clipboard unavailable; select and copy the HTML manually","error");}};
@@ -3051,15 +3086,35 @@ function renderAdminLinks(){
   $("#adminContent").innerHTML = `
     <div class="mb-4" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
       <button class="btn btn-primary" id="addLinkBtn">+ Add Product Link</button>
-      <div class="info-box" style="flex:1;min-width:200px;margin:0">🔗 Add deal links manually</div>
+      <input class="form-input" id="adminLinkSearch" placeholder="Search title, URL or tag…" style="flex:1;min-width:180px" aria-label="Search product links">
+      <div class="info-box" style="min-width:150px;margin:0" id="adminLinkCount">Loading links…</div>
     </div>
     <div id="linksList"></div>`;
   $("#addLinkBtn").onclick = () => linkForm();
+  $("#adminLinkSearch").addEventListener("input", () => {
+    // Re-render the latest snapshot locally, without another Firestore request.
+    if (window.__prlLatestAdminLinks) {
+      const snap = window.__prlLatestAdminLinks;
+      const allLinks = snap.docs.map(d => ({id:d.id, ...d.data()})).sort(newest);
+      const queryText = ($("#adminLinkSearch")?.value || "").trim().toLowerCase();
+      const list = allLinks.filter(l => [l.title,l.url,l.tag,l.description].some(v => String(v||"").toLowerCase().includes(queryText)));
+      const countEl = $("#adminLinkCount"); if (countEl) countEl.textContent = `${list.length} of ${allLinks.length} links`;
+      const el = $("#linksList"); if (!el) return;
+      if (!list.length) { el.innerHTML = `<div class="empty">${allLinks.length ? "No matching links found" : "No links yet"}</div>`; return; }
+      el.innerHTML = `<div class="table-wrap scroll"><table class="table"><thead><tr><th>Image</th><th>Title</th><th>Price</th><th>Featured</th><th>Actions</th></tr></thead><tbody>${list.map(l => `<tr><td><img src="${esc(validUrl(l.imageUrl) ? l.imageUrl : PLACEHOLDER_IMG)}" style="width:60px;height:44px;object-fit:cover;border-radius:8px" onerror="this.src='${PLACEHOLDER_IMG}'"></td><td><div class="font-semibold">${esc(l.title||"")}</div><div class="text-xs text-soft">${esc((l.url||"").slice(0,40))}…</div></td><td>${l.price ? inr(l.price) : "—"}</td><td>${l.isFeatured ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-neutral">No</span>'}</td><td class="acts"><button class="btn btn-secondary btn-xs" onclick="copyDealUrl('${esc(l.url||"")}')">Copy URL</button><button class="btn btn-secondary btn-xs" onclick="editLink('${l.id}')">Edit</button><button class="btn btn-danger btn-xs" onclick="deleteLink('${l.id}')">Delete</button></td></tr>`).join("")}</tbody></table></div>`;
+    }
+  });
   const unsub = onSnapshot(collection(db,"links"), snap => {
-    const list = snap.docs.map(d => ({id:d.id, ...d.data()})).sort(newest);
+    window.__prlLatestAdminLinks = snap;
+    const allLinks = snap.docs.map(d => ({id:d.id, ...d.data()})).sort(newest);
     const el = $("#linksList");
     if (!el) return;
-    if (!list.length){ el.innerHTML = `<div class="empty">No links yet</div>`; return; }
+    const queryText = ($("#adminLinkSearch")?.value || "").trim().toLowerCase();
+    const list = allLinks.filter(l => [l.title,l.url,l.tag,l.description].some(v => String(v||"").toLowerCase().includes(queryText)));
+    const countEl = $("#adminLinkCount");
+    if (countEl) countEl.textContent = `${list.length} of ${allLinks.length} links`;
+    if (!allLinks.length){ el.innerHTML = `<div class="empty">No links yet</div>`; return; }
+    if (!list.length){ el.innerHTML = `<div class="empty">No matching links found</div>`; return; }
     el.innerHTML = `<div class="table-wrap scroll"><table class="table">
       <thead><tr><th>Image</th><th>Title</th><th>Price</th><th>Featured</th><th>Actions</th></tr></thead>
       <tbody>${list.map(l => `<tr>
@@ -3068,6 +3123,7 @@ function renderAdminLinks(){
         <td>${l.price ? inr(l.price) : "—"}</td>
         <td>${l.isFeatured ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-neutral">No</span>'}</td>
         <td class="acts">
+          <button class="btn btn-secondary btn-xs" onclick="copyDealUrl('${esc(l.url||"")}')">Copy URL</button>
           <button class="btn btn-secondary btn-xs" onclick="editLink('${l.id}')">Edit</button>
           <button class="btn btn-danger btn-xs" onclick="deleteLink('${l.id}')">Delete</button>
         </td>
@@ -3075,6 +3131,15 @@ function renderAdminLinks(){
   });
   S.adminSubs.add(unsub);
 }
+
+window.copyDealUrl = async (url) => {
+  try {
+    const decoded = String(url||"");
+    if (!decoded) return toast("No URL to copy", "error");
+    await navigator.clipboard.writeText(decoded);
+    toast("Deal URL copied", "success");
+  } catch (e) { toast("Copy unavailable in this browser", "error"); }
+};
 
 window.linkForm = (link = null) => {
   const ed = !!link;
