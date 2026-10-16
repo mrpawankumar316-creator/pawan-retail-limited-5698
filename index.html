@@ -1582,6 +1582,7 @@ function sHome(){
     </div>
     <div class="page">
       <div id="statusBannerSlot"></div>
+      <div id="customerBannersSlot"></div>
       <div class="hero">
         <span class="hero-tag">🎁 Featured Deals</span>
         <h1>Shop products<br>& hot deals today</h1>
@@ -1759,6 +1760,7 @@ function sAdmin(){
         <a data-view="companies">🏢 Companies</a>
         <a data-view="links">🔗 Product Links</a>
         <a data-view="coupons">🎟️ Coupons</a>
+        <a data-view="banners">🖼️ Banner Management</a>
         <a data-view="orders">📦 Orders</a>
         <a data-view="complaints">⚠️ Complaints</a>
         <a data-view="reviews">⭐ Reviews</a>
@@ -2086,6 +2088,7 @@ async function renderHome(){
     if (!comps.length) grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No companies yet</div>`;
     else grid.innerHTML = comps.slice(0, 6).map(companyCard).join("");
   } catch(e){ console.warn("Home:", e); }
+  await loadCustomerBanners();
   await loadHomeDeals();
 }
 
@@ -3380,7 +3383,7 @@ function bootAdmin(){
 }
 
 function renderAdmin(){
-  const titles = {dashboard:"Dashboard", companies:"Companies", links:"Product Links", coupons:"Coupons", orders:"Orders", complaints:"Complaints", reviews:"Reviews", customers:"Customers", emailSettings:"EmailJS & Templates", serviceStatus:"Customer Panel Status"};
+  const titles = {dashboard:"Dashboard", companies:"Companies", links:"Product Links", coupons:"Coupons", orders:"Orders", complaints:"Complaints", reviews:"Reviews", customers:"Customers", emailSettings:"EmailJS & Templates", serviceStatus:"Customer Panel Status", banners:"Banner Management"};
   $("#adminTitle").textContent = titles[adminView] || "Admin";
   if (adminView === "dashboard") renderAdminDash();
   if (adminView === "companies") renderAdminCompanies();
@@ -3392,8 +3395,121 @@ function renderAdmin(){
   if (adminView === "customers") renderAdminCustomers();
   if (adminView === "emailSettings") renderEmailSettings();
   if (adminView === "serviceStatus") renderServiceStatus();
+  if (adminView === "banners") renderAdminBanners();
 }
 
+
+
+
+// ===== ADMIN BANNER MANAGEMENT (Firestore only; images use public HTTPS URLs) =====
+function renderAdminBanners(){
+  const el=$("#adminContent"); if(!el)return;
+  el.innerHTML=`
+    <div class="card" style="margin-bottom:16px">
+      <h2 class="section-title">Create / Edit Banner</h2>
+      <form id="bannerForm">
+        <input type="hidden" id="bannerEditId">
+        <div class="form-group"><label class="form-label" for="bannerTitle">Banner title *</label><input class="form-input" id="bannerTitle" maxlength="100" required placeholder="Festive Offers"></div>
+        <div class="form-group"><label class="form-label" for="bannerSubtitle">Subtitle</label><textarea class="form-input" id="bannerSubtitle" rows="2" maxlength="240" placeholder="Special offers for a limited time"></textarea></div>
+        <div class="form-group"><label class="form-label" for="bannerImageUrl">Image URL (HTTPS) *</label><input class="form-input" id="bannerImageUrl" type="url" required placeholder="https://example.com/banner.jpg"></div>
+        <div class="form-group"><label class="form-label" for="bannerLinkUrl">Click-through link (optional)</label><input class="form-input" id="bannerLinkUrl" type="url" placeholder="https://example.com/offer"></div>
+        <div class="form-group"><label class="form-label" for="bannerOrder">Display order</label><input class="form-input" id="bannerOrder" type="number" min="0" max="9999" value="0"></div>
+        <label class="checkbox-row mb-3"><input id="bannerActive" type="checkbox" checked> Show this banner on customer home</label>
+        <div id="bannerPreviewWrap" class="hidden" style="margin:12px 0"><img id="bannerPreview" alt="Banner preview" style="width:100%;max-height:220px;object-fit:cover;border-radius:14px"><div id="bannerPreviewTitle" style="font-weight:800;margin-top:8px"></div></div>
+        <div class="acts"><button class="btn btn-primary" type="submit" id="bannerSaveBtn">Add Banner</button><button class="btn btn-secondary" type="button" id="bannerResetBtn">Clear Form</button></div>
+        <p class="text-xs text-soft mt-3">Images are loaded from an HTTPS URL. This page does not upload image files to Firebase Storage.</p>
+      </form>
+    </div>
+    <div class="between" style="margin:18px 0 12px"><h2 style="font-size:18px;font-weight:800">Saved Banners</h2><button class="btn btn-secondary btn-sm" id="bannerRefreshBtn">Refresh</button></div>
+    <div id="adminBannersList"><div class="empty">Loading banners…</div></div>`;
+  const form=$("#bannerForm");
+  const image=$("#bannerImageUrl");
+  const updatePreview=()=>{
+    const url=image.value.trim(), title=$("#bannerTitle").value.trim();
+    const wrap=$("#bannerPreviewWrap");
+    if(validUrl(url)){ $("#bannerPreview").src=url; $("#bannerPreviewTitle").textContent=title; wrap.classList.remove("hidden");}
+    else {$("#bannerPreview").removeAttribute("src");wrap.classList.add("hidden");}
+  };
+  image.addEventListener("input",updatePreview);
+  $("#bannerTitle").addEventListener("input",updatePreview);
+  $("#bannerResetBtn").onclick=()=>resetBannerForm();
+  $("#bannerRefreshBtn").onclick=()=>loadAdminBanners();
+  form.onsubmit=async ev=>{
+    ev.preventDefault();
+    const id=$("#bannerEditId").value.trim();
+    const title=$("#bannerTitle").value.trim();
+    const subtitle=$("#bannerSubtitle").value.trim();
+    const imageUrl=$("#bannerImageUrl").value.trim();
+    const linkUrl=$("#bannerLinkUrl").value.trim();
+    const order=Number($("#bannerOrder").value)||0;
+    const isActive=$("#bannerActive").checked;
+    if(!title || !validUrl(imageUrl) || !/^https:\/\//i.test(imageUrl)){toast("Enter a title and a valid HTTPS image URL.","error");return;}
+    if(linkUrl && !validUrl(linkUrl)){toast("Enter a valid HTTPS link URL.","error");return;}
+    const btn=$("#bannerSaveBtn");btn.disabled=true;btn.textContent="Saving…";
+    try{
+      const payload={title,subtitle,imageUrl,linkUrl,order,isActive,updatedAt:serverTimestamp(),updatedBy:S.user?.uid||""};
+      if(id) await updateDoc(doc(db,"banners",id),payload);
+      else await addDoc(collection(db,"banners"),{...payload,createdAt:serverTimestamp()});
+      toast(id?"Banner updated successfully":"Banner added successfully","success");
+      resetBannerForm();await loadAdminBanners();
+    }catch(e){console.error("Banner save failed",e);toast("Banner save failed: "+errMsg(e),"error");}
+    finally{btn.disabled=false;btn.textContent=$("#bannerEditId").value?"Update Banner":"Add Banner";}
+  };
+  loadAdminBanners();
+}
+function resetBannerForm(){
+  const f=$("#bannerForm");if(!f)return;
+  f.reset();$("#bannerEditId").value="";$("#bannerOrder").value="0";$("#bannerActive").checked=true;
+  $("#bannerSaveBtn").textContent="Add Banner";$("#bannerPreviewWrap").classList.add("hidden");$("#bannerPreview").removeAttribute("src");
+}
+async function loadAdminBanners(){
+  const el=$("#adminBannersList");if(!el)return;
+  el.innerHTML='<div class="empty">Loading banners…</div>';
+  try{
+    const snap=await getDocs(collection(db,"banners"));
+    const rows=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(Number(a.order)||0)-(Number(b.order)||0));
+    if(!rows.length){el.innerHTML='<div class="empty">No banners yet. Add your first banner above.</div>';return;}
+    el.innerHTML=rows.map(b=>`<article class="card" style="margin-bottom:12px">
+      <div style="display:grid;grid-template-columns:minmax(100px,180px) minmax(0,1fr);gap:14px;align-items:start">
+        <img src="${esc(validUrl(b.imageUrl)?b.imageUrl:"")}" alt="${esc(b.title||"Banner")}" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#eef1eb" onerror="this.style.display='none'">
+        <div style="min-width:0"><div class="between" style="align-items:flex-start"><strong>${esc(b.title||"Untitled banner")}</strong><span class="badge ${b.isActive?"badge-success":"badge-neutral"}">${b.isActive?"Active":"Hidden"}</span></div>
+        <p class="text-sm text-muted mt-2">${esc(b.subtitle||"No subtitle")}</p><p class="text-xs text-soft mt-2">Order: ${Number(b.order)||0}</p>
+        ${b.linkUrl?`<p class="text-xs mt-2" style="overflow-wrap:anywhere">${esc(b.linkUrl)}</p>`:""}
+        <div class="acts mt-3"><button class="btn btn-secondary btn-sm" data-banner-edit="${esc(b.id)}">Edit</button><button class="btn btn-secondary btn-sm" data-banner-toggle="${esc(b.id)}" data-active="${b.isActive?"1":"0"}">${b.isActive?"Hide":"Publish"}</button><button class="btn btn-danger btn-sm" data-banner-delete="${esc(b.id)}">Delete</button></div></div>
+      </div></article>`).join("");
+    $$("[data-banner-edit]",el).forEach(btn=>btn.onclick=()=>{
+      const b=rows.find(x=>x.id===btn.dataset.bannerEdit);if(!b)return;
+      $("#bannerEditId").value=b.id;$("#bannerTitle").value=b.title||"";$("#bannerSubtitle").value=b.subtitle||"";
+      $("#bannerImageUrl").value=b.imageUrl||"";$("#bannerLinkUrl").value=b.linkUrl||"";$("#bannerOrder").value=Number(b.order)||0;
+      $("#bannerActive").checked=b.isActive!==false;$("#bannerSaveBtn").textContent="Update Banner";
+      $("#bannerImageUrl").dispatchEvent(new Event("input"));formScrollToTop();
+    });
+    $$("[data-banner-toggle]",el).forEach(btn=>btn.onclick=async()=>{
+      try{await updateDoc(doc(db,"banners",btn.dataset.bannerToggle),{isActive:btn.dataset.active!=="1",updatedAt:serverTimestamp(),updatedBy:S.user?.uid||""});toast("Banner status updated","success");await loadAdminBanners();}
+      catch(e){toast("Could not update banner: "+errMsg(e),"error");}
+    });
+    $$("[data-banner-delete]",el).forEach(btn=>btn.onclick=()=>confirmDialog("Delete this banner permanently?",async()=>{
+      try{await deleteDoc(doc(db,"banners",btn.dataset.bannerDelete));toast("Banner deleted","success");await loadAdminBanners();}
+      catch(e){toast("Could not delete banner: "+errMsg(e),"error");}
+    }));
+  }catch(e){console.error("Load banners failed",e);el.innerHTML=`<div class="warn-box">Could not load banners: ${esc(errMsg(e))}. Check Firestore rules.</div>`;}
+}
+function formScrollToTop(){try{$("#adminContent").scrollIntoView({behavior:"smooth",block:"start"});}catch(_){}}
+
+async function loadCustomerBanners(){
+  const el=$("#customerBannersSlot");if(!el)return;
+  try{
+    const snap=await getDocs(collection(db,"banners"));
+    const banners=snap.docs.map(d=>({id:d.id,...d.data()})).filter(b=>b.isActive===true&&validUrl(b.imageUrl)).sort((a,b)=>(Number(a.order)||0)-(Number(b.order)||0));
+    if(!banners.length){el.innerHTML="";return;}
+    el.innerHTML=`<div class="customer-banner-list">${banners.map(b=>`<article class="customer-banner" style="margin-bottom:14px;border-radius:20px;overflow:hidden;background:#fbfcf8;border:1px solid #dce5d5">
+      ${b.linkUrl?`<a href="${esc(b.linkUrl)}" target="_blank" rel="noopener noreferrer" style="display:block">`:""}
+      <img src="${esc(b.imageUrl)}" alt="${esc(b.title||"Store banner")}" loading="lazy" style="display:block;width:100%;max-height:300px;object-fit:cover">
+      ${b.linkUrl?"</a>":""}
+      ${(b.title||b.subtitle)?`<div style="padding:12px 15px"><div style="font-weight:800;font-size:16px">${esc(b.title||"")}</div>${b.subtitle?`<p style="color:#526451;margin-top:4px;font-size:13px">${esc(b.subtitle)}</p>`:""}</div>`:""}
+      </article>`).join("")}</div>`;
+  }catch(e){console.warn("Customer banners could not load",e);}
+}
 
 
 const SERVICE_STATUS_DOC = "adminSettings/serviceStatus";
