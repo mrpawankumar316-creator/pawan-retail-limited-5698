@@ -732,6 +732,113 @@ body{
   .card:hover,.product:hover,.deal-card:hover,.company-card:hover,.company-mini:hover{transform:none}
 }
 
+
+/* ===== Ambient mandala art in empty grid spaces + animated cart artwork ===== */
+#homeCompanies,#browseCompanies{
+  position:relative;
+  isolation:isolate;
+}
+#homeCompanies::after,#browseCompanies::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  pointer-events:none;
+  right:-22px;
+  bottom:-24px;
+  width:clamp(180px,42%,330px);
+  aspect-ratio:1;
+  opacity:.38;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320' fill='none'%3E%3Cg transform='translate(160 160)' stroke='%233d874b' stroke-opacity='.6' stroke-width='1.4'%3E%3Ccircle r='35'/%3E%3Ccircle r='55'/%3E%3Ccircle r='78'/%3E%3Ccircle r='103'/%3E%3Ccircle r='130'/%3E%3Cg id='petalGrid'%3E%3Cpath d='M0 -27 C27 -49 23 -81 0 -103 C-23 -81 -27 -49 0 -27Z'/%3E%3Cpath d='M0 -38 Q12 -59 0 -80 Q-12 -59 0 -38Z'/%3E%3C/g%3E%3Cuse href='%23petalGrid' transform='rotate(15)'/%3E%3Cuse href='%23petalGrid' transform='rotate(30)'/%3E%3Cuse href='%23petalGrid' transform='rotate(45)'/%3E%3Cuse href='%23petalGrid' transform='rotate(60)'/%3E%3Cuse href='%23petalGrid' transform='rotate(75)'/%3E%3Cuse href='%23petalGrid' transform='rotate(90)'/%3E%3Cuse href='%23petalGrid' transform='rotate(105)'/%3E%3Cuse href='%23petalGrid' transform='rotate(120)'/%3E%3Cuse href='%23petalGrid' transform='rotate(135)'/%3E%3Cuse href='%23petalGrid' transform='rotate(150)'/%3E%3Cuse href='%23petalGrid' transform='rotate(165)'/%3E%3Cuse href='%23petalGrid' transform='rotate(180)'/%3E%3Cuse href='%23petalGrid' transform='rotate(195)'/%3E%3Cuse href='%23petalGrid' transform='rotate(210)'/%3E%3Cuse href='%23petalGrid' transform='rotate(225)'/%3E%3Cuse href='%23petalGrid' transform='rotate(240)'/%3E%3Cuse href='%23petalGrid' transform='rotate(255)'/%3E%3Cuse href='%23petalGrid' transform='rotate(270)'/%3E%3Cuse href='%23petalGrid' transform='rotate(285)'/%3E%3Cuse href='%23petalGrid' transform='rotate(300)'/%3E%3Cuse href='%23petalGrid' transform='rotate(315)'/%3E%3Cuse href='%23petalGrid' transform='rotate(330)'/%3E%3Cuse href='%23petalGrid' transform='rotate(345)'/%3E%3C/g%3E%3C/svg%3E");
+  animation:ambientMandalaDrift 22s ease-in-out infinite alternate,ambientMandalaPulse 9s ease-in-out infinite;
+}
+.empty-cart-state{
+  min-height:calc(100vh - 245px);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:center;
+  padding:clamp(30px,7vh,72px) 20px 34px!important;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.empty-cart-state::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:12% -25% auto;
+  height:340px;
+  pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(202,224,178,.55),rgba(202,224,178,0) 68%);
+}
+.empty-cart-art{
+  width:clamp(190px,55vw,260px);
+  aspect-ratio:1;
+  position:relative;
+  display:grid;
+  place-items:center;
+  color:#3d874b;
+  margin:0 auto 22px;
+  animation:cartArtFloat 5s ease-in-out infinite;
+}
+.cart-art-halo{
+  position:absolute;
+  inset:12%;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.76),rgba(221,238,207,.25) 58%,transparent 72%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.68),0 15px 45px rgba(44,91,49,.07);
+  animation:cartHaloBreathe 5s ease-in-out infinite;
+}
+.cart-art-mandala{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  color:rgba(57,127,69,.36);
+  animation:cartMandalaRotate 65s linear infinite;
+}
+.cart-art-basket{
+  z-index:1;
+  width:94px;height:94px;
+  display:grid;place-items:center;
+  border-radius:30px;
+  font-size:53px;
+  background:rgba(255,255,250,.77);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 16px 34px rgba(38,82,45,.12),inset 0 1px 0 white;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  animation:cartBasketBob 3.5s ease-in-out infinite;
+}
+.cart-art-spark{position:absolute;font-size:24px;color:#b69a4b;animation:sparkleFloat 3.2s ease-in-out infinite}
+.spark-one{top:17%;right:12%}.spark-two{bottom:19%;left:12%;font-size:20px;animation-delay:-1.1s}.spark-three{top:35%;left:7%;font-size:15px;animation-delay:-2s}
+.empty-cart-title{font-size:19px!important;font-weight:850!important;color:#183b23!important;margin:0 0 7px!important}
+.empty-cart-state .text-soft{font-size:14px!important;margin-bottom:20px!important}
+.empty-cart-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.empty-cart-actions .btn{min-height:48px;padding:0 20px;border-radius:999px!important}
+.empty-cart-note{font-size:12px;color:#6d8068;margin-top:20px}
+@keyframes ambientMandalaDrift{from{transform:translate3d(0,0,0) rotate(-3deg)}to{transform:translate3d(-10px,-12px,0) rotate(5deg)}}
+@keyframes ambientMandalaPulse{0%,100%{opacity:.22}50%{opacity:.42}}
+@keyframes cartArtFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes cartHaloBreathe{0%,100%{transform:scale(.96);opacity:.72}50%{transform:scale(1.04);opacity:1}}
+@keyframes cartMandalaRotate{to{transform:rotate(360deg)}}
+@keyframes cartBasketBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+@keyframes sparkleFloat{0%,100%{transform:translateY(0) scale(.85);opacity:.45}50%{transform:translateY(-8px) scale(1.1);opacity:1}}
+@media(max-width:600px){
+  #homeCompanies::after,#browseCompanies::after{width:210px;right:-38px;bottom:-30px;opacity:.28}
+  .empty-cart-state{min-height:calc(100vh - 230px);padding-top:clamp(24px,5vh,48px)!important}
+  .empty-cart-art{width:clamp(175px,54vw,225px);margin-bottom:18px}
+  .cart-art-basket{width:82px;height:82px;border-radius:26px;font-size:46px}
+  .empty-cart-actions{width:100%;max-width:340px}
+  .empty-cart-actions .btn{flex:1 1 140px;padding:0 12px}
+}
+@media(prefers-reduced-motion:reduce){
+  #homeCompanies::after,#browseCompanies::after,.empty-cart-art,.cart-art-halo,.cart-art-mandala,.cart-art-basket,.cart-art-spark{animation:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -2098,11 +2205,26 @@ function renderCart(){
     startBlockTimer(); return;
   }
   if (!S.cart.items.length){
-    body.innerHTML = `<div class="empty">
-      <div style="font-size:64px;opacity:.3;margin-bottom:14px">🛒</div>
-      <p style="font-weight:800;font-size:15px;margin-bottom:6px">Your cart is empty</p>
-      <p class="text-sm text-soft mb-4">Add products to get started</p>
-      <button class="btn btn-primary" onclick="goTo('products')">Browse companies</button>
+    body.innerHTML = `<div class="empty empty-cart-state">
+      <div class="empty-cart-art" aria-hidden="true">
+        <div class="cart-art-halo"></div>
+        <svg class="cart-art-mandala" viewBox="0 0 240 240" fill="none" aria-hidden="true">
+          <g transform="translate(120 120)" stroke="currentColor" stroke-width="1.25">
+            <circle r="24"/><circle r="42"/><circle r="61"/><circle r="82"/><circle r="103"/>
+            <g id="cartPetal"><path d="M0 -20 C18 -38 17 -59 0 -76 C-17 -59 -18 -38 0 -20Z"/><path d="M0 -28 Q9 -45 0 -61 Q-9 -45 0 -28Z"/></g>
+            <use href="#cartPetal" transform="rotate(15)"/><use href="#cartPetal" transform="rotate(30)"/><use href="#cartPetal" transform="rotate(45)"/><use href="#cartPetal" transform="rotate(60)"/><use href="#cartPetal" transform="rotate(75)"/><use href="#cartPetal" transform="rotate(90)"/><use href="#cartPetal" transform="rotate(105)"/><use href="#cartPetal" transform="rotate(120)"/><use href="#cartPetal" transform="rotate(135)"/><use href="#cartPetal" transform="rotate(150)"/><use href="#cartPetal" transform="rotate(165)"/><use href="#cartPetal" transform="rotate(180)"/><use href="#cartPetal" transform="rotate(195)"/><use href="#cartPetal" transform="rotate(210)"/><use href="#cartPetal" transform="rotate(225)"/><use href="#cartPetal" transform="rotate(240)"/><use href="#cartPetal" transform="rotate(255)"/><use href="#cartPetal" transform="rotate(270)"/><use href="#cartPetal" transform="rotate(285)"/><use href="#cartPetal" transform="rotate(300)"/><use href="#cartPetal" transform="rotate(315)"/><use href="#cartPetal" transform="rotate(330)"/><use href="#cartPetal" transform="rotate(345)"/>
+          </g>
+        </svg>
+        <div class="cart-art-basket">🛒</div>
+        <span class="cart-art-spark spark-one">✦</span><span class="cart-art-spark spark-two">✧</span><span class="cart-art-spark spark-three">✦</span>
+      </div>
+      <p class="empty-cart-title">Your cart is empty</p>
+      <p class="text-sm text-soft mb-4">Your next great find is waiting.</p>
+      <div class="empty-cart-actions">
+        <button class="btn btn-primary" onclick="goTo('products')">Browse companies</button>
+        <button class="btn btn-secondary" onclick="goTo('deals')">Explore hot deals</button>
+      </div>
+      <p class="empty-cart-note">✨ New offers are added regularly</p>
     </div>`;
     return;
   }
