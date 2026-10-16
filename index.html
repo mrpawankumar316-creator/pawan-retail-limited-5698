@@ -534,6 +534,10 @@ input,select,textarea{font-size:16px!important;max-width:100%;box-sizing:border-
  .screen{padding-bottom:calc(105px + env(safe-area-inset-bottom))!important}
 }
 
+
+.address-fields input{min-width:0}
+@media(max-width:420px){.form-grid{grid-template-columns:minmax(0,1fr)!important;gap:0!important}}
+
 </style>
 </head>
 <body>
@@ -898,7 +902,6 @@ function sRegister(){
           <div class="input-wrap"><input class="form-input" id="regPassword" type="password" required minlength="6" placeholder="Min 6 characters">
             <button type="button" class="input-toggle" data-toggle="regPassword">Show</button></div></div>
         <div class="form-group"><label class="form-label">Confirm password</label><input class="form-input" id="regPassword2" type="password" required placeholder="Re-enter"></div>
-        <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="regAddress" required placeholder="Full delivery address"></textarea></div>
         <button class="btn btn-primary btn-block btn-lg" type="submit" id="regSubmit">Create account</button>
       </form>
       <p class="auth-foot">Already have account? <a href="#" id="linkLogin" style="font-weight:800">Sign in</a></p>
@@ -1338,8 +1341,7 @@ async function handleRegister(e){
   const email = $("#regEmail").value.trim().toLowerCase();
   const pass = $("#regPassword").value;
   const pass2 = $("#regPassword2").value;
-  const address = $("#regAddress").value.trim();
-  if (!name || !email || !pass || !address) return toast("Fill all fields", "error");
+  if (!name || !email || !pass) return toast("Fill all required fields", "error");
   if (!/^[0-9]{10}$/.test(phone)) return toast("Enter valid 10-digit phone", "error");
   if (pass.length < 6) return toast("Password 6+ chars", "error");
   if (pass !== pass2) return toast("Passwords don't match", "error");
@@ -1348,7 +1350,7 @@ async function handleRegister(e){
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db,"users",cred.user.uid), {
-      name, email, phone, address,
+      name, email, phone, address:"", addressDetails:{street:"",sector:"",flat:"",landmark:"",city:"",state:"",pincode:""},
       role:"customer", status:"active",
       blockReason:"", suspendedUntil:null,
       createdBy:"self", createdAt: serverTimestamp()
@@ -1996,7 +1998,8 @@ async function renderCheckout(){
       <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="coName" value="${esc(S.profile.name||"")}" readonly></div>
       <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="coPhone" value="${esc(String(S.profile.phone||""))}" maxlength="10" inputmode="numeric"></div>
       <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="coEmail" value="${esc(S.profile.email||"")}" readonly></div>
-      <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="coAddress">${esc(typeof S.profile.address === "string" ? S.profile.address : "")}</textarea></div>
+      <div class="section-title" style="margin-top:14px">Delivery address</div>
+      ${addressFieldsHTML("co",readAddressParts(S.profile))}
       <div class="form-group"><label class="form-label">Notes (optional)</label><textarea class="form-textarea" id="coNotes" placeholder="Instructions"></textarea></div>
     </div>
     <div class="card">
@@ -2067,10 +2070,12 @@ async function placeOrder({company, sub, delCh, svcCh, paymentMethod}){
   if (st.blocked) return toast(st.title+": "+st.message, "error");
   if (!isOpen(company)) return toast(`${company.name} closed.`, "error");
   const phone = $("#coPhone").value.trim();
-  const address = $("#coAddress").value.trim();
+  const addressDetails = collectAddressParts("co");
+  const addressError = validateAddressParts(addressDetails);
+  const address = addressSummary(addressDetails);
   const notes = $("#coNotes").value.trim();
   if (!/^[0-9]{10}$/.test(phone)) return toast("Valid phone required", "error");
-  if (!address) return toast("Address required", "error");
+  if (addressError) return toast(addressError, "error");
   const codOn = company.codEnabled !== false;
   if (paymentMethod === "cod" && !codOn) return toast("COD not available", "error");
   const btn = $("#placeOrderBtn");
@@ -2095,7 +2100,7 @@ async function placeOrder({company, sub, delCh, svcCh, paymentMethod}){
     const orderData = {
       orderId, customerId: S.user.uid,
       customerName: S.profile.name||"", customerEmail: S.profile.email||"",
-      customerPhone: phone, address, notes,
+      customerPhone: phone, address, addressDetails, notes,
       companyId: company.id, companyName: company.name, companyLogo: company.logoUrl||"",
       items, subtotal: finalSub, deliveryCharge: delCh, serviceCharge: svcCh,
       couponCode: S.appliedCoupon?.code||"", couponDiscount: cd,
@@ -2105,6 +2110,10 @@ async function placeOrder({company, sub, delCh, svcCh, paymentMethod}){
       createdAt: serverTimestamp(), updatedAt: serverTimestamp()
     };
     const ref = await addDoc(collection(db,"orders"), orderData);
+    try {
+      await updateDoc(doc(db,"users",S.user.uid), {phone, address, addressDetails});
+      S.profile = {...S.profile, phone, address, addressDetails};
+    } catch(profileSaveError) { console.warn("Order placed; profile address could not be saved:", profileSaveError); }
     await addDoc(collection(db,"orders",ref.id,"statusHistory"), {
       status:"pending", note:"Order placed", changedBy: S.user.uid, createdAt: serverTimestamp()
     });
@@ -2538,6 +2547,37 @@ function paintChat(msgs){
   setTimeout(() => { box.scrollTop = box.scrollHeight; }, 50);
 }
 
+/* Structured delivery address helpers */
+function readAddressParts(profile){
+  const a=profile?.addressDetails && typeof profile.addressDetails==="object" ? profile.addressDetails : {};
+  const legacy=typeof profile?.address==="string" ? profile.address : "";
+  return {street:a.street||legacy,sector:a.sector||"",flat:a.flat||"",landmark:a.landmark||"",city:a.city||"",state:a.state||"",pincode:a.pincode||""};
+}
+function addressSummary(a){
+  return [a.flat,a.street,a.sector,a.landmark,a.city,a.state,a.pincode].filter(Boolean).join(", ");
+}
+function addressFieldsHTML(prefix,a){
+  return `<div class="form-group"><label class="form-label">Street / Road *</label><input class="form-input" id="${prefix}Street" value="${esc(a.street||"")}" autocomplete="address-line1" placeholder="House road / street" required></div>
+  <div class="form-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+  <div class="form-group"><label class="form-label">Sector / Area</label><input class="form-input" id="${prefix}Sector" value="${esc(a.sector||"")}" autocomplete="address-line2" placeholder="Sector / area"></div>
+  <div class="form-group"><label class="form-label">Flat / House No. *</label><input class="form-input" id="${prefix}Flat" value="${esc(a.flat||"")}" placeholder="Flat / house no." required></div>
+  </div>
+  <div class="form-group"><label class="form-label">Landmark</label><input class="form-input" id="${prefix}Landmark" value="${esc(a.landmark||"")}" placeholder="Nearby landmark (optional)"></div>
+  <div class="form-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+  <div class="form-group"><label class="form-label">City / Town *</label><input class="form-input" id="${prefix}City" value="${esc(a.city||"")}" autocomplete="address-level2" placeholder="City / town" required></div>
+  <div class="form-group"><label class="form-label">State *</label><input class="form-input" id="${prefix}State" value="${esc(a.state||"")}" autocomplete="address-level1" placeholder="State" required></div>
+  </div>
+  <div class="form-group"><label class="form-label">PIN Code *</label><input class="form-input" id="${prefix}Pincode" value="${esc(a.pincode||"")}" inputmode="numeric" autocomplete="postal-code" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit PIN code" required></div>`;
+}
+function collectAddressParts(prefix){
+  const val=id=>document.getElementById(prefix+id)?.value.trim()||"";
+  return {street:val("Street"),sector:val("Sector"),flat:val("Flat"),landmark:val("Landmark"),city:val("City"),state:val("State"),pincode:val("Pincode")};
+}
+function validateAddressParts(a){
+  if(!a.street||!a.flat||!a.city||!a.state||!/^[0-9]{6}$/.test(a.pincode)) return "Enter street, flat/house number, city, state and valid 6-digit PIN code.";
+  return "";
+}
+
 /* ============ ACCOUNT ============ */
 function renderAccount(){
   const body = $("#accountBody");
@@ -2546,7 +2586,7 @@ function renderAccount(){
   const init = name.trim().charAt(0).toUpperCase() || "C";
   const st = statusInfo();
   const savedCount = S.savedLinkIds.size;
-  const address = typeof S.profile.address === "string" ? S.profile.address : "";
+  const address = addressSummary(readAddressParts(S.profile));
   const joined = S.profile.createdAt ? fdate(S.profile.createdAt) : "Pawan Retail customer";
   body.innerHTML = `
     ${st.blocked ? blockedBanner() : ""}
@@ -2612,7 +2652,8 @@ window.editProfile = () => {
   openModal(`<div class="modal-title">Edit Profile</div>
     <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="epName" value="${esc(S.profile.name||"")}"></div>
     <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="epPhone" value="${esc(S.profile.phone||"")}" maxlength="10" inputmode="numeric"></div>
-    <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="epAddress">${esc(typeof S.profile.address === "string" ? S.profile.address : "")}</textarea></div>
+    <div class="section-title" style="margin:14px 0 8px">Delivery address</div>
+    ${addressFieldsHTML("ep",readAddressParts(S.profile))}
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" id="epSave">Save</button>
@@ -2620,12 +2661,15 @@ window.editProfile = () => {
   $("#epSave").onclick = async () => {
     const name = $("#epName").value.trim();
     const phone = $("#epPhone").value.trim();
-    const address = $("#epAddress").value.trim();
+    const addressDetails = collectAddressParts("ep");
+    const addressError = validateAddressParts(addressDetails);
     if (!name) return toast("Name required", "error");
     if (phone && !/^[0-9]{10}$/.test(phone)) return toast("Valid phone", "error");
+    if (addressError) return toast(addressError, "error");
+    const address = addressSummary(addressDetails);
     try {
-      await updateDoc(doc(db,"users",S.user.uid), {name, phone, address});
-      S.profile = {...S.profile, name, phone, address};
+      await updateDoc(doc(db,"users",S.user.uid), {name, phone, address, addressDetails});
+      S.profile = {...S.profile, name, phone, address, addressDetails};
       toast("Updated", "success"); closeModal(); renderAccount();
     } catch(err){ toast(errMsg(err), "error"); }
   };
