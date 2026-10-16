@@ -512,6 +512,28 @@ input,select,textarea{font-size:16px!important;max-width:100%;box-sizing:border-
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
 }
 
+
+/* Fix mobile account rows: SVG chevrons must never use browser's 300x150 default size */
+.profile-row{display:flex!important;align-items:center!important;gap:12px!important;min-width:0!important;box-sizing:border-box!important}
+.profile-row>svg{width:22px!important;height:22px!important;min-width:22px!important;max-width:22px!important;max-height:22px!important;flex:0 0 22px!important;display:block!important;overflow:visible}
+.profile-row .pr-copy{flex:1 1 auto!important;min-width:0!important;overflow-wrap:anywhere!important}
+.profile-row .pr-desc{overflow-wrap:anywhere!important;word-break:break-word!important;line-height:1.5!important}
+.profile-action{min-width:0!important;overflow:hidden!important}
+.profile-action>span:last-child{min-width:0!important;overflow-wrap:anywhere!important}
+.profile-action .pa-sub{overflow-wrap:anywhere!important}
+.profile-hero{overflow:hidden!important;box-sizing:border-box!important}
+#accountBody{min-width:0!important;width:100%!important;box-sizing:border-box!important}
+#accountBody .card{max-width:100%!important;box-sizing:border-box!important}
+.brand-signature{overflow-wrap:anywhere!important}
+@media(max-width:600px){
+ .profile-action-grid{grid-template-columns:minmax(0,1fr)!important}
+ .profile-action{min-height:72px!important;padding:13px!important}
+ .profile-row{padding:14px 2px!important}
+ .profile-row>svg{width:20px!important;height:20px!important;min-width:20px!important;max-width:20px!important;flex-basis:20px!important}
+ .bnav{position:fixed!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(100% - 20px,600px)!important;max-width:600px!important;box-sizing:border-box!important;z-index:100!important}
+ .screen{padding-bottom:calc(105px + env(safe-area-inset-bottom))!important}
+}
+
 </style>
 </head>
 <body>
