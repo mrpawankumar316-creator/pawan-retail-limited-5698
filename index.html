@@ -1106,6 +1106,28 @@ body{
   #productBody::before{animation:none!important}
 }
 
+
+/* Live store opening/closing countdown and 10-minute warning */
+.store-timer{display:flex;align-items:center;flex-wrap:wrap;gap:5px 7px;margin-top:9px;padding:8px 10px;border-radius:12px;font-size:11px;line-height:1.35;position:relative;z-index:2}
+.store-timer-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.store-open-timer{background:rgba(39,125,72,.10);color:#22643b}
+.store-closed-timer{background:rgba(190,65,65,.09);color:#b33b3b}
+.store-closing-soon{background:#fff1d8;color:#9a4e00;box-shadow:0 0 0 1px rgba(210,139,35,.15);animation:storeUrgentPulse 1.8s ease-in-out infinite}
+.store-timer strong{font-variant-numeric:tabular-nums;letter-spacing:.35px}
+.store-warning{width:100%;font-weight:800;font-size:10px;padding-left:14px}
+@keyframes storeUrgentPulse{0%,100%{box-shadow:0 0 0 1px rgba(210,139,35,.12)}50%{box-shadow:0 0 0 4px rgba(210,139,35,.12)}}
+@media(prefers-reduced-motion:reduce){.store-closing-soon{animation:none!important}}
+
+
+.maintenance-shell{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 22px;background:radial-gradient(circle at 50% 25%,#f5f8ed,#e2edcf 65%,#d4e5bd);color:#183b23}
+.maintenance-art{width:100px;height:100px;border:1px solid rgba(43,105,64,.25);display:grid;place-items:center;border-radius:28% 72% 55% 45%;font-size:48px;color:#2b6940;animation:maintenanceFloat 4s ease-in-out infinite}
+.maintenance-brand{font-size:13px;font-weight:900;letter-spacing:2px;margin-top:22px}
+.maintenance-shell h1{font-size:clamp(24px,6vw,36px);font-weight:900;margin:18px 0 10px}
+.maintenance-shell p{max-width:420px;color:#526451;line-height:1.7}
+.maintenance-status{font-size:12px;font-weight:800;color:#2b6940;background:rgba(255,255,255,.65);border-radius:99px;padding:8px 13px;margin:12px 0 20px}
+@keyframes maintenanceFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+@media(prefers-reduced-motion:reduce){.maintenance-art{animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -1207,7 +1229,30 @@ function isOpen(c){
   return cur >= o || cur < cl;
 }
 
+
 const hoursText = c => (!c?.openTime||!c?.closeTime) ? "" : `${c.openTime} – ${c.closeTime}`;
+function storeNextEdge(c, now=new Date()){
+  if(!c?.openTime||!c?.closeTime) return null;
+  const [oh,om]=c.openTime.split(":").map(Number),[ch,cm]=c.closeTime.split(":").map(Number);
+  const cur=now.getHours()*60+now.getMinutes(), o=oh*60+om, cl=ch*60+cm;
+  const open=o===cl?true:(o<cl?cur>=o&&cur<cl:cur>=o||cur<cl);
+  const edge=new Date(now);
+  if(open){ edge.setHours(ch,cm,0,0); if(edge<=now) edge.setDate(edge.getDate()+1); return {open,edge:edge.getTime(),label:"Closes in"}; }
+  edge.setHours(oh,om,0,0); if(edge<=now) edge.setDate(edge.getDate()+1);
+  return {open,edge:edge.getTime(),label:"Opens in"};
+}
+function storeTimerMarkup(c){
+  if(!c?.autoOpenClose||!c.openTime||!c.closeTime) return "";
+  const q=storeNextEdge(c);
+  if(!q) return "";
+  const remaining=q.edge-Date.now(), closingSoon=q.open&&remaining<=10*60*1000;
+  return `<div class="store-timer ${q.open?(closingSoon?"store-closing-soon":"store-open-timer"):"store-closed-timer"}" data-store-timer data-open-time="${esc(c.openTime)}" data-close-time="${esc(c.closeTime)}" data-store-open="${q.open?"1":"0"}" data-store-edge="${q.edge}">
+    <span class="store-timer-dot"></span><span class="store-timer-label">${q.open?(closingSoon?"Closing soon":"Closes in"):"Opens in"}</span>
+    <strong data-store-countdown>${countdownText(remaining)}</strong>
+    ${closingSoon?'<span class="store-warning">Closing within 10 minutes</span>':""}
+  </div>`;
+}
+
 function timeValue(v){ if(!v) return 0; const n = new Date(v).getTime(); return Number.isFinite(n)?n:0; }
 function scheduleInfo(item){
   const now=Date.now(), start=timeValue(item?.availableFrom || item?.startsAt), end=timeValue(item?.availableUntil || item?.endsAt);
@@ -1218,7 +1263,8 @@ function scheduleInfo(item){
 }
 function countdownText(ms){ if(ms<=0)return "00:00:00"; const sec=Math.floor(ms/1000), d=Math.floor(sec/86400), h=Math.floor(sec%86400/3600),m=Math.floor(sec%3600/60),s=sec%60; return d?`${d}d ${String(h).padStart(2,"0")}h`: `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`; }
 function scheduleBadge(item, prefix=""){ const q=scheduleInfo(item); if(q.state==="expired")return `<div class="schedule-note">${esc(prefix)}Ended</div>`; if(q.state==="upcoming")return `<div class="countdown-pill" data-countdown="${q.edge}">${esc(prefix)}Starts in ${countdownText(q.edge-Date.now())}</div>`; if(q.edge)return `<div class="countdown-pill" data-countdown="${q.edge}">${esc(prefix)}Ends in ${countdownText(q.edge-Date.now())}</div>`; return ""; }
-function startCountdownTicker(){ if(window.__prlCountdownTicker)return; window.__prlCountdownTicker=setInterval(()=>{ document.querySelectorAll("[data-countdown]").forEach(el=>{const end=Number(el.dataset.countdown); const left=end-Date.now(); if(left<=0){el.textContent="Updating…"; if(!window.__prlTimerRefresh){window.__prlTimerRefresh=true; setTimeout(()=>{window.__prlTimerRefresh=false; const active=document.querySelector(".screen.active")?.id; if(active==="scrDeals")renderDeals(); if(active==="scrHome")renderHome(); if(active==="scrCompany")openCompany(S.currentCompany?.id); if(active==="scrProductDetail"&&S.currentCompany&&S.currentProduct)paintProduct(S.currentCompany,S.currentProduct);},1000);} } else el.textContent=el.textContent.replace(/Starts in .*|Ends in .*/, m=>m.startsWith("Starts")?`Starts in ${countdownText(left)}`:`Ends in ${countdownText(left)}`);}); document.querySelectorAll("[data-store-close]").forEach(el=>{const left=Number(el.dataset.storeClose)-Date.now();el.textContent=left>0?`Closes in ${countdownText(left)}`:"Closing time reached";});},1000); }
+function startCountdownTicker(){ if(window.__prlCountdownTicker)return; window.__prlCountdownTicker=setInterval(()=>{ document.querySelectorAll("[data-countdown]").forEach(el=>{const end=Number(el.dataset.countdown); const left=end-Date.now(); if(left<=0){el.textContent="Updating…"; if(!window.__prlTimerRefresh){window.__prlTimerRefresh=true; setTimeout(()=>{window.__prlTimerRefresh=false; const active=document.querySelector(".screen.active")?.id; if(active==="scrDeals")renderDeals(); if(active==="scrHome")renderHome(); if(active==="scrCompany")openCompany(S.currentCompany?.id); if(active==="scrProductDetail"&&S.currentCompany&&S.currentProduct)paintProduct(S.currentCompany,S.currentProduct);},1000);} } else el.textContent=el.textContent.replace(/Starts in .*|Ends in .*/, m=>m.startsWith("Starts")?`Starts in ${countdownText(left)}`:`Ends in ${countdownText(left)}`);}); document.querySelectorAll("[data-store-close]").forEach(el=>{const left=Number(el.dataset.storeClose)-Date.now();el.textContent=left>0?`Closes in ${countdownText(left)}`:"Closing time reached";});
+document.querySelectorAll("[data-store-timer]").forEach(el=>{const edge=Number(el.dataset.storeEdge),left=edge-Date.now(),open=el.dataset.storeOpen==="1",label=el.querySelector(".store-timer-label"),count=el.querySelector("[data-store-countdown]");if(left<=0){if(!window.__prlStoreRefresh){window.__prlStoreRefresh=true;setTimeout(()=>{window.__prlStoreRefresh=false;const active=document.querySelector(".screen.active")?.id;if(active==="scrHome")renderHome();if(active==="scrCompanies")renderBrowse();if(active==="scrCompany"&&S.currentCompany)openCompany(S.currentCompany.id);},500);}return;}if(count)count.textContent=countdownText(left);const soon=open&&left<=600000;el.classList.toggle("store-closing-soon",soon);el.classList.toggle("store-open-timer",open&&!soon);el.classList.toggle("store-closed-timer",!open);if(label)label.textContent=open?(soon?"Closing soon":"Closes in"):"Opens in";let warning=el.querySelector(".store-warning");if(soon&&!warning){warning=document.createElement("span");warning.className="store-warning";warning.textContent="Closing within 10 minutes";el.appendChild(warning);}else if(!soon&&warning)warning.remove();});},1000); }
 function productCanSell(product, company){ return isOpen(company) && product?.isActive!==false && scheduleInfo(product).state==="active"; }
 
 
@@ -1718,6 +1764,7 @@ function sAdmin(){
         <a data-view="reviews">⭐ Reviews</a>
         <a data-view="customers">👥 Customers</a>
         <a data-view="emailSettings">✉️ EmailJS & Templates</a>
+        <a data-view="serviceStatus">🛠️ Customer Panel Status</a>
         <a id="adminLogout" style="color:#f87171;margin-top:18px">🚪 Sign out</a>
       </nav>
     </aside>
@@ -1991,7 +2038,7 @@ async function onAuthChanged(user){
       S.profile = {uid:user.uid, ...snap.data()};
     }
     if (S.profile.role === "admin") bootAdmin();
-    else { loadCart(); bootCustomer(); }
+    else { await refreshServiceStatus(); if(__prlServiceStatus.maintenance) showMaintenanceScreen(); else { loadCart(); bootCustomer(); } }
   } catch(err){
     console.error("Profile load error:", err);
     toast(errMsg(err), "error");
@@ -2070,7 +2117,7 @@ function companyCard(c){
       ${c.autoOpenClose && c.openTime && c.closeTime ? `
         <div class="text-xs mt-1" style="color:${open?"var(--success)":"var(--danger)"};font-weight:800">
           ${open?"● Open":"● Closed"} · ${esc(hoursText(c))}
-        </div>${open && c.autoOpenClose ? `<div class="schedule-note" data-store-close="${(()=>{const n=new Date(),p=(c.closeTime||"22:00").split(":").map(Number),e=new Date();e.setHours(p[0],p[1],0,0);if(e<=n)e.setDate(e.getDate()+1);return e.getTime()})()}">Closing soon</div>` : ""}` : ""}
+        </div>${storeTimerMarkup(c)}` : ""}
     </div>
   </article>`;
 }
@@ -3333,7 +3380,7 @@ function bootAdmin(){
 }
 
 function renderAdmin(){
-  const titles = {dashboard:"Dashboard", companies:"Companies", links:"Product Links", coupons:"Coupons", orders:"Orders", complaints:"Complaints", reviews:"Reviews", customers:"Customers", emailSettings:"EmailJS & Templates"};
+  const titles = {dashboard:"Dashboard", companies:"Companies", links:"Product Links", coupons:"Coupons", orders:"Orders", complaints:"Complaints", reviews:"Reviews", customers:"Customers", emailSettings:"EmailJS & Templates", serviceStatus:"Customer Panel Status"};
   $("#adminTitle").textContent = titles[adminView] || "Admin";
   if (adminView === "dashboard") renderAdminDash();
   if (adminView === "companies") renderAdminCompanies();
@@ -3344,8 +3391,59 @@ function renderAdmin(){
   if (adminView === "reviews") renderAdminReviews();
   if (adminView === "customers") renderAdminCustomers();
   if (adminView === "emailSettings") renderEmailSettings();
+  if (adminView === "serviceStatus") renderServiceStatus();
 }
 
+
+
+const SERVICE_STATUS_DOC = "adminSettings/serviceStatus";
+let __prlServiceStatus = {maintenance:false,message:"Our service is temporarily unavailable. Please try again shortly.",updatedAt:null};
+let __prlServiceStatusUnsub = null;
+function renderServiceStatus(){
+  const el=$("#adminContent"); if(!el)return;
+  el.innerHTML=`<div class="card p-4">
+    <h2 class="section-title">Customer Panel Availability</h2>
+    <p class="text-sm text-soft mb-3">Temporarily disable customer shopping during maintenance. Admin panel remains accessible.</p>
+    <div class="form-group"><label class="form-label">Customer panel status</label>
+      <select class="form-input" id="serviceMaintenanceToggle">
+        <option value="off">Online — Customers can use the panel</option>
+        <option value="on">Maintenance — Temporarily unavailable</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Message shown to customers</label>
+      <textarea class="form-input" id="serviceMaintenanceMessage" rows="3" maxlength="300" placeholder="Our service is temporarily unavailable. Please try again shortly."></textarea>
+    </div>
+    <button class="btn btn-primary" id="saveServiceStatus">Save Customer Panel Status</button>
+    <div class="text-xs text-soft mt-3">When maintenance is enabled, customers will see the message and a retry button. Admin access remains available.</div>
+  </div>`;
+  $("#serviceMaintenanceToggle").value=__prlServiceStatus.maintenance?"on":"off";
+  $("#serviceMaintenanceMessage").value=__prlServiceStatus.message||"Our service is temporarily unavailable. Please try again shortly.";
+  $("#saveServiceStatus").onclick=async()=>{
+    const maintenance=$("#serviceMaintenanceToggle").value==="on";
+    const message=$("#serviceMaintenanceMessage").value.trim()||"Our service is temporarily unavailable. Please try again shortly.";
+    try{
+      await setDoc(doc(db,SERVICE_STATUS_DOC),{maintenance,message,updatedAt:serverTimestamp(),updatedBy:S.user?.uid||""},{merge:true});
+      __prlServiceStatus={...__prlServiceStatus,maintenance,message};
+      toast(maintenance?"Customer panel put into maintenance mode":"Customer panel is online","success");
+    }catch(e){console.error(e);toast("Could not save status. Check Firestore rules.","error");}
+  };
+}
+async function refreshServiceStatus(){
+  try{const snap=await getDoc(doc(db,SERVICE_STATUS_DOC));if(snap.exists())__prlServiceStatus={...__prlServiceStatus,...snap.data()};}
+  catch(e){console.warn("Service status read failed",e);}
+}
+function showMaintenanceScreen(){
+  const root=$("#root");if(!root)return;
+  let panel=$("#serviceMaintenanceScreen");
+  if(!panel){
+    panel=document.createElement("div");panel.id="serviceMaintenanceScreen";panel.className="screen";
+    panel.innerHTML=`<div class="maintenance-shell"><div class="maintenance-art" aria-hidden="true">✦</div><div class="maintenance-brand">PAWAN RETAIL LIMITED</div><h1>Service temporarily unavailable</h1><p id="maintenanceMessage"></p><div class="maintenance-status">We’ll be back soon</div><button class="btn btn-primary" id="maintenanceRetry">Try Again</button></div>`;
+    root.appendChild(panel);
+  }
+  $("#maintenanceMessage").textContent=__prlServiceStatus.message||"Our service is temporarily unavailable. Please try again shortly.";
+  showScreen("serviceMaintenanceScreen");
+  $("#maintenanceRetry").onclick=async()=>{await refreshServiceStatus();if(!__prlServiceStatus.maintenance)bootCustomer();else showMaintenanceScreen();};
+}
 
 const EMAIL_SETTINGS_DOC = "adminSettings/emailjs";
 const EMAIL_TEMPLATES_DOC = "adminSettings/emailTemplates";
