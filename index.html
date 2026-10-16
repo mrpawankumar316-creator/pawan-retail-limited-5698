@@ -538,6 +538,44 @@ input,select,textarea{font-size:16px!important;max-width:100%;box-sizing:border-
 .address-fields input{min-width:0}
 @media(max-width:420px){.form-grid{grid-template-columns:minmax(0,1fr)!important;gap:0!important}}
 
+
+#regLanguage{width:100%;min-height:46px;padding:11px 12px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);font:inherit}
+
+
+/* Hot Deals: vertical slide/stack only, never horizontal carousel */
+#homeDeals,#dealsList,.deals-grid{
+  display:flex!important;
+  flex-direction:column!important;
+  flex-wrap:nowrap!important;
+  overflow-x:hidden!important;
+  overflow-y:visible!important;
+  width:100%!important;
+  max-width:100%!important;
+  gap:16px!important;
+  scroll-snap-type:y proximity!important;
+}
+#homeDeals>.deal-card,#dealsList>.deal-card,.deals-grid>.deal-card{
+  flex:0 0 auto!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  scroll-snap-align:start!important;
+  scroll-snap-stop:normal!important;
+  margin:0!important;
+}
+#homeDeals .deal-img,#dealsList .deal-img,.deals-grid .deal-img{
+  width:100%!important;
+  height:clamp(170px,48vw,280px)!important;
+  object-fit:cover!important;
+}
+@media(max-width:600px){
+ #homeDeals,#dealsList,.deals-grid{gap:14px!important;overflow-x:hidden!important}
+ #homeDeals>.deal-card,#dealsList>.deal-card,.deals-grid>.deal-card{border-radius:22px!important}
+ #homeDeals .deal-img,#dealsList .deal-img,.deals-grid .deal-img{height:clamp(180px,55vw,260px)!important}
+}
+
 </style>
 </head>
 <body>
@@ -898,6 +936,13 @@ function sRegister(){
         <div class="form-group"><label class="form-label">Full name</label><input class="form-input" id="regName" required placeholder="Your name"></div>
         <div class="form-group"><label class="form-label">Mobile number</label><input class="form-input" id="regPhone" inputmode="numeric" maxlength="10" required placeholder="10-digit number"></div>
         <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="regEmail" type="email" required placeholder="you@example.com"></div>
+        <div class="form-group"><label class="form-label" for="regLanguage">Preferred language / पसंदीदा भाषा</label>
+          <select class="form-input" id="regLanguage" required>
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+          </select>
+          <div class="text-xs text-soft" style="margin-top:5px">You can choose your language while creating your account.</div>
+        </div>
         <div class="form-group"><label class="form-label">Password</label>
           <div class="input-wrap"><input class="form-input" id="regPassword" type="password" required minlength="6" placeholder="Min 6 characters">
             <button type="button" class="input-toggle" data-toggle="regPassword">Show</button></div></div>
@@ -1339,6 +1384,7 @@ async function handleRegister(e){
   const name = $("#regName").value.trim();
   const phone = $("#regPhone").value.trim();
   const email = $("#regEmail").value.trim().toLowerCase();
+  const preferredLanguage = $("#regLanguage")?.value || "en";
   const pass = $("#regPassword").value;
   const pass2 = $("#regPassword2").value;
   if (!name || !email || !pass) return toast("Fill all required fields", "error");
@@ -1350,12 +1396,14 @@ async function handleRegister(e){
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await setDoc(doc(db,"users",cred.user.uid), {
-      name, email, phone, address:"", addressDetails:{street:"",sector:"",flat:"",landmark:"",city:"",state:"",pincode:""},
+      name, email, phone, preferredLanguage,
+      address:"", addressDetails:{street:"",sector:"",flat:"",landmark:"",city:"",state:"",pincode:""},
       role:"customer", status:"active",
       blockReason:"", suspendedUntil:null,
       createdBy:"self", createdAt: serverTimestamp()
     });
-    toast("✅ Account created!", "success");
+    try { localStorage.setItem("prl_language", preferredLanguage); } catch(_) {}
+    toast(preferredLanguage === "hi" ? "✅ खाता बन गया!" : "✅ Account created!", "success");
   } catch(err){
     toast(errMsg(err), "error");
   } finally {
@@ -1470,10 +1518,11 @@ async function loadHomeDeals(){
   try {
     const snap = await getDocs(collection(db,"links"));
     let links = snap.docs.map(d => ({id:d.id, ...d.data()})).filter(l=>scheduleInfo(l).state!=="expired").sort(newest);
-    let feat = links.filter(l => l.isFeatured === true).slice(0, 4);
-    if (!feat.length) feat = links.slice(0, 4);
-    if (!feat.length){ el.innerHTML = `<div class="empty">No deals yet</div>`; return; }
-    el.innerHTML = feat.map(dealCard).join("");
+    let feat = links.filter(l => l.isFeatured === true);
+    if (!feat.length) feat = links;
+    const firstDealCard = feat.map(dealCard).filter(Boolean)[0];
+    if (!firstDealCard){ el.innerHTML = `<div class="empty">No deals yet</div>`; return; }
+    el.innerHTML = firstDealCard;
   } catch(e){ console.warn(e); el.innerHTML = ""; }
 }
 
