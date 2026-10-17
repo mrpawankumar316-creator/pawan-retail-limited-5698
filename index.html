@@ -1128,6 +1128,10 @@ body{
 @keyframes maintenanceFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
 @media(prefers-reduced-motion:reduce){.maintenance-art{animation:none!important}}
 
+
+/* Premium luxury theme */
+:root{--bg:#f5f1e8!important;--surface:#fffdf8!important;--surface-2:#f2eadb!important;--primary:#171717!important;--primary-2:#29231b!important;--primary-3:#c9a96e!important;--text:#201d18!important;--text-2:#665b4c!important;--border:#e6dccb!important;--primary-grad:linear-gradient(135deg,#171717,#3b3021)!important}body,.shell{background:#f5f1e8!important;color:#201d18!important}.brand-mark{background:linear-gradient(135deg,#161616,#5d4726)!important;color:#e8ce95!important}.hero{background:linear-gradient(125deg,#171717,#403322)!important;color:#f7e8c5!important;border:1px solid #b89b5d!important}.hero h1,.hero p{color:#f7e8c5!important}.btn-primary,.chip.active{background:linear-gradient(135deg,#b9934c,#e4cb8c)!important;color:#191611!important;border-color:#b9934c!important}.premium-card{border:1px solid #c5a66a!important;border-radius:24px!important;background:radial-gradient(circle at 100% 0%,#5a4829 0,transparent 42%),linear-gradient(135deg,#151515,#2b251b)!important;color:#f7e8c5!important;padding:22px!important;margin:14px 0 18px;box-shadow:0 18px 40px #1b160d20!important}.premium-card h2,.premium-card h3{color:#f7e8c5!important}.premium-pill{display:inline-block;border:1px solid #c5a66a;color:#e8ce95;padding:5px 10px;border-radius:99px;font-size:10px;font-weight:900;letter-spacing:.15em}.premium-benefits{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}.premium-benefit{font-size:12px;color:#f0e3c9;background:#ffffff0d;border:1px solid #ffffff1a;border-radius:12px;padding:10px}.premium-price{font-size:32px;font-weight:900;color:#e8ce95}@media(max-width:420px){.premium-benefits{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -1765,6 +1769,7 @@ function sAdmin(){
         <a data-view="complaints">⚠️ Complaints</a>
         <a data-view="reviews">⭐ Reviews</a>
         <a data-view="customers">👥 Customers</a>
+        <a data-view="premiumRequests">✦ Premium Requests</a>
         <a data-view="emailSettings">✉️ EmailJS & Templates</a>
         <a data-view="serviceStatus">🛠️ Customer Panel Status</a>
         <a id="adminLogout" style="color:#f87171;margin-top:18px">🚪 Sign out</a>
@@ -2614,7 +2619,9 @@ async function renderCheckout(){
     if (!cs.exists()){ body.innerHTML = `<div class="empty">Unavailable</div>`; return; }
     company = {id:cs.id, ...cs.data()};
   } catch(e){ body.innerHTML = `<div class="empty">Failed</div>`; return; }
-  if (!isOpen(company)){
+  const premiumActive = !!S.profile?.premiumActive && (!S.profile.premiumUntil || new Date(S.profile.premiumUntil.toDate ? S.profile.premiumUntil.toDate() : S.profile.premiumUntil).getTime() > Date.now());
+  const premiumLateWindow = premiumActive && !isOpen(company) && (new Date().getHours()*60 + new Date().getMinutes()) < 1440;
+  if (!isOpen(company) && !premiumLateWindow){
     body.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca">
       <div class="text-sm" style="color:var(--danger);font-weight:700">Store is currently closed.</div>
     </div>
@@ -2750,6 +2757,8 @@ async function placeOrder({company, sub, delCh, svcCh, paymentMethod}){
       couponCode: S.appliedCoupon?.code||"", couponDiscount: cd,
       isFirstOrder: S.isFirstOrder, paymentMethod,
       grandTotal: total, status: "pending",
+      isPremiumOrder: !!(S.profile?.premiumActive && (!S.profile.premiumUntil || new Date(S.profile.premiumUntil.toDate ? S.profile.premiumUntil.toDate() : S.profile.premiumUntil).getTime() > Date.now())),
+      premiumLateOrder: !!(S.profile?.premiumActive && (!S.profile.premiumUntil || new Date(S.profile.premiumUntil.toDate ? S.profile.premiumUntil.toDate() : S.profile.premiumUntil).getTime() > Date.now()) && !isOpen(company) && (new Date().getHours()*60 + new Date().getMinutes()) < 1440),
       trackingUrl: "", hasReview: false, hasComplaint: false,
       createdAt: serverTimestamp(), updatedAt: serverTimestamp()
     };
@@ -3234,6 +3243,15 @@ function renderAccount(){
   const joined = S.profile.createdAt ? fdate(S.profile.createdAt) : "Pawan Retail customer";
   body.innerHTML = `
     ${st.blocked ? blockedBanner() : ""}
+    <div class="premium-card">
+      <span class="premium-pill">PAWAN RETAIL · PREMIUM</span>
+      <h2 style="font-size:23px;margin:12px 0 6px">Upgrade to Premium</h2>
+      <p style="font-size:12.5px;line-height:1.6;color:#d9c9a8">Priority handling, premium support and eligible late ordering.</p>
+      <div class="premium-benefits"><div class="premium-benefit">✦ Premium black & gold experience</div><div class="premium-benefit">⚡ Priority order handling</div><div class="premium-benefit">🕛 Store closed? Order until 11:59 PM</div><div class="premium-benefit">☎️ Priority support access</div><div class="premium-benefit">🚚 Fast delivery priority where available</div><div class="premium-benefit">✓ 30-day membership</div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div class="premium-price">₹199 <span style="font-size:11px;color:#d9c9a8">/ 30 days</span></div><div style="font-size:10px;color:#c9b68f;margin-top:4px">${S.profile.premiumActive ? 'PREMIUM ACTIVE' : (S.profile.premiumRequestStatus==='pending' ? 'Request pending verification' : 'Membership purchase')}</div></div><button class="btn" id="buyPremiumBtn" ${S.profile.premiumActive?'disabled':''}>${S.profile.premiumActive?'Premium Active':(S.profile.premiumRequestStatus==='pending'?'Request Pending':'Get Premium →')}</button></div>
+      <div style="font-size:10px;line-height:1.5;color:#bcae91;margin-top:10px">Late orders are accepted until 11:59 PM while Premium is active; fulfilment depends on restaurant availability. Fast delivery and 24/7 support are priority benefits, not guarantees where local operations are unavailable.</div>
+    </div>
+    ${S.profile.premiumRequestStatus==='pending' ? `<div class="card" style="border:1px solid #d6b978;margin-top:12px"><h3 style="font-weight:900;margin-bottom:6px">Complete Premium payment</h3><p class="text-sm" style="line-height:1.6">Send <b>₹199</b> to UPI ID <b>Pawan181@fam</b>, then enter the UTR / transaction reference below. Premium starts only after Admin verifies payment.</p><label class="form-label" for="premiumUtrInput">UPI UTR / Transaction ID</label><input class="form-input" id="premiumUtrInput" maxlength="80" placeholder="Enter transaction reference" value="${esc(S.profile.premiumUtr||'')}" ${S.profile.premiumUtr?'disabled':''}><button class="btn btn-primary" id="submitPremiumUtr" style="width:100%;margin-top:10px" ${S.profile.premiumUtr?'disabled':''}>${S.profile.premiumUtr?'UTR Submitted — Awaiting Admin':'Submit UTR for Verification'}</button><div class="text-xs text-soft" style="margin-top:8px">Do not share your UPI PIN or OTP. UTR submission alone does not activate Premium.</div></div>` : ''}
     <div class="card profile-hero">
       <div class="row" style="gap:15px;align-items:center;position:relative;z-index:1">
         <div class="profile-avatar">${esc(init)}</div>
@@ -3271,6 +3289,30 @@ function renderAccount(){
     </div>
     <button class="btn btn-secondary" style="width:100%;margin-top:15px;border-radius:16px!important;color:var(--danger)!important" onclick="logout()">↪ Log out</button>
     <div class="brand-signature"><strong>Priya Electricals — Sales & Service</strong><br>A venture of Pawan Retail Limited</div>`;
+  const premiumBtn = $("#buyPremiumBtn");
+  if (premiumBtn) premiumBtn.onclick = async () => {
+    if (!S.user) return toast("Please sign in first", "error");
+    if (S.profile.premiumRequestStatus === "pending") return toast("Your Premium request is awaiting payment verification.", "info");
+    premiumBtn.disabled=true; premiumBtn.textContent="Submitting…";
+    try {
+      const rr=await addDoc(collection(db,"premiumRequests"),{customerId:S.user.uid,customerName:S.profile.name||"",customerEmail:S.profile.email||"",amount:199,plan:"premium_30_days",status:"pending",paymentStatus:"unverified",createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+      await updateDoc(doc(db,"users",S.user.uid),{premiumRequestId:rr.id,premiumRequestStatus:"pending"});
+      S.profile={...S.profile,premiumRequestId:rr.id,premiumRequestStatus:"pending"}; toast("Request submitted. Payment must be verified before activation.","success"); renderAccount();
+    } catch(e){console.error(e);toast("Could not submit request. Check Firestore Rules.","error");premiumBtn.disabled=false;premiumBtn.textContent="Get Premium →";}
+  };
+  const utrBtn = $("#submitPremiumUtr");
+  if (utrBtn) utrBtn.onclick = async () => {
+    const utr = $("#premiumUtrInput")?.value.trim();
+    if (!utr || utr.length < 6) return toast("Enter a valid UTR / transaction reference", "error");
+    if (!S.profile?.premiumRequestId) return toast("Premium request not found. Tap Get Premium first.", "error");
+    utrBtn.disabled = true; utrBtn.textContent = "Submitting…";
+    try {
+      await updateDoc(doc(db,"premiumRequests",S.profile.premiumRequestId), {utr, utrSubmittedAt:serverTimestamp(), updatedAt:serverTimestamp()});
+      await updateDoc(doc(db,"users",S.user.uid), {premiumRequestStatus:"pending"});
+      S.profile={...S.profile,premiumRequestStatus:"pending",premiumUtr:utr};
+      toast("UTR submitted. Premium starts after Admin approval.","success"); renderAccount();
+    } catch(e) { console.error(e); toast("UTR could not be submitted. Check Firestore Rules.","error"); utrBtn.disabled=false; utrBtn.textContent="Submit UTR for Verification"; }
+  };
   startBlockTimer();
 }
 
@@ -3383,7 +3425,7 @@ function bootAdmin(){
 }
 
 function renderAdmin(){
-  const titles = {dashboard:"Dashboard", companies:"Companies", links:"Product Links", coupons:"Coupons", orders:"Orders", complaints:"Complaints", reviews:"Reviews", customers:"Customers", emailSettings:"EmailJS & Templates", serviceStatus:"Customer Panel Status", banners:"Banner Management"};
+  const titles = {dashboard:"Dashboard", companies:"Companies", links:"Product Links", coupons:"Coupons", orders:"Orders", complaints:"Complaints", reviews:"Reviews", customers:"Customers", emailSettings:"EmailJS & Templates", serviceStatus:"Customer Panel Status", banners:"Banner Management", premiumRequests:"Premium Requests"};
   $("#adminTitle").textContent = titles[adminView] || "Admin";
   if (adminView === "dashboard") renderAdminDash();
   if (adminView === "companies") renderAdminCompanies();
@@ -3396,12 +3438,44 @@ function renderAdmin(){
   if (adminView === "emailSettings") renderEmailSettings();
   if (adminView === "serviceStatus") renderServiceStatus();
   if (adminView === "banners") renderAdminBanners();
+  if (adminView === "premiumRequests") renderAdminPremiumRequests();
 }
 
 
 
 
 // ===== ADMIN BANNER MANAGEMENT (Firestore only; images use public HTTPS URLs) =====
+async function renderAdminPremiumRequests(){
+  const el=$("#adminContent"); if(!el)return;
+  el.innerHTML='<div class="card p-4"><h2 class="section-title">Premium payment requests</h2><p class="text-sm text-soft">Verify the ₹199 payment and UTR before approving. Approval activates 30 days of Premium.</p><div id="premiumRequestsList" class="mt-3">Loading requests…</div></div>';
+  const list=$("#premiumRequestsList");
+  try {
+    const snap=await getDocs(query(collection(db,"premiumRequests")));
+    const rows=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>((b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)));
+    if(!rows.length){list.innerHTML='<div class="empty">No Premium requests yet.</div>';return;}
+    list.innerHTML=rows.map(r=>`<div class="card" style="margin:10px 0;padding:14px;border:1px solid var(--border)"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><strong>${esc(r.customerName||'Customer')}</strong><span class="badge">${esc(r.status||'pending')}</span></div><div class="text-xs text-soft" style="margin-top:5px">${esc(r.customerEmail||'')} · Request ID: ${esc(r.id)}</div><div style="margin-top:8px;font-size:13px">Amount: <b>₹${Number(r.amount)||199}</b></div><div style="margin-top:5px;font-size:13px;overflow-wrap:anywhere">UTR: <b>${esc(r.utr||'Not submitted yet')}</b></div><div style="margin-top:5px;font-size:12px">Payment: ${esc(r.paymentStatus||'unverified')}</div>${r.status==='pending'?`<div style="display:flex;gap:8px;margin-top:12px"><button class="btn btn-primary" data-premium-approve="${esc(r.id)}" data-customer="${esc(r.customerId||'')}" style="flex:1">Approve & Activate</button><button class="btn btn-secondary" data-premium-reject="${esc(r.id)}" data-customer="${esc(r.customerId||'')}" style="flex:1">Reject</button></div>`:''}</div>`).join('');
+    list.querySelectorAll('[data-premium-approve]').forEach(btn=>btn.onclick=async()=>{
+      const rid=btn.dataset.premiumApprove, uid=btn.dataset.customer;
+      if(!uid)return toast('Customer UID missing; cannot activate safely.','error');
+      if(!confirm('Confirm you verified ₹199 payment and want to activate Premium for 30 days?'))return;
+      btn.disabled=true;
+      try{
+        const until=new Date(Date.now()+30*24*60*60*1000);
+        await updateDoc(doc(db,'users',uid),{premiumActive:true,premiumUntil:until,premiumRequestStatus:'approved',premiumRequestId:rid});
+        await updateDoc(doc(db,'premiumRequests',rid),{status:'approved',paymentStatus:'verified',approvedBy:S.user.uid,approvedAt:serverTimestamp(),premiumUntil:until,updatedAt:serverTimestamp()});
+        toast('Premium approved for 30 days.','success'); renderAdminPremiumRequests();
+      }catch(e){console.error(e);toast('Approval failed. Check Firestore Rules.','error');btn.disabled=false;}
+    });
+    list.querySelectorAll('[data-premium-reject]').forEach(btn=>btn.onclick=async()=>{
+      const rid=btn.dataset.premiumReject, uid=btn.dataset.customer;
+      if(!confirm('Reject this Premium request?'))return;
+      btn.disabled=true;
+      try{await updateDoc(doc(db,'premiumRequests',rid),{status:'rejected',paymentStatus:'rejected',reviewedBy:S.user.uid,reviewedAt:serverTimestamp(),updatedAt:serverTimestamp()});if(uid)await updateDoc(doc(db,'users',uid),{premiumRequestStatus:'rejected'});toast('Premium request rejected.','success');renderAdminPremiumRequests();}
+      catch(e){console.error(e);toast('Could not reject request. Check Firestore Rules.','error');btn.disabled=false;}
+    });
+  } catch(e){console.error(e);list.innerHTML='<div class="warn-box">Could not load Premium requests. Check Firestore Rules.</div>';}
+}
+
 function renderAdminBanners(){
   const el=$("#adminContent"); if(!el)return;
   el.innerHTML=`
