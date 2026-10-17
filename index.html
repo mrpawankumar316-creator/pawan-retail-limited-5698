@@ -1129,13 +1129,6 @@ body{
 @media(prefers-reduced-motion:reduce){.maintenance-art{animation:none!important}}
 
 
-/* Premium status is valid only until premiumUntil; missing expiry is treated as legacy active membership. */
-  function isPremiumMembershipActive(profile = S.profile) {
-    if (!profile || profile.premiumActive !== true) return false;
-    if (!profile.premiumUntil) return true;
-    const expiry = profile.premiumUntil.toDate ? profile.premiumUntil.toDate() : new Date(profile.premiumUntil);
-    return Number.isFinite(expiry.getTime()) && expiry.getTime() > Date.now();
-  }
   /* Regular customers retain a clean green storefront; Premium members get a separate black-and-gold luxury theme. */
 :root{--bg:#f3f8f2!important;--surface:#ffffff!important;--surface-2:#eaf4e8!important;--primary:#267545!important;--primary-2:#185b34!important;--primary-3:#58a66e!important;--text:#173321!important;--text-2:#64776a!important;--border:#dce9dd!important;--primary-grad:linear-gradient(135deg,#1c6539,#319653)!important}
 body,.shell{background:var(--bg)!important;color:var(--text)!important}
@@ -1188,6 +1181,15 @@ const FIREBASE_CONFIG = {
   messagingSenderId: "595261097611",
   appId: "1:595261097611:web:88a136d144129b142b368e"
 };
+
+// Premium membership check. Customer UI is Premium only when membership is active and unexpired.
+function isPremiumMembershipActive(profile = S.profile) {
+  if (!profile || profile.premiumActive !== true || !profile.premiumUntil) return false;
+  const expiry = typeof profile.premiumUntil.toDate === "function"
+    ? profile.premiumUntil.toDate()
+    : new Date(profile.premiumUntil);
+  return Number.isFinite(expiry.getTime()) && expiry.getTime() > Date.now();
+}
 
 const fb = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(fb);
