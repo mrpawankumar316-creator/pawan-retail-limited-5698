@@ -2620,7 +2620,7 @@ async function renderCheckout(){
     company = {id:cs.id, ...cs.data()};
   } catch(e){ body.innerHTML = `<div class="empty">Failed</div>`; return; }
   const premiumActive = !!S.profile?.premiumActive && (!S.profile.premiumUntil || new Date(S.profile.premiumUntil.toDate ? S.profile.premiumUntil.toDate() : S.profile.premiumUntil).getTime() > Date.now());
-  const premiumLateWindow = premiumActive && !isOpen(company) && (new Date().getHours()*60 + new Date().getMinutes()) < 1440;
+  const premiumLateWindow = premiumActive && !isOpen(company) && (new Date().getHours()*60 + new Date().getMinutes()) < (24*60);
   if (!isOpen(company) && !premiumLateWindow){
     body.innerHTML = `<div class="card" style="background:var(--danger-soft);border-color:#fecaca">
       <div class="text-sm" style="color:var(--danger);font-weight:700">Store is currently closed.</div>
@@ -2758,7 +2758,7 @@ async function placeOrder({company, sub, delCh, svcCh, paymentMethod}){
       isFirstOrder: S.isFirstOrder, paymentMethod,
       grandTotal: total, status: "pending",
       isPremiumOrder: !!(S.profile?.premiumActive && (!S.profile.premiumUntil || new Date(S.profile.premiumUntil.toDate ? S.profile.premiumUntil.toDate() : S.profile.premiumUntil).getTime() > Date.now())),
-      premiumLateOrder: !!(S.profile?.premiumActive && (!S.profile.premiumUntil || new Date(S.profile.premiumUntil.toDate ? S.profile.premiumUntil.toDate() : S.profile.premiumUntil).getTime() > Date.now()) && !isOpen(company) && (new Date().getHours()*60 + new Date().getMinutes()) < 1440),
+      premiumLateOrder: !!(S.profile?.premiumActive && (!S.profile.premiumUntil || new Date(S.profile.premiumUntil.toDate ? S.profile.premiumUntil.toDate() : S.profile.premiumUntil).getTime() > Date.now()) && !isOpen(company) && (new Date().getHours()*60 + new Date().getMinutes()) < (24*60)),
       trackingUrl: "", hasReview: false, hasComplaint: false,
       createdAt: serverTimestamp(), updatedAt: serverTimestamp()
     };
@@ -3457,6 +3457,8 @@ async function renderAdminPremiumRequests(){
     list.querySelectorAll('[data-premium-approve]').forEach(btn=>btn.onclick=async()=>{
       const rid=btn.dataset.premiumApprove, uid=btn.dataset.customer;
       if(!uid)return toast('Customer UID missing; cannot activate safely.','error');
+      const currentRequest = rows.find(x => x.id === rid);
+      if(!currentRequest?.utr || String(currentRequest.utr).trim().length < 6) return toast('Customer must submit UTR before approval.','error');
       if(!confirm('Confirm you verified ₹199 payment and want to activate Premium for 30 days?'))return;
       btn.disabled=true;
       try{
