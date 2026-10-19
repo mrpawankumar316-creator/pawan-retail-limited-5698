@@ -1145,6 +1145,57 @@ body.premium-member .btn-primary,body.premium-member .chip.active{background:lin
 .premium-card{border:1px solid #c5a66a!important;border-radius:24px!important;background:radial-gradient(circle at 100% 0%,#5a4829 0,transparent 42%),linear-gradient(135deg,#151515,#2b251b)!important;color:#f7e8c5!important;padding:22px!important;margin:14px 0 18px;box-shadow:0 18px 40px #1b160d20!important}.premium-card h2,.premium-card h3{color:#f7e8c5!important}.premium-pill{display:inline-block;border:1px solid #c5a66a;color:#e8ce95;padding:5px 10px;border-radius:99px;font-size:10px;font-weight:900;letter-spacing:.15em}.premium-benefits{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}.premium-benefit{font-size:12px;color:#f0e3c9;background:#ffffff0d;border:1px solid #ffffff1a;border-radius:12px;padding:10px}.premium-price{font-size:32px;font-weight:900;color:#e8ce95}@media(max-width:420px){.premium-benefits{grid-template-columns:1fr}}
 .premium-page{background:radial-gradient(circle at 100% 0%,#5a4829 0,transparent 42%),linear-gradient(145deg,#11100d,#292116);color:#f7e8c5;border:1px solid #c5a66a;border-radius:22px;padding:22px;max-height:82vh;overflow:auto}.premium-page .form-label{color:#e9d7ac}.premium-page .form-input{background:#201d17;border-color:#68552f;color:#fff5dc}.premium-page .premium-page-btn{background:linear-gradient(135deg,#b9934c,#e4cb8c);color:#191611;border:0}
 
+
+/* Extra-large, high-contrast Premium text for easy reading on phones */
+body.premium-member .premium-card, body.premium-member .premium-card p,
+body.premium-member .premium-card .premium-benefit { font-size:17px!important; line-height:1.75!important; }
+body.premium-member .premium-card h2 { font-size:clamp(27px,7vw,34px)!important; }
+.premium-page { font-size:17px!important; line-height:1.8!important; }
+.premium-page p { font-size:17px!important; line-height:1.8!important; }
+.premium-page .premium-benefit { font-size:17px!important; line-height:1.75!important; }
+.premium-page .form-label { font-size:16px!important; }
+.premium-page .premium-page-btn { font-size:17px!important; min-height:56px!important; }
+/* Accessibility/readability improvements for Premium customers */
+.premium-page{font-size:16px!important;line-height:1.75!important;padding:clamp(18px,4vw,28px)!important;max-height:86dvh!important;overflow-y:auto!important;overscroll-behavior:contain}
+.premium-page h2{font-size:clamp(25px,6vw,32px)!important;line-height:1.25!important;letter-spacing:-.02em!important}
+.premium-page p{font-size:16px!important;line-height:1.75!important;color:#f0e3c9!important;margin:12px 0!important}
+.premium-page .premium-price{font-size:clamp(36px,9vw,46px)!important;line-height:1.2!important;margin:16px 0!important}
+.premium-page .premium-price span{font-size:15px!important;line-height:1.5!important}
+.premium-page .premium-benefits{grid-template-columns:1fr!important;gap:10px!important;margin:18px 0!important}
+.premium-page .premium-benefit{font-size:16px!important;line-height:1.6!important;padding:14px!important;color:#fff4d9!important}
+.premium-page .premium-pill{font-size:12px!important;letter-spacing:.08em!important;padding:7px 12px!important}
+.premium-page .form-label{display:block!important;font-size:15px!important;line-height:1.5!important;margin:12px 0 7px!important}
+.premium-page .form-input{font-size:16px!important;min-height:52px!important;width:100%!important;box-sizing:border-box!important;padding:14px!important}
+.premium-page .btn{font-size:16px!important;line-height:1.4!important;min-height:52px!important;padding:14px 16px!important;white-space:normal!important}
+.premium-card{padding:clamp(18px,4vw,26px)!important}
+.premium-card h2{font-size:clamp(25px,6vw,31px)!important;line-height:1.25!important}
+.premium-card p{font-size:16px!important;line-height:1.7!important;color:#f0e3c9!important}
+.premium-card .premium-benefits{grid-template-columns:1fr!important;gap:10px!important}
+.premium-card .premium-benefit{font-size:15px!important;line-height:1.6!important;padding:13px!important;color:#fff4d9!important}
+.premium-card .premium-price{font-size:36px!important}
+.premium-card button{font-size:16px!important;min-height:50px!important;white-space:normal!important}
+@media(min-width:560px){.premium-page .premium-benefits,.premium-card .premium-benefits{grid-template-columns:1fr 1fr!important}}
+
+
+/* Animated order-success experience */
+.order-success-overlay{position:fixed;inset:0;z-index:3000;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(7,18,13,.72);backdrop-filter:blur(9px);animation:osFade .25s ease both}
+.order-success-card{position:relative;width:min(100%,410px);overflow:hidden;border-radius:28px;padding:30px 24px 24px;text-align:center;background:linear-gradient(145deg,#fffef8,#f2f8f1);color:#173c2c;box-shadow:0 28px 90px rgba(0,0,0,.35);animation:osPop .48s cubic-bezier(.2,.9,.2,1.15) both}
+.order-success-card:before{content:"";position:absolute;width:260px;height:260px;top:-160px;left:calc(50% - 130px);border-radius:50%;background:rgba(32,145,83,.13)}
+.order-success-icon{position:relative;display:grid;place-items:center;margin:0 auto 18px;width:92px;height:92px;border-radius:50%;background:linear-gradient(145deg,#d6f8df,#8ee3ad);box-shadow:0 10px 28px rgba(27,145,77,.22);animation:osBounce .7s .12s both}
+.order-success-icon svg{width:48px;height:48px;stroke:#126b3b;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.order-success-title{font-size:clamp(25px,7vw,32px);line-height:1.18;font-weight:900;letter-spacing:-.7px;margin:0 0 9px}
+.order-success-sub{font-size:16px;line-height:1.55;color:#52685d;margin:0 auto 20px;max-width:310px}
+.order-success-id{padding:13px 14px;border:1px dashed #a6cbb1;background:#eaf6ed;border-radius:14px;font-size:14px;line-height:1.5;overflow-wrap:anywhere;margin:0 0 20px}
+.order-success-id strong{display:block;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:#52745e;margin-bottom:4px}
+.order-success-actions{display:grid;gap:10px}
+.order-success-actions button{min-height:50px;border:0;border-radius:15px;font:inherit;font-size:16px;font-weight:800;cursor:pointer}
+.order-success-primary{background:linear-gradient(100deg,#17683d,#26985a);color:white;box-shadow:0 8px 20px #1c8a4b30}
+.order-success-secondary{background:#e8eee9;color:#284b37}
+.order-success-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.order-success-confetti i{position:absolute;top:-18px;width:8px;height:13px;border-radius:2px;background:var(--confetti,#28a765);animation:osConfetti 1.8s ease-in forwards;animation-delay:var(--delay,0s);left:var(--left,50%);transform:rotate(var(--rotate,0deg))}
+@keyframes osFade{from{opacity:0}to{opacity:1}}@keyframes osPop{from{opacity:0;transform:translateY(18px) scale(.88)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes osBounce{0%{transform:scale(.4) rotate(-18deg);opacity:0}70%{transform:scale(1.12) rotate(5deg)}100%{transform:scale(1) rotate(0);opacity:1}}@keyframes osConfetti{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(520px) rotate(540deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.order-success-overlay,.order-success-card,.order-success-icon,.order-success-confetti i{animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -1183,6 +1234,12 @@ const FIREBASE_CONFIG = {
 };
 
 // Premium membership check. Customer UI is Premium only when membership is active and unexpired.
+function isPremiumRequestExpired(profile = S.profile) {
+  if (!profile) return false;
+  const expiresAt = Number(profile.premiumRequestExpiresAt || 0);
+  return expiresAt > 0 && Date.now() >= expiresAt;
+}
+
 function isPremiumMembershipActive(profile = S.profile) {
   if (!profile || profile.premiumActive !== true || !profile.premiumUntil) return false;
   const expiry = typeof profile.premiumUntil.toDate === "function"
@@ -2738,6 +2795,24 @@ async function renderCheckout(){
   $("#placeOrderBtn").onclick = () => placeOrder({company, sub, delCh, svcCh, paymentMethod: selectedPay});
 }
 
+function showOrderSuccess(orderId, total){
+  document.getElementById("orderSuccessOverlay")?.remove();
+  const overlay=document.createElement("div");
+  overlay.id="orderSuccessOverlay";
+  overlay.className="order-success-overlay";
+  overlay.setAttribute("role","dialog");
+  overlay.setAttribute("aria-modal","true");
+  overlay.setAttribute("aria-labelledby","orderSuccessTitle");
+  const confetti=Array.from({length:24},(_,i)=>`<i style="--left:${(i*37)%100}%;--delay:${((i%8)*0.045).toFixed(3)}s;--rotate:${i*23}deg;--confetti:${["#25a45e","#d5a63b","#8ed7a5","#f0c66a"][i%4]}"></i>`).join("");
+  overlay.innerHTML=`<section class="order-success-card"><div class="order-success-confetti" aria-hidden="true">${confetti}</div><div class="order-success-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 25l9 9L38 14"/></svg></div><h2 class="order-success-title" id="orderSuccessTitle">Order Successfully Placed!</h2><p class="order-success-sub">Thank you for shopping with Pawan Retail. Your order has been received successfully.</p><div class="order-success-id"><strong>Order ID · Total Amount</strong><span>${esc(orderId)}</span><br><b>${inr(total)}</b></div><div class="order-success-actions"><button class="order-success-primary" id="orderSuccessView">Track My Order</button><button class="order-success-secondary" id="orderSuccessClose">Continue Shopping</button></div></section>`;
+  document.body.appendChild(overlay);
+  const goOrders=()=>{overlay.remove();showScreen("scrOrders");renderOrders();};
+  overlay.querySelector("#orderSuccessView").onclick=goOrders;
+  overlay.querySelector("#orderSuccessClose").onclick=()=>{overlay.remove();showScreen("scrHome");};
+  overlay.addEventListener("click",e=>{if(e.target===overlay) goOrders();});
+  overlay.querySelector("#orderSuccessView").focus({preventScroll:true});
+}
+
 async function placeOrder({company, sub, delCh, svcCh, paymentMethod}){
   await refreshProfile();
   const st = statusInfo();
@@ -2795,7 +2870,7 @@ async function placeOrder({company, sub, delCh, svcCh, paymentMethod}){
     });
     clearCart();
     updateCartBadge();
-    toast(`Order placed — ${orderId}`, "success");
+    showOrderSuccess(orderId, total);
     showScreen("scrOrders"); renderOrders();
   } catch(err){
     console.error(err);
@@ -3273,11 +3348,11 @@ function renderAccount(){
       <h2 style="font-size:23px;margin:12px 0 6px">Upgrade to Premium</h2>
       <p style="font-size:12.5px;line-height:1.6;color:#d9c9a8">Priority handling, premium support and eligible late ordering.</p>
       <div class="premium-benefits"><div class="premium-benefit">✦ Premium black & gold experience</div><div class="premium-benefit">⚡ Priority order handling</div><div class="premium-benefit">🕛 Store closed? Order until 11:59 PM</div><div class="premium-benefit">☎️ Priority support access</div><div class="premium-benefit">🚚 Fast delivery priority where available</div><div class="premium-benefit">✓ 30-day membership</div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div class="premium-price">₹199 <span style="font-size:11px;color:#d9c9a8">/ 30 days</span></div><div style="font-size:10px;color:#c9b68f;margin-top:4px">${S.profile.premiumActive ? 'PREMIUM ACTIVE' : (S.profile.premiumRequestStatus==='pending' ? 'Request pending verification' : 'Membership purchase')}</div></div><button class="btn" id="buyPremiumBtn" ${S.profile.premiumActive?'disabled':''}>${S.profile.premiumActive?'Premium Active':(S.profile.premiumRequestStatus==='pending'?'Request Pending':'Get Premium →')}</button></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div class="premium-price">₹199 <span style="font-size:11px;color:#d9c9a8">/ 30 days</span></div><div style="font-size:10px;color:#c9b68f;margin-top:4px">${S.profile.premiumActive ? 'PREMIUM ACTIVE' : (S.profile.premiumRequestStatus==='pending' && !isPremiumRequestExpired(S.profile) ? 'Request pending verification' : 'Membership purchase')}</div></div><button class="btn" id="buyPremiumBtn" ${S.profile.premiumActive?'disabled':''}>${S.profile.premiumActive?'Premium Active':(S.profile.premiumRequestStatus==='pending' && !isPremiumRequestExpired(S.profile)?'Request Pending':'Get Premium →')}</button></div>
       <div style="font-size:10px;line-height:1.5;color:#bcae91;margin-top:10px">Late orders are accepted until 11:59 PM while Premium is active; fulfilment depends on restaurant availability. Fast delivery and 24/7 support are priority benefits, not guarantees where local operations are unavailable.</div>
       <button class="btn" id="premiumExploreBtn" style="width:100%;margin-top:12px">Explore Premium Membership →</button>
     </div>`}
-    ${!isPremiumMember && S.profile.premiumRequestStatus==='pending' ? `<div class="card" style="border:1px solid #d6b978;margin-top:12px"><h3 style="font-weight:900;margin-bottom:6px">Complete Premium payment</h3><p class="text-sm" style="line-height:1.6">Send <b>₹199</b> to UPI ID <b>Pawan181@fam</b>, then enter the UTR / transaction reference below. Premium starts only after Admin verifies payment.</p><label class="form-label" for="premiumUtrInput">UPI UTR / Transaction ID</label><input class="form-input" id="premiumUtrInput" maxlength="80" placeholder="Enter transaction reference" value="${esc(S.profile.premiumUtr||'')}" ${S.profile.premiumUtr?'disabled':''}><button class="btn btn-primary" id="submitPremiumUtr" style="width:100%;margin-top:10px" ${S.profile.premiumUtr?'disabled':''}>${S.profile.premiumUtr?'UTR Submitted — Awaiting Admin':'Submit UTR for Verification'}</button><div class="text-xs text-soft" style="margin-top:8px">Do not share your UPI PIN or OTP. UTR submission alone does not activate Premium.</div></div>` : ''}
+    ${!isPremiumMember && S.profile.premiumRequestStatus==='pending' && !isPremiumRequestExpired(S.profile) ? `<div class="card" style="border:1px solid #d6b978;margin-top:12px"><h3 style="font-weight:900;margin-bottom:6px">Complete Premium payment</h3><p class="text-sm" style="line-height:1.6">Send <b>₹199</b> to UPI ID <b>Pawan181@fam</b>, then enter the UTR / transaction reference below. Premium starts only after Admin verifies payment.</p><label class="form-label" for="premiumUtrInput">UPI UTR / Transaction Reference</label><input class="form-input" id="premiumUtrInput" maxlength="80" placeholder="Enter transaction reference" value="${esc(S.profile.premiumUtr||'')}" ${S.profile.premiumUtr?'disabled':''}><button class="btn btn-primary" id="submitPremiumUtr" style="width:100%;margin-top:10px" ${S.profile.premiumUtr?'disabled':''}>${S.profile.premiumUtr?'UTR Submitted — Awaiting Admin':'Submit UTR for Verification'}</button><div class="text-xs text-soft" style="margin-top:8px">Do not share your UPI PIN or OTP. UTR submission alone does not activate Premium.</div></div>` : ''}
     <div class="card profile-hero">
       <div class="row" style="gap:15px;align-items:center;position:relative;z-index:1">
         <div class="profile-avatar">${esc(init)}</div>
@@ -3339,15 +3414,17 @@ window.openPremiumPage = function(){
   if(!S.user) return toast("Please sign in first", "error");
   const active = !!S.profile?.premiumActive && (!S.profile.premiumUntil || new Date(S.profile.premiumUntil.toDate ? S.profile.premiumUntil.toDate() : S.profile.premiumUntil).getTime() > Date.now());
   if(active){openModal(`<div class="premium-page"><span class="premium-pill">PAWAN RETAIL · ELITE</span><h2 style="font-size:25px;margin:14px 0 8px">Premium Membership</h2><p style="color:#d9c9a8;line-height:1.7">Your Premium experience is active. Your account has the exclusive luxury theme and eligible priority benefits.</p><div class="premium-benefits"><div class="premium-benefit">✦ Black & gold interface</div><div class="premium-benefit">⚡ Priority order handling</div><div class="premium-benefit">🕛 Eligible late orders to 11:59 PM</div><div class="premium-benefit">☎️ Priority support access</div></div><p style="font-size:12px;color:#e8ce95">Valid until: ${S.profile.premiumUntil ? esc(fdate(S.profile.premiumUntil)) : 'Membership active'}</p><div class="modal-actions"><button class="btn premium-page-btn" onclick="closeModal()">Continue shopping</button></div></div>`);return;}
-  const pending = S.profile?.premiumRequestStatus === 'pending';
-  openModal(`<div class="premium-page"><span class="premium-pill">PAWAN RETAIL · PREMIUM</span><h2 style="font-size:27px;margin:14px 0 7px">Upgrade your experience</h2><p style="color:#d9c9a8;line-height:1.7">A more luxurious shopping experience with priority order handling and eligible late ordering.</p><div class="premium-price">₹199 <span style="font-size:12px;color:#d9c9a8">/ 30 days</span></div><div class="premium-benefits"><div class="premium-benefit">✦ Exclusive black & gold UI</div><div class="premium-benefit">⚡ Priority order handling</div><div class="premium-benefit">🕛 Eligible late orders until 11:59 PM</div><div class="premium-benefit">🚚 Delivery priority where available</div><div class="premium-benefit">☎️ Priority support access</div><div class="premium-benefit">✓ Admin-verified membership</div></div><p style="font-size:11px;line-height:1.6;color:#d9c9a8">Late ordering, delivery speed and support depend on business availability. Premium activates only after the Admin verifies the payment.</p>${pending ? `<div style="border-top:1px solid #6a5733;margin-top:14px;padding-top:14px"><p style="line-height:1.6">Send ₹199 to <b>Pawan181@fam</b> using your UPI app, then enter the transaction UTR below.</p><label class="form-label" for="premiumPageUtr">UPI UTR / Transaction ID</label><input class="form-input" id="premiumPageUtr" maxlength="80" placeholder="Enter UTR / transaction reference" value="${esc(S.profile.premiumUtr||'')}" ${S.profile.premiumUtr?'disabled':''}><button class="btn premium-page-btn" id="premiumPageSubmitUtr" style="width:100%;margin-top:10px" ${S.profile.premiumUtr?'disabled':''}>${S.profile.premiumUtr?'UTR submitted — awaiting Admin':'Submit UTR'}</button><p style="font-size:10px;color:#c9b68f;margin-top:8px">Never share your UPI PIN or OTP.</p></div>` : `<button class="btn premium-page-btn" id="premiumPageStart" style="width:100%;margin-top:10px">Continue to payment instructions</button>`}<div class="modal-actions"><button class="btn" onclick="closeModal()" style="color:#f7e8c5;background:#ffffff12">Close</button></div></div>`);
+  const requestExpired = S.profile?.premiumRequestStatus === 'pending' && isPremiumRequestExpired(S.profile);
+  const pending = S.profile?.premiumRequestStatus === 'pending' && !requestExpired;
+  openModal(`<div class="premium-page"><span class="premium-pill">PAWAN RETAIL · PREMIUM</span><h2 style="font-size:27px;margin:14px 0 7px">Upgrade your experience</h2><p style="color:#d9c9a8;line-height:1.7">Enjoy an exclusive black-and-gold shopping experience, priority order handling, and late-order access when the store is closed (subject to availability).</p><div class="premium-price">₹199 <span style="font-size:12px;color:#d9c9a8">/ 30 days</span></div><div class="premium-benefits"><div class="premium-benefit">✦ Exclusive black & gold UI</div><div class="premium-benefit">⚡ Priority order handling</div><div class="premium-benefit">🕛 Eligible late orders until 11:59 PM</div><div class="premium-benefit">🚚 Delivery priority where available</div><div class="premium-benefit">☎️ Priority support access</div><div class="premium-benefit">✓ Admin-verified membership</div></div><p style="font-size:11px;line-height:1.6;color:#d9c9a8">Late ordering, delivery speed and support depend on business availability. Premium activates only after the Admin verifies the payment.</p>${requestExpired ? `<div style="border:1px solid #c5a66a;border-radius:12px;padding:12px;margin-top:12px;line-height:1.7"><b>Previous request expired</b><br>Your Premium request is valid for 20 minutes only. Create a new request to continue.</div><button class="btn premium-page-btn" id="premiumPageStart" style="width:100%;margin-top:10px">Create new request</button>` : pending ? `<div style="border-top:1px solid #6a5733;margin-top:14px;padding-top:14px"><p style="line-height:1.6"><b>Step 1:</b> Pay ₹199 to UPI ID <b>Pawan181@fam</b> in your UPI app.<br><b>Step 2:</b> Copy the UTR / transaction reference from your payment receipt and enter it below.<br><b>Step 3:</b> Wait for Admin to verify the payment. Premium activates only after approval.</p><label class="form-label" for="premiumPageUtr">UPI UTR / Transaction Reference</label><input class="form-input" id="premiumPageUtr" maxlength="80" placeholder="Enter UTR / transaction reference" value="${esc(S.profile.premiumUtr||'')}" ${S.profile.premiumUtr?'disabled':''}><button class="btn premium-page-btn" id="premiumPageSubmitUtr" style="width:100%;margin-top:10px" ${S.profile.premiumUtr?'disabled':''}>${S.profile.premiumUtr?'UTR submitted — awaiting Admin':'Submit UTR'}</button><p style="font-size:10px;color:#c9b68f;margin-top:8px">Safety: Never share your UPI PIN or OTP. Submitting a UTR does not itself confirm payment.</p></div>` : `<button class="btn premium-page-btn" id="premiumPageStart" style="width:100%;margin-top:10px">Continue to payment instructions</button>`}<div class="modal-actions"><button class="btn" onclick="closeModal()" style="color:#f7e8c5;background:#ffffff12">Close</button></div></div>`);
   const startBtn = document.getElementById('premiumPageStart');
   if(startBtn) startBtn.onclick = async () => {
     startBtn.disabled=true;startBtn.textContent='Creating request…';
     try {
-      const rr=await addDoc(collection(db,'premiumRequests'),{customerId:S.user.uid,customerName:S.profile.name||'',customerEmail:S.profile.email||'',amount:199,plan:'premium_30_days',status:'pending',paymentStatus:'unverified',createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
-      await updateDoc(doc(db,'users',S.user.uid),{premiumRequestId:rr.id,premiumRequestStatus:'pending'});
-      S.profile={...S.profile,premiumRequestId:rr.id,premiumRequestStatus:'pending'};
+      const rr=await addDoc(collection(db,'premiumRequests'),{customerId:S.user.uid,customerName:S.profile.name||'',customerEmail:S.profile.email||'',amount:199,plan:'premium_30_days',status:'pending',paymentStatus:'unverified',createdAt:serverTimestamp(),expiresAt:Date.now()+20*60*1000,updatedAt:serverTimestamp()});
+      const requestExpiresAt=Date.now()+20*60*1000;
+      await updateDoc(doc(db,'users',S.user.uid),{premiumRequestId:rr.id,premiumRequestStatus:'pending',premiumRequestExpiresAt:requestExpiresAt,premiumUtr:null});
+      S.profile={...S.profile,premiumRequestId:rr.id,premiumRequestStatus:'pending',premiumRequestExpiresAt:requestExpiresAt,premiumUtr:null};
       toast('Request created. Pay ₹199 and submit your UTR.','success');window.openPremiumPage();
     } catch(e){console.error(e);toast('Could not create request. Check Firestore Rules.','error');startBtn.disabled=false;startBtn.textContent='Continue to payment instructions';}
   };
@@ -3504,6 +3581,7 @@ async function renderAdminPremiumRequests(){
       const rid=btn.dataset.premiumApprove, uid=btn.dataset.customer;
       if(!uid)return toast('Customer UID missing; cannot activate safely.','error');
       const currentRequest = rows.find(x => x.id === rid);
+      if(Number(currentRequest?.expiresAt||0)>0 && Date.now()>=Number(currentRequest.expiresAt)) return toast('This Premium request expired after 20 minutes. Ask the customer to create a new request.','error');
       if(!currentRequest?.utr || String(currentRequest.utr).trim().length < 6) return toast('Customer must submit UTR before approval.','error');
       if(!confirm('Confirm you verified ₹199 payment and want to activate Premium for 30 days?'))return;
       btn.disabled=true;
