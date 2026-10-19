@@ -2865,9 +2865,15 @@ async function placeOrder({company, sub, delCh, svcCh, paymentMethod}){
       await updateDoc(doc(db,"users",S.user.uid), {phone, address, addressDetails});
       S.profile = {...S.profile, phone, address, addressDetails};
     } catch(profileSaveError) { console.warn("Order placed; profile address could not be saved:", profileSaveError); }
-    await addDoc(collection(db,"orders",ref.id,"statusHistory"), {
-      status:"pending", note:"Order placed", changedBy: S.user.uid, createdAt: serverTimestamp()
-    });
+    // Order is already saved at this point. A statusHistory permission error
+    // must not falsely tell the customer that the whole order failed.
+    try {
+      await addDoc(collection(db,"orders",ref.id,"statusHistory"), {
+        status:"pending", note:"Order placed", changedBy: S.user.uid, createdAt: serverTimestamp()
+      });
+    } catch(historyError) {
+      console.warn("Order saved, but status history could not be written. Add nested statusHistory Firestore rules.", historyError);
+    }
     clearCart();
     updateCartBadge();
     showOrderSuccess(orderId, total);
