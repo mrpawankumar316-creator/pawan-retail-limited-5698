@@ -5,569 +5,142 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Pawan Retail Limited — Food Ordering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --brand-900:#1e1b4b;
-    --brand-800:#312e81;
-    --brand-700:#3730a3;
-    --brand-600:#4338ca;
-    --brand-500:#4f46e5;
-    --brand-100:#e0e7ff;
-    --brand-50:#eef2ff;
-
-    --ink-900:#0f172a;
-    --ink-800:#1e293b;
-    --ink-700:#334155;
-    --ink-600:#475569;
-    --ink-500:#64748b;
-    --ink-400:#94a3b8;
-    --ink-300:#cbd5e1;
-    --ink-200:#e2e8f0;
-    --ink-100:#f1f5f9;
-    --ink-50:#f8fafc;
-
-    --success:#059669;
-    --success-bg:#ecfdf5;
-    --success-border:#a7f3d0;
-
-    --danger:#dc2626;
-    --danger-bg:#fef2f2;
-    --danger-border:#fecaca;
-
-    --warning:#d97706;
-    --warning-bg:#fffbeb;
-
-    --radius:8px;
-    --radius-lg:12px;
-    --radius-xl:16px;
-
-    --shadow-sm:0 1px 2px rgba(15,23,42,.05);
-    --shadow:0 1px 3px rgba(15,23,42,.08), 0 1px 2px rgba(15,23,42,.04);
-    --shadow-md:0 4px 12px rgba(15,23,42,.08);
-    --shadow-lg:0 10px 32px rgba(15,23,42,.1);
+    --brand-900:#1e1b4b; --brand-800:#312e81; --brand-700:#3730a3; --brand-600:#4338ca; --brand-500:#4f46e5; --brand-100:#e0e7ff; --brand-50:#eef2ff;
+    --ink-900:#0f172a; --ink-800:#1e293b; --ink-700:#334155; --ink-600:#475569; --ink-500:#64748b; --ink-400:#94a3b8; --ink-300:#cbd5e1; --ink-200:#e2e8f0; --ink-100:#f1f5f9; --ink-50:#f8fafc;
+    --success:#059669; --success-bg:#ecfdf5; --success-border:#a7f3d0;
+    --danger:#dc2626; --danger-bg:#fef2f2; --danger-border:#fecaca;
+    --warning:#d97706; --warning-bg:#fffbeb;
+    --radius:8px; --radius-lg:12px; --radius-xl:16px;
+    --shadow-sm:0 1px 2px rgba(15,23,42,.05); --shadow:0 1px 3px rgba(15,23,42,.08); --shadow-md:0 4px 12px rgba(15,23,42,.08); --shadow-lg:0 10px 32px rgba(15,23,42,.1);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{height:100%;}
-  body{
-    font-family:'Inter','IBM Plex Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
-    background:var(--ink-50);
-    color:var(--ink-800);
-    -webkit-font-smoothing:antialiased;
-    font-size:14px;
-    line-height:1.5;
-  }
+  body{font-family:'Inter',system-ui,sans-serif; background:var(--ink-50); color:var(--ink-800); min-height:100vh; -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.5;}
   h1,h2,h3,h4{letter-spacing:-.01em; font-weight:700; color:var(--ink-900);}
-  h1{font-size:24px; line-height:1.25;}
-  h2{font-size:18px; line-height:1.35;}
-  h3{font-size:15px; line-height:1.4;}
-  p{line-height:1.6;}
+  
+  .page{animation:fadeIn .3s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .modal-anim{animation:popIn .25s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+  @keyframes popIn{from{opacity:0; transform:scale(.95);} to{opacity:1; transform:scale(1);}}
+  .img-fade{animation:imgFade .5s ease;}
+  @keyframes imgFade{from{opacity:0; transform:scale(.98);} to{opacity:1; transform:scale(1);}}
+
+  .app-shell{min-height:100vh; display:flex; flex-direction:column; padding-bottom:76px;}
+  
+  /* TOPBAR */
+  .topbar{background:#fff; border-bottom:1px solid var(--ink-200); position:sticky; top:0; z-index:50;}
+  .topbar-inner{max-width:1200px; margin:0 auto; padding:14px 24px; display:flex; justify-content:space-between; align-items:center; gap:16px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{width:36px; height:36px; border-radius:8px; background:var(--brand-700); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px;}
+  .brand-text .name{font-size:15px; font-weight:700; color:var(--ink-900); line-height:1.2;}
+  .brand-text .tag{font-size:11px; color:var(--ink-500);}
+  .penalty-chip{display:inline-flex; align-items:center; gap:6px; background:var(--danger-bg); color:var(--danger); padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600; border:1px solid var(--danger-border); cursor:pointer;}
+
+  /* MAIN */
+  .main{flex:1; max-width:1200px; margin:0 auto; width:100%; padding:24px;}
+  .card{background:#fff; border-radius:var(--radius-lg); border:1px solid var(--ink-200); padding:20px;}
   .muted{color:var(--ink-500); font-size:13px;}
 
-  /* ============ APP SHELL ============ */
-  .app-shell{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    padding-bottom:76px; /* space for bottom nav */
-  }
-
-  /* ============ TOPBAR ============ */
-  .topbar{
-    background:#fff;
-    border-bottom:1px solid var(--ink-200);
-    position:sticky; top:0; z-index:50;
-  }
-  .topbar-inner{
-    max-width:1200px;
-    margin:0 auto;
-    padding:14px 24px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:16px;
-  }
-  .brand{
-    display:flex; align-items:center; gap:10px;
-  }
-  .brand-mark{
-    width:36px; height:36px;
-    border-radius:8px;
-    background:var(--brand-700);
-    color:white;
-    display:flex; align-items:center; justify-content:center;
-    font-weight:700; font-size:16px;
-    letter-spacing:-.02em;
-  }
-  .brand-text{display:flex; flex-direction:column; line-height:1.2;}
-  .brand-text .name{font-size:15px; font-weight:700; color:var(--ink-900);}
-  .brand-text .tag{font-size:11px; color:var(--ink-500); font-weight:500;}
-  .topbar-actions{
-    display:flex; align-items:center; gap:10px;
-  }
-  .penalty-chip{
-    display:inline-flex; align-items:center; gap:6px;
-    background:var(--danger-bg);
-    color:var(--danger);
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:600;
-    border:1px solid var(--danger-border);
-    cursor:pointer;
-    transition:background .15s;
-  }
-  .penalty-chip:hover{background:#fee2e2;}
-  .penalty-chip::before{content:'!'; display:inline-flex; align-items:center; justify-content:center; width:14px; height:14px; border-radius:50%; background:var(--danger); color:white; font-size:10px; font-weight:700;}
-
-  /* ============ MAIN ============ */
-  .main{
-    flex:1;
-    max-width:1200px;
-    margin:0 auto;
-    width:100%;
-    padding:24px;
-  }
-
-  /* ============ BOTTOM NAV ============ */
-  .bottom-nav{
-    position:fixed;
-    bottom:0; left:0; right:0;
-    background:#fff;
-    border-top:1px solid var(--ink-200);
-    z-index:100;
-    box-shadow:0 -4px 16px rgba(15,23,42,.06);
-  }
-  .bottom-nav-inner{
-    max-width:720px;
-    margin:0 auto;
-    display:flex;
-    justify-content:space-around;
-    padding:6px 8px;
-  }
-  .nav-item{
-    flex:1;
-    background:transparent;
-    border:none;
-    padding:8px 4px;
-    cursor:pointer;
-    font-family:inherit;
-    color:var(--ink-500);
-    font-size:11px;
-    font-weight:600;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:3px;
-    border-radius:8px;
-    transition:all .15s;
-    position:relative;
-    max-width:120px;
-  }
-  .nav-item .icon{font-size:20px; line-height:1;}
-  .nav-item:hover{background:var(--ink-100); color:var(--ink-700);}
-  .nav-item.active{color:var(--brand-700);}
-  .nav-item.active .icon{color:var(--brand-700);}
-  .nav-item .badge{
-    position:absolute;
-    top:4px; right:calc(50% - 24px);
-    background:var(--danger);
-    color:white;
-    font-size:9px;
-    font-weight:700;
-    padding:2px 6px;
-    border-radius:10px;
-    min-width:16px;
-    text-align:center;
-  }
-  .nav-item.admin-tab .icon{color:var(--brand-700);}
-
-  /* ============ CARDS ============ */
-  .card{
-    background:#fff;
-    border-radius:var(--radius-lg);
-    border:1px solid var(--ink-200);
-    padding:20px;
-  }
-  .card.elevated{box-shadow:var(--shadow-sm);}
-
-  /* ============ BUTTONS ============ */
-  .btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:6px;
-    background:var(--brand-700);
-    color:white;
-    border:none;
-    padding:9px 16px;
-    border-radius:var(--radius);
-    cursor:pointer;
-    font-family:inherit;
-    font-size:13px;
-    font-weight:600;
-    transition:background .15s;
-    white-space:nowrap;
-    line-height:1.4;
-  }
-  .btn:hover{background:var(--brand-800);}
-  .btn:active{background:var(--brand-900);}
-  .btn:disabled{opacity:.5; cursor:not-allowed; background:var(--brand-700);}
-  .btn.secondary{
-    background:#fff;
-    color:var(--ink-700);
-    border:1px solid var(--ink-300);
-  }
-  .btn.secondary:hover{background:var(--ink-50); border-color:var(--ink-400);}
+  /* BUTTONS */
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:6px; background:var(--brand-700); color:white; border:none; padding:9px 16px; border-radius:var(--radius); cursor:pointer; font-size:13px; font-weight:600; transition:all .15s; font-family:inherit;}
+  .btn:hover{background:var(--brand-800); transform:translateY(-1px);}
+  .btn:active{transform:translateY(0);}
+  .btn:disabled{opacity:.5; cursor:not-allowed; transform:none;}
+  .btn.secondary{background:#fff; color:var(--ink-700); border:1px solid var(--ink-300);}
+  .btn.secondary:hover{background:var(--ink-50);}
   .btn.danger{background:var(--danger);}
   .btn.danger:hover{background:#b91c1c;}
-  .btn.ghost{background:transparent; color:var(--ink-600); border:none;}
+  .btn.ghost{background:transparent; color:var(--ink-600);}
   .btn.ghost:hover{background:var(--ink-100);}
   .btn.sm{padding:6px 12px; font-size:12px;}
   .btn.block{width:100%;}
 
-  /* ============ FORMS ============ */
+  /* FORMS */
   .field{margin-bottom:14px;}
-  .field label{
-    display:block;
-    font-size:12px;
-    font-weight:600;
-    color:var(--ink-700);
-    margin-bottom:5px;
-  }
-  .field input, .field select, .field textarea{
-    width:100%;
-    padding:9px 12px;
-    border:1px solid var(--ink-300);
-    border-radius:var(--radius);
-    font-size:14px;
-    font-family:inherit;
-    color:var(--ink-900);
-    background:#fff;
-    outline:none;
-    transition:border-color .15s, box-shadow .15s;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus{
-    border-color:var(--brand-500);
-    box-shadow:0 0 0 3px var(--brand-100);
-  }
-  .field input:disabled{background:var(--ink-100); color:var(--ink-500); cursor:not-allowed;}
+  .field label{display:block; font-size:12px; font-weight:600; color:var(--ink-700); margin-bottom:5px;}
+  .field input, .field select, .field textarea{width:100%; padding:9px 12px; border:1px solid var(--ink-300); border-radius:var(--radius); font-size:14px; outline:none; font-family:inherit; transition:border .15s; background:#fff;}
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--brand-500); box-shadow:0 0 0 3px var(--brand-100);}
   .field textarea{resize:vertical; min-height:60px;}
   .field-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
 
-  /* ============ SEARCH ============ */
-  .search-bar{
-    background:#fff;
-    border:1px solid var(--ink-300);
-    border-radius:var(--radius);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:0 14px;
-    margin-bottom:20px;
-    transition:border-color .15s, box-shadow .15s;
-  }
+  /* SEARCH */
+  .search-bar{background:#fff; border:1px solid var(--ink-300); border-radius:var(--radius); display:flex; align-items:center; gap:10px; padding:0 14px; margin-bottom:20px;}
   .search-bar:focus-within{border-color:var(--brand-500); box-shadow:0 0 0 3px var(--brand-100);}
-  .search-bar .icon{font-size:16px; color:var(--ink-400);}
-  .search-bar input{
-    flex:1;
-    border:none;
-    background:transparent;
-    padding:11px 0;
-    font-size:14px;
-    outline:none;
-    font-family:inherit;
-  }
+  .search-bar input{flex:1; border:none; background:transparent; padding:11px 0; outline:none; font-size:14px; font-family:inherit;}
 
-  /* ============ RESTAURANT CARDS ============ */
-  .restaurant-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-    gap:16px;
-  }
-  .restaurant-card{
-    background:#fff;
-    border:1px solid var(--ink-200);
-    border-radius:var(--radius-lg);
-    overflow:hidden;
-    cursor:pointer;
-    transition:border-color .15s, box-shadow .15s;
-    display:flex;
-    flex-direction:column;
-  }
-  .restaurant-card:hover{
-    border-color:var(--brand-500);
-    box-shadow:var(--shadow-md);
-  }
-  .restaurant-banner{
-    height:100px;
-    background:var(--brand-700);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-size:40px;
-    font-weight:700;
-  }
+  /* RESTAURANT CARDS */
+  .restaurant-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px;}
+  .restaurant-card{background:#fff; border:1px solid var(--ink-200); border-radius:var(--radius-lg); overflow:hidden; cursor:pointer; transition:all .15s;}
+  .restaurant-card:hover{border-color:var(--brand-500); box-shadow:var(--shadow-md); transform:translateY(-2px);}
+  .restaurant-img{height:140px; background:var(--brand-700); display:flex; align-items:center; justify-content:center; color:white; font-size:48px; font-weight:700; overflow:hidden;}
+  .restaurant-img img{width:100%; height:100%; object-fit:cover;}
   .restaurant-body{padding:14px 16px;}
   .restaurant-body h3{font-size:15px; margin-bottom:4px;}
-  .restaurant-cat{
-    display:inline-block;
-    font-size:10.5px;
-    font-weight:600;
-    color:var(--brand-700);
-    background:var(--brand-50);
-    padding:2px 8px;
-    border-radius:4px;
-    text-transform:uppercase;
-    letter-spacing:.03em;
-    margin-bottom:6px;
-  }
+  .restaurant-cat{display:inline-block; font-size:10.5px; font-weight:600; color:var(--brand-700); background:var(--brand-50); padding:2px 8px; border-radius:4px; text-transform:uppercase; letter-spacing:.03em; margin-bottom:6px;}
   .restaurant-desc{font-size:12.5px; color:var(--ink-500); line-height:1.5;}
 
-  /* ============ FOOD ITEMS ============ */
+  /* FOOD ITEMS */
   .food-list{display:flex; flex-direction:column; gap:8px;}
-  .food-item{
-    background:#fff;
-    border:1px solid var(--ink-200);
-    border-radius:var(--radius);
-    padding:14px 16px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:16px;
-    transition:border-color .15s;
-  }
-  .food-item:hover{border-color:var(--ink-300);}
+  .food-item{background:#fff; border:1px solid var(--ink-200); border-radius:var(--radius); padding:12px; display:flex; justify-content:space-between; align-items:center; gap:12px;}
   .food-item.disabled{opacity:.6; background:var(--ink-100);}
+  .food-thumb{width:64px; height:64px; border-radius:8px; background:var(--ink-100); flex-shrink:0; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--ink-400); font-weight:700; font-size:20px;}
+  .food-thumb img{width:100%; height:100%; object-fit:cover;}
   .food-info{flex:1; min-width:0;}
-  .food-name{font-weight:600; font-size:14px; color:var(--ink-900); margin-bottom:2px;}
-  .food-desc{font-size:12.5px; color:var(--ink-500); margin-bottom:6px;}
+  .food-name{font-weight:600; font-size:14px; margin-bottom:2px;}
+  .food-desc{font-size:12px; color:var(--ink-500); margin-bottom:4px;}
   .food-price{font-weight:700; color:var(--brand-700); font-size:14px;}
 
-  .qty-control{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    background:var(--ink-100);
-    padding:3px;
-    border-radius:var(--radius);
-  }
-  .qty-control button{
-    width:28px; height:28px;
-    border-radius:5px;
-    border:none;
-    background:#fff;
-    color:var(--brand-700);
-    cursor:pointer;
-    font-weight:700;
-    font-size:15px;
-    font-family:inherit;
-    display:flex; align-items:center; justify-content:center;
-    transition:background .15s;
-    box-shadow:var(--shadow-sm);
-  }
+  .qty-control{display:flex; align-items:center; gap:6px; background:var(--ink-100); padding:3px; border-radius:var(--radius);}
+  .qty-control button{width:28px; height:28px; border-radius:5px; border:none; background:#fff; color:var(--brand-700); cursor:pointer; font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center;}
   .qty-control button:hover{background:var(--brand-700); color:white;}
-  .qty-control span{
-    font-weight:600;
-    min-width:20px;
-    text-align:center;
-    font-size:13px;
-  }
+  .qty-control span{font-weight:600; min-width:20px; text-align:center; font-size:13px;}
 
-  /* ============ CART ============ */
-  .cart-layout{
-    display:grid;
-    grid-template-columns:1fr 340px;
-    gap:20px;
-    align-items:start;
-  }
+  /* CART */
+  .cart-layout{display:grid; grid-template-columns:1fr 340px; gap:20px; align-items:start;}
   .cart-items-card{background:#fff; border:1px solid var(--ink-200); border-radius:var(--radius-lg); overflow:hidden;}
-  .cart-item-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:14px 18px;
-    border-bottom:1px solid var(--ink-100);
-    gap:14px;
-  }
+  .cart-item-row{display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-bottom:1px solid var(--ink-100); gap:14px;}
   .cart-item-row:last-child{border-bottom:none;}
   .cart-item-info{flex:1; min-width:0;}
   .cart-item-name{font-weight:600; font-size:14px;}
   .cart-item-price{font-size:12.5px; color:var(--ink-500); margin-top:1px;}
   .cart-item-total{font-weight:700; color:var(--brand-700); font-size:14px; min-width:70px; text-align:right;}
 
-  .cart-summary{
-    background:#fff;
-    border:1px solid var(--ink-200);
-    border-radius:var(--radius-lg);
-    padding:20px;
-    position:sticky;
-    top:80px;
-  }
-  .summary-line{
-    display:flex;
-    justify-content:space-between;
-    padding:8px 0;
-    font-size:13.5px;
-    color:var(--ink-700);
-  }
-  .summary-line.total{
-    border-top:1px solid var(--ink-200);
-    margin-top:8px;
-    padding-top:14px;
-    font-size:16px;
-    font-weight:700;
-    color:var(--ink-900);
-  }
-  .penalty-line{
-    display:flex;
-    justify-content:space-between;
-    padding:10px 0;
-    font-size:13.5px;
-    color:var(--danger);
-    font-weight:600;
-    border-top:1px dashed var(--danger-border);
-    border-bottom:1px dashed var(--danger-border);
-    margin:8px 0;
-  }
+  .cart-summary{background:#fff; border:1px solid var(--ink-200); border-radius:var(--radius-lg); padding:20px; position:sticky; top:80px;}
+  .summary-line{display:flex; justify-content:space-between; padding:8px 0; font-size:13.5px;}
+  .summary-line.total{border-top:1px solid var(--ink-200); margin-top:8px; padding-top:14px; font-size:16px; font-weight:700; color:var(--ink-900);}
+  .penalty-line{display:flex; justify-content:space-between; padding:10px 0; font-size:13.5px; color:var(--danger); font-weight:600; border-top:1px dashed var(--danger-border); border-bottom:1px dashed var(--danger-border); margin:8px 0;}
 
-  /* ============ ADDRESS PICKER ============ */
+  /* ADDRESS PICKER */
   .address-list{display:flex; flex-direction:column; gap:8px; margin-bottom:12px;}
-  .address-card{
-    background:#fff;
-    border:1px solid var(--ink-300);
-    border-radius:var(--radius);
-    padding:12px 14px;
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-    cursor:pointer;
-    transition:all .15s;
-    position:relative;
-  }
+  .address-card{background:#fff; border:1px solid var(--ink-300); border-radius:var(--radius); padding:12px 14px; display:flex; gap:12px; align-items:flex-start; cursor:pointer; transition:all .15s;}
   .address-card:hover{border-color:var(--brand-500);}
-  .address-card.selected{
-    border-color:var(--brand-600);
-    background:var(--brand-50);
-    box-shadow:0 0 0 3px var(--brand-100);
-  }
-  .address-radio{
-    width:16px; height:16px;
-    border-radius:50%;
-    border:2px solid var(--ink-400);
-    flex-shrink:0;
-    margin-top:3px;
-    position:relative;
-    transition:all .15s;
-  }
+  .address-card.selected{border-color:var(--brand-600); background:var(--brand-50); box-shadow:0 0 0 3px var(--brand-100);}
+  .address-radio{width:16px; height:16px; border-radius:50%; border:2px solid var(--ink-400); flex-shrink:0; margin-top:3px; position:relative;}
   .address-card.selected .address-radio{border-color:var(--brand-700); background:var(--brand-700);}
-  .address-card.selected .address-radio::after{
-    content:'';
-    position:absolute;
-    inset:2px;
-    border-radius:50%;
-    background:#fff;
-  }
+  .address-card.selected .address-radio::after{content:''; position:absolute; inset:2px; border-radius:50%; background:#fff;}
   .address-content{flex:1; min-width:0;}
-  .address-label{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-size:12px;
-    font-weight:700;
-    color:var(--ink-900);
-    margin-bottom:3px;
-    text-transform:uppercase;
-    letter-spacing:.03em;
-  }
-  .address-badge{
-    background:var(--brand-700);
-    color:white;
-    font-size:9px;
-    font-weight:700;
-    padding:2px 6px;
-    border-radius:4px;
-    letter-spacing:.04em;
-  }
-  .address-text{
-    font-size:13px;
-    color:var(--ink-600);
-    line-height:1.5;
-  }
-  .address-text strong{color:var(--ink-800); font-weight:600;}
+  .address-label{display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--ink-900); margin-bottom:3px; text-transform:uppercase; letter-spacing:.03em;}
+  .address-badge{background:var(--brand-700); color:white; font-size:9px; font-weight:700; padding:2px 6px; border-radius:4px;}
+  .address-text{font-size:13px; color:var(--ink-600); line-height:1.5;}
   .address-actions{display:flex; gap:4px; flex-shrink:0;}
-  .address-actions button{
-    background:transparent;
-    border:none;
-    color:var(--ink-500);
-    cursor:pointer;
-    font-size:14px;
-    padding:4px;
-    border-radius:4px;
-    transition:all .15s;
-  }
+  .address-actions button{background:transparent; border:none; color:var(--ink-500); cursor:pointer; font-size:14px; padding:4px; border-radius:4px;}
   .address-actions button:hover{background:var(--ink-100); color:var(--ink-800);}
+  .add-address-btn{width:100%; padding:12px; border:1.5px dashed var(--ink-300); background:#fff; border-radius:var(--radius); cursor:pointer; color:var(--ink-600); font-family:inherit; font-size:13px; font-weight:600; transition:all .15s;}
+  .add-address-btn:hover{border-color:var(--brand-500); color:var(--brand-700); background:var(--brand-50);}
 
-  .add-address-btn{
-    width:100%;
-    padding:12px;
-    border:1.5px dashed var(--ink-300);
-    background:#fff;
-    border-radius:var(--radius);
-    cursor:pointer;
-    color:var(--ink-600);
-    font-family:inherit;
-    font-size:13px;
-    font-weight:600;
-    transition:all .15s;
-  }
-  .add-address-btn:hover{
-    border-color:var(--brand-500);
-    color:var(--brand-700);
-    background:var(--brand-50);
-  }
-
-  /* ============ ORDERS ============ */
-  .order-card{
-    background:#fff;
-    border:1px solid var(--ink-200);
-    border-radius:var(--radius-lg);
-    margin-bottom:12px;
-    overflow:hidden;
-  }
-  .order-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:14px 18px;
-    background:var(--ink-50);
-    border-bottom:1px solid var(--ink-200);
-    gap:12px;
-    flex-wrap:wrap;
-  }
+  /* ORDERS */
+  .order-card{background:#fff; border:1px solid var(--ink-200); border-radius:var(--radius-lg); margin-bottom:12px; overflow:hidden;}
+  .order-header{display:flex; justify-content:space-between; align-items:center; padding:14px 18px; background:var(--ink-50); border-bottom:1px solid var(--ink-200); gap:12px; flex-wrap:wrap;}
   .order-id{font-weight:700; color:var(--ink-900); font-size:14px;}
   .order-meta{font-size:12px; color:var(--ink-500); margin-top:2px;}
-  .order-body{
-    padding:14px 18px;
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:16px;
-    align-items:center;
-  }
+  .order-body{padding:14px 18px; display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center;}
   .order-items-list{font-size:13px; color:var(--ink-600); line-height:1.7;}
   .order-total-label{font-size:11px; color:var(--ink-500); font-weight:600; text-transform:uppercase; letter-spacing:.03em;}
   .order-total-value{font-size:18px; font-weight:700; color:var(--brand-700);}
 
-  /* ============ STATUS ============ */
-  .status-badge{
-    display:inline-block;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:10.5px;
-    font-weight:700;
-    letter-spacing:.03em;
-    text-transform:uppercase;
-    white-space:nowrap;
-  }
+  .status-badge{display:inline-block; padding:4px 10px; border-radius:20px; font-size:10.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; white-space:nowrap;}
   .status-Placed{background:#dbeafe; color:#1e40af;}
   .status-Accepted{background:#e0e7ff; color:#3730a3;}
   .status-Preparing{background:#fef3c7; color:#92400e;}
@@ -576,318 +149,89 @@
   .status-Delivered{background:#dcfce7; color:#166534;}
   .status-Cancelled{background:#fee2e2; color:#991b1b;}
 
-  .order-steps{
-    display:flex;
-    gap:4px;
-    padding:12px 18px;
-    background:var(--ink-50);
-    border-top:1px solid var(--ink-200);
-    flex-wrap:wrap;
-    align-items:center;
-  }
-  .order-steps span{
-    padding:3px 8px;
-    border-radius:4px;
-    background:#fff;
-    border:1px solid var(--ink-200);
-    color:var(--ink-400);
-    font-size:10.5px;
-    font-weight:600;
-  }
-  .order-steps span.done{background:var(--success-bg); color:var(--success); border-color:var(--success-border);}
-  .order-steps span.current{background:var(--brand-700); color:white; border-color:var(--brand-700);}
-
-  /* ============ ADMIN TABS ============ */
-  .admin-tabs{
-    display:flex;
-    gap:4px;
-    margin-bottom:18px;
-    background:#fff;
-    padding:4px;
-    border-radius:var(--radius);
-    border:1px solid var(--ink-200);
-    width:fit-content;
-  }
-  .admin-tabs button{
-    background:transparent;
-    border:none;
-    padding:7px 14px;
-    border-radius:6px;
-    font-family:inherit;
-    font-size:12.5px;
-    font-weight:600;
-    color:var(--ink-500);
-    cursor:pointer;
-    transition:all .15s;
-  }
+  /* ADMIN TABS */
+  .admin-tabs{display:flex; gap:4px; margin-bottom:18px; background:#fff; padding:4px; border-radius:var(--radius); border:1px solid var(--ink-200); width:fit-content; flex-wrap:wrap;}
+  .admin-tabs button{background:transparent; border:none; padding:7px 14px; border-radius:6px; font-family:inherit; font-size:12.5px; font-weight:600; color:var(--ink-500); cursor:pointer; transition:all .15s;}
   .admin-tabs button:hover{background:var(--ink-100); color:var(--ink-800);}
   .admin-tabs button.active{background:var(--brand-700); color:white;}
 
-  /* ============ TABLES ============ */
-  .data-table{
-    background:#fff;
-    border:1px solid var(--ink-200);
-    border-radius:var(--radius-lg);
-    overflow:hidden;
-  }
+  /* TABLES */
+  .data-table{background:#fff; border:1px solid var(--ink-200); border-radius:var(--radius-lg); overflow:hidden;}
   .data-table table{width:100%; border-collapse:collapse; font-size:13px;}
-  .data-table th{
-    text-align:left;
-    padding:11px 16px;
-    background:var(--ink-50);
-    color:var(--ink-600);
-    font-size:11px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.04em;
-    border-bottom:1px solid var(--ink-200);
-  }
-  .data-table td{
-    padding:12px 16px;
-    border-bottom:1px solid var(--ink-100);
-    vertical-align:middle;
-  }
+  .data-table th{text-align:left; padding:11px 16px; background:var(--ink-50); color:var(--ink-600); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid var(--ink-200);}
+  .data-table td{padding:12px 16px; border-bottom:1px solid var(--ink-100); vertical-align:middle;}
   .data-table tr:last-child td{border-bottom:none;}
   .data-table tr:hover td{background:var(--ink-50);}
-  .data-table .actions{display:flex; gap:5px; justify-content:flex-end;}
+  .data-table .actions{display:flex; gap:5px; justify-content:flex-end; flex-wrap:wrap;}
+  .data-table .thumb{width:36px; height:36px; border-radius:6px; background:var(--ink-100); overflow:hidden; display:inline-flex; align-items:center; justify-content:center; color:var(--ink-400); font-weight:700; font-size:14px; margin-right:8px; vertical-align:middle;}
+  .data-table .thumb img{width:100%; height:100%; object-fit:cover;}
 
-  /* ============ STATS ============ */
-  .stats-row{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:12px;
-    margin-bottom:20px;
-  }
-  .stat-card{
-    background:#fff;
-    border:1px solid var(--ink-200);
-    border-radius:var(--radius-lg);
-    padding:16px;
-  }
-  .stat-label{
-    font-size:11px;
-    font-weight:600;
-    color:var(--ink-500);
-    text-transform:uppercase;
-    letter-spacing:.04em;
-    margin-bottom:6px;
-  }
-  .stat-value{
-    font-size:22px;
-    font-weight:700;
-    color:var(--ink-900);
-    letter-spacing:-.02em;
-  }
+  /* STATS */
+  .stats-row{display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin-bottom:20px;}
+  .stat-card{background:#fff; border:1px solid var(--ink-200); border-radius:var(--radius-lg); padding:16px;}
+  .stat-label{font-size:11px; font-weight:600; color:var(--ink-500); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px;}
+  .stat-value{font-size:22px; font-weight:700; color:var(--ink-900);}
 
-  /* ============ PROFILE ============ */
-  .profile-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-    align-items:start;
-  }
+  /* PROFILE */
+  .profile-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start;}
+  .penalty-box{background:var(--danger-bg); border:1px solid var(--danger-border); border-radius:var(--radius); padding:14px 16px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; gap:12px;}
+  .penalty-box-label{font-size:13px; font-weight:700; color:var(--danger);}
+  .penalty-box-value{font-size:20px; font-weight:800; color:var(--danger);}
 
-  /* ============ AUTH ============ */
-  .auth-shell{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:var(--ink-50);
-  }
-  .auth-card{
-    background:#fff;
-    border-radius:var(--radius-lg);
-    border:1px solid var(--ink-200);
-    box-shadow:var(--shadow-md);
-    padding:32px;
-    width:100%;
-    max-width:400px;
-  }
-  .auth-logo{
-    width:48px; height:48px;
-    border-radius:10px;
-    background:var(--brand-700);
-    color:white;
-    display:flex; align-items:center; justify-content:center;
-    font-size:22px;
-    font-weight:700;
-    margin:0 auto 16px;
-  }
+  /* AUTH */
+  .auth-shell{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; background:var(--ink-50);}
+  .auth-card{background:#fff; border-radius:var(--radius-lg); border:1px solid var(--ink-200); box-shadow:var(--shadow-md); padding:32px; width:100%; max-width:400px;}
+  .auth-logo{width:48px; height:48px; border-radius:10px; background:var(--brand-700); color:white; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; margin:0 auto 16px;}
   .auth-card h1{text-align:center; font-size:20px; margin-bottom:4px;}
   .auth-sub{text-align:center; color:var(--ink-500); font-size:13px; margin-bottom:24px;}
-  .auth-tabs{
-    display:flex;
-    background:var(--ink-100);
-    padding:4px;
-    border-radius:var(--radius);
-    margin-bottom:20px;
-  }
-  .auth-tabs button{
-    flex:1;
-    background:transparent;
-    border:none;
-    padding:8px;
-    border-radius:6px;
-    font-family:inherit;
-    font-size:13px;
-    font-weight:600;
-    color:var(--ink-500);
-    cursor:pointer;
-    transition:all .15s;
-  }
+  .auth-tabs{display:flex; background:var(--ink-100); padding:4px; border-radius:var(--radius); margin-bottom:20px;}
+  .auth-tabs button{flex:1; background:transparent; border:none; padding:8px; border-radius:6px; font-family:inherit; font-size:13px; font-weight:600; color:var(--ink-500); cursor:pointer;}
   .auth-tabs button.active{background:#fff; color:var(--brand-700); box-shadow:var(--shadow-sm);}
 
-  /* ============ CART BAR ============ */
-  .cart-bar{
-    position:fixed;
-    bottom:76px;
-    left:50%;
-    transform:translateX(-50%);
-    background:var(--ink-900);
-    color:white;
-    padding:12px 20px;
-    border-radius:var(--radius);
-    display:flex;
-    align-items:center;
-    gap:16px;
-    cursor:pointer;
-    z-index:60;
-    box-shadow:var(--shadow-lg);
-    font-size:13px;
-    font-weight:600;
-    transition:transform .15s;
-    max-width:calc(100% - 32px);
-  }
-  .cart-bar:hover{transform:translateX(-50%) translateY(-2px);}
-  .cart-bar .count{
-    background:var(--brand-500);
-    color:white;
-    padding:2px 8px;
-    border-radius:4px;
-    font-size:12px;
-    font-weight:700;
-  }
+  /* CART BAR */
+  .cart-bar{position:fixed; bottom:76px; left:50%; transform:translateX(-50%); background:var(--ink-900); color:white; padding:12px 20px; border-radius:var(--radius); display:flex; align-items:center; gap:16px; cursor:pointer; z-index:60; box-shadow:var(--shadow-lg); font-size:13px; font-weight:600; max-width:calc(100% - 32px);}
+  .cart-bar .count{background:var(--brand-500); color:white; padding:2px 8px; border-radius:4px; font-size:12px; font-weight:700;}
 
-  /* ============ TOAST ============ */
-  .toast{
-    position:fixed;
-    top:80px;
-    right:20px;
-    background:var(--ink-900);
-    color:white;
-    padding:12px 18px;
-    border-radius:var(--radius);
-    font-size:13px;
-    font-weight:500;
-    z-index:1000;
-    box-shadow:var(--shadow-lg);
-    max-width:340px;
-    animation:slideIn .2s ease;
-    border-left:3px solid var(--brand-500);
-  }
-  .toast.success{border-left-color:var(--success);}
-  .toast.error{border-left-color:var(--danger);}
-  @keyframes slideIn{from{transform:translateX(120%); opacity:0;} to{transform:translateX(0); opacity:1;}}
+  /* TOAST */
+  .toast{position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--ink-900); color:white; padding:12px 20px; border-radius:var(--radius); font-size:13px; font-weight:500; z-index:1000; box-shadow:var(--shadow-lg); animation:dropDown .3s ease; max-width:90%; text-align:center;}
+  .toast.error{border-bottom:3px solid var(--danger);}
+  .toast.success{border-bottom:3px solid var(--success);}
+  @keyframes dropDown{from{opacity:0; transform:translate(-50%, -20px);} to{opacity:1; transform:translate(-50%, 0);}}
 
-  /* ============ SPINNER / LOADING ============ */
-  .spinner{
-    width:14px; height:14px;
-    border:2px solid rgba(255,255,255,.3);
-    border-top-color:white;
-    border-radius:50%;
-    animation:spin .7s linear infinite;
-    display:inline-block;
-  }
+  /* SPINNER */
+  .spinner{width:14px; height:14px; border:2px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:spin .7s linear infinite; display:inline-block;}
   .spinner.dark{border-color:var(--ink-200); border-top-color:var(--brand-700);}
   @keyframes spin{to{transform:rotate(360deg);}}
 
-  .loading{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:60px 20px;
-    gap:12px;
-  }
+  .loading{display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; gap:12px;}
   .loading .spinner{width:28px; height:28px; border-width:3px; border-color:var(--ink-200); border-top-color:var(--brand-700);}
-  .loading p{color:var(--ink-500); font-size:13px; font-weight:500;}
+  .loading p{color:var(--ink-500); font-size:13px;}
 
-  .skeleton{
-    background:linear-gradient(90deg, var(--ink-100) 25%, var(--ink-200) 50%, var(--ink-100) 75%);
-    background-size:200% 100%;
-    animation:shimmer 1.5s infinite;
-    border-radius:var(--radius);
-  }
-  @keyframes shimmer{to{background-position:-200% 0;}}
-
-  /* ============ MODAL ============ */
-  .modal-bg{
-    position:fixed;
-    inset:0;
-    background:rgba(15,23,42,.5);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:200;
-    padding:16px;
-    animation:fadeIn .15s;
-  }
-  @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
-  .modal{
-    background:#fff;
-    border-radius:var(--radius-lg);
-    padding:24px;
-    max-width:480px;
-    width:100%;
-    max-height:90vh;
-    overflow-y:auto;
-    box-shadow:var(--shadow-lg);
-    animation:scaleIn .2s ease;
-  }
-  @keyframes scaleIn{from{transform:scale(.96); opacity:0;} to{transform:scale(1); opacity:1;}}
+  /* MODAL */
+  .modal-bg{position:fixed; inset:0; background:rgba(15,23,42,.6); backdrop-filter:blur(2px); display:flex; align-items:center; justify-content:center; z-index:200; padding:16px; animation:fadeIn .15s;}
+  .modal{background:#fff; border-radius:var(--radius-xl); padding:24px; max-width:480px; width:100%; max-height:90vh; overflow-y:auto; box-shadow:var(--shadow-lg);}
   .modal h3{margin-bottom:16px; font-size:16px;}
 
-  /* ============ EMPTY ============ */
-  .empty{
-    text-align:center;
-    padding:48px 20px;
-    color:var(--ink-500);
-  }
+  /* EMPTY */
+  .empty{text-align:center; padding:48px 20px; color:var(--ink-500);}
   .empty .icon{font-size:40px; margin-bottom:12px; opacity:.4;}
   .empty h3{color:var(--ink-700); margin-bottom:4px; font-size:15px;}
-  .empty p{font-size:13px;}
 
-  /* ============ PENALTY BOX ============ */
-  .penalty-box{
-    background:var(--danger-bg);
-    border:1px solid var(--danger-border);
-    border-radius:var(--radius);
-    padding:14px 16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-bottom:14px;
-  }
-  .penalty-box-label{
-    font-size:13px;
-    font-weight:600;
-    color:var(--danger);
-  }
-  .penalty-box-sub{font-size:12px; color:#b91c1c; margin-top:2px;}
-  .penalty-box-value{font-size:18px; font-weight:700; color:var(--danger);}
+  /* BOTTOM NAV */
+  .bottom-nav{position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--ink-200); z-index:100;}
+  .bottom-nav-inner{max-width:720px; margin:0 auto; display:flex; justify-content:space-around; padding:6px 8px;}
+  .nav-item{flex:1; background:transparent; border:none; padding:8px 4px; cursor:pointer; color:var(--ink-500); font-size:11px; font-weight:600; display:flex; flex-direction:column; align-items:center; gap:3px; border-radius:8px; position:relative; max-width:120px; font-family:inherit;}
+  .nav-item .icon{font-size:20px; line-height:1;}
+  .nav-item:hover{background:var(--ink-100);}
+  .nav-item.active{color:var(--brand-700);}
+  .nav-item .badge{position:absolute; top:4px; right:calc(50% - 24px); background:var(--danger); color:white; font-size:9px; font-weight:700; padding:2px 6px; border-radius:10px; min-width:16px; text-align:center;}
 
-  /* ============ HELPERS ============ */
+  /* HELPERS */
   .flex-between{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;}
-  .divider{height:1px; background:var(--ink-200); margin:12px 0;}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
 
-  /* ============ RESPONSIVE ============ */
   @media (max-width:860px){
     .main{padding:16px;}
-    .topbar-inner{padding:12px 16px;}
-    .brand-text .name{font-size:14px;}
     .cart-layout{grid-template-columns:1fr;}
     .cart-summary{position:static;}
     .profile-grid{grid-template-columns:1fr;}
@@ -897,9 +241,8 @@
     .data-table table{min-width:600px;}
     .restaurant-grid{grid-template-columns:1fr;}
     .field-row{grid-template-columns:1fr;}
-    .cart-bar{bottom:72px;}
-    .toast{top:70px; right:12px; left:12px; max-width:none;}
-    .modal{padding:20px;}
+    .toast{top:12px; left:12px; right:12px; transform:none; max-width:none;}
+    .cart-bar{bottom:72px; left:12px; right:12px; transform:none; max-width:none; justify-content:space-between;}
   }
 </style>
 </head>
@@ -911,7 +254,7 @@
 <div id="modal-root"></div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signOut, sendPasswordResetEmail, onAuthStateChanged, updateProfile
@@ -919,7 +262,7 @@ import {
 import {
   getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc,
   query, where, onSnapshot, getDocs, serverTimestamp,
-  deleteDoc, runTransaction, orderBy
+  deleteDoc, runTransaction
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -936,43 +279,31 @@ const db = getFirestore(app);
 
 /* ============ STATE ============ */
 const state = {
-  user: null,
-  profile: null,
-  addresses: [],
-  view: 'home',
+  user: null, profile: null, addresses: [], view: 'home',
   cart: JSON.parse(localStorage.getItem('cart') || '{}'),
-  currentRestaurant: null,
-  checkoutAddressId: null,
-  adminTab: 'restaurants',
-  unsubs: {},
+  currentRestaurant: null, checkoutAddressId: null,
+  adminTab: 'restaurants', unsubs: {},
 };
 
 /* ============ HELPERS ============ */
 const $ = id => document.getElementById(id);
 const money = n => '₹' + Number(n||0).toFixed(2);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmtDate = ts => {
-  if (!ts) return '—';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
-  return d.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-};
+const fmtDate = ts => { if (!ts) return '—'; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); };
 const saveCart = () => localStorage.setItem('cart', JSON.stringify(state.cart));
 const cartSubtotal = () => Object.values(state.cart).reduce((s,i)=>s+i.qty*i.price,0);
 const cartItemCount = () => Object.values(state.cart).reduce((s,i)=>s+i.qty,0);
 const currentPenalty = () => Number(state.profile?.penaltyBalance || 0);
 const cartGrandTotal = () => cartSubtotal() + currentPenalty();
 const clearCart = () => { state.cart = {}; saveCart(); };
-const loadingHTML = (msg='Loading…') => `<div class="loading"><div class="spinner"></div><p>${msg}</p></div>`;
+const loadingHTML = (msg='Loading…') => `<div class="loading"><div class="spinner dark"></div><p>${msg}</p></div>`;
 
 function toast(msg, type='') {
-  const el = document.createElement('div');
-  el.className = 'toast ' + type;
-  el.textContent = msg;
-  $('toast-root').appendChild(el);
-  setTimeout(() => el.remove(), 3600);
+  const el = document.createElement('div'); el.className = 'toast ' + type; el.textContent = msg;
+  $('toast-root').appendChild(el); setTimeout(() => el.remove(), 3500);
 }
 function openModal(html, onMount) {
-  $('modal-root').innerHTML = `<div class="modal-bg" id="mb"><div class="modal">${html}</div></div>`;
+  $('modal-root').innerHTML = `<div class="modal-bg" id="mb"><div class="modal modal-anim">${html}</div></div>`;
   $('mb').onclick = e => { if (e.target.id === 'mb') closeModal(); };
   if (onMount) onMount();
 }
@@ -980,11 +311,10 @@ function closeModal() { $('modal-root').innerHTML = ''; }
 
 const formatAddress = a => {
   if (!a) return '';
-  const parts = [a.street, a.sector, a.landmark, a.city, a.state, a.pincode].filter(Boolean);
-  return parts.join(', ');
+  return [a.street, a.sector, a.landmark, a.city, a.state, a.pincode].filter(Boolean).join(', ');
 };
 
-/* ============ NAV / SHELL ============ */
+/* ============ NAV ============ */
 const NAV_ITEMS = [
   { id:'home', label:'Home', icon:'⌂' },
   { id:'orders', label:'Orders', icon:'▤' },
@@ -996,61 +326,42 @@ const NAV_ITEMS = [
 function renderShell() {
   const isAdmin = state.profile?.role === 'admin';
   const penalty = currentPenalty();
-
   $('app').innerHTML = `
     <div class="app-shell">
       <header class="topbar">
         <div class="topbar-inner">
           <div class="brand">
             <div class="brand-mark">P</div>
-            <div class="brand-text">
-              <span class="name">Pawan Retail Limited</span>
-              <span class="tag">Food Ordering</span>
-            </div>
+            <div class="brand-text"><span class="name">Pawan Retail Limited</span><span class="tag">Food Ordering</span></div>
           </div>
           <div class="topbar-actions">
             ${penalty > 0 ? `<button class="penalty-chip" id="penalty-chip">Penalty ${money(penalty)}</button>` : ''}
           </div>
         </div>
       </header>
-
       <main class="main" id="root"></main>
-
-      <nav class="bottom-nav">
-        <div class="bottom-nav-inner" id="bottom-nav"></div>
-      </nav>
+      <nav class="bottom-nav"><div class="bottom-nav-inner" id="bottom-nav"></div></nav>
     </div>
   `;
   renderBottomNav();
-  const pc = $('penalty-chip');
-  if (pc) pc.onclick = () => navigate('profile');
+  if ($('penalty-chip')) $('penalty-chip').onclick = () => navigate('profile');
 }
 
 function renderBottomNav() {
-  const nav = $('bottom-nav');
-  if (!nav) return;
+  const nav = $('bottom-nav'); if (!nav) return;
   const isAdmin = state.profile?.role === 'admin';
   const items = NAV_ITEMS.filter(n => !n.admin || isAdmin);
   const cartCount = cartItemCount();
   nav.innerHTML = items.map(item => {
     const isActive = state.view === item.id || (state.view === 'restaurant' && item.id === 'home');
-    let badge = '';
-    if (item.id === 'cart' && cartCount > 0) badge = `<span class="badge">${cartCount}</span>`;
-    return `
-      <button class="nav-item ${isActive?'active':''} ${item.admin?'admin-tab':''}" data-nav="${item.id}">
-        <span class="icon">${item.icon}</span>
-        <span>${item.label}</span>
-        ${badge}
-      </button>
-    `;
+    let badge = (item.id === 'cart' && cartCount > 0) ? `<span class="badge">${cartCount}</span>` : '';
+    return `<button class="nav-item ${isActive?'active':''}" data-nav="${item.id}"><span class="icon">${item.icon}</span><span>${item.label}</span>${badge}</button>`;
   }).join('');
   nav.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => navigate(b.dataset.nav));
 }
 
 function navigate(view) {
-  state.view = view;
-  render();
-  window.scrollTo({ top:0, behavior:'smooth' });
+  state.view = view; render(); window.scrollTo({ top:0, behavior:'smooth' });
 }
 
 /* ============ AUTH ============ */
@@ -1073,16 +384,13 @@ function renderAuth() {
   $('tab-reg').onclick = showRegister;
   showLogin();
 }
-
 function showLogin() {
   $('tab-login').classList.add('active'); $('tab-reg').classList.remove('active');
   $('auth-form').innerHTML = `
     <div class="field"><label>Email</label><input id="email" type="email" placeholder="you@example.com" /></div>
     <div class="field"><label>Password</label><input id="password" type="password" placeholder="••••••••" /></div>
     <button class="btn block" id="do-login" style="margin-top:4px">Sign In</button>
-    <p style="text-align:center;margin-top:16px">
-      <a href="#" id="forgot" style="color:var(--brand-700); font-size:12.5px; font-weight:600; text-decoration:none">Forgot password?</a>
-    </p>
+    <p style="text-align:center;margin-top:16px"><a href="#" id="forgot" style="color:var(--brand-700); font-size:12.5px; font-weight:600; text-decoration:none">Forgot password?</a></p>
   `;
   $('do-login').onclick = doLogin;
   $('forgot').onclick = async e => {
@@ -1093,7 +401,6 @@ function showLogin() {
     catch (err) { toast(err.message,'error'); }
   };
 }
-
 function showRegister() {
   $('tab-reg').classList.add('active'); $('tab-login').classList.remove('active');
   $('auth-form').innerHTML = `
@@ -1105,7 +412,6 @@ function showRegister() {
   `;
   $('do-reg').onclick = doRegister;
 }
-
 async function doLogin() {
   const email = $('email').value.trim(), pass = $('password').value;
   if (!email || !pass) return toast('Fill all fields','error');
@@ -1113,7 +419,6 @@ async function doLogin() {
   try { await signInWithEmailAndPassword(auth, email, pass); toast('Welcome back','success'); }
   catch (e) { toast(e.message,'error'); btn.disabled = false; btn.textContent = 'Sign In'; }
 }
-
 async function doRegister() {
   const name = $('r-name').value.trim(), email = $('r-email').value.trim();
   const pass = $('r-pass').value, phone = $('r-phone').value.trim();
@@ -1145,15 +450,13 @@ async function renderHome() {
       ${penalty > 0 ? `
         <div class="penalty-box">
           <div>
-            <div class="penalty-box-label">Outstanding penalty: ${money(penalty)}</div>
-            <div class="penalty-box-sub">This will be automatically added to your next order.</div>
+            <div class="penalty-box-label">Outstanding penalty</div>
+            <div class="muted" style="font-size:12px; color:#b91c1c">Will be auto-added to your next order.</div>
           </div>
+          <div class="penalty-box-value">${money(penalty)}</div>
         </div>
       ` : ''}
-      <div class="search-bar">
-        <span class="icon">⌕</span>
-        <input id="search" placeholder="Search restaurants or cuisines…" />
-      </div>
+      <div class="search-bar"><span style="color:var(--ink-400)">⌕</span><input id="search" placeholder="Search restaurants or cuisines…" /></div>
       <div id="rgrid">${loadingHTML()}</div>
     </div>
   `;
@@ -1162,14 +465,12 @@ async function renderHome() {
   snap.forEach(d => list.push({ id: d.id, ...d.data() }));
   const paint = (filter='') => {
     const f = filter.toLowerCase();
-    const filtered = list.filter(r =>
-      (r.name||'').toLowerCase().includes(f) || (r.category||'').toLowerCase().includes(f)
-    );
+    const filtered = list.filter(r => (r.name||'').toLowerCase().includes(f) || (r.category||'').toLowerCase().includes(f));
     $('rgrid').innerHTML = filtered.length ? `
       <div class="restaurant-grid">
         ${filtered.map(r => `
           <div class="restaurant-card" data-rid="${r.id}">
-            <div class="restaurant-banner">${esc(r.emoji||'R')}</div>
+            <div class="restaurant-img">${r.imageUrl ? `<img src="${esc(r.imageUrl)}" class="img-fade" onerror="this.parentNode.textContent='${esc((r.name||'R')[0])}'" />` : esc((r.name||'R')[0])}</div>
             <div class="restaurant-body">
               <span class="restaurant-cat">${esc(r.category||'Restaurant')}</span>
               <h3>${esc(r.name)}</h3>
@@ -1180,8 +481,7 @@ async function renderHome() {
       </div>
     ` : `<div class="empty"><div class="icon">⌕</div><h3>No restaurants found</h3><p>Try a different search</p></div>`;
     document.querySelectorAll('[data-rid]').forEach(c => c.onclick = () => {
-      state.currentRestaurant = c.dataset.rid;
-      navigate('restaurant');
+      state.currentRestaurant = c.dataset.rid; navigate('restaurant');
     });
   };
   paint();
@@ -1198,9 +498,11 @@ async function renderRestaurant() {
   $('root').innerHTML = `
     <div class="page">
       <button class="btn ghost sm" id="back" style="margin-bottom:16px">← Back</button>
-      <div class="card" style="margin-bottom:16px; background:var(--brand-700); border-color:var(--brand-700); color:white">
-        <div style="display:flex; align-items:center; gap:16px">
-          <div style="width:60px; height:60px; background:rgba(255,255,255,.15); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:700; flex-shrink:0">${esc(r.emoji||'R')}</div>
+      <div class="card" style="margin-bottom:16px; background:var(--brand-700); border-color:var(--brand-700); color:white; padding:0; overflow:hidden">
+        <div style="display:flex; align-items:center; gap:16px; padding:20px">
+          <div style="width:80px; height:80px; background:rgba(255,255,255,.15); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:700; flex-shrink:0; overflow:hidden">
+            ${r.imageUrl ? `<img src="${esc(r.imageUrl)}" style="width:100%; height:100%; object-fit:cover" onerror="this.parentNode.textContent='${esc((r.name||'R')[0])}'" />` : esc((r.name||'R')[0])}
+          </div>
           <div style="min-width:0">
             <h1 style="color:white; font-size:22px; margin-bottom:4px">${esc(r.name)}</h1>
             <p style="opacity:.85; font-size:13px">${esc(r.category||'')} · ${esc(r.description||'')}</p>
@@ -1218,8 +520,7 @@ async function renderRestaurant() {
     snap.forEach(d => items.push({ id:d.id, ...d.data() }));
     const el = $('menu'); if (!el) return;
     if (!items.length) {
-      el.innerHTML = `<div class="empty"><div class="icon">▤</div><h3>No items yet</h3></div>`;
-      return;
+      el.innerHTML = `<div class="empty"><div class="icon">▤</div><h3>No items yet</h3></div>`; return;
     }
     el.innerHTML = `<div class="food-list">${items.map(it => {
       const cartItem = state.cart[it.id];
@@ -1227,6 +528,7 @@ async function renderRestaurant() {
       const otherRest = cartItem && cartItem.restaurantId !== state.currentRestaurant;
       return `
         <div class="food-item ${it.available===false?'disabled':''}">
+          <div class="food-thumb">${it.imageUrl ? `<img src="${esc(it.imageUrl)}" onerror="this.parentNode.textContent='${esc((it.name||'F')[0])}'" />` : esc((it.name||'F')[0])}</div>
           <div class="food-info">
             <div class="food-name">${esc(it.name)}</div>
             <div class="food-desc">${esc(it.description||'')}</div>
@@ -1263,20 +565,14 @@ function renderCartBar() {
   const root = $('cart-root');
   const n = cartItemCount();
   if (!n) { root.innerHTML = ''; return; }
-  root.innerHTML = `
-    <div class="cart-bar" id="cartbar">
-      <span>Cart</span>
-      <span class="count">${n}</span>
-      <span>${money(cartGrandTotal())}</span>
-    </div>`;
+  root.innerHTML = `<div class="cart-bar" id="cartbar"><span>Cart</span><span class="count">${n}</span><span>${money(cartGrandTotal())}</span></div>`;
   $('cartbar').onclick = () => navigate('cart');
 }
 
-/* ============ ADDRESS HELPERS ============ */
+/* ============ ADDRESSES ============ */
 function loadAddresses() {
   if (state.unsubs.addresses) state.unsubs.addresses();
-  const q = query(collection(db,'users',state.user.uid,'addresses'));
-  state.unsubs.addresses = onSnapshot(q, snap => {
+  state.unsubs.addresses = onSnapshot(collection(db,'users',state.user.uid,'addresses'), snap => {
     const list = [];
     snap.forEach(d => list.push({ id: d.id, ...d.data() }));
     list.sort((a,b) => (b.isDefault?1:0) - (a.isDefault?1:0));
@@ -1285,104 +581,77 @@ function loadAddresses() {
       const def = list.find(a => a.isDefault) || list[0];
       state.checkoutAddressId = def ? def.id : null;
     }
-    if (state.view === 'cart' || state.view === 'profile' || state.view === 'checkout') {
-      render();
-    }
+    if (['cart','profile'].includes(state.view)) render();
   });
 }
-
 function addressFormHTML(a = {}) {
   return `
     <div class="field-row">
-      <div class="field"><label>Label</label>
-        <input id="a-label" value="${esc(a.label||'')}" placeholder="Home, Office…" /></div>
-      <div class="field"><label>Phone</label>
-        <input id="a-phone" value="${esc(a.phone||'')}" placeholder="+91 90000 00000" /></div>
+      <div class="field"><label>Label</label><input id="a-label" value="${esc(a.label||'')}" placeholder="Home, Office…" /></div>
+      <div class="field"><label>Phone</label><input id="a-phone" value="${esc(a.phone||'')}" placeholder="+91…" /></div>
     </div>
-    <div class="field"><label>Street / House No.</label>
-      <input id="a-street" value="${esc(a.street||'')}" placeholder="Flat / House / Building" /></div>
+    <div class="field"><label>Street / House No.</label><input id="a-street" value="${esc(a.street||'')}" /></div>
     <div class="field-row">
-      <div class="field"><label>Sector / Area</label>
-        <input id="a-sector" value="${esc(a.sector||'')}" /></div>
-      <div class="field"><label>Landmark</label>
-        <input id="a-landmark" value="${esc(a.landmark||'')}" placeholder="Near…" /></div>
+      <div class="field"><label>Sector / Area</label><input id="a-sector" value="${esc(a.sector||'')}" /></div>
+      <div class="field"><label>Landmark</label><input id="a-landmark" value="${esc(a.landmark||'')}" /></div>
     </div>
     <div class="field-row">
-      <div class="field"><label>City</label>
-        <input id="a-city" value="${esc(a.city||'')}" /></div>
-      <div class="field"><label>State</label>
-        <input id="a-state" value="${esc(a.state||'')}" /></div>
+      <div class="field"><label>City</label><input id="a-city" value="${esc(a.city||'')}" /></div>
+      <div class="field"><label>State</label><input id="a-state" value="${esc(a.state||'')}" /></div>
     </div>
     <div class="field-row">
-      <div class="field"><label>Pincode</label>
-        <input id="a-pincode" value="${esc(a.pincode||'')}" maxlength="6" /></div>
+      <div class="field"><label>Pincode</label><input id="a-pincode" value="${esc(a.pincode||'')}" maxlength="6" /></div>
       <div class="field" style="display:flex;align-items:flex-end">
-        <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; text-transform:none; cursor:pointer; margin-bottom:9px">
-          <input type="checkbox" id="a-default" ${a.isDefault?'checked':''} style="width:auto; margin:0" />
-          Set as default
-        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;text-transform:none;cursor:pointer;margin-bottom:9px"><input type="checkbox" id="a-default" ${a.isDefault?'checked':''} style="width:auto;margin:0" /> Set as default</label>
       </div>
     </div>
   `;
 }
 function readAddressForm() {
   return {
-    label: $('a-label').value.trim(),
-    phone: $('a-phone').value.trim(),
-    street: $('a-street').value.trim(),
-    sector: $('a-sector').value.trim(),
-    landmark: $('a-landmark').value.trim(),
-    city: $('a-city').value.trim(),
-    state: $('a-state').value.trim(),
-    pincode: $('a-pincode').value.trim(),
+    label: $('a-label').value.trim(), phone: $('a-phone').value.trim(),
+    street: $('a-street').value.trim(), sector: $('a-sector').value.trim(),
+    landmark: $('a-landmark').value.trim(), city: $('a-city').value.trim(),
+    state: $('a-state').value.trim(), pincode: $('a-pincode').value.trim(),
     isDefault: $('a-default').checked,
   };
 }
 function validateAddress(a) {
-  if (!a.label) return 'Label is required';
-  if (!a.phone) return 'Phone is required';
-  if (!a.street) return 'Street is required';
-  if (!a.city) return 'City is required';
-  if (!a.state) return 'State is required';
+  if (!a.label) return 'Label required';
+  if (!a.phone) return 'Phone required';
+  if (!a.street) return 'Street required';
+  if (!a.city) return 'City required';
+  if (!a.state) return 'State required';
   if (!a.pincode || a.pincode.length < 4) return 'Valid pincode required';
   return null;
 }
-
 async function saveAddress(addrId, data) {
-  const ref = addrId
-    ? doc(db,'users',state.user.uid,'addresses',addrId)
-    : doc(collection(db,'users',state.user.uid,'addresses'));
-
-  // If setting as default, unset other defaults first
   if (data.isDefault) {
     await Promise.all(state.addresses.filter(a => a.isDefault && a.id !== addrId).map(a =>
       updateDoc(doc(db,'users',state.user.uid,'addresses',a.id), { isDefault: false })
     ));
   }
-
   const payload = { ...data, updatedAt: serverTimestamp() };
-  if (addrId) {
-    await updateDoc(ref, payload);
-  } else {
+  if (addrId) await updateDoc(doc(db,'users',state.user.uid,'addresses',addrId), payload);
+  else {
+    const ref = doc(collection(db,'users',state.user.uid,'addresses'));
     payload.createdAt = serverTimestamp();
     await setDoc(ref, payload);
     state.checkoutAddressId = ref.id;
   }
 }
-
 async function deleteAddress(addrId) {
   if (!confirm('Delete this address?')) return;
   await deleteDoc(doc(db,'users',state.user.uid,'addresses',addrId));
   toast('Address deleted','success');
 }
-
 function openAddressModal(addr = null) {
   openModal(`
-    <h3>${addr ? 'Edit Address' : 'Add New Address'}</h3>
+    <h3>${addr ? 'Edit' : 'Add'} Address</h3>
     ${addressFormHTML(addr || {})}
     <div style="display:flex; gap:8px; margin-top:8px">
       <button class="btn secondary" id="cancel-addr" style="flex:1">Cancel</button>
-      <button class="btn" id="save-addr" style="flex:1">Save Address</button>
+      <button class="btn" id="save-addr" style="flex:1">Save</button>
     </div>
   `, () => {
     $('cancel-addr').onclick = closeModal;
@@ -1393,32 +662,20 @@ function openAddressModal(addr = null) {
       const btn = $('save-addr'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving…';
       try {
         await saveAddress(addr?.id || null, data);
-        toast('Address saved','success');
-        closeModal();
-      } catch (e) {
-        toast(e.message,'error');
-        btn.disabled = false; btn.textContent = 'Save Address';
-      }
+        toast('Address saved','success'); closeModal();
+      } catch (e) { toast(e.message,'error'); btn.disabled = false; btn.textContent = 'Save'; }
     };
   });
 }
 
-/* ============ CART / CHECKOUT ============ */
+/* ============ CART ============ */
 function renderCart() {
   const items = Object.values(state.cart);
   if (!items.length) {
-    $('root').innerHTML = `
-      <div class="page empty">
-        <div class="icon">▣</div>
-        <h3>Your cart is empty</h3>
-        <p style="margin-bottom:16px">Add items to get started</p>
-        <button class="btn" id="shop">Browse Restaurants</button>
-      </div>`;
+    $('root').innerHTML = `<div class="page empty"><div class="icon">▣</div><h3>Your cart is empty</h3><p style="margin-bottom:16px">Add items to get started</p><button class="btn" id="shop">Browse Restaurants</button></div>`;
     $('shop').onclick = () => navigate('home');
-    renderCartBar();
-    return;
+    renderCartBar(); return;
   }
-
   const subtotal = cartSubtotal();
   const penalty = currentPenalty();
   const grand = subtotal + penalty;
@@ -1430,29 +687,22 @@ function renderCart() {
       <div class="cart-layout">
         <div>
           <div class="cart-items-card" style="margin-bottom:16px">
-            <div style="padding:14px 18px; border-bottom:1px solid var(--ink-200)">
-              <h3 style="margin:0">Order Items (${cartItemCount()})</h3>
-            </div>
+            <div style="padding:14px 18px; border-bottom:1px solid var(--ink-200)"><h3 style="margin:0">Items (${cartItemCount()})</h3></div>
             ${items.map(it => `
               <div class="cart-item-row">
-                <div class="cart-item-info">
-                  <div class="cart-item-name">${esc(it.name)}</div>
-                  <div class="cart-item-price">${money(it.price)} each</div>
-                </div>
+                <div class="cart-item-info"><div class="cart-item-name">${esc(it.name)}</div><div class="cart-item-price">${money(it.price)} each</div></div>
                 <div class="qty-control">
-                  <button data-id="${it.itemId}" data-act="dec">−</button>
-                  <span>${it.qty}</span>
+                  <button data-id="${it.itemId}" data-act="dec">−</button><span>${it.qty}</span>
                   <button data-id="${it.itemId}" data-act="inc">+</button>
                 </div>
                 <div class="cart-item-total">${money(it.price*it.qty)}</div>
               </div>
             `).join('')}
           </div>
-
-          <div class="card" style="margin-bottom:16px">
+          <div class="card">
             <div class="flex-between" style="margin-bottom:12px">
               <h3 style="margin:0">Delivery Address</h3>
-              <button class="btn sm secondary" id="add-address-btn">+ Add Address</button>
+              <button class="btn sm secondary" id="add-address-btn">+ Add</button>
             </div>
             ${state.addresses.length ? `
               <div class="address-list">
@@ -1460,48 +710,30 @@ function renderCart() {
                   <div class="address-card ${a.id === selectedAddr?.id ? 'selected' : ''}" data-aid="${a.id}">
                     <div class="address-radio"></div>
                     <div class="address-content">
-                      <div class="address-label">
-                        ${esc(a.label)}
-                        ${a.isDefault ? '<span class="address-badge">Default</span>' : ''}
-                      </div>
-                      <div class="address-text">
-                        <strong>${esc(a.street||'')}</strong>${a.sector ? ', '+esc(a.sector) : ''}${a.landmark ? ', near '+esc(a.landmark) : ''}<br>
-                        ${esc(a.city||'')}${a.state ? ', '+esc(a.state) : ''} — ${esc(a.pincode||'')}<br>
-                        ${esc(a.phone||'')}
-                      </div>
+                      <div class="address-label">${esc(a.label)} ${a.isDefault?'<span class="address-badge">Default</span>':''}</div>
+                      <div class="address-text"><strong>${esc(a.street||'')}</strong>${a.sector ? ', '+esc(a.sector) : ''}${a.landmark ? ', near '+esc(a.landmark) : ''}<br>${esc(a.city||'')}, ${esc(a.state||'')} — ${esc(a.pincode||'')}<br>${esc(a.phone||'')}</div>
                     </div>
                     <div class="address-actions">
-                      <button data-edit-addr="${a.id}" title="Edit">✎</button>
-                      <button data-del-addr="${a.id}" title="Delete">✕</button>
+                      <button data-edit-addr="${a.id}">✎</button>
+                      <button data-del-addr="${a.id}">✕</button>
                     </div>
                   </div>
                 `).join('')}
               </div>
-            ` : `
-              <p class="muted" style="margin-bottom:12px">No saved addresses. Add one to continue.</p>
-            `}
+            ` : `<p class="muted" style="margin-bottom:12px">No saved addresses yet.</p>`}
           </div>
         </div>
-
         <div class="cart-summary">
-          <h3 style="margin-bottom:12px">Order Summary</h3>
+          <h3 style="margin-bottom:12px">Summary</h3>
           <div class="summary-line"><span>Subtotal</span><span>${money(subtotal)}</span></div>
-          ${penalty > 0 ? `<div class="penalty-line"><span>Outstanding Penalty</span><span>${money(penalty)}</span></div>` : ''}
+          ${penalty > 0 ? `<div class="penalty-line"><span>Penalty (auto)</span><span>${money(penalty)}</span></div>` : ''}
           <div class="summary-line total"><span>Total</span><span>${money(grand)}</span></div>
-          ${penalty > 0 ? `<p class="muted" style="margin:8px 0; color:var(--danger); font-size:12px">The penalty will be auto-cleared with this order.</p>` : ''}
-          <div class="field" style="margin-top:16px">
-            <label>Order Notes (optional)</label>
-            <input id="d-notes" placeholder="e.g. Ring the bell" />
-          </div>
-          <button class="btn block" id="place" style="margin-top:4px" ${!selectedAddr ? 'disabled' : ''}>
-            Place Order · ${money(grand)}
-          </button>
-          ${!selectedAddr ? `<p class="muted" style="text-align:center; margin-top:8px; font-size:12px">Add a delivery address to continue</p>` : ''}
+          <div class="field" style="margin-top:16px"><label>Notes</label><input id="d-notes" placeholder="Optional" /></div>
+          <button class="btn block" id="place" ${!selectedAddr ? 'disabled' : ''}>Place Order · ${money(grand)}</button>
         </div>
       </div>
     </div>
   `;
-
   document.querySelectorAll('[data-act]').forEach(btn => btn.onclick = () => {
     const id = btn.dataset.id;
     if (btn.dataset.act === 'inc') state.cart[id].qty++;
@@ -1510,21 +742,12 @@ function renderCart() {
   });
   document.querySelectorAll('[data-aid]').forEach(card => card.onclick = e => {
     if (e.target.closest('[data-edit-addr]') || e.target.closest('[data-del-addr]')) return;
-    state.checkoutAddressId = card.dataset.aid;
-    renderCart();
+    state.checkoutAddressId = card.dataset.aid; renderCart();
   });
-  document.querySelectorAll('[data-edit-addr]').forEach(b => b.onclick = e => {
-    e.stopPropagation();
-    const a = state.addresses.find(x => x.id === b.dataset.editAddr);
-    openAddressModal(a);
-  });
-  document.querySelectorAll('[data-del-addr]').forEach(b => b.onclick = e => {
-    e.stopPropagation();
-    deleteAddress(b.dataset.delAddr);
-  });
+  document.querySelectorAll('[data-edit-addr]').forEach(b => b.onclick = e => { e.stopPropagation(); openAddressModal(state.addresses.find(x => x.id === b.dataset.editAddr)); });
+  document.querySelectorAll('[data-del-addr]').forEach(b => b.onclick = e => { e.stopPropagation(); deleteAddress(b.dataset.delAddr); });
   $('add-address-btn').onclick = () => openAddressModal();
-  const placeBtn = $('place');
-  if (placeBtn && selectedAddr) placeBtn.onclick = placeOrder;
+  if ($('place') && selectedAddr) $('place').onclick = placeOrder;
 }
 
 /* ============ PLACE ORDER ============ */
@@ -1533,55 +756,38 @@ async function placeOrder() {
   const addr = state.addresses.find(a => a.id === state.checkoutAddressId);
   if (!addr) return toast('Select a delivery address','error');
   const notes = $('d-notes')?.value.trim() || '';
-
   const restaurantId = items[0].restaurantId;
   const btn = $('place'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Placing…';
-
   try {
     const restSnap = await getDoc(doc(db,'restaurants',restaurantId));
-    if (!restSnap.exists() || restSnap.data().active === false)
-      throw new Error('Restaurant is currently closed');
-
-    let subtotal = 0;
-    const orderItems = [];
+    if (!restSnap.exists() || restSnap.data().active === false) throw new Error('Restaurant is closed');
+    let subtotal = 0; const orderItems = [];
     for (const it of items) {
       const mSnap = await getDoc(doc(db,'restaurants',restaurantId,'menu',it.itemId));
       if (!mSnap.exists()) throw new Error(`Item not found: ${it.name}`);
       const m = mSnap.data();
       if (m.available === false) throw new Error(`${m.name} is unavailable`);
-      if (!Number.isInteger(it.qty) || it.qty <= 0 || it.qty > 99) throw new Error('Invalid quantity');
       const lineTotal = Number(m.price) * it.qty;
       subtotal += lineTotal;
       orderItems.push({ itemId: it.itemId, name: m.name, price: Number(m.price), qty: it.qty, lineTotal });
     }
     subtotal = Math.round(subtotal * 100) / 100;
-
     const orderId = doc(collection(db,'foodOrders')).id;
     const customerRef = doc(db,'users',state.user.uid);
-
     const result = await runTransaction(db, async tx => {
       const userSnap = await tx.get(customerRef);
       if (!userSnap.exists()) throw new Error('Profile missing');
       const penalty = Number(userSnap.data().penaltyBalance || 0);
       const grandTotal = Math.round((subtotal + penalty) * 100) / 100;
-
       tx.set(doc(db,'foodOrders',orderId), {
         orderId, customerUid: state.user.uid, customerName: userSnap.data().name || '',
         restaurantId, restaurantName: restSnap.data().name,
         items: orderItems, subtotal, penaltyApplied: penalty, total: grandTotal,
-        status: 'Placed',
-        deliveryAddress: formatAddress(addr),
-        deliveryAddressDetail: {
-          label: addr.label, street: addr.street, sector: addr.sector,
-          landmark: addr.landmark, city: addr.city, state: addr.state,
-          pincode: addr.pincode, phone: addr.phone,
-        },
-        phone: addr.phone, notes,
-        penaltyAmount: 0, penaltyStatus: 'none', refundStatus: 'n/a',
-        cancelledBy: null, cancellationReason: null, cancelledAt: null,
+        status: 'Placed', deliveryAddress: formatAddress(addr),
+        deliveryAddressDetail: { label: addr.label, street: addr.street, sector: addr.sector, landmark: addr.landmark, city: addr.city, state: addr.state, pincode: addr.pincode, phone: addr.phone },
+        phone: addr.phone, notes, penaltyAmount: 0, penaltyStatus: 'none', refundStatus: 'n/a',
         createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
       });
-
       if (penalty > 0) {
         tx.update(customerRef, { penaltyBalance: 0 });
         tx.set(doc(collection(db,'penaltyHistory')), {
@@ -1593,11 +799,9 @@ async function placeOrder() {
       }
       return { grandTotal, penalty };
     });
-
     if (state.profile) state.profile.penaltyBalance = 0;
-    toast(`Order placed. Total: ${money(result.grandTotal)}${result.penalty > 0 ? `. Penalty of ${money(result.penalty)} cleared.` : ''}`,'success');
-    clearCart();
-    navigate('orders');
+    toast(`Order placed! ${money(result.grandTotal)}${result.penalty > 0 ? ` (${money(result.penalty)} penalty cleared)` : ''}`,'success');
+    clearCart(); navigate('orders');
   } catch (e) {
     toast(e.message || 'Order failed','error');
     btn.disabled = false; btn.textContent = 'Place Order · ' + money(cartGrandTotal());
@@ -1608,98 +812,72 @@ async function placeOrder() {
 function renderOrders() {
   $('root').innerHTML = `<div class="page"><h1 style="margin-bottom:16px">My Orders</h1><div id="orders">${loadingHTML()}</div></div>`;
   if (state.unsubs.orders) state.unsubs.orders();
-  state.unsubs.orders = onSnapshot(
-    query(collection(db,'foodOrders'), where('customerUid','==',state.user.uid)),
-    snap => {
-      const orders = [];
-      snap.forEach(d => orders.push({ id:d.id, ...d.data() }));
-      orders.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-      const el = $('orders'); if (!el) return;
-      if (!orders.length) {
-        el.innerHTML = `<div class="empty"><div class="icon">▤</div><h3>No orders yet</h3><p style="margin-bottom:16px">Place your first order to see it here</p><button class="btn" id="shop">Browse Restaurants</button></div>`;
-        $('shop').onclick = () => navigate('home'); return;
-      }
-      const statuses = ['Placed','Accepted','Preparing','Ready','Out for Delivery','Delivered'];
-      el.innerHTML = orders.map(o => `
-        <div class="order-card">
-          <div class="order-header">
-            <div>
-              <div class="order-id">Order #${esc(o.orderId.slice(-8).toUpperCase())}</div>
-              <div class="order-meta">${fmtDate(o.createdAt)} · ${esc(o.restaurantName)}</div>
-            </div>
-            <span class="status-badge status-${o.status.replace(/\s/g,'')}">${esc(o.status)}</span>
-          </div>
-          <div class="order-body">
-            <div class="order-items-list">
-              ${o.items?.map(i => `<div style="display:flex;justify-content:space-between"><span>${esc(i.name)} × ${i.qty}</span><span style="font-weight:600">${money(i.price*i.qty)}</span></div>`).join('')}
-              ${o.penaltyApplied > 0 ? `<div style="display:flex;justify-content:space-between; border-top:1px dashed var(--ink-300); margin-top:6px; padding-top:6px; color:var(--danger); font-weight:600"><span>Penalty cleared</span><span>${money(o.penaltyApplied)}</span></div>` : ''}
-            </div>
-            <div style="text-align:right">
-              <div class="order-total-label">Total</div>
-              <div class="order-total-value">${money(o.total)}</div>
-            </div>
-          </div>
-          ${o.status === 'Cancelled' ? `
-            <div style="padding:12px 18px; background:var(--danger-bg); font-size:12.5px; color:#991b1b; border-top:1px solid var(--danger-border)">
-              <b>Cancelled by ${esc(o.cancelledBy || '—')}</b>${o.cancellationReason?': '+esc(o.cancellationReason):''}${o.penaltyAmount > 0?` · Penalty: ${money(o.penaltyAmount)}`:''}
-            </div>
-          ` : ''}
-          <div class="order-steps">
-            ${statuses.map(s => {
-              const idx = statuses.indexOf(o.status);
-              const cur = statuses.indexOf(s);
-              const cls = o.status === 'Cancelled' ? '' : cur < idx ? 'done' : cur === idx ? 'current' : '';
-              return `<span class="${cls}">${s}</span>`;
-            }).join('')}
-            ${['Placed','Accepted'].includes(o.status) ? `<button class="btn danger sm" data-cancel="${o.id}" style="margin-left:auto">Cancel Order</button>` : ''}
-          </div>
-        </div>
-      `).join('');
-      el.querySelectorAll('[data-cancel]').forEach(b => b.onclick = () => confirmCancel(b.dataset.cancel));
+  state.unsubs.orders = onSnapshot(query(collection(db,'foodOrders'), where('customerUid','==',state.user.uid)), snap => {
+    const orders = [];
+    snap.forEach(d => orders.push({ id:d.id, ...d.data() }));
+    orders.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
+    const el = $('orders'); if (!el) return;
+    if (!orders.length) {
+      el.innerHTML = `<div class="empty"><div class="icon">▤</div><h3>No orders yet</h3><p style="margin-bottom:16px">Place your first order</p><button class="btn" id="shop">Browse Restaurants</button></div>`;
+      $('shop').onclick = () => navigate('home'); return;
     }
-  );
+    el.innerHTML = orders.map(o => `
+      <div class="order-card">
+        <div class="order-header">
+          <div><div class="order-id">Order #${esc(o.orderId.slice(-8).toUpperCase())}</div><div class="order-meta">${fmtDate(o.createdAt)} · ${esc(o.restaurantName)}</div></div>
+          <span class="status-badge status-${o.status.replace(/\s/g,'')}">${esc(o.status)}</span>
+        </div>
+        <div class="order-body">
+          <div class="order-items-list">
+            ${o.items?.map(i => `<div style="display:flex;justify-content:space-between"><span>${esc(i.name)} × ${i.qty}</span><span style="font-weight:600">${money(i.price*i.qty)}</span></div>`).join('')}
+            ${o.penaltyApplied > 0 ? `<div style="display:flex;justify-content:space-between;border-top:1px dashed var(--ink-300);margin-top:6px;padding-top:6px;color:var(--danger);font-weight:600"><span>Penalty cleared</span><span>${money(o.penaltyApplied)}</span></div>` : ''}
+          </div>
+          <div style="text-align:right"><div class="order-total-label">Total</div><div class="order-total-value">${money(o.total)}</div></div>
+        </div>
+        ${o.status === 'Cancelled' ? `<div style="padding:12px 18px;background:var(--danger-bg);font-size:12.5px;color:#991b1b;border-top:1px solid var(--danger-border)"><b>Cancelled by ${esc(o.cancelledBy||'—')}</b>${o.cancellationReason?': '+esc(o.cancellationReason):''}${o.penaltyAmount>0?` · Penalty: ${money(o.penaltyAmount)}`:''}</div>` : ''}
+        ${['Placed','Accepted'].includes(o.status) ? `<div style="padding:12px 18px;border-top:1px solid var(--ink-200);text-align:right"><button class="btn danger sm" data-cancel="${o.id}" data-total="${o.total}">Cancel Order</button></div>` : ''}
+      </div>
+    `).join('');
+    el.querySelectorAll('[data-cancel]').forEach(b => b.onclick = () => confirmCancel(b.dataset.cancel, Number(b.dataset.total)));
+  });
 }
 
-function confirmCancel(orderId) {
+function confirmCancel(orderId, total) {
   openModal(`
     <h3>Cancel Order?</h3>
-    <p class="muted" style="margin-bottom:16px">100% of the order value will be added as a penalty to your account and auto-cleared on your next order.</p>
-    <div class="field"><label>Reason for cancellation</label><input id="cr" placeholder="Why are you cancelling?" /></div>
+    <div style="background:var(--danger-bg);border:1px solid var(--danger-border);padding:12px 14px;border-radius:8px;margin-bottom:14px">
+      <p style="color:var(--danger);font-weight:700;font-size:13px;margin:0">⚠️ 100% Penalty will be applied</p>
+      <p style="color:var(--danger);font-size:20px;font-weight:800;margin:4px 0 0">${money(total)}</p>
+      <p class="muted" style="font-size:12px;margin-top:4px">Auto-cleared on your next order.</p>
+    </div>
+    <div class="field"><label>Reason</label><input id="cr" placeholder="Why are you cancelling?" /></div>
     <div style="display:flex; gap:8px; margin-top:8px">
       <button class="btn secondary" id="no" style="flex:1">Keep Order</button>
       <button class="btn danger" id="yes" style="flex:1">Confirm Cancel</button>
     </div>
   `, () => {
     $('no').onclick = closeModal;
-    $('yes').onclick = () => doCancel(orderId, $('cr').value.trim() || 'No reason given');
+    $('yes').onclick = () => doCancel(orderId, $('cr').value.trim() || 'No reason given', total);
   });
 }
 
-async function doCancel(orderId, reason) {
+async function doCancel(orderId, reason, total) {
   const btn = $('yes'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Cancelling…';
   try {
     const customerRef = doc(db,'users',state.user.uid);
     const orderRef = doc(db,'foodOrders',orderId);
-    const CANCELLABLE = ['Placed','Accepted'];
-
     const result = await runTransaction(db, async tx => {
       const oSnap = await tx.get(orderRef);
       if (!oSnap.exists()) throw new Error('Order not found');
       const o = oSnap.data();
       if (o.customerUid !== state.user.uid) throw new Error('Not your order');
-      if (o.status === 'Cancelled') throw new Error('Order already cancelled');
-      if (!CANCELLABLE.includes(o.status)) throw new Error(`Cannot cancel at status: ${o.status}`);
-
+      if (o.status === 'Cancelled') throw new Error('Already cancelled');
+      if (!['Placed','Accepted'].includes(o.status)) throw new Error(`Cannot cancel at status: ${o.status}`);
       const penaltyAmount = Math.round(o.total * 100) / 100;
       const uSnap = await tx.get(customerRef);
       const prevBal = uSnap.data()?.penaltyBalance || 0;
       const newBal = Math.round((prevBal + penaltyAmount) * 100) / 100;
-
-      tx.update(orderRef, {
-        status: 'Cancelled', cancelledBy: 'customer', cancellationReason: reason,
-        cancelledAt: serverTimestamp(), penaltyAmount, penaltyStatus: 'applied',
-        updatedAt: serverTimestamp(),
-      });
+      tx.update(orderRef, { status: 'Cancelled', cancelledBy: 'customer', cancellationReason: reason, cancelledAt: serverTimestamp(), penaltyAmount, penaltyStatus: 'applied', updatedAt: serverTimestamp() });
       tx.update(customerRef, { penaltyBalance: newBal });
       tx.set(doc(collection(db,'penaltyHistory')), {
         customerUid: state.user.uid, orderId, type: 'penalty', amount: penaltyAmount,
@@ -1708,10 +886,18 @@ async function doCancel(orderId, reason) {
       });
       return { penaltyAmount, newBal };
     });
-
     if (state.profile) state.profile.penaltyBalance = result.newBal;
-    toast(`Order cancelled. Penalty: ${money(result.penaltyAmount)}`,'success');
     closeModal();
+    setTimeout(() => {
+      openModal(`
+        <div style="text-align:center; padding:8px 0">
+          <div style="font-size:44px; margin-bottom:10px">⚠️</div>
+          <h3 style="margin-bottom:8px">Penalty Applied</h3>
+          <p class="muted" style="margin-bottom:16px">A penalty of <b style="color:var(--danger)">${money(result.penaltyAmount)}</b> has been added to your account. It will be auto-adjusted in your next order.</p>
+          <button class="btn block" id="ok-pen">Understood</button>
+        </div>
+      `, () => { $('ok-pen').onclick = () => { closeModal(); renderShell(); }; });
+    }, 200);
   } catch (e) {
     toast(e.message || 'Cancel failed','error');
     btn.disabled = false; btn.textContent = 'Confirm Cancel';
@@ -1720,100 +906,70 @@ async function doCancel(orderId, reason) {
 
 /* ============ PROFILE ============ */
 async function renderProfile() {
-  const pSnap = await getDoc(doc(db,'users',state.user.uid));
-  const p = pSnap.data() || {};
-  state.profile = p;
+  const p = state.profile || {};
   const penalty = Number(p.penaltyBalance || 0);
-
   $('root').innerHTML = `
     <div class="page">
       <h1 style="margin-bottom:16px">My Profile</h1>
       <div class="profile-grid">
         <div class="card">
-          <h3>Account Details</h3>
+          <h3>Account</h3>
           <div class="field"><label>Name</label><input id="p-name" value="${esc(p.name||'')}" /></div>
           <div class="field"><label>Phone</label><input id="p-phone" value="${esc(p.phone||'')}" /></div>
           <div class="field"><label>Email</label><input value="${esc(p.email||'')}" disabled /></div>
           <button class="btn block" id="save-profile">Save Changes</button>
         </div>
-
         <div>
           ${penalty > 0 ? `
             <div class="card" style="margin-bottom:16px; background:var(--danger-bg); border-color:var(--danger-border)">
-              <div class="muted" style="color:var(--danger); font-weight:600; text-transform:uppercase; font-size:11px; letter-spacing:.04em">Outstanding Penalty</div>
+              <div class="muted" style="color:var(--danger); font-weight:600; text-transform:uppercase; font-size:11px">Outstanding Penalty</div>
               <div style="font-size:28px; font-weight:700; color:var(--danger); margin-top:4px">${money(penalty)}</div>
-              <p style="font-size:12.5px; color:#b91c1c; margin-top:6px">This will be automatically added to your next order total.</p>
+              <p style="font-size:12.5px; color:#b91c1c; margin-top:6px">Auto-added to next order.</p>
             </div>
           ` : ''}
           <div class="card">
-            <h3>Addresses</h3>
-            <div class="address-list" id="profile-addresses">
-              ${state.addresses.length ? state.addresses.map(a => `
-                <div class="address-card" style="cursor:default">
-                  <div class="address-content">
-                    <div class="address-label">${esc(a.label)} ${a.isDefault ? '<span class="address-badge">Default</span>' : ''}</div>
-                    <div class="address-text">
-                      <strong>${esc(a.street||'')}</strong>${a.sector ? ', '+esc(a.sector) : ''}${a.landmark ? ', near '+esc(a.landmark) : ''}<br>
-                      ${esc(a.city||'')}${a.state ? ', '+esc(a.state) : ''} — ${esc(a.pincode||'')}<br>
-                      ${esc(a.phone||'')}
-                    </div>
-                  </div>
-                  <div class="address-actions">
-                    <button data-edit-addr="${a.id}" title="Edit">✎</button>
-                    <button data-del-addr="${a.id}" title="Delete">✕</button>
-                  </div>
+            <div class="flex-between" style="margin-bottom:12px"><h3 style="margin:0">Addresses</h3><button class="btn sm secondary" id="profile-add-addr">+ Add</button></div>
+            ${state.addresses.length ? state.addresses.map(a => `
+              <div class="address-card" style="cursor:default; margin-bottom:8px">
+                <div class="address-content">
+                  <div class="address-label">${esc(a.label)} ${a.isDefault?'<span class="address-badge">Default</span>':''}</div>
+                  <div class="address-text"><strong>${esc(a.street||'')}</strong>${a.sector ? ', '+esc(a.sector) : ''}<br>${esc(a.city||'')}, ${esc(a.state||'')} — ${esc(a.pincode||'')}</div>
                 </div>
-              `).join('') : '<p class="muted" style="margin-bottom:8px">No addresses yet.</p>'}
-            </div>
-            <button class="add-address-btn" id="profile-add-addr" style="margin-top:8px">+ Add New Address</button>
+                <div class="address-actions">
+                  <button data-edit-addr="${a.id}">✎</button>
+                  <button data-del-addr="${a.id}">✕</button>
+                </div>
+              </div>
+            `).join('') : '<p class="muted">No addresses yet.</p>'}
           </div>
         </div>
       </div>
-
-      <div class="card" style="margin-top:16px">
-        <h3>Penalty History</h3>
-        <div id="ph">${loadingHTML()}</div>
-      </div>
+      <div class="card" style="margin-top:16px"><h3>Penalty History</h3><div id="ph">${loadingHTML()}</div></div>
     </div>
   `;
-
   $('save-profile').onclick = async () => {
-    const name = $('p-name').value.trim();
-    const phone = $('p-phone').value.trim();
+    const name = $('p-name').value.trim(), phone = $('p-phone').value.trim();
     if (!name || !phone) return toast('Name and phone required','error');
-    try {
-      await updateDoc(doc(db,'users',state.user.uid), { name, phone });
-      state.profile = { ...state.profile, name, phone };
-      toast('Profile updated','success');
-    } catch (e) { toast(e.message,'error'); }
+    try { await updateDoc(doc(db,'users',state.user.uid), { name, phone }); state.profile = { ...state.profile, name, phone }; toast('Updated','success'); }
+    catch (e) { toast(e.message,'error'); }
   };
-
   $('profile-add-addr').onclick = () => openAddressModal();
-  document.querySelectorAll('[data-edit-addr]').forEach(b => b.onclick = () => {
-    const a = state.addresses.find(x => x.id === b.dataset.editAddr);
-    openAddressModal(a);
-  });
+  document.querySelectorAll('[data-edit-addr]').forEach(b => b.onclick = () => openAddressModal(state.addresses.find(x => x.id === b.dataset.editAddr)));
   document.querySelectorAll('[data-del-addr]').forEach(b => b.onclick = () => deleteAddress(b.dataset.delAddr));
 
-  // Penalty history — only render rows if there are any
   const psSnap = await getDocs(query(collection(db,'penaltyHistory'), where('customerUid','==',state.user.uid)));
-  const pList = [];
-  psSnap.forEach(d => pList.push({ id:d.id, ...d.data() }));
+  const pList = []; psSnap.forEach(d => pList.push({ id:d.id, ...d.data() }));
   pList.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-  const ph = $('ph');
-  if (!ph) return;
+  const ph = $('ph'); if (!ph) return;
   ph.innerHTML = pList.length ? pList.map(x => `
-    <div style="padding:12px 0; border-bottom:1px solid var(--ink-100); display:flex; justify-content:space-between; align-items:center; gap:12px">
+    <div style="padding:10px 0; border-bottom:1px solid var(--ink-100); display:flex; justify-content:space-between; gap:12px">
       <div>
-        <div style="font-weight:600; font-size:13.5px">${x.type === 'penalty' ? 'Penalty Applied' : x.type === 'waive' ? 'Penalty Waived' : x.type === 'cleared' ? 'Penalty Cleared (Order)' : 'Adjustment'}</div>
-        <div class="muted" style="margin-top:2px">${fmtDate(x.createdAt)} · ${esc(x.reason||'')}</div>
-        <div class="muted">Balance after: ${money(x.balanceAfter)}</div>
+        <div style="font-weight:600; font-size:13.5px">${x.type === 'penalty' ? 'Penalty Applied' : x.type === 'waive' ? 'Penalty Waived' : x.type === 'cleared' ? 'Penalty Cleared' : 'Adjustment'}</div>
+        <div class="muted">${fmtDate(x.createdAt)} · ${esc(x.reason||'')}</div>
       </div>
-      <div style="font-weight:700; color:${x.amount >= 0 ? 'var(--danger)' : 'var(--success)'}; font-size:15px">
-        ${x.amount>=0?'+':''}${money(x.amount)}
-      </div>
+      <div style="font-weight:700; color:${x.amount >= 0 ? 'var(--danger)' : 'var(--success)'}">${x.amount>=0?'+':''}${money(x.amount)}</div>
     </div>
-  `).join('') : `<p class="muted">No penalty records.</p>`;
+  `).join('') : '<p class="muted">No penalty records.</p>';
 }
 
 /* ============ ADMIN ============ */
@@ -1835,31 +991,22 @@ async function renderAdmin() {
   document.querySelectorAll('[data-atab]').forEach(b => b.onclick = () => {
     state.adminTab = b.dataset.atab;
     document.querySelectorAll('[data-atab]').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    renderAdminTab(b.dataset.atab);
+    b.classList.add('active'); renderAdminTab(b.dataset.atab);
   });
   renderAdminTab(state.adminTab);
 }
 
 async function loadAdminStats() {
   try {
-    const [rSnap, oSnap] = await Promise.all([
-      getDocs(collection(db,'restaurants')),
-      getDocs(collection(db,'foodOrders')),
-    ]);
+    const [rSnap, oSnap] = await Promise.all([getDocs(collection(db,'restaurants')), getDocs(collection(db,'foodOrders'))]);
     let totalRevenue = 0, activeOrders = 0;
-    oSnap.forEach(d => {
-      const o = d.data();
-      if (o.status !== 'Cancelled') totalRevenue += (o.total || 0);
-      if (!['Delivered','Cancelled'].includes(o.status)) activeOrders++;
-    });
-    const el = $('admin-stats');
-    if (!el) return;
+    oSnap.forEach(d => { const o = d.data(); if (o.status !== 'Cancelled') totalRevenue += (o.total || 0); if (!['Delivered','Cancelled'].includes(o.status)) activeOrders++; });
+    const el = $('admin-stats'); if (!el) return;
     el.innerHTML = `
       <div class="stat-card"><div class="stat-label">Restaurants</div><div class="stat-value">${rSnap.size}</div></div>
       <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value">${oSnap.size}</div></div>
       <div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-value">${money(totalRevenue)}</div></div>
-      <div class="stat-card"><div class="stat-label">Active Orders</div><div class="stat-value">${activeOrders}</div></div>
+      <div class="stat-card"><div class="stat-label">Active</div><div class="stat-value">${activeOrders}</div></div>
     `;
   } catch (e) { /* silently */ }
 }
@@ -1870,43 +1017,28 @@ async function renderAdminTab(tab) {
   if (tab === 'customers') return adminCustomers();
 }
 
+/* ---------- ADMIN: RESTAURANTS ---------- */
 async function adminRestaurants() {
   const el = $('admin-body');
-  el.innerHTML = `
-    <div class="flex-between" style="margin-bottom:14px">
-      <p class="muted">Manage all restaurants</p>
-      <button class="btn" id="add">+ Add Restaurant</button>
-    </div>
-    <div id="rl">${loadingHTML()}</div>
-  `;
+  el.innerHTML = `<div class="flex-between" style="margin-bottom:14px"><p class="muted">Manage restaurants</p><button class="btn" id="add">+ Add Restaurant</button></div><div id="rl">${loadingHTML()}</div>`;
   $('add').onclick = () => editRestaurant(null);
   const snap = await getDocs(collection(db,'restaurants'));
-  const list = [];
-  snap.forEach(d => list.push({ id:d.id, ...d.data() }));
+  const list = []; snap.forEach(d => list.push({ id:d.id, ...d.data() }));
   const rl = $('rl');
   if (!list.length) { rl.innerHTML = `<div class="empty"><div class="icon">▤</div><h3>No restaurants yet</h3></div>`; return; }
-  rl.innerHTML = `
-    <div class="data-table">
-      <table>
-        <thead><tr><th>Restaurant</th><th>Category</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
-        <tbody>
-          ${list.map(r => `
-            <tr>
-              <td><b>${esc(r.emoji||'R')} ${esc(r.name)}</b></td>
-              <td>${esc(r.category||'—')}</td>
-              <td>${r.active ? '<span class="status-badge status-Delivered">Active</span>' : '<span class="status-badge status-Cancelled">Inactive</span>'}</td>
-              <td class="actions">
-                <button class="btn sm secondary" data-edit="${r.id}">Edit</button>
-                <button class="btn sm secondary" data-menu="${r.id}">Menu</button>
-                <button class="btn sm ${r.active ? 'danger' : 'secondary'}" data-toggle="${r.id}">${r.active ? 'Deactivate' : 'Activate'}</button>
-                <button class="btn sm danger" data-del="${r.id}">Delete</button>
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
+  rl.innerHTML = `<div class="data-table"><table><thead><tr><th>Restaurant</th><th>Category</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead><tbody>
+    ${list.map(r => `<tr>
+      <td><span class="thumb">${r.imageUrl ? `<img src="${esc(r.imageUrl)}" />` : esc((r.name||'R')[0])}</span><b>${esc(r.name)}</b></td>
+      <td>${esc(r.category||'—')}</td>
+      <td>${r.active ? '<span class="status-badge status-Delivered">Active</span>' : '<span class="status-badge status-Cancelled">Inactive</span>'}</td>
+      <td class="actions">
+        <button class="btn sm secondary" data-edit="${r.id}">Edit</button>
+        <button class="btn sm secondary" data-menu="${r.id}">Menu</button>
+        <button class="btn sm ${r.active ? 'danger' : 'secondary'}" data-toggle="${r.id}">${r.active ? 'Deactivate' : 'Activate'}</button>
+        <button class="btn sm danger" data-del="${r.id}">Delete</button>
+      </td>
+    </tr>`).join('')}
+  </tbody></table></div>`;
   rl.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => editRestaurant(list.find(x => x.id === b.dataset.edit)));
   rl.querySelectorAll('[data-menu]').forEach(b => b.onclick = () => adminMenu(b.dataset.menu));
   rl.querySelectorAll('[data-toggle]').forEach(b => b.onclick = async () => {
@@ -1926,14 +1058,14 @@ function editRestaurant(r) {
     <h3>${r ? 'Edit' : 'Add'} Restaurant</h3>
     <div class="field"><label>Name</label><input id="rn" value="${esc(r?.name||'')}" /></div>
     <div class="field"><label>Category</label><input id="rc" value="${esc(r?.category||'')}" placeholder="Indian, Chinese…" /></div>
-    <div class="field"><label>Emoji / Initial</label><input id="re" value="${esc(r?.emoji||'R')}" maxlength="2" /></div>
+    <div class="field"><label>Image URL</label><input id="ri" value="${esc(r?.imageUrl||'')}" placeholder="https://..." /></div>
     <div class="field"><label>Description</label><textarea id="rd" rows="2">${esc(r?.description||'')}</textarea></div>
     <button class="btn block" id="save">Save</button>
   `, () => {
     $('save').onclick = async () => {
       const data = {
         name: $('rn').value.trim(), category: $('rc').value.trim(),
-        emoji: $('re').value.trim() || 'R', description: $('rd').value.trim(),
+        imageUrl: $('ri').value.trim(), description: $('rd').value.trim(),
         active: r ? r.active : true,
       };
       if (!data.name) return toast('Name required','error');
@@ -1950,40 +1082,27 @@ async function adminMenu(rid) {
   const rDoc = await getDoc(doc(db,'restaurants',rid));
   const rName = rDoc.data()?.name || 'Restaurant';
   $('admin-body').innerHTML = `
-    <button class="btn ghost sm" id="back" style="margin-bottom:12px">← Back to Restaurants</button>
-    <div class="flex-between" style="margin-bottom:14px">
-      <h3 style="margin:0">${esc(rName)} — Menu</h3>
-      <button class="btn" id="add">+ Add Item</button>
-    </div>
+    <button class="btn ghost sm" id="back" style="margin-bottom:12px">← Back</button>
+    <div class="flex-between" style="margin-bottom:14px"><h3 style="margin:0">${esc(rName)} — Menu</h3><button class="btn" id="add">+ Add Item</button></div>
     <div id="ml">${loadingHTML()}</div>
   `;
   $('back').onclick = () => adminRestaurants();
   $('add').onclick = () => editMenuItem(rid, null);
   const snap = await getDocs(collection(db,'restaurants',rid,'menu'));
-  const items = [];
-  snap.forEach(d => items.push({ id:d.id, ...d.data() }));
+  const items = []; snap.forEach(d => items.push({ id:d.id, ...d.data() }));
   const ml = $('ml');
   if (!items.length) { ml.innerHTML = `<div class="empty"><div class="icon">▤</div><h3>No items yet</h3></div>`; return; }
-  ml.innerHTML = `
-    <div class="data-table">
-      <table>
-        <thead><tr><th>Item</th><th>Price</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
-        <tbody>
-          ${items.map(it => `
-            <tr>
-              <td><b>${esc(it.name)}</b><div class="muted">${esc(it.description||'')}</div></td>
-              <td><b>${money(it.price)}</b></td>
-              <td>${it.available ? '<span class="status-badge status-Delivered">Available</span>' : '<span class="status-badge status-Cancelled">Unavailable</span>'}</td>
-              <td class="actions">
-                <button class="btn sm secondary" data-edit="${it.id}">Edit</button>
-                <button class="btn sm danger" data-del="${it.id}">Delete</button>
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
+  ml.innerHTML = `<div class="data-table"><table><thead><tr><th>Item</th><th>Price</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead><tbody>
+    ${items.map(it => `<tr>
+      <td><span class="thumb">${it.imageUrl ? `<img src="${esc(it.imageUrl)}" />` : esc((it.name||'F')[0])}</span><b>${esc(it.name)}</b><div class="muted">${esc(it.description||'')}</div></td>
+      <td><b>${money(it.price)}</b></td>
+      <td>${it.available ? '<span class="status-badge status-Delivered">Available</span>' : '<span class="status-badge status-Cancelled">Unavailable</span>'}</td>
+      <td class="actions">
+        <button class="btn sm secondary" data-edit="${it.id}">Edit</button>
+        <button class="btn sm danger" data-del="${it.id}">Delete</button>
+      </td>
+    </tr>`).join('')}
+  </tbody></table></div>`;
   ml.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => editMenuItem(rid, items.find(x => x.id === b.dataset.edit)));
   ml.querySelectorAll('[data-del]').forEach(b => b.onclick = async () => {
     if (!confirm('Delete item?')) return;
@@ -1998,13 +1117,15 @@ function editMenuItem(rid, item) {
     <div class="field"><label>Name</label><input id="mn" value="${esc(item?.name||'')}" /></div>
     <div class="field"><label>Description</label><textarea id="md" rows="2">${esc(item?.description||'')}</textarea></div>
     <div class="field"><label>Price (₹)</label><input id="mp" type="number" min="0" step="0.01" value="${item?.price||''}" /></div>
+    <div class="field"><label>Image URL</label><input id="mi" value="${esc(item?.imageUrl||'')}" placeholder="https://..." /></div>
     <div class="field"><label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:13px;font-weight:500;cursor:pointer"><input type="checkbox" id="ma" ${item?.available!==false?'checked':''} style="width:auto;margin:0" /> Available</label></div>
     <button class="btn block" id="save">Save</button>
   `, () => {
     $('save').onclick = async () => {
       const data = {
         name: $('mn').value.trim(), description: $('md').value.trim(),
-        price: Number($('mp').value), available: $('ma').checked,
+        price: Number($('mp').value), imageUrl: $('mi').value.trim(),
+        available: $('ma').checked,
       };
       if (!data.name || isNaN(data.price) || data.price < 0) return toast('Invalid data','error');
       try {
@@ -2016,129 +1137,255 @@ function editMenuItem(rid, item) {
   });
 }
 
+/* ---------- ADMIN: ORDERS ---------- */
 async function adminOrders() {
   const el = $('admin-body');
-  el.innerHTML = `<div id="ol">${loadingHTML()}</div>`;
+  el.innerHTML = `<div class="flex-between" style="margin-bottom:14px"><p class="muted">All orders</p><button class="btn" id="new-order">+ Create Order for Customer</button></div><div id="ol">${loadingHTML()}</div>`;
+  $('new-order').onclick = () => adminCreateOrder();
   const snap = await getDocs(collection(db,'foodOrders'));
-  const orders = [];
-  snap.forEach(d => orders.push({ id:d.id, ...d.data() }));
+  const orders = []; snap.forEach(d => orders.push({ id:d.id, ...d.data() }));
   orders.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
   const ol = $('ol');
   if (!orders.length) { ol.innerHTML = `<div class="empty"><div class="icon">▤</div><h3>No orders yet</h3></div>`; return; }
   const statuses = ['Placed','Accepted','Preparing','Ready','Out for Delivery','Delivered'];
-  ol.innerHTML = `
-    <div class="data-table">
-      <table>
-        <thead><tr><th>Order</th><th>Customer</th><th>Restaurant</th><th>Total</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
-        <tbody>
-          ${orders.map(o => `
-            <tr>
-              <td><b>#${esc(o.orderId.slice(-8).toUpperCase())}</b><div class="muted">${fmtDate(o.createdAt)}</div></td>
-              <td>${esc(o.customerName||'—')}<div class="muted">${esc(o.phone||'')}</div></td>
-              <td>${esc(o.restaurantName||'—')}</td>
-              <td><b>${money(o.total)}</b>${o.penaltyApplied > 0 ? `<div class="muted" style="color:var(--danger)">+${money(o.penaltyApplied)} penalty</div>` : ''}</td>
-              <td><span class="status-badge status-${o.status.replace(/\s/g,'')}">${esc(o.status)}</span></td>
-              <td class="actions">
-                ${o.status !== 'Cancelled' ? `
-                  <select data-status="${o.id}" style="width:auto;padding:6px 8px;font-size:12px;border-radius:6px;border:1px solid var(--ink-300)">
-                    ${statuses.map(s => `<option ${s===o.status?'selected':''}>${s}</option>`).join('')}
-                  </select>
-                  <button class="btn sm danger" data-ccancel="${o.id}">Cancel</button>
-                ` : `<span class="muted">by ${esc(o.cancelledBy||'—')}</span>`}
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
+  ol.innerHTML = `<div class="data-table"><table><thead><tr><th>Order</th><th>Customer</th><th>Restaurant</th><th>Total</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead><tbody>
+    ${orders.map(o => `<tr>
+      <td><b>#${esc(o.orderId.slice(-8).toUpperCase())}</b><div class="muted">${fmtDate(o.createdAt)}</div></td>
+      <td>${esc(o.customerName||'—')}<div class="muted">${esc(o.phone||'')}</div></td>
+      <td>${esc(o.restaurantName||'—')}</td>
+      <td><b>${money(o.total)}</b>${o.penaltyApplied > 0 ? `<div class="muted" style="color:var(--danger)">+${money(o.penaltyApplied)} penalty</div>` : ''}</td>
+      <td><span class="status-badge status-${o.status.replace(/\s/g,'')}">${esc(o.status)}</span></td>
+      <td class="actions">
+        ${o.status !== 'Cancelled' ? `
+          <select data-status="${o.id}" style="width:auto;padding:6px 8px;font-size:12px;border-radius:6px;border:1px solid var(--ink-300)">
+            ${statuses.map(s => `<option ${s===o.status?'selected':''}>${s}</option>`).join('')}
+          </select>
+          <button class="btn sm danger" data-ccancel="${o.id}">Cancel</button>
+        ` : `<span class="muted">by ${esc(o.cancelledBy||'—')}</span>`}
+      </td>
+    </tr>`).join('')}
+  </tbody></table></div>`;
   ol.querySelectorAll('[data-status]').forEach(sel => sel.onchange = async () => {
     const orderId = sel.dataset.status, newStatus = sel.value;
     try {
       await updateDoc(doc(db,'foodOrders',orderId), { status: newStatus, updatedAt: serverTimestamp() });
-      await addDoc(collection(db,'adminAuditLogs'), {
-        action: 'updateOrderStatus', orderId, toStatus: newStatus,
-        adminUid: state.user.uid, createdAt: serverTimestamp(),
-      });
+      await addDoc(collection(db,'adminAuditLogs'), { action: 'updateOrderStatus', orderId, toStatus: newStatus, adminUid: state.user.uid, createdAt: serverTimestamp() });
       toast('Status updated','success');
     } catch (e) { toast(e.message,'error'); adminOrders(); }
   });
   ol.querySelectorAll('[data-ccancel]').forEach(b => b.onclick = () => {
     openModal(`
       <h3>Cancel Order (Company)</h3>
-      <p class="muted" style="margin-bottom:16px">No penalty will be applied to the customer.</p>
+      <p class="muted" style="margin-bottom:16px">No penalty to customer.</p>
       <div class="field"><label>Reason</label><input id="cr" /></div>
-      <div style="display:flex; gap:8px">
+      <div style="display:flex;gap:8px">
         <button class="btn secondary" id="no" style="flex:1">Cancel</button>
-        <button class="btn danger" id="ok" style="flex:1">Confirm Cancel</button>
+        <button class="btn danger" id="ok" style="flex:1">Confirm</button>
       </div>
     `, () => {
       $('no').onclick = closeModal;
       $('ok').onclick = async () => {
         const reason = $('cr').value.trim() || 'Company cancelled';
         try {
-          await updateDoc(doc(db,'foodOrders',b.dataset.ccancel), {
-            status: 'Cancelled', cancelledBy: 'company', cancellationReason: reason,
-            cancelledAt: serverTimestamp(), penaltyAmount: 0, penaltyStatus: 'none',
-            updatedAt: serverTimestamp(),
-          });
-          await addDoc(collection(db,'adminAuditLogs'), {
-            action: 'companyCancel', orderId: b.dataset.ccancel, reason,
-            adminUid: state.user.uid, createdAt: serverTimestamp(),
-          });
-          toast('Order cancelled (no penalty)','success'); closeModal(); adminOrders();
+          await updateDoc(doc(db,'foodOrders',b.dataset.ccancel), { status: 'Cancelled', cancelledBy: 'company', cancellationReason: reason, cancelledAt: serverTimestamp(), penaltyAmount: 0, penaltyStatus: 'none', updatedAt: serverTimestamp() });
+          await addDoc(collection(db,'adminAuditLogs'), { action: 'companyCancel', orderId: b.dataset.ccancel, reason, adminUid: state.user.uid, createdAt: serverTimestamp() });
+          toast('Cancelled (no penalty)','success'); closeModal(); adminOrders();
         } catch (e) { toast(e.message,'error'); }
       };
     });
   });
 }
 
+/* ---------- ADMIN: CREATE ORDER FOR CUSTOMER ---------- */
+async function adminCreateOrder() {
+  // Step 1: fetch customers and restaurants
+  const [uSnap, rSnap] = await Promise.all([getDocs(collection(db,'users')), getDocs(query(collection(db,'restaurants'), where('active','==',true)))]);
+  const users = []; uSnap.forEach(d => users.push({ id:d.id, ...d.data() }));
+  const rests = []; rSnap.forEach(d => rests.push({ id:d.id, ...d.data() }));
+  users.sort((a,b) => (a.name||'').localeCompare(b.name||''));
+
+  openModal(`
+    <h3>Create Order for Customer</h3>
+    <div class="field"><label>Customer</label>
+      <select id="ao-cust">
+        <option value="">— Select customer —</option>
+        ${users.map(u => `<option value="${u.id}">${esc(u.name||u.email)} (${esc(u.email)})</option>`).join('')}
+      </select>
+    </div>
+    <div class="field"><label>Restaurant</label>
+      <select id="ao-rest">
+        <option value="">— Select restaurant —</option>
+        ${rests.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join('')}
+      </select>
+    </div>
+    <div id="ao-menu" class="muted" style="margin-bottom:12px">Select restaurant to load menu.</div>
+    <div id="ao-items" style="max-height:240px; overflow-y:auto; border:1px solid var(--ink-200); border-radius:8px; padding:8px; margin-bottom:12px"></div>
+    <div class="field-row">
+      <div class="field"><label>Delivery Address (override)</label><input id="ao-addr" placeholder="Address text" /></div>
+      <div class="field"><label>Phone</label><input id="ao-phone" placeholder="Phone" /></div>
+    </div>
+    <div style="background:var(--ink-50); padding:10px; border-radius:8px; margin-bottom:12px; display:flex; justify-content:space-between"><b>Total:</b><b id="ao-total">₹0.00</b></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn secondary" id="ao-cancel" style="flex:1">Cancel</button>
+      <button class="btn" id="ao-create" style="flex:1">Create Order</button>
+    </div>
+  `, () => {
+    const aoItemsState = {};
+    const recalc = () => {
+      const total = Object.values(aoItemsState).reduce((s,i) => s + i.price*i.qty, 0);
+      $('ao-total').textContent = money(total);
+    };
+    $('ao-cancel').onclick = closeModal;
+    $('ao-rest').onchange = async () => {
+      const rid = $('ao-rest').value;
+      const wrap = $('ao-items');
+      Object.keys(aoItemsState).forEach(k => delete aoItemsState[k]);
+      recalc();
+      if (!rid) { wrap.innerHTML = ''; $('ao-menu').textContent = 'Select restaurant to load menu.'; return; }
+      wrap.innerHTML = '<span class="spinner dark"></span> Loading menu…';
+      const mSnap = await getDocs(collection(db,'restaurants',rid,'menu'));
+      const items = []; mSnap.forEach(d => items.push({ id:d.id, ...d.data() }));
+      if (!items.length) { wrap.innerHTML = '<p class="muted">No items</p>'; $('ao-menu').textContent = ''; return; }
+      $('ao-menu').textContent = '';
+      wrap.innerHTML = items.map(it => `
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 4px; border-bottom:1px solid var(--ink-100)">
+          <div><b style="font-size:13px">${esc(it.name)}</b><div class="muted">${money(it.price)}</div></div>
+          <div class="qty-control">
+            <button data-aid-dec="${it.id}">−</button>
+            <span data-aid-qty="${it.id}">0</span>
+            <button data-aid-inc="${it.id}" data-name="${esc(it.name)}" data-price="${it.price}">+</button>
+          </div>
+        </div>
+      `).join('');
+      wrap.querySelectorAll('[data-aid-inc]').forEach(b => b.onclick = () => {
+        const id = b.dataset.aidInc;
+        if (!aoItemsState[id]) aoItemsState[id] = { itemId: id, name: b.dataset.name, price: Number(b.dataset.price), qty: 0 };
+        aoItemsState[id].qty++;
+        wrap.querySelector(`[data-aid-qty="${id}"]`).textContent = aoItemsState[id].qty;
+        recalc();
+      });
+      wrap.querySelectorAll('[data-aid-dec]').forEach(b => b.onclick = () => {
+        const id = b.dataset.aidDec;
+        if (!aoItemsState[id]) return;
+        aoItemsState[id].qty--;
+        if (aoItemsState[id].qty <= 0) delete aoItemsState[id];
+        wrap.querySelector(`[data-aid-qty="${id}"]`).textContent = aoItemsState[id]?.qty || 0;
+        recalc();
+      });
+    };
+    $('ao-create').onclick = async () => {
+      const custId = $('ao-cust').value;
+      const rid = $('ao-rest').value;
+      const addr = $('ao-addr').value.trim();
+      const phone = $('ao-phone').value.trim();
+      if (!custId || !rid) return toast('Select customer and restaurant','error');
+      if (!Object.keys(aoItemsState).length) return toast('Add at least one item','error');
+      const cust = users.find(u => u.id === custId);
+      const rest = rests.find(r => r.id === rid);
+      if (!cust || !rest) return toast('Invalid selection','error');
+      const btn = $('ao-create'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Creating…';
+      try {
+        const orderItems = Object.values(aoItemsState).map(i => ({ ...i, lineTotal: i.price * i.qty }));
+        const subtotal = Math.round(orderItems.reduce((s,i) => s + i.lineTotal, 0) * 100) / 100;
+        const orderId = doc(collection(db,'foodOrders')).id;
+        await setDoc(doc(db,'foodOrders',orderId), {
+          orderId, customerUid: custId, customerName: cust.name || '',
+          restaurantId: rid, restaurantName: rest.name,
+          items: orderItems, subtotal, penaltyApplied: 0, total: subtotal,
+          status: 'Placed',
+          deliveryAddress: addr || 'Admin created order',
+          phone: phone || cust.phone || '',
+          notes: 'Created by admin',
+          penaltyAmount: 0, penaltyStatus: 'none', refundStatus: 'n/a',
+          createdByAdmin: state.user.uid,
+          createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
+        });
+        await addDoc(collection(db,'adminAuditLogs'), { action: 'createOrder', orderId, customerUid: custId, adminUid: state.user.uid, createdAt: serverTimestamp() });
+        toast('Order created','success'); closeModal(); adminOrders();
+      } catch (e) { toast(e.message,'error'); btn.disabled = false; btn.textContent = 'Create Order'; }
+    };
+  });
+}
+
+/* ---------- ADMIN: CUSTOMERS ---------- */
 async function adminCustomers() {
   const el = $('admin-body');
   el.innerHTML = `
-    <div class="card" style="margin-bottom:14px;padding:6px">
-      <input id="cs" placeholder="Search by UID or email…" style="border:none;padding:9px 12px;width:100%;outline:none;font-family:inherit" />
+    <div class="flex-between" style="margin-bottom:14px">
+      <p class="muted">Customers</p>
+      <button class="btn" id="new-cust">+ Create Customer</button>
     </div>
+    <div class="card" style="margin-bottom:14px;padding:6px"><input id="cs" placeholder="Search by UID or email…" style="border:none;padding:9px 12px;width:100%;outline:none;font-family:inherit" /></div>
     <div id="cl">${loadingHTML()}</div>
   `;
+  $('new-cust').onclick = () => adminCreateCustomer();
   const run = async (term='') => {
     const snap = await getDocs(collection(db,'users'));
-    const users = [];
-    snap.forEach(d => users.push({ id:d.id, ...d.data() }));
+    const users = []; snap.forEach(d => users.push({ id:d.id, ...d.data() }));
     const filtered = term ? users.filter(u => u.id.includes(term) || (u.email||'').toLowerCase().includes(term.toLowerCase())) : users;
     const cl = $('cl');
     if (!filtered.length) { cl.innerHTML = `<div class="empty"><div class="icon">▤</div><h3>No customers found</h3></div>`; return; }
-    cl.innerHTML = `
-      <div class="data-table">
-        <table>
-          <thead><tr><th>Name</th><th>Email</th><th>UID</th><th>Penalty</th><th style="text-align:right">Actions</th></tr></thead>
-          <tbody>
-            ${filtered.map(u => `
-              <tr>
-                <td><b>${esc(u.name||'Unnamed')}</b> ${u.role==='admin'?'<span class="status-badge status-Accepted" style="margin-left:6px">ADMIN</span>':''}</td>
-                <td>${esc(u.email||'—')}</td>
-                <td><code style="font-size:11.5px">${esc(u.id)}</code></td>
-                <td>${u.penaltyBalance > 0 ? `<b style="color:var(--danger)">${money(u.penaltyBalance)}</b>` : '<span class="muted">—</span>'}</td>
-                <td class="actions"><button class="btn sm" data-adjust="${u.id}" data-bal="${u.penaltyBalance||0}">Adjust Penalty</button></td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    `;
+    cl.innerHTML = `<div class="data-table"><table><thead><tr><th>Name</th><th>Email</th><th>Penalty</th><th style="text-align:right">Actions</th></tr></thead><tbody>
+      ${filtered.map(u => `<tr>
+        <td><b>${esc(u.name||'Unnamed')}</b> ${u.role==='admin'?'<span class="status-badge status-Accepted" style="margin-left:6px">ADMIN</span>':''}</td>
+        <td>${esc(u.email||'—')}</td>
+        <td>${u.penaltyBalance > 0 ? `<b style="color:var(--danger)">${money(u.penaltyBalance)}</b>` : '<span class="muted">—</span>'}</td>
+        <td class="actions"><button class="btn sm" data-adjust="${u.id}" data-bal="${u.penaltyBalance||0}">Adjust Penalty</button></td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
     cl.querySelectorAll('[data-adjust]').forEach(b => b.onclick = () => adjustPenalty(b.dataset.adjust, b.dataset.bal));
   };
   $('cs').oninput = e => run(e.target.value);
   run();
 }
 
+async function adminCreateCustomer() {
+  openModal(`
+    <h3>Create New Customer</h3>
+    <div class="field"><label>Full Name</label><input id="nc-name" /></div>
+    <div class="field"><label>Email</label><input id="nc-email" type="email" /></div>
+    <div class="field"><label>Phone</label><input id="nc-phone" /></div>
+    <div class="field"><label>Password (temporary)</label><input id="nc-pass" type="text" value="Pawan@123456" /></div>
+    <p class="muted" style="margin-bottom:14px; font-size:12px">Customer can change password after first login. Minimum 6 characters.</p>
+    <div style="display:flex;gap:8px">
+      <button class="btn secondary" id="nc-cancel" style="flex:1">Cancel</button>
+      <button class="btn" id="nc-create" style="flex:1">Create Customer</button>
+    </div>
+  `, () => {
+    $('nc-cancel').onclick = closeModal;
+    $('nc-create').onclick = async () => {
+      const name = $('nc-name').value.trim();
+      const email = $('nc-email').value.trim();
+      const phone = $('nc-phone').value.trim();
+      const pass = $('nc-pass').value;
+      if (!name || !email || !phone || !pass) return toast('Fill all fields','error');
+      if (pass.length < 6) return toast('Password 6+ characters','error');
+      const btn = $('nc-create'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Creating…';
+      try {
+        // Create user in a secondary app instance so admin stays logged in
+        const secondaryApp = initializeApp(firebaseConfig, 'secondary-' + Date.now());
+        const secondaryAuth = getAuth(secondaryApp);
+        const cred = await createUserWithEmailAndPassword(secondaryAuth, email, pass);
+        await updateProfile(cred.user, { displayName: name });
+        const uid = cred.user.uid;
+        await setDoc(doc(db,'users',uid), {
+          uid, name, email, phone, role: 'customer', penaltyBalance: 0,
+          createdAt: serverTimestamp(), createdByAdmin: state.user.uid,
+        });
+        await signOut(secondaryAuth);
+        await deleteApp(secondaryApp);
+        await addDoc(collection(db,'adminAuditLogs'), { action: 'createCustomer', customerUid: uid, adminUid: state.user.uid, createdAt: serverTimestamp() });
+        toast('Customer created','success'); closeModal(); adminCustomers();
+      } catch (e) { toast(e.message,'error'); btn.disabled = false; btn.textContent = 'Create Customer'; }
+    };
+  });
+}
+
 function adjustPenalty(uid, currentBal) {
   openModal(`
     <h3>Adjust Penalty</h3>
     <p class="muted" style="margin-bottom:16px">Current balance: <b>${money(currentBal)}</b></p>
-    <div class="field"><label>Type</label>
-      <select id="at"><option value="add">Add Penalty</option><option value="waive">Waive / Remove</option></select>
-    </div>
+    <div class="field"><label>Type</label><select id="at"><option value="add">Add Penalty</option><option value="waive">Waive / Remove</option></select></div>
     <div class="field"><label>Amount (₹)</label><input id="aa" type="number" min="0" step="0.01" /></div>
     <div class="field"><label>Reason (required)</label><input id="ar" /></div>
     <button class="btn block" id="ok">Apply</button>
@@ -2169,13 +1416,13 @@ function adjustPenalty(uid, currentBal) {
             adminUid: state.user.uid, createdAt: serverTimestamp(),
           });
         });
-        toast('Adjusted successfully','success'); closeModal(); adminCustomers(); loadAdminStats();
+        toast('Adjusted','success'); closeModal(); adminCustomers();
       } catch (e) { toast(e.message,'error'); btn.disabled = false; btn.textContent = 'Apply'; }
     };
   });
 }
 
-/* ============ MAIN RENDER ============ */
+/* ============ MAIN ============ */
 function render() {
   if (!state.user) { renderAuth(); return; }
   renderShell();
@@ -2191,7 +1438,6 @@ function render() {
   }
 }
 
-/* ============ AUTH STATE ============ */
 onAuthStateChanged(auth, async user => {
   state.user = user;
   if (user) {
@@ -2199,28 +1445,16 @@ onAuthStateChanged(auth, async user => {
       const pSnap = await getDoc(doc(db,'users',user.uid));
       state.profile = pSnap.exists() ? pSnap.data() : { role: 'customer', penaltyBalance: 0 };
     } catch { state.profile = { role: 'customer', penaltyBalance: 0 }; }
-
-    // Profile listener
     if (state.unsubs.profile) state.unsubs.profile();
     state.unsubs.profile = onSnapshot(doc(db,'users',user.uid), s => {
-      if (s.exists()) {
-        state.profile = s.data();
-        renderShell();
-        if (state.view === 'profile' || state.view === 'cart') render();
-      }
+      if (s.exists()) { state.profile = s.data(); renderShell(); if (['profile','cart'].includes(state.view)) render(); }
     });
-
-    // Addresses listener
     loadAddresses();
-
     navigate('home');
   } else {
-    state.profile = null;
-    state.addresses = [];
-    state.checkoutAddressId = null;
+    state.profile = null; state.addresses = []; state.checkoutAddressId = null;
     Object.values(state.unsubs).forEach(u => u && u());
-    state.unsubs = {};
-    render();
+    state.unsubs = {}; render();
   }
 });
 </script>
