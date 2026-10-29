@@ -3,188 +3,189 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Pawan Retail Limited — Food Ordering</title>
+<title>Pawan Retail Limited 🍔</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Brand Colors */
-    --brand-50: #f5f3ff; --brand-100: #ede9fe; --brand-200: #ddd6fe;
-    --brand-500: #8b5cf6; --brand-600: #7c3aed; --brand-700: #6d28d9; --brand-800: #5b21b6;
-    
-    /* Semantic Colors */
-    --ink-900: #0f172a; --ink-800: #1e293b; --ink-700: #334155;
-    --ink-600: #475569; --ink-500: #64748b; --ink-400: #94a3b8;
-    --ink-300: #cbd5e1; --ink-200: #e2e8f0; --ink-100: #f1f5f9; --ink-50: #f8fafc;
-    
-    --danger: #dc2626; --danger-bg: #fef2f2; --danger-border: #fecaca;
-    --success: #059669; --success-bg: #ecfdf5; --success-border: #a7f3d0;
-    --warning: #d97706; --warning-bg: #fffbeb; --warning-border: #fde68a;
-    
-    /* UI Tokens */
-    --radius-sm: 6px; --radius: 10px; --radius-lg: 16px; --radius-xl: 24px;
-    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-    --shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-    --shadow-md: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 0 4px 6px -4px rgba(15, 23, 42, 0.02);
-    --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.1);
+    --brand: #8b5cf6;
+    --brand-light: #c4b5fd;
+    --brand-dark: #5b21b6;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --danger: #ef4444;
+    --danger-bg: #fef2f2;
+    --success: #10b981;
+    --success-bg: #ecfdf5;
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
+    --radius-pill: 999px;
+    --shadow-sm: 0 2px 8px rgba(15,23,42,0.04);
+    --shadow-lg: 0 12px 32px rgba(139,92,246,0.15);
+    --shadow-glow: 0 0 20px rgba(139,92,246,0.3);
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background-color: var(--ink-50);
-    color: var(--ink-800);
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
     -webkit-font-smoothing: antialiased;
-    line-height: 1.5;
+    padding-bottom: 90px;
     overflow-x: hidden;
-    padding-bottom: 80px;
   }
-  h1, h2, h3, h4, .font-display { font-family: 'Outfit', sans-serif; font-weight: 700; letter-spacing: -0.02em; color: var(--ink-900); }
-  a { text-decoration: none; color: var(--brand-600); }
-  button { font-family: inherit; cursor: pointer; border: none; background: none; }
   
   /* Animations */
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-  @keyframes shimmer { 100% { transform: translateX(100%); } }
-  
-  .page-enter { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-  .modal-enter { animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  .animate-up { animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .animate-pop { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
   /* Layout */
-  .app-container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; min-height: 100vh; }
-  .header { background: #fff; position: sticky; top: 0; z-index: 40; padding: 16px 20px; border-bottom: 1px solid var(--ink-200); }
-  .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-  .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-  .logo-icon { width: 36px; height: 36px; background: var(--brand-600); color: #fff; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; }
-  .logo-text { font-size: 18px; font-weight: 800; color: var(--ink-900); letter-spacing: -0.03em; }
+  .header {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 16px 20px;
+    position: sticky; top: 0; z-index: 50;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .logo { font-size: 22px; font-weight: 900; letter-spacing: -1px; color: var(--brand-dark); display: flex; align-items: center; gap: 8px; }
+  .logo span { background: var(--brand); color: #fff; padding: 2px 10px; border-radius: var(--radius-pill); font-size: 12px; letter-spacing: 0; }
   
-  .main-content { flex: 1; padding: 20px; width: 100%; }
+  .main { padding: 24px 20px; max-width: 800px; margin: 0 auto; }
+  .title { font-size: 28px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
+  
+  /* Gen-Z Cards (Bento Style) */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+  /* Form Elements */
+  .input-group { margin-bottom: 16px; }
+  .input-group label { display: block; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .input-field {
+    width: 100%; padding: 16px 20px; border-radius: var(--radius-sm);
+    border: 2px solid #e2e8f0; font-family: inherit; font-size: 16px; font-weight: 500;
+    background: #f8fafc; transition: all 0.2s; outline: none;
+  }
+  .input-field:focus { border-color: var(--brand); background: #fff; box-shadow: 0 0 0 4px var(--brand-light); }
 
   /* Buttons */
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 18px; border-radius: var(--radius); font-size: 14px; font-weight: 600; transition: all 0.15s ease; border: 1px solid transparent; }
-  .btn:active { transform: scale(0.98); }
-  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-  .btn-primary { background: var(--brand-600); color: #fff; box-shadow: 0 2px 4px rgba(109, 40, 217, 0.2); }
-  .btn-primary:hover:not(:disabled) { background: var(--brand-700); }
-  .btn-secondary { background: var(--ink-100); color: var(--ink-700); }
-  .btn-secondary:hover:not(:disabled) { background: var(--ink-200); }
-  .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-border); }
-  .btn-danger:hover:not(:disabled) { background: #fee2e2; }
+  .btn {
+    display: inline-flex; justify-content: center; align-items: center;
+    padding: 16px 24px; border-radius: var(--radius-pill);
+    font-weight: 700; font-size: 16px; cursor: pointer; border: none;
+    transition: all 0.2s; gap: 8px;
+  }
+  .btn-primary { background: var(--brand); color: #fff; box-shadow: 0 4px 12px rgba(139,92,246,0.3); }
+  .btn-primary:hover { background: var(--brand-dark); transform: scale(1.02); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary { background: var(--brand-light); color: var(--brand-dark); }
+  .btn-secondary:hover { background: #a78bfa; }
+  .btn-danger { background: var(--danger-bg); color: var(--danger); }
   .btn-block { width: 100%; }
-  .btn-sm { padding: 6px 12px; font-size: 13px; }
+  .btn-sm { padding: 10px 16px; font-size: 14px; }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-  /* Cards & Forms */
-  .card { background: #fff; border: 1px solid var(--ink-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); }
-  .form-group { margin-bottom: 16px; }
-  .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-700); margin-bottom: 6px; }
-  .form-input { width: 100%; padding: 10px 14px; border: 1px solid var(--ink-300); border-radius: var(--radius); font-size: 14px; font-family: inherit; color: var(--ink-900); transition: border-color 0.15s, box-shadow 0.15s; }
-  .form-input:focus { outline: none; border-color: var(--brand-500); box-shadow: 0 0 0 3px var(--brand-100); }
+  /* Restaurant Grid */
+  .bento-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media(min-width: 600px) { .bento-grid { grid-template-columns: 1fr 1fr; } }
   
-  /* Grids */
-  .grid-restaurants { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-  .grid-menu { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  @media (min-width: 768px) { .grid-menu { grid-template-columns: repeat(2, 1fr); } }
-
-  /* Restaurant Card */
-  .rest-card { background: #fff; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--ink-200); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
-  .rest-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--brand-200); }
-  .rest-img-wrap { height: 160px; background: var(--ink-100); position: relative; overflow: hidden; }
-  .rest-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+  .rest-card {
+    background: #fff; border-radius: var(--radius-md); overflow: hidden;
+    box-shadow: var(--shadow-sm); cursor: pointer; position: relative;
+  }
+  .rest-img-box { height: 160px; background: var(--brand-light); position: relative; overflow: hidden; }
+  .rest-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
   .rest-card:hover .rest-img { transform: scale(1.05); }
-  .rest-badge { position: absolute; top: 12px; right: 12px; background: #fff; padding: 4px 8px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700; color: var(--ink-800); box-shadow: var(--shadow-sm); }
-  .rest-info { padding: 16px; flex: 1; display: flex; flex-direction: column; }
-  .rest-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .rest-desc { font-size: 13px; color: var(--ink-500); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .rest-info { padding: 16px; }
+  .rest-name { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+  .rest-desc { font-size: 14px; color: var(--text-muted); }
 
-  /* Food Item */
-  .food-card { background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--ink-200); padding: 16px; display: flex; gap: 16px; }
-  .food-card.out-of-stock { opacity: 0.6; background: var(--ink-50); }
-  .food-img-wrap { width: 80px; height: 80px; border-radius: var(--radius); overflow: hidden; flex-shrink: 0; background: var(--ink-100); }
+  /* Food Items */
+  .food-item {
+    display: flex; gap: 16px; padding: 16px; background: #fff;
+    border-radius: var(--radius-md); margin-bottom: 12px; box-shadow: var(--shadow-sm);
+  }
+  .food-img-box { width: 90px; height: 90px; border-radius: var(--radius-sm); background: var(--brand-light); overflow: hidden; flex-shrink: 0; }
   .food-img { width: 100%; height: 100%; object-fit: cover; }
   .food-details { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-  .food-title { font-weight: 700; font-size: 15px; color: var(--ink-900); }
-  .food-price { font-weight: 700; color: var(--brand-700); font-size: 15px; margin-top: 4px; }
-  .food-action { display: flex; align-items: center; justify-content: flex-end; margin-top: 8px; }
+  .food-name { font-size: 16px; font-weight: 800; }
+  .food-price { font-size: 16px; font-weight: 800; color: var(--brand-dark); }
 
-  /* Quantity Controls */
-  .qty-controls { display: flex; align-items: center; border: 1px solid var(--brand-500); border-radius: var(--radius); overflow: hidden; background: var(--brand-50); }
-  .qty-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--brand-700); }
-  .qty-val { width: 24px; text-align: center; font-size: 14px; font-weight: 700; color: var(--brand-700); }
+  /* Qty Pill */
+  .qty-pill {
+    display: inline-flex; align-items: center; background: var(--brand-light);
+    border-radius: var(--radius-pill); overflow: hidden;
+  }
+  .qty-btn { width: 36px; height: 36px; font-size: 20px; color: var(--brand-dark); font-weight: 800; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+  .qty-num { width: 28px; text-align: center; font-weight: 800; color: var(--brand-dark); }
 
   /* Bottom Nav */
-  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid var(--ink-200); display: flex; justify-content: space-around; padding: 8px 12px; padding-bottom: env(safe-area-inset-bottom, 8px); z-index: 50; box-shadow: 0 -2px 10px rgba(0,0,0,0.02); }
-  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--ink-500); padding: 8px 12px; border-radius: var(--radius); position: relative; transition: color 0.15s; }
-  .nav-item.active { color: var(--brand-600); }
-  .nav-icon { font-size: 20px; }
-  .nav-badge { position: absolute; top: 4px; right: 8px; background: var(--danger); color: #fff; font-size: 10px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-
-  /* Tables */
-  .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-  th { background: var(--ink-50); padding: 12px 16px; font-weight: 600; color: var(--ink-600); border-bottom: 1px solid var(--ink-200); white-space: nowrap; }
-  td { padding: 12px 16px; border-bottom: 1px solid var(--ink-100); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-
-  /* Status Badges */
-  .status { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-  .status.placed { background: #dbeafe; color: #1e40af; }
-  .status.accepted { background: #e0e7ff; color: #3730a3; }
-  .status.preparing { background: var(--warning-bg); color: var(--warning); }
-  .status.ready { background: #ffedd5; color: #9a3412; }
-  .status.out-for-delivery { background: #cffafe; color: #155e75; }
-  .status.delivered { background: var(--success-bg); color: var(--success); }
-  .status.cancelled { background: var(--danger-bg); color: var(--danger); }
+  .bottom-nav {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px);
+    padding: 10px 20px; border-radius: var(--radius-pill);
+    display: flex; gap: 24px; z-index: 100; box-shadow: var(--shadow-lg);
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    color: #94a3b8; font-size: 11px; font-weight: 700; cursor: pointer; transition: color 0.2s;
+  }
+  .nav-item.active { color: var(--brand-light); }
+  .nav-icon { font-size: 22px; }
+  .nav-badge {
+    position: absolute; top: -6px; right: -10px; background: var(--danger); color: #fff;
+    font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 2px solid #0f172a;
+  }
+  .nav-item-wrap { position: relative; }
 
   /* Modals */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
-  .modal-content { background: #fff; border-radius: var(--radius-xl); width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: var(--shadow-lg); }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .modal-title { font-size: 20px; font-weight: 800; }
-  .close-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--ink-100); color: var(--ink-600); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .modal-bg { position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: flex-end; z-index: 200; }
+  @media(min-width: 600px) { .modal-bg { align-items: center; } }
+  .modal-sheet {
+    background: #fff; width: 100%; max-width: 500px; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 24px; max-height: 90vh; overflow-y: auto; animation: fadeUp 0.3s ease;
+  }
+  @media(min-width: 600px) { .modal-sheet { border-radius: var(--radius-lg); } }
 
   /* Toast */
-  #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; pointer-events: none; }
-  .toast { background: var(--ink-900); color: #fff; padding: 12px 16px; border-radius: var(--radius); font-size: 14px; font-weight: 500; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 10px; animation: slideUp 0.3s ease forwards; pointer-events: auto; }
-  .toast.error { background: var(--danger); }
-  .toast.success { background: var(--success); }
+  #toast-root { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 300; width: 90%; max-width: 400px; }
+  .toast { background: #0f172a; color: #fff; padding: 14px 20px; border-radius: var(--radius-pill); font-weight: 600; margin-bottom: 8px; text-align: center; box-shadow: var(--shadow-lg); animation: popIn 0.3s; }
+  .toast.err { background: var(--danger); }
+  .toast.succ { background: var(--success); }
 
-  /* Skeletons */
-  .skeleton { background: var(--ink-100); border-radius: var(--radius); position: relative; overflow: hidden; }
-  .skeleton::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 1.5s infinite; }
-  
-  /* Utility */
+  /* Penalty Box */
+  .penalty-box { background: var(--danger-bg); border: 2px dashed var(--danger); padding: 16px; border-radius: var(--radius-sm); margin-bottom: 16px; color: var(--danger); font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+
+  /* Utilities */
   .flex-between { display: flex; justify-content: space-between; align-items: center; }
-  .text-muted { color: var(--ink-500); font-size: 13px; }
-  .text-danger { color: var(--danger); }
-  .text-success { color: var(--success); }
-  .mb-4 { margin-bottom: 16px; }
-  .mb-6 { margin-bottom: 24px; }
-  
-  /* Auth Screen */
-  .auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: var(--brand-50); }
-  .auth-card { width: 100%; max-width: 400px; padding: 32px; }
-  .auth-tabs { display: flex; background: var(--ink-100); padding: 4px; border-radius: var(--radius); margin-bottom: 24px; }
-  .auth-tab { flex: 1; padding: 8px; text-align: center; font-size: 14px; font-weight: 600; color: var(--ink-500); border-radius: var(--radius-sm); transition: all 0.2s; }
-  .auth-tab.active { background: #fff; color: var(--ink-900); box-shadow: var(--shadow-sm); }
-
-  /* Delivery Address */
-  .address-box { border: 1px solid var(--ink-300); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; background: #fff; position: relative; }
-  .address-box:hover { border-color: var(--brand-500); }
-  .address-box.selected { border-color: var(--brand-600); background: var(--brand-50); box-shadow: 0 0 0 3px var(--brand-100); }
-  .address-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-  .address-text { font-size: 13px; color: var(--ink-600); line-height: 1.4; }
-  .badge-default { background: var(--brand-600); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+  .mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; } .mb-6 { margin-bottom: 24px; }
+  .text-muted { color: var(--text-muted); font-size: 14px; }
+  .hidden { display: none !important; }
+  .divider { height: 1px; background: #e2e8f0; margin: 16px 0; }
 </style>
 </head>
 <body>
 
-<div id="app" class="app-container"></div>
-<div id="modal-root"></div>
-<div id="toast-container"></div>
+<div id="app"></div>
 <div id="nav-root"></div>
+<div id="toast-root"></div>
+<div id="modal-root"></div>
 
 <script type="module">
 import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -194,10 +195,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { 
   getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, 
-  query, where, onSnapshot, getDocs, serverTimestamp, deleteDoc, runTransaction, orderBy, limit 
+  query, where, onSnapshot, getDocs, serverTimestamp, deleteDoc, runTransaction, orderBy 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// --- FIREBASE CONFIG ---
 const firebaseConfig = {
   apiKey: "AIzaSyAZy_JeQH7Ofvqru2DME1EsH59Yh5JtRjs",
   authDomain: "pawan-retail-limited07.firebaseapp.com",
@@ -210,1191 +210,814 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// --- STATE ---
 const state = {
-  user: null,
-  profile: null,
-  addresses: [],
-  cart: JSON.parse(localStorage.getItem('pawan_cart') || '{}'),
-  currentView: 'home', // home, restaurant, cart, checkout, orders, profile, admin
-  selectedRestaurantId: null,
-  selectedAddressId: null,
-  unsubs: {},
-  isLoading: true
+  user: null, profile: null, view: 'home', cart: {}, addresses: [],
+  restId: null, addressId: null, unsubs: {}, adminTab: 'orders'
 };
 
 // --- HELPERS ---
 const $ = id => document.getElementById(id);
-const formatMoney = paise => '₹' + (Number(paise || 0) / 100).toFixed(2);
-const escapeHTML = str => String(str || '').replace(/[&<>"']/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match]));
-const formatDate = ts => { if (!ts) return 'Just now'; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); };
-const saveCart = () => localStorage.setItem('pawan_cart', JSON.stringify(state.cart));
-const clearCart = () => { state.cart = {}; saveCart(); renderNav(); };
+const money = p => '₹' + (Number(p||0)/100).toFixed(0);
+const esc = s => String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmtDate = ts => ts ? (ts.toDate ? ts.toDate() : new Date(ts)).toLocaleString('en-IN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}) : '—';
+const saveCart = () => localStorage.setItem('genz_cart', JSON.stringify(state.cart));
+const cartCount = () => Object.values(state.cart).reduce((s,i) => s+i.qty, 0);
+const cartSub = () => Object.values(state.cart).reduce((s,i) => s+(i.price*i.qty), 0);
+const penalty = () => state.profile?.penaltyBalance || 0;
+const cartTotal = () => cartSub() + penalty();
 
-const cartItemCount = () => Object.values(state.cart).reduce((sum, item) => sum + item.qty, 0);
-const cartSubtotal = () => Object.values(state.cart).reduce((sum, item) => sum + (item.price * item.qty), 0);
-const currentPenalty = () => state.profile?.penaltyBalance || 0;
-const cartTotal = () => cartSubtotal() + currentPenalty();
-
-// --- UI UTILS ---
-function toast(msg, type = '') {
+function toast(msg, type='') {
   const el = document.createElement('div');
-  el.className = `toast ${type}`;
-  el.innerHTML = `<span>${escapeHTML(msg)}</span>`;
-  $('toast-container').appendChild(el);
+  el.className = 'toast ' + (type==='error'?'err':type==='success'?'succ':'');
+  el.textContent = msg;
+  $('toast-root').appendChild(el);
   setTimeout(() => el.remove(), 3500);
 }
 
-function showModal(html, onMount) {
-  $('modal-root').innerHTML = `<div class="modal-overlay" id="modal-bg"><div class="modal-content modal-enter">${html}</div></div>`;
-  $('modal-bg').onclick = e => { if (e.target.id === 'modal-bg') closeModal(); };
-  if (onMount) onMount();
+function modal(html) {
+  $('modal-root').innerHTML = `<div class="modal-bg" id="mb"><div class="modal-sheet">${html}</div></div>`;
+  $('mb').onclick = e => { if(e.target.id==='mb') closeModal(); };
 }
 function closeModal() { $('modal-root').innerHTML = ''; }
 
-// --- NAVIGATION ---
-function navigate(view, id = null) {
-  state.currentView = view;
-  if (id) state.selectedRestaurantId = id;
+function navigate(v, id=null) {
+  state.view = v;
+  if(id) state.restId = id;
   render();
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
-function renderNav() {
-  if (!state.user) { $('nav-root').innerHTML = ''; return; }
-  const isAdmin = state.profile?.role === 'admin';
-  const cartCount = cartItemCount();
-  const penalty = currentPenalty();
-
-  const navItems = [
-    { id: 'home', label: 'Home', icon: '⌂' },
-    { id: 'orders', label: 'Orders', icon: '🧾' },
-    { id: 'cart', label: 'Cart', icon: '🛒', badge: cartCount },
-    { id: 'profile', label: 'Profile', icon: '👤', badge: penalty > 0 ? '!' : null },
-  ];
-  if (isAdmin) navItems.push({ id: 'admin', label: 'Admin', icon: '⚙️' });
-
-  $('nav-root').innerHTML = `
-    <div class="bottom-nav">
-      ${navItems.map(item => `
-        <button class="nav-item ${state.currentView === item.id ? 'active' : ''}" onclick="navigate('${item.id}')">
-          <span class="nav-icon">${item.icon}</span>
-          <span>${item.label}</span>
-          ${item.badge ? `<span class="nav-badge" style="${item.badge === '!' ? 'background:var(--danger); font-size:12px;' : ''}">${item.badge}</span>` : ''}
-        </button>
-      `).join('')}
-    </div>
-  `;
-}
-window.navigate = navigate;
-
-// --- AUTHENTICATION ---
+// --- AUTH ---
 function renderAuth() {
   $('app').innerHTML = `
-    <div class="auth-screen page-enter">
-      <div class="card auth-card">
-        <div style="text-align:center; margin-bottom: 24px;">
-          <div class="logo-icon" style="margin: 0 auto 12px; width: 48px; height: 48px; font-size: 24px;">P</div>
-          <h2 class="font-display">Pawan Retail Limited</h2>
-          <p class="text-muted">Sign in to order food</p>
+    <div style="min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:24px; background:linear-gradient(135deg, #f8fafc, #ede9fe);">
+      <div style="text-align:center; margin-bottom:32px;">
+        <div style="font-size:64px; animation:float 3s infinite;">🍔</div>
+        <h1 style="font-size:32px; font-weight:900; letter-spacing:-1px; margin-top:16px;">Pawan Retail</h1>
+        <p class="text-muted">Hot food. Fast delivery.</p>
+      </div>
+      
+      <div class="card animate-up">
+        <div class="flex-between mb-6" style="background:#f1f5f9; padding:6px; border-radius:var(--radius-pill);">
+          <button class="btn btn-sm btn-primary" style="flex:1; border-radius:var(--radius-pill);" onclick="switchAuth('login')" id="tab-login">Login</button>
+          <button class="btn btn-sm" style="flex:1; border-radius:var(--radius-pill);" onclick="switchAuth('reg')" id="tab-reg">Sign Up</button>
         </div>
-        
-        <div class="auth-tabs">
-          <button class="auth-tab active" onclick="switchAuthTab('login')" id="tab-login">Login</button>
-          <button class="auth-tab" onclick="switchAuthTab('register')" id="tab-register">Register</button>
-        </div>
-
         <div id="auth-form"></div>
       </div>
     </div>
   `;
-  switchAuthTab('login');
+  switchAuth('login');
 }
 
-window.switchAuthTab = (tab) => {
-  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-  $(`tab-${tab}`).classList.add('active');
+window.switchAuth = (type) => {
+  const isLogin = type === 'login';
+  $('tab-login').className = isLogin ? 'btn btn-sm btn-primary' : 'btn btn-sm';
+  $('tab-login').style = 'flex:1; border-radius:var(--radius-pill);';
+  $('tab-reg').className = !isLogin ? 'btn btn-sm btn-primary' : 'btn btn-sm';
+  $('tab-reg').style = 'flex:1; border-radius:var(--radius-pill);';
   
-  if (tab === 'login') {
-    $('auth-form').innerHTML = `
-      <div class="form-group"><label class="form-label">Email</label><input type="email" id="auth-email" class="form-input" placeholder="you@example.com"></div>
-      <div class="form-group"><label class="form-label">Password</label><input type="password" id="auth-pass" class="form-input" placeholder="••••••••"></div>
-      <button class="btn btn-primary btn-block" id="btn-login" onclick="handleLogin()">Sign In</button>
-      <div style="text-align:center; margin-top: 16px;">
-        <a href="#" onclick="handleReset(event)" style="font-size: 13px; font-weight: 600;">Forgot password?</a>
-      </div>
-    `;
-  } else {
-    $('auth-form').innerHTML = `
-      <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="reg-name" class="form-input" placeholder="John Doe"></div>
-      <div class="form-group"><label class="form-label">Email</label><input type="email" id="reg-email" class="form-input" placeholder="you@example.com"></div>
-      <div class="form-group"><label class="form-label">Phone</label><input type="tel" id="reg-phone" class="form-input" placeholder="+91 90000 00000"></div>
-      <div class="form-group"><label class="form-label">Password</label><input type="password" id="reg-pass" class="form-input" placeholder="Min 6 characters"></div>
-      <button class="btn btn-primary btn-block" id="btn-register" onclick="handleRegister()">Create Account</button>
-    `;
-  }
+  $('auth-form').innerHTML = `
+    ${!isLogin ? `<div class="input-group"><label>Full Name</label><input type="text" id="auth-name" class="input-field" placeholder="John Doe"></div>` : ''}
+    <div class="input-group"><label>Email</label><input type="email" id="auth-email" class="input-field" placeholder="you@example.com"></div>
+    ${!isLogin ? `<div class="input-group"><label>Phone</label><input type="tel" id="auth-phone" class="input-field" placeholder="+91 90000 00000"></div>` : ''}
+    <div class="input-group"><label>Password</label><input type="password" id="auth-pass" class="input-field" placeholder="••••••••"></div>
+    <button class="btn btn-primary btn-block" onclick="handleAuth(${isLogin})">${isLogin ? 'Login' : 'Create Account'}</button>
+    ${isLogin ? `<div style="text-align:center; margin-top:16px;"><a href="#" onclick="resetPass(event)" style="color:var(--brand); font-weight:700; font-size:14px;">Forgot Password?</a></div>` : ''}
+  `;
 };
 
-window.handleLogin = async () => {
+window.handleAuth = async (isLogin) => {
   const email = $('auth-email').value.trim();
   const pass = $('auth-pass').value;
-  if (!email || !pass) return toast('Fill all fields', 'error');
-  const btn = $('btn-login'); btn.disabled = true; btn.innerHTML = 'Signing in...';
+  if(!email || !pass) return toast('Fill all fields', 'error');
+  
+  const btn = event.target; btn.disabled = true; btn.textContent = 'Please wait...';
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch (e) {
+    if(isLogin) {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } else {
+      const name = $('auth-name').value.trim();
+      const phone = $('auth-phone').value.trim();
+      if(!name || !phone) throw new Error('Name and phone required');
+      
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      await updateProfile(cred.user, { displayName: name });
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        uid: cred.user.uid, name, email, phone, role: 'customer', penaltyBalance: 0, createdAt: serverTimestamp()
+      });
+    }
+  } catch(e) {
     toast(e.message.replace('Firebase: ', ''), 'error');
-    btn.disabled = false; btn.innerHTML = 'Sign In';
+    btn.disabled = false; btn.textContent = isLogin ? 'Login' : 'Create Account';
   }
 };
 
-window.handleRegister = async () => {
-  const name = $('reg-name').value.trim();
-  const email = $('reg-email').value.trim();
-  const phone = $('reg-phone').value.trim();
-  const pass = $('reg-pass').value;
-  if (!name || !email || !phone || !pass) return toast('Fill all fields', 'error');
-  if (pass.length < 6) return toast('Password min 6 characters', 'error');
-  const btn = $('btn-register'); btn.disabled = true; btn.innerHTML = 'Creating...';
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await updateProfile(cred.user, { displayName: name });
-    await setDoc(doc(db, 'users', cred.user.uid), {
-      uid: cred.user.uid, name, email, phone, role: 'customer', penaltyBalance: 0, createdAt: serverTimestamp()
-    });
-  } catch (e) {
-    toast(e.message.replace('Firebase: ', ''), 'error');
-    btn.disabled = false; btn.innerHTML = 'Create Account';
-  }
-};
-
-window.handleReset = async (e) => {
+window.resetPass = async (e) => {
   e.preventDefault();
   const email = $('auth-email').value.trim();
-  if (!email) return toast('Enter email first', 'error');
+  if(!email) return toast('Enter email first', 'error');
   try {
     await sendPasswordResetEmail(auth, email);
-    toast('Reset link sent to email', 'success');
-  } catch (e) { toast(e.message, 'error'); }
+    toast('Reset link sent!', 'success');
+  } catch(e) { toast(e.message, 'error'); }
 };
 
-window.handleLogout = async () => {
-  await signOut(auth);
-  toast('Logged out successfully');
-};
+window.logout = async () => { await signOut(auth); toast('Logged out'); };
+
+// --- NAV ---
+function renderNav() {
+  if(!state.user) { $('nav-root').innerHTML = ''; return; }
+  const cart = cartCount();
+  const pen = penalty();
+  const isAdmin = state.profile?.role === 'admin';
+  
+  const items = [
+    { id:'home', icon:'🏠', label:'Home' },
+    { id:'orders', icon:'📦', label:'Orders' },
+    { id:'cart', icon:'🛒', label:'Cart', badge:cart },
+    { id:'profile', icon:'👤', label:'Profile', badge: pen > 0 ? '!' : null }
+  ];
+  if(isAdmin) items.push({ id:'admin', icon:'⚙️', label:'Admin' });
+
+  $('nav-root').innerHTML = `
+    <div class="bottom-nav">
+      ${items.map(i => `
+        <div class="nav-item-wrap" onclick="navigate('${i.id}')">
+          <div class="nav-item ${state.view === i.id ? 'active' : ''}">
+            <div class="nav-icon">${i.icon}</div>
+            <div>${i.label}</div>
+            ${i.badge ? `<div class="nav-badge" ${i.badge==='!'?'style="background:var(--danger)"':''}>${i.badge}</div>` : ''}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
 
 // --- RENDER CORE ---
 function render() {
+  if(!state.user) { renderAuth(); return; }
   renderNav();
-  const root = $('app');
   
-  if (state.isLoading) {
-    root.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:80vh;"><div class="spinner" style="width:30px; height:30px; border-width:3px; border-top-color:var(--brand-600);"></div></div>`;
-    return;
-  }
-  if (!state.user) return renderAuth();
-
-  root.innerHTML = `
-    <header class="header">
-      <div class="header-inner">
-        <div class="logo" onclick="navigate('home')">
-          <div class="logo-icon">P</div>
-          <div class="logo-text">Pawan Retail</div>
-        </div>
-        ${currentPenalty() > 0 ? `<div style="background:var(--danger-bg); color:var(--danger); padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer;" onclick="navigate('profile')">⚠️ Penalty: ${formatMoney(currentPenalty())}</div>` : ''}
-      </div>
-    </header>
-    <main class="main-content" id="main-view"></main>
+  $('app').innerHTML = `
+    <div class="header">
+      <div class="logo" onclick="navigate('home')">Pawan Retail <span>Beta</span></div>
+      ${penalty() > 0 ? `<div style="color:var(--danger); font-weight:800; font-size:14px;" onclick="navigate('profile')">⚠️ ${money(penalty())}</div>` : ''}
+    </div>
+    <div class="main" id="main-view"></div>
   `;
-
-  const view = state.currentView;
-  if (view === 'home') renderHome();
-  else if (view === 'restaurant') renderRestaurant();
-  else if (view === 'cart') renderCart();
-  else if (view === 'checkout') renderCheckout();
-  else if (view === 'orders') renderOrders();
-  else if (view === 'profile') renderProfile();
-  else if (view === 'admin') renderAdmin();
+  
+  if(state.view === 'home') renderHome();
+  else if(state.view === 'restaurant') renderRestaurant();
+  else if(state.view === 'cart') renderCart();
+  else if(state.view === 'checkout') renderCheckout();
+  else if(state.view === 'orders') renderOrders();
+  else if(state.view === 'profile') renderProfile();
+  else if(state.view === 'admin') renderAdmin();
 }
 
 // --- VIEWS ---
 async function renderHome() {
   $('main-view').innerHTML = `
-    <h2 class="mb-4 page-enter">Discover Restaurants</h2>
-    <div class="form-group page-enter" style="position:relative;">
-      <input type="text" id="search-input" class="form-input" placeholder="Search restaurants..." style="padding-left:40px; border-radius:20px; background:#fff;" oninput="filterRestaurants(this.value)">
-      <span style="position:absolute; left:14px; top:10px; color:var(--ink-400);">🔍</span>
+    <h1 class="title animate-up">What's the vibe today? 😋</h1>
+    <div class="input-group animate-up">
+      <input type="text" class="input-field" placeholder="Search restaurants, cuisines..." oninput="filterRests(this.value)">
     </div>
-    <div id="restaurant-list" class="grid-restaurants page-enter">
-      <div class="skeleton" style="height:260px;"></div>
-      <div class="skeleton" style="height:260px;"></div>
-      <div class="skeleton" style="height:260px;"></div>
-      <div class="skeleton" style="height:260px;"></div>
-    </div>
+    <div id="rest-grid" class="bento-grid"></div>
   `;
 
-  const q = query(collection(db, 'restaurants'), where('active', '==', true));
-  const snap = await getDocs(q);
+  const snap = await getDocs(query(collection(db, 'restaurants'), where('active', '==', true)));
   const rests = [];
   snap.forEach(d => rests.push({ id: d.id, ...d.data() }));
   
-  window._allRestaurants = rests;
-  window.filterRestaurants = (term) => {
-    const filtered = term ? rests.filter(r => r.name.toLowerCase().includes(term.toLowerCase()) || (r.category||'').toLowerCase().includes(term.toLowerCase())) : rests;
-    displayRestaurants(filtered);
-  };
-
-  const displayRestaurants = (list) => {
-    if (!list.length) {
-      $('restaurant-list').innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--ink-500);"><h3>No restaurants found</h3><p>Try a different search.</p></div>`;
-      return;
-    }
-    $('restaurant-list').innerHTML = list.map(r => `
-      <div class="rest-card" onclick="navigate('restaurant', '${r.id}')">
-        <div class="rest-img-wrap">
-          ${r.imageUrl ? `<img src="${escapeHTML(r.imageUrl)}" class="rest-img" onerror="this.style.display='none'">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:40px;">🍽️</div>`}
+  window.filterRests = (q) => {
+    const f = q ? rests.filter(r => r.name.toLowerCase().includes(q.toLowerCase()) || (r.category||'').toLowerCase().includes(q.toLowerCase())) : rests;
+    $('rest-grid').innerHTML = f.map((r, i) => `
+      <div class="rest-card animate-up" style="animation-delay:${i*0.05}s" onclick="navigate('restaurant', '${r.id}')">
+        <div class="rest-img-box">
+          ${r.imageUrl ? `<img src="${esc(r.imageUrl)}" class="rest-img" onerror="this.style.display='none'">` : `<div style="display:flex;justify-content:center;align-items:center;height:100%;font-size:48px;">🍽️</div>`}
         </div>
         <div class="rest-info">
-          <div class="rest-title">${escapeHTML(r.name)}</div>
-          <div class="rest-desc">${escapeHTML(r.description || r.category || 'Various cuisines')}</div>
+          <div class="rest-name">${esc(r.name)}</div>
+          <div class="rest-desc">${esc(r.description || r.category || 'Delicious food')}</div>
         </div>
       </div>
-    `).join('');
+    `).join('') || `<p class="text-muted">No restaurants found.</p>`;
   };
-  
-  displayRestaurants(rests);
+  filterRests('');
 }
 
 let menuUnsub = null;
 async function renderRestaurant() {
-  if (!state.selectedRestaurantId) return navigate('home');
-  if (menuUnsub) menuUnsub();
-
+  if(menuUnsub) menuUnsub();
   $('main-view').innerHTML = `
-    <button class="btn btn-secondary btn-sm mb-4" onclick="navigate('home')">← Back</button>
-    <div id="rest-header" class="mb-6"></div>
-    <h3 class="mb-4">Menu</h3>
-    <div id="menu-list" class="grid-menu">
-      <div class="skeleton" style="height:100px;"></div>
-      <div class="skeleton" style="height:100px;"></div>
-    </div>
+    <button class="btn btn-sm btn-secondary mb-4" onclick="navigate('home')">← Back</button>
+    <div id="rest-header" class="animate-up"></div>
+    <div id="menu-list" class="animate-up" style="animation-delay:0.1s"></div>
   `;
 
-  const rDoc = await getDoc(doc(db, 'restaurants', state.selectedRestaurantId));
-  if (!rDoc.exists()) return navigate('home');
+  const rDoc = await getDoc(doc(db, 'restaurants', state.restId));
+  if(!rDoc.exists()) return navigate('home');
   const r = rDoc.data();
   
   $('rest-header').innerHTML = `
-    <div class="card" style="padding:0; overflow:hidden;">
-      ${r.imageUrl ? `<img src="${escapeHTML(r.imageUrl)}" style="width:100%; height:180px; object-fit:cover;" onerror="this.style.display='none'">` : ''}
+    <div class="card mb-6" style="padding:0; overflow:hidden;">
+      ${r.imageUrl ? `<img src="${esc(r.imageUrl)}" style="width:100%;height:180px;object-fit:cover;">` : ''}
       <div style="padding:20px;">
-        <h2 style="margin-bottom:4px;">${escapeHTML(r.name)}</h2>
-        <p class="text-muted">${escapeHTML(r.description || '')}</p>
+        <h2 style="font-size:24px; font-weight:900; margin-bottom:4px;">${esc(r.name)}</h2>
+        <p class="text-muted">${esc(r.description||'')}</p>
       </div>
     </div>
+    <h3 class="mb-2">Menu 🔥</h3>
   `;
 
-  menuUnsub = onSnapshot(collection(db, 'restaurants', state.selectedRestaurantId, 'menu'), snap => {
+  menuUnsub = onSnapshot(collection(db, 'restaurants', state.restId, 'menu'), snap => {
     const items = [];
     snap.forEach(d => items.push({ id: d.id, ...d.data() }));
     
-    if (!items.length) {
-      $('menu-list').innerHTML = `<p class="text-muted">No items available.</p>`;
-      return;
-    }
-
-    $('menu-list').innerHTML = items.map(item => {
-      const cartItem = state.cart[item.id];
-      const qty = cartItem ? cartItem.qty : 0;
-      const isAvailable = item.available !== false;
-      
+    $('menu-list').innerHTML = items.map((item, i) => {
+      const q = state.cart[item.id]?.qty || 0;
+      const avail = item.available !== false;
       return `
-        <div class="food-card ${!isAvailable ? 'out-of-stock' : ''}">
-          <div class="food-img-wrap">
-            ${item.imageUrl ? `<img src="${escapeHTML(item.imageUrl)}" class="food-img" onerror="this.style.display='none'">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:24px;">🍔</div>`}
+        <div class="food-item animate-up" style="animation-delay:${i*0.05}s; ${!avail?'opacity:0.5;':''}">
+          <div class="food-img-box">
+            ${item.imageUrl ? `<img src="${esc(item.imageUrl)}" class="food-img" onerror="this.style.display='none'">` : `<div style="display:flex;justify-content:center;align-items:center;height:100%;font-size:28px;">🍲</div>`}
           </div>
           <div class="food-details">
             <div>
-              <div class="food-title">${escapeHTML(item.name)}</div>
-              <div class="text-muted" style="font-size:12px; margin-top:2px;">${escapeHTML(item.description || '')}</div>
+              <div class="food-name">${esc(item.name)}</div>
+              <div class="text-muted" style="font-size:13px; margin-top:2px;">${esc(item.description||'')}</div>
             </div>
             <div class="flex-between" style="margin-top:8px;">
-              <div class="food-price">${formatMoney(item.price)}</div>
-              ${!isAvailable ? '<span style="font-size:12px; color:var(--danger); font-weight:600;">Unavailable</span>' : 
-                (qty > 0 ? `
-                  <div class="qty-controls">
-                    <button class="qty-btn" onclick="updateCart('${item.id}', -1)">−</button>
-                    <span class="qty-val">${qty}</span>
-                    <button class="qty-btn" onclick="updateCart('${item.id}', 1)">+</button>
+              <div class="food-price">${money(item.price)}</div>
+              ${!avail ? `<span style="color:var(--danger); font-size:12px; font-weight:800;">Sold Out</span>` : 
+                q > 0 ? `
+                  <div class="qty-pill">
+                    <div class="qty-btn" onclick="updateQty('${item.id}', -1)">−</div>
+                    <div class="qty-num">${q}</div>
+                    <div class="qty-btn" onclick="updateQty('${item.id}', 1)">+</div>
                   </div>
                 ` : `
-                  <button class="btn btn-secondary btn-sm" onclick="updateCart('${item.id}', 1)">Add</button>
-                `)
+                  <button class="btn btn-sm btn-secondary" onclick="updateQty('${item.id}', 1)">Add</button>
+                `
               }
             </div>
           </div>
         </div>
       `;
-    }).join('');
+    }).join('') || `<p class="text-muted">Menu is empty.</p>`;
   });
 }
 
-window.updateCart = (itemId, delta) => {
-  if (!state.selectedRestaurantId) return;
+window.updateQty = async (itemId, delta) => {
+  const current = state.cart[itemId];
   
-  const currentItem = state.cart[itemId];
-  
-  // Check if adding from different restaurant
-  if (!currentItem && Object.keys(state.cart).length > 0) {
-    const existingRestId = state.cart[Object.keys(state.cart)[0]].restaurantId;
-    if (existingRestId !== state.selectedRestaurantId) {
-      if (!confirm('Your cart contains items from another restaurant. Clear cart and add this item?')) return;
-      clearCart();
+  if(!current && delta > 0) {
+    if(Object.keys(state.cart).length > 0 && state.cart[Object.keys(state.cart)[0]].restId !== state.restId) {
+      if(!confirm('Start new cart? Items from previous restaurant will be removed.')) return;
+      state.cart = {};
     }
+    const snap = await getDoc(doc(db, 'restaurants', state.restId, 'menu', itemId));
+    if(!snap.exists()) return;
+    const d = snap.data();
+    state.cart[itemId] = { itemId, restId: state.restId, name: d.name, price: d.price, qty: 1 };
+  } else if (current) {
+    current.qty += delta;
+    if(current.qty <= 0) delete state.cart[itemId];
   }
-
-  if (!currentItem && delta > 0) {
-    // Need item details to add. We'll fetch synchronously from DOM or assume state. 
-    // For robustness, we should fetch the item, but we can assume the UI passed it.
-    // Since we are in the render loop, let's fetch it from the menu snapshot.
-    // To do this cleanly, we'll query the doc.
-    getDoc(doc(db, 'restaurants', state.selectedRestaurantId, 'menu', itemId)).then(snap => {
-      if (!snap.exists()) return;
-      const data = snap.data();
-      state.cart[itemId] = { 
-        itemId, restaurantId: state.selectedRestaurantId, 
-        name: data.name, price: data.price, qty: 0 
-      };
-      state.cart[itemId].qty = delta;
-      if (state.cart[itemId].qty <= 0) delete state.cart[itemId];
-      saveCart(); renderNav(); render(); // Re-render to show qty
-    });
-  } else {
-    if (currentItem) {
-      currentItem.qty += delta;
-      if (currentItem.qty <= 0) delete state.cart[itemId];
-      saveCart(); renderNav(); render();
-    }
-  }
+  saveCart(); renderNav(); render();
 };
 
 function renderCart() {
   const items = Object.values(state.cart);
-  if (!items.length) {
-    $('main-view').innerHTML = `
-      <div style="text-align:center; padding: 60px 20px;">
-        <div style="font-size:64px; margin-bottom:16px;">🛒</div>
-        <h2 class="mb-4">Your cart is empty</h2>
-        <p class="text-muted mb-6">Add items from a restaurant to get started.</p>
-        <button class="btn btn-primary" onclick="navigate('home')">Browse Restaurants</button>
-      </div>
-    `;
+  if(!items.length) {
+    $('main-view').innerHTML = `<div style="text-align:center; padding:60px 20px;"><div style="font-size:64px;">🛒</div><h2 class="mb-2">Cart is empty</h2><button class="btn btn-primary" onclick="navigate('home')">Browse Food</button></div>`;
     return;
   }
 
-  const sub = cartSubtotal();
-  const pen = currentPenalty();
-  const total = cartTotal();
-
   $('main-view').innerHTML = `
-    <h2 class="mb-4">Your Cart</h2>
-    <div class="card mb-4">
-      ${items.map(item => `
-        <div class="flex-between" style="padding:12px 0; border-bottom:1px solid var(--ink-100);">
+    <h1 class="title animate-up">Your Cart 🛍️</h1>
+    <div class="card mb-6 animate-up">
+      ${items.map(i => `
+        <div class="flex-between" style="padding:12px 0; border-bottom:1px solid #f1f5f9;">
           <div>
-            <div style="font-weight:600;">${escapeHTML(item.name)}</div>
-            <div class="text-muted" style="font-size:12px;">${formatMoney(item.price)} x ${item.qty}</div>
+            <div style="font-weight:800;">${esc(i.name)}</div>
+            <div class="text-muted">${money(i.price)} x ${i.qty}</div>
           </div>
-          <div style="display:flex; align-items:center; gap:16px;">
-            <div class="qty-controls">
-              <button class="qty-btn" onclick="updateCart('${item.itemId}', -1)">−</button>
-              <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" onclick="updateCart('${item.itemId}', 1)">+</button>
-            </div>
-            <div style="font-weight:700; min-width:60px; text-align:right;">${formatMoney(item.price * item.qty)}</div>
+          <div class="qty-pill">
+            <div class="qty-btn" onclick="updateQty('${i.itemId}', -1)">−</div>
+            <div class="qty-num">${i.qty}</div>
+            <div class="qty-btn" onclick="updateQty('${i.itemId}', 1)">+</div>
           </div>
         </div>
       `).join('')}
     </div>
 
-    <div class="card mb-4">
-      <h3 class="mb-4" style="font-size:16px;">Bill Details</h3>
-      <div class="flex-between mb-4">
-        <span class="text-muted">Item Total</span>
-        <span style="font-weight:600;">${formatMoney(sub)}</span>
-      </div>
-      ${pen > 0 ? `
-        <div class="flex-between mb-4" style="color:var(--danger); background:var(--danger-bg); padding:8px; border-radius:var(--radius);">
-          <span style="font-weight:600;">Outstanding Penalty</span>
-          <span style="font-weight:700;">+ ${formatMoney(pen)}</span>
-        </div>
-      ` : ''}
-      <div class="flex-between" style="border-top:1px dashed var(--ink-300); padding-top:12px; margin-top:12px;">
-        <span style="font-weight:700; font-size:16px;">To Pay</span>
-        <span style="font-weight:800; font-size:18px; color:var(--brand-700);">${formatMoney(total)}</span>
-      </div>
+    <div class="card mb-6 animate-up" style="animation-delay:0.1s;">
+      <div class="flex-between mb-2"><span class="text-muted">Subtotal</span><span style="font-weight:700;">${money(cartSub())}</span></div>
+      ${penalty() > 0 ? `<div class="flex-between mb-2" style="color:var(--danger); font-weight:700;"><span>Penalty</span><span>+ ${money(penalty())}</span></div>` : ''}
+      <div class="divider"></div>
+      <div class="flex-between"><span style="font-size:18px; font-weight:900;">Total</span><span style="font-size:20px; font-weight:900; color:var(--brand);">${money(cartTotal())}</span></div>
     </div>
 
-    <button class="btn btn-primary btn-block" style="padding:14px; font-size:16px;" onclick="navigate('checkout')">Proceed to Checkout</button>
+    <button class="btn btn-primary btn-block animate-up" style="animation-delay:0.2s;" onclick="navigate('checkout')">Checkout</button>
   `;
 }
 
 let addrUnsub = null;
 async function renderCheckout() {
-  if (addrUnsub) addrUnsub();
-  
+  if(addrUnsub) addrUnsub();
   $('main-view').innerHTML = `
-    <div class="flex-between mb-4">
-      <h2>Checkout</h2>
-      <button class="btn btn-secondary btn-sm" onclick="navigate('cart')">Back to Cart</button>
+    <button class="btn btn-sm btn-secondary mb-4" onclick="navigate('cart')">← Back</button>
+    <h1 class="title animate-up">Delivery 📍</h1>
+    <div id="addr-list" class="mb-4 animate-up"></div>
+    <button class="btn btn-secondary btn-block mb-6" onclick="editAddress()">+ Add Address</button>
+    <div class="card mb-6 animate-up">
+      <div class="flex-between"><span class="text-muted">To Pay</span><span style="font-size:20px; font-weight:900; color:var(--brand);">${money(cartTotal())}</span></div>
     </div>
-    
-    <h3 class="mb-4" style="font-size:16px;">Delivery Address</h3>
-    <div id="address-list" class="mb-4">
-      <div class="skeleton" style="height:80px; margin-bottom:12px;"></div>
-      <div class="skeleton" style="height:80px;"></div>
-    </div>
-    <button class="btn btn-secondary btn-block mb-6" onclick="openAddressModal()">+ Add New Address</button>
-
-    <div class="card mb-6">
-      <div class="flex-between mb-4">
-        <span class="text-muted">Total Amount</span>
-        <span style="font-weight:700; font-size:18px; color:var(--brand-700);">${formatMoney(cartTotal())}</span>
-      </div>
-      <button class="btn btn-primary btn-block" id="place-order-btn" style="padding:14px;" onclick="processOrder()" disabled>Select Address to Continue</button>
-    </div>
+    <button class="btn btn-primary btn-block animate-up" id="btn-place" onclick="placeOrder()" disabled>Select Address</button>
   `;
 
   addrUnsub = onSnapshot(collection(db, 'users', state.user.uid, 'addresses'), snap => {
-    const addresses = [];
-    snap.forEach(d => addresses.push({ id: d.id, ...d.data() }));
-    state.addresses = addresses;
+    state.addresses = [];
+    snap.forEach(d => state.addresses.push({ id: d.id, ...d.data() }));
     
-    // Auto-select default
-    const def = addresses.find(a => a.isDefault) || addresses[0];
-    if (!state.selectedAddressId || !addresses.find(a => a.id === state.selectedAddressId)) {
-      state.selectedAddressId = def ? def.id : null;
-    }
-
-    if (!addresses.length) {
-      $('address-list').innerHTML = `<p class="text-muted">No saved addresses.</p>`;
-      $('place-order-btn').disabled = true;
+    if(!state.addresses.length) {
+      $('addr-list').innerHTML = `<p class="text-muted">No addresses saved.</p>`;
+      $('btn-place').disabled = true;
       return;
     }
+    
+    const def = state.addresses.find(a => a.isDefault) || state.addresses[0];
+    if(!state.addressId) state.addressId = def.id;
 
-    $('address-list').innerHTML = addresses.map(a => `
-      <div class="address-box ${state.selectedAddressId === a.id ? 'selected' : ''}" onclick="selectAddress('${a.id}')">
-        <div class="address-name">
-          ${escapeHTML(a.label || 'Home')}
-          ${a.isDefault ? '<span class="badge-default">Default</span>' : ''}
-        </div>
-        <div class="address-text">
-          ${escapeHTML(a.street)}, ${escapeHTML(a.city)}<br>
-          ${escapeHTML(a.state)} - ${escapeHTML(a.pincode)}
-        </div>
+    $('addr-list').innerHTML = state.addresses.map(a => `
+      <div class="card mb-2" style="border:2px solid ${state.addressId === a.id ? 'var(--brand)' : 'transparent'}; cursor:pointer;" onclick="selectAddr('${a.id}')">
+        <div style="font-weight:800; font-size:14px;">${esc(a.label)} ${a.isDefault ? '<span style="background:var(--brand);color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;">DEFAULT</span>' : ''}</div>
+        <div class="text-muted" style="font-size:13px;">${esc(a.street)}, ${esc(a.city)}</div>
       </div>
     `).join('');
-
-    if (state.selectedAddressId) $('place-order-btn').disabled = false;
+    
+    $('btn-place').disabled = false;
+    $('btn-place').textContent = 'Place Order • ' + money(cartTotal());
   });
 }
 
-window.selectAddress = (id) => {
-  state.selectedAddressId = id;
-  // Re-render address selection visual
-  document.querySelectorAll('.address-box').forEach(el => el.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
+window.selectAddr = (id) => {
+  state.addressId = id;
+  renderCheckout();
 };
 
-// --- ORDER PROCESSING (Atomic & Server-Trusted) ---
-window.processOrder = async () => {
-  if (!state.selectedAddressId) return toast('Select an address', 'error');
-  const items = Object.values(state.cart);
-  if (!items.length) return toast('Cart empty', 'error');
-
-  const address = state.addresses.find(a => a.id === state.selectedAddressId);
-  const btn = $('place-order-btn');
-  btn.disabled = true;
-  btn.innerHTML = 'Processing...';
-
+window.placeOrder = async () => {
+  const addr = state.addresses.find(a => a.id === state.addressId);
+  if(!addr) return toast('Select address', 'error');
+  
+  const btn = $('btn-place'); btn.disabled = true; btn.textContent = 'Placing...';
+  
   try {
-    // 1. Validate Restaurant is active
-    const restId = items[0].restaurantId;
+    const items = Object.values(state.cart);
+    const restId = items[0].restId;
     const restSnap = await getDoc(doc(db, 'restaurants', restId));
-    if (!restSnap.exists() || restSnap.data().active === false) throw new Error('Restaurant is currently closed');
+    if(!restSnap.data().active) throw new Error('Restaurant is closed');
 
-    // 2. Server-side item validation (calculate total on server logic here, but we use client to draft)
-    // In a real backend, Cloud Function handles this entirely. Here, we rely on strict Firestore rules.
-    
-    const orderItems = items.map(i => ({
-      itemId: i.itemId, name: i.name, price: i.price, qty: i.qty, lineTotal: i.price * i.qty
-    }));
-    const subtotal = orderItems.reduce((s, i) => s + i.lineTotal, 0);
-    
     const orderId = doc(collection(db, 'foodOrders')).id;
+    const orderItems = items.map(i => ({ itemId: i.itemId, name: i.name, price: i.price, qty: i.qty, lineTotal: i.price * i.qty }));
+    const sub = cartSub();
     
-    // Use a Transaction to ensure penalty balance hasn't changed and we have enough to cover it
-    await runTransaction(db, async (transaction) => {
-      const userRef = doc(db, 'users', state.user.uid);
-      const userSnap = await transaction.get(userRef);
-      if (!userSnap.exists()) throw new Error('User profile not found');
+    await runTransaction(db, async tx => {
+      const uRef = doc(db, 'users', state.user.uid);
+      const uDoc = await tx.get(uRef);
+      const pen = uDoc.data().penaltyBalance || 0;
+      const total = sub + pen;
 
-      const currentPenalty = userSnap.data().penaltyBalance || 0;
-      const finalTotal = subtotal + currentPenalty;
-
-      const orderRef = doc(db, 'foodOrders', orderId);
-      
-      transaction.set(orderRef, {
-        orderId,
-        customerUid: state.user.uid,
-        customerName: userSnap.data().name || 'Customer',
-        restaurantId: restId,
-        restaurantName: restSnap.data().name,
-        items: orderItems,
-        subtotal: subtotal,
-        penaltyApplied: currentPenalty,
-        total: finalTotal,
-        status: 'Placed',
-        deliveryAddress: address, // Store snapshot of address
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        penaltyStatus: currentPenalty > 0 ? 'cleared' : 'none'
+      tx.set(doc(db, 'foodOrders', orderId), {
+        orderId, customerUid: state.user.uid, customerName: uDoc.data().name,
+        restaurantId: restId, restaurantName: restSnap.data().name,
+        items: orderItems, subtotal: sub, penaltyApplied: pen, total: total,
+        status: 'Placed', deliveryAddress: addr, createdAt: serverTimestamp(), penaltyStatus: pen > 0 ? 'cleared' : 'none'
       });
 
-      // Clear penalty and log history if > 0
-      if (currentPenalty > 0) {
-        transaction.update(userRef, { penaltyBalance: 0 });
-        const phRef = doc(collection(db, 'penaltyHistory'));
-        transaction.set(phRef, {
-          customerUid: state.user.uid,
-          orderId: orderId,
-          type: 'cleared',
-          amount: -currentPenalty,
-          balanceBefore: currentPenalty,
-          balanceAfter: 0,
-          reason: `Auto-cleared with order #${orderId.slice(-6)}`,
-          createdBy: 'system',
-          createdAt: serverTimestamp()
+      if(pen > 0) {
+        tx.update(uRef, { penaltyBalance: 0 });
+        tx.set(doc(collection(db, 'penaltyHistory')), {
+          customerUid: state.user.uid, orderId, type: 'cleared', amount: -pen, balanceBefore: pen, balanceAfter: 0, reason: 'Auto-cleared with order', createdAt: serverTimestamp()
         });
       }
     });
 
-    clearCart();
-    toast('Order placed successfully!', 'success');
+    state.cart = {}; saveCart();
+    toast('Order placed! 🎉', 'success');
     navigate('orders');
-
-  } catch (error) {
-    console.error(error);
-    toast(error.message || 'Order failed', 'error');
-    btn.disabled = false;
-    btn.innerHTML = `Place Order (${formatMoney(cartTotal())})`;
+  } catch(e) {
+    toast(e.message, 'error');
+    btn.disabled = false; btn.textContent = 'Place Order';
   }
 };
 
-// --- ORDERS ---
 let ordersUnsub = null;
 function renderOrders() {
-  if (ordersUnsub) ordersUnsub();
+  if(ordersUnsub) ordersUnsub();
+  $('main-view').innerHTML = `<h1 class="title animate-up">My Orders 📦</h1><div id="olist" class="animate-up"></div>`;
   
-  $('main-view').innerHTML = `
-    <h2 class="mb-4">My Orders</h2>
-    <div id="orders-list">
-      <div class="skeleton" style="height:150px; margin-bottom:16px;"></div>
-      <div class="skeleton" style="height:150px;"></div>
-    </div>
-  `;
-
   const q = query(collection(db, 'foodOrders'), where('customerUid', '==', state.user.uid), orderBy('createdAt', 'desc'));
   ordersUnsub = onSnapshot(q, snap => {
     const orders = [];
     snap.forEach(d => orders.push({ id: d.id, ...d.data() }));
     
-    if (!orders.length) {
-      $('orders-list').innerHTML = `<div style="text-align:center; padding:40px; color:var(--ink-500);"><h3>No orders yet</h3></div>`;
-      return;
-    }
-
-    $('orders-list').innerHTML = orders.map(o => {
-      const canCancel = ['Placed', 'Accepted'].includes(o.status);
-      const statusClass = o.status.toLowerCase().replace(/\s+/g, '-');
-      
-      return `
-        <div class="card mb-4 page-enter">
-          <div class="flex-between mb-4" style="border-bottom:1px solid var(--ink-100); padding-bottom:12px;">
-            <div>
-              <div style="font-weight:700;">#${o.orderId.slice(-8).toUpperCase()}</div>
-              <div class="text-muted" style="font-size:12px;">${formatDate(o.createdAt)}</div>
-            </div>
-            <span class="status ${statusClass}">${o.status}</span>
+    $('olist').innerHTML = orders.map(o => `
+      <div class="card mb-4">
+        <div class="flex-between mb-4">
+          <div>
+            <div style="font-weight:800;">#${o.orderId.slice(-6).toUpperCase()}</div>
+            <div class="text-muted" style="font-size:12px;">${fmtDate(o.createdAt)}</div>
           </div>
-          
-          <div class="mb-4">
-            <div style="font-weight:600; margin-bottom:8px;">${escapeHTML(o.restaurantName)}</div>
-            ${o.items.map(i => `<div class="flex-between text-muted" style="font-size:13px; margin-bottom:4px;"><span>${i.qty} × ${escapeHTML(i.name)}</span><span>${formatMoney(i.price * i.qty)}</span></div>`).join('')}
-            ${o.penaltyApplied > 0 ? `<div class="flex-between text-danger" style="font-size:13px; margin-top:8px; font-weight:600;"><span>Penalty Applied</span><span>+ ${formatMoney(o.penaltyApplied)}</span></div>` : ''}
-          </div>
-
-          <div class="flex-between" style="border-top:1px dashed var(--ink-200); padding-top:12px;">
-            <div style="font-weight:800; font-size:16px;">Total: ${formatMoney(o.total)}</div>
-            ${canCancel ? `<button class="btn btn-danger btn-sm" onclick="promptCancel('${o.id}', ${o.total})">Cancel</button>` : ''}
-          </div>
+          <span style="background:${o.status==='Cancelled'?'var(--danger-bg)':'var(--success-bg)'}; color:${o.status==='Cancelled'?'var(--danger)':'var(--success)'}; padding:4px 10px; border-radius:var(--radius-pill); font-size:12px; font-weight:800;">${o.status}</span>
         </div>
-      `;
-    }).join('');
+        <div class="text-muted mb-2" style="font-size:14px;">${o.items.map(i => `${i.qty}x ${i.name}`).join(', ')}</div>
+        <div class="flex-between" style="border-top:1px solid #f1f5f9; padding-top:12px;">
+          <div style="font-weight:900;">${money(o.total)}</div>
+          ${['Placed','Accepted'].includes(o.status) ? `<button class="btn btn-sm btn-danger" onclick="cancelOrder('${o.id}', ${o.total})">Cancel</button>` : ''}
+        </div>
+      </div>
+    `).join('') || `<p class="text-muted">No orders yet.</p>`;
   });
 }
 
-window.promptCancel = (orderId, total) => {
-  showModal(`
-    <div class="modal-header">
-      <h3 class="modal-title">Cancel Order?</h3>
-      <button class="close-btn" onclick="closeModal()">✕</button>
+window.cancelOrder = (id, total) => {
+  modal(`
+    <h2 style="font-size:24px; font-weight:900; margin-bottom:12px;">Cancel Order? 🛑</h2>
+    <div class="penalty-box mb-4">
+      <span>Penalty applies</span>
+      <span style="font-size:20px;">${money(total)}</span>
     </div>
-    <div style="background:var(--danger-bg); color:var(--danger); padding:16px; border-radius:var(--radius); margin-bottom:20px;">
-      <h4 style="font-weight:700; margin-bottom:4px;">100% Penalty Applies</h4>
-      <p style="font-size:13px;">Cancelling this order will add a penalty of <b>${formatMoney(total)}</b> to your account. This will be automatically charged on your next order.</p>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Reason for cancellation</label>
-      <input type="text" id="cancel-reason" class="form-input" placeholder="Why are you cancelling?">
-    </div>
-    <div style="display:flex; gap:12px; margin-top:24px;">
-      <button class="btn btn-secondary" style="flex:1;" onclick="closeModal()">Keep Order</button>
-      <button class="btn btn-danger" style="flex:1;" id="btn-confirm-cancel" onclick="confirmCancel('${orderId}')">Confirm Cancel</button>
+    <p class="text-muted mb-4">This amount will be added to your next order automatically.</p>
+    <div class="input-group"><input type="text" id="c-reason" class="input-field" placeholder="Reason for cancellation..."></div>
+    <div style="display:flex; gap:12px;">
+      <button class="btn btn-secondary" style="flex:1;" onclick="closeModal()">Keep</button>
+      <button class="btn btn-danger" style="flex:1;" id="btn-cancel-conf" onclick="doCancel('${id}')">Confirm</button>
     </div>
   `);
 };
 
-window.confirmCancel = async (orderId) => {
-  const reason = $('cancel-reason').value.trim() || 'No reason provided';
-  const btn = $('btn-confirm-cancel');
-  btn.disabled = true; btn.innerHTML = 'Cancelling...';
-
+window.doCancel = async (id) => {
+  const reason = $('c-reason').value.trim() || 'No reason';
+  const btn = $('btn-cancel-conf'); btn.disabled = true; btn.textContent = 'Wait...';
+  
   try {
-    await runTransaction(db, async (transaction) => {
-      const orderRef = doc(db, 'foodOrders', orderId);
-      const orderSnap = await transaction.get(orderRef);
-      if (!orderSnap.exists()) throw new Error('Order not found');
+    await runTransaction(db, async tx => {
+      const oRef = doc(db, 'foodOrders', id);
+      const oDoc = await tx.get(oRef);
+      if(!['Placed','Accepted'].includes(oDoc.data().status)) throw new Error('Cannot cancel now');
       
-      const orderData = orderSnap.data();
-      if (!['Placed', 'Accepted'].includes(orderData.status)) throw new Error('Order can no longer be cancelled');
+      const uRef = doc(db, 'users', state.user.uid);
+      const uDoc = await tx.get(uRef);
+      const bal = uDoc.data().penaltyBalance || 0;
+      const pen = oDoc.data().total;
       
-      const userRef = doc(db, 'users', state.user.uid);
-      const userSnap = await transaction.get(userRef);
-      const currentBal = userSnap.data().penaltyBalance || 0;
-      const penalty = orderData.total;
-      const newBal = currentBal + penalty;
-
-      // Update Order
-      transaction.update(orderRef, {
-        status: 'Cancelled',
-        cancelledBy: 'customer',
-        cancellationReason: reason,
-        cancelledAt: serverTimestamp(),
-        penaltyAmount: penalty,
-        penaltyStatus: 'applied'
-      });
-
-      // Update Balance
-      transaction.update(userRef, { penaltyBalance: newBal });
-
-      // Log History
-      const phRef = doc(collection(db, 'penaltyHistory'));
-      transaction.set(phRef, {
-        customerUid: state.user.uid,
-        orderId: orderId,
-        type: 'penalty',
-        amount: penalty,
-        balanceBefore: currentBal,
-        balanceAfter: newBal,
-        reason: `Order cancellation: ${reason}`,
-        createdBy: 'customer',
-        createdAt: serverTimestamp()
+      tx.update(oRef, { status: 'Cancelled', cancelledBy: 'customer', cancellationReason: reason, cancelledAt: serverTimestamp(), penaltyAmount: pen });
+      tx.update(uRef, { penaltyBalance: bal + pen });
+      tx.set(doc(collection(db, 'penaltyHistory')), {
+        customerUid: state.user.uid, orderId: id, type: 'penalty', amount: pen, balanceBefore: bal, balanceAfter: bal + pen, reason, createdBy: 'customer', createdAt: serverTimestamp()
       });
     });
-
-    closeModal();
-    toast('Order cancelled. Penalty applied.', 'success');
     
-    // Force refresh profile balance
-    const uDoc = await getDoc(doc(db, 'users', state.user.uid));
-    state.profile = uDoc.data();
-    renderNav();
-
-    // Show confirmation popup
-    setTimeout(() => {
-      showModal(`
-        <div style="text-align:center; padding:20px 0;">
-          <div style="font-size:48px; margin-bottom:16px;">⚠️</div>
-          <h3 class="mb-4">Penalty Applied</h3>
-          <p class="text-muted mb-6">A penalty of ${formatMoney(penalty)} has been added to your account. It will be auto-adjusted in your next order.</p>
-          <button class="btn btn-primary btn-block" onclick="closeModal()">Understood</button>
-        </div>
-      `);
-    }, 300);
-
-  } catch (error) {
-    toast(error.message, 'error');
-    btn.disabled = false; btn.innerHTML = 'Confirm Cancel';
+    closeModal();
+    toast('Cancelled. Penalty applied.', 'success');
+    
+    setTimeout(() => modal(`
+      <div style="text-align:center; padding:20px;">
+        <div style="font-size:60px; margin-bottom:16px;">😢</div>
+        <h2 style="font-size:24px; font-weight:900; margin-bottom:8px;">Penalty Added</h2>
+        <p class="text-muted mb-6">A penalty has been added to your account. It will auto-adjust on your next order.</p>
+        <button class="btn btn-primary btn-block" onclick="closeModal()">OK</button>
+      </div>
+    `), 300);
+  } catch(e) {
+    toast(e.message, 'error'); btn.disabled = false; btn.textContent = 'Confirm';
   }
 };
 
-// --- PROFILE ---
 async function renderProfile() {
   const p = state.profile;
-  const penalty = p.penaltyBalance || 0;
-  
   $('main-view').innerHTML = `
-    <h2 class="mb-6">My Profile</h2>
+    <h1 class="title animate-up">Profile 👤</h1>
     
-    ${penalty > 0 ? `
-      <div class="card mb-6" style="background:var(--danger-bg); border-color:var(--danger-border);">
-        <div class="text-danger" style="font-weight:700; font-size:13px; text-transform:uppercase;">Outstanding Penalty</div>
-        <div style="font-size:28px; font-weight:800; color:var(--danger); margin-top:4px;">${formatMoney(penalty)}</div>
-        <p class="text-muted" style="margin-top:8px; font-size:12px;">This will be automatically added to your next order.</p>
+    ${penalty() > 0 ? `
+      <div class="penalty-box animate-up mb-6" style="flex-direction:column; align-items:flex-start;">
+        <div style="font-size:12px; text-transform:uppercase; letter-spacing:1px;">Outstanding Penalty</div>
+        <div style="font-size:32px; font-weight:900;">${money(penalty())}</div>
       </div>
     ` : ''}
 
-    <div class="card mb-6">
-      <h3 class="mb-4" style="font-size:16px;">Personal Details</h3>
-      <div class="form-group">
-        <label class="form-label">Name</label>
-        <input type="text" id="prof-name" class="form-input" value="${escapeHTML(p.name || '')}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Phone</label>
-        <input type="text" id="prof-phone" class="form-input" value="${escapeHTML(p.phone || '')}">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-input" value="${escapeHTML(p.email || '')}" disabled style="background:var(--ink-50);">
-      </div>
-      <button class="btn btn-primary btn-block" onclick="saveProfile()">Save Changes</button>
+    <div class="card mb-6 animate-up">
+      <div class="input-group"><label>Name</label><input type="text" id="p-name" class="input-field" value="${esc(p.name||'')}"></div>
+      <div class="input-group"><label>Phone</label><input type="text" id="p-phone" class="input-field" value="${esc(p.phone||'')}"></div>
+      <button class="btn btn-primary btn-block" onclick="saveProfile()">Save</button>
     </div>
 
-    <div class="card mb-6">
+    <div class="card mb-6 animate-up">
       <div class="flex-between mb-4">
-        <h3 style="font-size:16px;">Saved Addresses</h3>
-        <button class="btn btn-secondary btn-sm" onclick="openAddressModal()">+ Add</button>
+        <h3 style="font-size:18px; font-weight:800;">Addresses</h3>
+        <button class="btn btn-sm btn-secondary" onclick="editAddress()">+ Add</button>
       </div>
-      <div id="prof-addresses"></div>
+      <div id="p-addrs"></div>
     </div>
 
-    <button class="btn btn-danger btn-block mb-6" onclick="handleLogout()">Log Out</button>
+    <button class="btn btn-danger btn-block animate-up" onclick="logout()">Logout</button>
   `;
 
-  // Render addresses
-  const addrSnap = await getDocs(collection(db, 'users', state.user.uid, 'addresses'));
-  const addresses = [];
-  addrSnap.forEach(d => addresses.push({ id: d.id, ...d.data() }));
+  const snap = await getDocs(collection(db, 'users', state.user.uid, 'addresses'));
+  const addrs = [];
+  snap.forEach(d => addrs.push({ id: d.id, ...d.data() }));
   
-  if (addresses.length) {
-    $('prof-addresses').innerHTML = addresses.map(a => `
-      <div class="address-box">
-        <div class="address-name">${escapeHTML(a.label)} ${a.isDefault ? '<span class="badge-default">Default</span>' : ''}</div>
-        <div class="address-text">${escapeHTML(a.street)}, ${escapeHTML(a.city)}</div>
-        <div style="display:flex; gap:10px; margin-top:12px;">
-          <button class="btn btn-secondary btn-sm" onclick="openAddressModal('${a.id}')">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteAddress('${a.id}')">Delete</button>
+  if(addrs.length) {
+    $('p-addrs').innerHTML = addrs.map(a => `
+      <div class="card mb-2" style="box-shadow:none; border:1px solid #e2e8f0;">
+        <div style="font-weight:800; font-size:14px;">${esc(a.label)}</div>
+        <div class="text-muted" style="font-size:13px;">${esc(a.street)}, ${esc(a.city)}</div>
+        <div style="display:flex; gap:8px; margin-top:12px;">
+          <button class="btn btn-sm btn-secondary" onclick="editAddress('${a.id}')">Edit</button>
+          <button class="btn btn-sm btn-danger" onclick="delAddress('${a.id}')">Delete</button>
         </div>
       </div>
     `).join('');
   } else {
-    $('prof-addresses').innerHTML = `<p class="text-muted">No addresses saved.</p>`;
+    $('p-addrs').innerHTML = `<p class="text-muted">No addresses saved.</p>`;
   }
 }
 
 window.saveProfile = async () => {
-  const name = $('prof-name').value.trim();
-  const phone = $('prof-phone').value.trim();
-  if (!name || !phone) return toast('Name and phone required', 'error');
+  const name = $('p-name').value.trim();
+  const phone = $('p-phone').value.trim();
+  if(!name || !phone) return toast('Fill all fields', 'error');
   try {
     await updateDoc(doc(db, 'users', state.user.uid), { name, phone });
-    state.profile = { ...state.profile, name, phone };
+    state.profile.name = name; state.profile.phone = phone;
     toast('Profile updated', 'success');
-  } catch (e) { toast(e.message, 'error'); }
+  } catch(e) { toast(e.message, 'error'); }
 };
 
-// --- ADDRESS MANAGEMENT ---
-window.openAddressModal = (editId = null) => {
-  let a = { label: 'Home', street: '', sector: '', landmark: '', city: '', state: '', pincode: '', isDefault: false };
-  if (editId) a = state.addresses.find(x => x.id === editId) || a;
-
-  showModal(`
-    <div class="modal-header">
-      <h3 class="modal-title">${editId ? 'Edit' : 'Add'} Address</h3>
-      <button class="close-btn" onclick="closeModal()">✕</button>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Label (e.g. Home, Work)</label>
-      <input type="text" id="a-label" class="form-input" value="${escapeHTML(a.label)}">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Street / House No.</label>
-      <input type="text" id="a-street" class="form-input" value="${escapeHTML(a.street)}">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Area / Sector</label>
-      <input type="text" id="a-sector" class="form-input" value="${escapeHTML(a.sector)}">
-    </div>
+window.editAddress = (id = null) => {
+  let a = { label: 'Home', street: '', city: '', pincode: '', isDefault: false };
+  if(id) a = state.addresses.find(x => x.id === id) || state.addresses[0];
+  
+  modal(`
+    <h2 style="font-size:24px; font-weight:900; margin-bottom:16px;">${id ? 'Edit' : 'Add'} Address</h2>
+    <div class="input-group"><label>Label (Home, Work...)</label><input type="text" id="a-label" class="input-field" value="${esc(a.label||'')}"></div>
+    <div class="input-group"><label>Street / Area</label><input type="text" id="a-street" class="input-field" value="${esc(a.street||'')}"></div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-      <div class="form-group"><label class="form-label">City</label><input type="text" id="a-city" class="form-input" value="${escapeHTML(a.city)}"></div>
-      <div class="form-group"><label class="form-label">Pincode</label><input type="text" id="a-pincode" class="form-input" value="${escapeHTML(a.pincode)}"></div>
+      <div class="input-group"><label>City</label><input type="text" id="a-city" class="input-field" value="${esc(a.city||'')}"></div>
+      <div class="input-group"><label>Pincode</label><input type="text" id="a-pin" class="input-field" value="${esc(a.pincode||'')}"></div>
     </div>
-    <div class="form-group">
-      <label class="form-label" style="display:flex; align-items:center; gap:8px;">
-        <input type="checkbox" id="a-default" ${a.isDefault ? 'checked' : ''} style="width:auto;"> Set as default address
-      </label>
-    </div>
-    <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="saveAddress('${editId || ''}')">Save Address</button>
+    <label style="display:flex; align-items:center; gap:8px; margin-bottom:16px; font-weight:600;"><input type="checkbox" id="a-def" ${a.isDefault?'checked':''}> Set as default</label>
+    <button class="btn btn-primary btn-block" onclick="saveAddr('${id||''}')">Save</button>
   `);
 };
 
-window.saveAddress = async (editId) => {
+window.saveAddr = async (id) => {
   const data = {
-    label: $('a-label').value.trim(),
-    street: $('a-street').value.trim(),
-    sector: $('a-sector').value.trim(),
-    city: $('a-city').value.trim(),
-    pincode: $('a-pincode').value.trim(),
-    isDefault: $('a-default').checked
+    label: $('a-label').value.trim(), street: $('a-street').value.trim(),
+    city: $('a-city').value.trim(), pincode: $('a-pin').value.trim(), isDefault: $('a-def').checked
   };
-  if (!data.label || !data.street || !data.city || !data.pincode) return toast('Fill required fields', 'error');
-
-  const btn = event.target; btn.disabled = true; btn.innerHTML = 'Saving...';
-
+  if(!data.label || !data.street || !data.city) return toast('Fill required fields', 'error');
+  
   try {
-    if (data.isDefault) {
-      // Unset others
+    if(data.isDefault) {
       const snap = await getDocs(collection(db, 'users', state.user.uid, 'addresses'));
-      const batch = [];
-      snap.forEach(d => {
-        if (d.data().isDefault && d.id !== editId) batch.push(updateDoc(d.ref, { isDefault: false }));
-      });
-      await Promise.all(batch);
+      await Promise.all(snap.docs.map(d => updateDoc(d.ref, { isDefault: false })));
     }
-
-    if (editId) {
-      await updateDoc(doc(db, 'users', state.user.uid, 'addresses', editId), data);
-    } else {
-      await addDoc(collection(db, 'users', state.user.uid, 'addresses'), data);
-    }
-    closeModal();
-    toast('Address saved', 'success');
-    if (state.currentView === 'profile') renderProfile();
-    if (state.currentView === 'checkout') renderCheckout();
-  } catch (e) {
-    toast(e.message, 'error');
-    btn.disabled = false; btn.innerHTML = 'Save Address';
-  }
+    if(id) await updateDoc(doc(db, 'users', state.user.uid, 'addresses', id), data);
+    else await addDoc(collection(db, 'users', state.user.uid, 'addresses'), data);
+    
+    closeModal(); toast('Saved', 'success'); render();
+  } catch(e) { toast(e.message, 'error'); }
 };
 
-window.deleteAddress = async (id) => {
-  if (!confirm('Delete this address?')) return;
-  try {
-    await deleteDoc(doc(db, 'users', state.user.uid, 'addresses', id));
-    toast('Address deleted', 'success');
-    renderProfile();
-  } catch (e) { toast(e.message, 'error'); }
+window.delAddress = async (id) => {
+  if(!confirm('Delete address?')) return;
+  await deleteDoc(doc(db, 'users', state.user.uid, 'addresses', id));
+  toast('Deleted'); renderProfile();
 };
 
 // --- ADMIN DASHBOARD ---
 async function renderAdmin() {
-  if (state.profile.role !== 'admin') return navigate('home');
-  
   $('main-view').innerHTML = `
-    <h2 class="mb-4">Admin Dashboard</h2>
-    <div style="display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; padding-bottom:8px;" id="admin-tabs">
-      <button class="btn btn-primary btn-sm active-tab" onclick="switchAdminTab('orders')">Orders</button>
-      <button class="btn btn-secondary btn-sm" onclick="switchAdminTab('restaurants')">Restaurants</button>
-      <button class="btn btn-secondary btn-sm" onclick="switchAdminTab('customers')">Customers</button>
+    <h1 class="title">Admin 🛠️</h1>
+    <div style="display:flex; gap:8px; margin-bottom:20px; overflow-x:auto;" id="atabs">
+      <button class="btn btn-primary btn-sm" onclick="aTab('orders')">Orders</button>
+      <button class="btn btn-secondary btn-sm" onclick="aTab('customers')">Customers</button>
+      <button class="btn btn-secondary btn-sm" onclick="aTab('restaurants')">Restaurants</button>
     </div>
-    <div id="admin-content"></div>
+    <div id="a-content"></div>
   `;
-  switchAdminTab('orders');
+  aTab('orders');
 }
 
-window.switchAdminTab = (tab) => {
-  document.querySelectorAll('#admin-tabs .btn').forEach(b => {
-    b.className = b.textContent.toLowerCase() === tab ? 'btn btn-primary btn-sm active-tab' : 'btn btn-secondary btn-sm';
-  });
-  
-  if (tab === 'orders') renderAdminOrders();
-  else if (tab === 'restaurants') renderAdminRestaurants();
-  else if (tab === 'customers') renderAdminCustomers();
+window.aTab = (tab) => {
+  document.querySelectorAll('#atabs .btn').forEach(b => b.className = b.textContent.toLowerCase() === tab ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm');
+  if(tab === 'orders') aOrders();
+  if(tab === 'customers') aCustomers();
+  if(tab === 'restaurants') aRestaurants();
 };
 
-async function renderAdminOrders() {
-  $('admin-content').innerHTML = `<div class="skeleton" style="height:400px;"></div>`;
-  const q = query(collection(db, 'foodOrders'), orderBy('createdAt', 'desc'), limit(50));
-  const snap = await getDocs(q);
+async function aOrders() {
+  $('a-content').innerHTML = `<div class="skeleton" style="height:200px;border-radius:20px;"></div>`;
+  const snap = await getDocs(query(collection(db, 'foodOrders'), orderBy('createdAt', 'desc')));
   const orders = [];
   snap.forEach(d => orders.push({ id: d.id, ...d.data() }));
-
-  $('admin-content').innerHTML = `
-    <div class="table-responsive card">
-      <table>
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${orders.map(o => `
-            <tr>
-              <td>
-                <div style="font-weight:600;">#${o.orderId.slice(-6).toUpperCase()}</div>
-                <div class="text-muted" style="font-size:11px;">${formatDate(o.createdAt)}</div>
-              </td>
-              <td>${escapeHTML(o.customerName)}</td>
-              <td style="font-weight:600;">${formatMoney(o.total)}</td>
-              <td><span class="status ${o.status.toLowerCase().replace(/\s+/g, '-')}">${o.status}</span></td>
-              <td>
-                <button class="btn btn-secondary btn-sm" onclick="adminUpdateOrder('${o.id}', '${o.status}')">Update</button>
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
+  
+  $('a-content').innerHTML = orders.map(o => `
+    <div class="card mb-2">
+      <div class="flex-between">
+        <div>
+          <div style="font-weight:900;">#${o.orderId.slice(-6).toUpperCase()}</div>
+          <div class="text-muted">${o.customerName}</div>
+        </div>
+        <div style="font-weight:900;">${money(o.total)}</div>
+      </div>
+      <div class="divider"></div>
+      <div class="flex-between">
+        <span style="font-size:12px; font-weight:800; color:${o.status==='Cancelled'?'var(--danger)':'var(--brand)'};">${o.status}</span>
+        <button class="btn btn-sm btn-secondary" onclick="editOrderStatus('${o.id}', '${o.status}')">Update</button>
+      </div>
     </div>
-  `;
+  `).join('');
 }
 
-window.adminUpdateOrder = (orderId, currentStatus) => {
-  const statuses = ['Placed', 'Accepted', 'Preparing', 'Ready', 'Out for Delivery', 'Delivered', 'Cancelled'];
-  showModal(`
-    <div class="modal-header">
-      <h3 class="modal-title">Update Order Status</h3>
-      <button class="close-btn" onclick="closeModal()">✕</button>
-    </div>
-    <div class="form-group">
-      <label class="form-label">New Status</label>
-      <select id="admin-order-status" class="form-input">
-        ${statuses.map(s => `<option value="${s}" ${s === currentStatus ? 'selected' : ''}>${s}</option>`).join('')}
+window.editOrderStatus = (id, status) => {
+  const stats = ['Placed', 'Accepted', 'Preparing', 'Ready', 'Out for Delivery', 'Delivered', 'Cancelled'];
+  modal(`
+    <h2 style="font-size:24px; font-weight:900; margin-bottom:16px;">Update Status</h2>
+    <div class="input-group">
+      <select id="o-stat" class="input-field" onchange="if(this.value==='Cancelled')document.getElementById('o-reason').style.display='block'; else document.getElementById('o-reason').style.display='none';">
+        ${stats.map(s => `<option value="${s}" ${s===status?'selected':''}>${s}</option>`).join('')}
       </select>
     </div>
-    <div class="form-group" id="cancel-reason-group" style="display:none;">
-      <label class="form-label">Cancellation Reason</label>
-      <input type="text" id="admin-cancel-reason" class="form-input" placeholder="Company cancellation reason">
-    </div>
-    <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="saveAdminOrderStatus('${orderId}')">Save Status</button>
-  `);
-
-  $('admin-order-status').onchange = (e) => {
-    $('cancel-reason-group').style.display = e.target.value === 'Cancelled' ? 'block' : 'none';
-  };
-};
-
-window.saveAdminOrderStatus = async (orderId) => {
-  const newStatus = $('admin-order-status').value;
-  const reason = $('admin-cancel-reason')?.value.trim() || 'Cancelled by admin';
-  
-  try {
-    const orderRef = doc(db, 'foodOrders', orderId);
-    const updateData = { status: newStatus, updatedAt: serverTimestamp() };
-    
-    if (newStatus === 'Cancelled') {
-      updateData.cancelledBy = 'company';
-      updateData.cancellationReason = reason;
-      updateData.cancelledAt = serverTimestamp();
-      // Important: No penalty applied for company cancellation. Do not alter user penaltyBalance.
-    }
-
-    await updateDoc(orderRef, updateData);
-    await addDoc(collection(db, 'adminAuditLogs'), {
-      action: 'updateStatus',
-      orderId: orderId,
-      newStatus,
-      adminUid: state.user.uid,
-      timestamp: serverTimestamp()
-    });
-
-    toast('Order status updated', 'success');
-    closeModal();
-    renderAdminOrders();
-  } catch (e) {
-    toast(e.message, 'error');
-  }
-};
-
-async function renderAdminRestaurants() {
-  const snap = await getDocs(collection(db, 'restaurants'));
-  const rests = [];
-  snap.forEach(d => rests.push({ id: d.id, ...d.data() }));
-
-  $('admin-content').innerHTML = `
-    <button class="btn btn-primary mb-4" onclick="adminEditRestaurant()">+ Add Restaurant</button>
-    <div class="table-responsive card">
-      <table>
-        <thead><tr><th>Name</th><th>Status</th><th>Action</th></tr></thead>
-        <tbody>
-          ${rests.map(r => `
-            <tr>
-              <td>${escapeHTML(r.name)}</td>
-              <td>${r.active ? '<span class="text-success">Active</span>' : '<span class="text-danger">Inactive</span>'}</td>
-              <td>
-                <button class="btn btn-secondary btn-sm" onclick='adminEditRestaurant(${JSON.stringify(r).replace(/'/g, "&#39;")})'>Edit</button>
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
-}
-
-window.adminEditRestaurant = (r = null) => {
-  showModal(`
-    <div class="modal-header">
-      <h3 class="modal-title">${r ? 'Edit' : 'Add'} Restaurant</h3>
-      <button class="close-btn" onclick="closeModal()">✕</button>
-    </div>
-    <div class="form-group"><label class="form-label">Name</label><input type="text" id="r-name" class="form-input" value="${r ? escapeHTML(r.name) : ''}"></div>
-    <div class="form-group"><label class="form-label">Description</label><input type="text" id="r-desc" class="form-input" value="${r ? escapeHTML(r.description || '') : ''}"></div>
-    <div class="form-group"><label class="form-label">Image URL</label><input type="url" id="r-img" class="form-input" value="${r ? escapeHTML(r.imageUrl || '') : ''}"></div>
-    <div class="form-group"><label class="form-label"><input type="checkbox" id="r-active" ${!r || r.active ? 'checked' : ''}> Active</label></div>
-    <button class="btn btn-primary btn-block" onclick="saveAdminRestaurant('${r ? r.id : ''}')">Save</button>
+    <div class="input-group" id="o-reason" style="display:none;"><label>Reason</label><input type="text" id="o-reason-val" class="input-field" placeholder="Company reason..."></div>
+    <button class="btn btn-primary btn-block" onclick="saveStatus('${id}')">Save</button>
   `);
 };
 
-window.saveAdminRestaurant = async (id) => {
-  const data = {
-    name: $('r-name').value.trim(),
-    description: $('r-desc').value.trim(),
-    imageUrl: $('r-img').value.trim(),
-    active: $('r-active').checked
-  };
-  if (!data.name) return toast('Name required', 'error');
-  
+window.saveStatus = async (id) => {
+  const s = $('o-stat').value;
+  const r = $('o-reason-val')?.value || 'Company cancelled';
   try {
-    if (id) await updateDoc(doc(db, 'restaurants', id), data);
-    else await addDoc(collection(db, 'restaurants'), { ...data, createdAt: serverTimestamp() });
-    toast('Restaurant saved', 'success');
-    closeModal();
-    renderAdminRestaurants();
-  } catch (e) { toast(e.message, 'error'); }
+    const data = { status: s, updatedAt: serverTimestamp() };
+    if(s === 'Cancelled') { data.cancelledBy = 'company'; data.cancellationReason = r; }
+    await updateDoc(doc(db, 'foodOrders', id), data);
+    closeModal(); toast('Updated', 'success'); aOrders();
+  } catch(e) { toast(e.message, 'error'); }
 };
 
-async function renderAdminCustomers() {
+async function aCustomers() {
+  $('a-content').innerHTML = `<div class="skeleton" style="height:200px;border-radius:20px;"></div>`;
   const snap = await getDocs(collection(db, 'users'));
   const users = [];
   snap.forEach(d => users.push({ id: d.id, ...d.data() }));
-
-  $('admin-content').innerHTML = `
-    <div class="table-responsive card">
-      <table>
-        <thead><tr><th>Name</th><th>Email</th><th>Penalty</th><th>Action</th></tr></thead>
-        <tbody>
-          ${users.map(u => `
-            <tr>
-              <td>${escapeHTML(u.name)} ${u.role === 'admin' ? '(Admin)' : ''}</td>
-              <td>${escapeHTML(u.email)}</td>
-              <td style="color:var(--danger); font-weight:600;">${u.penaltyBalance > 0 ? formatMoney(u.penaltyBalance) : '-'}</td>
-              <td>
-                <button class="btn btn-secondary btn-sm" onclick="adjustPenalty('${u.id}', ${u.penaltyBalance || 0})">Adjust Penalty</button>
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
+  
+  $('a-content').innerHTML = `
+    <button class="btn btn-primary btn-block mb-4" onclick="createCustomer()">+ Create Customer</button>
+    ${users.map(u => `
+      <div class="card mb-2 flex-between">
+        <div>
+          <div style="font-weight:800;">${esc(u.name)}</div>
+          <div class="text-muted" style="font-size:12px;">${esc(u.email)}</div>
+        </div>
+        <div style="text-align:right;">
+          ${u.penaltyBalance > 0 ? `<div style="color:var(--danger); font-weight:800; font-size:14px;">${money(u.penaltyBalance)}</div>` : ''}
+          <button class="btn btn-sm btn-secondary" style="margin-top:4px;" onclick="adjustPen('${u.id}')">Edit Penalty</button>
+        </div>
+      </div>
+    `).join('')}
   `;
 }
 
-window.adjustPenalty = (uid, current) => {
-  showModal(`
-    <div class="modal-header">
-      <h3 class="modal-title">Adjust Penalty</h3>
-      <button class="close-btn" onclick="closeModal()">✕</button>
-    </div>
-    <p class="text-muted mb-4">Current Balance: <b>${formatMoney(current)}</b></p>
-    <div class="form-group">
-      <label class="form-label">Amount (₹)</label>
-      <input type="number" id="adj-amt" class="form-input" placeholder="e.g. 500" min="1">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Action</label>
-      <select id="adj-type" class="form-input">
-        <option value="add">Add Penalty</option>
-        <option value="waive">Waive / Remove</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Reason</label>
-      <input type="text" id="adj-reason" class="form-input" placeholder="Admin adjustment">
-    </div>
-    <button class="btn btn-primary btn-block" onclick="savePenalty('${uid}')">Apply</button>
+window.createCustomer = () => {
+  modal(`
+    <h2 style="font-size:24px; font-weight:900; margin-bottom:16px;">Create Customer</h2>
+    <div class="input-group"><label>Name</label><input type="text" id="c-name" class="input-field"></div>
+    <div class="input-group"><label>Email</label><input type="email" id="c-email" class="input-field"></div>
+    <div class="input-group"><label>Phone</label><input type="tel" id="c-phone" class="input-field"></div>
+    <div class="input-group"><label>Password</label><input type="text" id="c-pass" class="input-field" value="Pawan@123456"></div>
+    <button class="btn btn-primary btn-block" onclick="saveCustomer()">Create</button>
   `);
 };
 
-window.savePenalty = async (uid) => {
-  const amt = Number($('adj-amt').value) * 100; // convert to paise
-  const type = $('adj-type').value;
-  const reason = $('adj-reason').value.trim() || 'Admin adjustment';
-
-  if (!amt || amt <= 0) return toast('Enter valid amount', 'error');
-
+window.saveCustomer = async () => {
+  const name = $('c-name').value.trim();
+  const email = $('c-email').value.trim();
+  const phone = $('c-phone').value.trim();
+  const pass = $('c-pass').value;
+  if(!name || !email || !phone || !pass) return toast('Fill all fields', 'error');
+  
+  const btn = event.target; btn.disabled = true; btn.textContent = 'Creating...';
+  
   try {
-    await runTransaction(db, async (tx) => {
+    const secApp = initializeApp(firebaseConfig, 'sec-' + Date.now());
+    const secAuth = getAuth(secApp);
+    const cred = await createUserWithEmailAndPassword(secAuth, email, pass);
+    await updateProfile(cred.user, { displayName: name });
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      uid: cred.user.uid, name, email, phone, role: 'customer', penaltyBalance: 0, createdAt: serverTimestamp()
+    });
+    await signOut(secAuth); await deleteApp(secApp);
+    closeModal(); toast('Customer created', 'success'); aCustomers();
+  } catch(e) { toast(e.message, 'error'); btn.disabled = false; btn.textContent = 'Create'; }
+};
+
+window.adjustPen = (uid) => {
+  modal(`
+    <h2 style="font-size:24px; font-weight:900; margin-bottom:16px;">Adjust Penalty</h2>
+    <div class="input-group"><label>Amount (₹)</label><input type="number" id="p-amt" class="input-field" placeholder="e.g. 100"></div>
+    <div class="input-group">
+      <label>Action</label>
+      <select id="p-type" class="input-field"><option value="add">Add</option><option value="waive">Waive</option></select>
+    </div>
+    <div class="input-group"><label>Reason</label><input type="text" id="p-reason" class="input-field"></div>
+    <button class="btn btn-primary btn-block" onclick="savePen('${uid}')">Apply</button>
+  `);
+};
+
+window.savePen = async (uid) => {
+  const amt = Number($('p-amt').value) * 100;
+  const type = $('p-type').value;
+  const reason = $('p-reason').value.trim() || 'Admin adjustment';
+  if(!amt || amt <= 0) return toast('Enter valid amount', 'error');
+  
+  try {
+    await runTransaction(db, async tx => {
       const uRef = doc(db, 'users', uid);
-      const uSnap = await tx.get(uRef);
-      if (!uSnap.exists()) throw new Error('User not found');
-      
-      const prev = uSnap.data().penaltyBalance || 0;
-      const newBal = type === 'add' ? prev + amt : Math.max(0, prev - amt);
+      const uDoc = await tx.get(uRef);
+      const bal = uDoc.data().penaltyBalance || 0;
+      const newBal = type === 'add' ? bal + amt : Math.max(0, bal - amt);
       
       tx.update(uRef, { penaltyBalance: newBal });
-      
       tx.set(doc(collection(db, 'penaltyHistory')), {
-        customerUid: uid,
-        amount: type === 'add' ? amt : -amt,
-        balanceBefore: prev,
-        balanceAfter: newBal,
-        type: type === 'add' ? 'penalty' : 'waive',
-        reason: reason,
-        createdBy: state.user.uid,
-        createdAt: serverTimestamp()
+        customerUid: uid, type: type==='add'?'penalty':'waive', amount: type==='add'?amt:-amt, balanceBefore: bal, balanceAfter: newBal, reason, createdBy: state.user.uid, createdAt: serverTimestamp()
       });
     });
-    toast('Penalty updated', 'success');
-    closeModal();
-    renderAdminCustomers();
-  } catch (e) { toast(e.message, 'error'); }
+    closeModal(); toast('Updated', 'success'); aCustomers();
+  } catch(e) { toast(e.message, 'error'); }
+};
+
+async function aRestaurants() {
+  $('a-content').innerHTML = `<div class="skeleton" style="height:200px;border-radius:20px;"></div>`;
+  const snap = await getDocs(collection(db, 'restaurants'));
+  const rests = [];
+  snap.forEach(d => rests.push({ id: d.id, ...d.data() }));
+  
+  $('a-content').innerHTML = `
+    <button class="btn btn-primary btn-block mb-4" onclick="editRest()">+ Add Restaurant</button>
+    ${rests.map(r => `
+      <div class="card mb-2 flex-between">
+        <div>
+          <div style="font-weight:800;">${esc(r.name)}</div>
+          <div style="font-size:12px; color:${r.active?'var(--success)':'var(--danger)'};">${r.active?'Active':'Inactive'}</div>
+        </div>
+        <button class="btn btn-sm btn-secondary" onclick='editRest(${JSON.stringify(r).replace(/'/g, "&#39;")})'>Edit</button>
+      </div>
+    `).join('')}
+  `;
+}
+
+window.editRest = (r = null) => {
+  modal(`
+    <h2 style="font-size:24px; font-weight:900; margin-bottom:16px;">${r?'Edit':'Add'} Restaurant</h2>
+    <div class="input-group"><label>Name</label><input type="text" id="r-name" class="input-field" value="${r?esc(r.name):''}"></div>
+    <div class="input-group"><label>Description</label><input type="text" id="r-desc" class="input-field" value="${r?esc(r.description||''):''}"></div>
+    <div class="input-group"><label>Image URL</label><input type="url" id="r-img" class="input-field" value="${r?esc(r.imageUrl||''):''}"></div>
+    <div class="input-group"><label><input type="checkbox" id="r-act" ${!r||r.active?'checked':''}> Active</label></div>
+    <button class="btn btn-primary btn-block" onclick="saveRest('${r?r.id:''}')">Save</button>
+  `);
+};
+
+window.saveRest = async (id) => {
+  const data = { name: $('r-name').value.trim(), description: $('r-desc').value.trim(), imageUrl: $('r-img').value.trim(), active: $('r-act').checked };
+  if(!data.name) return toast('Name required', 'error');
+  try {
+    if(id) await updateDoc(doc(db, 'restaurants', id), data);
+    else await addDoc(collection(db, 'restaurants'), { ...data, createdAt: serverTimestamp() });
+    closeModal(); toast('Saved', 'success'); aRestaurants();
+  } catch(e) { toast(e.message, 'error'); }
 };
 
 // --- INIT ---
-onAuthStateChanged(auth, async (user) => {
-  state.isLoading = false;
-  if (user) {
+onAuthStateChanged(auth, async user => {
+  if(user) {
     state.user = user;
-    try {
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      state.profile = snap.exists() ? snap.data() : { role: 'customer', penaltyBalance: 0 };
-      
-      // Setup real-time listener for user profile (penalty balance)
-      if (state.unsubs.user) state.unsubs.user();
-      state.unsubs.user = onSnapshot(doc(db, 'users', user.uid), s => {
-        if (s.exists()) {
-          state.profile = s.data();
-          renderNav(); // Update badge
-          if (state.currentView === 'profile') renderProfile();
-        }
-      });
-
-    } catch (e) {
-      console.error("Error fetching profile", e);
-      state.profile = { role: 'customer' };
-    }
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    state.profile = snap.exists() ? snap.data() : { role: 'customer', penaltyBalance: 0 };
+    state.cart = JSON.parse(localStorage.getItem('genz_cart') || '{}');
+    
+    if(state.unsubs.user) state.unsubs.user();
+    state.unsubs.user = onSnapshot(doc(db, 'users', user.uid), s => {
+      if(s.exists()) { state.profile = s.data(); renderNav(); if(state.view==='profile') renderProfile(); }
+    });
+    
     navigate('home');
   } else {
-    state.user = null;
-    state.profile = null;
-    if (state.unsubs.user) state.unsubs.user();
-    Object.values(state.unsubs).forEach(unsub => unsub && unsub());
+    state.user = null; state.profile = null; state.cart = {};
+    Object.values(state.unsubs).forEach(u => u && u());
     state.unsubs = {};
     renderAuth();
   }
